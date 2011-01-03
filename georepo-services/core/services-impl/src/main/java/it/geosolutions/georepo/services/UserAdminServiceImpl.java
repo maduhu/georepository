@@ -83,7 +83,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public List<ShortUser> getUsers() {
+    public List<ShortUser> getAllUsers() {
         List<User> found = userDao.findAll();
         return convertToShortList(found);
     }

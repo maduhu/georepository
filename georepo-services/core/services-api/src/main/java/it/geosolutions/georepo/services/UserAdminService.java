@@ -24,24 +24,53 @@ import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.georepo.services.dto.ShortUser;
 
 import java.util.List;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import org.codehaus.jra.Delete;
+import org.codehaus.jra.Get;
+import org.codehaus.jra.HttpResource;
+import org.codehaus.jra.Post;
+import org.codehaus.jra.Put;
 
 /**
  * Operations on {@link User User}s.
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
+@WebService(name = "UserAdminService",
+            targetNamespace = "http://geosolutions.it/georepo")
 public interface UserAdminService {
 
     //==========================================================================
     // Basic operations
 
-    long insertUser(User user);
-    long updateUser(User watch) throws ResourceNotFoundFault;
-    boolean deleteUser(long id) throws ResourceNotFoundFault;
+    @Put
+    @HttpResource(location = "/users")
+    long insertUser(@WebParam(name="user")User user);
 
-    User getUser(long id) throws ResourceNotFoundFault;
-    List<ShortUser> getUsers();
+    @Post
+    @HttpResource(location = "/users")
+    long updateUser(@WebParam(name="user")User user) throws ResourceNotFoundFault;
 
-    List<ShortUser> getUsers(String nameLike, int page, int entries);
-    long getUsersCount(String nameLike);
+    @Delete
+    @HttpResource(location = "/users/{id}")
+    boolean deleteUser(@WebParam(name="id")long id) throws ResourceNotFoundFault;
+
+    @Get
+    @HttpResource(location = "/users/{id}")
+    User getUser(@WebParam(name="id")long id) throws ResourceNotFoundFault;
+
+    @Get
+    @HttpResource(location = "/users")
+    List<ShortUser> getAllUsers();
+
+    @Get
+    @HttpResource(location = "/users/{nameLike}/{page}/{entries}")
+    List<ShortUser> getUsers(@WebParam(name="nameLike")String nameLike,
+                             @WebParam(name="page")int page,
+                             @WebParam(name="entries")int entries);
+
+    @Get
+    @HttpResource(location = "/userscount/{nameLike}")
+    long getUsersCount(@WebParam(name="nameLike")String nameLike);
 }
