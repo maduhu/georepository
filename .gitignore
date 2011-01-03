@@ -1,3 +1,7 @@
+*.settings
+*.classpath
+*.project
+
 georepo-gui/core/plugin/aoisui/target
 georepo-gui/core/plugin/userui/target
 georepo-gui/core/resources/target
