@@ -11,12 +11,17 @@ nb*.xml
 .classpath
 .project
 .settings
+*~
+
+georepo-gui/fullweb/war/WEB-INF/classes/
+georepo-gui/fullweb/war/georepo/
 
 EOF
 
 for pom in $(find -name "pom.xml")
 do 
 	path=${pom%*pom.xml}
+	path=${path#\./*}
 	echo ${path}target >>$OUTFILE
 done
 
