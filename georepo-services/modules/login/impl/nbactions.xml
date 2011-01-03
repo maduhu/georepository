@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-clean build notest</actionName>
+            <displayName>clean build notest</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-build w/ dgws</actionName>
+            <displayName>build w/ dgws</displayName>
+            <goals>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <dgws.config.dir>/home/geosolutions/prj/dg/dgwatch/conf_etj/</dgws.config.dir>
+            </properties>
+        </action>
+    </actions>

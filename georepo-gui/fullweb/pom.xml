@@ -1,0 +1,369 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>it.geosolutions.georepository</groupId>
+        <artifactId>gui-root</artifactId>
+        <version>1.0-SNAPSHOT</version>
+	</parent>
+
+    <groupId>it.geosolutions.georepository</groupId>
+    <artifactId>gui-fullweb</artifactId>
+	<packaging>war</packaging>
+
+    <name>GeoRepo - GUI - Web</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+        
+        <!-- =============================================================== -->
+        <!-- APACHE COMMONS -->
+        <!-- =============================================================== -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+
+
+        <!-- =============================================================== -->
+        <!-- Next  deps are defined in core::dao, but seems not to be transitively imported-->
+        <!-- =============================================================== -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgis</groupId>
+            <artifactId>postgis-jdbc</artifactId>
+            <version>1.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>8.4-701.jdbc3</version>
+        </dependency>
+
+        <!-- =============================================================== -->
+        <!-- GeoRepo -->
+        <!-- =============================================================== -->
+        <dependency>
+            <groupId>it.geosolutions.georepository</groupId>
+            <artifactId>model</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>it.geosolutions.georepository</groupId>
+            <artifactId>services-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>it.geosolutions.georepository</groupId>
+            <artifactId>services-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>it.geosolutions.georepository</groupId>
+            <artifactId>login-impl</artifactId>
+        </dependency>
+
+        <!-- =============================================================== -->
+       	<!-- 4J UTILS -->
+        <!-- =============================================================== -->
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
+        <!-- =============================================================== -->
+        <!-- HTTP UTILS -->
+        <!-- =============================================================== -->
+        <dependency>
+            <groupId>org.codehaus.jettison</groupId>
+            <artifactId>jettison</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- =============================================================== -->
+		<!-- CXF -->
+        <!-- =============================================================== -->
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-soap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-databinding-aegis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+        </dependency>
+
+        <!-- =============================================================== -->
+        <!-- =============================================================== -->
+        <!-- CLIENT -->
+        <!-- =============================================================== -->
+        <!-- =============================================================== -->
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- GXT -->
+		<dependency>
+			<groupId>com.extjs</groupId>
+			<artifactId>gxt</artifactId>
+		</dependency>
+
+		<!--  Resources -->
+		<dependency>
+			<groupId>it.geosolutions.georepository</groupId>
+			<artifactId>gui-resources</artifactId>
+		</dependency>
+
+		<!--  AOIS UI -->
+		<dependency>
+			<groupId>it.geosolutions.georepository</groupId>
+			<artifactId>gui-aoiui</artifactId>
+		</dependency>
+
+		<!--  USER UI -->
+		<dependency>
+			<groupId>it.geosolutions.georepository</groupId>
+			<artifactId>gui-userui</artifactId>
+		</dependency>
+
+		<!-- SPRING -->
+<!--        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <version>2.5.6</version>
+        </dependency>
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+<!--		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-asm</artifactId>
+		</dependency>-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+<!--		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+		</dependency>-->
+
+		<!-- SCOPE TEST -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+        <!-- =============================================================== -->
+        <!-- JUnit -->
+        <!-- =============================================================== -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<outputDirectory>war/WEB-INF/classes</outputDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>utf8</encoding>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warSourceExcludes>.gwt-tmp/**</warSourceExcludes>
+					<warSourceDirectory>war</warSourceDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+					<inplace>true</inplace>
+					<module>it.geosolutions.georepo.gui.Application</module>
+					<runTarget>Application.html</runTarget>
+					<warSourceDirectory>war</warSourceDirectory>
+					<disableCastChecking>true</disableCastChecking>
+					<disableClassMetadata>true</disableClassMetadata>
+					<extraJvmArgs>-Xmx512M -Xss1024k -Dgwt.nowarn.legacy.tools</extraJvmArgs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>generateAsync</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generateAsync</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Run the application using "mvn jetty:run" -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.20</version>
+				<configuration>
+					<webAppSourceDirectory>${basedir}/war</webAppSourceDirectory>
+					<webAppConfig>
+						<contextPath>/</contextPath>
+					</webAppConfig>
+					<connectors>
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>9191</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
+					<reload>manual</reload>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>remove-build-files</id>
+						<phase>clean</phase>
+						<configuration>
+							<tasks>
+								<delete dir="war/WEB-INF/lib" />
+								<delete dir="war/georepo" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+<!--		<finalName>${module.name}</finalName>-->
+		<finalName>georepo</finalName>
+	</build>
+
+</project>

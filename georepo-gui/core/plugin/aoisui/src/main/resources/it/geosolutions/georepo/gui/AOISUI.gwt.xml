@@ -1,0 +1,27 @@
+  <!-- Inherit the core Web Toolkit stuff. -->
+<module>
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.extjs.gxt.ui.GXT' />
+	<inherits name='com.google.gwt.widgetideas.WidgetIdeas'/>
+    <inherits name='it.geosolutions.georepo.gui.Resources' />
+	<inherits name='org.gwtopenmaps.openlayers.OpenLayers' />
+
+	<entry-point class='it.geosolutions.georepo.gui.client.AOISUI' />
+
+	<source path="client" />
+
+	<servlet path="/AOIServiceRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.AOIRemoteImpl" />
+
+	<servlet path="/FilterServiceRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.FilterRemoteImpl" />
+		
+	<servlet path="/FeatureServiceRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.FeatureServiceRemoteImpl" />
+    
+    <servlet path="/MembersRemote"
+        class="it.geosolutions.georepo.gui.server.gwt.MembersRemoteImpl" />
+        
+    <servlet path="/WatchServiceRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.WatchServiceRemoteImpl" />
+</module>

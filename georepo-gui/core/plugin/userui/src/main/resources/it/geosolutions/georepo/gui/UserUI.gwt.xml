@@ -1,0 +1,23 @@
+  <!-- Inherit the core Web Toolkit stuff. -->
+<module>
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.extjs.gxt.ui.GXT' />
+	<inherits name='it.geosolutions.georepo.gui.Resources' />
+
+	<entry-point class='it.geosolutions.georepo.gui.client.UserUI' />
+
+	<source path="client" />
+
+	<servlet path="/LoginRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.LoginRemoteImpl" />
+
+	<servlet path="/QuartzRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.QuartzRemoteImpl" />
+
+	<servlet path="/MembersRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.MembersRemoteImpl" />
+
+    <servlet path="/SyncServiceRemote"
+        class="it.geosolutions.georepo.gui.server.gwt.SyncServiceRemoteImpl" />
+
+</module>

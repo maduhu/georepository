@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="
+	    	http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/aop       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
+       default-autowire="byName">
+
+	<context:annotation-config />
+	
+<!--	<aop:aspectj-autoproxy proxy-target-class="true"/>	-->
+
+    <!--=====================================================================-->
+    <!-- DB related stuff -->
+    <!--=====================================================================-->
+
+    <import resource="applicationContext-datasource.xml"/>
+
+    <!--=====================================================================-->
+	<!--
+		Need one search processor and one metadata util per persistence unit
+		(i.e. EntityManagerFactory). We're wiring these to the Generic DAOs
+		using an autowire annotation in BaseDAO.
+	-->
+	<bean id="searchProcessor" class="com.trg.search.jpa.JPASearchProcessor">
+		<constructor-arg ref="metadataUtil" />
+	</bean>
+
+	<bean id="metadataUtil" class="com.trg.search.jpa.hibernate.HibernateMetadataUtil"
+		factory-method="getInstanceForEntityManagerFactory">
+		<constructor-arg ref="entityManagerFactory" />
+	</bean>
+	
+    <!--=====================================================================-->
+    <!-- DAOs -->
+    <!--=====================================================================-->
+
+	<bean id="userDAO" class="it.geosolutions.georepo.core.dao.impl.UserDAOImpl" />
+	
+</beans>
