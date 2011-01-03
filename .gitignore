@@ -1,0 +1,13 @@
+georepo-gui/core/plugin/aoisui/target
+georepo-gui/core/plugin/userui/target
+georepo-gui/core/resources/target
+georepo-gui/fullweb/target
+georepo-services/core/dao/target
+georepo-services/core/model/target
+georepo-services/core/services-api/target
+georepo-services/core/services-impl/target
+georepo-services/modules/generic-api/target
+georepo-services/modules/login/api/target
+georepo-services/modules/login/impl/target
+
+georepo-gui/fullweb/war

@@ -15,7 +15,7 @@
 
         <spring.version>3.0.4.RELEASE</spring.version>
 <!--        <spring.version>2.5.6.SEC01</spring.version>-->
-        <gt-version>2.7.1-DGWS</gt-version>
+        <gt-version>2.7-SNAPSHOT</gt-version>
         <module.name>georepo-gui</module.name>
         <commonsFileuploadVersion>1.2.1</commonsFileuploadVersion>
         <commonsIoVersion>1.4</commonsIoVersion>
@@ -47,25 +47,11 @@
     <inceptionYear>2010</inceptionYear>
 
     <repositories>
-<!--        <repository>
+				<repository>
             <id>geosolutions</id>
             <name>GeoSolutions Repository</name>
             <url>http://maven.geo-solutions.it</url>
-        </repository>-->
-<!--        <repository>
-            <id>servicemix-m2-repo</id>
-            <name>Servicemix Maven2 Repository</name>
-            <url>http://svn.apache.org/repos/asf/servicemix/m2-repo/</url>
         </repository>
--->
-   
-       		 <!-- Fuse -->
-<!--        <repository>
-            <id>fuse</id>
-            <name>fuse</name>
-            <url>http://repo.fusesource.com/maven2/</url>
-        </repository>
--->
         <repository>
             <id>gwt-maven</id>
             <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo</url>
@@ -76,12 +62,28 @@
             <url>http://repo1.maven.org/maven2/</url>
         </repository>
 
-<!--        <repository>
-            <id>geosdi</id>
-            <url>http://repo.geosdi.org/archiva/repository/geosdi/</url>
-        </repository>-->
-    </repositories>
-    
+		    <repository>
+		      <id>maven2-repository.dev.java.net</id>
+		      <name>Java.net repository</name>
+		      <url>http://download.java.net/maven/2</url>
+		    </repository>
+
+		    <repository>
+		      <id>osgeo</id>
+		      <name>Open Source Geospatial Foundation Repository</name>
+		      <url>http://download.osgeo.org/webdav/geotools/</url>
+		    </repository>
+
+		    <repository>
+		      <snapshots>
+		        <enabled>true</enabled>
+		      </snapshots>
+		      <id>opengeo</id>
+		      <name>OpenGeo Maven Repository</name>
+		      <url>http://repo.opengeo.org</url>
+		    </repository>
+
+  	</repositories>
 
     <mailingLists>
         <mailingList>
