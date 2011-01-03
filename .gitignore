@@ -1,0 +1,29 @@
+##
+## This file has been automatically generated with the command line:
+## for pom in $(find src -name "pom.xml") ; do path=${pom%*pom.xml} ; echo '#' $path ; echo ; echo ${path}target ; echo ; done > .gitignore
+##
+## - ETj
+
+nb*.xml
+.classpath
+.project
+.settings
+
+./georepo-services/modules/generic-api/target
+./georepo-services/modules/target
+./georepo-services/modules/login/target
+./georepo-services/modules/login/impl/target
+./georepo-services/modules/login/api/target
+./georepo-services/core/services-impl/target
+./georepo-services/core/model/target
+./georepo-services/core/target
+./georepo-services/core/services-api/target
+./georepo-services/core/dao/target
+./georepo-services/target
+./georepo-gui/fullweb/target
+./georepo-gui/core/target
+./georepo-gui/core/plugin/target
+./georepo-gui/core/plugin/aoisui/target
+./georepo-gui/core/plugin/userui/target
+./georepo-gui/core/resources/target
+./georepo-gui/target
