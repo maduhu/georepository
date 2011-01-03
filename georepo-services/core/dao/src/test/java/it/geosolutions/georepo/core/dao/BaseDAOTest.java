@@ -38,6 +38,7 @@ public abstract class BaseDAOTest extends TestCase {
     protected final Logger LOGGER;
 
     protected static UserDAO userDAO;
+    protected static ServiceFilterDAO filterDAO;
 
     protected static ClassPathXmlApplicationContext ctx = null;
 
@@ -53,6 +54,7 @@ public abstract class BaseDAOTest extends TestCase {
                 ctx = new ClassPathXmlApplicationContext(paths);
 
                 userDAO = (UserDAO)ctx.getBean("userDAO");
+                filterDAO = (ServiceFilterDAO)ctx.getBean("filterDAO");
             }
         }
     }

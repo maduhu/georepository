@@ -13,6 +13,7 @@
 <!--        <property name="hibernate.connection.password">NOT USEFUL</property>-->
     
         <mapping  class="it.geosolutions.georepo.core.model.User"/>
+        <mapping  class="it.geosolutions.georepo.core.model.ServiceFilter"/>
 
     </session-factory>
 </hibernate-configuration>
