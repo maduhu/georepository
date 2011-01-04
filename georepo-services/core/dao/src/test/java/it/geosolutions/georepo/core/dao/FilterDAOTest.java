@@ -20,8 +20,7 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import it.geosolutions.georepo.core.model.*;
-import it.geosolutions.georepo.core.model.enums.FilterGroup;
+import it.geosolutions.georepo.core.model.ServiceFilter;
 import it.geosolutions.georepo.core.model.util.FilterValueEncoder;
 
 import org.junit.Test;
@@ -41,7 +40,6 @@ public class FilterDAOTest extends BaseDAOTest {
         ServiceFilter filter = new ServiceFilter();
         filter.setService("TEST");
         filter.setProperty("testProp");
-        filter.setFilterGroup(FilterGroup.BASE);
 
         FilterValueEncoder fve = new FilterValueEncoder();
         fve.add("testString");
