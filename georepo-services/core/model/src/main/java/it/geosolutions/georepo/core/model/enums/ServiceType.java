@@ -1,5 +1,5 @@
 /*
- * $ Header: it.geosolutions.georepo.core.model.enums.ValueType,v. 0.1 4-gen-2011 16.49.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.core.model.enums.ServiceType,v. 0.1 4-gen-2011 16.49.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
  * $ Date: 4-gen-2011 16.49.11 $
  *
@@ -34,19 +34,19 @@
 package it.geosolutions.georepo.core.model.enums;
 
 /**
- * The Enum ValueType.
+ * The Enum ServiceType.
  */
-public enum ValueType {
+public enum ServiceType {
     
-    /** The BOOL. */
-    BOOL,
+    /** The BOOLEAN. */
+    BOOLEAN,
     
-    /** The INT. */
-    INT,
+    /** The SINGL e_ value. */
+    SINGLE_VALUE,
     
-    /** The STRING. */
-    STRING,
+    /** The MULT i_ value. */
+    MULTI_VALUE,
     
-    /** The STRINGLIST. */
-    STRINGLIST
+    /** The GEOMETRIC. */
+    GEOMETRIC
 }
