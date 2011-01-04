@@ -20,8 +20,6 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import it.geosolutions.georepo.core.model.User;
-
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -30,35 +28,40 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import it.geosolutions.georepo.core.model.User;
+
 /**
- * 
+ *
  * @author ETj (etj at geo-solutions.it)
  */
 public abstract class BaseDAOTest extends TestCase {
     protected final Logger LOGGER;
 
     protected static UserDAO userDAO;
+    protected static ServiceFilterDAO filterDAO;
 
     protected static ClassPathXmlApplicationContext ctx = null;
 
     public BaseDAOTest() {
         LOGGER = Logger.getLogger(getClass());
 
-        synchronized (BaseDAOTest.class) {
-            if (ctx == null) {
-                String[] paths = { "applicationContext.xml"
-                // ,"applicationContext-test.xml"
+        synchronized(BaseDAOTest.class) {
+            if(ctx == null) {
+                String[] paths = {
+                        "applicationContext.xml"
+//                         ,"applicationContext-test.xml"
                 };
                 ctx = new ClassPathXmlApplicationContext(paths);
 
-                userDAO = (UserDAO) ctx.getBean("userDAO");
+                userDAO = (UserDAO)ctx.getBean("userDAO");
+                filterDAO = (ServiceFilterDAO)ctx.getBean("filterDAO");
             }
         }
     }
 
     @Override
     protected void setUp() throws Exception {
-        LOGGER.info("################ Running " + getClass().getSimpleName() + "::" + getName());
+        LOGGER.info("################ Running " + getClass().getSimpleName() + "::" + getName() );
         super.setUp();
     }
 
@@ -85,31 +88,31 @@ public abstract class BaseDAOTest extends TestCase {
 
     protected User createUser(String base) {
         User user = new User();
-        user.setName(base);
+        user.setName( base );
         return user;
     }
 
-    // protected final static String MULTIPOLYGONWKT =
-    // "MULTIPOLYGON(((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482)))";
-    // protected final static String POLYGONWKT =
-    // "POLYGON((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482))";
-    //
-    // protected MultiPolygon buildMultiPolygon() throws ParseException {
-    // WKTReader reader = new WKTReader();
-    // MultiPolygon mp = (MultiPolygon) reader.read(MULTIPOLYGONWKT);
-    // mp.setSRID(4326);
-    //
-    // return mp;
-    // }
-    //
-    // protected Polygon buildPolygon() throws ParseException {
-    // WKTReader reader = new WKTReader();
-    // Polygon mp = (Polygon) reader.read(POLYGONWKT);
-    // mp.setSRID(4326);
-    //
-    // return mp;
-    // }
 
-    // ==========================================================================
+//    protected final static String MULTIPOLYGONWKT = "MULTIPOLYGON(((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482)))";
+//    protected final static String POLYGONWKT = "POLYGON((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482))";
+//
+//    protected MultiPolygon buildMultiPolygon() throws ParseException {
+//        WKTReader reader = new WKTReader();
+//        MultiPolygon mp = (MultiPolygon) reader.read(MULTIPOLYGONWKT);
+//        mp.setSRID(4326);
+//
+//        return mp;
+//    }
+//
+//    protected Polygon buildPolygon() throws ParseException {
+//        WKTReader reader = new WKTReader();
+//        Polygon mp = (Polygon) reader.read(POLYGONWKT);
+//        mp.setSRID(4326);
+//
+//        return mp;
+//    }
+
+
+    //==========================================================================
 
 }
