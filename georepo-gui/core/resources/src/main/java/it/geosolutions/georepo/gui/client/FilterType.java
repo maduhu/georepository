@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.FilterType,v. 0.1 18/ago/2010 10.07.54 created by frank $
- * $Revision: 0.1 $
- * $Date: 18/ago/2010 10.07.54 $
+ * $ Header: it.geosolutions.georepo.gui.client.FilterType,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -31,48 +31,74 @@ package it.geosolutions.georepo.gui.client;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class FilterType.
  */
 public class FilterType extends BeanModel {
 
-	public enum FilterTypeEnum {
-		TYPE("type");
+    /**
+     * The Enum FilterTypeEnum.
+     */
+    public enum FilterTypeEnum {
 
-		private String value;
+        /** The TYPE. */
+        TYPE("type");
 
-		FilterTypeEnum(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
+        /**
+         * Instantiates a new filter type enum.
+         * 
+         * @param value
+         *            the value
+         */
+        FilterTypeEnum(String value) {
+            this.value = value;
+        }
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4342198507231122012L;
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
 
-	/**
-	 * 
-	 */
-	public FilterType(String type) {
-		setTyper(type);
-	}
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 4342198507231122012L;
 
-	public void setTyper(String type) {
-		set(FilterTypeEnum.TYPE.getValue(), type);
+    /**
+     * Instantiates a new filter type.
+     * 
+     * @param type
+     *            the type
+     */
+    public FilterType(String type) {
+        setTyper(type);
+    }
 
-	}
+    /**
+     * Sets the typer.
+     * 
+     * @param type
+     *            the new typer
+     */
+    public void setTyper(String type) {
+        set(FilterTypeEnum.TYPE.getValue(), type);
 
-	public String getType() {
-		return get(FilterTypeEnum.TYPE.getValue());
-	}
+    }
+
+    /**
+     * Gets the type.
+     * 
+     * @return the type
+     */
+    public String getType() {
+        return get(FilterTypeEnum.TYPE.getValue());
+    }
 
 }

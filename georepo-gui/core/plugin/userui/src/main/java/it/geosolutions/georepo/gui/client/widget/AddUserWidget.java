@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AddUserWidget,v. 0.1 28/lug/2010 14.34.21 created by frank $
- * $Revision: 0.1 $
- * $Date: 28/lug/2010 14.34.21 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AddUserWidget,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,231 +29,259 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.DGWATCHData;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.SendType;
-import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
 import it.geosolutions.georepo.gui.client.UpdateInterval;
+import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
 import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
 import it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget;
 import it.geosolutions.georepo.gui.client.model.RegUser;
-import it.geosolutions.georepo.gui.client.model.RegUser.RegUserKeyValue;
 import it.geosolutions.georepo.gui.client.model.User;
+import it.geosolutions.georepo.gui.client.model.RegUser.RegUserKeyValue;
+
+import java.util.List;
+
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.form.Validator;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class AddUserWidget.
  */
 public class AddUserWidget extends DGWATCHFormWidget {
 
-	// private TextField<String> userName;
-	private ComboBox<RegUser> comboUserNames;
-	private TextField<String> email;
-	private CheckBox reducedContent;
-	private ComboBox<SendType> comboTypes;
-	private ComboBox<UpdateInterval> comboTimes;
+    // private TextField<String> userName;
+    /** The combo user names. */
+    private ComboBox<RegUser> comboUserNames;
 
-	private User userToSave = new User();
+    /** The email. */
+    private TextField<String> email;
 
-	private ListStore<SendType> storeTypes;
-	private ListStore<UpdateInterval> storeTimes;
-	private ListStore<RegUser> storeRegUser;
+    /** The reduced content. */
+    private CheckBox reducedContent;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.form.IFormexecute()
-	 */
-	public void execute() {
-		this.saveStatus.setBusy("Operation in progress");
-		this.injectValue();
-		Dispatcher.forwardEvent(DGWATCHEvents.SAVE_USER, this.userToSave);
-	}
+    /** The combo types. */
+    private ComboBox<SendType> comboTypes;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.form.DGWATCHFormWidgetaddComponentToForm
-	 * ()
-	 */
-	@Override
-	public void addComponentToForm() {
-		fieldSet = new FieldSet();
-		fieldSet.setHeading("User Information");
-		FormLayout layout = new FormLayout();
-		layout.setLabelWidth(150);
-		fieldSet.setLayout(layout);
+    /** The combo times. */
+    private ComboBox<UpdateInterval> comboTimes;
 
-		// userName = new TextField<String>();
-		// userName.setAllowBlank(false);
-		// userName.setFieldLabel("User Name");
-		// fieldSet.add(userName);
+    /** The user to save. */
+    private User userToSave = new User();
 
-		this.storeRegUser = new ListStore<RegUser>();
+    /** The store types. */
+    private ListStore<SendType> storeTypes;
 
-		comboUserNames = new ComboBox<RegUser>();
-		comboUserNames.setWidth(300);
-		comboUserNames.setFieldLabel("User Name");
-		comboUserNames.setEmptyText("Select User Name ..");
-		comboUserNames.setTemplate(getTemplate());
-		comboUserNames.setDisplayField(RegUserKeyValue.CHOISE.getValue());
-		comboUserNames.setEditable(false);
-		comboUserNames.setAllowBlank(false);
-		comboUserNames.setForceSelection(true);
-		comboUserNames.setStore(storeRegUser);
+    /** The store times. */
+    private ListStore<UpdateInterval> storeTimes;
 
-		comboUserNames.setTypeAhead(true);
-		comboUserNames.setTriggerAction(TriggerAction.ALL);
+    /** The store reg user. */
+    private ListStore<RegUser> storeRegUser;
 
-		this.fieldSet.add(comboUserNames);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.IFormexecute()
+     */
+    public void execute() {
+        this.saveStatus.setBusy("Operation in progress");
+        this.injectValue();
+        Dispatcher.forwardEvent(DGWATCHEvents.SAVE_USER, this.userToSave);
+    }
 
-		email = new TextField<String>();
-		email.setAllowBlank(false);
-		email.setFieldLabel("Email");
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidgetaddComponentToForm ()
+     */
+    @Override
+    public void addComponentToForm() {
+        fieldSet = new FieldSet();
+        fieldSet.setHeading("User Information");
+        FormLayout layout = new FormLayout();
+        layout.setLabelWidth(150);
+        fieldSet.setLayout(layout);
 
-		email.setValidator(new Validator() {
+        // userName = new TextField<String>();
+        // userName.setAllowBlank(false);
+        // userName.setFieldLabel("User Name");
+        // fieldSet.add(userName);
 
-			public String validate(Field<?> field, String value) {
-				if (((String) field.getValue()).matches(".+@.+\\.[a-z]+"))
-					return null;
-				return "Email not valid";
-			}
-		});
+        this.storeRegUser = new ListStore<RegUser>();
 
-		this.fieldSet.add(email);
+        comboUserNames = new ComboBox<RegUser>();
+        comboUserNames.setWidth(300);
+        comboUserNames.setFieldLabel("User Name");
+        comboUserNames.setEmptyText("Select User Name ..");
+        comboUserNames.setTemplate(getTemplate());
+        comboUserNames.setDisplayField(RegUserKeyValue.CHOISE.getValue());
+        comboUserNames.setEditable(false);
+        comboUserNames.setAllowBlank(false);
+        comboUserNames.setForceSelection(true);
+        comboUserNames.setStore(storeRegUser);
 
-		reducedContent = new CheckBox();
-		reducedContent.setFieldLabel("Hide Attributions");
-		reducedContent.setWidth(150);
-		reducedContent.setEnabled(true);
+        comboUserNames.setTypeAhead(true);
+        comboUserNames.setTriggerAction(TriggerAction.ALL);
 
-		this.fieldSet.add(reducedContent);
+        this.fieldSet.add(comboUserNames);
 
-		this.initCombo();
+        email = new TextField<String>();
+        email.setAllowBlank(false);
+        email.setFieldLabel("Email");
 
-		this.formPanel.add(fieldSet);
+        email.setValidator(new Validator() {
 
-	}
+            public String validate(Field<?> field, String value) {
+                if (((String) field.getValue()).matches(".+@.+\\.[a-z]+"))
+                    return null;
+                return "Email not valid";
+            }
+        });
 
-	private void initCombo() {
-		this.storeTypes = new ListStore<SendType>();
-		this.storeTypes.add(DGWATCHData.getSendTypes());
+        this.fieldSet.add(email);
 
-		comboTypes = new ComboBox<SendType>();
-		comboTypes.setFieldLabel("Type");
-		comboTypes.setEmptyText("Select Type ...");
-		comboTypes.setDisplayField(SendTypeEnum.TYPE.getValue());
-		comboTypes.setEditable(false);
-		comboTypes.setAllowBlank(false);
-		comboTypes.setForceSelection(true);
-		comboTypes.setStore(storeTypes);
-		comboTypes.setTypeAhead(true);
-		comboTypes.setTriggerAction(TriggerAction.ALL);
+        reducedContent = new CheckBox();
+        reducedContent.setFieldLabel("Hide Attributions");
+        reducedContent.setWidth(150);
+        reducedContent.setEnabled(true);
 
-		this.fieldSet.add(comboTypes);
+        this.fieldSet.add(reducedContent);
 
-		this.storeTimes = new ListStore<UpdateInterval>();
-		this.storeTimes.add(DGWATCHData.getTimes());
+        this.initCombo();
 
-		comboTimes = new ComboBox<UpdateInterval>();
-		comboTimes.setFieldLabel("Interval");
-		comboTimes.setEmptyText("Select interval ...");
-		comboTimes.setDisplayField(UpdateIntervalEnum.TIME.getValue());
-		comboTimes.setEditable(false);
-		comboTimes.setAllowBlank(false);
-		comboTimes.setForceSelection(true);
-		comboTimes.setStore(storeTimes);
-		comboTimes.setTypeAhead(true);
-		comboTimes.setTriggerAction(TriggerAction.ALL);
+        this.formPanel.add(fieldSet);
 
-		this.fieldSet.add(comboTimes);
-	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidgetinitSize()
-	 */
-	@Override
-	public void initSize() {
-		setHeading("Add User");
-		setSize(450, 280);
-	}
+    /**
+     * Inits the combo.
+     */
+    private void initCombo() {
+        this.storeTypes = new ListStore<SendType>();
+        this.storeTypes.add(DGWATCHData.getSendTypes());
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.form.DGWATCHFormWidgetinitSizeFormPanel
-	 * ()
-	 */
-	@Override
-	public void initSizeFormPanel() {
-		formPanel.setHeaderVisible(false);
-		formPanel.setSize(450, 250);
-	}
+        comboTypes = new ComboBox<SendType>();
+        comboTypes.setFieldLabel("Type");
+        comboTypes.setEmptyText("Select Type ...");
+        comboTypes.setDisplayField(SendTypeEnum.TYPE.getValue());
+        comboTypes.setEditable(false);
+        comboTypes.setAllowBlank(false);
+        comboTypes.setForceSelection(true);
+        comboTypes.setStore(storeTypes);
+        comboTypes.setTypeAhead(true);
+        comboTypes.setTriggerAction(TriggerAction.ALL);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidgetcancel()
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	public void cancel() {
-		super.close();
-		this.reset();
-	}
+        this.fieldSet.add(comboTypes);
 
-	@Override
+        this.storeTimes = new ListStore<UpdateInterval>();
+        this.storeTimes.add(DGWATCHData.getTimes());
+
+        comboTimes = new ComboBox<UpdateInterval>();
+        comboTimes.setFieldLabel("Interval");
+        comboTimes.setEmptyText("Select interval ...");
+        comboTimes.setDisplayField(UpdateIntervalEnum.TIME.getValue());
+        comboTimes.setEditable(false);
+        comboTimes.setAllowBlank(false);
+        comboTimes.setForceSelection(true);
+        comboTimes.setStore(storeTimes);
+        comboTimes.setTypeAhead(true);
+        comboTimes.setTriggerAction(TriggerAction.ALL);
+
+        this.fieldSet.add(comboTimes);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidgetinitSize()
+     */
+    @Override
+    public void initSize() {
+        setHeading("Add User");
+        setSize(450, 280);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidgetinitSizeFormPanel ()
+     */
+    @Override
+    public void initSizeFormPanel() {
+        formPanel.setHeaderVisible(false);
+        formPanel.setSize(450, 250);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidgetcancel()
+     */
+    @SuppressWarnings("deprecation")
+    @Override
+    public void cancel() {
+        super.close();
+        this.reset();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#reset()
+     */
+    @Override
     public void reset() {
-		// this.userName.reset();
-		this.comboUserNames.reset();
-		this.storeRegUser.removeAll();
-		this.email.reset();
-		this.comboTypes.reset();
-		this.comboTimes.reset();
-		this.reducedContent.reset();
-		this.saveStatus.clearStatus("");
-	}
+        // this.userName.reset();
+        this.comboUserNames.reset();
+        this.storeRegUser.removeAll();
+        this.email.reset();
+        this.comboTypes.reset();
+        this.comboTimes.reset();
+        this.reducedContent.reset();
+        this.saveStatus.clearStatus("");
+    }
 
-	private void injectValue() {
-		userToSave.setUserName(this.comboUserNames.getValue().getUserName());
-		userToSave.setConnectId(this.comboUserNames.getValue().getConnectId());
-		userToSave.setEmailAddress(email.getValue());
-		userToSave.setReducedContent(reducedContent.getValue());
-		userToSave.setSendType(comboTypes.getValue().getType());
-		userToSave.setUpInteval(comboTimes.getValue().getTime());
-	}
+    /**
+     * Inject value.
+     */
+    private void injectValue() {
+        userToSave.setUserName(this.comboUserNames.getValue().getUserName());
+        userToSave.setConnectId(this.comboUserNames.getValue().getConnectId());
+        userToSave.setEmailAddress(email.getValue());
+        userToSave.setReducedContent(reducedContent.getValue());
+        userToSave.setSendType(comboTypes.getValue().getType());
+        userToSave.setUpInteval(comboTimes.getValue().getTime());
+    }
 
-	/**
-	 * 
-	 * @param regUsers
-	 *            Fill the Combo Box Store for users with all Keys returned from
-	 *            the remote service
-	 */
-	public void fillStoreRegUser(List<RegUser> regUsers) {
-		this.storeRegUser.add(regUsers);
-	}
+    /**
+     * Fill store reg user.
+     * 
+     * @param regUsers
+     *            the reg users
+     */
+    public void fillStoreRegUser(List<RegUser> regUsers) {
+        this.storeRegUser.add(regUsers);
+    }
 
-	private native String getTemplate() /*-{ 
-		return  [ 
-			'<tpl for=".">', 
-				'<div class="x-combo-list-item" qtip="{choise}" qtitle="Choise">{choise}</div>', 
-			'</tpl>' 
-			].join(""); 
-	}-*/;
+    /**
+     * Gets the template.
+     * 
+     * @return the template
+     */
+    private native String getTemplate() /*-{ 
+                                        return  [ 
+                                        '<tpl for=".">', 
+                                        '<div class="x-combo-list-item" qtip="{choise}" qtitle="Choise">{choise}</div>', 
+                                        '</tpl>' 
+                                        ].join(""); 
+                                        }-*/;
 }

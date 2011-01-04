@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.server.gwt.LoginRemoteImpl,v. 0.1 08/lug/2010 11.22.43 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 11.22.43 $
+ * $ Header: it.geosolutions.georepo.gui.server.gwt.LoginRemoteImpl,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,109 +29,110 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
+import it.geosolutions.georepo.gui.client.model.User;
+import it.geosolutions.georepo.gui.client.service.LoginRemote;
+import it.geosolutions.georepo.gui.server.service.ILoginService;
+import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
 
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import it.geosolutions.georepo.gui.client.model.User;
-import it.geosolutions.georepo.gui.client.service.LoginRemote;
-import it.geosolutions.georepo.gui.server.service.ILoginService;
-import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class LoginRemoteImpl.
  */
-public class LoginRemoteImpl
-        extends RemoteServiceServlet
-        implements LoginRemote {
+public class LoginRemoteImpl extends RemoteServiceServlet implements LoginRemote {
 
-	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = 6763250533126295210L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 6763250533126295210L;
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    /** The logger. */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	/**
-	 * loginService
-	 */
-	private ILoginService loginService;
+    /** The login service. */
+    private ILoginService loginService;
 
-	public LoginRemoteImpl() {
-		this.loginService = (ILoginService) ApplicationContextUtil
-				.getInstance().getBean("loginService");
-	}
+    /**
+     * Instantiates a new login remote impl.
+     */
+    public LoginRemoteImpl() {
+        this.loginService = (ILoginService) ApplicationContextUtil.getInstance().getBean(
+                "loginService");
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.service.LoginRemote#authenticate(java
-	 * .lang.String, java.lang.String)
-	 */
-	public User authenticate(String userName, String password) {
-		return loginService.authenticate(userName, password,
-				getThreadLocalRequest().getSession());
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.service.LoginRemote#authenticate(java .lang.String,
+     * java.lang.String)
+     */
+    public User authenticate(String userName, String password) {
+        return loginService.authenticate(userName, password, getThreadLocalRequest().getSession());
+    }
 
-//	/**
-//	 *
-//	 */
-//	public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
-//			String searchText) {
-//		return loginService.loadUsers(config, searchText);
-//	}
-//
-//	/**
-//	 *
-//	 */
-//	public User saveUser(User user) throws ApplicationException {
-//		return loginService.saveUser(user);
-//	}
-//
-//	/**
-//	 *
-//	 */
-//	// public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
-//	// throws ApplicationException {
-//	// return loginService.loadAllUsers(config);
-//	// }
-//
-//	public void deleteUser(Long userId) throws ApplicationException {
-//		this.loginService.deleteUser(userId);
-//	}
-//
-//	public User updateUser(User user) {
-//		return loginService.updateUser(user);
-//	}
-//
-//	public User getUserDetail(User user) throws ApplicationException {
-//		return loginService.getUserDetail(user);
-//	}
-//
-//	public List<RegUser> findUserNames() throws ApplicationException {
-//		return loginService.findUserNames(getThreadLocalRequest().getSession());
-//	}
+    // /**
+    // *
+    // */
+    // public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
+    // String searchText) {
+    // return loginService.loadUsers(config, searchText);
+    // }
+    //
+    // /**
+    // *
+    // */
+    // public User saveUser(User user) throws ApplicationException {
+    // return loginService.saveUser(user);
+    // }
+    //
+    // /**
+    // *
+    // */
+    // // public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
+    // // throws ApplicationException {
+    // // return loginService.loadAllUsers(config);
+    // // }
+    //
+    // public void deleteUser(Long userId) throws ApplicationException {
+    // this.loginService.deleteUser(userId);
+    // }
+    //
+    // public User updateUser(User user) {
+    // return loginService.updateUser(user);
+    // }
+    //
+    // public User getUserDetail(User user) throws ApplicationException {
+    // return loginService.getUserDetail(user);
+    // }
+    //
+    // public List<RegUser> findUserNames() throws ApplicationException {
+    // return loginService.findUserNames(getThreadLocalRequest().getSession());
+    // }
 
-	public void logout() {
-		HttpSession session = getThreadLocalRequest().getSession();
-		if (session != null) {
-			session.invalidate();
-			logger.info("LOGOUT ------------------------------ INVALIDATING SESSION");
-		}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.service.LoginRemote#logout()
+     */
+    public void logout() {
+        HttpSession session = getThreadLocalRequest().getSession();
+        if (session != null) {
+            session.invalidate();
+            logger.info("LOGOUT ------------------------------ INVALIDATING SESSION");
+        }
 
-	}
+    }
 
-//	public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
-//			long aoiID) throws ApplicationException {
-//		return loginService.getRelatedUsers(config, aoiID);
-//	}
-//
-//	public int getRelatedUsersCount(long aoiId) {
-//		return loginService.getRelatedUsersCount(aoiId);
-//	}
+    // public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
+    // long aoiID) throws ApplicationException {
+    // return loginService.getRelatedUsers(config, aoiID);
+    // }
+    //
+    // public int getRelatedUsersCount(long aoiId) {
+    // return loginService.getRelatedUsersCount(aoiId);
+    // }
 }

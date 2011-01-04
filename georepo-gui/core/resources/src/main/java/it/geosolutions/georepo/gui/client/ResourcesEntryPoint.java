@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.ResourcesGWT,v. 0.1 25/set/2010 16.11.02 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 25/set/2010 16.11.02 $
+ * $ Header: it.geosolutions.georepo.gui.client.ResourcesEntryPoint,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -30,23 +30,30 @@
 package it.geosolutions.georepo.gui.client;
 
 import it.geosolutions.georepo.gui.client.mvc.MessagesController;
+
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.EntryPoint;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class ResourcesEntryPoint.
  */
 public class ResourcesEntryPoint implements EntryPoint {
 
-	private Dispatcher dispatcher;
+    /** The dispatcher. */
+    private Dispatcher dispatcher;
 
-	public void onModuleLoad() {
-		// TODO Auto-generated method stub
-		dispatcher = Dispatcher.get();
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
+     */
+    public void onModuleLoad() {
+        // TODO Auto-generated method stub
+        dispatcher = Dispatcher.get();
 
-		dispatcher.addController(new MessagesController());
+        dispatcher.addController(new MessagesController());
 
-		dispatcher.dispatch(DGWATCHEvents.INIT_RESOURCES_MODULE);
-	}
+        dispatcher.dispatch(DGWATCHEvents.INIT_RESOURCES_MODULE);
+    }
 }

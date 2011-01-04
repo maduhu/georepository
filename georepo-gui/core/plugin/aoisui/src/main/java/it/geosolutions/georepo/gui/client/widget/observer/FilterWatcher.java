@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AOIWatcher,v. 0.1 18/ago/2010 17.27.38 created by frank $
- * $Revision: 0.1 $
- * $Date: 18/ago/2010 17.27.38 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.observer.FilterWatcher,v. 0.1 3-gen-2011 16.58.03 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.58.03 $
  *
  * ====================================================================
  *
@@ -32,19 +32,19 @@ package it.geosolutions.georepo.gui.client.widget.observer;
 import it.geosolutions.georepo.gui.client.Observable;
 import it.geosolutions.georepo.gui.client.Observer;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class FilterWatcher.
  */
 public class FilterWatcher implements Observer {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	public void update(Observable o, Object arg) {
-		((ObserverFilterWidget) o).existDefaultFilter();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
+    public void update(Observable o, Object arg) {
+        ((ObserverFilterWidget) o).existDefaultFilter();
+    }
 
 }

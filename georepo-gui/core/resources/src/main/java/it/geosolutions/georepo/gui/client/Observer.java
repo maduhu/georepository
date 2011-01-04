@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.Observer,v. 0.1 18/ago/2010 18.38.37 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 18/ago/2010 18.38.37 $
+ * $ Header: it.geosolutions.georepo.gui.client.Observer,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -29,22 +29,19 @@
  */
 package it.geosolutions.georepo.gui.client;
 
-
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Interface Observer.
  */
 public interface Observer {
-	/**
-	 * This method is called whenever the observed object is changed. An
-	 * application calls an <tt>Observable</tt> object's
-	 * <code>notifyObservers</code> method to have all the object's observers
-	 * notified of the change.
-	 * 
-	 * @param o
-	 *            the observable object.
-	 * @param arg
-	 *            an argument passed to the <code>notifyObservers</code> method.
-	 */
-	void update(Observable o, Object arg);
+
+    /**
+     * Update.
+     * 
+     * @param o
+     *            the o
+     * @param arg
+     *            the arg
+     */
+    void update(Observable o, Object arg);
 }

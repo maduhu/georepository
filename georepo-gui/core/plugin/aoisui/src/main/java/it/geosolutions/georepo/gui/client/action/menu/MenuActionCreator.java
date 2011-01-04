@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.menu.MenuActionCreator,v. 0.1 30/set/2010 16.53.48 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 16.53.48 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.menu.MenuActionCreator,v. 0.1 3-gen-2011 16.51.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.51.45 $
  *
  * ====================================================================
  *
@@ -29,12 +29,17 @@
  */
 package it.geosolutions.georepo.gui.client.action.menu;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Interface MenuActionCreator.
  */
 public interface MenuActionCreator {
 
-	public MenuAction createAction();
+    /**
+     * Creates the action.
+     * 
+     * @return the menu action
+     */
+    public MenuAction createAction();
 
 }

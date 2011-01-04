@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.WatchesView,v. 0.1 3-gen-2011 16.52.35 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.35 $
  *
  * ====================================================================
  *
@@ -27,55 +30,76 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
-import it.geosolutions.georepo.gui.client.model.Authorization;
 import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.widget.WatchesManagementWidget;
+
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 
-import java.util.List;
-
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class WatchesView.
  */
 public class WatchesView extends View {
 
-	private WatchesManagementWidget wmWidget;
+    /** The wm widget. */
+    private WatchesManagementWidget wmWidget;
 
-	public WatchesView(Controller controller) {
-		super(controller);
-		this.wmWidget = new WatchesManagementWidget();
-	}
+    /**
+     * Instantiates a new watches view.
+     * 
+     * @param controller
+     *            the controller
+     */
+    public WatchesView(Controller controller) {
+        super(controller);
+        this.wmWidget = new WatchesManagementWidget();
+    }
 
-	@Override
-	protected void handleEvent(AppEvent event) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client.mvc.AppEvent)
+     */
+    @Override
+    protected void handleEvent(AppEvent event) {
         if (event.getType() == DGWATCHEvents.ATTACH_WATCHES_WIDGET)
             onAttachWatchesWidget(event);
         if (event.getType() == DGWATCHEvents.LOGIN_SUCCESS)
-            onLoginSuccess(event);	
-	}
+            onLoginSuccess(event);
+    }
 
-	/**
-	 * @param event
-	 */
-	private void onAttachWatchesWidget(AppEvent event) {
+    /**
+     * On attach watches widget.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onAttachWatchesWidget(AppEvent event) {
         ContentPanel east = (ContentPanel) event.getData();
         east.add(this.wmWidget);
         east.layout();
-	}
-	
-	/**
-	 * @return the wmWidget
-	 */
-	public WatchesManagementWidget getWmWidget() {
-		return wmWidget;
-	}
-
-    private void onLoginSuccess(AppEvent event) {
-        this.wmWidget.injectSecurity(((User) event.getData()).getGrantedAuthorizations());    
     }
-	
+
+    /**
+     * Gets the wm widget.
+     * 
+     * @return the wm widget
+     */
+    public WatchesManagementWidget getWmWidget() {
+        return wmWidget;
+    }
+
+    /**
+     * On login success.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onLoginSuccess(AppEvent event) {
+        this.wmWidget.injectSecurity(((User) event.getData()).getGrantedAuthorizations());
+    }
+
 }

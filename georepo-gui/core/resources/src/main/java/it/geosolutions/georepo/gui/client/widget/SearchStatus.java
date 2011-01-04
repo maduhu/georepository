@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.SearchStatus,v. 0.1 30/lug/2010 18.51.17 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/lug/2010 18.51.17 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.SearchStatus,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.10 $
  *
  * ====================================================================
  *
@@ -29,36 +29,65 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class SearchStatus.
  */
 public class SearchStatus extends StatusWidget {
 
-	public enum EnumSearchStatus {
-		STATUS_SEARCH("x-status-ok"), STATUS_NO_SEARCH("x-status-not-ok"), STATUS_SEARCH_ERROR(
-				"x-status-error"), STATUS_MESSAGE_SEARCH("Search OK"), STATUS_MESSAGE_NOT_SEARCH(
-				"No Results Found"), STATUS_MESSAGE_SEARCH_ERROR(
-				"Search Service Error"), STATUS_MESSAGE_USER_DETAIL_ERROR(
-				"User Detail Error"), STATUS_MESSAGE_USER_DETAIL(
-				"User Detail Ok"), STATUS_MESSAGE_AOI_DETAIL_ERROR(
-				"AOI Deatil Error"), STATUS_MESSAGE_AOI_DETAIL("AOI Deatil Ok"), STATUS_MESSAGE_AOI_UNSHARE_ERROR(
-				"Unshare AOI Error"), STATUS_MESSAGE_AOI_UNSHARE(
-				"Unshare AOI Ok"),STATUS_MESSAGE_MEMBER_DETAIL(
-				"Member Detail Ok");
+    /**
+     * The Enum EnumSearchStatus.
+     */
+    public enum EnumSearchStatus {
 
-		private String value;
+        /** The STATU s_ search. */
+        STATUS_SEARCH("x-status-ok"),
+        /** The STATU s_ n o_ search. */
+        STATUS_NO_SEARCH("x-status-not-ok"),
+        /** The STATU s_ searc h_ error. */
+        STATUS_SEARCH_ERROR("x-status-error"),
+        /** The STATU s_ messag e_ search. */
+        STATUS_MESSAGE_SEARCH("Search OK"),
+        /** The STATU s_ messag e_ no t_ search. */
+        STATUS_MESSAGE_NOT_SEARCH("No Results Found"),
+        /** The STATU s_ messag e_ searc h_ error. */
+        STATUS_MESSAGE_SEARCH_ERROR("Search Service Error"),
+        /** The STATU s_ messag e_ use r_ detai l_ error. */
+        STATUS_MESSAGE_USER_DETAIL_ERROR("User Detail Error"),
+        /** The STATU s_ messag e_ use r_ detail. */
+        STATUS_MESSAGE_USER_DETAIL("User Detail Ok"),
+        /** The STATU s_ messag e_ ao i_ detai l_ error. */
+        STATUS_MESSAGE_AOI_DETAIL_ERROR("AOI Deatil Error"),
+        /** The STATU s_ messag e_ ao i_ detail. */
+        STATUS_MESSAGE_AOI_DETAIL("AOI Deatil Ok"),
+        /** The STATU s_ messag e_ ao i_ unshar e_ error. */
+        STATUS_MESSAGE_AOI_UNSHARE_ERROR("Unshare AOI Error"),
+        /** The STATU s_ messag e_ ao i_ unshare. */
+        STATUS_MESSAGE_AOI_UNSHARE("Unshare AOI Ok"),
+        /** The STATU s_ messag e_ membe r_ detail. */
+        STATUS_MESSAGE_MEMBER_DETAIL("Member Detail Ok");
 
-		EnumSearchStatus(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
+        /**
+         * Instantiates a new enum search status.
+         * 
+         * @param value
+         *            the value
+         */
+        EnumSearchStatus(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
 
 }

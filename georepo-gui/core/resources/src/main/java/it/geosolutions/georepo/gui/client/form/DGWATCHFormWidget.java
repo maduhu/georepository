@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget,v. 0.1 28/lug/2010 14.27.51 created by frank $
- * $Revision: 0.1 $
- * $Date: 28/lug/2010 14.27.51 $
+ * $ Header: it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
  *
  * ====================================================================
  *
@@ -29,9 +29,9 @@
  */
 package it.geosolutions.georepo.gui.client.form;
 
-
 import it.geosolutions.georepo.gui.client.widget.SaveStaus;
 import it.geosolutions.georepo.gui.client.widget.SaveStaus.EnumSaveStatus;
+
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
@@ -45,113 +45,150 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class DGWATCHFormWidget.
  */
 public abstract class DGWATCHFormWidget extends Window implements IForm {
 
-	protected FormPanel formPanel = new FormPanel();
-	protected Button submit;
-	protected Button cancel;
-	protected FieldSet fieldSet;
+    /** The form panel. */
+    protected FormPanel formPanel = new FormPanel();
 
-	protected SaveStaus saveStatus;
+    /** The submit. */
+    protected Button submit;
 
-	/**
-	 * 
-	 */
-	public DGWATCHFormWidget() {
-		this.initializeWindow();
-		this.initializeFormPanel();
-		this.add(this.formPanel);
-	}
+    /** The cancel. */
+    protected Button cancel;
 
-	private void initializeFormPanel() {
-		this.formPanel.setFrame(true);
-		this.formPanel.setLayout(new FlowLayout());
+    /** The field set. */
+    protected FieldSet fieldSet;
 
-		initSizeFormPanel();
-		addComponentToForm();
-		addButtons();
-	}
+    /** The save status. */
+    protected SaveStaus saveStatus;
 
-	private void initializeWindow() {
-		initSize();
-		setResizable(false);
+    /**
+     * Instantiates a new dGWATCH form widget.
+     */
+    public DGWATCHFormWidget() {
+        this.initializeWindow();
+        this.initializeFormPanel();
+        this.add(this.formPanel);
+    }
 
-		addWindowListener(new WindowListener() {
+    /**
+     * Initialize form panel.
+     */
+    private void initializeFormPanel() {
+        this.formPanel.setFrame(true);
+        this.formPanel.setLayout(new FlowLayout());
 
-			@Override
+        initSizeFormPanel();
+        addComponentToForm();
+        addButtons();
+    }
+
+    /**
+     * Initialize window.
+     */
+    private void initializeWindow() {
+        initSize();
+        setResizable(false);
+
+        addWindowListener(new WindowListener() {
+
+            @Override
             public void windowHide(WindowEvent we) {
-				reset();
-			}
+                reset();
+            }
 
-		});
+        });
 
-		setLayout(new FitLayout());
-		setModal(true);
-		setPlain(true);
-	}
+        setLayout(new FitLayout());
+        setModal(true);
+        setPlain(true);
+    }
 
-	private void addButtons() {
-		formPanel.setButtonAlign(HorizontalAlignment.LEFT);
+    /**
+     * Adds the buttons.
+     */
+    private void addButtons() {
+        formPanel.setButtonAlign(HorizontalAlignment.LEFT);
 
-		this.saveStatus = new SaveStaus();
-		saveStatus.setAutoWidth(true);
+        this.saveStatus = new SaveStaus();
+        saveStatus.setAutoWidth(true);
 
-		formPanel.getButtonBar().add(saveStatus);
+        formPanel.getButtonBar().add(saveStatus);
 
-		formPanel.getButtonBar().add(new FillToolItem());
+        formPanel.getButtonBar().add(new FillToolItem());
 
-		this.submit = new Button("SUBMIT");
+        this.submit = new Button("SUBMIT");
 
-		this.submit.addSelectionListener(new SelectionListener<ButtonEvent>() {
+        this.submit.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
-			@Override
+            @Override
             public void componentSelected(ButtonEvent ce) {
-				if (formPanel.isValid())
-					execute();
-			}
+                if (formPanel.isValid())
+                    execute();
+            }
 
-		});
+        });
 
-		submit.setIconStyle("x-dgwatch-submit");
-		
-		formPanel.addButton(submit);
+        submit.setIconStyle("x-dgwatch-submit");
 
-		this.cancel = new Button("CANCEL");
+        formPanel.addButton(submit);
 
-		this.cancel.addSelectionListener(new SelectionListener<ButtonEvent>() {
+        this.cancel = new Button("CANCEL");
 
-			@Override
+        this.cancel.addSelectionListener(new SelectionListener<ButtonEvent>() {
+
+            @Override
             public void componentSelected(ButtonEvent ce) {
-				cancel();
-			}
-		});
-		
-		this.cancel.setIconStyle("x-dgwatch-cancel");
+                cancel();
+            }
+        });
 
-		formPanel.addButton(cancel);
-	}
+        this.cancel.setIconStyle("x-dgwatch-cancel");
 
-	/**
-	 * Set the correct Status Iconn Style
-	 */
-	public void setSaveStatus(EnumSaveStatus status, EnumSaveStatus message) {
-		this.saveStatus.setIconStyle(status.getValue());
-		this.saveStatus.setText(message.getValue());
-	}
-	
-	public void reset(){
-		
-	}
+        formPanel.addButton(cancel);
+    }
 
-	public abstract void addComponentToForm();
+    /**
+     * Sets the save status.
+     * 
+     * @param status
+     *            the status
+     * @param message
+     *            the message
+     */
+    public void setSaveStatus(EnumSaveStatus status, EnumSaveStatus message) {
+        this.saveStatus.setIconStyle(status.getValue());
+        this.saveStatus.setText(message.getValue());
+    }
 
-	public abstract void initSize();
+    /**
+     * Reset.
+     */
+    public void reset() {
 
-	public abstract void initSizeFormPanel();
+    }
 
-	public abstract void cancel();
+    /**
+     * Adds the component to form.
+     */
+    public abstract void addComponentToForm();
+
+    /**
+     * Inits the size.
+     */
+    public abstract void initSize();
+
+    /**
+     * Inits the size form panel.
+     */
+    public abstract void initSizeFormPanel();
+
+    /**
+     * Cancel.
+     */
+    public abstract void cancel();
 }

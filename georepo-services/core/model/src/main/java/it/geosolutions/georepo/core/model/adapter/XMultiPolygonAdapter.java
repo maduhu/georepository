@@ -20,13 +20,13 @@
 
 package it.geosolutions.georepo.core.model.adapter;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 import com.vividsolutions.jts.io.WKTWriter;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * 
@@ -34,48 +34,49 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public class XMultiPolygonAdapter
-        extends XmlAdapter<String, MultiPolygon> {
-	
-	/**
-	 * 
-	 * This method provide unmarshalling by string value
-	 * 
-	 * @param val the WKT representation of the geometry
-	 * 
-	 */
-	@Override
-	public MultiPolygon unmarshal(String val) throws ParseException {
-		WKTReader wktReader = new WKTReader();
+public class XMultiPolygonAdapter extends XmlAdapter<String, MultiPolygon> {
 
-		Geometry the_geom = wktReader.read(val);
-		if (the_geom.getSRID() == 0)
-			the_geom.setSRID(4326);
-		
+    /**
+     * 
+     * This method provide unmarshalling by string value
+     * 
+     * @param val
+     *            the WKT representation of the geometry
+     * 
+     */
+    @Override
+    public MultiPolygon unmarshal(String val) throws ParseException {
+        WKTReader wktReader = new WKTReader();
+
+        Geometry the_geom = wktReader.read(val);
+        if (the_geom.getSRID() == 0)
+            the_geom.setSRID(4326);
+
         try {
             return (MultiPolygon) the_geom;
         } catch (ClassCastException e) {
             throw new ParseException("WKT val is a " + the_geom.getClass().getName());
         }
-	}
+    }
 
-	/**
-	 * 
-	 * This method provide marshalling by value
-	 * 
-	 * @param the WKT representation of the geometry
-	 * 
-	 */
-	@Override
-	public String marshal(MultiPolygon the_geom) throws ParseException {
-		if (the_geom != null) {
-			WKTWriter wktWriter = new WKTWriter();
-			if (the_geom.getSRID() == 0)
-				the_geom.setSRID(4326);
-			
-			return wktWriter.write(the_geom);
-		} else {
-			throw new ParseException("Geometry obj is null.");
-		}
-	}
+    /**
+     * 
+     * This method provide marshalling by value
+     * 
+     * @param the
+     *            WKT representation of the geometry
+     * 
+     */
+    @Override
+    public String marshal(MultiPolygon the_geom) throws ParseException {
+        if (the_geom != null) {
+            WKTWriter wktWriter = new WKTWriter();
+            if (the_geom.getSRID() == 0)
+                the_geom.setSRID(4326);
+
+            return wktWriter.write(the_geom);
+        } else {
+            throw new ParseException("Geometry obj is null.");
+        }
+    }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.tab.GCDNTabItem,v. 0.1 09/lug/2010 10.24.21 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 10.24.21 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.tab.GCDNTabItem,v. 0.1 3-gen-2011 16.58.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.58.12 $
  *
  * ====================================================================
  *
@@ -30,19 +30,20 @@
 package it.geosolutions.georepo.gui.client.widget.tab;
 
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Class GCDNTabItem.
  */
 public class GCDNTabItem extends TabItem {
 
-	/**
-	 * 
-	 */
-	public GCDNTabItem() {
-		super(I18nProvider.getMessages().gcdnLabel());
-	}
-	
+    /**
+     * Instantiates a new gCDN tab item.
+     */
+    public GCDNTabItem() {
+        super(I18nProvider.getMessages().gcdnLabel());
+    }
+
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.menu.RunTrigger1,v. 0.1 30/set/2010 17.03.24 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 17.03.24 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.menu.RunTrigger1,v. 0.1 3-gen-2011 16.51.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.51.45 $
  *
  * ====================================================================
  *
@@ -32,33 +32,36 @@ package it.geosolutions.georepo.gui.client.action.menu;
 import it.geosolutions.georepo.gui.client.Category;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.event.MenuEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class RunTrigger1.
  */
 public class RunTrigger1 extends MenuAction {
 
-	public RunTrigger1() {
-		super(I18nProvider.getMessages().quartzTriggerMenuOption1Hour(), Category.CLOCK);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Instantiates a new run trigger1.
+     */
+    public RunTrigger1() {
+        super(I18nProvider.getMessages().quartzTriggerMenuOption1Hour(), Category.CLOCK);
+        // TODO Auto-generated constructor stub
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.extjs.gxt.ui.client.event.SelectionListener#componentSelected(com
-	 * .extjs.gxt.ui.client.event.ComponentEvent)
-	 */
-	@Override
-	public void componentSelected(MenuEvent ce) {
-		Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-				I18nProvider.getMessages().quartzTriggerNotificationTitle(),
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.event.SelectionListener#componentSelected(com
+     * .extjs.gxt.ui.client.event.ComponentEvent)
+     */
+    @Override
+    public void componentSelected(MenuEvent ce) {
+        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                I18nProvider.getMessages().quartzTriggerNotificationTitle(),
                 I18nProvider.getMessages().quartzTriggerMenuOption1Hour() });
-		Dispatcher.forwardEvent(DGWATCHEvents.QUARTZ_TRIGGER, new Integer(1));
-	}
+        Dispatcher.forwardEvent(DGWATCHEvents.QUARTZ_TRIGGER, new Integer(1));
+    }
 
 }

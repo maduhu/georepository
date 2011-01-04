@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.ToolbarAction,v. 0.1 27/lug/2010 11.08.43 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.08.43 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.ToolbarAction,v. 0.1 3-gen-2011 16.16.36 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.16.36 $
  *
  * ====================================================================
  *
@@ -29,68 +29,91 @@
  */
 package it.geosolutions.georepo.gui.client.action;
 
-
 import it.geosolutions.georepo.gui.client.Category;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class ToolbarAction.
  */
 public abstract class ToolbarAction implements Listener<BaseEvent> {
 
-	private Category category;
-	private String id;
-	private boolean enabled;
+    /** The category. */
+    private Category category;
 
-	public ToolbarAction(Category category) {
-		this.category = category;
-	}
+    /** The id. */
+    private String id;
 
-	/**
-	 * @return the category
-	 */
-	public Category getCategory() {
-		return category;
-	}
+    /** The enabled. */
+    private boolean enabled;
 
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    /**
+     * Instantiates a new toolbar action.
+     * 
+     * @param category
+     *            the category
+     */
+    public ToolbarAction(Category category) {
+        this.category = category;
+    }
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
+    /**
+     * Gets the category.
+     * 
+     * @return the category
+     */
+    public Category getCategory() {
+        return category;
+    }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+    /**
+     * Sets the category.
+     * 
+     * @param category
+     *            the new category
+     */
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-	/**
-	 * @return the enabled
-	 */
-	public boolean isEnabled() {
-		return enabled;
-	}
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
 
-	/**
-	 * @param enabled
-	 *            the enabled to set
-	 */
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Checks if is enabled.
+     * 
+     * @return true, if is enabled
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Sets the enabled.
+     * 
+     * @param enabled
+     *            the new enabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
 }

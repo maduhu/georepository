@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.Category,v. 0.1 27/lug/2010 11.10.01 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.10.01 $
+ * $ Header: it.geosolutions.georepo.gui.client.Category,v. 0.1 3-gen-2011 16.15.58 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.15.58 $
  *
  * ====================================================================
  *
@@ -29,23 +29,35 @@
  */
 package it.geosolutions.georepo.gui.client;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Enum Category.
  */
 public enum Category {
 
+    /** The ADMINISTRATIO n_ mode. */
     ADMINISTRATION_MODE,
+    /** The CLOCK. */
     CLOCK,
+    /** The DELET e_ content. */
     DELETE_CONTENT,
+    /** The DGWATC h_ clean. */
     DGWATCH_CLEAN,
+    /** The DGWATC h_ draw. */
     DGWATCH_DRAW,
-	DGWATCH_INFO,
+    /** The DGWATC h_ info. */
+    DGWATCH_INFO,
+    /** The DGWATC h_ uploa d_ shp. */
     DGWATCH_UPLOAD_SHP,
+    /** The DGWATC h_ zoo m_ in. */
     DGWATCH_ZOOM_IN,
+    /** The DGWATC h_ zoo m_ out. */
     DGWATCH_ZOOM_OUT,
+    /** The LOGOUT. */
     LOGOUT,
+    /** The QUARTZ. */
     QUARTZ,
+    /** The SAVE. */
     SAVE,
 
 }

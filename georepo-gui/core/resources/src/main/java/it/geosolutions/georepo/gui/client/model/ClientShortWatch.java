@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.model.ClientShortWatch,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -28,100 +31,142 @@ package it.geosolutions.georepo.gui.client.model;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class ClientShortWatch.
  */
 public class ClientShortWatch extends BeanModel {
 
-	public enum ShortWatchKeyValue {
-		ID("shortId"),
+    /**
+     * The Enum ShortWatchKeyValue.
+     */
+    public enum ShortWatchKeyValue {
+
+        /** The ID. */
+        ID("shortId"),
+        /** The TITLE. */
         TITLE("shortTitle"),
+        /** The ACTION. */
         ACTION("shortAction"),
-		AOITITLE("shortAoiTitle");
+        /** The AOITITLE. */
+        AOITITLE("shortAoiTitle");
 
-		private String value;
+        /** The value. */
+        private String value;
 
-		ShortWatchKeyValue(String value) {
-			this.value = value;
-		}
+        /**
+         * Instantiates a new short watch key value.
+         * 
+         * @param value
+         *            the value
+         */
+        ShortWatchKeyValue(String value) {
+            this.value = value;
+        }
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6410938170911933374L;
-	
-	private long id;
-	private String title;
-	private String action;
-	private String aoiTitle;
-	
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-	
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-		set(ShortWatchKeyValue.ID.getValue(), this.id);
-	}
-	
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-	
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-		set(ShortWatchKeyValue.TITLE.getValue(), this.title);
-	}
-	
-	/**
-	 * @return the action
-	 */
-	public String getAction() {
-		return action;
-	}
-	
-	/**
-	 * @param action the action to set
-	 */
-	public void setAction(String action) {
-		this.action = action;
-		set(ShortWatchKeyValue.ACTION.getValue(), this.action);
-	}
-	
-	/**
-	 * @return the aoiTitle
-	 */
-	public String getAoiTitle() {
-		return aoiTitle;
-	}
-	
-	/**
-	 * @param aoiTitle the aoiTitle to set
-	 */
-	public void setAoiTitle(String aoiTitle) {
-		this.aoiTitle = aoiTitle;
-		set(ShortWatchKeyValue.AOITITLE.getValue(), this.aoiTitle);
-	}	
-	
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 6410938170911933374L;
+
+    /** The id. */
+    private long id;
+
+    /** The title. */
+    private String title;
+
+    /** The action. */
+    private String action;
+
+    /** The aoi title. */
+    private String aoiTitle;
+
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(long id) {
+        this.id = id;
+        set(ShortWatchKeyValue.ID.getValue(), this.id);
+    }
+
+    /**
+     * Gets the title.
+     * 
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets the title.
+     * 
+     * @param title
+     *            the new title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+        set(ShortWatchKeyValue.TITLE.getValue(), this.title);
+    }
+
+    /**
+     * Gets the action.
+     * 
+     * @return the action
+     */
+    public String getAction() {
+        return action;
+    }
+
+    /**
+     * Sets the action.
+     * 
+     * @param action
+     *            the new action
+     */
+    public void setAction(String action) {
+        this.action = action;
+        set(ShortWatchKeyValue.ACTION.getValue(), this.action);
+    }
+
+    /**
+     * Gets the aoi title.
+     * 
+     * @return the aoi title
+     */
+    public String getAoiTitle() {
+        return aoiTitle;
+    }
+
+    /**
+     * Sets the aoi title.
+     * 
+     * @param aoiTitle
+     *            the new aoi title
+     */
+    public void setAoiTitle(String aoiTitle) {
+        this.aoiTitle = aoiTitle;
+        set(ShortWatchKeyValue.AOITITLE.getValue(), this.aoiTitle);
+    }
+
 }

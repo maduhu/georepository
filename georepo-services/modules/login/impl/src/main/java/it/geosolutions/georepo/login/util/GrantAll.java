@@ -24,12 +24,14 @@ import it.geosolutions.georepo.api.AuthProvider;
 import it.geosolutions.georepo.api.dto.Authority;
 import it.geosolutions.georepo.api.dto.GrantedAuths;
 import it.geosolutions.georepo.api.exception.AuthException;
+
 import java.util.Arrays;
+
 import org.apache.log4j.Logger;
 
 /**
  * A dummy AuthProvider which grants all auths to every request.
- *
+ * 
  * @author ETj (etj at geo-solutions.it)
  */
 public class GrantAll implements AuthProvider {

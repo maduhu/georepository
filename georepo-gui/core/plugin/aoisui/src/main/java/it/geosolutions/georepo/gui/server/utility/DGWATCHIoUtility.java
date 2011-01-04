@@ -1,5 +1,31 @@
-/**
- * 
+/*
+ * $ Header: it.geosolutions.georepo.gui.server.utility.DGWATCHIoUtility,v. 0.1 3-gen-2011 16.58.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.58.38 $
+ *
+ * ====================================================================
+ *
+ * Copyright (C) 2010 GeoSolutions S.A.S.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. 
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by developers
+ * of GeoSolutions.  For more information on GeoSolutions, please see
+ * <http://www.geo-solutions.it/>.
+ *
  */
 package it.geosolutions.georepo.gui.server.utility;
 
@@ -17,172 +43,183 @@ import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FilenameUtils;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Administrator
- * 
+ * The Class DGWATCHIoUtility.
  */
 public class DGWATCHIoUtility {
-	/**
-	 * 
-	 * @param tempFile
-	 * @return
-	 * @throws IOException
-	 */
-	public static File decompress(final String prefix, final File inputFile,
-								  final File tempFile) throws IOException {
-		final File tmpDestDir = createTodayPrefixedDirectory(prefix, new File(
-																			  tempFile.getParent()));
-		
-		ZipFile zipFile = new ZipFile(inputFile);
-		
-		Enumeration<? extends ZipEntry> entries = zipFile.entries();
-		
-		while (entries.hasMoreElements()) {
-			
-			ZipEntry entry = (ZipEntry) entries.nextElement();
-			InputStream stream = zipFile.getInputStream(entry);
-			
-			if (entry.isDirectory()) {
-				// Assume directories are stored parents first then
-				// children.
-				(new File(tmpDestDir, entry.getName())).mkdir();
-				continue;
-			}
-			
-			File newFile = new File(tmpDestDir, entry.getName());
-			
-			FileOutputStream fos = new FileOutputStream(newFile);
-			try {
-				byte[] buf = new byte[1024];
-				int len;
-				
-				while ((len = stream.read(buf)) >= 0)
-					saveCompressedStream(buf, fos, len);
-				
-			} catch (IOException e) {
-				zipFile.close();
-				IOException ioe = new IOException(
-												  "Not valid ZIP archive file type.");
-				ioe.initCause(e);
-				throw ioe;
-			} finally {
-				fos.flush();
-				fos.close();
-				
-				stream.close();
-			}
-		}
-		zipFile.close();
-		
-		if ((tmpDestDir.listFiles().length == 1)
-			&& (tmpDestDir.listFiles()[0].isDirectory())) {
-			return getShpFile(tmpDestDir.listFiles()[0]);
-		}
-		
-		//		File[] files = tmpDestDir.listFiles(new FilenameFilter() {
-		//
-		//			public boolean accept(File dir, String name) {
-		//				return FilenameUtils.getExtension(name).equalsIgnoreCase("shp");
-		//			}
-		//		});
-		//
-		//		return files.length > 0 ? files[0] : null;
-		
-		return getShpFile(tmpDestDir);
-	}
-	
-	private static File getShpFile(File tmpDestDir){
-		File[] files = tmpDestDir.listFiles(new FilenameFilter() {
-			
-			public boolean accept(File dir, String name) {
-				return FilenameUtils.getExtension(name).equalsIgnoreCase("shp");
-			}
-		});
-		
-		return files.length > 0 ? files[0] : null;
-	}
-	
-	/**
-	 * @param len
-	 * @param stream
-	 * @param fos
-	 * @return
-	 * @throws IOException
-	 */
-	public static void saveCompressedStream(final byte[] buffer,
-											final OutputStream out, final int len) throws IOException {
-		try {
-			out.write(buffer, 0, len);
-			
-		} catch (Exception e) {
-			out.flush();
-			out.close();
-			IOException ioe = new IOException("Not valid archive file type.");
-			ioe.initCause(e);
-			throw ioe;
-		}
-	}
-	
-	/**
-	 * Create a subDirectory having the actual date as name, within a specified
-	 * destination directory.
-	 * 
-	 * @param destDir
-	 *            the destination directory where to build the "today"
-	 *            directory.
-	 * @param inputFileName
-	 * @return the created directory.
-	 */
-	public final static File createTodayDirectory(File destDir,
-												  String inputFileName) {
-		return createTodayDirectory(destDir, inputFileName, false);
-	}
-	
-	/**
-	 * Create a subDirectory having the actual date as name, within a specified
-	 * destination directory.
-	 * 
-	 * @param destDir
-	 *            the destination directory where to build the "today"
-	 *            directory.
-	 * @param inputFileName
-	 * @return the created directory.
-	 */
-	public final static File createTodayDirectory(File destDir,
-												  String inputFileName, final boolean withTime) {
-		final SimpleDateFormat SDF = withTime ? new SimpleDateFormat(
-																	 "yyyy_MM_dd_hhmmsss") : new SimpleDateFormat("yyyy_MM_dd");
-		final String newPath = (new StringBuffer(destDir.getAbsolutePath()
-												 .trim()).append(File.separatorChar)
-								.append(SDF.format(new Date())).append("_")
-								.append(inputFileName)).toString();
-		File dir = new File(newPath);
-		if (!dir.exists())
-			dir.mkdir();
-		return dir;
-	}
-	
-	/**
-	 * Create a subDirectory having the actual date as name, within a specified
-	 * destination directory.
-	 * 
-	 * @param prefix
-	 * @param parent
-	 *            the destination directory where to build the "today"
-	 *            directory.
-	 * @return the created directory.
-	 */
-	public static File createTodayPrefixedDirectory(final String prefix,
-													final File parent) {
-		final SimpleDateFormat SDF_HMS = new SimpleDateFormat(
-															  "yyyy_MM_dd_hhmmsss");
-		final String newPath = (new StringBuffer(parent.getAbsolutePath()
-												 .trim()).append(File.separatorChar).append(prefix)
-								.append(File.separatorChar).append(SDF_HMS.format(new Date())))
-		.toString();
-		File dir = new File(newPath);
-		if (!dir.exists())
-			dir.mkdirs();
-		return dir;
-	}
+
+    /**
+     * Decompress.
+     * 
+     * @param prefix
+     *            the prefix
+     * @param inputFile
+     *            the input file
+     * @param tempFile
+     *            the temp file
+     * @return the file
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    public static File decompress(final String prefix, final File inputFile, final File tempFile)
+            throws IOException {
+        final File tmpDestDir = createTodayPrefixedDirectory(prefix, new File(tempFile.getParent()));
+
+        ZipFile zipFile = new ZipFile(inputFile);
+
+        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+
+        while (entries.hasMoreElements()) {
+
+            ZipEntry entry = (ZipEntry) entries.nextElement();
+            InputStream stream = zipFile.getInputStream(entry);
+
+            if (entry.isDirectory()) {
+                // Assume directories are stored parents first then
+                // children.
+                (new File(tmpDestDir, entry.getName())).mkdir();
+                continue;
+            }
+
+            File newFile = new File(tmpDestDir, entry.getName());
+
+            FileOutputStream fos = new FileOutputStream(newFile);
+            try {
+                byte[] buf = new byte[1024];
+                int len;
+
+                while ((len = stream.read(buf)) >= 0)
+                    saveCompressedStream(buf, fos, len);
+
+            } catch (IOException e) {
+                zipFile.close();
+                IOException ioe = new IOException("Not valid ZIP archive file type.");
+                ioe.initCause(e);
+                throw ioe;
+            } finally {
+                fos.flush();
+                fos.close();
+
+                stream.close();
+            }
+        }
+        zipFile.close();
+
+        if ((tmpDestDir.listFiles().length == 1) && (tmpDestDir.listFiles()[0].isDirectory())) {
+            return getShpFile(tmpDestDir.listFiles()[0]);
+        }
+
+        // File[] files = tmpDestDir.listFiles(new FilenameFilter() {
+        //
+        // public boolean accept(File dir, String name) {
+        // return FilenameUtils.getExtension(name).equalsIgnoreCase("shp");
+        // }
+        // });
+        //
+        // return files.length > 0 ? files[0] : null;
+
+        return getShpFile(tmpDestDir);
+    }
+
+    /**
+     * Gets the shp file.
+     * 
+     * @param tmpDestDir
+     *            the tmp dest dir
+     * @return the shp file
+     */
+    private static File getShpFile(File tmpDestDir) {
+        File[] files = tmpDestDir.listFiles(new FilenameFilter() {
+
+            public boolean accept(File dir, String name) {
+                return FilenameUtils.getExtension(name).equalsIgnoreCase("shp");
+            }
+        });
+
+        return files.length > 0 ? files[0] : null;
+    }
+
+    /**
+     * Save compressed stream.
+     * 
+     * @param buffer
+     *            the buffer
+     * @param out
+     *            the out
+     * @param len
+     *            the len
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    public static void saveCompressedStream(final byte[] buffer, final OutputStream out,
+            final int len) throws IOException {
+        try {
+            out.write(buffer, 0, len);
+
+        } catch (Exception e) {
+            out.flush();
+            out.close();
+            IOException ioe = new IOException("Not valid archive file type.");
+            ioe.initCause(e);
+            throw ioe;
+        }
+    }
+
+    /**
+     * Creates the today directory.
+     * 
+     * @param destDir
+     *            the dest dir
+     * @param inputFileName
+     *            the input file name
+     * @return the file
+     */
+    public final static File createTodayDirectory(File destDir, String inputFileName) {
+        return createTodayDirectory(destDir, inputFileName, false);
+    }
+
+    /**
+     * Creates the today directory.
+     * 
+     * @param destDir
+     *            the dest dir
+     * @param inputFileName
+     *            the input file name
+     * @param withTime
+     *            the with time
+     * @return the file
+     */
+    public final static File createTodayDirectory(File destDir, String inputFileName,
+            final boolean withTime) {
+        final SimpleDateFormat SDF = withTime ? new SimpleDateFormat("yyyy_MM_dd_hhmmsss")
+                : new SimpleDateFormat("yyyy_MM_dd");
+        final String newPath = (new StringBuffer(destDir.getAbsolutePath().trim()).append(
+                File.separatorChar).append(SDF.format(new Date())).append("_")
+                .append(inputFileName)).toString();
+        File dir = new File(newPath);
+        if (!dir.exists())
+            dir.mkdir();
+        return dir;
+    }
+
+    /**
+     * Creates the today prefixed directory.
+     * 
+     * @param prefix
+     *            the prefix
+     * @param parent
+     *            the parent
+     * @return the file
+     */
+    public static File createTodayPrefixedDirectory(final String prefix, final File parent) {
+        final SimpleDateFormat SDF_HMS = new SimpleDateFormat("yyyy_MM_dd_hhmmsss");
+        final String newPath = (new StringBuffer(parent.getAbsolutePath().trim()).append(
+                File.separatorChar).append(prefix).append(File.separatorChar).append(SDF_HMS
+                .format(new Date()))).toString();
+        File dir = new File(newPath);
+        if (!dir.exists())
+            dir.mkdirs();
+        return dir;
+    }
 }

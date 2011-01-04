@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.binding.DGWATCHFilterFormBinding,v. 0.1 19/ago/2010 18.22.17 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 19/ago/2010 18.22.17 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.DGWATCHFilterFormBinding,v. 0.1 3-gen-2011 16.53.26 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.53.26 $
  *
  * ====================================================================
  *
@@ -29,77 +29,89 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding;
 
-
 import it.geosolutions.georepo.gui.client.model.Filter.FilterKeyValue;
 import it.geosolutions.georepo.gui.client.widget.binding.filtertype.DataLayerComboFieldBinding;
 import it.geosolutions.georepo.gui.client.widget.binding.filtervalue.AcqDateFieldBinding;
+
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class DGWATCHFilterFormBinding.
  */
 public class DGWATCHFilterFormBinding extends FormBinding {
 
-	public DGWATCHFilterFormBinding(FormPanel panel, boolean autoBind) {
-		super(panel, autoBind);
-	}
+    /**
+     * Instantiates a new dGWATCH filter form binding.
+     * 
+     * @param panel
+     *            the panel
+     * @param autoBind
+     *            the auto bind
+     */
+    public DGWATCHFilterFormBinding(FormPanel panel, boolean autoBind) {
+        super(panel, autoBind);
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FormBinding#autoBind()
+     */
+    @Override
     public void autoBind() {
-		for (Field<?> f : panel.getFields()) {
-			if (!bindings.containsKey(f.getId())) {
-				String name = f.getName();
-				if (name != null && name.length() > 0) {
-					FieldBinding b = null;
-					// if (f.getId().equalsIgnoreCase(
-					// FilterKeyValue.FILTER_ACQ_DATE.getValue()))
-					// b = new AcqComboFieldBinding(f, f.getName());
-					if (f.getId().equalsIgnoreCase(
-							FilterKeyValue.ACQ_DATE.getValue()))
-						b = new AcqDateFieldBinding(f, f.getName());
-					else if (f.getId().equalsIgnoreCase(
-							FilterKeyValue.FILTER_DATA_LAYER.getValue()))
-						b = new DataLayerComboFieldBinding(f, f.getName());
-					// else if (f.getId().equalsIgnoreCase(
-					// FilterKeyValue.DATA_LAYER.getValue()))
-					// b = new DataLayerFieldBinding(f, f.getName());
-					// else if (f.getId().equalsIgnoreCase(
-					// FilterKeyValue.FILTER_CLOUD_COVER.getValue()))
-					// b = new CloudCoverComboFieldBinding(f, f.getName());
-					// else if (f.getId().equalsIgnoreCase(
-					// FilterKeyValue.CLOUD_COVER.getValue()))
-					// b = new CloudCoverFieldBinding(f, f.getName());
-					// else if (f.getId().equalsIgnoreCase(
-					// FilterKeyValue.FILTER_LEGACY.getValue()))
-					// b = new LegacyIdComboFieldBinding(f, f.getName());
-					// else if (f.getId().equalsIgnoreCase(
-					// FilterKeyValue.LEGACY_ID.getValue()))
-					// b = new LegacyIdFieldBinding(f, f.getName());
-					// else if (f.getId()
-					// .equalsIgnoreCase(
-					// FilterKeyValue.RETRIEVE_TYPE_INCREMENTAL
-					// .getValue()))
-					// b = new IncrementalRadioFieldBinding(f, f.getName());
-					// else if (f.getId().equalsIgnoreCase(
-					// FilterKeyValue.RETRIEVE_TYPE.getValue()))
-					// b = new CumulativeRadioFieldBinding(f, f.getName());
-					if (b != null)
-						bindings.put(f.getId(), b);
-				}
-			}
-		}
-	}
+        for (Field<?> f : panel.getFields()) {
+            if (!bindings.containsKey(f.getId())) {
+                String name = f.getName();
+                if (name != null && name.length() > 0) {
+                    FieldBinding b = null;
+                    // if (f.getId().equalsIgnoreCase(
+                    // FilterKeyValue.FILTER_ACQ_DATE.getValue()))
+                    // b = new AcqComboFieldBinding(f, f.getName());
+                    if (f.getId().equalsIgnoreCase(FilterKeyValue.ACQ_DATE.getValue()))
+                        b = new AcqDateFieldBinding(f, f.getName());
+                    else if (f.getId()
+                            .equalsIgnoreCase(FilterKeyValue.FILTER_DATA_LAYER.getValue()))
+                        b = new DataLayerComboFieldBinding(f, f.getName());
+                    // else if (f.getId().equalsIgnoreCase(
+                    // FilterKeyValue.DATA_LAYER.getValue()))
+                    // b = new DataLayerFieldBinding(f, f.getName());
+                    // else if (f.getId().equalsIgnoreCase(
+                    // FilterKeyValue.FILTER_CLOUD_COVER.getValue()))
+                    // b = new CloudCoverComboFieldBinding(f, f.getName());
+                    // else if (f.getId().equalsIgnoreCase(
+                    // FilterKeyValue.CLOUD_COVER.getValue()))
+                    // b = new CloudCoverFieldBinding(f, f.getName());
+                    // else if (f.getId().equalsIgnoreCase(
+                    // FilterKeyValue.FILTER_LEGACY.getValue()))
+                    // b = new LegacyIdComboFieldBinding(f, f.getName());
+                    // else if (f.getId().equalsIgnoreCase(
+                    // FilterKeyValue.LEGACY_ID.getValue()))
+                    // b = new LegacyIdFieldBinding(f, f.getName());
+                    // else if (f.getId()
+                    // .equalsIgnoreCase(
+                    // FilterKeyValue.RETRIEVE_TYPE_INCREMENTAL
+                    // .getValue()))
+                    // b = new IncrementalRadioFieldBinding(f, f.getName());
+                    // else if (f.getId().equalsIgnoreCase(
+                    // FilterKeyValue.RETRIEVE_TYPE.getValue()))
+                    // b = new CumulativeRadioFieldBinding(f, f.getName());
+                    if (b != null)
+                        bindings.put(f.getId(), b);
+                }
+            }
+        }
+    }
 
-	/**
-	 * reset All Values
-	 */
-	public void resetAllValues() {
-		for (FieldBinding b : getBindings()) {
-			((IFilterFieldBinding) b).resetValue();
-		}
-	}
+    /**
+     * Reset all values.
+     */
+    public void resetAllValues() {
+        for (FieldBinding b : getBindings()) {
+            ((IFilterFieldBinding) b).resetValue();
+        }
+    }
 }

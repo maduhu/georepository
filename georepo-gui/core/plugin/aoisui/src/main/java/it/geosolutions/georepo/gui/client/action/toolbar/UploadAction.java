@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.toolbar.UploadAction,v. 0.1 12/ago/2010 10.18.43 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 12/ago/2010 10.18.43 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.toolbar.UploadAction,v. 0.1 3-gen-2011 16.52.16 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.16 $
  *
  * ====================================================================
  *
@@ -33,20 +33,29 @@ import it.geosolutions.georepo.gui.client.Category;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 
-
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class UploadAction.
  */
 public class UploadAction extends ToolbarMapAction {
 
-	public UploadAction() {
-		super(I18nProvider.getMessages().uploadShapeFileToolTip(), Category.DGWATCH_UPLOAD_SHP);
-	}
+    /**
+     * Instantiates a new upload action.
+     */
+    public UploadAction() {
+        super(I18nProvider.getMessages().uploadShapeFileToolTip(), Category.DGWATCH_UPLOAD_SHP);
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent baseEvent) {
         Dispatcher.forwardEvent(DGWATCHEvents.SHOW_UPLOAD_WIDGET);
     }

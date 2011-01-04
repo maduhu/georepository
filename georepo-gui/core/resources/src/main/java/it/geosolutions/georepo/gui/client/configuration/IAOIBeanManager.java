@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.IAOIBeanManager,v. 0.1 17/lug/2010 06.26.47 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 17/lug/2010 06.26.47 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.IAOIBeanManager,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -29,19 +29,29 @@
  */
 package it.geosolutions.georepo.gui.client.configuration;
 
+import it.geosolutions.georepo.gui.client.model.AOI;
 
 import java.util.List;
 
-import it.geosolutions.georepo.gui.client.model.AOI;
-
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- *
+ * The Interface IAOIBeanManager.
  */
 public interface IAOIBeanManager {
-	
-	public List<AOI> getAreasOI();
-	
-	public void setAreasOI(List<AOI> areasOI);
+
+    /**
+     * Gets the areas oi.
+     * 
+     * @return the areas oi
+     */
+    public List<AOI> getAreasOI();
+
+    /**
+     * Sets the areas oi.
+     * 
+     * @param areasOI
+     *            the new areas oi
+     */
+    public void setAreasOI(List<AOI> areasOI);
 
 }

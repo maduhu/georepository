@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.ToolbarApplicationAction,v. 0.1 27/lug/2010 11.18.16 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.18.16 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.ToolbarApplicationAction,v. 0.1 3-gen-2011 16.16.36 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.16.36 $
  *
  * ====================================================================
  *
@@ -31,32 +31,45 @@ package it.geosolutions.georepo.gui.client.action;
 
 import it.geosolutions.georepo.gui.client.Category;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class ToolbarApplicationAction.
  */
 public abstract class ToolbarApplicationAction extends ToolbarAction {
 
-	private String buttonName;
+    /** The button name. */
+    private String buttonName;
 
-	public ToolbarApplicationAction(String buttonName, Category category) {
-		super(category);
-		this.buttonName = buttonName;
-	}
+    /**
+     * Instantiates a new toolbar application action.
+     * 
+     * @param buttonName
+     *            the button name
+     * @param category
+     *            the category
+     */
+    public ToolbarApplicationAction(String buttonName, Category category) {
+        super(category);
+        this.buttonName = buttonName;
+    }
 
-	/**
-	 * @return the buttonName
-	 */
-	public String getButtonName() {
-		return buttonName;
-	}
+    /**
+     * Gets the button name.
+     * 
+     * @return the button name
+     */
+    public String getButtonName() {
+        return buttonName;
+    }
 
-	/**
-	 * @param buttonName
-	 *            the buttonName to set
-	 */
-	public void setButtonName(String buttonName) {
-		this.buttonName = buttonName;
-	}
+    /**
+     * Sets the button name.
+     * 
+     * @param buttonName
+     *            the new button name
+     */
+    public void setButtonName(String buttonName) {
+        this.buttonName = buttonName;
+    }
 
 }

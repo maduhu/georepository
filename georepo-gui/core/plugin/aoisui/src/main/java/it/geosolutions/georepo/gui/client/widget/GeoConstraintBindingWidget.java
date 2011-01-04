@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AOIBindingWidget,v. 0.1 19/lug/2010 15.52.13 created by frank $
- * $Revision: 0.1 $
- * $Date: 19/lug/2010 15.52.13 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.GeoConstraintBindingWidget,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.56 $
  *
  * ====================================================================
  *
@@ -32,9 +32,8 @@ package it.geosolutions.georepo.gui.client.widget;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.AOI;
-import it.geosolutions.georepo.gui.client.model.AOI.AOIKeyValue;
 import it.geosolutions.georepo.gui.client.model.GeoConstraint;
+
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -43,7 +42,6 @@ import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextField;
@@ -52,254 +50,265 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author gmurray
- *
+ * The Class GeoConstraintBindingWidget.
  */
 public class GeoConstraintBindingWidget extends DGWATCHBindingWidget<GeoConstraint> {
 
-	private TextField<String> title;
-	private TextField<String> wkt;
+    /** The title. */
+    private TextField<String> title;
 
-	private Button addGeoConstraint;
-//	private Button updateGeoConstraint;
-	private Button deleteGeoConstraint;
-	private Button searchGeoConstraint;
-//	private Button aoiClean;
+    /** The wkt. */
+    private TextField<String> wkt;
 
-	private FormData formData;
+    /** The add geo constraint. */
+    private Button addGeoConstraint;
 
-	/**
-	 *
-	 */
-	public GeoConstraintBindingWidget() {
-		this.init();
-	}
+    // private Button updateGeoConstraint;
+    /** The delete geo constraint. */
+    private Button deleteGeoConstraint;
 
-	private void init() {
-		formPanel = createFormPanel();
-		formBinding = new FormBinding(formPanel, true);
-		formData = new FormData("-20");
+    /** The search geo constraint. */
+    private Button searchGeoConstraint;
 
-	}
+    // private Button aoiClean;
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.BindingWidget#createFormPanel
-	 * ()
-	 */
-	@Override
-	public FormPanel createFormPanel() {
-		FormPanel fp = new FormPanel();
-		fp.setFrame(true);
-		fp.setHeaderVisible(false);
-		fp.setAutoHeight(true);
+    /** The form data. */
+    private FormData formData;
 
-		FieldSet fieldSet = new FieldSet();
-		fieldSet.setHeading(I18nProvider.getMessages().aoiHeading());
-		fieldSet.setCheckboxToggle(false);
-		fieldSet.setCollapsible(false);
+    /**
+     * Instantiates a new geo constraint binding widget.
+     */
+    public GeoConstraintBindingWidget() {
+        this.init();
+    }
 
-		FormLayout layout = new FormLayout();
-		fieldSet.setLayout(layout);
+    /**
+     * Inits the.
+     */
+    private void init() {
+        formPanel = createFormPanel();
+        formBinding = new FormBinding(formPanel, true);
+        formData = new FormData("-20");
 
-		this.title = new TextField<String>();
-		this.title.setId(GeoConstraint.GeoConstraintKeyValue.NAME.getValue());
-		this.title.setName(GeoConstraint.GeoConstraintKeyValue.NAME.getValue());
-		this.title.setFieldLabel(I18nProvider.getMessages().aoiTitleLabel());
-		this.title.setWidth(100);
-		fieldSet.add(this.title, this.formData);
+    }
 
-		// area = new NumberField();
-		this.wkt = new TextField<String>();
-		this.wkt.setId(GeoConstraint.GeoConstraintKeyValue.GEOCONSTRAINT.getValue());
-		this.wkt.setName(GeoConstraint.GeoConstraintKeyValue.GEOCONSTRAINT.getValue());
-		this.wkt.setFieldLabel(I18nProvider.getMessages().geoConstraintWktLabel());
-		this.wkt.setWidth(100);
-		this.wkt.setEnabled(false);
-		fieldSet.add(this.wkt, this.formData);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.BindingWidget#createFormPanel ()
+     */
+    @Override
+    public FormPanel createFormPanel() {
+        FormPanel fp = new FormPanel();
+        fp.setFrame(true);
+        fp.setHeaderVisible(false);
+        fp.setAutoHeight(true);
 
-		fp.add(fieldSet);
+        FieldSet fieldSet = new FieldSet();
+        fieldSet.setHeading(I18nProvider.getMessages().aoiHeading());
+        fieldSet.setCheckboxToggle(false);
+        fieldSet.setCollapsible(false);
 
-		FlexTable table = new FlexTable();
-//		table.getElement().getStyle().setProperty("marginLeft", "60px");
+        FormLayout layout = new FormLayout();
+        fieldSet.setLayout(layout);
 
-		table.setCellSpacing(8);
-		table.setCellPadding(4);
+        this.title = new TextField<String>();
+        this.title.setId(GeoConstraint.GeoConstraintKeyValue.NAME.getValue());
+        this.title.setName(GeoConstraint.GeoConstraintKeyValue.NAME.getValue());
+        this.title.setFieldLabel(I18nProvider.getMessages().aoiTitleLabel());
+        this.title.setWidth(100);
+        fieldSet.add(this.title, this.formData);
 
-		this.addGeoConstraint = new Button(I18nProvider.getMessages().aoiNew(), new SelectionListener<ButtonEvent>() {
+        // area = new NumberField();
+        this.wkt = new TextField<String>();
+        this.wkt.setId(GeoConstraint.GeoConstraintKeyValue.GEOCONSTRAINT.getValue());
+        this.wkt.setName(GeoConstraint.GeoConstraintKeyValue.GEOCONSTRAINT.getValue());
+        this.wkt.setFieldLabel(I18nProvider.getMessages().geoConstraintWktLabel());
+        this.wkt.setWidth(100);
+        this.wkt.setEnabled(false);
+        fieldSet.add(this.wkt, this.formData);
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-//				Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-//						new String[] { "Add AOI", "New GeoConstraint button pressed." });
-				Dispatcher.forwardEvent(DGWATCHEvents.SHOW_ADD_GEOCONSTRAINT);
-			}
-		});
+        fp.add(fieldSet);
 
-		this.addGeoConstraint.setWidth(100);
+        FlexTable table = new FlexTable();
+        // table.getElement().getStyle().setProperty("marginLeft", "60px");
 
-		this.addGeoConstraint.setIcon(Resources.ICONS.addAOI());
+        table.setCellSpacing(8);
+        table.setCellPadding(4);
 
-		table.getCellFormatter().setHorizontalAlignment(1, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        this.addGeoConstraint = new Button(I18nProvider.getMessages().aoiNew(),
+                new SelectionListener<ButtonEvent>() {
 
-		table.setWidget(1, 1, this.addGeoConstraint);
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        // Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
+                        // new String[] { "Add AOI", "New GeoConstraint button pressed." });
+                        Dispatcher.forwardEvent(DGWATCHEvents.SHOW_ADD_GEOCONSTRAINT);
+                    }
+                });
 
-//		updateAOI = new Button(I18nProvider.getMessages().aoiUpdate(), new SelectionListener<ButtonEvent>() {
-//
-//			@Override
-//			public void componentSelected(ButtonEvent ce) {
-//
-//				AOI aoi = getModel();
-//
-//				boolean dirty = false;
-//				if (title.isDirty()) {
-//					aoi.setTitle(title.getValue());
-//					dirty = true;
-//				}
-//
-//				if (expiration.isDirty()) {
-//					aoi.setExpiration(expiration.getValue());
-//					dirty = true;
-//				}
-//
-//				if (dirty) {
-//					Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-//							new String[] { "Update AOI",
-//									"Update AOI button pressed." });
-//					Dispatcher.forwardEvent(DGWATCHEvents.UPDATE_AOI, aoi);
-//				}
-//			}
-//		});
-//
-//		updateAOI.disable();
-//
-//		updateAOI.setWidth(100);
-//		updateAOI.setIcon(Resources.ICONS.editAOI());
-//
-//		table.getCellFormatter().setHorizontalAlignment(1, 2,
-//				HasHorizontalAlignment.ALIGN_CENTER);
-//
-//		table.setWidget(1, 2, this.updateAOI);
+        this.addGeoConstraint.setWidth(100);
+
+        this.addGeoConstraint.setIcon(Resources.ICONS.addAOI());
+
+        table.getCellFormatter().setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_CENTER);
+
+        table.setWidget(1, 1, this.addGeoConstraint);
+
+        // updateAOI = new Button(I18nProvider.getMessages().aoiUpdate(), new
+        // SelectionListener<ButtonEvent>() {
+        //
+        // @Override
+        // public void componentSelected(ButtonEvent ce) {
+        //
+        // AOI aoi = getModel();
+        //
+        // boolean dirty = false;
+        // if (title.isDirty()) {
+        // aoi.setTitle(title.getValue());
+        // dirty = true;
+        // }
+        //
+        // if (expiration.isDirty()) {
+        // aoi.setExpiration(expiration.getValue());
+        // dirty = true;
+        // }
+        //
+        // if (dirty) {
+        // Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
+        // new String[] { "Update AOI",
+        // "Update AOI button pressed." });
+        // Dispatcher.forwardEvent(DGWATCHEvents.UPDATE_AOI, aoi);
+        // }
+        // }
+        // });
+        //
+        // updateAOI.disable();
+        //
+        // updateAOI.setWidth(100);
+        // updateAOI.setIcon(Resources.ICONS.editAOI());
+        //
+        // table.getCellFormatter().setHorizontalAlignment(1, 2,
+        // HasHorizontalAlignment.ALIGN_CENTER);
+        //
+        // table.setWidget(1, 2, this.updateAOI);
 
         // delete button
-		this.deleteGeoConstraint = new Button(I18nProvider.getMessages().geoConstraintDeleteButtonLabel(), new SelectionListener<ButtonEvent>() {
+        this.deleteGeoConstraint = new Button(I18nProvider.getMessages()
+                .geoConstraintDeleteButtonLabel(), new SelectionListener<ButtonEvent>() {
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				MessageBox.confirm("Delete GeoConstraint", "Are you sure to delete GeoConstraint "
-						+ getModel().getName() + " ?",
-						new Listener<MessageBoxEvent>() {
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                MessageBox.confirm("Delete GeoConstraint", "Are you sure to delete GeoConstraint "
+                        + getModel().getName() + " ?", new Listener<MessageBoxEvent>() {
 
-							public void handleEvent(MessageBoxEvent be) {
-								Button btn = be.getButtonClicked();
-								if (btn.getText().equalsIgnoreCase("YES"))
-									Dispatcher.forwardEvent(DGWATCHEvents.DELETE_GEOCONSTRAINT, getModel());
-							}
-						});
-			}
-		});
+                    public void handleEvent(MessageBoxEvent be) {
+                        Button btn = be.getButtonClicked();
+                        if (btn.getText().equalsIgnoreCase("YES"))
+                            Dispatcher.forwardEvent(DGWATCHEvents.DELETE_GEOCONSTRAINT, getModel());
+                    }
+                });
+            }
+        });
 
-		this.deleteGeoConstraint.disable();
+        this.deleteGeoConstraint.disable();
 
-		this.deleteGeoConstraint.setWidth(130);
-		this.deleteGeoConstraint.setIcon(Resources.ICONS.deleteAOI());
+        this.deleteGeoConstraint.setWidth(130);
+        this.deleteGeoConstraint.setIcon(Resources.ICONS.deleteAOI());
 
-		table.getCellFormatter().setHorizontalAlignment(1, 3,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(1, 3, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(1, 3, this.deleteGeoConstraint);
+        table.setWidget(1, 3, this.deleteGeoConstraint);
 
         // search button
-		this.searchGeoConstraint = new Button(I18nProvider.getMessages().aoiSearch(), new SelectionListener<ButtonEvent>() {
+        this.searchGeoConstraint = new Button(I18nProvider.getMessages().aoiSearch(),
+                new SelectionListener<ButtonEvent>() {
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_GEOCONSTRAINT);
-			}
-		});
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_GEOCONSTRAINT);
+                    }
+                });
 
-		this.searchGeoConstraint.setWidth(100);
+        this.searchGeoConstraint.setWidth(100);
 
-		this.searchGeoConstraint.setIcon(Resources.ICONS.search());
+        this.searchGeoConstraint.setIcon(Resources.ICONS.search());
 
-		table.getCellFormatter().setHorizontalAlignment(2, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(2, 1, this.searchGeoConstraint);
+        table.setWidget(2, 1, this.searchGeoConstraint);
 
-//		aoiWatches = new Button(I18nProvider.getMessages().aoiWatches(), new SelectionListener<ButtonEvent>() {
-//
-//			@Override
-//			public void componentSelected(ButtonEvent ce) {
-//				Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-//						new String[] { "Search AOI Watches",
-//								"Search AOI Watches button pressed." });
-//			}
-//		});
-//
-//		aoiWatches.setIcon(Resources.ICONS.searchWatches());
-//		aoiWatches.setWidth(100);
-//		aoiWatches.disable();
-//
-//		table.getCellFormatter().setHorizontalAlignment(2, 2,
-//				HasHorizontalAlignment.ALIGN_CENTER);
-//
-//		table.setWidget(2, 2, this.aoiWatches);
-//
-//		aoiClean = new Button(I18nProvider.getMessages().aoiClean(), new SelectionListener<ButtonEvent>() {
-//
-//			@Override
-//			public void componentSelected(ButtonEvent ce) {
-//				Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-//						new String[] { "Clean AOI",
-//								"Clean AOI button pressed." });
-//				Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_UNBIND);
-//			}
-//		});
-//
-//		aoiClean.setIcon(Resources.ICONS.cleanDgWatchMenu());
-//		aoiClean.setWidth(100);
-//		aoiClean.disable();
-//
-//		table.getCellFormatter().setHorizontalAlignment(2, 3,
-//				HasHorizontalAlignment.ALIGN_CENTER);
-//
-//		table.setWidget(2, 3, this.aoiClean);
+        // aoiWatches = new Button(I18nProvider.getMessages().aoiWatches(), new
+        // SelectionListener<ButtonEvent>() {
+        //
+        // @Override
+        // public void componentSelected(ButtonEvent ce) {
+        // Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
+        // new String[] { "Search AOI Watches",
+        // "Search AOI Watches button pressed." });
+        // }
+        // });
+        //
+        // aoiWatches.setIcon(Resources.ICONS.searchWatches());
+        // aoiWatches.setWidth(100);
+        // aoiWatches.disable();
+        //
+        // table.getCellFormatter().setHorizontalAlignment(2, 2,
+        // HasHorizontalAlignment.ALIGN_CENTER);
+        //
+        // table.setWidget(2, 2, this.aoiWatches);
+        //
+        // aoiClean = new Button(I18nProvider.getMessages().aoiClean(), new
+        // SelectionListener<ButtonEvent>() {
+        //
+        // @Override
+        // public void componentSelected(ButtonEvent ce) {
+        // Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
+        // new String[] { "Clean AOI",
+        // "Clean AOI button pressed." });
+        // Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_UNBIND);
+        // }
+        // });
+        //
+        // aoiClean.setIcon(Resources.ICONS.cleanDgWatchMenu());
+        // aoiClean.setWidth(100);
+        // aoiClean.disable();
+        //
+        // table.getCellFormatter().setHorizontalAlignment(2, 3,
+        // HasHorizontalAlignment.ALIGN_CENTER);
+        //
+        // table.setWidget(2, 3, this.aoiClean);
 
-		fp.add(table/*, new VBoxLayoutData(5, 0, 0, 90)*/);
+        fp.add(table/* , new VBoxLayoutData(5, 0, 0, 90) */);
 
-		return fp;
-	}
+        return fp;
+    }
 
-	/**
-	 * Enable Both Delete AOI and Update AOI Buttons
-	 */
-	public void enableButtons() {
-		this.deleteGeoConstraint.enable();
-	}
+    /**
+     * Enable buttons.
+     */
+    public void enableButtons() {
+        this.deleteGeoConstraint.enable();
+    }
 
-	/**
-	 * Disable Both Delete AOI and Update AOI Buttons
-	 */
-	public void disableButtons() {
-		this.deleteGeoConstraint.disable();
-	}
+    /**
+     * Disable buttons.
+     */
+    public void disableButtons() {
+        this.deleteGeoConstraint.disable();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel
-	 * ()
-	 */
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel ()
+     */
+    @Override
     public void unBindModel() {
-		super.unBindModel();
-		disableButtons();
-	}
+        super.unBindModel();
+        disableButtons();
+    }
 
 }

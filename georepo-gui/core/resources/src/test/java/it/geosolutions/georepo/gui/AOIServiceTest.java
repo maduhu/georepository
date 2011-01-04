@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.AOIServiceTest,v. 0.1 27/lug/2010 10.38.59 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 10.38.59 $
+ * $ Header: it.geosolutions.georepo.gui.AOIServiceTest,v. 0.1 3-gen-2011 17.05.34 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.05.34 $
  *
  * ====================================================================
  *
@@ -33,82 +33,96 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class AOIServiceTest.
  */
 public class AOIServiceTest extends TestCase
 // AbstractDependencyInjectionSpringContextTests {
 {
-	// private final Logger logger = Logger.getLogger(this.getClass());
-	//
-	// @Autowired
-	// private DGWATCHRemoteService dgwatchRemoteService;
-	//
-	// public void testService() {
-	// assertNotNull(dgwatchRemoteService);
-	//
-	// UserList aoiList = dgwatchRemoteService.getClient().getUsers();
-	//
-	// if (aoiList.getList() != null)
-	// logger.info("******************* TOTAL Users  ***********************"
-	// + aoiList.getList().size());
-	// }
-	//
-	// public void testUserSearch() {
-	//
-	// String username1 = "%user%";
-	//
-	// SearchRequest srq = new SearchRequest(username1);
-	//
-	// long userCount = dgwatchRemoteService.getClient().getUsersCount(srq);
-	//
-	// logger.info("USER COUNT FOR %USE% ****************************** "
-	// + userCount);
-	//
-	// PaginatedSearchRequest psr = new PaginatedSearchRequest(username1, 25,
-	// 0);
-	//
-	// UserList ul = dgwatchRemoteService.getClient().searchUsers(psr);
-	//
-	// if (ul.getList() != null)
-	// logger.info("FOUND ELEMENTS FOR PAGINATION ************** "
-	// + ul.getList().size());
-	//
-	// }
-	//
-	// public void testAOISearch() {
-	// AOIList aois = dgwatchRemoteService.getClient().getAois();
-	//
-	// if (aois.getList() != null)
-	// logger.info("NUMBER OF AOI :***************************** "
-	// + aois.getList().size());
-	// }
+    // private final Logger logger = Logger.getLogger(this.getClass());
+    //
+    // @Autowired
+    // private DGWATCHRemoteService dgwatchRemoteService;
+    //
+    // public void testService() {
+    // assertNotNull(dgwatchRemoteService);
+    //
+    // UserList aoiList = dgwatchRemoteService.getClient().getUsers();
+    //
+    // if (aoiList.getList() != null)
+    // logger.info("******************* TOTAL Users  ***********************"
+    // + aoiList.getList().size());
+    // }
+    //
+    // public void testUserSearch() {
+    //
+    // String username1 = "%user%";
+    //
+    // SearchRequest srq = new SearchRequest(username1);
+    //
+    // long userCount = dgwatchRemoteService.getClient().getUsersCount(srq);
+    //
+    // logger.info("USER COUNT FOR %USE% ****************************** "
+    // + userCount);
+    //
+    // PaginatedSearchRequest psr = new PaginatedSearchRequest(username1, 25,
+    // 0);
+    //
+    // UserList ul = dgwatchRemoteService.getClient().searchUsers(psr);
+    //
+    // if (ul.getList() != null)
+    // logger.info("FOUND ELEMENTS FOR PAGINATION ************** "
+    // + ul.getList().size());
+    //
+    // }
+    //
+    // public void testAOISearch() {
+    // AOIList aois = dgwatchRemoteService.getClient().getAois();
+    //
+    // if (aois.getList() != null)
+    // logger.info("NUMBER OF AOI :***************************** "
+    // + aois.getList().size());
+    // }
 
-	// public void testInternalService() {
-	// List<RegisteredUser> usersRegistered = dgwatchRemoteService
-	// .getInternalService().getUsers();
-	//
-	// for (RegisteredUser regUser : usersRegistered) {
-	// logger.info("USER_NAME: " + regUser.getUserName()
-	// + "  CONNECT_ID: " + regUser.getConnectId());
-	// }
-	// }
+    // public void testInternalService() {
+    // List<RegisteredUser> usersRegistered = dgwatchRemoteService
+    // .getInternalService().getUsers();
+    //
+    // for (RegisteredUser regUser : usersRegistered) {
+    // logger.info("USER_NAME: " + regUser.getUserName()
+    // + "  CONNECT_ID: " + regUser.getConnectId());
+    // }
+    // }
 
-	// protected String[] getConfigLocations() {
-	// return new String[] { "classpath:applicationContext.xml" };
-	// }
+    // protected String[] getConfigLocations() {
+    // return new String[] { "classpath:applicationContext.xml" };
+    // }
 
-	public AOIServiceTest(String testName) {
-		super(testName);
-	}
+    /**
+     * Instantiates a new aOI service test.
+     * 
+     * @param testName
+     *            the test name
+     */
+    public AOIServiceTest(String testName) {
+        super(testName);
+    }
 
-	public static Test suite() {
-		return new TestSuite(AOIServiceTest.class);
-	}
+    /**
+     * Suite.
+     * 
+     * @return the test
+     */
+    public static Test suite() {
+        return new TestSuite(AOIServiceTest.class);
+    }
 
-	public void testApp() {
-		assertTrue(true);
-	}
+    /**
+     * Test app.
+     */
+    public void testApp() {
+        assertTrue(true);
+    }
 
 }

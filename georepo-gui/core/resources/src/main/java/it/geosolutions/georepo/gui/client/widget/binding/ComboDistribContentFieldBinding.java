@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.ComboDistribContentFieldBinding,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -27,76 +31,85 @@ package it.geosolutions.georepo.gui.client.widget.binding;
 
 import it.geosolutions.georepo.gui.client.DistribContentType;
 import it.geosolutions.georepo.gui.client.model.Watch;
+
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.store.Record;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.Field;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class ComboDistribContentFieldBinding.
  */
 public class ComboDistribContentFieldBinding extends FieldBinding {
 
-	private Object oldValue;
+    /** The old value. */
+    private Object oldValue;
 
-	/**
-	 * @param field
-	 * @param property
-	 */
-	@SuppressWarnings("rawtypes")
-	public ComboDistribContentFieldBinding(Field field, String property) {
-		super(field, property);
-	}
+    /**
+     * Instantiates a new combo distrib content field binding.
+     * 
+     * @param field
+     *            the field
+     * @param property
+     *            the property
+     */
+    @SuppressWarnings("rawtypes")
+    public ComboDistribContentFieldBinding(Field field, String property) {
+        super(field, property);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateField(boolean)
-	 */
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateField(boolean)
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateField(boolean updateOriginalValue) {
-		Object val = onConvertModelValue(model.get(property));
+    public void updateField(boolean updateOriginalValue) {
+        Object val = onConvertModelValue(model.get(property));
 
-		if (oldValue == null)
-			oldValue = val;
+        if (oldValue == null)
+            oldValue = val;
 
-		((ComboBox<DistribContentType>) field).setValue(new DistribContentType(val
-				.toString()));
+        ((ComboBox<DistribContentType>) field).setValue(new DistribContentType(val.toString()));
 
-		if (updateOriginalValue) {
-			((ComboBox<DistribContentType>) field)
-					.setOriginalValue(new DistribContentType(val.toString()));
-		}
-	}
+        if (updateOriginalValue) {
+            ((ComboBox<DistribContentType>) field).setOriginalValue(new DistribContentType(val
+                    .toString()));
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateModel()
-	 */
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateModel()
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateModel() {
-		Object val = onConvertFieldValue(field.getValue());
-		if (store != null) {
-			Record r = store.getRecord(model);
-			if (r != null) {
-				r.setValid(property, field.isValid());
-				r.set(property, val);
-			}
-		} else {
-			((Watch) model).setDistContentType(((DistribContentType) val).getType());
-		}
-	}
+    public void updateModel() {
+        Object val = onConvertFieldValue(field.getValue());
+        if (store != null) {
+            Record r = store.getRecord(model);
+            if (r != null) {
+                r.setValid(property, field.isValid());
+                r.set(property, val);
+            }
+        } else {
+            ((Watch) model).setDistContentType(((DistribContentType) val).getType());
+        }
+    }
 
-	/**
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public void resetValue() {
-		oldValue = onConvertFieldValue(field.getValue());
+    /**
+     * Reset value.
+     */
+    @SuppressWarnings("unchecked")
+    public void resetValue() {
+        oldValue = onConvertFieldValue(field.getValue());
 
-		((ComboBox<DistribContentType>) field).setValue(new DistribContentType(oldValue
-				.toString()));
+        ((ComboBox<DistribContentType>) field)
+                .setValue(new DistribContentType(oldValue.toString()));
 
-		((Watch) model).setDistContentType(((DistribContentType) oldValue).getType());
-	}
+        ((Watch) model).setDistContentType(((DistribContentType) oldValue).getType());
+    }
 }

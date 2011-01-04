@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.FilterInfo,v. 0.1 18/ago/2010 15.38.04 created by frank $
- * $Revision: 0.1 $
- * $Date: 18/ago/2010 15.38.04 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.FilterInfo,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.56 $
  *
  * ====================================================================
  *
@@ -29,68 +29,72 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.AOI.AOIKeyValue;
 import it.geosolutions.georepo.gui.client.model.Filter.FilterKeyValue;
-import it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget;
+
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.LabelField;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class FilterInfo.
  */
 public class FilterInfo extends DGWATCHBindingWidget<AOI> {
 
-	private LabelField aoi;
-	private LabelField owner;
+    /** The aoi. */
+    private LabelField aoi;
 
-	/**
-	 * 
-	 */
-	public FilterInfo() {
-		this.init();
-	}
+    /** The owner. */
+    private LabelField owner;
 
-	private void init() {
-		formPanel = createFormPanel();
-		formBinding = new FormBinding(formPanel, true);
-	}
+    /**
+     * Instantiates a new filter info.
+     */
+    public FilterInfo() {
+        this.init();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#
-	 * createFormPanel()
-	 */
-	@Override
-	public FormPanel createFormPanel() {
-		FormPanel fp = new FormPanel();
-		fp.setFrame(true);
-		fp.setHeaderVisible(false);
-		fp.setAutoHeight(true);
+    /**
+     * Inits the.
+     */
+    private void init() {
+        formPanel = createFormPanel();
+        formBinding = new FormBinding(formPanel, true);
+    }
 
-		FormData formData = new FormData("-20");
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget# createFormPanel()
+     */
+    @Override
+    public FormPanel createFormPanel() {
+        FormPanel fp = new FormPanel();
+        fp.setFrame(true);
+        fp.setHeaderVisible(false);
+        fp.setAutoHeight(true);
 
-		aoi = new LabelField();
-		aoi.setId(FilterKeyValue.AOI.getValue());
-		aoi.setName(AOIKeyValue.AOI.getValue());
-		aoi.setFieldLabel(I18nProvider.getMessages().aoiAbbreviatedLabel());
-		aoi.setWidth(150);
-		fp.add(aoi, formData);
+        FormData formData = new FormData("-20");
 
-		owner = new LabelField();
-		owner.setId(FilterKeyValue.OWNER.getValue());
-		owner.setName(AOIKeyValue.OWNER.getValue());
-//		owner.setFieldLabel(I18nProvider.getMessages().aoiOwnerLabel());
-		owner.setWidth(150);
-		fp.add(owner, formData);
+        aoi = new LabelField();
+        aoi.setId(FilterKeyValue.AOI.getValue());
+        aoi.setName(AOIKeyValue.AOI.getValue());
+        aoi.setFieldLabel(I18nProvider.getMessages().aoiAbbreviatedLabel());
+        aoi.setWidth(150);
+        fp.add(aoi, formData);
 
-		return fp;
-	}
+        owner = new LabelField();
+        owner.setId(FilterKeyValue.OWNER.getValue());
+        owner.setName(AOIKeyValue.OWNER.getValue());
+        // owner.setFieldLabel(I18nProvider.getMessages().aoiOwnerLabel());
+        owner.setWidth(150);
+        fp.add(owner, formData);
+
+        return fp;
+    }
 
 }

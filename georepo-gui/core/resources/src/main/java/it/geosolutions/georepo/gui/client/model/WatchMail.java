@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.model.WatchMail,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -27,29 +31,32 @@ package it.geosolutions.georepo.gui.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class WatchMail.
  */
-public class WatchMail extends BaseModel{
+public class WatchMail extends BaseModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5868042822929449840L;
-	
-	/**
-	 * @param mail
-	 */
-	public WatchMail(String mail) {
-		set("mail", mail);
-	}
-	
-	/**
-	 * @return the mails
-	 */
-	public String getMail() {
-		return (String) get("mail");
-	}
-	
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 5868042822929449840L;
+
+    /**
+     * Instantiates a new watch mail.
+     * 
+     * @param mail
+     *            the mail
+     */
+    public WatchMail(String mail) {
+        set("mail", mail);
+    }
+
+    /**
+     * Gets the mail.
+     * 
+     * @return the mail
+     */
+    public String getMail() {
+        return (String) get("mail");
+    }
+
 }

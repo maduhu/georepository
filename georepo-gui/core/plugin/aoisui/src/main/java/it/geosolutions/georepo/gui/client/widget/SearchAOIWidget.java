@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.SearchAOIWidget,v. 0.1 19/lug/2010 16.19.16 created by frank $
- * $Revision: 0.1 $
- * $Date: 19/lug/2010 16.19.16 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.SearchAOIWidget,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.56 $
  *
  * ====================================================================
  *
@@ -37,63 +37,69 @@ import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class SearchAOIWidget.
  */
 public class SearchAOIWidget {
 
-	private FormPanel formPanel;
-	private FormData formData;
+    /** The form panel. */
+    private FormPanel formPanel;
 
-	/**
-	 * 
-	 */
-	public SearchAOIWidget() {
-		this.init();
-	}
+    /** The form data. */
+    private FormData formData;
 
-	private void init() {
-		formData = new FormData("-20");
-		formPanel = new FormPanel();
-		formPanel.setFrame(true);
-		formPanel.setHeaderVisible(false);
-		formPanel.setAutoHeight(true);
+    /**
+     * Instantiates a new search aoi widget.
+     */
+    public SearchAOIWidget() {
+        this.init();
+    }
 
-		FieldSet fieldSet = new FieldSet();
-		fieldSet.setHeading("AOI Search");
-		fieldSet.setCheckboxToggle(false);
-		fieldSet.setCollapsible(false);
+    /**
+     * Inits the.
+     */
+    private void init() {
+        formData = new FormData("-20");
+        formPanel = new FormPanel();
+        formPanel.setFrame(true);
+        formPanel.setHeaderVisible(false);
+        formPanel.setAutoHeight(true);
 
-		FormLayout layout = new FormLayout();
-		fieldSet.setLayout(layout);
-		
-		TextField<String> searchField = new TextField<String>();
+        FieldSet fieldSet = new FieldSet();
+        fieldSet.setHeading("AOI Search");
+        fieldSet.setCheckboxToggle(false);
+        fieldSet.setCollapsible(false);
 
-		searchField.setFieldLabel("Search AOI");
-		searchField.setWidth(150);
-		fieldSet.add(searchField, formData);
-		
-		
-		formPanel.add(fieldSet);
+        FormLayout layout = new FormLayout();
+        fieldSet.setLayout(layout);
 
-		formPanel.setButtonAlign(HorizontalAlignment.CENTER);
-		Button searchButton = new Button("Search");
+        TextField<String> searchField = new TextField<String>();
 
-		Button showFeatures = new Button("Show Features");
+        searchField.setFieldLabel("Search AOI");
+        searchField.setWidth(150);
+        fieldSet.add(searchField, formData);
 
-		
-		formPanel.addButton(searchButton);
+        formPanel.add(fieldSet);
 
-		formPanel.addButton(showFeatures);
+        formPanel.setButtonAlign(HorizontalAlignment.CENTER);
+        Button searchButton = new Button("Search");
 
-	}
+        Button showFeatures = new Button("Show Features");
 
-	/**
-	 * @return the formPanel
-	 */
-	public FormPanel getFormPanel() {
-		return formPanel;
-	}
+        formPanel.addButton(searchButton);
+
+        formPanel.addButton(showFeatures);
+
+    }
+
+    /**
+     * Gets the form panel.
+     * 
+     * @return the form panel
+     */
+    public FormPanel getFormPanel() {
+        return formPanel;
+    }
 
 }

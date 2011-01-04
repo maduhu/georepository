@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.DGWATCHUtils,v. 0.1 09/lug/2010 12.20.07 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 12.20.07 $
+ * $ Header: it.geosolutions.georepo.gui.client.DGWATCHUtils,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
  *
  * ====================================================================
  *
@@ -31,38 +31,47 @@ package it.geosolutions.georepo.gui.client;
 
 import it.geosolutions.georepo.gui.client.configuration.IDGWATCHConfiguration;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
- *         Singleton to manage all Application References to various Spring
- *         Objects
- * 
+ * The Class DGWATCHUtils.
  */
 public class DGWATCHUtils {
-	
-	private static DGWATCHUtils INSTANCE;
 
-	private IDGWATCHConfiguration globalConfiguration;
+    /** The INSTANCE. */
+    private static DGWATCHUtils INSTANCE;
 
-	public static DGWATCHUtils getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new DGWATCHUtils();
-		}
-		return INSTANCE;
-	}
+    /** The global configuration. */
+    private IDGWATCHConfiguration globalConfiguration;
 
-	/**
-	 * @return the globalConfiguration
-	 */
-	public IDGWATCHConfiguration getGlobalConfiguration() {
-		return globalConfiguration;
-	}
+    /**
+     * Gets the single instance of DGWATCHUtils.
+     * 
+     * @return single instance of DGWATCHUtils
+     */
+    public static DGWATCHUtils getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DGWATCHUtils();
+        }
+        return INSTANCE;
+    }
 
-	/**
-	 * @param globalConfiguration the globalConfiguration to set
-	 */
-	public void setGlobalConfiguration(IDGWATCHConfiguration globalConfiguration) {
-		this.globalConfiguration = globalConfiguration;
-	}
+    /**
+     * Gets the global configuration.
+     * 
+     * @return the global configuration
+     */
+    public IDGWATCHConfiguration getGlobalConfiguration() {
+        return globalConfiguration;
+    }
+
+    /**
+     * Sets the global configuration.
+     * 
+     * @param globalConfiguration
+     *            the new global configuration
+     */
+    public void setGlobalConfiguration(IDGWATCHConfiguration globalConfiguration) {
+        this.globalConfiguration = globalConfiguration;
+    }
 
 }

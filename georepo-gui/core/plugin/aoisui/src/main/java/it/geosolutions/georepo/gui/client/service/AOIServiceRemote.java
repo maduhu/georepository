@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.AOIServiceRemote,v. 0.1 20/lug/2010 10.22.05 created by frank $
- * $Revision: 0.1 $
- * $Date: 20/lug/2010 10.22.05 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.AOIServiceRemote,v. 0.1 3-gen-2011 16.52.44 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.44 $
  *
  * ====================================================================
  *
@@ -29,96 +29,131 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.AOI;
+
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Interface AOIServiceRemote.
  */
 public interface AOIServiceRemote extends RemoteService {
 
-	public static class Util {
-		private static AOIServiceRemoteAsync instance;
+    /**
+     * The Class Util.
+     */
+    public static class Util {
 
-		public static AOIServiceRemoteAsync getInstance() {
-			if (instance == null) {
-				instance = (AOIServiceRemoteAsync) GWT
-						.create(AOIServiceRemote.class);
-				ServiceDefTarget target = (ServiceDefTarget) instance;
-				target.setServiceEntryPoint(GWT.getModuleBaseURL()
-						+ "AOIServiceRemote");
-			}
-			return instance;
-		}
-	}
+        /** The instance. */
+        private static AOIServiceRemoteAsync instance;
 
-	/**
-	 * 
-	 * @param config
-	 * @return
-	 */
-	public PagingLoadResult<AOI> loadAOI(PagingLoadConfig config,
-			String searchText) throws ApplicationException;
+        /**
+         * Gets the single instance of Util.
+         * 
+         * @return single instance of Util
+         */
+        public static AOIServiceRemoteAsync getInstance() {
+            if (instance == null) {
+                instance = (AOIServiceRemoteAsync) GWT.create(AOIServiceRemote.class);
+                ServiceDefTarget target = (ServiceDefTarget) instance;
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "AOIServiceRemote");
+            }
+            return instance;
+        }
+    }
 
-//	/**
-//	 * @param config
-//	 * @param userId
-//	 * @return
-//	 */
-//	public PagingLoadResult<AOI> getUserAOIs(PagingLoadConfig config, long userId);
-	
-//	/**
-//	 * 
-//	 * @param userId
-//	 * @param aoiId
-//	 */
-//	public void unshareAOI(long userId, long aoiId) throws ApplicationException;
-	
-//	/**
-//	 * 
-//	 * @param aoiID
-//	 * @throws ApplicationException
-//	 */
-//	public void shareAOI(long aoiID) throws ApplicationException;
+    /**
+     * Load aoi.
+     * 
+     * @param config
+     *            the config
+     * @param searchText
+     *            the search text
+     * @return the paging load result
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public PagingLoadResult<AOI> loadAOI(PagingLoadConfig config, String searchText)
+            throws ApplicationException;
 
-	/**
-	 * 
-	 * @param aoi
-	 * @throws ApplicationException
-	 */
-	public AOI saveAOI(AOI aoi) throws ApplicationException;
+    // /**
+    // * @param config
+    // * @param userId
+    // * @return
+    // */
+    // public PagingLoadResult<AOI> getUserAOIs(PagingLoadConfig config, long userId);
 
-	/**
-	 * @param aoi
-	 * @throws ApplicationException
-	 */
-	public AOI getAOIDetail(AOI aoi) throws ApplicationException;
+    // /**
+    // *
+    // * @param userId
+    // * @param aoiId
+    // */
+    // public void unshareAOI(long userId, long aoiId) throws ApplicationException;
 
-	/**
-	 * @param aoiId
-	 * @throws ApplicationException
-	 */
-	public void deleteAOI(long aoiId) throws ApplicationException;
+    // /**
+    // *
+    // * @param aoiID
+    // * @throws ApplicationException
+    // */
+    // public void shareAOI(long aoiID) throws ApplicationException;
 
-	/**
-	 * @param aoi
-	 * @param callback
-	 * @return AOI
-	 */
-	public AOI updateAOI(AOI aoi) throws ApplicationException;
-	
-	/**
-	 * @param aoiId
-	 * @return
-	 * @throws ApplicationException
-	 */
-	public AOI getWatchAOIDetails(long aoiId) throws ApplicationException;
+    /**
+     * Save aoi.
+     * 
+     * @param aoi
+     *            the aoi
+     * @return the aOI
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public AOI saveAOI(AOI aoi) throws ApplicationException;
+
+    /**
+     * Gets the aOI detail.
+     * 
+     * @param aoi
+     *            the aoi
+     * @return the aOI detail
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public AOI getAOIDetail(AOI aoi) throws ApplicationException;
+
+    /**
+     * Delete aoi.
+     * 
+     * @param aoiId
+     *            the aoi id
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public void deleteAOI(long aoiId) throws ApplicationException;
+
+    /**
+     * Update aoi.
+     * 
+     * @param aoi
+     *            the aoi
+     * @return the aOI
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public AOI updateAOI(AOI aoi) throws ApplicationException;
+
+    /**
+     * Gets the watch aoi details.
+     * 
+     * @param aoiId
+     *            the aoi id
+     * @return the watch aoi details
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public AOI getWatchAOIDetails(long aoiId) throws ApplicationException;
 
 }

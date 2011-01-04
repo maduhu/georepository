@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.LoginRemote,v. 0.1 08/lug/2010 11.00.39 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 11.00.39 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.LoginRemote,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,121 +29,134 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.User;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Interface LoginRemote.
  */
 public interface LoginRemote extends RemoteService {
 
-	public static class Util {
-		private static LoginRemoteAsync instance;
+    /**
+     * The Class Util.
+     */
+    public static class Util {
 
-		public static LoginRemoteAsync getInstance() {
-			if (instance == null) {
-				instance = (LoginRemoteAsync) GWT.create(LoginRemote.class);
-				ServiceDefTarget target = (ServiceDefTarget) instance;
-				target.setServiceEntryPoint(GWT.getModuleBaseURL()
-						+ "LoginRemote");
-			}
-			return instance;
-		}
-	}
+        /** The instance. */
+        private static LoginRemoteAsync instance;
 
-	/**
-	 * 
-	 * @param userName
-	 * @param password
-	 * @return User
-	 */
-	public User authenticate(String userName, String password)
-			throws ApplicationException;
+        /**
+         * Gets the single instance of Util.
+         * 
+         * @return single instance of Util
+         */
+        public static LoginRemoteAsync getInstance() {
+            if (instance == null) {
+                instance = (LoginRemoteAsync) GWT.create(LoginRemote.class);
+                ServiceDefTarget target = (ServiceDefTarget) instance;
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "LoginRemote");
+            }
+            return instance;
+        }
+    }
 
-//	/**
-//	 *
-//	 * @param config
-//	 * @return PagingLoadResult<User
-//	 * @throws ApplicationException
-//	 *
-//	 *             Serach Users filtering by Username
-//	 *
-//	 */
-//	public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
-//			String serchText) throws ApplicationException;
-//
-//	/**
-//	 *
-//	 * @param config
-//	 * @return PagingLoadResult<User>
-//	 * @throws ApplicationException
-//	 */
-//	// public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
-//	// throws ApplicationException;
-//
-//	/**
-//	 *
-//	 * @param user
-//	 * @return
-//	 * @throws ApplicationException
-//	 */
-//	public User saveUser(User user) throws ApplicationException;
-//
-//	/**
-//	 *
-//	 * @param userId
-//	 * @throws ApplicationException
-//	 */
-//	public void deleteUser(Long userId) throws ApplicationException;
-//
-//	/**
-//	 *
-//	 * @param user
-//	 * @return
-//	 */
-//	public User updateUser(User user);
-//
-//	/**
-//	 *
-//	 * @param userId
-//	 * @return
-//	 * @throws ApplicationException
-//	 */
-//	public User getUserDetail(User user) throws ApplicationException;
-//
-//	/**
-//	 * @return a List<String> that represented the couple Key - UserName
-//	 */
-//	public List<RegUser> findUserNames() throws ApplicationException;
+    /**
+     * Authenticate.
+     * 
+     * @param userName
+     *            the user name
+     * @param password
+     *            the password
+     * @return the user
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public User authenticate(String userName, String password) throws ApplicationException;
 
-	/**
-	 * Logout
-	 */
-	public void logout();
+    // /**
+    // *
+    // * @param config
+    // * @return PagingLoadResult<User
+    // * @throws ApplicationException
+    // *
+    // * Serach Users filtering by Username
+    // *
+    // */
+    // public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
+    // String serchText) throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param config
+    // * @return PagingLoadResult<User>
+    // * @throws ApplicationException
+    // */
+    // // public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
+    // // throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param user
+    // * @return
+    // * @throws ApplicationException
+    // */
+    // public User saveUser(User user) throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @throws ApplicationException
+    // */
+    // public void deleteUser(Long userId) throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param user
+    // * @return
+    // */
+    // public User updateUser(User user);
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @return
+    // * @throws ApplicationException
+    // */
+    // public User getUserDetail(User user) throws ApplicationException;
+    //
+    // /**
+    // * @return a List<String> that represented the couple Key - UserName
+    // */
+    // public List<RegUser> findUserNames() throws ApplicationException;
 
-//	/**
-//	 *
-//	 * @param config
-//	 * @param aoiId
-//	 * @return PagingLoadResult<User>
-//	 *
-//	 * @throws ApplicationException
-//	 *
-//	 *             Search Users that have UserPref on the AOI
-//	 */
-//	public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
-//			long aoiID) throws ApplicationException;
-//
-//	/**
-//	 *
-//	 * @param aoiId
-//	 * @return
-//	 */
-//	public int getRelatedUsersCount(long aoiId);
+    /**
+     * Logout.
+     */
+    public void logout();
+
+    // /**
+    // *
+    // * @param config
+    // * @param aoiId
+    // * @return PagingLoadResult<User>
+    // *
+    // * @throws ApplicationException
+    // *
+    // * Search Users that have UserPref on the AOI
+    // */
+    // public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
+    // long aoiID) throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param aoiId
+    // * @return
+    // */
+    // public int getRelatedUsersCount(long aoiId);
 
 }

@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.server.service.IMembersService,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -25,44 +29,52 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
+import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.Member;
+
 import javax.servlet.http.HttpSession;
 
-import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.DistributionNode;
-import it.geosolutions.georepo.gui.client.model.GeoConstraint;
-import it.geosolutions.georepo.gui.client.model.Member;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
-import java.util.List;
-
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia Di Pisa
- *
+ * The Interface IMembersService.
  */
 public interface IMembersService {
 
-	/**
-	 * @param config
-	 * @param searchText
-	 * @return
-	 * @throws ApplicationException
-	 */
-	public PagingLoadResult<Member> loadMembers(HttpSession session, PagingLoadConfig config,
-			String searchText) throws ApplicationException;
+    /**
+     * Load members.
+     * 
+     * @param session
+     *            the session
+     * @param config
+     *            the config
+     * @param searchText
+     *            the search text
+     * @return the paging load result
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public PagingLoadResult<Member> loadMembers(HttpSession session, PagingLoadConfig config,
+            String searchText) throws ApplicationException;
 
-//    public PagingLoadResult<GeoConstraint> getGeoConstraints(HttpSession session, PagingLoadConfig config,
-//			GeoConstraint searchCriteria);
-//
-//    public PagingLoadResult<GeoConstraint> getMemberGeoConstraints(HttpSession session, PagingLoadConfig config,
-//			String connectId);
-//
-//    public GeoConstraint saveGeoConstraint(HttpSession session, GeoConstraint geoConstraint);
-//
-//    public void removeGeoConstraint(HttpSession session, GeoConstraint geoConstraint);
-//
-//    public GeoConstraint saveMemberGeoConstraint(HttpSession session, String connectId, GeoConstraint geoConstraint);
-//
-//    public void removeMemberGeoConstraint(HttpSession session, String connectId, GeoConstraint geoConstraint);
+    // public PagingLoadResult<GeoConstraint> getGeoConstraints(HttpSession session,
+    // PagingLoadConfig config,
+    // GeoConstraint searchCriteria);
+    //
+    // public PagingLoadResult<GeoConstraint> getMemberGeoConstraints(HttpSession session,
+    // PagingLoadConfig config,
+    // String connectId);
+    //
+    // public GeoConstraint saveGeoConstraint(HttpSession session, GeoConstraint geoConstraint);
+    //
+    // public void removeGeoConstraint(HttpSession session, GeoConstraint geoConstraint);
+    //
+    // public GeoConstraint saveMemberGeoConstraint(HttpSession session, String connectId,
+    // GeoConstraint geoConstraint);
+    //
+    // public void removeMemberGeoConstraint(HttpSession session, String connectId, GeoConstraint
+    // geoConstraint);
 
 }

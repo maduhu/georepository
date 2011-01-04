@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.server.service.IStartupService,v. 0.1 09/lug/2010 11.31.55 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.31.55 $
+ * $ Header: it.geosolutions.georepo.gui.server.service.IStartupService,v. 0.1 3-gen-2011 17.05.06 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.05.06 $
  *
  * ====================================================================
  *
@@ -31,12 +31,17 @@ package it.geosolutions.georepo.gui.server.service;
 
 import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Interface IStartupService.
  */
 public interface IStartupService {
-	
-	 public DGWATCHGlobalConfiguration initServerConfiguration();
+
+    /**
+     * Inits the server configuration.
+     * 
+     * @return the dGWATCH global configuration
+     */
+    public DGWATCHGlobalConfiguration initServerConfiguration();
 
 }

@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.tab.WatchTabItem,v. 0.1 3-gen-2011 16.58.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.58.12 $
  *
  * ====================================================================
  *
@@ -29,34 +32,40 @@ package it.geosolutions.georepo.gui.client.widget.tab;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.service.WatchServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.WatchGridManagementWidget;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class WatchTabItem.
  */
 public class WatchTabItem extends TabItem {
 
-	private WatchGridManagementWidget watchGridManagementWidget;
+    /** The watch grid management widget. */
+    private WatchGridManagementWidget watchGridManagementWidget;
 
-	/**
-	 * 
-	 * @param service
-	 */
-	public WatchTabItem(WatchServiceRemoteAsync service) {
-		super(I18nProvider.getMessages().availableWatchLabel());
-		this.watchGridManagementWidget = new WatchGridManagementWidget(service);
-		add(watchGridManagementWidget);
+    /**
+     * Instantiates a new watch tab item.
+     * 
+     * @param service
+     *            the service
+     */
+    public WatchTabItem(WatchServiceRemoteAsync service) {
+        super(I18nProvider.getMessages().availableWatchLabel());
+        this.watchGridManagementWidget = new WatchGridManagementWidget(service);
+        add(watchGridManagementWidget);
 
-		setScrollMode(Scroll.NONE);
-	}
+        setScrollMode(Scroll.NONE);
+    }
 
-	/**
-	 * @return the aoiManagementWidget
-	 */
-	public WatchGridManagementWidget getWatchGridManagementWidget() {
-		return watchGridManagementWidget;
-	}
+    /**
+     * Gets the watch grid management widget.
+     * 
+     * @return the watch grid management widget
+     */
+    public WatchGridManagementWidget getWatchGridManagementWidget() {
+        return watchGridManagementWidget;
+    }
 
 }

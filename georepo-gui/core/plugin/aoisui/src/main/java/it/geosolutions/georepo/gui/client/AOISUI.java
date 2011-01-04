@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.AOISUI,v. 0.1 08/lug/2010 10.04.22 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 10.04.22 $
+ * $ Header: it.geosolutions.georepo.gui.client.AOISUI,v. 0.1 3-gen-2011 16.15.58 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.15.58 $
  *
  * ====================================================================
  *
@@ -33,28 +33,35 @@ import it.geosolutions.georepo.gui.client.mvc.AOISController;
 import it.geosolutions.georepo.gui.client.mvc.FilterController;
 import it.geosolutions.georepo.gui.client.mvc.MapController;
 import it.geosolutions.georepo.gui.client.mvc.WatchesController;
+
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.EntryPoint;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class AOISUI.
  */
 public class AOISUI implements EntryPoint {
 
-	private Dispatcher dispatcher;
+    /** The dispatcher. */
+    private Dispatcher dispatcher;
 
-	public void onModuleLoad() {
-		dispatcher = Dispatcher.get();
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
+     */
+    public void onModuleLoad() {
+        dispatcher = Dispatcher.get();
 
-		dispatcher.addController(new MapController());
-		dispatcher.addController(new AOISController());
-//		dispatcher.addController(new FeatureController());
-		dispatcher.addController(new FilterController());
-		dispatcher.addController(new WatchesController());
+        dispatcher.addController(new MapController());
+        dispatcher.addController(new AOISController());
+        // dispatcher.addController(new FeatureController());
+        dispatcher.addController(new FilterController());
+        dispatcher.addController(new WatchesController());
 
-		dispatcher.dispatch(DGWATCHEvents.INIT_AOIS_UI_MODULE);
+        dispatcher.dispatch(DGWATCHEvents.INIT_AOIS_UI_MODULE);
 
-	}
+    }
 
 }

@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.MemberInfoBindingWidget,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -30,6 +34,7 @@ import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Member;
 import it.geosolutions.georepo.gui.client.model.MemberKeyValue;
+
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
@@ -43,175 +48,199 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia Di Pisa
- *
+ * The Class MemberInfoBindingWidget.
  */
-public class MemberInfoBindingWidget  extends DGWATCHBindingWidget<Member> {
+public class MemberInfoBindingWidget extends DGWATCHBindingWidget<Member> {
 
-	private FormData formData;
+    /** The form data. */
+    private FormData formData;
 
-	private LabelField memberName;
-	private LabelField memberUI;
+    /** The member name. */
+    private LabelField memberName;
 
-	private Button searchMember;
-	private Button showWatches;
-	
-	private boolean selected;
+    /** The member ui. */
+    private LabelField memberUI;
 
-	/**
-	 * 
-	 */
-	public MemberInfoBindingWidget() {
-		this.init();
-	}
+    /** The search member. */
+    private Button searchMember;
 
-	/**
-	 * 
-	 */
-	private void init() {
-		formData = new FormData("-20");
-		formPanel = createFormPanel();
-		formBinding = new FormBinding(formPanel, true);
-	}
+    /** The show watches. */
+    private Button showWatches;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#
-	 * createFormPanel()
-	 */
-	@Override
+    /** The selected. */
+    private boolean selected;
+
+    /**
+     * Instantiates a new member info binding widget.
+     */
+    public MemberInfoBindingWidget() {
+        this.init();
+    }
+
+    /**
+     * Inits the.
+     */
+    private void init() {
+        formData = new FormData("-20");
+        formPanel = createFormPanel();
+        formBinding = new FormBinding(formPanel, true);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget# createFormPanel()
+     */
+    @Override
     public FormPanel createFormPanel() {
-		FormPanel fp = new FormPanel();
-		fp.setFrame(true);
-		fp.setHeaderVisible(false);
+        FormPanel fp = new FormPanel();
+        fp.setFrame(true);
+        fp.setHeaderVisible(false);
 
-		FieldSet fieldSet = new FieldSet();
-		fieldSet.setHeading(I18nProvider.getMessages().memberInfo());
-		fieldSet.setCheckboxToggle(false);
-		fieldSet.setCollapsible(false);
+        FieldSet fieldSet = new FieldSet();
+        fieldSet.setHeading(I18nProvider.getMessages().memberInfo());
+        fieldSet.setCheckboxToggle(false);
+        fieldSet.setCollapsible(false);
 
-		FormLayout layout = new FormLayout();
-		fieldSet.setLayout(layout);
+        FormLayout layout = new FormLayout();
+        fieldSet.setLayout(layout);
 
-		memberName = new LabelField();
-		memberName.setId(MemberKeyValue.MEMBER_NAME.getValue());
-		memberName.setName(MemberKeyValue.MEMBER_NAME.getValue());
-		memberName.setWidth(150);
-		memberName.setFieldLabel(I18nProvider.getMessages().memberName());
+        memberName = new LabelField();
+        memberName.setId(MemberKeyValue.MEMBER_NAME.getValue());
+        memberName.setName(MemberKeyValue.MEMBER_NAME.getValue());
+        memberName.setWidth(150);
+        memberName.setFieldLabel(I18nProvider.getMessages().memberName());
 
-		fieldSet.add(memberName, formData);
+        fieldSet.add(memberName, formData);
 
-		memberUI = new LabelField();
-		memberUI.setId(MemberKeyValue.MEMBER_UID.getValue());
-		memberUI.setName(MemberKeyValue.MEMBER_UID.getValue());
-		memberUI.setWidth(150);
-		memberUI.setFieldLabel(I18nProvider.getMessages().memberUID());
+        memberUI = new LabelField();
+        memberUI.setId(MemberKeyValue.MEMBER_UID.getValue());
+        memberUI.setName(MemberKeyValue.MEMBER_UID.getValue());
+        memberUI.setWidth(150);
+        memberUI.setFieldLabel(I18nProvider.getMessages().memberUID());
 
-		fieldSet.add(memberUI, formData);
+        fieldSet.add(memberUI, formData);
 
-		fp.add(fieldSet);
+        fp.add(fieldSet);
 
-		FlexTable table = new FlexTable();
-		table.getElement().getStyle().setProperty("marginLeft", "60px");
+        FlexTable table = new FlexTable();
+        table.getElement().getStyle().setProperty("marginLeft", "60px");
 
-		table.setCellSpacing(8);
-		table.setCellPadding(2);
+        table.setCellSpacing(8);
+        table.setCellPadding(2);
 
-		this.searchMember = new Button(I18nProvider.getMessages().searchMember(), new SelectionListener<ButtonEvent>() {
+        this.searchMember = new Button(I18nProvider.getMessages().searchMember(),
+                new SelectionListener<ButtonEvent>() {
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher.forwardEvent(
-						DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-								I18nProvider.getMessages().searchMember(),
-								I18nProvider.getMessages().searchMemberPressed()
-						});
-				Dispatcher.forwardEvent(DGWATCHEvents.SHOW_SEARCH_MEMBER_WIDGET);
-			}
-		});
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                                I18nProvider.getMessages().searchMember(),
+                                I18nProvider.getMessages().searchMemberPressed() });
+                        Dispatcher.forwardEvent(DGWATCHEvents.SHOW_SEARCH_MEMBER_WIDGET);
+                    }
+                });
 
-		this.searchMember.setIcon(Resources.ICONS.search());
+        this.searchMember.setIcon(Resources.ICONS.search());
 
-		table.getCellFormatter().setHorizontalAlignment(1, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(1, 1, this.searchMember);
+        table.setWidget(1, 1, this.searchMember);
 
-		this.showWatches = new Button(I18nProvider.getMessages().getWatches(), new SelectionListener<ButtonEvent>() {
+        this.showWatches = new Button(I18nProvider.getMessages().getWatches(),
+                new SelectionListener<ButtonEvent>() {
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_MEMBER_WATCHES, getModel());
-			}
-		});
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_MEMBER_WATCHES, getModel());
+                    }
+                });
 
-		this.showWatches.disable();
+        this.showWatches.disable();
 
-		this.showWatches.setIcon(Resources.ICONS.getFeatures());
+        this.showWatches.setIcon(Resources.ICONS.getFeatures());
 
-		table.getCellFormatter().setHorizontalAlignment(1, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(1, 2, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(1, 2, this.showWatches);
-		
-		fp.add(table);
+        table.setWidget(1, 2, this.showWatches);
 
-		return fp;
-	}
+        fp.add(table);
 
-	/**
-	 * Enable Both Delete User and Update User Buttons
-	 */
-	public void enableButtons() {
-		this.showWatches.enable();
-	}
+        return fp;
+    }
 
-	/**
-	 * Disable Both Show Button
-	 */
-	public void disableButtons() {
-		this.showWatches.disable();
-	}
+    /**
+     * Enable buttons.
+     */
+    public void enableButtons() {
+        this.showWatches.enable();
+    }
 
+    /**
+     * Disable buttons.
+     */
+    public void disableButtons() {
+        this.showWatches.disable();
+    }
+
+    /**
+     * Show get watches button.
+     */
     public void showGetWatchesButton() {
         this.showWatches.show();
     }
 
+    /**
+     * Hide get watches button.
+     */
     public void hideGetWatchesButton() {
         this.showWatches.hide();
     }
 
+    /**
+     * Show search button.
+     */
     public void showSearchButton() {
         this.searchMember.show();
     }
 
+    /**
+     * Hide search button.
+     */
     public void hideSearchButton() {
         this.searchMember.hide();
     }
 
-	/* (non-Javadoc)
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel()
-	 */
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel()
+     */
+    @Override
     public void unBindModel() {
-		super.unBindModel();
-		disableButtons();
-	}
+        super.unBindModel();
+        disableButtons();
+    }
 
-	/**
-	 * @return the selected
-	 */
-	public boolean isSelected() {
-		return selected;
-	}
+    /**
+     * Checks if is selected.
+     * 
+     * @return true, if is selected
+     */
+    public boolean isSelected() {
+        return selected;
+    }
 
-	/**
-	 * @param selected the selected to set
-	 */
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
-	
+    /**
+     * Sets the selected.
+     * 
+     * @param selected
+     *            the new selected
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
 }

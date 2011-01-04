@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.model.Member,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -27,64 +31,93 @@ package it.geosolutions.georepo.gui.client.model;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia Di Pisa
- *
+ * The Class Member.
  */
 public class Member extends BeanModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5410505298544767218L;
-	
-	private String memberName;
-	private String connectId;
-	private String organization;
-	
-	/**
-	 * @return the memberName
-	 */
-	public String getMemberName() {
-		return memberName;
-	}
-	
-	/**
-	 * @param memberName the memberName to set
-	 */
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
-		set(MemberKeyValue.MEMBER_NAME.getValue(), this.memberName);
-	}
-	
-	/**
-	 * @return the connectId
-	 */
-	public String getConnectId() {
-		return connectId;
-	}
-	
-	/**
-	 * @param connectId the connectId to set
-	 */
-	public void setConnectId(String connectId) {
-		this.connectId = connectId;
-		set(MemberKeyValue.MEMBER_UID.getValue(), this.connectId);
-	}
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 5410505298544767218L;
 
+    /** The member name. */
+    private String memberName;
+
+    /** The connect id. */
+    private String connectId;
+
+    /** The organization. */
+    private String organization;
+
+    /**
+     * Gets the member name.
+     * 
+     * @return the member name
+     */
+    public String getMemberName() {
+        return memberName;
+    }
+
+    /**
+     * Sets the member name.
+     * 
+     * @param memberName
+     *            the new member name
+     */
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+        set(MemberKeyValue.MEMBER_NAME.getValue(), this.memberName);
+    }
+
+    /**
+     * Gets the connect id.
+     * 
+     * @return the connect id
+     */
+    public String getConnectId() {
+        return connectId;
+    }
+
+    /**
+     * Sets the connect id.
+     * 
+     * @param connectId
+     *            the new connect id
+     */
+    public void setConnectId(String connectId) {
+        this.connectId = connectId;
+        set(MemberKeyValue.MEMBER_UID.getValue(), this.connectId);
+    }
+
+    /**
+     * Gets the organization.
+     * 
+     * @return the organization
+     */
     public String getOrganization() {
         return organization;
     }
 
+    /**
+     * Sets the organization.
+     * 
+     * @param organization
+     *            the new organization
+     */
     public void setOrganization(String organization) {
         this.organization = organization;
-		set(MemberKeyValue.MEMBER_ORG.getValue(), this.organization);
+        set(MemberKeyValue.MEMBER_ORG.getValue(), this.organization);
     }
 
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.data.BeanModel#toString()
+     */
     @Override
     public String toString() {
-        return "Member [connectId=" + connectId + ", memberName=" + memberName + ", org="+organization+"]";
+        return "Member [connectId=" + connectId + ", memberName=" + memberName + ", org="
+                + organization + "]";
     }
-	
+
 }

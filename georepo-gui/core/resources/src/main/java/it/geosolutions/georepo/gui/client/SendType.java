@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.SendType,v. 0.1 28/lug/2010 14.38.10 created by frank $
- * $Revision: 0.1 $
- * $Date: 28/lug/2010 14.38.10 $
+ * $ Header: it.geosolutions.georepo.gui.client.SendType,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -31,47 +31,73 @@ package it.geosolutions.georepo.gui.client;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class SendType.
  */
 public class SendType extends BeanModel {
 
-	public enum SendTypeEnum {
-		TYPE("type");
+    /**
+     * The Enum SendTypeEnum.
+     */
+    public enum SendTypeEnum {
 
-		private String value;
+        /** The TYPE. */
+        TYPE("type");
 
-		SendTypeEnum(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
+        /**
+         * Instantiates a new send type enum.
+         * 
+         * @param value
+         *            the value
+         */
+        SendTypeEnum(String value) {
+            this.value = value;
+        }
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6754712996337001119L;
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
 
-	/**
-	 * 
-	 */
-	public SendType(String type) {
-		setType(type);
-	}
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -6754712996337001119L;
 
-	public void setType(String type) {
-		set(SendTypeEnum.TYPE.getValue(), type);
-	}
+    /**
+     * Instantiates a new send type.
+     * 
+     * @param type
+     *            the type
+     */
+    public SendType(String type) {
+        setType(type);
+    }
 
-	public String getType() {
-		return get(SendTypeEnum.TYPE.getValue());
-	}
+    /**
+     * Sets the type.
+     * 
+     * @param type
+     *            the new type
+     */
+    public void setType(String type) {
+        set(SendTypeEnum.TYPE.getValue(), type);
+    }
+
+    /**
+     * Gets the type.
+     * 
+     * @return the type
+     */
+    public String getType() {
+        return get(SendTypeEnum.TYPE.getValue());
+    }
 
 }

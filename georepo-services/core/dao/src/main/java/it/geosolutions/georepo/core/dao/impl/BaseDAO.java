@@ -31,9 +31,9 @@ import com.trg.dao.jpa.GenericDAOImpl;
 import com.trg.search.jpa.JPASearchProcessor;
 
 /**
- *
+ * 
  * The base DAO furnish a set of methods usually used
- *
+ * 
  * @author Tobia Di Pisa (tobia.dipisa@geo-solutions.it)
  */
 @Repository
@@ -41,8 +41,9 @@ public class BaseDAO<T, ID extends Serializable> extends GenericDAOImpl<T, ID> {
 
     /**
      * EntityManager setting
-     *
-     * @param entityManager the entity manager to set
+     * 
+     * @param entityManager
+     *            the entity manager to set
      */
     @Override
     @PersistenceContext
@@ -52,8 +53,9 @@ public class BaseDAO<T, ID extends Serializable> extends GenericDAOImpl<T, ID> {
 
     /**
      * JPASearchProcessor setting
-     *
-     * @param searchProcessor the  search processor to set
+     * 
+     * @param searchProcessor
+     *            the search processor to set
      */
     @Override
     @Autowired
@@ -61,7 +63,9 @@ public class BaseDAO<T, ID extends Serializable> extends GenericDAOImpl<T, ID> {
         super.setSearchProcessor(searchProcessor);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.trg.dao.jpa.JPABaseDAO#em()
      */
     @Override

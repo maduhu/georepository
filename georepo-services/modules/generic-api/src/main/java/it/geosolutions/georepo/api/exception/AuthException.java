@@ -23,10 +23,10 @@ package it.geosolutions.georepo.api.exception;
 import javax.xml.ws.WebFault;
 
 /**
- *
+ * 
  * @author ETj (etj at geo-solutions.it)
  */
-@WebFault(name="AuthFault", faultBean="it.geosolutions.georepo.login.exception.AuthException")
+@WebFault(name = "AuthFault", faultBean = "it.geosolutions.georepo.login.exception.AuthException")
 public class AuthException extends RuntimeException {
 
     public AuthException(Throwable cause) {
@@ -43,5 +43,5 @@ public class AuthException extends RuntimeException {
 
     public AuthException() {
     }
-    
+
 }

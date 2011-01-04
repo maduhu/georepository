@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.tab.GeoRSSTabItem,v. 0.1 09/lug/2010 10.23.26 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 10.23.26 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.FeatureManagementWidget,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.56 $
  *
  * ====================================================================
  *
@@ -30,46 +30,60 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.service.FeatureServiceRemoteAsync;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FeatureManagementWidget.
+ */
 public class FeatureManagementWidget extends ContentPanel {
 
-	private FeaturePaginationGridWidget featurePagGridWidget;
+    /** The feature pag grid widget. */
+    private FeaturePaginationGridWidget featurePagGridWidget;
 
-	/**
-	 * @param service
-	 */
-	public FeatureManagementWidget(FeatureServiceRemoteAsync service) {
-		setHeaderVisible(false);
-		setFrame(true);
-		setHeight(170);
-		setLayout(new FitLayout());
-		this.featurePagGridWidget = new FeaturePaginationGridWidget(service);
+    /**
+     * Instantiates a new feature management widget.
+     * 
+     * @param service
+     *            the service
+     */
+    public FeatureManagementWidget(FeatureServiceRemoteAsync service) {
+        setHeaderVisible(false);
+        setFrame(true);
+        setHeight(170);
+        setLayout(new FitLayout());
+        this.featurePagGridWidget = new FeaturePaginationGridWidget(service);
 
-		add(this.featurePagGridWidget.getGrid());
+        add(this.featurePagGridWidget.getGrid());
 
-		super.setMonitorWindowResize(true);
+        super.setMonitorWindowResize(true);
 
-		setScrollMode(Scroll.NONE);
+        setScrollMode(Scroll.NONE);
 
-		setBottomComponent(this.featurePagGridWidget.getToolBar());
-	}
+        setBottomComponent(this.featurePagGridWidget.getToolBar());
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.widget.Component#onWindowResize(int, int)
+     */
+    @Override
+    protected void onWindowResize(int width, int height) {
+        // TODO Auto-generated method stub
+        super.setWidth(width - 5);
+        super.layout();
+    }
 
-	@Override
-	protected void onWindowResize(int width, int height) {
-		// TODO Auto-generated method stub
-		super.setWidth(width - 5);
-		super.layout();
-	}
-
-
-	/**
-	 * @return FeaturePaginationGridWidget
-	 */
-	public FeaturePaginationGridWidget getFeaturePagGridWidget() {
-		return featurePagGridWidget;
-	}
+    /**
+     * Gets the feature pag grid widget.
+     * 
+     * @return the feature pag grid widget
+     */
+    public FeaturePaginationGridWidget getFeaturePagGridWidget() {
+        return featurePagGridWidget;
+    }
 }

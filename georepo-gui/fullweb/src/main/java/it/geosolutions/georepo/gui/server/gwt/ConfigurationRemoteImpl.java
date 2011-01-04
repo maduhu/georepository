@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.server.gwt.ConfigurationRemoteImpl,v. 0.1 09/lug/2010 11.30.26 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.30.26 $
+ * $ Header: it.geosolutions.georepo.gui.server.gwt.ConfigurationRemoteImpl,v. 0.1 3-gen-2011 17.04.58 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.04.58 $
  *
  * ====================================================================
  *
@@ -29,6 +29,10 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
+import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+import it.geosolutions.georepo.gui.client.service.ConfigurationRemote;
+import it.geosolutions.georepo.gui.server.service.IStartupService;
+import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -38,52 +42,52 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
-import it.geosolutions.georepo.gui.client.service.ConfigurationRemote;
-import it.geosolutions.georepo.gui.server.service.IStartupService;
-import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class ConfigurationRemoteImpl.
  */
-public class ConfigurationRemoteImpl extends RemoteServiceServlet implements
-		ConfigurationRemote {
+public class ConfigurationRemoteImpl extends RemoteServiceServlet implements ConfigurationRemote {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6320939080552026131L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -6320939080552026131L;
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    /** The logger. */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private IStartupService startupService;
+    /** The startup service. */
+    private IStartupService startupService;
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
+     */
+    @Override
     public void init(ServletConfig config) throws ServletException {
-		super.init(config);
+        super.init(config);
 
-		ApplicationContext context = WebApplicationContextUtils
-				.getWebApplicationContext(getServletContext());
+        ApplicationContext context = WebApplicationContextUtils
+                .getWebApplicationContext(getServletContext());
 
-		ApplicationContextUtil.getInstance().setSpringContext(context);
+        ApplicationContextUtil.getInstance().setSpringContext(context);
 
-		this.startupService = (IStartupService) ApplicationContextUtil
-				.getInstance().getBean("startupService");
+        this.startupService = (IStartupService) ApplicationContextUtil.getInstance().getBean(
+                "startupService");
 
-		logger.info("SPRING CONTEXT INITIALIZED" + this.startupService);
-	}
+        logger.info("SPRING CONTEXT INITIALIZED" + this.startupService);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.service.ConfigurationRemote#
-	 * initServerConfiguration()
-	 */
-	public DGWATCHGlobalConfiguration initServerConfiguration() {
-		// TODO Auto-generated method stub
-		return startupService.initServerConfiguration();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.service.ConfigurationRemote#
+     * initServerConfiguration()
+     */
+    public DGWATCHGlobalConfiguration initServerConfiguration() {
+        // TODO Auto-generated method stub
+        return startupService.initServerConfiguration();
+    }
 
 }

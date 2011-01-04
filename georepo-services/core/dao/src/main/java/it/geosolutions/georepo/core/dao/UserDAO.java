@@ -20,10 +20,11 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import com.trg.search.ISearch;
 import it.geosolutions.georepo.core.model.User;
 
 import java.util.List;
+
+import com.trg.search.ISearch;
 
 /**
  * Public interface to define operations on Users
@@ -31,13 +32,19 @@ import java.util.List;
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 
-public interface UserDAO /*extends GenericDAO<User, Long>*/{
+public interface UserDAO /* extends GenericDAO<User, Long> */{
 
     public List<User> findAll();
-	public User find(Long id);
-	public void persist(User... user);
-	public User merge(User user);
-	public boolean remove(User user);
+
+    public User find(Long id);
+
+    public void persist(User... user);
+
+    public User merge(User user);
+
+    public boolean remove(User user);
+
     public List<User> search(ISearch search);
+
     public int count(ISearch search);
 }

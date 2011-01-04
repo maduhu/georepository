@@ -20,11 +20,12 @@
 
 package it.geosolutions.georepo.login.util;
 
+import it.geosolutions.georepo.api.dto.GrantedAuths;
+import it.geosolutions.georepo.api.exception.AuthException;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import it.geosolutions.georepo.api.dto.GrantedAuths;
-import it.geosolutions.georepo.api.exception.AuthException;
 import org.apache.log4j.Logger;
 
 /**
@@ -33,21 +34,22 @@ import org.apache.log4j.Logger;
  */
 public class SessionManager {
 
-	private final static Logger LOGGER = Logger.getLogger(SessionManager.class);
+    private final static Logger LOGGER = Logger.getLogger(SessionManager.class);
 
-	private final static int MAXSESSIONS = 100;
-	private final SessionMap activeSessions = new SessionMap(MAXSESSIONS);
+    private final static int MAXSESSIONS = 100;
+
+    private final SessionMap activeSessions = new SessionMap(MAXSESSIONS);
 
     private static class LoggedInMember {
         public GrantedAuths grantedAuths;
+
         public String username;
     }
 
     public String createSession(String username, GrantedAuths grantedAuths) {
 
-        String token = TokenEncoder.encode(username + grantedAuths.hashCode(),
-                ("" + System.nanoTime() + "" + System.currentTimeMillis())
-                        .substring(0, 16));
+        String token = TokenEncoder.encode(username + grantedAuths.hashCode(), (""
+                + System.nanoTime() + "" + System.currentTimeMillis()).substring(0, 16));
 
         LoggedInMember loggedInMember = new LoggedInMember();
         loggedInMember.grantedAuths = grantedAuths;
@@ -57,49 +59,48 @@ public class SessionManager {
         return token;
     }
 
-	public void closeSession(String token) {
-		LoggedInMember member = activeSessions.remove(token);
-		if (member == null) {
-			LOGGER.warn("Tried to close non existent session. Token " + token);
-		} else {
-            LOGGER.info("Closing session for user ["+member.username+"] token " + token);
+    public void closeSession(String token) {
+        LoggedInMember member = activeSessions.remove(token);
+        if (member == null) {
+            LOGGER.warn("Tried to close non existent session. Token " + token);
+        } else {
+            LOGGER.info("Closing session for user [" + member.username + "] token " + token);
         }
-	}
+    }
 
     public GrantedAuths getGrantedAuthorities(String token) throws AuthException {
         LoggedInMember loggedInMember = activeSessions.get(token);
         if (loggedInMember != null) {
             return loggedInMember.grantedAuths;
-        }
-        else {
+        } else {
             throw new AuthException("No active session for token " + token);
         }
     }
 
-	/**
-	 * If too many sessions, throw away the older ones. 
-     * Todo: has to be improved and made customizable.
-	 */
-	class SessionMap extends LinkedHashMap<String, LoggedInMember> {
+    /**
+     * If too many sessions, throw away the older ones. Todo: has to be improved and made
+     * customizable.
+     */
+    class SessionMap extends LinkedHashMap<String, LoggedInMember> {
 
-		private final int MAX_ENTRIES;
+        private final int MAX_ENTRIES;
 
-		public SessionMap(int maxEntries) {
-			this.MAX_ENTRIES = maxEntries;
-		}
+        public SessionMap(int maxEntries) {
+            this.MAX_ENTRIES = maxEntries;
+        }
 
-		@Override
-		protected boolean removeEldestEntry(Map.Entry eldest) {
-			if (size() > MAX_ENTRIES) {
-				LoggedInMember member = (LoggedInMember) eldest.getValue();
-				LOGGER.info("Removing stale token " + eldest.getKey()
-						+ " for member " + member.username);
-				// todo: have to logout related member?
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
+        @Override
+        protected boolean removeEldestEntry(Map.Entry eldest) {
+            if (size() > MAX_ENTRIES) {
+                LoggedInMember member = (LoggedInMember) eldest.getValue();
+                LOGGER.info("Removing stale token " + eldest.getKey() + " for member "
+                        + member.username);
+                // todo: have to logout related member?
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
 }

@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.DistribContentType,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -28,46 +31,72 @@ package it.geosolutions.georepo.gui.client;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class DistribContentType.
  */
 public class DistribContentType extends BeanModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3782585471721426981L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 3782585471721426981L;
 
-	public enum DistribContentTypeEnum {
-		TYPE("distribContentType");
+    /**
+     * The Enum DistribContentTypeEnum.
+     */
+    public enum DistribContentTypeEnum {
 
-		private String value;
+        /** The TYPE. */
+        TYPE("distribContentType");
 
-		DistribContentTypeEnum(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
+        /**
+         * Instantiates a new distrib content type enum.
+         * 
+         * @param value
+         *            the value
+         */
+        DistribContentTypeEnum(String value) {
+            this.value = value;
+        }
 
-	/**
-	 * 
-	 */
-	public DistribContentType(String time) {
-		setType(time);
-	}
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
 
-	public void setType(String time) {
-		set(DistribContentTypeEnum.TYPE.getValue(), time);
-	}
+    /**
+     * Instantiates a new distrib content type.
+     * 
+     * @param time
+     *            the time
+     */
+    public DistribContentType(String time) {
+        setType(time);
+    }
 
-	public String getType() {
-		return get(DistribContentTypeEnum.TYPE.getValue());
-	}
+    /**
+     * Sets the type.
+     * 
+     * @param time
+     *            the new type
+     */
+    public void setType(String time) {
+        set(DistribContentTypeEnum.TYPE.getValue(), time);
+    }
+
+    /**
+     * Gets the type.
+     * 
+     * @return the type
+     */
+    public String getType() {
+        return get(DistribContentTypeEnum.TYPE.getValue());
+    }
 }

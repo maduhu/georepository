@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.UserSearchWidget,v. 0.1 28/lug/2010 14.11.17 created by frank $
- * $Revision: 0.1 $
- * $Date: 28/lug/2010 14.11.17 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserSearchComponent,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -30,6 +30,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
@@ -39,68 +40,75 @@ import com.extjs.gxt.ui.client.widget.button.ButtonBar;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
-import com.extjs.gxt.ui.client.widget.layout.LayoutData;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class UserSearchComponent.
  */
 public class UserSearchComponent {
 
-	private FormPanel formPanel;
-	private Button search;
+    /** The form panel. */
+    private FormPanel formPanel;
 
-	/**
-	 * 
-	 */
-	public UserSearchComponent() {
-		this.createFormPanel();
-	}
+    /** The search. */
+    private Button search;
 
-	private void createFormPanel() {
-		formPanel = new FormPanel();
-		formPanel.setFrame(true);
-		formPanel.setHeaderVisible(false);
-		formPanel.setAutoHeight(true);
+    /**
+     * Instantiates a new user search component.
+     */
+    public UserSearchComponent() {
+        this.createFormPanel();
+    }
 
-		FieldSet fieldSet = new FieldSet();
-		fieldSet.setHeading("Search Management");
-		fieldSet.setCheckboxToggle(false);
-		fieldSet.setCollapsible(false);
+    /**
+     * Creates the form panel.
+     */
+    private void createFormPanel() {
+        formPanel = new FormPanel();
+        formPanel.setFrame(true);
+        formPanel.setHeaderVisible(false);
+        formPanel.setAutoHeight(true);
 
-		FormLayout layout = new FormLayout();
-		fieldSet.setLayout(layout);
+        FieldSet fieldSet = new FieldSet();
+        fieldSet.setHeading("Search Management");
+        fieldSet.setCheckboxToggle(false);
+        fieldSet.setCollapsible(false);
 
-		search = new Button("Search", new SelectionListener<ButtonEvent>() {
+        FormLayout layout = new FormLayout();
+        fieldSet.setLayout(layout);
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher.forwardEvent(DGWATCHEvents.SHOW_SEARCH_USER_WIDGET);
-			}
-		});
-		
-		ButtonBar bar = new ButtonBar();
-		bar.setAlignment(HorizontalAlignment.CENTER);
-		
-		bar.add(search);
-		
-		Button p = new Button("get AOIs");
+        search = new Button("Search", new SelectionListener<ButtonEvent>() {
 
-		Button q = new Button("get Features");
-		
-		bar.add(p);
-		bar.add(q);
-		
-		fieldSet.add(bar);
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_SEARCH_USER_WIDGET);
+            }
+        });
 
-		formPanel.add(fieldSet);
-	}
+        ButtonBar bar = new ButtonBar();
+        bar.setAlignment(HorizontalAlignment.CENTER);
 
-	/**
-	 * @return the formPanel
-	 */
-	public FormPanel getFormPanel() {
-		return formPanel;
-	}
+        bar.add(search);
+
+        Button p = new Button("get AOIs");
+
+        Button q = new Button("get Features");
+
+        bar.add(p);
+        bar.add(q);
+
+        fieldSet.add(bar);
+
+        formPanel.add(fieldSet);
+    }
+
+    /**
+     * Gets the form panel.
+     * 
+     * @return the form panel
+     */
+    public FormPanel getFormPanel() {
+        return formPanel;
+    }
 
 }

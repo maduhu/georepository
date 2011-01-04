@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.binding.DataLayerFieldBinding,v. 0.1 19/ago/2010 18.28.17 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 19/ago/2010 18.28.17 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.filtervalue.DataLayerFieldBinding,v. 0.1 3-gen-2011 16.53.47 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.53.47 $
  *
  * ====================================================================
  *
@@ -29,66 +29,89 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding.filtervalue;
 
-
 import it.geosolutions.georepo.gui.client.model.Filter;
 import it.geosolutions.georepo.gui.client.widget.binding.IFilterFieldBinding;
+
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.store.Record;
 import com.extjs.gxt.ui.client.widget.form.Field;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class DataLayerFieldBinding.
  */
-public class DataLayerFieldBinding extends FieldBinding implements
-		IFilterFieldBinding {
+public class DataLayerFieldBinding extends FieldBinding implements IFilterFieldBinding {
 
-	private Object oldValue;
+    /** The old value. */
+    private Object oldValue;
 
-	@SuppressWarnings("rawtypes")
-	public DataLayerFieldBinding(Field field, String property) {
-		super(field, property);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Instantiates a new data layer field binding.
+     * 
+     * @param field
+     *            the field
+     * @param property
+     *            the property
+     */
+    @SuppressWarnings("rawtypes")
+    public DataLayerFieldBinding(Field field, String property) {
+        super(field, property);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateField(boolean)
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateField(boolean updateOriginalValue) {
-		Object val = onConvertModelValue(model.get(property));
+    public void updateField(boolean updateOriginalValue) {
+        Object val = onConvertModelValue(model.get(property));
 
-		if (oldValue == null)
-			oldValue = val;
+        if (oldValue == null)
+            oldValue = val;
 
-		field.setValue(val);
+        field.setValue(val);
 
-		if (updateOriginalValue) {
-			field.setOriginalValue(val);
-		}
-	}
+        if (updateOriginalValue) {
+            field.setOriginalValue(val);
+        }
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateModel()
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateModel() {
-		Object val = onConvertFieldValue(field.getValue());
-		if (store != null) {
-			Record r = store.getRecord(model);
-			if (r != null) {
-				r.setValid(property, field.isValid());
-				r.set(property, val);
-			}
-		} else {
-			// model.set(property, ((SendType) val).getType());
-			((Filter) model).setDataLayer((String) val);
-		}
-	}
+    public void updateModel() {
+        Object val = onConvertFieldValue(field.getValue());
+        if (store != null) {
+            Record r = store.getRecord(model);
+            if (r != null) {
+                r.setValid(property, field.isValid());
+                r.set(property, val);
+            }
+        } else {
+            // model.set(property, ((SendType) val).getType());
+            ((Filter) model).setDataLayer((String) val);
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	public void resetValue() {
-		oldValue = onConvertFieldValue(field.getValue());
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.binding.IFilterFieldBinding#resetValue()
+     */
+    @SuppressWarnings("unchecked")
+    public void resetValue() {
+        oldValue = onConvertFieldValue(field.getValue());
 
-		field.setValue(oldValue);
+        field.setValue(oldValue);
 
-		// model.set(property, oldValue.toString());
-		((Filter) model).setDataLayer((String) oldValue);
-	}
+        // model.set(property, oldValue.toString());
+        ((Filter) model).setDataLayer((String) oldValue);
+    }
 }

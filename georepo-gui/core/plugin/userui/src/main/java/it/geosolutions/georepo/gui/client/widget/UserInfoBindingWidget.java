@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.UserInfoBindingWidget,v. 0.1 28/lug/2010 13.45.32 created by frank $
- * $Revision: 0.1 $
- * $Date: 28/lug/2010 13.45.32 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserInfoBindingWidget,v. 0.1 3-gen-2011 17.06.53 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.53 $
  *
  * ====================================================================
  *
@@ -33,6 +33,7 @@ import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.User;
+
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -50,293 +51,290 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class UserInfoBindingWidget.
  */
 public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
 
-	private FormData formData;
+    /** The form data. */
+    private FormData formData;
 
-	private LabelField userName;
-	private LabelField email;
-	private CheckBox emailEnable;
-	private CheckBox rssEnable;
-	private CheckBox reducedContent;
-	private CheckBox userEnabled;
+    /** The user name. */
+    private LabelField userName;
 
-	private Button newUser;
-	private Button updateUser;
-	private Button deleteUser;
-	private Button search;
-	private Button getAOIs;
+    /** The email. */
+    private LabelField email;
 
-	private Button getFeatures;
+    /** The email enable. */
+    private CheckBox emailEnable;
 
-	/**
-	 * 
-	 */
-	public UserInfoBindingWidget() {
-		this.init();
-	}
+    /** The rss enable. */
+    private CheckBox rssEnable;
 
-	private void init() {
-		formData = new FormData("-20");
-		formPanel = createFormPanel();
-		formBinding = new FormBinding(formPanel, true);
-	}
+    /** The reduced content. */
+    private CheckBox reducedContent;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#
-	 * createFormPanel()
-	 */
-	@Override
+    /** The user enabled. */
+    private CheckBox userEnabled;
+
+    /** The new user. */
+    private Button newUser;
+
+    /** The update user. */
+    private Button updateUser;
+
+    /** The delete user. */
+    private Button deleteUser;
+
+    /** The search. */
+    private Button search;
+
+    /** The get ao is. */
+    private Button getAOIs;
+
+    /** The get features. */
+    private Button getFeatures;
+
+    /**
+     * Instantiates a new user info binding widget.
+     */
+    public UserInfoBindingWidget() {
+        this.init();
+    }
+
+    /**
+     * Inits the.
+     */
+    private void init() {
+        formData = new FormData("-20");
+        formPanel = createFormPanel();
+        formBinding = new FormBinding(formPanel, true);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget# createFormPanel()
+     */
+    @Override
     public FormPanel createFormPanel() {
-		FormPanel fp = new FormPanel();
-		fp.setFrame(true);
-		fp.setHeaderVisible(false);
+        FormPanel fp = new FormPanel();
+        fp.setFrame(true);
+        fp.setHeaderVisible(false);
 
-		FieldSet fieldSet = new FieldSet();
-		fieldSet.setHeading("User Info");
-		fieldSet.setCheckboxToggle(false);
-		fieldSet.setCollapsible(false);
+        FieldSet fieldSet = new FieldSet();
+        fieldSet.setHeading("User Info");
+        fieldSet.setCheckboxToggle(false);
+        fieldSet.setCollapsible(false);
 
-		FormLayout layout = new FormLayout();
-		fieldSet.setLayout(layout);
+        FormLayout layout = new FormLayout();
+        fieldSet.setLayout(layout);
 
-		userName = new LabelField();
-		userName.setId(BeanKeyValue.USER_NAME.getValue());
-		userName.setName(BeanKeyValue.USER_NAME.getValue());
-		userName.setWidth(150);
-		userName.setFieldLabel("User name");
+        userName = new LabelField();
+        userName.setId(BeanKeyValue.USER_NAME.getValue());
+        userName.setName(BeanKeyValue.USER_NAME.getValue());
+        userName.setWidth(150);
+        userName.setFieldLabel("User name");
 
-		fieldSet.add(userName, formData);
+        fieldSet.add(userName, formData);
 
-		email = new LabelField();
-		email.setId(BeanKeyValue.EMAIL.getValue());
-		email.setName(BeanKeyValue.EMAIL.getValue());
-		email.setWidth(150);
-		email.setFieldLabel("Mail");
+        email = new LabelField();
+        email.setId(BeanKeyValue.EMAIL.getValue());
+        email.setName(BeanKeyValue.EMAIL.getValue());
+        email.setWidth(150);
+        email.setFieldLabel("Mail");
 
-		fieldSet.add(email, formData);
+        fieldSet.add(email, formData);
 
-		emailEnable = new CheckBox();
-		emailEnable.setId(BeanKeyValue.EMAIL_ENABLE.getValue());
-		emailEnable.setName(BeanKeyValue.EMAIL_ENABLE.getValue());
-		emailEnable.setFieldLabel("Email enable");
-		emailEnable.setWidth(150);
-		emailEnable.setEnabled(false);
+        emailEnable = new CheckBox();
+        emailEnable.setId(BeanKeyValue.EMAIL_ENABLE.getValue());
+        emailEnable.setName(BeanKeyValue.EMAIL_ENABLE.getValue());
+        emailEnable.setFieldLabel("Email enable");
+        emailEnable.setWidth(150);
+        emailEnable.setEnabled(false);
 
-		fieldSet.add(emailEnable, formData);
+        fieldSet.add(emailEnable, formData);
 
-		rssEnable = new CheckBox();
-		rssEnable.setId(BeanKeyValue.RSS_ENABLE.getValue());
-		rssEnable.setName(BeanKeyValue.RSS_ENABLE.getValue());
-		rssEnable.setFieldLabel("Rss enable");
-		rssEnable.setWidth(150);
-		rssEnable.setEnabled(false);
+        rssEnable = new CheckBox();
+        rssEnable.setId(BeanKeyValue.RSS_ENABLE.getValue());
+        rssEnable.setName(BeanKeyValue.RSS_ENABLE.getValue());
+        rssEnable.setFieldLabel("Rss enable");
+        rssEnable.setWidth(150);
+        rssEnable.setEnabled(false);
 
-		fieldSet.add(rssEnable, formData);
+        fieldSet.add(rssEnable, formData);
 
-		reducedContent = new CheckBox();
-		reducedContent.setId(BeanKeyValue.REDUCED_CONTENT.getValue());
-		reducedContent.setName(BeanKeyValue.REDUCED_CONTENT.getValue());
-		reducedContent.setFieldLabel("Hide Attributions");
-		reducedContent.setWidth(150);
-		reducedContent.setEnabled(false);
+        reducedContent = new CheckBox();
+        reducedContent.setId(BeanKeyValue.REDUCED_CONTENT.getValue());
+        reducedContent.setName(BeanKeyValue.REDUCED_CONTENT.getValue());
+        reducedContent.setFieldLabel("Hide Attributions");
+        reducedContent.setWidth(150);
+        reducedContent.setEnabled(false);
 
-		fieldSet.add(reducedContent, formData);
+        fieldSet.add(reducedContent, formData);
 
-		userEnabled = new CheckBox();
-		userEnabled.setId(BeanKeyValue.USER_ENABLED.getValue());
-		userEnabled.setName(BeanKeyValue.USER_ENABLED.getValue());
-		userEnabled.setFieldLabel("User enabled");
-		userEnabled.setWidth(150);
-		userEnabled.setEnabled(false);
+        userEnabled = new CheckBox();
+        userEnabled.setId(BeanKeyValue.USER_ENABLED.getValue());
+        userEnabled.setName(BeanKeyValue.USER_ENABLED.getValue());
+        userEnabled.setFieldLabel("User enabled");
+        userEnabled.setWidth(150);
+        userEnabled.setEnabled(false);
 
-		fieldSet.add(userEnabled, formData);
+        fieldSet.add(userEnabled, formData);
 
-		fp.add(fieldSet);
+        fp.add(fieldSet);
 
-		FlexTable table = new FlexTable();
-		table.getElement().getStyle().setProperty("marginLeft", "60px");
+        FlexTable table = new FlexTable();
+        table.getElement().getStyle().setProperty("marginLeft", "60px");
 
-		table.setCellSpacing(8);
-		table.setCellPadding(4);
+        table.setCellSpacing(8);
+        table.setCellPadding(4);
 
-		this.newUser = new Button("New", new SelectionListener<ButtonEvent>() {
+        this.newUser = new Button("New", new SelectionListener<ButtonEvent>() {
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher
-						.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-								new String[] { "Add User",
-										"Add User botton pressed." });
-				Dispatcher.forwardEvent(DGWATCHEvents.SHOW_ADD_USER_WIDGET);
-			}
-		});
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] { "Add User",
+                        "Add User botton pressed." });
+                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_ADD_USER_WIDGET);
+            }
+        });
 
-		this.newUser.setIcon(Resources.ICONS.userAdd());
+        this.newUser.setIcon(Resources.ICONS.userAdd());
 
-		table.getCellFormatter().setHorizontalAlignment(1, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(1, 1, this.newUser);
+        table.setWidget(1, 1, this.newUser);
 
-		this.deleteUser = new Button("Delete",
-				new SelectionListener<ButtonEvent>() {
+        this.deleteUser = new Button("Delete", new SelectionListener<ButtonEvent>() {
 
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						Dispatcher.forwardEvent(
-								DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-										"Delete User",
-										"Delete User button pressed." });
-						MessageBox.confirm("Delete User",
-								"Are you sure to delete user "
-										+ getModel().getUserName() + " ?",
-								new Listener<MessageBoxEvent>() {
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                        "Delete User", "Delete User button pressed." });
+                MessageBox.confirm("Delete User", "Are you sure to delete user "
+                        + getModel().getUserName() + " ?", new Listener<MessageBoxEvent>() {
 
-									public void handleEvent(MessageBoxEvent be) {
-										Button btn = be.getButtonClicked();
-										if (btn.getText().equalsIgnoreCase(
-												"YES"))
-											Dispatcher.forwardEvent(
-													DGWATCHEvents.DELETE_USER,
-													getModel());
-									}
-								});
-					}
-				});
+                    public void handleEvent(MessageBoxEvent be) {
+                        Button btn = be.getButtonClicked();
+                        if (btn.getText().equalsIgnoreCase("YES"))
+                            Dispatcher.forwardEvent(DGWATCHEvents.DELETE_USER, getModel());
+                    }
+                });
+            }
+        });
 
-		this.deleteUser.disable();
+        this.deleteUser.disable();
 
-		this.deleteUser.setIcon(Resources.ICONS.userDelete());
+        this.deleteUser.setIcon(Resources.ICONS.userDelete());
 
-		table.getCellFormatter().setHorizontalAlignment(1, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(1, 2, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(1, 2, this.deleteUser);
+        table.setWidget(1, 2, this.deleteUser);
 
-		this.updateUser = new Button("Update",
-				new SelectionListener<ButtonEvent>() {
+        this.updateUser = new Button("Update", new SelectionListener<ButtonEvent>() {
 
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						Dispatcher.forwardEvent(
-								DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-										"Update User",
-										"Update User button pressed." });
-						Dispatcher.forwardEvent(
-								DGWATCHEvents.SHOW_UPDATE_USER_WIDGET,
-								getModel());
-					}
-				});
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                        "Update User", "Update User button pressed." });
+                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_UPDATE_USER_WIDGET, getModel());
+            }
+        });
 
-		this.updateUser.disable();
+        this.updateUser.disable();
 
-		this.updateUser.setIcon(Resources.ICONS.editUser());
+        this.updateUser.setIcon(Resources.ICONS.editUser());
 
-		table.getCellFormatter().setHorizontalAlignment(1, 3,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(1, 3, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(1, 3, this.updateUser);
+        table.setWidget(1, 3, this.updateUser);
 
-		this.search = new Button("Search",
-				new SelectionListener<ButtonEvent>() {
+        this.search = new Button("Search", new SelectionListener<ButtonEvent>() {
 
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						Dispatcher.forwardEvent(
-								DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-										"Search User",
-										"Search User button pressed." });
-						Dispatcher
-								.forwardEvent(DGWATCHEvents.SHOW_SEARCH_USER_WIDGET);
-					}
-				});
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                        "Search User", "Search User button pressed." });
+                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_SEARCH_USER_WIDGET);
+            }
+        });
 
-		search.setIcon(Resources.ICONS.search());
+        search.setIcon(Resources.ICONS.search());
 
-		table.getCellFormatter().setHorizontalAlignment(2, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(2, 1, this.search);
+        table.setWidget(2, 1, this.search);
 
-		this.getAOIs = new Button("Get AOIs",
-				new SelectionListener<ButtonEvent>() {
+        this.getAOIs = new Button("Get AOIs", new SelectionListener<ButtonEvent>() {
 
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						Dispatcher.forwardEvent(
-								DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-										"Get AOI", "Get AOI button pressed." });
-						Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_USER_AOI,
-								getModel());
-					}
-				});
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] { "Get AOI",
+                        "Get AOI button pressed." });
+                Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_USER_AOI, getModel());
+            }
+        });
 
-		this.getAOIs.disable();
-		this.getAOIs.setIcon(Resources.ICONS.getAOIS());
+        this.getAOIs.disable();
+        this.getAOIs.setIcon(Resources.ICONS.getAOIS());
 
-		table.getCellFormatter().setHorizontalAlignment(2, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(2, 2, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(2, 2, this.getAOIs);
+        table.setWidget(2, 2, this.getAOIs);
 
-		this.getFeatures = new Button("Get Features",
-				new SelectionListener<ButtonEvent>() {
+        this.getFeatures = new Button("Get Features", new SelectionListener<ButtonEvent>() {
 
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						Dispatcher.forwardEvent(
-								DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-										"Get Features",
-										"Get Features button pressed." });
-						Dispatcher.forwardEvent(
-								DGWATCHEvents.SEARCH_USER_GEORSS, getModel());
-					}
-				});
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                        "Get Features", "Get Features button pressed." });
+                Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_USER_GEORSS, getModel());
+            }
+        });
 
-		this.getFeatures.disable();
-		this.getFeatures.setIcon(Resources.ICONS.getFeatures());
+        this.getFeatures.disable();
+        this.getFeatures.setIcon(Resources.ICONS.getFeatures());
 
-		table.getCellFormatter().setHorizontalAlignment(2, 3,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.getCellFormatter().setHorizontalAlignment(2, 3, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.setWidget(2, 3, this.getFeatures);
+        table.setWidget(2, 3, this.getFeatures);
 
-		fp.add(table);
+        fp.add(table);
 
-		return fp;
-	}
+        return fp;
+    }
 
-	/**
-	 * Enable Both Delete User and Update User Buttons
-	 */
-	public void enableButtons() {
-		this.deleteUser.enable();
-		this.updateUser.enable();
-		this.getAOIs.enable();
-		this.getFeatures.enable();
-	}
+    /**
+     * Enable buttons.
+     */
+    public void enableButtons() {
+        this.deleteUser.enable();
+        this.updateUser.enable();
+        this.getAOIs.enable();
+        this.getFeatures.enable();
+    }
 
-	/**
-	 * Disable Both Delete User and Update User Buttons
-	 */
-	public void disableButtons() {
-		this.deleteUser.disable();
-		this.updateUser.disable();
-		this.getAOIs.disable();
-		this.getFeatures.disable();
-	}
+    /**
+     * Disable buttons.
+     */
+    public void disableButtons() {
+        this.deleteUser.disable();
+        this.updateUser.disable();
+        this.getAOIs.disable();
+        this.getFeatures.disable();
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel()
+     */
+    @Override
     public void unBindModel() {
-		super.unBindModel();
-		disableButtons();
-	}
+        super.unBindModel();
+        disableButtons();
+    }
 
 }

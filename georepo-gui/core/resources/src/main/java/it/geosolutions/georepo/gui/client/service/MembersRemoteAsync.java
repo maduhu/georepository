@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.service.MembersRemoteAsync,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -26,49 +30,54 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.model.Member;
+
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia Di Pisa
- *
+ * The Interface MembersRemoteAsync.
  */
 public interface MembersRemoteAsync {
 
-	/**
-	 * 
-	 * @param config
-	 * @param callback
-	 */
+    /**
+     * Load members.
+     * 
+     * @param config
+     *            the config
+     * @param searchText
+     *            the search text
+     * @param callback
+     *            the callback
+     */
     public void loadMembers(PagingLoadConfig config, String searchText,
             AsyncCallback<PagingLoadResult<Member>> callback);
 
-//    public void getGeoConstraints(PagingLoadConfig config, GeoConstraint searchCriteria,
-//            AsyncCallback<PagingLoadResult<GeoConstraint>> callback);
-//
-//    public void getMemberGeoConstraints(PagingLoadConfig config, String connectId,
-//            AsyncCallback<PagingLoadResult<GeoConstraint>> callback);
-//
-//    public void saveGeoConstraint(GeoConstraint geoConstraint,
-//            AsyncCallback<GeoConstraint> callback);
-//
-//    public void removeGeoConstraint(GeoConstraint geoConstraint,
-//            AsyncCallback<Void> callback);
-//
-//    public void saveMemberGeoConstraint(String connectId, GeoConstraint geoConstraint,
-//            AsyncCallback<GeoConstraint> callback);
-//
-//    public void removeMemberGeoConstraint(String connectId, GeoConstraint geoConstraint,
-//            AsyncCallback<Void> callback);
-//
-//    public void getSourceNodes(
-//            AsyncCallback<List<DistributionNode>> callback) throws ApplicationException;
-//
-//    public void getMemberNodes(String connectId,
-//            AsyncCallback<List<DistributionNode>> callback) throws ApplicationException;
-//
-//    public void saveMemberNodes(String connectId, List<Integer> nodeIds,
-//            AsyncCallback<Void> callback) throws ApplicationException;
+    // public void getGeoConstraints(PagingLoadConfig config, GeoConstraint searchCriteria,
+    // AsyncCallback<PagingLoadResult<GeoConstraint>> callback);
+    //
+    // public void getMemberGeoConstraints(PagingLoadConfig config, String connectId,
+    // AsyncCallback<PagingLoadResult<GeoConstraint>> callback);
+    //
+    // public void saveGeoConstraint(GeoConstraint geoConstraint,
+    // AsyncCallback<GeoConstraint> callback);
+    //
+    // public void removeGeoConstraint(GeoConstraint geoConstraint,
+    // AsyncCallback<Void> callback);
+    //
+    // public void saveMemberGeoConstraint(String connectId, GeoConstraint geoConstraint,
+    // AsyncCallback<GeoConstraint> callback);
+    //
+    // public void removeMemberGeoConstraint(String connectId, GeoConstraint geoConstraint,
+    // AsyncCallback<Void> callback);
+    //
+    // public void getSourceNodes(
+    // AsyncCallback<List<DistributionNode>> callback) throws ApplicationException;
+    //
+    // public void getMemberNodes(String connectId,
+    // AsyncCallback<List<DistributionNode>> callback) throws ApplicationException;
+    //
+    // public void saveMemberNodes(String connectId, List<Integer> nodeIds,
+    // AsyncCallback<Void> callback) throws ApplicationException;
 }

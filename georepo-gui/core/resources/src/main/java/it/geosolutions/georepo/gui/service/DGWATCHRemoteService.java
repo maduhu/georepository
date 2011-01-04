@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.service.DGWATCHRemoteService,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -29,34 +33,74 @@ import it.geosolutions.georepo.api.UserRegistry;
 import it.geosolutions.georepo.login.LoginService;
 import it.geosolutions.georepo.services.UserAdminService;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DGWATCHRemoteService.
  */
 public class DGWATCHRemoteService {
 
+    /** The login service. */
     private LoginService loginService;
+
+    /** The user admin service. */
     private UserAdminService userAdminService;
+
+    /** The user provider. */
     private UserRegistry userProvider;
 
+    /**
+     * Gets the login service.
+     * 
+     * @return the login service
+     */
     public LoginService getLoginService() {
         return loginService;
     }
 
+    /**
+     * Sets the login service.
+     * 
+     * @param loginService
+     *            the new login service
+     */
     public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
     }
 
+    /**
+     * Gets the user admin service.
+     * 
+     * @return the user admin service
+     */
     public UserAdminService getUserAdminService() {
         return userAdminService;
     }
 
+    /**
+     * Sets the user admin service.
+     * 
+     * @param userAdminService
+     *            the new user admin service
+     */
     public void setUserAdminService(UserAdminService userAdminService) {
         this.userAdminService = userAdminService;
     }
 
+    /**
+     * Gets the user provider.
+     * 
+     * @return the user provider
+     */
     public UserRegistry getUserProvider() {
         return userProvider;
     }
 
+    /**
+     * Sets the user provider.
+     * 
+     * @param userProvider
+     *            the new user provider
+     */
     public void setUserProvider(UserRegistry userProvider) {
         this.userProvider = userProvider;
     }

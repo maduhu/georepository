@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.model.AOI,v. 0.1 16/lug/2010 18.03.32 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 16/lug/2010 18.03.32 $
+ * $ Header: it.geosolutions.georepo.gui.client.model.AOI,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -33,247 +33,325 @@ import java.util.Date;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class AOI.
  */
 public class AOI extends BeanModel {
 
-	public enum AOIKeyValue {
-		ID("id"), SHARED("shared"), DATE_CREATION("dateCreation"), LAST_UPDATE(
-				"lastUpdate"), EXPIRATION("expiration"), AREA("area"), OWNER(
-				"owner"), TITLE("title"), AOI("aoi");
+    /**
+     * The Enum AOIKeyValue.
+     */
+    public enum AOIKeyValue {
 
-		private String value;
+        /** The ID. */
+        ID("id"),
+        /** The SHARED. */
+        SHARED("shared"),
+        /** The DAT e_ creation. */
+        DATE_CREATION("dateCreation"),
+        /** The LAS t_ update. */
+        LAST_UPDATE("lastUpdate"),
+        /** The EXPIRATION. */
+        EXPIRATION("expiration"),
+        /** The AREA. */
+        AREA("area"),
+        /** The OWNER. */
+        OWNER("owner"),
+        /** The TITLE. */
+        TITLE("title"),
+        /** The AOI. */
+        AOI("aoi");
 
-		AOIKeyValue(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
+        /**
+         * Instantiates a new aOI key value.
+         * 
+         * @param value
+         *            the value
+         */
+        AOIKeyValue(String value) {
+            this.value = value;
+        }
 
-	}
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -483120103393713402L;
+    }
 
-	private long id;
-	private String title;
-	private boolean shared;
-	private Date dateCreation;
-	private Date lastUpdate;
-	private Date expiration;
-	private String area;
-	private String wkt;
-	private User owner;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -483120103393713402L;
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
+    /** The id. */
+    private long id;
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-		set(AOIKeyValue.ID.getValue(), this.id);
-	}
+    /** The title. */
+    private String title;
 
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
+    /** The shared. */
+    private boolean shared;
 
-	/**
-	 * @param title
-	 *            the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-		set(AOIKeyValue.TITLE.getValue(), this.title);
-	}
+    /** The date creation. */
+    private Date dateCreation;
 
-	/**
-	 * @return the shared
-	 */
-	public boolean isShared() {
-		return shared;
-	}
+    /** The last update. */
+    private Date lastUpdate;
 
-	/**
-	 * @param shared
-	 *            the shared to set
-	 */
-	public void setShared(boolean shared) {
-		this.shared = shared;
-		set(AOIKeyValue.SHARED.getValue(), this.shared);
-	}
+    /** The expiration. */
+    private Date expiration;
 
-	/**
-	 * @return the dateCreation
-	 */
-	public Date getDateCreation() {
-		return dateCreation;
-	}
+    /** The area. */
+    private String area;
 
-	/**
-	 * @param dateCreation
-	 *            the dateCreation to set
-	 */
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-		set(AOIKeyValue.DATE_CREATION.getValue(), this.dateCreation);
-	}
+    /** The wkt. */
+    private String wkt;
 
-	/**
-	 * @return the lastUpdate
-	 */
-	public Date getLastUpdate() {
-		return lastUpdate;
-	}
+    /** The owner. */
+    private User owner;
 
-	/**
-	 * @param lastUpdate
-	 *            the lastUpdate to set
-	 */
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-		set(AOIKeyValue.LAST_UPDATE.getValue(), this.lastUpdate);
-	}
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
 
-	/**
-	 * @return the expiration
-	 */
-	public Date getExpiration() {
-		return expiration;
-	}
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(long id) {
+        this.id = id;
+        set(AOIKeyValue.ID.getValue(), this.id);
+    }
 
-	/**
-	 * @param expiration
-	 *            the expiration to set
-	 */
-	public void setExpiration(Date expiration) {
-		this.expiration = expiration;
-		set(AOIKeyValue.EXPIRATION.getValue(), this.expiration);
-	}
+    /**
+     * Gets the title.
+     * 
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	/**
-	 * @return the area
-	 */
-	public String getArea() {
-		return area;
-	}
+    /**
+     * Sets the title.
+     * 
+     * @param title
+     *            the new title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+        set(AOIKeyValue.TITLE.getValue(), this.title);
+    }
 
-	/**
-	 * @param area
-	 *            the area to set
-	 */
-	public void setArea(String area) {
-		this.area = area;
-		set(AOIKeyValue.AREA.getValue(), this.area);
-	}
+    /**
+     * Checks if is shared.
+     * 
+     * @return true, if is shared
+     */
+    public boolean isShared() {
+        return shared;
+    }
 
-	/**
-	 * @return the wkt
-	 */
-	public String getWkt() {
-		return wkt;
-	}
+    /**
+     * Sets the shared.
+     * 
+     * @param shared
+     *            the new shared
+     */
+    public void setShared(boolean shared) {
+        this.shared = shared;
+        set(AOIKeyValue.SHARED.getValue(), this.shared);
+    }
 
-	/**
-	 * @param wkt
-	 *            the wkt to set
-	 */
-	public void setWkt(String wkt) {
-		this.wkt = wkt;
-	}
+    /**
+     * Gets the date creation.
+     * 
+     * @return the date creation
+     */
+    public Date getDateCreation() {
+        return dateCreation;
+    }
 
-	/**
-	 * @return the owner
-	 */
-	public User getOwner() {
-		return owner;
-	}
+    /**
+     * Sets the date creation.
+     * 
+     * @param dateCreation
+     *            the new date creation
+     */
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+        set(AOIKeyValue.DATE_CREATION.getValue(), this.dateCreation);
+    }
 
-	/**
-	 * @param owner
-	 *            the owner to set
-	 */
-	public void setOwner(User owner) {
-		this.owner = owner;
-		set(AOIKeyValue.OWNER.getValue(), this.owner == null ? "Public AOI"
-				: this.owner.getUserName());
-	}
+    /**
+     * Gets the last update.
+     * 
+     * @return the last update
+     */
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
 
-	/**
-	 * @param aoi
-	 *            the aoi to set
-	 */
-	public void setAoi() {
-		set(AOIKeyValue.AOI.getValue(), this.id + " - " + this.title);
-	}
+    /**
+     * Sets the last update.
+     * 
+     * @param lastUpdate
+     *            the new last update
+     */
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+        set(AOIKeyValue.LAST_UPDATE.getValue(), this.lastUpdate);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
-		return result;
-	}
+    /**
+     * Gets the expiration.
+     * 
+     * @return the expiration
+     */
+    public Date getExpiration() {
+        return expiration;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AOI other = (AOI) obj;
+    /**
+     * Sets the expiration.
+     * 
+     * @param expiration
+     *            the new expiration
+     */
+    public void setExpiration(Date expiration) {
+        this.expiration = expiration;
+        set(AOIKeyValue.EXPIRATION.getValue(), this.expiration);
+    }
+
+    /**
+     * Gets the area.
+     * 
+     * @return the area
+     */
+    public String getArea() {
+        return area;
+    }
+
+    /**
+     * Sets the area.
+     * 
+     * @param area
+     *            the new area
+     */
+    public void setArea(String area) {
+        this.area = area;
+        set(AOIKeyValue.AREA.getValue(), this.area);
+    }
+
+    /**
+     * Gets the wkt.
+     * 
+     * @return the wkt
+     */
+    public String getWkt() {
+        return wkt;
+    }
+
+    /**
+     * Sets the wkt.
+     * 
+     * @param wkt
+     *            the new wkt
+     */
+    public void setWkt(String wkt) {
+        this.wkt = wkt;
+    }
+
+    /**
+     * Gets the owner.
+     * 
+     * @return the owner
+     */
+    public User getOwner() {
+        return owner;
+    }
+
+    /**
+     * Sets the owner.
+     * 
+     * @param owner
+     *            the new owner
+     */
+    public void setOwner(User owner) {
+        this.owner = owner;
+        set(AOIKeyValue.OWNER.getValue(), this.owner == null ? "Public AOI" : this.owner
+                .getUserName());
+    }
+
+    /**
+     * Sets the aoi.
+     */
+    public void setAoi() {
+        set(AOIKeyValue.AOI.getValue(), this.id + " - " + this.title);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AOI other = (AOI) obj;
         return id == other.id;
     }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "AOI [id=" + id + ", shared=" + shared + ", dateCreation="
-				+ dateCreation + ", lastUpdate=" + lastUpdate + ", expiration="
-				+ expiration + ", area=" + area + ", owner=" + owner + "]";
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "AOI [id=" + id + ", shared=" + shared + ", dateCreation=" + dateCreation
+                + ", lastUpdate=" + lastUpdate + ", expiration=" + expiration + ", area=" + area
+                + ", owner=" + owner + "]";
+    }
 
-//	public void notifyState() {
-//		if (shared)
-//			Dispatcher.forwardEvent(DGWATCHEvents.SHARE_AOI_ENABLE);
-//		else
-//			Dispatcher.forwardEvent(DGWATCHEvents.SHARE_AOI_DISABLE);
-//
-//		Dispatcher.forwardEvent(DGWATCHEvents.AOI_SELECTED, this);
-//	}
+    // public void notifyState() {
+    // if (shared)
+    // Dispatcher.forwardEvent(DGWATCHEvents.SHARE_AOI_ENABLE);
+    // else
+    // Dispatcher.forwardEvent(DGWATCHEvents.SHARE_AOI_DISABLE);
+    //
+    // Dispatcher.forwardEvent(DGWATCHEvents.AOI_SELECTED, this);
+    // }
 }

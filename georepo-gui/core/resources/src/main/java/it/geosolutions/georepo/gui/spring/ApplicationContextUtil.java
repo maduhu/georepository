@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.spring.ApplicationContextUtil,v. 0.1 09/lug/2010 11.13.53 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.13.53 $
+ * $ Header: it.geosolutions.georepo.gui.spring.ApplicationContextUtil,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -31,38 +31,56 @@ package it.geosolutions.georepo.gui.spring;
 
 import org.springframework.context.ApplicationContext;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class ApplicationContextUtil.
  */
 public class ApplicationContextUtil {
-	
-	private static ApplicationContextUtil INSTANCE;
-	private ApplicationContext springContext;
-	
 
-	public static synchronized ApplicationContextUtil getInstance() {
-		if (INSTANCE == null)
-			INSTANCE = new ApplicationContextUtil();
-		return INSTANCE;
-	}
+    /** The INSTANCE. */
+    private static ApplicationContextUtil INSTANCE;
 
-	public Object getBean(String beanName) {
-		return springContext.getBean(beanName);
-	}
+    /** The spring context. */
+    private ApplicationContext springContext;
 
-	/**
-	 * @return the springContext
-	 */
-	public ApplicationContext getSpringContext() {
-		return springContext;
-	}
+    /**
+     * Gets the single instance of ApplicationContextUtil.
+     * 
+     * @return single instance of ApplicationContextUtil
+     */
+    public static synchronized ApplicationContextUtil getInstance() {
+        if (INSTANCE == null)
+            INSTANCE = new ApplicationContextUtil();
+        return INSTANCE;
+    }
 
-	/**
-	 * @param springContext
-	 *            the springContext to set
-	 */
-	public void setSpringContext(ApplicationContext springContext) {
-		this.springContext = springContext;
-	}
+    /**
+     * Gets the bean.
+     * 
+     * @param beanName
+     *            the bean name
+     * @return the bean
+     */
+    public Object getBean(String beanName) {
+        return springContext.getBean(beanName);
+    }
+
+    /**
+     * Gets the spring context.
+     * 
+     * @return the spring context
+     */
+    public ApplicationContext getSpringContext() {
+        return springContext;
+    }
+
+    /**
+     * Sets the spring context.
+     * 
+     * @param springContext
+     *            the new spring context
+     */
+    public void setSpringContext(ApplicationContext springContext) {
+        this.springContext = springContext;
+    }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.application.LogoutAction,v. 0.1 21/set/2010 15.04.07 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 21/set/2010 15.04.07 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.application.LogoutAction,v. 0.1 3-gen-2011 16.51.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.51.33 $
  *
  * ====================================================================
  *
@@ -33,6 +33,7 @@ import it.geosolutions.georepo.gui.client.Category;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.action.ToolbarApplicationAction;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.MessageBoxEvent;
@@ -40,27 +41,35 @@ import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class LogoutAction.
  */
 public class LogoutAction extends ToolbarApplicationAction {
 
-	public LogoutAction() {
-		super(I18nProvider.getMessages().logoutTooltip(), Category.LOGOUT);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Instantiates a new logout action.
+     */
+    public LogoutAction() {
+        super(I18nProvider.getMessages().logoutTooltip(), Category.LOGOUT);
+        // TODO Auto-generated constructor stub
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent ce) {
-        MessageBox.confirm(I18nProvider.getMessages().logoutDialogTitle(),
-                I18nProvider.getMessages().logoutDialogMessage(),
-                new Listener<MessageBoxEvent>() {
+        MessageBox.confirm(I18nProvider.getMessages().logoutDialogTitle(), I18nProvider
+                .getMessages().logoutDialogMessage(), new Listener<MessageBoxEvent>() {
 
-                    public void handleEvent(MessageBoxEvent be) {
-                        Button btn = be.getButtonClicked();
-                        if (btn.getText().equalsIgnoreCase("YES"))
-                            Dispatcher.forwardEvent(DGWATCHEvents.LOGOUT);
-                    }
-                });
+            public void handleEvent(MessageBoxEvent be) {
+                Button btn = be.getButtonClicked();
+                if (btn.getText().equalsIgnoreCase("YES"))
+                    Dispatcher.forwardEvent(DGWATCHEvents.LOGOUT);
+            }
+        });
     }
 }

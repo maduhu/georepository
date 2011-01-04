@@ -19,15 +19,15 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
-import com.trg.dao.jpa.GenericDAOImpl;
 import it.geosolutions.georepo.core.dao.UserDAO;
 import it.geosolutions.georepo.core.model.User;
-import com.trg.search.ISearch;
-import java.io.Serializable;
+
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.trg.search.ISearch;
 
 /**
  * Public implementation of the UserDAO interface
@@ -35,9 +35,8 @@ import java.util.List;
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @Transactional
-public class UserDAOImpl
-        extends BaseDAO<User, Long>
-//        extends GenericDAOImpl<User, Long>
+public class UserDAOImpl extends BaseDAO<User, Long>
+// extends GenericDAOImpl<User, Long>
         implements UserDAO {
 
     final private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);

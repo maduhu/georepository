@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.mvc.MessagesView,v. 0.1 25/set/2010 16.14.01 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 25/set/2010 16.14.01 $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.MessagesView,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -30,6 +30,7 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -38,78 +39,87 @@ import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class MessagesView.
  */
 public class MessagesView extends View {
 
-	public MessagesView(Controller controller) {
-		super(controller);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Instantiates a new messages view.
+     * 
+     * @param controller
+     *            the controller
+     */
+    public MessagesView(Controller controller) {
+        super(controller);
+        // TODO Auto-generated constructor stub
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client.
-	 * mvc.AppEvent)
-	 */
-	@Override
-	protected void handleEvent(AppEvent event) {
-		// TODO Auto-generated method stub
-		if (event.getType() == DGWATCHEvents.SEND_ALERT_MESSAGE) {
-			onSendAlertMessage(event);
-			return;
-		}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client. mvc.AppEvent)
+     */
+    @Override
+    protected void handleEvent(AppEvent event) {
+        // TODO Auto-generated method stub
+        if (event.getType() == DGWATCHEvents.SEND_ALERT_MESSAGE) {
+            onSendAlertMessage(event);
+            return;
+        }
 
-		if (event.getType() == DGWATCHEvents.SEND_INFO_MESSAGE) {
-			onSendInfoMessage(event);
-			return;
-		}
+        if (event.getType() == DGWATCHEvents.SEND_INFO_MESSAGE) {
+            onSendInfoMessage(event);
+            return;
+        }
 
-		if (event.getType() == DGWATCHEvents.SEND_ERROR_MESSAGE)
-			onSendErrorMessage(event);
+        if (event.getType() == DGWATCHEvents.SEND_ERROR_MESSAGE)
+            onSendErrorMessage(event);
 
-	}
+    }
 
-	/**
-	 * 
-	 * @param event
-	 */
-	private void onSendErrorMessage(AppEvent event) {
-		String[] message = (String[]) event.getData();
-		MessageBox box = new MessageBox();
-		box.setIcon(MessageBox.ERROR);
-		box.setTitle(message[0]);
-		box.setMessage(message[1]);
-		box.show();
-	}
+    /**
+     * On send error message.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onSendErrorMessage(AppEvent event) {
+        String[] message = (String[]) event.getData();
+        MessageBox box = new MessageBox();
+        box.setIcon(MessageBox.ERROR);
+        box.setTitle(message[0]);
+        box.setMessage(message[1]);
+        box.show();
+    }
 
-	/**
-	 * 
-	 * @param event
-	 */
-	private void onSendInfoMessage(AppEvent event) {
-		String[] message = (String[]) event.getData();
-		Info.display(message[0], message[1]);
-	}
+    /**
+     * On send info message.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onSendInfoMessage(AppEvent event) {
+        String[] message = (String[]) event.getData();
+        Info.display(message[0], message[1]);
+    }
 
-	/**
-	 * 
-	 * @param event
-	 */
-	private void onSendAlertMessage(AppEvent event) {
-		String[] message = (String[]) event.getData();
-		MessageBox.alert(message[0], message[1],
-				new Listener<MessageBoxEvent>() {
+    /**
+     * On send alert message.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onSendAlertMessage(AppEvent event) {
+        String[] message = (String[]) event.getData();
+        MessageBox.alert(message[0], message[1], new Listener<MessageBoxEvent>() {
 
-					public void handleEvent(MessageBoxEvent be) {
-						// TODO Auto-generated method stub
+            public void handleEvent(MessageBoxEvent be) {
+                // TODO Auto-generated method stub
 
-					}
-				});
-	}
+            }
+        });
+    }
 
 }

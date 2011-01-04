@@ -20,7 +20,6 @@
 
 package it.geosolutions.georepo.core.model.adapter;
 
-
 import com.vividsolutions.jts.geom.MultiPolygon;
 
 /**
@@ -30,4 +29,5 @@ import com.vividsolutions.jts.geom.MultiPolygon;
  * @author etj (etj at geo-solutions.it)
  * 
  */
-public class MultiPolygonAdapter extends GeometryAdapter<MultiPolygon> {}
+public class MultiPolygonAdapter extends GeometryAdapter<MultiPolygon> {
+}

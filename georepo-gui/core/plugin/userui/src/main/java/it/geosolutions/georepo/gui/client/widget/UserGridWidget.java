@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.UserGridWidget,v. 0.1 09/lug/2010 14.38.23 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 14.38.23 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserGridWidget,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,98 +29,103 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.model.User;
-import it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class UserGridWidget.
  */
 public class UserGridWidget extends DGWATCHGridWidget<User> {
 
-	private CheckColumnConfig emailEnable;
-	private CheckColumnConfig rssEnable;
-	
-	/**
-	 * 
-	 */
-	public UserGridWidget() {
-		super();
-	}
+    /** The email enable. */
+    private CheckColumnConfig emailEnable;
 
-	/**
-	 * @param models
-	 */
-	public UserGridWidget(List<User> models) {
-		super(models);
-	}
+    /** The rss enable. */
+    private CheckColumnConfig rssEnable;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties
-	 * ()
-	 */
-	@Override
-	public void setGridProperties() {
-		grid.setAutoExpandColumn(BeanKeyValue.USER_NAME.getValue());
-		grid.addPlugin(emailEnable);
-		grid.addPlugin(rssEnable);
-	}
+    /**
+     * Instantiates a new user grid widget.
+     */
+    public UserGridWidget() {
+        super();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#
-	 * prepareColumnModel()
-	 */
-	@Override
-	public ColumnModel prepareColumnModel() {
-		List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
+    /**
+     * Instantiates a new user grid widget.
+     * 
+     * @param models
+     *            the models
+     */
+    public UserGridWidget(List<User> models) {
+        super(models);
+    }
 
-		ColumnConfig userNameColumn = new ColumnConfig();
-		userNameColumn.setId(BeanKeyValue.USER_NAME.getValue());
-		userNameColumn.setHeader("User Name");
-		userNameColumn.setWidth(80);
-		configs.add(userNameColumn);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     */
+    @Override
+    public void setGridProperties() {
+        grid.setAutoExpandColumn(BeanKeyValue.USER_NAME.getValue());
+        grid.addPlugin(emailEnable);
+        grid.addPlugin(rssEnable);
+    }
 
-		ColumnConfig emailAddress = new ColumnConfig();
-		emailAddress.setId(BeanKeyValue.EMAIL.getValue());
-		emailAddress.setHeader("Email");
-		emailAddress.setWidth(100);
-		configs.add(emailAddress);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     */
+    @Override
+    public ColumnModel prepareColumnModel() {
+        List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
-//		CellEditor checkBoxMailEditor = new CellEditor(new CheckBox());
+        ColumnConfig userNameColumn = new ColumnConfig();
+        userNameColumn.setId(BeanKeyValue.USER_NAME.getValue());
+        userNameColumn.setHeader("User Name");
+        userNameColumn.setWidth(80);
+        configs.add(userNameColumn);
 
-		emailEnable = new CheckColumnConfig(
-				BeanKeyValue.EMAIL_ENABLE.getValue(), "Mail", 60);
+        ColumnConfig emailAddress = new ColumnConfig();
+        emailAddress.setId(BeanKeyValue.EMAIL.getValue());
+        emailAddress.setHeader("Email");
+        emailAddress.setWidth(100);
+        configs.add(emailAddress);
 
-//		emailAddress.setEditor(checkBoxMailEditor);
-		configs.add(emailEnable);
+        // CellEditor checkBoxMailEditor = new CellEditor(new CheckBox());
 
-//		CellEditor checkBoxRSSEditor = new CellEditor(new CheckBox());
+        emailEnable = new CheckColumnConfig(BeanKeyValue.EMAIL_ENABLE.getValue(), "Mail", 60);
 
-		rssEnable = new CheckColumnConfig(BeanKeyValue.RSS_ENABLE.getValue(),
-				"RSS", 60);
-//		rssEnable.setEditor(checkBoxRSSEditor);
-		configs.add(rssEnable);
+        // emailAddress.setEditor(checkBoxMailEditor);
+        configs.add(emailEnable);
 
-		return new ColumnModel(configs);
-	}
+        // CellEditor checkBoxRSSEditor = new CellEditor(new CheckBox());
 
-	@Override
-	public void createStore() {
-		store = new ListStore<User>();
-	}
+        rssEnable = new CheckColumnConfig(BeanKeyValue.RSS_ENABLE.getValue(), "RSS", 60);
+        // rssEnable.setEditor(checkBoxRSSEditor);
+        configs.add(rssEnable);
+
+        return new ColumnModel(configs);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
+     */
+    @Override
+    public void createStore() {
+        store = new ListStore<User>();
+    }
 
 }

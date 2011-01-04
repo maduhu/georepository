@@ -20,19 +20,17 @@
 
 package it.geosolutions.georepo.api;
 
-import it.geosolutions.georepo.api.exception.AuthException;
 import it.geosolutions.georepo.api.dto.GrantedAuths;
+import it.geosolutions.georepo.api.exception.AuthException;
 
 /**
- * This interface should be provided by classes that bridges toward and
- * external auth source.
- * <BR>
- * Let's say we have and external LDAP service, we may want to forward login
- * requests to it.
- *
+ * This interface should be provided by classes that bridges toward and external auth source. <BR>
+ * Let's say we have and external LDAP service, we may want to forward login requests to it.
+ * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 public interface AuthProvider {
     GrantedAuths login(String username, String password) throws AuthException;
+
     void logout(String token);
 }

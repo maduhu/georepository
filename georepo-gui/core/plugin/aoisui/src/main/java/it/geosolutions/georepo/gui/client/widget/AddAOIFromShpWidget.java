@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AddAOIFromShpWidget,v. 0.1 17/ago/2010 15.24.16 created by frank $
- * $Revision: 0.1 $
- * $Date: 17/ago/2010 15.24.16 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AddAOIFromShpWidget,v. 0.1 3-gen-2011 16.52.55 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.55 $
  *
  * ====================================================================
  *
@@ -29,72 +29,90 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class AddAOIFromShpWidget.
  */
 public class AddAOIFromShpWidget extends AddGenericAOIWidget {
 
+    /**
+     * Instantiates a new adds the aoi from shp widget.
+     * 
+     * @param submitEvent
+     *            the submit event
+     * @param closeOnSubmit
+     *            the close on submit
+     */
     public AddAOIFromShpWidget(EventType submitEvent, boolean closeOnSubmit) {
         super(submitEvent, closeOnSubmit);
     }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.AddGenericAOIWidget#
-	 * addOtherComponents()
-	 */
-	@Override
-	public void addOtherComponents() {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
+     */
+    @Override
+    public void addOtherComponents() {
 
-	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#initSize()
-	 */
-	@Override
-	public void initSize() {
-		setHeading("Add AOI from SHAPE");
-		setSize(420, 250);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#initSize()
+     */
+    @Override
+    public void initSize() {
+        setHeading("Add AOI from SHAPE");
+        setSize(420, 250);
 
-	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#initSizeFormPanel
-	 * ()
-	 */
-	@Override
-	public void initSizeFormPanel() {
-		formPanel.setHeaderVisible(false);
-		formPanel.setSize(450, 200);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#initSizeFormPanel ()
+     */
+    @Override
+    public void initSizeFormPanel() {
+        formPanel.setHeaderVisible(false);
+        formPanel.setSize(450, 200);
 
-	}
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#reset()
+     */
+    @Override
     public void reset() {
-		this.resetComponents();
-	}
+        this.resetComponents();
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.AddGenericAOIWidget#resetComponents()
+     */
+    @Override
     public void resetComponents() {
-		this.aoiTitle.reset();
-		this.saveStatus.clearStatus("");
-	}
+        this.aoiTitle.reset();
+        this.saveStatus.clearStatus("");
+    }
 
-	@Override
-	public void injectEvent() {
-		Dispatcher.forwardEvent(getSubmitEvent(), this.aoi);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.AddGenericAOIWidget#injectEvent()
+     */
+    @Override
+    public void injectEvent() {
+        Dispatcher.forwardEvent(getSubmitEvent(), this.aoi);
+    }
 
 }

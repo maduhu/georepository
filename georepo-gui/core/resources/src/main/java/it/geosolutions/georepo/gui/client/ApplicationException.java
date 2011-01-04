@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.ApplicationException,v. 0.1 16/lug/2010 16.01.39 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 16/lug/2010 16.01.39 $
+ * $ Header: it.geosolutions.georepo.gui.client.ApplicationException,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
  *
  * ====================================================================
  *
@@ -31,45 +31,82 @@ package it.geosolutions.georepo.gui.client;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class ApplicationException.
  */
-public class ApplicationException extends RuntimeException implements
-		Serializable {
+public class ApplicationException extends RuntimeException implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5240255747375099784L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 5240255747375099784L;
 
-	private String message;
+    /** The message. */
+    private String message;
 
-	public ApplicationException() {
-	}
+    /**
+     * Instantiates a new application exception.
+     */
+    public ApplicationException() {
+    }
 
-	public ApplicationException(String message) {
-		this.message = message;
-	}
+    /**
+     * Instantiates a new application exception.
+     * 
+     * @param message
+     *            the message
+     */
+    public ApplicationException(String message) {
+        this.message = message;
+    }
 
+    /**
+     * Instantiates a new application exception.
+     * 
+     * @param e
+     *            the e
+     */
     public ApplicationException(Throwable e) {
         super(e);
     }
 
+    /**
+     * Instantiates a new application exception.
+     * 
+     * @param message
+     *            the message
+     * @param e
+     *            the e
+     */
     public ApplicationException(String message, Throwable e) {
         super(e);
         this.message = message;
     }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Throwable#getMessage()
+     */
+    @Override
     public String getMessage() {
-		return message;
-	}
+        return message;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    /**
+     * Sets the message.
+     * 
+     * @param message
+     *            the new message
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
+    /**
+     * Gets the detailed message.
+     * 
+     * @return the detailed message
+     */
     public String getDetailedMessage() {
         return super.getMessage();
     }

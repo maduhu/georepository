@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.ExecutedWatchesPaginationGridWidget,v. 0.1 3-gen-2011 16.52.55 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.55 $
  *
  * ====================================================================
  *
@@ -26,14 +29,15 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.ExecutedClientShortWatch;
 import it.geosolutions.georepo.gui.client.model.ExecutedClientShortWatch.ExecutedShortWatchKeyValue;
 import it.geosolutions.georepo.gui.client.service.WatchServiceRemoteAsync;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
 import com.extjs.gxt.ui.client.data.LoadEvent;
@@ -53,183 +57,196 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class ExecutedWatchesPaginationGridWidget.
  */
-public class ExecutedWatchesPaginationGridWidget  extends DGWATCHGridWidget<ExecutedClientShortWatch> {
+public class ExecutedWatchesPaginationGridWidget extends
+        DGWATCHGridWidget<ExecutedClientShortWatch> {
 
-	private WatchServiceRemoteAsync service;
-	private RpcProxy<PagingLoadResult<ExecutedClientShortWatch>> proxy;
-	private PagingLoader<PagingLoadResult<ModelData>> loader;
-	private PagingToolBar toolBar;
+    /** The service. */
+    private WatchServiceRemoteAsync service;
 
-	/**
-	 * 
-	 */
-	public ExecutedWatchesPaginationGridWidget(WatchServiceRemoteAsync service) {
-		super();
-		this.service = service;
-	}
+    /** The proxy. */
+    private RpcProxy<PagingLoadResult<ExecutedClientShortWatch>> proxy;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#
-	 * setGridProperties ()
-	 */
-	@Override
-	public void setGridProperties() {
-		grid.setAutoExpandColumn(ExecutedShortWatchKeyValue.LOG_MSG.getValue());
+    /** The loader. */
+    private PagingLoader<PagingLoadResult<ModelData>> loader;
 
-		grid.addListener(Events.CellDoubleClick, new Listener<BaseEvent>() {
+    /** The tool bar. */
+    private PagingToolBar toolBar;
 
-			public void handleEvent(BaseEvent be) {
-				
-			}
-		});
+    /**
+     * Instantiates a new executed watches pagination grid widget.
+     * 
+     * @param service
+     *            the service
+     */
+    public ExecutedWatchesPaginationGridWidget(WatchServiceRemoteAsync service) {
+        super();
+        this.service = service;
+    }
 
-		grid.setLoadMask(true);
-		grid.setAutoWidth(true);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# setGridProperties ()
+     */
+    @Override
+    public void setGridProperties() {
+        grid.setAutoExpandColumn(ExecutedShortWatchKeyValue.LOG_MSG.getValue());
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#
-	 * prepareColumnModel()
-	 */
-	@Override
-	public ColumnModel prepareColumnModel() {
-		List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
+        grid.addListener(Events.CellDoubleClick, new Listener<BaseEvent>() {
 
-		ColumnConfig logDate = new ColumnConfig();
-		logDate.setId(ExecutedShortWatchKeyValue.LOG_DATE.getValue());
-		logDate.setHeader("Log Date");
-		logDate.setWidth(100);
-		configs.add(logDate);
-		
-		ColumnConfig id = new ColumnConfig();
-		id.setId(ExecutedShortWatchKeyValue.ID.getValue());
-		id.setHeader("Watch Id");
-		id.setWidth(100);
-		configs.add(id);
+            public void handleEvent(BaseEvent be) {
 
-		ColumnConfig title = new ColumnConfig();
-		title.setId(ExecutedShortWatchKeyValue.TITLE.getValue());
-		title.setHeader("Watch Title");
-		title.setWidth(100);
-		configs.add(title);
+            }
+        });
 
-		ColumnConfig logType = new ColumnConfig();
-		logType.setId(ExecutedShortWatchKeyValue.LOG_TYPE.getValue());
-		logType.setHeader("Log Type");
-		logType.setWidth(100);
-		configs.add(logType);
-		
-		ColumnConfig logMsg = new ColumnConfig();
-		logMsg.setId(ExecutedShortWatchKeyValue.LOG_MSG.getValue());
-		logMsg.setHeader("Log Message");
-		logMsg.setWidth(100);
-		configs.add(logMsg);
-		
-		return new ColumnModel(configs);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore
-	 * ()
-	 */
-	@Override
-	public void createStore() {
-		toolBar = new PagingToolBar(25);
+        grid.setLoadMask(true);
+        grid.setAutoWidth(true);
+    }
 
-		this.proxy = new RpcProxy<PagingLoadResult<ExecutedClientShortWatch>>() {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     */
+    @Override
+    public ColumnModel prepareColumnModel() {
+        List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
-			@Override
-			protected void load(Object loadConfig,
-					AsyncCallback<PagingLoadResult<ExecutedClientShortWatch>> callback) {
-				service.getExecutedWatches((PagingLoadConfig)loadConfig, callback);
-			}
-		};
+        ColumnConfig logDate = new ColumnConfig();
+        logDate.setId(ExecutedShortWatchKeyValue.LOG_DATE.getValue());
+        logDate.setHeader("Log Date");
+        logDate.setWidth(100);
+        configs.add(logDate);
 
-		loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
+        ColumnConfig id = new ColumnConfig();
+        id.setId(ExecutedShortWatchKeyValue.ID.getValue());
+        id.setHeader("Watch Id");
+        id.setWidth(100);
+        configs.add(id);
 
-		loader.setRemoteSort(false);
+        ColumnConfig title = new ColumnConfig();
+        title.setId(ExecutedShortWatchKeyValue.TITLE.getValue());
+        title.setHeader("Watch Title");
+        title.setWidth(100);
+        configs.add(title);
 
-		store = new ListStore<ExecutedClientShortWatch>(loader);
+        ColumnConfig logType = new ColumnConfig();
+        logType.setId(ExecutedShortWatchKeyValue.LOG_TYPE.getValue());
+        logType.setHeader("Log Type");
+        logType.setWidth(100);
+        configs.add(logType);
 
-		this.toolBar.bind(loader);
+        ColumnConfig logMsg = new ColumnConfig();
+        logMsg.setId(ExecutedShortWatchKeyValue.LOG_MSG.getValue());
+        logMsg.setHeader("Log Message");
+        logMsg.setWidth(100);
+        configs.add(logMsg);
 
-		toolBar.disable();
+        return new ColumnModel(configs);
+    }
 
-		setUpLoadListener();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore ()
+     */
+    @Override
+    public void createStore() {
+        toolBar = new PagingToolBar(25);
 
-	/**
-	 * @return the loader
-	 */
-	public PagingLoader<PagingLoadResult<ModelData>> getLoader() {
-		return loader;
-	}
+        this.proxy = new RpcProxy<PagingLoadResult<ExecutedClientShortWatch>>() {
 
-	/**
-	 * @return the toolBar
-	 */
-	public PagingToolBar getToolBar() {
-		return toolBar;
-	}
+            @Override
+            protected void load(Object loadConfig,
+                    AsyncCallback<PagingLoadResult<ExecutedClientShortWatch>> callback) {
+                service.getExecutedWatches((PagingLoadConfig) loadConfig, callback);
+            }
+        };
 
-	/**
-	 * 
-	 */
-	public void clearGridElements() {
-		this.store.removeAll();
-		this.toolBar.clear();
-		this.toolBar.disable();
-	}
+        loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
 
-	private void setUpLoadListener() {
-		loader.addLoadListener(new LoadListener() {
+        loader.setRemoteSort(false);
 
-			@Override
-			public void loaderBeforeLoad(LoadEvent le) {
-				if (!toolBar.isEnabled()){
-					toolBar.enable();
-				}					
-			}
+        store = new ListStore<ExecutedClientShortWatch>(loader);
 
-			@Override
-			public void loaderLoad(LoadEvent le) {
-				BasePagingLoadResult<?> result = le.getData();
-				if (result.getData().size() > 0) {
-					int size = result.getData().size();
-					String message = "";
-					if (size == 1)
-						message = I18nProvider.getMessages().watchAbbreviatedLabel();
-					else
-						message = I18nProvider.getMessages().watchAbbreviatedPluralLabel();
-					Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-							new String[] {
-									I18nProvider.getMessages().watchServiceName(),
-									I18nProvider.getMessages().foundLabel() + " " + result.getData().size() + " "
-											+ message });
-					
-					if (!toolBar.isEnabled()){
-						toolBar.enable();
-					}	
-					
-				} else {
-					Dispatcher.forwardEvent(DGWATCHEvents.SEND_ALERT_MESSAGE,
-							new String[] { I18nProvider.getMessages().watchServiceName(),
-                                    I18nProvider.getMessages().watchNotFoundMessage() });
-				}
-			}
+        this.toolBar.bind(loader);
 
-		});
-	}
-	
+        toolBar.disable();
+
+        setUpLoadListener();
+    }
+
+    /**
+     * Gets the loader.
+     * 
+     * @return the loader
+     */
+    public PagingLoader<PagingLoadResult<ModelData>> getLoader() {
+        return loader;
+    }
+
+    /**
+     * Gets the tool bar.
+     * 
+     * @return the tool bar
+     */
+    public PagingToolBar getToolBar() {
+        return toolBar;
+    }
+
+    /**
+     * Clear grid elements.
+     */
+    public void clearGridElements() {
+        this.store.removeAll();
+        this.toolBar.clear();
+        this.toolBar.disable();
+    }
+
+    /**
+     * Sets the up load listener.
+     */
+    private void setUpLoadListener() {
+        loader.addLoadListener(new LoadListener() {
+
+            @Override
+            public void loaderBeforeLoad(LoadEvent le) {
+                if (!toolBar.isEnabled()) {
+                    toolBar.enable();
+                }
+            }
+
+            @Override
+            public void loaderLoad(LoadEvent le) {
+                BasePagingLoadResult<?> result = le.getData();
+                if (result.getData().size() > 0) {
+                    int size = result.getData().size();
+                    String message = "";
+                    if (size == 1)
+                        message = I18nProvider.getMessages().watchAbbreviatedLabel();
+                    else
+                        message = I18nProvider.getMessages().watchAbbreviatedPluralLabel();
+                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                            I18nProvider.getMessages().watchServiceName(),
+                            I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
+                                    + " " + message });
+
+                    if (!toolBar.isEnabled()) {
+                        toolBar.enable();
+                    }
+
+                } else {
+                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_ALERT_MESSAGE, new String[] {
+                            I18nProvider.getMessages().watchServiceName(),
+                            I18nProvider.getMessages().watchNotFoundMessage() });
+                }
+            }
+
+        });
+    }
+
 }

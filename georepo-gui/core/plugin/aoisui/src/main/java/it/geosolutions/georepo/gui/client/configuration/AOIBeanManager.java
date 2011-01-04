@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.AOIBeanManager,v. 0.1 17/lug/2010 06.28.53 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 17/lug/2010 06.28.53 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.AOIBeanManager,v. 0.1 3-gen-2011 16.52.25 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.25 $
  *
  * ====================================================================
  *
@@ -29,9 +29,10 @@
  */
 package it.geosolutions.georepo.gui.client.configuration;
 
+import it.geosolutions.georepo.gui.client.model.AOI;
+import it.geosolutions.georepo.gui.client.model.User;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,66 +40,63 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
-import it.geosolutions.georepo.gui.client.configuration.IAOIBeanManager;
-import it.geosolutions.georepo.gui.client.model.AOI;
-import it.geosolutions.georepo.gui.client.model.User;
-
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class AOIBeanManager.
  */
 
 @Component("aoiBeanManager")
 public class AOIBeanManager implements IAOIBeanManager {
 
-	private List<AOI> areasOI = new ArrayList<AOI>();
+    /** The areas oi. */
+    private List<AOI> areasOI = new ArrayList<AOI>();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.configuration.IAOIBeanManager#getAreasOI
-	 * ()
-	 */
-	public List<AOI> getAreasOI() {
-		// TODO Auto-generated method stub
-		return this.areasOI;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.configuration.IAOIBeanManager#getAreasOI ()
+     */
+    public List<AOI> getAreasOI() {
+        // TODO Auto-generated method stub
+        return this.areasOI;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.configuration.IAOIBeanManager#setAreasOI
-	 * (java.util.List)
-	 */
-	public void setAreasOI(List<AOI> areasOI) {
-		this.areasOI = areasOI;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.configuration.IAOIBeanManager#setAreasOI
+     * (java.util.List)
+     */
+    public void setAreasOI(List<AOI> areasOI) {
+        this.areasOI = areasOI;
+    }
 
-	@PostConstruct
-	public void init() {
+    /**
+     * Inits the.
+     */
+    @PostConstruct
+    public void init() {
 
-		User user = new User();
-		user.setUserName("FRANCESCO");
-		for (int i = 0; i < 1000; i++) {
-			AOI aoi = new AOI();
-			aoi.setTitle("AOI" + i);
-			aoi.setId(i);
-			if (i % 2 == 0) {
-				aoi.setShared(true);
-			} else {
-				aoi.setOwner(user);
-				aoi.setShared(false);
-			}
+        User user = new User();
+        user.setUserName("FRANCESCO");
+        for (int i = 0; i < 1000; i++) {
+            AOI aoi = new AOI();
+            aoi.setTitle("AOI" + i);
+            aoi.setId(i);
+            if (i % 2 == 0) {
+                aoi.setShared(true);
+            } else {
+                aoi.setOwner(user);
+                aoi.setShared(false);
+            }
 
-			aoi.setDateCreation(new Date());
-			aoi.setLastUpdate(new Date());
-			aoi.setExpiration(new Date());
-//			aoi.setArea(i);
+            aoi.setDateCreation(new Date());
+            aoi.setLastUpdate(new Date());
+            aoi.setExpiration(new Date());
+            // aoi.setArea(i);
 
-			this.areasOI.add(aoi);
-		}
-	}
+            this.areasOI.add(aoi);
+        }
+    }
 
 }

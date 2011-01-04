@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.WatchesInfoBindingWidget,v. 0.1 3-gen-2011 16.52.55 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.55 $
  *
  * ====================================================================
  *
@@ -26,25 +29,20 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import it.geosolutions.georepo.gui.client.ContentType;
-import it.geosolutions.georepo.gui.client.ContentType.ContentTypeEnum;
 import it.geosolutions.georepo.gui.client.DGWATCHData;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.DistribContentType;
-import it.geosolutions.georepo.gui.client.DistribContentType.DistribContentTypeEnum;
 import it.geosolutions.georepo.gui.client.DistribUpdateInterval;
-import it.geosolutions.georepo.gui.client.DistribUpdateInterval.DistribUpdateIntervalEnum;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.RetrievalType;
-import it.geosolutions.georepo.gui.client.RetrievalType.RetrievalTypeEnum;
 import it.geosolutions.georepo.gui.client.SendType;
-import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
 import it.geosolutions.georepo.gui.client.UpdateInterval;
+import it.geosolutions.georepo.gui.client.ContentType.ContentTypeEnum;
+import it.geosolutions.georepo.gui.client.DistribContentType.DistribContentTypeEnum;
+import it.geosolutions.georepo.gui.client.DistribUpdateInterval.DistribUpdateIntervalEnum;
+import it.geosolutions.georepo.gui.client.RetrievalType.RetrievalTypeEnum;
+import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
 import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Authorization;
@@ -53,6 +51,12 @@ import it.geosolutions.georepo.gui.client.model.WatchKeyValue;
 import it.geosolutions.georepo.gui.client.model.WatchMail;
 import it.geosolutions.georepo.gui.client.model.WatchNode;
 import it.geosolutions.georepo.gui.client.widget.binding.DGWATCHWatchFormBinding;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
@@ -65,7 +69,6 @@ import com.extjs.gxt.ui.client.widget.CheckBoxListView;
 import com.extjs.gxt.ui.client.widget.ListView;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
@@ -75,14 +78,15 @@ import com.extjs.gxt.ui.client.widget.form.RadioGroup;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.form.Validator;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- * 
+ * The Class WatchesInfoBindingWidget.
  */
 public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
 
@@ -90,12 +94,19 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     // ALL
     // //////////////////////////////////
 
+    /** The form data. */
     private FormData formData;
 
+    /** The trigger. */
     private Button trigger;
+
+    /** The clear. */
     private Button clear;
 
+    /** The watch model. */
     private Watch watchModel;
+
+    /** The selected. */
     private boolean selected;
 
     // //////////////////////////////////
@@ -104,38 +115,79 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     //
     // //////////////////////////////////
 
+    /** The title. */
     private TextField<String> title;
+
+    /** The email text. */
     private TextField<String> emailText;
+
+    /** The begin date. */
     private DateField beginDate;
+
+    /** The expiration. */
     private DateField expiration;
 
     // private CheckBox customizedAttrib;
 
+    /** The notification. */
     private Radio notification;
+
+    /** The distribution. */
     private Radio distribution;
+
+    /** The radio group. */
     private RadioGroup radioGroup;
+
+    /** The radio table. */
     private FlexTable radioTable;
 
+    /** The notification field set. */
     private FieldSet notificationFieldSet;
+
+    /** The mail set. */
     private FieldSet mailSet;
+
+    /** The store types. */
     private ListStore<SendType> storeTypes;
+
+    /** The store retrieval. */
     private ListStore<RetrievalType> storeRetrieval;
+
+    /** The store content. */
     private ListStore<ContentType> storeContent;
+
+    /** The store times. */
     private ListStore<UpdateInterval> storeTimes;
 
+    /** The combo types. */
     private ComboBox<SendType> comboTypes;
+
+    /** The combo retrieval. */
     private ComboBox<RetrievalType> comboRetrieval;
+
+    /** The combo content. */
     private ComboBox<ContentType> comboContent;
+
+    /** The combo times. */
     private ComboBox<UpdateInterval> comboTimes;
 
+    /** The store. */
     private ListStore<WatchMail> store;
+
+    /** The mails list. */
     private ListView<WatchMail> mailsList;
 
     // private Button customAttrib;
+    /** The message text. */
     private TextArea messageText;
 
+    /** The delete mail. */
     private Button deleteMail;
+
+    /** The add mail. */
     private Button addMail;
+
+    /** The modify mail. */
     private Button modifyMail;
 
     // //////////////////////////////////
@@ -144,27 +196,37 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     //
     // //////////////////////////////////
 
+    /** The distribution field set. */
     private FieldSet distributionFieldSet;
 
+    /** The dist store content. */
     private ListStore<DistribContentType> distStoreContent;
+
+    /** The dist combo content. */
     private ComboBox<DistribContentType> distComboContent;
 
+    /** The dist store. */
     private ListStore<WatchNode> distStore;
+
+    /** The node list. */
     private CheckBoxListView<WatchNode> nodeList;
 
+    /** The dist store times. */
     private ListStore<DistribUpdateInterval> distStoreTimes;
+
+    /** The dist combo times. */
     private ComboBox<DistribUpdateInterval> distComboTimes;
 
     /**
-	 * 
-	 */
+     * Instantiates a new watches info binding widget.
+     */
     public WatchesInfoBindingWidget() {
         this.init();
     }
 
     /**
-	 * 
-	 */
+     * Inits the.
+     */
     private void init() {
         formData = new FormData("-20");
         formPanel = createFormPanel();
@@ -174,8 +236,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#
-     * createFormPanel()
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget# createFormPanel()
      */
     @Override
     public FormPanel createFormPanel() {
@@ -290,8 +351,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.
+             * @see com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.
              * gxt.ui.client.event.BaseEvent)
              */
             public void handleEvent(BaseEvent be) {
@@ -352,8 +412,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.
+             * @see com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.
              * gxt.ui.client.event.BaseEvent)
              */
             public void handleEvent(BaseEvent be) {
@@ -369,8 +428,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.
+             * @see com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.
              * gxt.ui.client.event.BaseEvent)
              */
             public void handleEvent(BaseEvent be) {
@@ -384,8 +442,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
+             * @see com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
              * (com.extjs.gxt.ui.client.event.ComponentEvent)
              */
             @Override
@@ -424,8 +481,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * com.extjs.gxt.ui.client.widget.form.Validator#validate(com.extjs
+             * @see com.extjs.gxt.ui.client.widget.form.Validator#validate(com.extjs
              * .gxt.ui.client.widget.form.Field, java.lang.String)
              */
             public String validate(Field<?> field, String value) {
@@ -442,8 +498,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
+             * @see com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
              * (com.extjs.gxt.ui.client.event.ComponentEvent)
              */
             @Override
@@ -469,8 +524,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
             /*
              * (non-Javadoc)
              * 
-             * @see
-             * com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
+             * @see com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
              * (com.extjs.gxt.ui.client.event.ComponentEvent)
              */
             @Override
@@ -651,21 +705,20 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
         table.setCellSpacing(8);
         table.setCellPadding(4);
 
-        trigger =
-            new Button(I18nProvider.getMessages().watchTriggerButton(), new SelectionListener<ButtonEvent>() {
+        trigger = new Button(I18nProvider.getMessages().watchTriggerButton(),
+                new SelectionListener<ButtonEvent>() {
 
-                /*
-                 * (non-Javadoc)
-                 * 
-                 * @see
-                 * com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
-                 * (com.extjs.gxt.ui.client.event.ComponentEvent)
-                 */
-                @Override
-                public void componentSelected(ButtonEvent ce) {
-                    Dispatcher.forwardEvent(DGWATCHEvents.RUN_WATCH, watchModel);
-                }
-            });
+                    /*
+                     * (non-Javadoc)
+                     * 
+                     * @see com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
+                     * (com.extjs.gxt.ui.client.event.ComponentEvent)
+                     */
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.RUN_WATCH, watchModel);
+                    }
+                });
 
         trigger.setIcon(Resources.ICONS.trigger());
         trigger.setWidth(100);
@@ -675,21 +728,20 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
 
         table.setWidget(1, 1, trigger);
 
-        clear =
-            new Button(I18nProvider.getMessages().watchCleanButton(), new SelectionListener<ButtonEvent>() {
+        clear = new Button(I18nProvider.getMessages().watchCleanButton(),
+                new SelectionListener<ButtonEvent>() {
 
-                /*
-                 * (non-Javadoc)
-                 * 
-                 * @see
-                 * com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
-                 * (com.extjs.gxt.ui.client.event.ComponentEvent)
-                 */
-                @Override
-                public void componentSelected(ButtonEvent ce) {
-                    Dispatcher.forwardEvent(DGWATCHEvents.UNBINDING_WATCH_WIDGET);
-                }
-            });
+                    /*
+                     * (non-Javadoc)
+                     * 
+                     * @see com.extjs.gxt.ui.client.event.SelectionListener#componentSelected
+                     * (com.extjs.gxt.ui.client.event.ComponentEvent)
+                     */
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.UNBINDING_WATCH_WIDGET);
+                    }
+                });
 
         clear.setIcon(Resources.ICONS.cleanDgWatchMenu());
         clear.setWidth(100);
@@ -705,7 +757,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     }
 
     /**
-     * Enable Watch Buttons
+     * Enable buttons.
      */
     public void enableButtons() {
         this.clear.enable();
@@ -713,7 +765,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     }
 
     /**
-     * Disable Watch Buttons
+     * Disable buttons.
      */
     public void disableButtons() {
         this.clear.disable();
@@ -723,14 +775,18 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     }
 
     /**
-     * @return the mailsList
+     * Gets the mails list.
+     * 
+     * @return the mails list
      */
     public ListView<WatchMail> getMailsList() {
         return mailsList;
     }
 
     /**
-     * @return the nodeList
+     * Gets the node list.
+     * 
+     * @return the node list
      */
     public CheckBoxListView<WatchNode> getNodeList() {
         return nodeList;
@@ -739,9 +795,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel
-     * ()
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel ()
      */
     @Override
     public void unBindModel() {
@@ -788,8 +842,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
                 /*
                  * (non-Javadoc)
                  * 
-                 * @see
-                 * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs
+                 * @see com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs
                  * .gxt.ui.client.event.BaseEvent)
                  */
                 public void handleEvent(BaseEvent be) {
@@ -811,8 +864,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * it.geosolutions.georepo.gui.client.widget.DGWATCHFormBindingWidget#bindModel
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHFormBindingWidget#bindModel
      * (com.extjs.gxt.ui.client.data.BaseModel)
      */
     @Override
@@ -876,7 +928,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
 
         if (watch.isNotification()) {
             if (watch.getSendType().equalsIgnoreCase("Email")
-                || watch.getSendType().equalsIgnoreCase("EMailAndRSS")) {
+                    || watch.getSendType().equalsIgnoreCase("EMailAndRSS")) {
 
                 List<WatchMail> mails = new ArrayList<WatchMail>();
                 List<String> watchMailList = watch.getWatchMail();
@@ -917,31 +969,35 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     }
 
     /**
-     * @return the selected
+     * Checks if is selected.
+     * 
+     * @return true, if is selected
      */
     public boolean isSelected() {
         return selected;
     }
 
     /**
+     * Sets the selected.
+     * 
      * @param selected
-     *            the selected to set
+     *            the new selected
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
     /**
-     * @return boolean
+     * Check validation.
+     * 
+     * @return true, if successful
      */
     public boolean checkValidation() {
 
         if (radioGroup.getValue().getBoxLabel().equalsIgnoreCase("Notification")) {
-            if (title.getValue() != null
-                && comboTypes.getValue() != null
-                && comboContent.getValue() != null
-                && comboRetrieval.getValue() != null
-                && comboTimes.getValue() != null)
+            if (title.getValue() != null && comboTypes.getValue() != null
+                    && comboContent.getValue() != null && comboRetrieval.getValue() != null
+                    && comboTimes.getValue() != null)
                 return true;
             else
                 return false;
@@ -954,7 +1010,9 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
     }
 
     /**
-     * @return Watch
+     * Gets the model data.
+     * 
+     * @return the model data
      */
     public Watch getModelData() {
         Watch watch = new Watch();
@@ -998,7 +1056,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
             watch.setSendType(comboTypes.getValue().getType());
 
             if (comboTypes.getValue().getType().equalsIgnoreCase("Email")
-                || comboTypes.getValue().getType().equalsIgnoreCase("EMailAndRSS")) {
+                    || comboTypes.getValue().getType().equalsIgnoreCase("EMailAndRSS")) {
                 List<WatchMail> mails = getMailsList().getStore().getModels();
 
                 if (mails != null) {
@@ -1020,6 +1078,11 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
         return watch;
     }
 
+    /**
+     * Gets the watch nodes.
+     * 
+     * @return the watch nodes
+     */
     private static List<WatchNode> getWatchNodes() {
         List<WatchNode> nodes = new ArrayList<WatchNode>();
 
@@ -1030,6 +1093,13 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.widget.DGWATCHFormBindingWidget#injectSecurity(java.util
+     * .List)
+     */
     @Override
     public void injectSecurity(List<Authorization> auths) {
         if (!auths.contains(Authorization.DISTRIBUTION)) {
@@ -1065,7 +1135,7 @@ public class WatchesInfoBindingWidget extends DGWATCHFormBindingWidget<Watch> {
         // sort of UI framework bug. Hiding the radio buttons all together works
         // around this issue as well.
         if (!auths.contains(Authorization.DISTRIBUTION)
-            || !auths.contains(Authorization.NOTIFICATION)) {
+                || !auths.contains(Authorization.NOTIFICATION)) {
             // this.radioGroup.setVisible(false);
             this.radioTable.setVisible(false);
         }

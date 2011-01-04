@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.GenericClientTool,v. 0.1 27/lug/2010 11.05.37 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.05.37 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.GenericClientTool,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
  *
  * ====================================================================
  *
@@ -31,62 +31,75 @@ package it.geosolutions.georepo.gui.client.configuration;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class GenericClientTool.
  */
-public class GenericClientTool implements Comparable<GenericClientTool>,
-		Serializable {
+public class GenericClientTool implements Comparable<GenericClientTool>, Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4077220993928371589L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 4077220993928371589L;
 
-	private String id;
-	private int order;
+    /** The id. */
+    private String id;
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
+    /** The order. */
+    private int order;
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
 
-	/**
-	 * @return the order
-	 */
-	public int getOrder() {
-		return order;
-	}
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	/**
-	 * @param order
-	 *            the order to set
-	 */
-	public void setOrder(int order) {
-		this.order = order;
-	}
+    /**
+     * Gets the order.
+     * 
+     * @return the order
+     */
+    public int getOrder() {
+        return order;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "GenericClientTool [ ID = " + id + ", ORDER = " + order + "]";
-	}
+    /**
+     * Sets the order.
+     * 
+     * @param order
+     *            the new order
+     */
+    public void setOrder(int order) {
+        this.order = order;
+    }
 
-	public int compareTo(GenericClientTool o) {
-		return getOrder() - o.getOrder();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "GenericClientTool [ ID = " + id + ", ORDER = " + order + "]";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(GenericClientTool o) {
+        return getOrder() - o.getOrder();
+    }
 }

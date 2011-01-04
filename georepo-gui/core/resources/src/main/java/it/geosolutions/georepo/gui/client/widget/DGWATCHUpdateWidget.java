@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.UpdateUserWidget,v. 0.1 02/ago/2010 14.44.57 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 02/ago/2010 14.44.57 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.DGWATCHUpdateWidget,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
  *
  * ====================================================================
  *
@@ -29,39 +29,53 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-
 import it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget;
 import it.geosolutions.georepo.gui.client.widget.binding.DGWATCHUserFormBinding;
+
 import com.extjs.gxt.ui.client.data.BaseModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
+ * The Class DGWATCHUpdateWidget.
  * 
+ * @param <T>
+ *            the generic type
  */
-public abstract class DGWATCHUpdateWidget<T extends BaseModel> extends
-		DGWATCHFormWidget {
+public abstract class DGWATCHUpdateWidget<T extends BaseModel> extends DGWATCHFormWidget {
 
-	protected T object;
-	protected DGWATCHUserFormBinding formBinding;
+    /** The object. */
+    protected T object;
 
-	public DGWATCHUpdateWidget() {
-		super();
-		this.formBinding = new DGWATCHUserFormBinding(formPanel, true);
-	}
+    /** The form binding. */
+    protected DGWATCHUserFormBinding formBinding;
 
-	/**
-	 * Bind the generic Object in the Form
-	 * 
-	 * @param model
-	 */
-	public void bind(T model) {
-		this.object = model;
-		this.formBinding.bind(this.object);
-	}
+    /**
+     * Instantiates a new dGWATCH update widget.
+     */
+    public DGWATCHUpdateWidget() {
+        super();
+        this.formBinding = new DGWATCHUserFormBinding(formPanel, true);
+    }
 
-	@Override
+    /**
+     * Bind.
+     * 
+     * @param model
+     *            the model
+     */
+    public void bind(T model) {
+        this.object = model;
+        this.formBinding.bind(this.object);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#reset()
+     */
+    @Override
     public void reset() {
-		this.saveStatus.clearStatus("");
-	}
+        this.saveStatus.clearStatus("");
+    }
 
 }

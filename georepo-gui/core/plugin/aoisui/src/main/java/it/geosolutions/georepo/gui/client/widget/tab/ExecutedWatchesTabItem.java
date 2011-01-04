@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.tab.ExecutedWatchesTabItem,v. 0.1 3-gen-2011 16.58.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.58.12 $
  *
  * ====================================================================
  *
@@ -28,44 +31,52 @@ package it.geosolutions.georepo.gui.client.widget.tab;
 
 import it.geosolutions.georepo.gui.client.service.WatchServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.ExecudetWatchesGridManagementWidget;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class ExecutedWatchesTabItem.
  */
 public class ExecutedWatchesTabItem extends TabItem {
-	private ExecudetWatchesGridManagementWidget execudetWatchesGridManagementWidget;
 
-	/**
-	 * 
-	 * @param service
-	 */
-	public ExecutedWatchesTabItem(WatchServiceRemoteAsync service) {
-		super("Executed Watches");
-		this.execudetWatchesGridManagementWidget = new ExecudetWatchesGridManagementWidget(service);
-		add(execudetWatchesGridManagementWidget);
+    /** The execudet watches grid management widget. */
+    private ExecudetWatchesGridManagementWidget execudetWatchesGridManagementWidget;
 
-		setScrollMode(Scroll.NONE);
-		
-		this.addListener(Events.Select, new Listener<BaseEvent>(){
+    /**
+     * Instantiates a new executed watches tab item.
+     * 
+     * @param service
+     *            the service
+     */
+    public ExecutedWatchesTabItem(WatchServiceRemoteAsync service) {
+        super("Executed Watches");
+        this.execudetWatchesGridManagementWidget = new ExecudetWatchesGridManagementWidget(service);
+        add(execudetWatchesGridManagementWidget);
 
-			public void handleEvent(BaseEvent be) {
-				execudetWatchesGridManagementWidget.getExecutedWatchesPaginationGridWidget().getLoader().load(0, 25);				
-			}
-			
-		});
-	}
+        setScrollMode(Scroll.NONE);
 
-	/**
-	 * @return the aoiManagementWidget
-	 */
-	public ExecudetWatchesGridManagementWidget getExecudetWatchesGridManagementWidget() {
-		return execudetWatchesGridManagementWidget;
-	}
+        this.addListener(Events.Select, new Listener<BaseEvent>() {
+
+            public void handleEvent(BaseEvent be) {
+                execudetWatchesGridManagementWidget.getExecutedWatchesPaginationGridWidget()
+                        .getLoader().load(0, 25);
+            }
+
+        });
+    }
+
+    /**
+     * Gets the execudet watches grid management widget.
+     * 
+     * @return the execudet watches grid management widget
+     */
+    public ExecudetWatchesGridManagementWidget getExecudetWatchesGridManagementWidget() {
+        return execudetWatchesGridManagementWidget;
+    }
 
 }

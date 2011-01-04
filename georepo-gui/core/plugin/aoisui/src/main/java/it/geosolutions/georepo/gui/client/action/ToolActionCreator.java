@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.ToolActionCreator,v. 0.1 27/lug/2010 11.11.12 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.11.12 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.ToolActionCreator,v. 0.1 3-gen-2011 16.16.36 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.16.36 $
  *
  * ====================================================================
  *
@@ -31,12 +31,19 @@ package it.geosolutions.georepo.gui.client.action;
 
 import org.gwtopenmaps.openlayers.client.MapWidget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Interface ToolActionCreator.
  */
 public interface ToolActionCreator {
-	
-	public ToolbarAction createActionTool(MapWidget mapWidget);
+
+    /**
+     * Creates the action tool.
+     * 
+     * @param mapWidget
+     *            the map widget
+     * @return the toolbar action
+     */
+    public ToolbarAction createActionTool(MapWidget mapWidget);
 
 }

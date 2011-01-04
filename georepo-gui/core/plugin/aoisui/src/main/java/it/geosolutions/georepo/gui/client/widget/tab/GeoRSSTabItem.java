@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.tab.GeoRSSTabItem,v. 0.1 09/lug/2010 10.23.26 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 10.23.26 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.tab.GeoRSSTabItem,v. 0.1 3-gen-2011 16.58.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.58.12 $
  *
  * ====================================================================
  *
@@ -33,43 +33,48 @@ import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.service.FeatureServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.FeatureManagementWidget;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank, tobaro
- *
+ * The Class GeoRSSTabItem.
  */
 public class GeoRSSTabItem extends TabItem {
 
-	
-	private FeatureManagementWidget featureManagementWidget;
+    /** The feature management widget. */
+    private FeatureManagementWidget featureManagementWidget;
 
-	/**
-	 * 
-	 */
-	public GeoRSSTabItem() {
-		super(I18nProvider.getMessages().geoRssLabel());
-		setIcon(Resources.ICONS.rss());
-	}
-	
-	/**
-	 * 
-	 * @param service
-	 */
-	public GeoRSSTabItem(FeatureServiceRemoteAsync service) {
-		this();
-		this.featureManagementWidget = new FeatureManagementWidget(service);
-		add(featureManagementWidget);
-		
-		setScrollMode(Scroll.NONE);
-	}
+    /**
+     * Instantiates a new geo rss tab item.
+     */
+    public GeoRSSTabItem() {
+        super(I18nProvider.getMessages().geoRssLabel());
+        setIcon(Resources.ICONS.rss());
+    }
 
-	/**
-	 * @return the aoiManagementWidget
-	 */
-	public FeatureManagementWidget getFeatureManagementWidget() {
-		return featureManagementWidget;
-	}
+    /**
+     * Instantiates a new geo rss tab item.
+     * 
+     * @param service
+     *            the service
+     */
+    public GeoRSSTabItem(FeatureServiceRemoteAsync service) {
+        this();
+        this.featureManagementWidget = new FeatureManagementWidget(service);
+        add(featureManagementWidget);
+
+        setScrollMode(Scroll.NONE);
+    }
+
+    /**
+     * Gets the feature management widget.
+     * 
+     * @return the feature management widget
+     */
+    public FeatureManagementWidget getFeatureManagementWidget() {
+        return featureManagementWidget;
+    }
 
 }

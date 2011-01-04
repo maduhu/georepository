@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget,v. 0.1 09/lug/2010 14.35.12 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 14.35.12 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
  *
  * ====================================================================
  *
@@ -37,55 +37,88 @@ import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
+ * The Class DGWATCHGridWidget.
  * 
+ * @param <T>
+ *            the generic type
  */
 public abstract class DGWATCHGridWidget<T extends BaseModel> {
 
-	protected ListStore<T> store;
-	protected Grid<T> grid;
+    /** The store. */
+    protected ListStore<T> store;
 
-	public DGWATCHGridWidget() {
-		createStore();
-		initGrid();
-	}
+    /** The grid. */
+    protected Grid<T> grid;
 
-	public DGWATCHGridWidget(List<T> models) {
-		createStore();
-		this.store.add(models);
-		initGrid();
-	}
+    /**
+     * Instantiates a new dGWATCH grid widget.
+     */
+    public DGWATCHGridWidget() {
+        createStore();
+        initGrid();
+    }
 
-	private void initGrid() {
-		ColumnModel cm = prepareColumnModel();
+    /**
+     * Instantiates a new dGWATCH grid widget.
+     * 
+     * @param models
+     *            the models
+     */
+    public DGWATCHGridWidget(List<T> models) {
+        createStore();
+        this.store.add(models);
+        initGrid();
+    }
 
-		grid = new Grid<T>(store, cm);
-		grid.setBorders(true);
+    /**
+     * Inits the grid.
+     */
+    private void initGrid() {
+        ColumnModel cm = prepareColumnModel();
 
-		grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        grid = new Grid<T>(store, cm);
+        grid.setBorders(true);
 
-		setGridProperties();
-	}
+        grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-	public abstract void setGridProperties();
+        setGridProperties();
+    }
 
-	public abstract ColumnModel prepareColumnModel();
-	
-	public abstract void createStore();
+    /**
+     * Sets the grid properties.
+     */
+    public abstract void setGridProperties();
 
-	/**
-	 * @return the grid
-	 */
-	public Grid<T> getGrid() {
-		return grid;
-	}
+    /**
+     * Prepare column model.
+     * 
+     * @return the column model
+     */
+    public abstract ColumnModel prepareColumnModel();
 
-	/**
-	 * @return the store
-	 */
-	public ListStore<T> getStore() {
-		return store;
-	}
+    /**
+     * Creates the store.
+     */
+    public abstract void createStore();
+
+    /**
+     * Gets the grid.
+     * 
+     * @return the grid
+     */
+    public Grid<T> getGrid() {
+        return grid;
+    }
+
+    /**
+     * Gets the store.
+     * 
+     * @return the store
+     */
+    public ListStore<T> getStore() {
+        return store;
+    }
 
 }

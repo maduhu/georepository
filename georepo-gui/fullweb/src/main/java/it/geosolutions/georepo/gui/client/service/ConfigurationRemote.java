@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.ConfigurationRemote,v. 0.1 09/lug/2010 11.19.55 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.19.55 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.ConfigurationRemote,v. 0.1 3-gen-2011 17.04.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.04.50 $
  *
  * ====================================================================
  *
@@ -29,33 +29,46 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-
 import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Interface ConfigurationRemote.
  */
 public interface ConfigurationRemote extends RemoteService {
 
-	public static class Util {
-		private static ConfigurationRemoteAsync instance;
+    /**
+     * The Class Util.
+     */
+    public static class Util {
 
-		public static ConfigurationRemoteAsync getInstance() {
-			if (instance == null) {
-				instance = (ConfigurationRemoteAsync) GWT
-						.create(ConfigurationRemote.class);
-				ServiceDefTarget target = (ServiceDefTarget) instance;
-				target.setServiceEntryPoint(GWT.getModuleBaseURL()
-						+ "ConfigurationRemote");
-			}
-			return instance;
-		}
-	}
-	
-	public DGWATCHGlobalConfiguration initServerConfiguration();
+        /** The instance. */
+        private static ConfigurationRemoteAsync instance;
+
+        /**
+         * Gets the single instance of Util.
+         * 
+         * @return single instance of Util
+         */
+        public static ConfigurationRemoteAsync getInstance() {
+            if (instance == null) {
+                instance = (ConfigurationRemoteAsync) GWT.create(ConfigurationRemote.class);
+                ServiceDefTarget target = (ServiceDefTarget) instance;
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "ConfigurationRemote");
+            }
+            return instance;
+        }
+    }
+
+    /**
+     * Inits the server configuration.
+     * 
+     * @return the dGWATCH global configuration
+     */
+    public DGWATCHGlobalConfiguration initServerConfiguration();
 
 }

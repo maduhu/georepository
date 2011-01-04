@@ -1,17 +1,49 @@
+/*
+ * $ Header: it.geosolutions.georepo.gui.client.StringUtil,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
+ *
+ * ====================================================================
+ *
+ * Copyright (C) 2010 GeoSolutions S.A.S.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. 
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by developers
+ * of GeoSolutions.  For more information on GeoSolutions, please see
+ * <http://www.geo-solutions.it/>.
+ *
+ */
 package it.geosolutions.georepo.gui.client;
 
+// TODO: Auto-generated Javadoc
 /**
- * String utilities.  Unfortunately, this is a copy of a class in dg-common.  But, because of the way GWT
- * works, the existing class couldn't be utilized in the GUI (i.e., compiled to JavaScript by GWT), so we
- * had to add a parallel implementation.
+ * The Class StringUtil.
  */
 public class StringUtil {
 
     /**
-     * Determine if the string is empty (blank or all whitespace) or null.
+     * Checks if is empty.
+     * 
+     * @param value
+     *            the value
+     * @return true, if is empty
      */
-	public static boolean isEmpty(String value){
+    public static boolean isEmpty(String value) {
         return (value == null) || (value.trim().length() == 0);
-	}
+    }
 
 }

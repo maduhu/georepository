@@ -20,7 +20,6 @@
 
 package it.geosolutions.georepo.services.exception;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.ws.WebFault;
 
 /**
@@ -28,27 +27,20 @@ import javax.xml.ws.WebFault;
  * ResourceNotFoundFault using when if an exception occurs retrieving the data from the database
  * 
  * @author Tobia Di Pisa (tobia.dipisa@geo-solutions.it)
- *
- * @TODO: the fault is not deserialized properly on client side even if the msg is ok:
- * Payload:
- * <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
- *  <soap:Body><soap:Fault>
- *   <faultcode>soap:Server</faultcode>
- *   <faultstring>Fault occured</faultstring>
- *   <detail>
- *    <ns2:ResourceNotFoundFault xmlns:ns2="http://services.dgwatch.digitalglobe.com/">
- *     <id>-10</id>
- *     <message>User not found!</message>
- *    </ns2:ResourceNotFoundFault>
- *   </detail></soap:Fault>
- *  </soap:Body>
- * </soap:Envelope>
+ * 
+ * @TODO: the fault is not deserialized properly on client side even if the msg is ok: Payload:
+ *        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ *        <soap:Body><soap:Fault> <faultcode>soap:Server</faultcode> <faultstring>Fault
+ *        occured</faultstring> <detail> <ns2:ResourceNotFoundFault
+ *        xmlns:ns2="http://services.dgwatch.digitalglobe.com/"> <id>-10</id> <message>User not
+ *        found!</message> </ns2:ResourceNotFoundFault> </detail></soap:Fault> </soap:Body>
+ *        </soap:Envelope>
  */
 
-@WebFault(name="ResourceNotFoundFault", faultBean="it.geosolutions.georepo.services.exception.ResourceNotFoundFault")
+@WebFault(name = "ResourceNotFoundFault", faultBean = "it.geosolutions.georepo.services.exception.ResourceNotFoundFault")
 public class ResourceNotFoundFault extends Exception {
-	
-	private static final long serialVersionUID = 4100712158220027390L;
+
+    private static final long serialVersionUID = 4100712158220027390L;
 
     private long id = -1;
 
@@ -57,7 +49,8 @@ public class ResourceNotFoundFault extends Exception {
 
     /**
      * This is needed, or the SOAP client will throw an ex in initialization:
-     * java.lang.NoSuchMethodException: it.geosolutions.georepo.services.exception.ResourceNotFoundFault.<init>(java.lang.String)
+     * java.lang.NoSuchMethodException:
+     * it.geosolutions.georepo.services.exception.ResourceNotFoundFault.<init>(java.lang.String)
      */
     public ResourceNotFoundFault(String msg) {
         super(msg);

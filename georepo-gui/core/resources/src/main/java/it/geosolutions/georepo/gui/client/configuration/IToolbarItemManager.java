@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.IToolbarItemManager,v. 0.1 27/lug/2010 12.11.52 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 12.11.52 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.IToolbarItemManager,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -32,15 +32,25 @@ package it.geosolutions.georepo.gui.client.configuration;
 import java.io.Serializable;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Interface IToolbarItemManager.
  */
 public interface IToolbarItemManager extends Serializable {
-	
-	public List<GenericClientTool> getClientTools();
-	
-	public void setClientTools(List<GenericClientTool> clientTools);
-	
+
+    /**
+     * Gets the client tools.
+     * 
+     * @return the client tools
+     */
+    public List<GenericClientTool> getClientTools();
+
+    /**
+     * Sets the client tools.
+     * 
+     * @param clientTools
+     *            the new client tools
+     */
+    public void setClientTools(List<GenericClientTool> clientTools);
 
 }

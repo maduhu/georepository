@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.QuartzRemote,v. 0.1 30/set/2010 10.42.34 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 10.42.34 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.QuartzRemote,v. 0.1 3-gen-2011 17.06.53 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.53 $
  *
  * ====================================================================
  *
@@ -33,34 +33,49 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Interface QuartzRemote.
  */
 public interface QuartzRemote extends RemoteService {
 
-	public static class Util {
-		private static QuartzRemoteAsync instance;
+    /**
+     * The Class Util.
+     */
+    public static class Util {
 
-		public static QuartzRemoteAsync getInstance() {
-			if (instance == null) {
-				instance = (QuartzRemoteAsync) GWT.create(QuartzRemote.class);
-				ServiceDefTarget target = (ServiceDefTarget) instance;
-				target.setServiceEntryPoint(GWT.getModuleBaseURL()
-						+ "QuartzRemote");
-			}
-			return instance;
-		}
-	}
+        /** The instance. */
+        private static QuartzRemoteAsync instance;
 
-	/**
-	 * @param interval
-	 */
-	public void runTrigger(int interval);
-	
-	/**
-	 * @param watchId
-	 */
-	public void runWatch(long watchId);
+        /**
+         * Gets the single instance of Util.
+         * 
+         * @return single instance of Util
+         */
+        public static QuartzRemoteAsync getInstance() {
+            if (instance == null) {
+                instance = (QuartzRemoteAsync) GWT.create(QuartzRemote.class);
+                ServiceDefTarget target = (ServiceDefTarget) instance;
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "QuartzRemote");
+            }
+            return instance;
+        }
+    }
+
+    /**
+     * Run trigger.
+     * 
+     * @param interval
+     *            the interval
+     */
+    public void runTrigger(int interval);
+
+    /**
+     * Run watch.
+     * 
+     * @param watchId
+     *            the watch id
+     */
+    public void runWatch(long watchId);
 
 }

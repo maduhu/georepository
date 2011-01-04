@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.BindingWidget,v. 0.1 19/lug/2010 15.49.48 created by frank $
- * $Revision: 0.1 $
- * $Date: 19/lug/2010 15.49.48 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -33,52 +33,75 @@ import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.data.BaseModel;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
+ * The Class DGWATCHBindingWidget.
  * 
+ * @param <T>
+ *            the generic type
  */
 
 public abstract class DGWATCHBindingWidget<T extends BaseModel> {
 
-	protected FormPanel formPanel;
-	protected FormBinding formBinding;
-	private T model;
+    /** The form panel. */
+    protected FormPanel formPanel;
 
-	/**
-	 * 
-	 * @param model
-	 *            T object to bind
-	 */
-	public void bindModel(T model) {
-		this.model = model;
-		this.formBinding.bind(model);
-	}
+    /** The form binding. */
+    protected FormBinding formBinding;
 
-	public void unBindModel() {
-		this.formBinding.unbind();
-	}
+    /** The model. */
+    private T model;
 
-	/**
-	 * @return the formBinding
-	 */
-	public FormBinding getFormBinding() {
-		return formBinding;
-	}
+    /**
+     * Bind model.
+     * 
+     * @param model
+     *            the model
+     */
+    public void bindModel(T model) {
+        this.model = model;
+        this.formBinding.bind(model);
+    }
 
-	/**
-	 * @return the model
-	 */
-	public T getModel() {
-		return model;
-	}
+    /**
+     * Un bind model.
+     */
+    public void unBindModel() {
+        this.formBinding.unbind();
+    }
 
-	public abstract FormPanel createFormPanel();
+    /**
+     * Gets the form binding.
+     * 
+     * @return the form binding
+     */
+    public FormBinding getFormBinding() {
+        return formBinding;
+    }
 
-	/**
-	 * @return the formPanel
-	 */
-	public FormPanel getFormPanel() {
-		return formPanel;
-	}
+    /**
+     * Gets the model.
+     * 
+     * @return the model
+     */
+    public T getModel() {
+        return model;
+    }
+
+    /**
+     * Creates the form panel.
+     * 
+     * @return the form panel
+     */
+    public abstract FormPanel createFormPanel();
+
+    /**
+     * Gets the form panel.
+     * 
+     * @return the form panel
+     */
+    public FormPanel getFormPanel() {
+        return formPanel;
+    }
 
 }

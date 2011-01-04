@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.pages.MapView,v. 0.1 08/lug/2010 12.45.08 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 12.45.08 $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.MapView,v. 0.1 3-gen-2011 16.52.35 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.35 $
  *
  * ====================================================================
  *
@@ -30,77 +30,84 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.AdministrationMode;
-import org.gwtopenmaps.openlayers.client.LonLat;
-
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.DGWATCHUtils;
 import it.geosolutions.georepo.gui.client.widget.ButtonBar;
 import it.geosolutions.georepo.gui.client.widget.map.MapLayoutWidget;
+
+import org.gwtopenmaps.openlayers.client.LonLat;
+
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class MapView.
  */
 public class MapView extends View {
 
-	private MapLayoutWidget mapLayout;
+    /** The map layout. */
+    private MapLayoutWidget mapLayout;
 
-	private ButtonBar buttonBar;
+    /** The button bar. */
+    private ButtonBar buttonBar;
 
-	public MapView(Controller controller) {
-		super(controller);
+    /**
+     * Instantiates a new map view.
+     * 
+     * @param controller
+     *            the controller
+     */
+    public MapView(Controller controller) {
+        super(controller);
 
-		this.mapLayout = new MapLayoutWidget();
-	}
+        this.mapLayout = new MapLayoutWidget();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client.
-	 * mvc.AppEvent)
-	 */
-	@Override
-	protected void handleEvent(AppEvent event) {
-		if (event.getType() == DGWATCHEvents.ATTACH_MAP_WIDGET) {
-			this.mapLayout.onAddToCenterPanel((ContentPanel) event.getData());
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client. mvc.AppEvent)
+     */
+    @Override
+    protected void handleEvent(AppEvent event) {
+        if (event.getType() == DGWATCHEvents.ATTACH_MAP_WIDGET) {
+            this.mapLayout.onAddToCenterPanel((ContentPanel) event.getData());
         }
 
-		if (event.getType() == DGWATCHEvents.UPDATE_MAP_SIZE) {
-			this.mapLayout.updateMapSize();
+        if (event.getType() == DGWATCHEvents.UPDATE_MAP_SIZE) {
+            this.mapLayout.updateMapSize();
         }
 
-		if (event.getType() == DGWATCHEvents.ATTACH_TOOLBAR) {
-			onAttachToolbar(event);
+        if (event.getType() == DGWATCHEvents.ATTACH_TOOLBAR) {
+            onAttachToolbar(event);
         }
 
-		if (event.getType() == DGWATCHEvents.ACTIVATE_DRAW_FEATURES) {
-			onActivateDrawFeature();
+        if (event.getType() == DGWATCHEvents.ACTIVATE_DRAW_FEATURES) {
+            onActivateDrawFeature();
         }
 
-		if (event.getType() == DGWATCHEvents.DEACTIVATE_DRAW_FEATURES) {
-			onDeactivateDrawFeature();
+        if (event.getType() == DGWATCHEvents.DEACTIVATE_DRAW_FEATURES) {
+            onDeactivateDrawFeature();
         }
 
-		if (event.getType() == DGWATCHEvents.ERASE_AOI_FEATURES) {
-			onEraseAOIFeatures();
+        if (event.getType() == DGWATCHEvents.ERASE_AOI_FEATURES) {
+            onEraseAOIFeatures();
         }
 
-		if (event.getType() == DGWATCHEvents.ENABLE_DRAW_BUTTON) {
-			onEnableDrawButton();
+        if (event.getType() == DGWATCHEvents.ENABLE_DRAW_BUTTON) {
+            onEnableDrawButton();
         }
 
-		if (event.getType() == DGWATCHEvents.DISABLE_DRAW_BUTTON) {
-			onDisableDrawButton();
+        if (event.getType() == DGWATCHEvents.DISABLE_DRAW_BUTTON) {
+            onDisableDrawButton();
         }
 
-		if (event.getType() == DGWATCHEvents.DRAW_AOI_ON_MAP) {
-			onDrawAoiOnMap(event);
+        if (event.getType() == DGWATCHEvents.DRAW_AOI_ON_MAP) {
+            onDrawAoiOnMap(event);
         }
 
         if (event.getType() == DGWATCHEvents.ZOOM_TO_CENTER) {
@@ -115,55 +122,92 @@ public class MapView extends View {
         }
     }
 
-	private void onZoomToCenter() {
-		LonLat center = this.mapLayout.getMap().getCenter();
-		this.mapLayout.getMap().setCenter(center, 3);
-	}
-
-	private void onDrawAoiOnMap(AppEvent event) {
-		this.mapLayout.drawAoiOnMap((String) event.getData());
-		Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-				"AOI Service", "Zoom to selected AOI." });
-	}
-
-	private void onDisableDrawButton() {
-		this.buttonBar.changeButtonState("drawFeature", false);
-		this.mapLayout.deactivateDrawFeature();
-	}
-
-	private void onEnableDrawButton() {
-		this.buttonBar.changeButtonState("drawFeature", true);
-		this.mapLayout.activateDrawFeature();
-	}
-
-	private void onEraseAOIFeatures() {
-		this.mapLayout.eraseFeatures();
-	}
-
-	private void onActivateDrawFeature() {
-		this.mapLayout.activateDrawFeature();
-
-	}
-
-	private void onDeactivateDrawFeature() {
-		this.mapLayout.deactivateDrawFeature();
-
-	}
-
-    private void onAdminModeChange(AppEvent event) {
-        AdministrationMode adminMode = event.getData();
-        this.buttonBar.changeButtonState("deleteContent", adminMode == AdministrationMode.NOTIFICATION_DISTRIBUTION);
+    /**
+     * On zoom to center.
+     */
+    private void onZoomToCenter() {
+        LonLat center = this.mapLayout.getMap().getCenter();
+        this.mapLayout.getMap().setCenter(center, 3);
     }
 
-	private void onAttachToolbar(AppEvent event) {
-		mapLayout.setTools(DGWATCHUtils.getInstance().getGlobalConfiguration()
-				.getToolbarItemManager().getClientTools());
+    /**
+     * On draw aoi on map.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onDrawAoiOnMap(AppEvent event) {
+        this.mapLayout.drawAoiOnMap((String) event.getData());
+        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] { "AOI Service",
+                "Zoom to selected AOI." });
+    }
 
-		this.buttonBar = new ButtonBar(mapLayout);
+    /**
+     * On disable draw button.
+     */
+    private void onDisableDrawButton() {
+        this.buttonBar.changeButtonState("drawFeature", false);
+        this.mapLayout.deactivateDrawFeature();
+    }
 
-		ContentPanel north = (ContentPanel) event.getData();
-		north.add(buttonBar.getToolBar());
+    /**
+     * On enable draw button.
+     */
+    private void onEnableDrawButton() {
+        this.buttonBar.changeButtonState("drawFeature", true);
+        this.mapLayout.activateDrawFeature();
+    }
 
-		north.layout();
-	}
+    /**
+     * On erase aoi features.
+     */
+    private void onEraseAOIFeatures() {
+        this.mapLayout.eraseFeatures();
+    }
+
+    /**
+     * On activate draw feature.
+     */
+    private void onActivateDrawFeature() {
+        this.mapLayout.activateDrawFeature();
+
+    }
+
+    /**
+     * On deactivate draw feature.
+     */
+    private void onDeactivateDrawFeature() {
+        this.mapLayout.deactivateDrawFeature();
+
+    }
+
+    /**
+     * On admin mode change.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onAdminModeChange(AppEvent event) {
+        AdministrationMode adminMode = event.getData();
+        this.buttonBar.changeButtonState("deleteContent",
+                adminMode == AdministrationMode.NOTIFICATION_DISTRIBUTION);
+    }
+
+    /**
+     * On attach toolbar.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onAttachToolbar(AppEvent event) {
+        mapLayout.setTools(DGWATCHUtils.getInstance().getGlobalConfiguration()
+                .getToolbarItemManager().getClientTools());
+
+        this.buttonBar = new ButtonBar(mapLayout);
+
+        ContentPanel north = (ContentPanel) event.getData();
+        north.add(buttonBar.getToolBar());
+
+        north.layout();
+    }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.FilterServiceRemote,v. 0.1 19/ago/2010 10.46.41 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 19/ago/2010 10.46.41 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.FilterServiceRemote,v. 0.1 3-gen-2011 16.52.44 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.44 $
  *
  * ====================================================================
  *
@@ -29,49 +29,54 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-
-import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.Filter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * @deprecated
+ * The Interface FilterServiceRemote.
  */
 public interface FilterServiceRemote extends RemoteService {
 
-	public static class Util {
-		private static FilterServiceRemoteAsync instance;
+    /**
+     * The Class Util.
+     */
+    public static class Util {
 
-		public static FilterServiceRemoteAsync getInstance() {
-			if (instance == null) {
-				instance = (FilterServiceRemoteAsync) GWT
-						.create(FilterServiceRemote.class);
-				ServiceDefTarget target = (ServiceDefTarget) instance;
-				target.setServiceEntryPoint(GWT.getModuleBaseURL()
-						+ "FilterServiceRemote");
-			}
-			return instance;
-		}
-	}
+        /** The instance. */
+        private static FilterServiceRemoteAsync instance;
 
-//	/**
-//	 * 
-//	 * @param userID
-//	 * @param aoiID
-//	 * @return
-//	 */
-//	public Filter findFilterByUserAOI(long userID, long aoiID);
-//
-//	/**
-//	 * 
-//	 * @param userId
-//	 * @param aoiId
-//	 * @param filter
-//	 */
-//	public void setUserPref(long userId, long aoiId, Filter filter)
-//			throws ApplicationException;
+        /**
+         * Gets the single instance of Util.
+         * 
+         * @return single instance of Util
+         */
+        public static FilterServiceRemoteAsync getInstance() {
+            if (instance == null) {
+                instance = (FilterServiceRemoteAsync) GWT.create(FilterServiceRemote.class);
+                ServiceDefTarget target = (ServiceDefTarget) instance;
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "FilterServiceRemote");
+            }
+            return instance;
+        }
+    }
+
+    // /**
+    // *
+    // * @param userID
+    // * @param aoiID
+    // * @return
+    // */
+    // public Filter findFilterByUserAOI(long userID, long aoiID);
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @param aoiId
+    // * @param filter
+    // */
+    // public void setUserPref(long userId, long aoiId, Filter filter)
+    // throws ApplicationException;
 
 }

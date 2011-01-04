@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.QuartzRemoteAsync,v. 0.1 30/set/2010 10.44.18 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 10.44.18 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.QuartzRemoteAsync,v. 0.1 3-gen-2011 17.06.53 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.53 $
  *
  * ====================================================================
  *
@@ -31,22 +31,30 @@ package it.geosolutions.georepo.gui.client.service;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Interface QuartzRemoteAsync.
  */
 public interface QuartzRemoteAsync {
 
-	/**
-	 * @param interval
-	 * @param callback
-	 */
-	public void runTrigger(int interval, AsyncCallback<?> callback);
-	
-	/**
-	 * @param watchId
-	 * @param callback
-	 */
-	public void runWatch(long watchId, AsyncCallback<?> callback);
+    /**
+     * Run trigger.
+     * 
+     * @param interval
+     *            the interval
+     * @param callback
+     *            the callback
+     */
+    public void runTrigger(int interval, AsyncCallback<?> callback);
+
+    /**
+     * Run watch.
+     * 
+     * @param watchId
+     *            the watch id
+     * @param callback
+     *            the callback
+     */
+    public void runWatch(long watchId, AsyncCallback<?> callback);
 
 }

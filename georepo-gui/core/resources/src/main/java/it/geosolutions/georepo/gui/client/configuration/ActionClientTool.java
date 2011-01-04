@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.ActionClientTool,v. 0.1 27/lug/2010 11.07.36 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.07.36 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.ActionClientTool,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -29,60 +29,68 @@
  */
 package it.geosolutions.georepo.gui.client.configuration;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class ActionClientTool.
  */
 public class ActionClientTool extends GenericClientTool {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7373117917871895237L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 7373117917871895237L;
 
-	private String type;
-	private boolean enabled;
+    /** The type. */
+    private String type;
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
+    /** The enabled. */
+    private boolean enabled;
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * Gets the type.
+     * 
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @return the enabled
-	 */
-	public boolean isEnabled() {
-		return enabled;
-	}
+    /**
+     * Sets the type.
+     * 
+     * @param type
+     *            the new type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	/**
-	 * @param enabled
-	 *            the enabled to set
-	 */
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    /**
+     * Checks if is enabled.
+     * 
+     * @return true, if is enabled
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "ActionClientTool [enabled=" + enabled + ", getId()=" + getId()
-				+ ", getOrder()=" + getOrder() + ", getType()=" + getType()
-				+ "]";
-	}
+    /**
+     * Sets the enabled.
+     * 
+     * @param enabled
+     *            the new enabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "ActionClientTool [enabled=" + enabled + ", getId()=" + getId() + ", getOrder()="
+                + getOrder() + ", getType()=" + getType() + "]";
+    }
 
 }

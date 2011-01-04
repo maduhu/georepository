@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI,v. 0.1 08/lug/2010 12.53.57 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 12.53.57 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.10 $
  *
  * ====================================================================
  *
@@ -29,30 +29,38 @@
  */
 package it.geosolutions.georepo.gui.client.configuration;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Enum ConfigurationMainUI.
  */
 public enum ConfigurationMainUI {
 
-    CENTER("CENTER_PANEL"),
-    EAST("EAST_PANEL"),
-    SOUTH("SOUTH_PANEL"),
+    /** The CENTER. */
+    CENTER("CENTER_PANEL"), /** The EAST. */
+    EAST("EAST_PANEL"), /** The SOUTH. */
+    SOUTH("SOUTH_PANEL"), /** The VIEWPORT. */
     VIEWPORT("VIEWPORT");
-    
-	private String value;
 
-	ConfigurationMainUI(String value) {
-		this.value = value;
-	}
+    /** The value. */
+    private String value;
 
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
-	
-	
+    /**
+     * Instantiates a new configuration main ui.
+     * 
+     * @param value
+     *            the value
+     */
+    ConfigurationMainUI(String value) {
+        this.value = value;
+    }
+
+    /**
+     * Gets the value.
+     * 
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
 
 }

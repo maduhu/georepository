@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.application.QuartzMonitoringAction,v. 0.1 30/set/2010 16.07.58 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 16.07.58 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.application.AdministrationModeAction,v. 0.1 3-gen-2011 16.51.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.51.33 $
  *
  * ====================================================================
  *
@@ -35,28 +35,36 @@ import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.action.ToolbarApplicationAction;
 import it.geosolutions.georepo.gui.client.configuration.DropdownOption;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class is the handler for the dropdown that allows the user to choose the current administration
- * mode for DGWatch.
- *
- * @author gmurray
- *
+ * The Class AdministrationModeAction.
  */
 public class AdministrationModeAction extends ToolbarApplicationAction {
 
-	public AdministrationModeAction() {
-		super(I18nProvider.getMessages().adminModeLabel(), Category.ADMINISTRATION_MODE);
-	}
+    /**
+     * Instantiates a new administration mode action.
+     */
+    public AdministrationModeAction() {
+        super(I18nProvider.getMessages().adminModeLabel(), Category.ADMINISTRATION_MODE);
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent be) {
         ComboBox source = (ComboBox) be.getSource();
         ModelData selectedModel = source.getValue();
-        AdministrationMode adminMode = AdministrationMode.valueOf(selectedModel.get(DropdownOption.VALUE_KEY).toString());
+        AdministrationMode adminMode = AdministrationMode.valueOf(selectedModel.get(
+                DropdownOption.VALUE_KEY).toString());
         assert adminMode != null : "invalid AdministrationMode: " + adminMode;
 
         Dispatcher.forwardEvent(DGWATCHEvents.ADMIN_MODE_CHANGE, adminMode);

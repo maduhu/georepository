@@ -20,63 +20,65 @@
 
 package it.geosolutions.georepo.core.model.adapter;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 import com.vividsolutions.jts.io.WKTWriter;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 /**
  * 
- * This class is an XML adapter that aim marshal and un-marshal supports to Polygon data fields 
+ * This class is an XML adapter that aim marshal and un-marshal supports to Polygon data fields
  * 
- * @author Tobia Di Pisa (tobia.dipisa@geo-solutions.it) 
+ * @author Tobia Di Pisa (tobia.dipisa@geo-solutions.it)
  * @author Alessio Fabiani (alessio.fabiani@geosolutions.it)
  * 
  */
 public class PolygonAdapter extends XmlAdapter<String, Polygon> {
-	
-	/**
-	 * 
-	 * This method provide unmarshalling by string value
-	 * 
-	 * @param val the WKT representation of the polygon geometry
-	 * 
-	 */
-	@Override
-	public Polygon unmarshal(String val) throws ParseException {
-		WKTReader wktReader = new WKTReader();
 
-		Geometry the_geom = wktReader.read(val);
-		if (the_geom instanceof Polygon) {
-			if (the_geom.getSRID() == 0)
-				the_geom.setSRID(4326);
-			
-			return (Polygon) the_geom;
-		}
-		
-		throw new ParseException("WKB val is not a Polygon.");
-	}
+    /**
+     * 
+     * This method provide unmarshalling by string value
+     * 
+     * @param val
+     *            the WKT representation of the polygon geometry
+     * 
+     */
+    @Override
+    public Polygon unmarshal(String val) throws ParseException {
+        WKTReader wktReader = new WKTReader();
 
-	/**
-	 * 
-	 * This method provide marshalling by Polygon value
-	 * 
-	 * @param the WKT representation of the polygon geometry
-	 * 
-	 */
-	@Override
-	public String marshal(Polygon the_geom) throws ParseException {
-		if (the_geom != null) {
-			WKTWriter wktWriter = new WKTWriter();
-			if (the_geom.getSRID() == 0)
-				the_geom.setSRID(4326);
-			
-			return wktWriter.write(the_geom);
-		} else {
-			throw new ParseException("Polygon obj is null.");
-		}
-	}
+        Geometry the_geom = wktReader.read(val);
+        if (the_geom instanceof Polygon) {
+            if (the_geom.getSRID() == 0)
+                the_geom.setSRID(4326);
+
+            return (Polygon) the_geom;
+        }
+
+        throw new ParseException("WKB val is not a Polygon.");
+    }
+
+    /**
+     * 
+     * This method provide marshalling by Polygon value
+     * 
+     * @param the
+     *            WKT representation of the polygon geometry
+     * 
+     */
+    @Override
+    public String marshal(Polygon the_geom) throws ParseException {
+        if (the_geom != null) {
+            WKTWriter wktWriter = new WKTWriter();
+            if (the_geom.getSRID() == 0)
+                the_geom.setSRID(4326);
+
+            return wktWriter.write(the_geom);
+        } else {
+            throw new ParseException("Polygon obj is null.");
+        }
+    }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.toolbar.ZoomOut,v. 0.1 27/lug/2010 11.23.49 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.23.49 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.toolbar.ZoomOutAction,v. 0.1 3-gen-2011 16.52.16 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.16 $
  *
  * ====================================================================
  *
@@ -29,36 +29,49 @@
  */
 package it.geosolutions.georepo.gui.client.action.toolbar;
 
-
+import it.geosolutions.georepo.gui.client.Category;
+import it.geosolutions.georepo.gui.client.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import com.extjs.gxt.ui.client.event.BaseEvent;
+
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 
-import it.geosolutions.georepo.gui.client.Category;
-import it.geosolutions.georepo.gui.client.action.ToolbarMapAction;
+import com.extjs.gxt.ui.client.event.BaseEvent;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Class ZoomOutAction.
  */
 public class ZoomOutAction extends ToolbarMapAction {
-	
-	private MapWidget mapWidget;
 
-	private int zoomFactor = 1;
+    /** The map widget. */
+    private MapWidget mapWidget;
 
-	public ZoomOutAction(MapWidget mapWidget) {
-		super(I18nProvider.getMessages().zoomOutToolTip(), Category.DGWATCH_ZOOM_OUT);
-		
-		this.mapWidget = mapWidget;
-	}
+    /** The zoom factor. */
+    private int zoomFactor = 1;
 
+    /**
+     * Instantiates a new zoom out action.
+     * 
+     * @param mapWidget
+     *            the map widget
+     */
+    public ZoomOutAction(MapWidget mapWidget) {
+        super(I18nProvider.getMessages().zoomOutToolTip(), Category.DGWATCH_ZOOM_OUT);
+
+        this.mapWidget = mapWidget;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent baseEvent) {
         LonLat center = this.mapWidget.getMap().getCenter();
         int oldZoom = this.mapWidget.getMap().getZoom();
         if ((oldZoom - this.zoomFactor) > 0)
-                this.mapWidget.getMap()
-                                .setCenter(center, oldZoom - this.zoomFactor);
+            this.mapWidget.getMap().setCenter(center, oldZoom - this.zoomFactor);
     }
 }

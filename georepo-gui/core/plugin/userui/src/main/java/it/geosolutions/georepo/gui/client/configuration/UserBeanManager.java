@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.UserBeanManager,v. 0.1 09/lug/2010 11.44.44 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.44.44 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.UserBeanManager,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,6 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.configuration;
 
+import it.geosolutions.georepo.gui.client.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,56 +38,57 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
-import it.geosolutions.georepo.gui.client.configuration.IUserBeanManager;
-import it.geosolutions.georepo.gui.client.model.User;
-
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class UserBeanManager.
  */
 @Component("userBeanManager")
 public class UserBeanManager implements IUserBeanManager {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 575619421702010379L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 575619421702010379L;
 
-	private List<User> users = new ArrayList<User>();
+    /** The users. */
+    private List<User> users = new ArrayList<User>();
 
-	/**
-	 * @param users
-	 *            the users to set
-	 */
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
+    /**
+     * Sets the users.
+     * 
+     * @param users
+     *            the new users
+     */
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.configuration.IUserBeanManager#getUsers
-	 * ()
-	 */
-	public List<User> getUsers() {
-		// TODO Auto-generated method stub
-		return users;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.configuration.IUserBeanManager#getUsers ()
+     */
+    public List<User> getUsers() {
+        // TODO Auto-generated method stub
+        return users;
+    }
 
-	@PostConstruct
-	public void configureUsers() {
-		for (int i = 0; i < 200; i++) {
-			User user = new User();
-			user.setPath("dgwatch/resources/images/userChoose.jpg");
-			user.setName("TEST" + i);
-			user.setUserName("user" + i);
-			user.setPassword("password" + i);
-			user.setEmailAddress("user" + i + "@test.it");
-			user.setEmailEnable(true);
-			user.setRssEnable(true);
-			this.users.add(user);
-		}		
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.configuration.IUserBeanManager#configureUsers()
+     */
+    @PostConstruct
+    public void configureUsers() {
+        for (int i = 0; i < 200; i++) {
+            User user = new User();
+            user.setPath("dgwatch/resources/images/userChoose.jpg");
+            user.setName("TEST" + i);
+            user.setUserName("user" + i);
+            user.setPassword("password" + i);
+            user.setEmailAddress("user" + i + "@test.it");
+            user.setEmailEnable(true);
+            user.setRssEnable(true);
+            this.users.add(user);
+        }
+    }
 
 }

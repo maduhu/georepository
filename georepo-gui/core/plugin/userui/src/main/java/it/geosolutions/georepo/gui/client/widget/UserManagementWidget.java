@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.UserManagement,v. 0.1 08/lug/2010 16.02.35 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 16.02.35 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserManagementWidget,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -30,58 +30,65 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.WidgetListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class UserManagementWidget.
  */
 public class UserManagementWidget extends ContentPanel {
 
-	private UserInfoBindingWidget userInfo;
+    /** The user info. */
+    private UserInfoBindingWidget userInfo;
 
-	public UserManagementWidget() {
-		setHeading(I18nProvider.getMessages().userManagementLabel());
-		setLayout(new FitLayout());
+    /**
+     * Instantiates a new user management widget.
+     */
+    public UserManagementWidget() {
+        setHeading(I18nProvider.getMessages().userManagementLabel());
+        setLayout(new FitLayout());
 
-		setLayoutOnChange(true);
+        setLayoutOnChange(true);
 
-		userInfo = new UserInfoBindingWidget();
+        userInfo = new UserInfoBindingWidget();
 
-		add(userInfo.getFormPanel());
+        add(userInfo.getFormPanel());
 
-		addWidgetListener(new WidgetListener() {
-			@Override
+        addWidgetListener(new WidgetListener() {
+            @Override
             public void widgetResized(ComponentEvent ce) {
-				userInfo.getFormPanel().setHeight(getHeight());
-			}
-		});
+                userInfo.getFormPanel().setHeight(getHeight());
+            }
+        });
 
-		setScrollMode(Scroll.AUTOY);
-	}
+        setScrollMode(Scroll.AUTOY);
+    }
 
-	/**
-	 * @return the userInfo
-	 */
-	public UserInfoBindingWidget getUserInfo() {
-		return userInfo;
-	}
+    /**
+     * Gets the user info.
+     * 
+     * @return the user info
+     */
+    public UserInfoBindingWidget getUserInfo() {
+        return userInfo;
+    }
 
-	/**
-	 * Enable Both Delete and Update User Buttons
-	 */
-	public void enableButtons() {
-		this.userInfo.enableButtons();
-	}
+    /**
+     * Enable buttons.
+     */
+    public void enableButtons() {
+        this.userInfo.enableButtons();
+    }
 
-	/**
-	 * Disable Both Delete and Update User Buttons
-	 */
-	public void disableButtons() {
-		this.userInfo.disableButtons();
-	}
+    /**
+     * Disable buttons.
+     */
+    public void disableButtons() {
+        this.userInfo.disableButtons();
+    }
 }

@@ -20,12 +20,13 @@
 package it.geosolutions.georepo.api.dto;
 
 /**
- *
+ * 
  * @author ETj (etj at geo-solutions.it)
  */
 public class RegisteredUser {
 
     protected String id;
+
     protected String username;
 
     public String getId() {
@@ -46,9 +47,6 @@ public class RegisteredUser {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName()+"["
-                + "id:" + id
-                + " userName:" + username
-                + ']';
+        return getClass().getSimpleName() + "[" + "id:" + id + " userName:" + username + ']';
     }
 }

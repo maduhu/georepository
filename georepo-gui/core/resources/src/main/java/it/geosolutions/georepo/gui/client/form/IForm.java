@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.form.IForm,v. 0.1 28/lug/2010 14.32.07 created by frank $
- * $Revision: 0.1 $
- * $Date: 28/lug/2010 14.32.07 $
+ * $ Header: it.geosolutions.georepo.gui.client.form.IForm,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.10 $
  *
  * ====================================================================
  *
@@ -29,12 +29,15 @@
  */
 package it.geosolutions.georepo.gui.client.form;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Interface IForm.
  */
 public interface IForm {
-	
-	void execute();
+
+    /**
+     * Execute.
+     */
+    void execute();
 
 }

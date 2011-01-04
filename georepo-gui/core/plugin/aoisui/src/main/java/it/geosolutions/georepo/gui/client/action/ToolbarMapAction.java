@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.ToolbarMapAction,v. 0.1 27/lug/2010 11.18.49 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.18.49 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.ToolbarMapAction,v. 0.1 3-gen-2011 16.16.36 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.16.36 $
  *
  * ====================================================================
  *
@@ -31,31 +31,44 @@ package it.geosolutions.georepo.gui.client.action;
 
 import it.geosolutions.georepo.gui.client.Category;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class ToolbarMapAction.
  */
 public abstract class ToolbarMapAction extends ToolbarAction {
 
-	private String tooltip;
+    /** The tooltip. */
+    private String tooltip;
 
-	public ToolbarMapAction(String tooltip, Category category) {
-		super(category);
-		this.tooltip = tooltip;
-	}
+    /**
+     * Instantiates a new toolbar map action.
+     * 
+     * @param tooltip
+     *            the tooltip
+     * @param category
+     *            the category
+     */
+    public ToolbarMapAction(String tooltip, Category category) {
+        super(category);
+        this.tooltip = tooltip;
+    }
 
-	/**
-	 * @return the tooltip
-	 */
-	public String getTooltip() {
-		return tooltip;
-	}
+    /**
+     * Gets the tooltip.
+     * 
+     * @return the tooltip
+     */
+    public String getTooltip() {
+        return tooltip;
+    }
 
-	/**
-	 * @param tooltip
-	 *            the tooltip to set
-	 */
-	public void setTooltip(String tooltip) {
-		this.tooltip = tooltip;
-	}
+    /**
+     * Sets the tooltip.
+     * 
+     * @param tooltip
+     *            the new tooltip
+     */
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
+    }
 }

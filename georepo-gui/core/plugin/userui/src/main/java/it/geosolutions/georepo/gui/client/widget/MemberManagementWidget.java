@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.MemberManagementWidget,v. 0.1 3-gen-2011 17.06.55 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.55 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -26,44 +30,58 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.WidgetListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia Di Pisa
- *
+ * The Class MemberManagementWidget.
  */
-public class MemberManagementWidget  extends ContentPanel {
+public class MemberManagementWidget extends ContentPanel {
 
+    /** The SEARC h_ button. */
     public static int SEARCH_BUTTON = 0x01;
+
+    /** The GE t_ watche s_ button. */
     public static int GET_WATCHES_BUTTON = 0x02;
 
-	private MemberInfoBindingWidget memberInfo;
+    /** The member info. */
+    private MemberInfoBindingWidget memberInfo;
 
-	public MemberManagementWidget() {
-		setId("memberManagementWidget");
-		setHeading(I18nProvider.getMessages().memberManagementLabel());
-		setLayout(new FitLayout());
+    /**
+     * Instantiates a new member management widget.
+     */
+    public MemberManagementWidget() {
+        setId("memberManagementWidget");
+        setHeading(I18nProvider.getMessages().memberManagementLabel());
+        setLayout(new FitLayout());
 
-		setLayoutOnChange(true);
+        setLayoutOnChange(true);
 
-		memberInfo = new MemberInfoBindingWidget();
+        memberInfo = new MemberInfoBindingWidget();
 
-		add(memberInfo.getFormPanel());
+        add(memberInfo.getFormPanel());
 
-		addWidgetListener(new WidgetListener() {
-			@Override
+        addWidgetListener(new WidgetListener() {
+            @Override
             public void widgetResized(ComponentEvent ce) {
-				memberInfo.getFormPanel().setHeight(getHeight());
-			}
-		});
+                memberInfo.getFormPanel().setHeight(getHeight());
+            }
+        });
 
-		setScrollMode(Scroll.AUTOY);
-	}
+        setScrollMode(Scroll.AUTOY);
+    }
 
+    /**
+     * Instantiates a new member management widget.
+     * 
+     * @param showButtons
+     *            the show buttons
+     */
     public MemberManagementWidget(int showButtons) {
 
         this();
@@ -78,24 +96,26 @@ public class MemberManagementWidget  extends ContentPanel {
 
     }
 
-	/**
-	 * @return the userInfo
-	 */
-	public MemberInfoBindingWidget getMemberInfo() {
-		return memberInfo;
-	}
+    /**
+     * Gets the member info.
+     * 
+     * @return the member info
+     */
+    public MemberInfoBindingWidget getMemberInfo() {
+        return memberInfo;
+    }
 
-	/**
-	 * Enable Both Delete and Update User Buttons
-	 */
-	public void enableButtons() {
-		this.memberInfo.enableButtons();
-	}
+    /**
+     * Enable buttons.
+     */
+    public void enableButtons() {
+        this.memberInfo.enableButtons();
+    }
 
-	/**
-	 * Disable Both Delete and Update User Buttons
-	 */
-	public void disableButtons() {
-		this.memberInfo.disableButtons();
-	}
+    /**
+     * Disable buttons.
+     */
+    public void disableButtons() {
+        this.memberInfo.disableButtons();
+    }
 }

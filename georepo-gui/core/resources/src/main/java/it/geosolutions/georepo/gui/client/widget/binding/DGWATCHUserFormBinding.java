@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.binding.DGWATCHFormBinding,v. 0.1 20/lug/2010 17.55.49 created by frank $
- * $Revision: 0.1 $
- * $Date: 20/lug/2010 17.55.49 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.DGWATCHUserFormBinding,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
  *
  * ====================================================================
  *
@@ -29,48 +29,58 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding;
 
-
 import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
 import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class DGWATCHUserFormBinding.
  */
 public class DGWATCHUserFormBinding extends FormBinding {
 
-	public DGWATCHUserFormBinding(FormPanel panel, boolean autoBind) {
-		super(panel, autoBind);
-	}
+    /**
+     * Instantiates a new dGWATCH user form binding.
+     * 
+     * @param panel
+     *            the panel
+     * @param autoBind
+     *            the auto bind
+     */
+    public DGWATCHUserFormBinding(FormPanel panel, boolean autoBind) {
+        super(panel, autoBind);
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FormBinding#autoBind()
+     */
+    @Override
     @SuppressWarnings("rawtypes")
-	public void autoBind() {
-		for (Field f : panel.getFields()) {
-			if (!bindings.containsKey(f.getId())) {
-				String name = f.getName();
-				if (name != null) {
-					FieldBinding b;
-					if (f.getId()
-							.equalsIgnoreCase(SendTypeEnum.TYPE.getValue()))
-						b = new ComboTypeFieldBinding(f, f.getName());
-					else if (f.getId().equalsIgnoreCase(
-							UpdateIntervalEnum.TIME.getValue()))
-						b = new ComboTimeFieldBinding(f, f.getName());
-					else if (f.getId().equals(
-							BeanKeyValue.REDUCED_CONTENT_UPDATE.getValue()))
-						b = new ReducedContentFieldBinding(f, f.getName());
-					else
-						b = new DGWATCHFieldBinding(f, f.getName());
-					bindings.put(f.getId(), b);
-				}
-			}
-		}
-	}
+    public void autoBind() {
+        for (Field f : panel.getFields()) {
+            if (!bindings.containsKey(f.getId())) {
+                String name = f.getName();
+                if (name != null) {
+                    FieldBinding b;
+                    if (f.getId().equalsIgnoreCase(SendTypeEnum.TYPE.getValue()))
+                        b = new ComboTypeFieldBinding(f, f.getName());
+                    else if (f.getId().equalsIgnoreCase(UpdateIntervalEnum.TIME.getValue()))
+                        b = new ComboTimeFieldBinding(f, f.getName());
+                    else if (f.getId().equals(BeanKeyValue.REDUCED_CONTENT_UPDATE.getValue()))
+                        b = new ReducedContentFieldBinding(f, f.getName());
+                    else
+                        b = new DGWATCHFieldBinding(f, f.getName());
+                    bindings.put(f.getId(), b);
+                }
+            }
+        }
+    }
 
 }

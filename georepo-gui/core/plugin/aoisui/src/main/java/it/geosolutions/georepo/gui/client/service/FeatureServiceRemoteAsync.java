@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.tab.GeoRSSTabItem,v. 0.1 09/lug/2010 10.23.26 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 10.23.26 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.FeatureServiceRemoteAsync,v. 0.1 3-gen-2011 16.52.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.45 $
  *
  * ====================================================================
  *
@@ -30,17 +30,29 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.model.Feature;
+
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface FeatureServiceRemoteAsync.
+ */
 public interface FeatureServiceRemoteAsync {
 
-	/**
-	 * 
-	 * @param config
-	 * @param callback
-	 */
-	public void getUserFeatures(PagingLoadConfig config, long userId, AsyncCallback<PagingLoadResult<Feature>> callback);
-	
+    /**
+     * Gets the user features.
+     * 
+     * @param config
+     *            the config
+     * @param userId
+     *            the user id
+     * @param callback
+     *            the callback
+     * @return the user features
+     */
+    public void getUserFeatures(PagingLoadConfig config, long userId,
+            AsyncCallback<PagingLoadResult<Feature>> callback);
+
 }

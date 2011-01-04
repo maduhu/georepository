@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.ObserverFilterWidget,v. 0.1 18/ago/2010 17.20.35 created by frank $
- * $Revision: 0.1 $
- * $Date: 18/ago/2010 17.20.35 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.observer.ObserverFilterWidget,v. 0.1 3-gen-2011 16.58.03 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.58.03 $
  *
  * ====================================================================
  *
@@ -34,107 +34,129 @@ import it.geosolutions.georepo.gui.client.Observable;
 import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.Filter;
 import it.geosolutions.georepo.gui.client.model.User;
+
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class ObserverFilterWidget.
  */
 public class ObserverFilterWidget extends Observable {
 
-	private AOI aoiSelected;
-	private User userSelected;
-	private Filter defaultFilter;
+    /** The aoi selected. */
+    private AOI aoiSelected;
 
-	/**
-	 * @param aoiSelected
-	 *            the aoiSelected to set
-	 */
-	public void setAoiSelected(AOI aoiSelected) {
-		this.aoiSelected = aoiSelected;
-		this.notifyBinding();
-	}
+    /** The user selected. */
+    private User userSelected;
 
-	/**
-	 * @param userSelected
-	 *            the userSelected to set
-	 */
-	public void setUserSelected(User userSelected) {
-		this.userSelected = userSelected;
-		this.notifyBinding();
-	}
+    /** The default filter. */
+    private Filter defaultFilter;
 
-	/**
-	 * @return the userSelected
-	 */
-	public User getUserSelected() {
-		return userSelected;
-	}
+    /**
+     * Sets the aoi selected.
+     * 
+     * @param aoiSelected
+     *            the new aoi selected
+     */
+    public void setAoiSelected(AOI aoiSelected) {
+        this.aoiSelected = aoiSelected;
+        this.notifyBinding();
+    }
 
-	/**
-	 * @return the aoiSelected
-	 */
-	public AOI getAoiSelected() {
-		return aoiSelected;
-	}
+    /**
+     * Sets the user selected.
+     * 
+     * @param userSelected
+     *            the new user selected
+     */
+    public void setUserSelected(User userSelected) {
+        this.userSelected = userSelected;
+        this.notifyBinding();
+    }
 
-	/**
-	 * @return the defaultFilter
-	 */
-	public Filter getDefaultFilter() {
-		return defaultFilter;
-	}
+    /**
+     * Gets the user selected.
+     * 
+     * @return the user selected
+     */
+    public User getUserSelected() {
+        return userSelected;
+    }
 
-	/**
-	 * @param defaultFilter
-	 *            the defaultFilter to set
-	 */
-	public void setDefaultFilter(Filter defaultFilter) {
-		this.defaultFilter = defaultFilter;
-	}
+    /**
+     * Gets the aoi selected.
+     * 
+     * @return the aoi selected
+     */
+    public AOI getAoiSelected() {
+        return aoiSelected;
+    }
 
-	/**
-	 * This method verify if the user exist
-	 * 
-	 * @return
-	 */
-	public boolean existSelectedUser() {
-		return this.userSelected != null;
-	}
+    /**
+     * Gets the default filter.
+     * 
+     * @return the default filter
+     */
+    public Filter getDefaultFilter() {
+        return defaultFilter;
+    }
 
-	/**
-	 * This method verify if the AOI exist
-	 * 
-	 * @return
-	 */
-	public boolean existSelectedAOI() {
-		return this.aoiSelected != null;
-	}
+    /**
+     * Sets the default filter.
+     * 
+     * @param defaultFilter
+     *            the new default filter
+     */
+    public void setDefaultFilter(Filter defaultFilter) {
+        this.defaultFilter = defaultFilter;
+    }
 
-	/**
-	 * Notify Binding check if User Selected and AOI Selected exits and notify
-	 * changed in the Observers
-	 */
-	private void notifyBinding() {
-		if (existSelectedUser() && existSelectedAOI()) {
-			super.setChanged();
-			super.notifyObservers();
-		} else {
-			unbind();
-		}
-	}
+    /**
+     * Exist selected user.
+     * 
+     * @return true, if successful
+     */
+    public boolean existSelectedUser() {
+        return this.userSelected != null;
+    }
 
-	public void existDefaultFilter() {
-		if ((this.aoiSelected.isShared())
-				|| (this.userSelected.equals(aoiSelected.getOwner()))) {
-			Dispatcher.forwardEvent(DGWATCHEvents.EXIST_DEFAULT_FILTER);
-		} else {
-			// UNBIND THE MODEL
-			unbind();
-		}
-	}
+    /**
+     * Exist selected aoi.
+     * 
+     * @return true, if successful
+     */
+    public boolean existSelectedAOI() {
+        return this.aoiSelected != null;
+    }
 
-	public void unbind() {
-		Dispatcher.forwardEvent(DGWATCHEvents.UNBIND_FILTER_WIDGET);
-	}
+    /**
+     * Notify binding.
+     */
+    private void notifyBinding() {
+        if (existSelectedUser() && existSelectedAOI()) {
+            super.setChanged();
+            super.notifyObservers();
+        } else {
+            unbind();
+        }
+    }
+
+    /**
+     * Exist default filter.
+     */
+    public void existDefaultFilter() {
+        if ((this.aoiSelected.isShared()) || (this.userSelected.equals(aoiSelected.getOwner()))) {
+            Dispatcher.forwardEvent(DGWATCHEvents.EXIST_DEFAULT_FILTER);
+        } else {
+            // UNBIND THE MODEL
+            unbind();
+        }
+    }
+
+    /**
+     * Unbind.
+     */
+    public void unbind() {
+        Dispatcher.forwardEvent(DGWATCHEvents.UNBIND_FILTER_WIDGET);
+    }
 }

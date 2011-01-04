@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.MenuClientTool,v. 0.1 30/set/2010 15.47.58 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 15.47.58 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.MenuClientTool,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -32,49 +32,58 @@ package it.geosolutions.georepo.gui.client.configuration;
 import java.util.Collections;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class MenuClientTool.
  */
 public class MenuClientTool extends GenericClientTool {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8189124026216386133L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 8189124026216386133L;
 
-	private boolean enabled;
-	private List<ActionClientTool> actionTools;
+    /** The enabled. */
+    private boolean enabled;
 
-	/**
-	 * @return the enabled
-	 */
-	public boolean isEnabled() {
-		return enabled;
-	}
+    /** The action tools. */
+    private List<ActionClientTool> actionTools;
 
-	/**
-	 * @param enabled
-	 *            the enabled to set
-	 */
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    /**
+     * Checks if is enabled.
+     * 
+     * @return true, if is enabled
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	/**
-	 * @return the actionTools
-	 */
-	public List<ActionClientTool> getActionTools() {
-		return actionTools;
-	}
+    /**
+     * Sets the enabled.
+     * 
+     * @param enabled
+     *            the new enabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	/**
-	 * @param actionTools
-	 *            the actionTools to set
-	 */
-	public void setActionTools(List<ActionClientTool> actionTools) {
-		Collections.sort(actionTools);
-		this.actionTools = actionTools;
-	}
+    /**
+     * Gets the action tools.
+     * 
+     * @return the action tools
+     */
+    public List<ActionClientTool> getActionTools() {
+        return actionTools;
+    }
+
+    /**
+     * Sets the action tools.
+     * 
+     * @param actionTools
+     *            the new action tools
+     */
+    public void setActionTools(List<ActionClientTool> actionTools) {
+        Collections.sort(actionTools);
+        this.actionTools = actionTools;
+    }
 
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.tab.GeoRSSTabItem,v. 0.1 09/lug/2010 10.23.26 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 10.23.26 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.FeaturePaginationGridWidget,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.56 $
  *
  * ====================================================================
  *
@@ -29,14 +29,15 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Feature;
 import it.geosolutions.georepo.gui.client.model.Feature.FeatureKeyValue;
 import it.geosolutions.georepo.gui.client.service.FeatureServiceRemoteAsync;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
 import com.extjs.gxt.ui.client.data.LoadEvent;
@@ -53,170 +54,190 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FeaturePaginationGridWidget.
+ */
 public class FeaturePaginationGridWidget extends DGWATCHGridWidget<Feature> {
 
-	private FeatureServiceRemoteAsync service;
-	private RpcProxy<PagingLoadResult<Feature>> proxy;
-	private PagingLoader<PagingLoadResult<ModelData>> loader;
-	private PagingToolBar toolBar;
+    /** The service. */
+    private FeatureServiceRemoteAsync service;
 
-	private long userId;
+    /** The proxy. */
+    private RpcProxy<PagingLoadResult<Feature>> proxy;
 
-	/**
-	 * 
-	 */
-	public FeaturePaginationGridWidget(FeatureServiceRemoteAsync service) {
-		super();
-		this.service = service;
-	}
+    /** The loader. */
+    private PagingLoader<PagingLoadResult<ModelData>> loader;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#
-	 * setGridProperties ()
-	 */
-	@Override
-	public void setGridProperties() {
-		// grid.setAutoExpandColumn(FeatureKeyValue.LAST_SENT_BY_MAIL.getValue());
+    /** The tool bar. */
+    private PagingToolBar toolBar;
 
-		grid.setLoadMask(true);
-		grid.setAutoWidth(true);
-	}
+    /** The user id. */
+    private long userId;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#
-	 * prepareColumnModel()
-	 */
-	@Override
-	public ColumnModel prepareColumnModel() {
-		List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
+    /**
+     * Instantiates a new feature pagination grid widget.
+     * 
+     * @param service
+     *            the service
+     */
+    public FeaturePaginationGridWidget(FeatureServiceRemoteAsync service) {
+        super();
+        this.service = service;
+    }
 
-		ColumnConfig idColumn = new ColumnConfig();
-		idColumn.setId(FeatureKeyValue.LAST_SENT_BY_MAIL.getValue());
-		idColumn.setHeader(I18nProvider.getMessages().geoRssEmailSentLabel());
-		idColumn.setWidth(200);
-		configs.add(idColumn);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# setGridProperties ()
+     */
+    @Override
+    public void setGridProperties() {
+        // grid.setAutoExpandColumn(FeatureKeyValue.LAST_SENT_BY_MAIL.getValue());
 
-		ColumnConfig titleColumn = new ColumnConfig();
-		titleColumn.setId(FeatureKeyValue.LAST_SENT_BY_RSS.getValue());
-		titleColumn.setHeader(I18nProvider.getMessages().geoRssRssSentLabel());
-		titleColumn.setWidth(200);
-		configs.add(titleColumn);
+        grid.setLoadMask(true);
+        grid.setAutoWidth(true);
+    }
 
-		ColumnConfig xmlColumn = new ColumnConfig();
-		xmlColumn.setId(FeatureKeyValue.WFS_RESPONSE_BLOB.getValue());
-		xmlColumn.setHeader(I18nProvider.getMessages().geoRssWfsResponseBlobLabel());
-		xmlColumn.setWidth(200);
-		configs.add(xmlColumn);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     */
+    @Override
+    public ColumnModel prepareColumnModel() {
+        List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
-		return new ColumnModel(configs);
-	}
+        ColumnConfig idColumn = new ColumnConfig();
+        idColumn.setId(FeatureKeyValue.LAST_SENT_BY_MAIL.getValue());
+        idColumn.setHeader(I18nProvider.getMessages().geoRssEmailSentLabel());
+        idColumn.setWidth(200);
+        configs.add(idColumn);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore
-	 * ()
-	 */
-	@Override
-	public void createStore() {
-		toolBar = new PagingToolBar(25);
+        ColumnConfig titleColumn = new ColumnConfig();
+        titleColumn.setId(FeatureKeyValue.LAST_SENT_BY_RSS.getValue());
+        titleColumn.setHeader(I18nProvider.getMessages().geoRssRssSentLabel());
+        titleColumn.setWidth(200);
+        configs.add(titleColumn);
 
-		this.proxy = new RpcProxy<PagingLoadResult<Feature>>() {
+        ColumnConfig xmlColumn = new ColumnConfig();
+        xmlColumn.setId(FeatureKeyValue.WFS_RESPONSE_BLOB.getValue());
+        xmlColumn.setHeader(I18nProvider.getMessages().geoRssWfsResponseBlobLabel());
+        xmlColumn.setWidth(200);
+        configs.add(xmlColumn);
 
-			@Override
-			protected void load(Object loadConfig,
-					AsyncCallback<PagingLoadResult<Feature>> callback) {
-				service.getUserFeatures((PagingLoadConfig) loadConfig, userId,
-						callback);
-			}
-		};
+        return new ColumnModel(configs);
+    }
 
-		loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore ()
+     */
+    @Override
+    public void createStore() {
+        toolBar = new PagingToolBar(25);
 
-		loader.setRemoteSort(false);
+        this.proxy = new RpcProxy<PagingLoadResult<Feature>>() {
 
-		store = new ListStore<Feature>(loader);
+            @Override
+            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<Feature>> callback) {
+                service.getUserFeatures((PagingLoadConfig) loadConfig, userId, callback);
+            }
+        };
 
-		this.toolBar.bind(loader);
+        loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
 
-		toolBar.disable();
+        loader.setRemoteSort(false);
 
-		setUpLoadListener();
-	}
+        store = new ListStore<Feature>(loader);
 
-	/**
-	 * @return the loader
-	 */
-	public PagingLoader<PagingLoadResult<ModelData>> getLoader() {
-		return loader;
-	}
+        this.toolBar.bind(loader);
 
-	/**
-	 * @return the toolBar
-	 */
-	public PagingToolBar getToolBar() {
-		return toolBar;
-	}
+        toolBar.disable();
 
-	/**
-	 * @return long
-	 */
-	public long getUserId() {
-		return userId;
-	}
+        setUpLoadListener();
+    }
 
-	/**
-	 * @param userId
-	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+    /**
+     * Gets the loader.
+     * 
+     * @return the loader
+     */
+    public PagingLoader<PagingLoadResult<ModelData>> getLoader() {
+        return loader;
+    }
 
-	/**
-	 * 
-	 */
-	public void clearGridElements() {
-		this.store.removeAll();
-		this.toolBar.clear();
-		this.toolBar.disable();
-	}
+    /**
+     * Gets the tool bar.
+     * 
+     * @return the tool bar
+     */
+    public PagingToolBar getToolBar() {
+        return toolBar;
+    }
 
-	private void setUpLoadListener() {
-		loader.addLoadListener(new LoadListener() {
+    /**
+     * Gets the user id.
+     * 
+     * @return the user id
+     */
+    public long getUserId() {
+        return userId;
+    }
 
-			@Override
+    /**
+     * Sets the user id.
+     * 
+     * @param userId
+     *            the new user id
+     */
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * Clear grid elements.
+     */
+    public void clearGridElements() {
+        this.store.removeAll();
+        this.toolBar.clear();
+        this.toolBar.disable();
+    }
+
+    /**
+     * Sets the up load listener.
+     */
+    private void setUpLoadListener() {
+        loader.addLoadListener(new LoadListener() {
+
+            @Override
             public void loaderBeforeLoad(LoadEvent le) {
-				if (!toolBar.isEnabled())
-					toolBar.enable();
-			}
+                if (!toolBar.isEnabled())
+                    toolBar.enable();
+            }
 
-			@Override
+            @Override
             public void loaderLoad(LoadEvent le) {
-				BasePagingLoadResult<?> result = le.getData();
-				if (!result.getData().isEmpty()) {
-					int size = result.getData().size();
-					String message = "";
-					if (size == 1)
-						message = I18nProvider.getMessages().featureLabel();
-					else
-						message = I18nProvider.getMessages().featurePluralLabel();
-					Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-							new String[] {
-									I18nProvider.getMessages().featureServiceName(),
-									I18nProvider.getMessages().foundLabel() + " " + result.getData().size() + " "
-											+ message });
-				} else {
-					Dispatcher.forwardEvent(DGWATCHEvents.SEND_ALERT_MESSAGE,
-							new String[] { I18nProvider.getMessages().featureServiceName(),
-									I18nProvider.getMessages().featureNotFoundMessage() });
-				}
-			}
+                BasePagingLoadResult<?> result = le.getData();
+                if (!result.getData().isEmpty()) {
+                    int size = result.getData().size();
+                    String message = "";
+                    if (size == 1)
+                        message = I18nProvider.getMessages().featureLabel();
+                    else
+                        message = I18nProvider.getMessages().featurePluralLabel();
+                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                            I18nProvider.getMessages().featureServiceName(),
+                            I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
+                                    + " " + message });
+                } else {
+                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_ALERT_MESSAGE, new String[] {
+                            I18nProvider.getMessages().featureServiceName(),
+                            I18nProvider.getMessages().featureNotFoundMessage() });
+                }
+            }
 
-		});
-	}
+        });
+    }
 }

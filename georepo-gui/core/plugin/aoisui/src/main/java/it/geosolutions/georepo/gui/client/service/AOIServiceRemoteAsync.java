@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.AOIServiceRemoteAsync,v. 0.1 20/lug/2010 10.22.30 created by frank $
- * $Revision: 0.1 $
- * $Date: 20/lug/2010 10.22.30 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.AOIServiceRemoteAsync,v. 0.1 3-gen-2011 16.52.44 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.44 $
  *
  * ====================================================================
  *
@@ -31,80 +31,106 @@ package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.AOI;
+
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Interface AOIServiceRemoteAsync.
  */
 /**
  * @author Tobia di Pisa
- *
+ * 
  */
 public interface AOIServiceRemoteAsync {
 
-	/**
-	 * 
-	 * @param config
-	 * @param callback
-	 */
-	public void loadAOI(PagingLoadConfig config, String searchText,
-			AsyncCallback<PagingLoadResult<AOI>> callback);
+    /**
+     * Load aoi.
+     * 
+     * @param config
+     *            the config
+     * @param searchText
+     *            the search text
+     * @param callback
+     *            the callback
+     */
+    public void loadAOI(PagingLoadConfig config, String searchText,
+            AsyncCallback<PagingLoadResult<AOI>> callback);
 
-//	/**
-//	 * @param config
-//	 * @param userId
-//	 * @param callback
-//	 */
-//	public void getUserAOIs(PagingLoadConfig config, long userId,
-//			AsyncCallback<PagingLoadResult<AOI>> callback);
+    // /**
+    // * @param config
+    // * @param userId
+    // * @param callback
+    // */
+    // public void getUserAOIs(PagingLoadConfig config, long userId,
+    // AsyncCallback<PagingLoadResult<AOI>> callback);
 
-//	/**
-//	 * 
-//	 * @param userId
-//	 * @param aoiId
-//	 * @param callback
-//	 */
-//	public void unshareAOI(long userId, long aoiId, AsyncCallback<Object> callback);
-//
-//	/**
-//	 * 
-//	 * @param aoiID
-//	 * @param callback
-//	 */
-//	public void shareAOI(long aoiID, AsyncCallback<Object> callback);
+    // /**
+    // *
+    // * @param userId
+    // * @param aoiId
+    // * @param callback
+    // */
+    // public void unshareAOI(long userId, long aoiId, AsyncCallback<Object> callback);
+    //
+    // /**
+    // *
+    // * @param aoiID
+    // * @param callback
+    // */
+    // public void shareAOI(long aoiID, AsyncCallback<Object> callback);
 
-	/**
-	 * 
-	 * @param aoi
-	 * @param callback
-	 */
-	public void saveAOI(AOI aoi, AsyncCallback<AOI> callback);
+    /**
+     * Save aoi.
+     * 
+     * @param aoi
+     *            the aoi
+     * @param callback
+     *            the callback
+     */
+    public void saveAOI(AOI aoi, AsyncCallback<AOI> callback);
 
-	/**
-	 * @param user
-	 * @param callback
-	 */
-	public void getAOIDetail(AOI aoi, AsyncCallback<AOI> callback);
+    /**
+     * Gets the aOI detail.
+     * 
+     * @param aoi
+     *            the aoi
+     * @param callback
+     *            the callback
+     * @return the aOI detail
+     */
+    public void getAOIDetail(AOI aoi, AsyncCallback<AOI> callback);
 
-	/**
-	 * @param aoiId
-	 * @param callback
-	 */
-	public void deleteAOI(long aoiId, AsyncCallback<Object> callback);
+    /**
+     * Delete aoi.
+     * 
+     * @param aoiId
+     *            the aoi id
+     * @param callback
+     *            the callback
+     */
+    public void deleteAOI(long aoiId, AsyncCallback<Object> callback);
 
-	/**
-	 * @param aoi
-	 * @return AOI
-	 * @throws ApplicationException
-	 */
-	public void updateAOI(AOI aoi, AsyncCallback<AOI> callback);
-	
-	/**
-	 * @param aoiId
-	 * @param callback
-	 */
-	public void getWatchAOIDetails(long aoiId, AsyncCallback<AOI> callback);
+    /**
+     * Update aoi.
+     * 
+     * @param aoi
+     *            the aoi
+     * @param callback
+     *            the callback
+     */
+    public void updateAOI(AOI aoi, AsyncCallback<AOI> callback);
+
+    /**
+     * Gets the watch aoi details.
+     * 
+     * @param aoiId
+     *            the aoi id
+     * @param callback
+     *            the callback
+     * @return the watch aoi details
+     */
+    public void getWatchAOIDetails(long aoiId, AsyncCallback<AOI> callback);
 }

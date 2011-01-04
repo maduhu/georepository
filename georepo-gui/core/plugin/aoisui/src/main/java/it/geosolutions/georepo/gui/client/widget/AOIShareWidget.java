@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AOIShareWidget,v. 0.1 20/lug/2010 16.48.57 created by frank $
- * $Revision: 0.1 $
- * $Date: 20/lug/2010 16.48.57 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AOIShareWidget,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.56 $
  *
  * ====================================================================
  *
@@ -33,6 +33,7 @@ import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.AOI.AOIKeyValue;
+
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
@@ -48,147 +49,165 @@ import com.extjs.gxt.ui.client.widget.layout.VBoxLayoutData;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class AOIShareWidget.
  */
 public class AOIShareWidget extends DGWATCHBindingWidget<AOI> {
 
-	private FormData formData;
-	private CheckBox shared;
-	private LabelField owner;
-	private Button shareAOI;
-	private Button unshareAOI;
+    /** The form data. */
+    private FormData formData;
 
-	/**
-	 * 
-	 */
-	public AOIShareWidget() {
-		this.init();
-	}
+    /** The shared. */
+    private CheckBox shared;
 
-	private void init() {
-		formData = new FormData("-20");
-		formPanel = createFormPanel();
-		formBinding = new FormBinding(formPanel, true);
-	}
+    /** The owner. */
+    private LabelField owner;
 
-	@Override
-	public FormPanel createFormPanel() {
-		FormPanel fp = new FormPanel();
-		fp.setFrame(true);
-		fp.setHeaderVisible(false);
-		fp.setAutoHeight(true);
-		fp.setWidth(428);
+    /** The share aoi. */
+    private Button shareAOI;
 
-		FieldSet fieldSet = new FieldSet();
-		fieldSet.setHeading("Share");
-		fieldSet.setCheckboxToggle(false);
-		fieldSet.setCollapsible(false);
+    /** The unshare aoi. */
+    private Button unshareAOI;
 
-		FormLayout layout = new FormLayout();
-		fieldSet.setLayout(layout);
+    /**
+     * Instantiates a new aOI share widget.
+     */
+    public AOIShareWidget() {
+        this.init();
+    }
 
-		shared = new CheckBox();
-		shared.setId(AOIKeyValue.SHARED.getValue());
-		shared.setName(AOIKeyValue.SHARED.getValue());
-		shared.setFieldLabel("Shared");
-		shared.setWidth(150);
-		shared.setEnabled(false);
+    /**
+     * Inits the.
+     */
+    private void init() {
+        formData = new FormData("-20");
+        formPanel = createFormPanel();
+        formBinding = new FormBinding(formPanel, true);
+    }
 
-		fieldSet.add(shared, formData);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#createFormPanel()
+     */
+    @Override
+    public FormPanel createFormPanel() {
+        FormPanel fp = new FormPanel();
+        fp.setFrame(true);
+        fp.setHeaderVisible(false);
+        fp.setAutoHeight(true);
+        fp.setWidth(428);
 
-		owner = new LabelField();
-		owner.setId(AOIKeyValue.OWNER.getValue());
-		owner.setName(AOIKeyValue.OWNER.getValue());
-		owner.setWidth(200);
-		owner.setFieldLabel("Owner");
+        FieldSet fieldSet = new FieldSet();
+        fieldSet.setHeading("Share");
+        fieldSet.setCheckboxToggle(false);
+        fieldSet.setCollapsible(false);
 
-		fieldSet.add(owner, formData);
+        FormLayout layout = new FormLayout();
+        fieldSet.setLayout(layout);
 
-		fp.add(fieldSet);
+        shared = new CheckBox();
+        shared.setId(AOIKeyValue.SHARED.getValue());
+        shared.setName(AOIKeyValue.SHARED.getValue());
+        shared.setFieldLabel("Shared");
+        shared.setWidth(150);
+        shared.setEnabled(false);
 
-		FlexTable table = new FlexTable();
+        fieldSet.add(shared, formData);
 
-		table.setCellSpacing(8);
-		table.setCellPadding(4);
+        owner = new LabelField();
+        owner.setId(AOIKeyValue.OWNER.getValue());
+        owner.setName(AOIKeyValue.OWNER.getValue());
+        owner.setWidth(200);
+        owner.setFieldLabel("Owner");
 
-		shareAOI = new Button("Share", new SelectionListener<ButtonEvent>() {
+        fieldSet.add(owner, formData);
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher
-						.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-								new String[] { "Share AOI",
-										"Share AOI Button pressed." });
-				Dispatcher.forwardEvent(DGWATCHEvents.SHARE_AOI);
-			}
-		});
+        fp.add(fieldSet);
 
-		shareAOI.setWidth(90);
-		shareAOI.setIcon(Resources.ICONS.share());
+        FlexTable table = new FlexTable();
 
-		table.getCellFormatter().setHorizontalAlignment(1, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.setCellSpacing(8);
+        table.setCellPadding(4);
 
-		table.setWidget(1, 1, this.shareAOI);
+        shareAOI = new Button("Share", new SelectionListener<ButtonEvent>() {
 
-		unshareAOI = new Button("Unshare",
-				new SelectionListener<ButtonEvent>() {
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                        "Share AOI", "Share AOI Button pressed." });
+                Dispatcher.forwardEvent(DGWATCHEvents.SHARE_AOI);
+            }
+        });
 
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						Dispatcher.forwardEvent(
-								DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-										"Unshare AOI",
-										"Unshare AOI button pressed." });
-						Dispatcher
-								.forwardEvent(DGWATCHEvents.SHOW_CHOOSER_USER_WIDGET);
+        shareAOI.setWidth(90);
+        shareAOI.setIcon(Resources.ICONS.share());
 
-					}
-				});
+        table.getCellFormatter().setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_CENTER);
 
-		unshareAOI.setWidth(100);
-		unshareAOI.setIconStyle("x-dgwatch-unshare");
+        table.setWidget(1, 1, this.shareAOI);
 
-		table.getCellFormatter().setHorizontalAlignment(1, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        unshareAOI = new Button("Unshare", new SelectionListener<ButtonEvent>() {
 
-		table.setWidget(1, 2, this.unshareAOI);
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                        "Unshare AOI", "Unshare AOI button pressed." });
+                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_CHOOSER_USER_WIDGET);
 
-		shareAOI.disable();
-		unshareAOI.disable();
-		
-		fp.add(table, new VBoxLayoutData(5, 0, 0, 90));
+            }
+        });
 
-		return fp;
-	}
+        unshareAOI.setWidth(100);
+        unshareAOI.setIconStyle("x-dgwatch-unshare");
 
-	/**
-	 * @return the formPanel
-	 */
-	@Override
+        table.getCellFormatter().setHorizontalAlignment(1, 2, HasHorizontalAlignment.ALIGN_CENTER);
+
+        table.setWidget(1, 2, this.unshareAOI);
+
+        shareAOI.disable();
+        unshareAOI.disable();
+
+        fp.add(table, new VBoxLayoutData(5, 0, 0, 90));
+
+        return fp;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#getFormPanel()
+     */
+    @Override
     public FormPanel getFormPanel() {
-		return formPanel;
-	}
+        return formPanel;
+    }
 
-	/**
-	 * @return the shareAOI
-	 */
-	public Button getShareAOI() {
-		return shareAOI;
-	}
+    /**
+     * Gets the share aoi.
+     * 
+     * @return the share aoi
+     */
+    public Button getShareAOI() {
+        return shareAOI;
+    }
 
-	/**
-	 * @return the unshareAOI
-	 */
-	public Button getUnshareAOI() {
-		return unshareAOI;
-	}
+    /**
+     * Gets the unshare aoi.
+     * 
+     * @return the unshare aoi
+     */
+    public Button getUnshareAOI() {
+        return unshareAOI;
+    }
 
-	public void disableButtons() {
-		this.shareAOI.disable();
-		this.unshareAOI.disable();
-	}
+    /**
+     * Disable buttons.
+     */
+    public void disableButtons() {
+        this.shareAOI.disable();
+        this.unshareAOI.disable();
+    }
 
 }

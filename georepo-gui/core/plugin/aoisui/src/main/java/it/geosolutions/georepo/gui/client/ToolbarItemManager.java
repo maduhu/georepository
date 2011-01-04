@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.ToolbarItemManager,v. 0.1 27/lug/2010 11.56.43 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.56.43 $
+ * $ Header: it.geosolutions.georepo.gui.client.ToolbarItemManager,v. 0.1 3-gen-2011 16.15.58 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.15.58 $
  *
  * ====================================================================
  *
@@ -29,37 +29,41 @@
  */
 package it.geosolutions.georepo.gui.client;
 
-
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.configuration.GenericClientTool;
 import it.geosolutions.georepo.gui.client.configuration.IToolbarItemManager;
 
+import java.util.List;
+
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Class ToolbarItemManager.
  */
 public class ToolbarItemManager implements IToolbarItemManager {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1501328199018303376L;
-	private List<GenericClientTool> clientTools;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -1501328199018303376L;
 
-    /**
-     * @return the clientTools
+    /** The client tools. */
+    private List<GenericClientTool> clientTools;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.configuration.IToolbarItemManager#getClientTools()
      */
     public List<GenericClientTool> getClientTools() {
-            return clientTools;
+        return clientTools;
     }
 
-    /**
-     * @param clientTools
-     *            the clientTools to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.configuration.IToolbarItemManager#setClientTools(java.
+     * util.List)
      */
     public void setClientTools(List<GenericClientTool> clientTools) {
-            this.clientTools = clientTools;
+        this.clientTools = clientTools;
     }
 
 }

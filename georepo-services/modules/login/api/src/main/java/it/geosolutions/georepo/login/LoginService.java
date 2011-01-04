@@ -20,26 +20,25 @@
 
 package it.geosolutions.georepo.login;
 
-
-import it.geosolutions.georepo.api.exception.AuthException;
 import it.geosolutions.georepo.api.dto.GrantedAuths;
+import it.geosolutions.georepo.api.exception.AuthException;
 
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
 /**
- *
+ * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@WebService(name = "LoginService",
-            targetNamespace = "http://www.geo-solutions.it/it.geosolutions.georepo.login")
+@WebService(name = "LoginService", targetNamespace = "http://www.geo-solutions.it/it.geosolutions.georepo.login")
 public interface LoginService {
 
     @WebResult(name = "token")
-    String login(@WebParam(name = "username")String username, @WebParam(name = "password")String password) throws AuthException;
+    String login(@WebParam(name = "username") String username,
+            @WebParam(name = "password") String password) throws AuthException;
 
     GrantedAuths getGrantedAuthorities(@WebParam(name = "token") String token);
 
-    void logout(@WebParam(name = "token")String token);
+    void logout(@WebParam(name = "token") String token);
 }

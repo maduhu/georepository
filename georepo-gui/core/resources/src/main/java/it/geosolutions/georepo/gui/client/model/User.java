@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.User,v. 0.1 08/lug/2010 11.17.31 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 11.17.31 $
+ * $ Header: it.geosolutions.georepo.gui.client.model.User,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -29,441 +29,571 @@
  */
 package it.geosolutions.georepo.gui.client.model;
 
+import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
+import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
-import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class User.
  */
 public class User extends BeanModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5117714882113396553L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -5117714882113396553L;
 
-	private long id;
-	private boolean accountState;
-	private String name;
-	private String userName;
-	private String connectId;
-	private String password;
-	private String emailAddress;
-	private boolean enabled;
-	private boolean emailEnable;
-	private boolean rssEnable;
-	private boolean reducedContent;
-	private String sendType;
-	private int updateInterval;
-	private String upInteval;
-	private String path;
-	private List<AOI> areasOI = new ArrayList<AOI>();
+    /** The id. */
+    private long id;
+
+    /** The account state. */
+    private boolean accountState;
+
+    /** The name. */
+    private String name;
+
+    /** The user name. */
+    private String userName;
+
+    /** The connect id. */
+    private String connectId;
+
+    /** The password. */
+    private String password;
+
+    /** The email address. */
+    private String emailAddress;
+
+    /** The enabled. */
+    private boolean enabled;
+
+    /** The email enable. */
+    private boolean emailEnable;
+
+    /** The rss enable. */
+    private boolean rssEnable;
+
+    /** The reduced content. */
+    private boolean reducedContent;
+
+    /** The send type. */
+    private String sendType;
+
+    /** The update interval. */
+    private int updateInterval;
+
+    /** The up inteval. */
+    private String upInteval;
+
+    /** The path. */
+    private String path;
+
+    /** The areas oi. */
+    private List<AOI> areasOI = new ArrayList<AOI>();
+
+    /** The granted authorizations. */
     private List<Authorization> grantedAuthorizations;
 
-	public User() {
-		setPath("dgwatch/resources/images/userChoose.jpg");
-	}
+    /**
+     * Instantiates a new user.
+     */
+    public User() {
+        setPath("dgwatch/resources/images/userChoose.jpg");
+    }
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return the accountState
-	 */
-	public boolean isAccountState() {
-		return accountState;
-	}
+    /**
+     * Checks if is account state.
+     * 
+     * @return true, if is account state
+     */
+    public boolean isAccountState() {
+        return accountState;
+    }
 
-	/**
-	 * @param accountState
-	 *            the accountState to set
-	 */
-	public void setAccountState(boolean accountState) {
-		this.accountState = accountState;
-	}
+    /**
+     * Sets the account state.
+     * 
+     * @param accountState
+     *            the new account state
+     */
+    public void setAccountState(boolean accountState) {
+        this.accountState = accountState;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-		set(BeanKeyValue.NAME.getValue(), this.name);
-	}
+    /**
+     * Sets the name.
+     * 
+     * @param name
+     *            the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+        set(BeanKeyValue.NAME.getValue(), this.name);
+    }
 
-	/**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
+    /**
+     * Gets the user name.
+     * 
+     * @return the user name
+     */
+    public String getUserName() {
+        return userName;
+    }
 
-	/**
-	 * @param userName
-	 *            the userName to set
-	 */
-	public void setUserName(String userName) {
-		set(BeanKeyValue.USER_NAME.getValue(), userName);
-		this.userName = userName;
-	}
+    /**
+     * Sets the user name.
+     * 
+     * @param userName
+     *            the new user name
+     */
+    public void setUserName(String userName) {
+        set(BeanKeyValue.USER_NAME.getValue(), userName);
+        this.userName = userName;
+    }
 
-	/**
-	 * @return the connectId
-	 */
-	public String getConnectId() {
-		return connectId;
-	}
+    /**
+     * Gets the connect id.
+     * 
+     * @return the connect id
+     */
+    public String getConnectId() {
+        return connectId;
+    }
 
-	/**
-	 * @param connectId the connectId to set
-	 */
-	public void setConnectId(String connectId) {
-		this.connectId = connectId;
-	}
+    /**
+     * Sets the connect id.
+     * 
+     * @param connectId
+     *            the new connect id
+     */
+    public void setConnectId(String connectId) {
+        this.connectId = connectId;
+    }
 
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * Gets the password.
+     * 
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	/**
-	 * @param password
-	 *            the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * Sets the password.
+     * 
+     * @param password
+     *            the new password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	/**
-	 * @return the emailAddress
-	 */
-	public String getEmailAddress() {
-		return emailAddress;
-	}
+    /**
+     * Gets the email address.
+     * 
+     * @return the email address
+     */
+    public String getEmailAddress() {
+        return emailAddress;
+    }
 
-	/**
-	 * @param emailAddress
-	 *            the emailAddress to set
-	 */
-	public void setEmailAddress(String emailAddress) {
-		set(BeanKeyValue.EMAIL.getValue(), emailAddress);
-		this.emailAddress = emailAddress;
-	}
+    /**
+     * Sets the email address.
+     * 
+     * @param emailAddress
+     *            the new email address
+     */
+    public void setEmailAddress(String emailAddress) {
+        set(BeanKeyValue.EMAIL.getValue(), emailAddress);
+        this.emailAddress = emailAddress;
+    }
 
-	/**
-	 * @return the enabled
-	 */
-	public boolean isEnabled() {
-		return enabled;
-	}
+    /**
+     * Checks if is enabled.
+     * 
+     * @return true, if is enabled
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	/**
-	 * @param enabled
-	 *            the enabled to set
-	 */
-	public void setEnabled(boolean enabled) {
-		set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
-		this.enabled = enabled;
-	}
+    /**
+     * Sets the enabled.
+     * 
+     * @param enabled
+     *            the new enabled
+     */
+    public void setEnabled(boolean enabled) {
+        set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
+        this.enabled = enabled;
+    }
 
-	/**
-	 * @return the emailEnable
-	 */
-	public boolean isEmailEnable() {
-		return emailEnable;
-	}
+    /**
+     * Checks if is email enable.
+     * 
+     * @return true, if is email enable
+     */
+    public boolean isEmailEnable() {
+        return emailEnable;
+    }
 
-	/**
-	 * @param emailEnable
-	 *            the emailEnable to set
-	 */
-	public void setEmailEnable(boolean emailEnable) {
-		set(BeanKeyValue.EMAIL_ENABLE.getValue(), emailEnable);
-		this.emailEnable = emailEnable;
-	}
+    /**
+     * Sets the email enable.
+     * 
+     * @param emailEnable
+     *            the new email enable
+     */
+    public void setEmailEnable(boolean emailEnable) {
+        set(BeanKeyValue.EMAIL_ENABLE.getValue(), emailEnable);
+        this.emailEnable = emailEnable;
+    }
 
-	/**
-	 * @return the rssEnable
-	 */
-	public boolean isRssEnable() {
-		return rssEnable;
-	}
+    /**
+     * Checks if is rss enable.
+     * 
+     * @return true, if is rss enable
+     */
+    public boolean isRssEnable() {
+        return rssEnable;
+    }
 
-	/**
-	 * @param rssEnable
-	 *            the rssEnable to set
-	 */
-	public void setRssEnable(boolean rssEnable) {
-		set(BeanKeyValue.RSS_ENABLE.getValue(), rssEnable);
-		this.rssEnable = rssEnable;
-	}
+    /**
+     * Sets the rss enable.
+     * 
+     * @param rssEnable
+     *            the new rss enable
+     */
+    public void setRssEnable(boolean rssEnable) {
+        set(BeanKeyValue.RSS_ENABLE.getValue(), rssEnable);
+        this.rssEnable = rssEnable;
+    }
 
-	/**
-	 * @return the reducedContent
-	 */
-	public boolean isReducedContent() {
-		return reducedContent;
-	}
+    /**
+     * Checks if is reduced content.
+     * 
+     * @return true, if is reduced content
+     */
+    public boolean isReducedContent() {
+        return reducedContent;
+    }
 
-	/**
-	 * @param reducedContent
-	 */
-	public void setReducedContent(boolean reducedContent) {
-		set(BeanKeyValue.REDUCED_CONTENT.getValue(), reducedContent);
-		this.reducedContent = reducedContent;
-	}
+    /**
+     * Sets the reduced content.
+     * 
+     * @param reducedContent
+     *            the new reduced content
+     */
+    public void setReducedContent(boolean reducedContent) {
+        set(BeanKeyValue.REDUCED_CONTENT.getValue(), reducedContent);
+        this.reducedContent = reducedContent;
+    }
 
-	/**
-	 * @return the sendType
-	 */
-	public String getSendType() {
-		return sendType;
-	}
+    /**
+     * Gets the send type.
+     * 
+     * @return the send type
+     */
+    public String getSendType() {
+        return sendType;
+    }
 
-	/**
-	 * @param sendType
-	 *            the sendType to set
-	 */
-	public void setSendType(String sendType) {
-		this.sendType = sendType;
-		set(SendTypeEnum.TYPE.getValue(), this.sendType);
-		checkSendType();
-	}
+    /**
+     * Sets the send type.
+     * 
+     * @param sendType
+     *            the new send type
+     */
+    public void setSendType(String sendType) {
+        this.sendType = sendType;
+        set(SendTypeEnum.TYPE.getValue(), this.sendType);
+        checkSendType();
+    }
 
-	private void checkSendType() {
-		if (sendType.equals("Both")) {
-			setEmailEnable(true);
-			setRssEnable(true);
-		}
+    /**
+     * Check send type.
+     */
+    private void checkSendType() {
+        if (sendType.equals("Both")) {
+            setEmailEnable(true);
+            setRssEnable(true);
+        }
 
-		if (sendType.equals("Email")) {
-			setEmailEnable(true);
-			setRssEnable(false);
-		}
+        if (sendType.equals("Email")) {
+            setEmailEnable(true);
+            setRssEnable(false);
+        }
 
-		if (sendType.equals("RSS")) {
-			setRssEnable(true);
-			setEmailEnable(false);
-		}
+        if (sendType.equals("RSS")) {
+            setRssEnable(true);
+            setEmailEnable(false);
+        }
 
-	}
+    }
 
-	/**
-	 * 
-	 * @param emailEnable
-	 * @param rssEnable
-	 */
-	public void checkSendType(boolean emailEnable, boolean rssEnable) {
-		if (emailEnable && rssEnable) {
-			setEmailEnable(true);
-			setRssEnable(true);
-			setSendType("Both");
-		} else if (emailEnable) {
-			setEmailEnable(true);
-			setSendType("Email");
-		} else if (rssEnable) {
-			setRssEnable(true);
-			setSendType("RSS");
-		}
-	}
+    /**
+     * Check send type.
+     * 
+     * @param emailEnable
+     *            the email enable
+     * @param rssEnable
+     *            the rss enable
+     */
+    public void checkSendType(boolean emailEnable, boolean rssEnable) {
+        if (emailEnable && rssEnable) {
+            setEmailEnable(true);
+            setRssEnable(true);
+            setSendType("Both");
+        } else if (emailEnable) {
+            setEmailEnable(true);
+            setSendType("Email");
+        } else if (rssEnable) {
+            setRssEnable(true);
+            setSendType("RSS");
+        }
+    }
 
-	/**
-	 * @return the updateInterval
-	 */
-	public int getUpdateInterval() {
-		return updateInterval;
-	}
+    /**
+     * Gets the update interval.
+     * 
+     * @return the update interval
+     */
+    public int getUpdateInterval() {
+        return updateInterval;
+    }
 
-	/**
-	 * @param updateInterval
-	 *            the updateInterval to set
-	 */
-	public void setUpdateInterval(int updateInterval) {
-		this.updateInterval = updateInterval;
-	}
+    /**
+     * Sets the update interval.
+     * 
+     * @param updateInterval
+     *            the new update interval
+     */
+    public void setUpdateInterval(int updateInterval) {
+        this.updateInterval = updateInterval;
+    }
 
-	/**
-	 * @return the upInteval
-	 */
-	public String getUpInteval() {
-		return upInteval;
-	}
+    /**
+     * Gets the up inteval.
+     * 
+     * @return the up inteval
+     */
+    public String getUpInteval() {
+        return upInteval;
+    }
 
-	/**
-	 * @param upInteval
-	 *            the upInteval to set
-	 */
-	public void setUpInteval(String upInteval) {
-		this.upInteval = upInteval;
-		set(UpdateIntervalEnum.TIME.getValue(), this.upInteval);
-		checkUpInterval();
-	}
+    /**
+     * Sets the up inteval.
+     * 
+     * @param upInteval
+     *            the new up inteval
+     */
+    public void setUpInteval(String upInteval) {
+        this.upInteval = upInteval;
+        set(UpdateIntervalEnum.TIME.getValue(), this.upInteval);
+        checkUpInterval();
+    }
 
-	private void checkUpInterval() {
-		if (upInteval.equals("1h")) {
-			setUpdateInterval(1);
-		}
+    /**
+     * Check up interval.
+     */
+    private void checkUpInterval() {
+        if (upInteval.equals("1h")) {
+            setUpdateInterval(1);
+        }
 
-		if (upInteval.equals("4h")) {
-			setUpdateInterval(4);
-		}
+        if (upInteval.equals("4h")) {
+            setUpdateInterval(4);
+        }
 
-		if (upInteval.equals("24h")) {
-			setUpdateInterval(24);
-		}
+        if (upInteval.equals("24h")) {
+            setUpdateInterval(24);
+        }
 
-	}
+    }
 
-	/**
-	 * @return the path
-	 */
-	public String getPath() {
-		return path;
-	}
+    /**
+     * Gets the path.
+     * 
+     * @return the path
+     */
+    public String getPath() {
+        return path;
+    }
 
-	/**
-	 * @param path
-	 *            the path to set
-	 */
-	public void setPath(String path) {
-		this.path = path;
-		set(BeanKeyValue.PATH.getValue(), this.path);
-	}
+    /**
+     * Sets the path.
+     * 
+     * @param path
+     *            the new path
+     */
+    public void setPath(String path) {
+        this.path = path;
+        set(BeanKeyValue.PATH.getValue(), this.path);
+    }
 
-	/**
-	 * @return the areasOI
-	 */
-	public List<AOI> getAreasOI() {
-		return areasOI;
-	}
+    /**
+     * Gets the areas oi.
+     * 
+     * @return the areas oi
+     */
+    public List<AOI> getAreasOI() {
+        return areasOI;
+    }
 
-	/**
-	 * 
-	 * @param aoi
-	 *            to add to AreasOI
-	 */
-	public void addAreaOI(AOI aoi) {
-		this.areasOI.add(aoi);
-	}
+    /**
+     * Adds the area oi.
+     * 
+     * @param aoi
+     *            the aoi
+     */
+    public void addAreaOI(AOI aoi) {
+        this.areasOI.add(aoi);
+    }
 
-	/**
-	 * 
-	 * @param aoi
-	 *            to remove from AreasOI
-	 */
-	public void removeAreaOI(AOI aoi) {
-		this.areasOI.remove(aoi);
-	}
+    /**
+     * Removes the area oi.
+     * 
+     * @param aoi
+     *            the aoi
+     */
+    public void removeAreaOI(AOI aoi) {
+        this.areasOI.remove(aoi);
+    }
 
-	/**
-	 * 
-	 * @param i
-	 */
-	public void removeAreaOI(int i) {
-		this.areasOI.remove(i);
-	}
+    /**
+     * Removes the area oi.
+     * 
+     * @param i
+     *            the i
+     */
+    public void removeAreaOI(int i) {
+        this.areasOI.remove(i);
+    }
 
-	/**
-	 * 
-	 * @param i
-	 * @return AOI
-	 */
-	public AOI getAreaOI(int i) {
-		if (i < 0 || i > this.areasOI.size())
-			throw new IllegalArgumentException("Invalid Position.");
-		return this.areasOI.get(i);
-	}
+    /**
+     * Gets the area oi.
+     * 
+     * @param i
+     *            the i
+     * @return the area oi
+     */
+    public AOI getAreaOI(int i) {
+        if (i < 0 || i > this.areasOI.size())
+            throw new IllegalArgumentException("Invalid Position.");
+        return this.areasOI.get(i);
+    }
 
-	/**
-	 * 
-	 * @return the number of All Areas Of Interest
-	 */
-	public int getAllAreasOI() {
-		return this.areasOI.size();
-	}
+    /**
+     * Gets the all areas oi.
+     * 
+     * @return the all areas oi
+     */
+    public int getAllAreasOI() {
+        return this.areasOI.size();
+    }
 
-	/**
-	 * @param areasOI
-	 *            the areasOI to set
-	 */
-	public void setAreasOI(List<AOI> areasOI) {
-		this.areasOI = areasOI;
-	}
+    /**
+     * Sets the areas oi.
+     * 
+     * @param areasOI
+     *            the new areas oi
+     */
+    public void setAreasOI(List<AOI> areasOI) {
+        this.areasOI = areasOI;
+    }
 
+    /**
+     * Sets the granted authorizations.
+     * 
+     * @param ga
+     *            the new granted authorizations
+     */
     public void setGrantedAuthorizations(List<Authorization> ga) {
-         this.grantedAuthorizations = ga;
+        this.grantedAuthorizations = ga;
     }
 
+    /**
+     * Gets the granted authorizations.
+     * 
+     * @return the granted authorizations
+     */
     public List<Authorization> getGrantedAuthorizations() {
-         return this.grantedAuthorizations;
+        return this.grantedAuthorizations;
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
-		return result;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        return result;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
         return id == other.id;
     }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "User [name=" + name + ", userName=" + userName + ", password="
-				+ password + ", emailAddress=" + emailAddress + ", enabled="
-				+ enabled + ", emailEnable=" + emailEnable + ", rssEnable="
-				+ rssEnable + ", reducedContent=" + reducedContent
-				+ ", sendType=" + sendType + ", updateInterval="
-				+ updateInterval + ", upInteval=" + upInteval + "]";
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "User [name=" + name + ", userName=" + userName + ", password=" + password
+                + ", emailAddress=" + emailAddress + ", enabled=" + enabled + ", emailEnable="
+                + emailEnable + ", rssEnable=" + rssEnable + ", reducedContent=" + reducedContent
+                + ", sendType=" + sendType + ", updateInterval=" + updateInterval + ", upInteval="
+                + upInteval + "]";
+    }
 
 }

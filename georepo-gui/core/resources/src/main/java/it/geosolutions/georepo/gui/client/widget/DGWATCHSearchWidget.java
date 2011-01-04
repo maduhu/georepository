@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget,v. 0.1 30/lug/2010 14.52.32 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/lug/2010 14.52.32 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -30,6 +30,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.widget.SearchStatus.EnumSearchStatus;
+
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.SelectionMode;
@@ -63,215 +64,281 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.LabelToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
+ * The Class DGWATCHSearchWidget.
  * 
+ * @param <T>
+ *            the generic type
  */
 public abstract class DGWATCHSearchWidget<T extends BaseModel> extends Window {
 
-	private VerticalPanel vp;
-	protected FormPanel formPanel;
-	protected ListStore<T> store;
-	protected Grid<T> grid;
-	protected TextField<String> search;
-	protected RpcProxy<PagingLoadResult<T>> proxy;
-	protected PagingLoader<PagingLoadResult<ModelData>> loader;
-	protected PagingToolBar toolBar;
-	protected Button select;
-	protected Button cancel;
-	protected SearchStatus searchStatus;
+    /** The vp. */
+    private VerticalPanel vp;
 
-	protected String searchText;
+    /** The form panel. */
+    protected FormPanel formPanel;
 
-	public DGWATCHSearchWidget() {
-		initWindow();
-		initVerticalPanel();
-		initFormPanel();
-		add(vp);
-	}
+    /** The store. */
+    protected ListStore<T> store;
 
-	private void initWindow() {
-		setModal(true);
-		setResizable(false);
-		setLayout(new FlowLayout());
-		setPlain(true);
-		setMaximizable(false);
+    /** The grid. */
+    protected Grid<T> grid;
 
-		addWindowListener(new WindowListener() {
+    /** The search. */
+    protected TextField<String> search;
 
-			@Override
+    /** The proxy. */
+    protected RpcProxy<PagingLoadResult<T>> proxy;
+
+    /** The loader. */
+    protected PagingLoader<PagingLoadResult<ModelData>> loader;
+
+    /** The tool bar. */
+    protected PagingToolBar toolBar;
+
+    /** The select. */
+    protected Button select;
+
+    /** The cancel. */
+    protected Button cancel;
+
+    /** The search status. */
+    protected SearchStatus searchStatus;
+
+    /** The search text. */
+    protected String searchText;
+
+    /**
+     * Instantiates a new dGWATCH search widget.
+     */
+    public DGWATCHSearchWidget() {
+        initWindow();
+        initVerticalPanel();
+        initFormPanel();
+        add(vp);
+    }
+
+    /**
+     * Inits the window.
+     */
+    private void initWindow() {
+        setModal(true);
+        setResizable(false);
+        setLayout(new FlowLayout());
+        setPlain(true);
+        setMaximizable(false);
+
+        addWindowListener(new WindowListener() {
+
+            @Override
             public void windowHide(WindowEvent we) {
-				cancel();
-			}
+                cancel();
+            }
 
-		});
+        });
 
-		setWindowProperties();
-	}
+        setWindowProperties();
+    }
 
-	private void initVerticalPanel() {
-		vp = new VerticalPanel();
-		vp.setSpacing(10);
-		createStore();
-		initGrid();
-	}
+    /**
+     * Inits the vertical panel.
+     */
+    private void initVerticalPanel() {
+        vp = new VerticalPanel();
+        vp.setSpacing(10);
+        createStore();
+        initGrid();
+    }
 
-	private void initFormPanel() {
-		formPanel = new FormPanel();
-		formPanel.setHeaderVisible(false);
-		formPanel.setFrame(true);
-		formPanel.setLayout(new FlowLayout());
+    /**
+     * Inits the form panel.
+     */
+    private void initFormPanel() {
+        formPanel = new FormPanel();
+        formPanel.setHeaderVisible(false);
+        formPanel.setFrame(true);
+        formPanel.setLayout(new FlowLayout());
 
-		FieldSet searchFieldSet = new FieldSet();
-		searchFieldSet.setHeading("Search");
+        FieldSet searchFieldSet = new FieldSet();
+        searchFieldSet.setHeading("Search");
 
-		FormLayout layout = new FormLayout();
-		layout.setLabelWidth(80);
-		searchFieldSet.setLayout(layout);
+        FormLayout layout = new FormLayout();
+        layout.setLabelWidth(80);
+        searchFieldSet.setLayout(layout);
 
-		search = new TextField<String>();
-		search.setFieldLabel("Find");
+        search = new TextField<String>();
+        search.setFieldLabel("Find");
 
-		search.addKeyListener(new KeyListener() {
+        search.addKeyListener(new KeyListener() {
 
-			@Override
+            @Override
             public void componentKeyUp(ComponentEvent event) {
-				if ((event.getKeyCode() == 8) && (search.getValue() == null)) {
-					reset();
-					loader.load(0, 25);
-				}
-			}
+                if ((event.getKeyCode() == 8) && (search.getValue() == null)) {
+                    reset();
+                    loader.load(0, 25);
+                }
+            }
 
-			@Override
+            @Override
             public void componentKeyPress(ComponentEvent event) {
-				if ((event.getKeyCode() == 13)) {
-					// && (!search.getValue().equals(""))) {
-					// searchStatus.setBusy("Connection to the Server");
-					if(search.getValue() != null){
-						searchText = search.getValue() == null ? "" : search
-								.getValue();
-						loader.load(0, 25);
-					}
-				}
-			}
+                if ((event.getKeyCode() == 13)) {
+                    // && (!search.getValue().equals(""))) {
+                    // searchStatus.setBusy("Connection to the Server");
+                    if (search.getValue() != null) {
+                        searchText = search.getValue() == null ? "" : search.getValue();
+                        loader.load(0, 25);
+                    }
+                }
+            }
 
-		});
+        });
 
-		BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
-		data.setMargins(new Margins(5, 5, 5, 5));
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
+        data.setMargins(new Margins(5, 5, 5, 5));
 
-		searchFieldSet.add(search, data);
+        searchFieldSet.add(search, data);
 
-		formPanel.add(searchFieldSet);
+        formPanel.add(searchFieldSet);
 
-		formPanel.add(this.grid);
+        formPanel.add(this.grid);
 
-		this.searchStatus = new SearchStatus();
-		searchStatus.setAutoWidth(true);
+        this.searchStatus = new SearchStatus();
+        searchStatus.setAutoWidth(true);
 
-		formPanel.getButtonBar().add(this.searchStatus);
+        formPanel.getButtonBar().add(this.searchStatus);
 
-		formPanel.getButtonBar().add(new LabelToolItem("    "));
+        formPanel.getButtonBar().add(new LabelToolItem("    "));
 
-		formPanel.setButtonAlign(HorizontalAlignment.RIGHT);
+        formPanel.setButtonAlign(HorizontalAlignment.RIGHT);
 
-		select = new Button("Select", new SelectionListener<ButtonEvent>() {
+        select = new Button("Select", new SelectionListener<ButtonEvent>() {
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				select();
-			}
-		});
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                select();
+            }
+        });
 
-		select.setIconStyle("x-dgwatch-select");
-		select.disable();
+        select.setIconStyle("x-dgwatch-select");
+        select.disable();
 
-		formPanel.addButton(this.select);
+        formPanel.addButton(this.select);
 
-		cancel = new Button("Cancel", new SelectionListener<ButtonEvent>() {
+        cancel = new Button("Cancel", new SelectionListener<ButtonEvent>() {
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				cancel();
-			}
-		});
-		
-		cancel.setIconStyle("x-dgwatch-cancel");
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                cancel();
+            }
+        });
 
-		formPanel.addButton(cancel);
+        cancel.setIconStyle("x-dgwatch-cancel");
 
-		formPanel.setBottomComponent(this.toolBar);
+        formPanel.addButton(cancel);
 
-		vp.add(formPanel);
-	}
+        formPanel.setBottomComponent(this.toolBar);
 
-	private void initGrid() {
-		ColumnModel cm = prepareColumnModel();
+        vp.add(formPanel);
+    }
 
-		grid = new Grid<T>(store, cm);
-		grid.setBorders(true);
+    /**
+     * Inits the grid.
+     */
+    private void initGrid() {
+        ColumnModel cm = prepareColumnModel();
 
-		grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        grid = new Grid<T>(store, cm);
+        grid.setBorders(true);
 
-		grid.addListener(Events.CellClick, new Listener<BaseEvent>() {
+        grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-			public void handleEvent(BaseEvent be) {
-				if (!grid.getSelectionModel().getSelection().isEmpty())
-					select.enable();
-				else
-					select.disable();
-			}
-		});
+        grid.addListener(Events.CellClick, new Listener<BaseEvent>() {
 
-		grid.addListener(Events.CellDoubleClick, new Listener<BaseEvent>() {
+            public void handleEvent(BaseEvent be) {
+                if (!grid.getSelectionModel().getSelection().isEmpty())
+                    select.enable();
+                else
+                    select.disable();
+            }
+        });
 
-			public void handleEvent(BaseEvent be) {
-				select();
-			}
-		});
+        grid.addListener(Events.CellDoubleClick, new Listener<BaseEvent>() {
 
-		setGridProperties();
-	}
+            public void handleEvent(BaseEvent be) {
+                select();
+            }
+        });
 
-	/**
-	 * Remove all beans from the Store and after Hide the window
-	 */
-	@SuppressWarnings("deprecation")
-	public void cancel() {
-		super.close();
-		reset();
-	}
+        setGridProperties();
+    }
 
-	public void reset() {
-		this.search.reset();
-		this.store.removeAll();
-		this.toolBar.clear();
-		this.select.disable();
-		this.searchStatus.clearStatus("");
-	}
+    /**
+     * Cancel.
+     */
+    @SuppressWarnings("deprecation")
+    public void cancel() {
+        super.close();
+        reset();
+    }
 
-	public void clearGridElements() {
-		this.store.removeAll();
-		this.toolBar.clear();
-	}
+    /**
+     * Reset.
+     */
+    public void reset() {
+        this.search.reset();
+        this.store.removeAll();
+        this.toolBar.clear();
+        this.select.disable();
+        this.searchStatus.clearStatus("");
+    }
 
-	/**
-	 * Set the correct Status Iconn Style
-	 */
-	public void setSearchStatus(EnumSearchStatus status,
-			EnumSearchStatus message) {
-		this.searchStatus.setIconStyle(status.getValue());
-		this.searchStatus.setText(message.getValue());
-	}
+    /**
+     * Clear grid elements.
+     */
+    public void clearGridElements() {
+        this.store.removeAll();
+        this.toolBar.clear();
+    }
 
-	public abstract void setWindowProperties();
+    /**
+     * Sets the search status.
+     * 
+     * @param status
+     *            the status
+     * @param message
+     *            the message
+     */
+    public void setSearchStatus(EnumSearchStatus status, EnumSearchStatus message) {
+        this.searchStatus.setIconStyle(status.getValue());
+        this.searchStatus.setText(message.getValue());
+    }
 
-	public abstract void createStore();
+    /**
+     * Sets the window properties.
+     */
+    public abstract void setWindowProperties();
 
-	public abstract void setGridProperties();
+    /**
+     * Creates the store.
+     */
+    public abstract void createStore();
 
-	public abstract ColumnModel prepareColumnModel();
+    /**
+     * Sets the grid properties.
+     */
+    public abstract void setGridProperties();
 
-	public abstract void select();
+    /**
+     * Prepare column model.
+     * 
+     * @return the column model
+     */
+    public abstract ColumnModel prepareColumnModel();
+
+    /**
+     * Select.
+     */
+    public abstract void select();
 
 }

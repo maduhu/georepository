@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.FilterServiceRemoteAsync,v. 0.1 19/ago/2010 10.47.15 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 19/ago/2010 10.47.15 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.FilterServiceRemoteAsync,v. 0.1 3-gen-2011 16.52.44 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.44 $
  *
  * ====================================================================
  *
@@ -29,27 +29,22 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-
-import it.geosolutions.georepo.gui.client.model.Filter;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 /**
- * @author giuseppe
- * @deprecated
+ * The Interface FilterServiceRemoteAsync.
  */
 public interface FilterServiceRemoteAsync {
 
-//	/**
-//	 * 
-//	 * @param userID
-//	 * @param aoiID
-//	 * @param callback
-//	 */
-//	public void findFilterByUserAOI(long userID, long aoiID,
-//			AsyncCallback<Filter> callback);
-//
-//	@SuppressWarnings("rawtypes")
-//	public void setUserPref(long userId, long aoiId, Filter filter,
-//			AsyncCallback callback);
+    // /**
+    // *
+    // * @param userID
+    // * @param aoiID
+    // * @param callback
+    // */
+    // public void findFilterByUserAOI(long userID, long aoiID,
+    // AsyncCallback<Filter> callback);
+    //
+    // @SuppressWarnings("rawtypes")
+    // public void setUserPref(long userId, long aoiId, Filter filter,
+    // AsyncCallback callback);
 
 }

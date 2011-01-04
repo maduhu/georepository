@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.server.service.impl.StartupService,v. 0.1 09/lug/2010 11.32.59 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.32.59 $
+ * $ Header: it.geosolutions.georepo.gui.server.service.impl.StartupService,v. 0.1 3-gen-2011 17.05.14 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.05.14 $
  *
  * ====================================================================
  *
@@ -29,27 +29,29 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
 import it.geosolutions.georepo.gui.server.service.IStartupService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Class StartupService.
  */
 public class StartupService implements IStartupService {
-	
-	@Autowired
-	private DGWATCHGlobalConfiguration dgwatchGlobalConfiguration;
 
-	/* (non-Javadoc)
-	 * @see it.geosolutions.georepo.gui.server.service.IStartupService#initServerConfiguration()
-	 */
-	public DGWATCHGlobalConfiguration initServerConfiguration() {
-		// TODO Auto-generated method stub
-		return dgwatchGlobalConfiguration;
-	}
+    /** The dgwatch global configuration. */
+    @Autowired
+    private DGWATCHGlobalConfiguration dgwatchGlobalConfiguration;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.server.service.IStartupService#initServerConfiguration()
+     */
+    public DGWATCHGlobalConfiguration initServerConfiguration() {
+        // TODO Auto-generated method stub
+        return dgwatchGlobalConfiguration;
+    }
 
 }

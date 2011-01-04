@@ -1,4 +1,8 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.model.WatchNode,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
+ *
  * ====================================================================
  *
  * Copyright (C) 2010 GeoSolutions S.A.S.
@@ -27,39 +31,44 @@ package it.geosolutions.georepo.gui.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class WatchNode.
  */
-public class WatchNode extends BaseModel{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1111659793475229355L;
+public class WatchNode extends BaseModel {
 
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -1111659793475229355L;
 
-	/**
-	 * @param name
-	 * @param id
-	 */
-	public WatchNode(String name, Long id) {
-		set("name", name);
-		set("id", id);
-	}
-	
-	/**
-	 * @return the mails
-	 */
-	public String getName() {
-		return (String) get("name");
-	}
-	
-	/**
-	 * @return the mails
-	 */
-	public Long getId() {
-		return get("id");
-	}
-	
+    /**
+     * Instantiates a new watch node.
+     * 
+     * @param name
+     *            the name
+     * @param id
+     *            the id
+     */
+    public WatchNode(String name, Long id) {
+        set("name", name);
+        set("id", id);
+    }
+
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return (String) get("name");
+    }
+
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public Long getId() {
+        return get("id");
+    }
+
 }

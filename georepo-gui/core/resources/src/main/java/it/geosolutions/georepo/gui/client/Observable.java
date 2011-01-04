@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.DGWATCHObservable,v. 0.1 18/ago/2010 18.37.27 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 18/ago/2010 18.37.27 $
+ * $ Header: it.geosolutions.georepo.gui.client.Observable,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -31,161 +31,125 @@ package it.geosolutions.georepo.gui.client;
 
 import java.util.Vector;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class Observable.
  */
 public class Observable {
-	private boolean changed = false;
-	private Vector obs;
 
-	/** Construct an Observable with zero Observers. */
+    /** The changed. */
+    private boolean changed = false;
 
-	public Observable() {
-		obs = new Vector();
-	}
+    /** The obs. */
+    private Vector obs;
 
-	/**
-	 * Adds an observer to the set of observers for this object, provided that
-	 * it is not the same as some observer already in the set. The order in
-	 * which notifications will be delivered to multiple observers is not
-	 * specified. See the class comment.
-	 * 
-	 * @param o
-	 *            an observer to be added.
-	 * @throws NullPointerException
-	 *             if the parameter o is null.
-	 */
-	public synchronized void addObserver(Observer o) {
-		if (o == null)
-			throw new NullPointerException();
-		if (!obs.contains(o)) {
-			obs.addElement(o);
-		}
-	}
+    /**
+     * Instantiates a new observable.
+     */
 
-	/**
-	 * Deletes an observer from the set of observers of this object. Passing
-	 * <CODE>null</CODE> to this method will have no effect.
-	 * 
-	 * @param o
-	 *            the observer to be deleted.
-	 */
-	public synchronized void deleteObserver(Observer o) {
-		obs.removeElement(o);
-	}
+    public Observable() {
+        obs = new Vector();
+    }
 
-	/**
-	 * If this object has changed, as indicated by the <code>hasChanged</code>
-	 * method, then notify all of its observers and then call the
-	 * <code>clearChanged</code> method to indicate that this object has no
-	 * longer changed.
-	 * <p>
-	 * Each observer has its <code>update</code> method called with two
-	 * arguments: this observable object and <code>null</code>. In other words,
-	 * this method is equivalent to: <blockquote><tt>
-	 * notifyObservers(null)</tt></blockquote>
-	 * 
-	 * @see java.util.Observable#clearChanged()
-	 * @see java.util.Observable#hasChanged()
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	public void notifyObservers() {
-		notifyObservers(null);
-	}
+    /**
+     * Adds the observer.
+     * 
+     * @param o
+     *            the o
+     */
+    public synchronized void addObserver(Observer o) {
+        if (o == null)
+            throw new NullPointerException();
+        if (!obs.contains(o)) {
+            obs.addElement(o);
+        }
+    }
 
-	/**
-	 * If this object has changed, as indicated by the <code>hasChanged</code>
-	 * method, then notify all of its observers and then call the
-	 * <code>clearChanged</code> method to indicate that this object has no
-	 * longer changed.
-	 * <p>
-	 * Each observer has its <code>update</code> method called with two
-	 * arguments: this observable object and the <code>arg</code> argument.
-	 * 
-	 * @param arg
-	 *            any object.
-	 * @see java.util.Observable#clearChanged()
-	 * @see java.util.Observable#hasChanged()
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	public void notifyObservers(Object arg) {
-		/*
-		 * a temporary array buffer, used as a snapshot of the state of current
-		 * Observers.
-		 */
-		Object[] arrLocal;
+    /**
+     * Delete observer.
+     * 
+     * @param o
+     *            the o
+     */
+    public synchronized void deleteObserver(Observer o) {
+        obs.removeElement(o);
+    }
 
-		synchronized (this) {
-			/*
-			 * We don't want the Observer doing callbacks into arbitrary code
-			 * while holding its own Monitor. The code where we extract each
-			 * Observable from the Vector and store the state of the Observer
-			 * needs synchronization, but notifying observers does not (should
-			 * not). The worst result of any potential race-condition here is
-			 * that: 1) a newly-added Observer will miss a notification in
-			 * progress 2) a recently unregistered Observer will be wrongly
-			 * notified when it doesn't care
-			 */
-			if (!changed)
-				return;
-			arrLocal = obs.toArray();
-			clearChanged();
-		}
+    /**
+     * Notify observers.
+     */
+    public void notifyObservers() {
+        notifyObservers(null);
+    }
 
-		for (int i = arrLocal.length - 1; i >= 0; i--)
-			((Observer) arrLocal[i]).update(this, arg);
-	}
+    /**
+     * Notify observers.
+     * 
+     * @param arg
+     *            the arg
+     */
+    public void notifyObservers(Object arg) {
+        /*
+         * a temporary array buffer, used as a snapshot of the state of current Observers.
+         */
+        Object[] arrLocal;
 
-	/**
-	 * Clears the observer list so that this object no longer has any observers.
-	 */
-	public synchronized void deleteObservers() {
-		obs.removeAllElements();
-	}
+        synchronized (this) {
+            /*
+             * We don't want the Observer doing callbacks into arbitrary code while holding its own
+             * Monitor. The code where we extract each Observable from the Vector and store the
+             * state of the Observer needs synchronization, but notifying observers does not (should
+             * not). The worst result of any potential race-condition here is that: 1) a newly-added
+             * Observer will miss a notification in progress 2) a recently unregistered Observer
+             * will be wrongly notified when it doesn't care
+             */
+            if (!changed)
+                return;
+            arrLocal = obs.toArray();
+            clearChanged();
+        }
 
-	/**
-	 * Marks this <tt>Observable</tt> object as having been changed; the
-	 * <tt>hasChanged</tt> method will now return <tt>true</tt>.
-	 */
-	protected synchronized void setChanged() {
-		changed = true;
-	}
+        for (int i = arrLocal.length - 1; i >= 0; i--)
+            ((Observer) arrLocal[i]).update(this, arg);
+    }
 
-	/**
-	 * Indicates that this object has no longer changed, or that it has already
-	 * notified all of its observers of its most recent change, so that the
-	 * <tt>hasChanged</tt> method will now return <tt>false</tt>. This method is
-	 * called automatically by the <code>notifyObservers</code> methods.
-	 * 
-	 * @see java.util.Observable#notifyObservers()
-	 * @see java.util.Observable#notifyObservers(java.lang.Object)
-	 */
-	protected synchronized void clearChanged() {
-		changed = false;
-	}
+    /**
+     * Delete observers.
+     */
+    public synchronized void deleteObservers() {
+        obs.removeAllElements();
+    }
 
-	/**
-	 * Tests if this object has changed.
-	 * 
-	 * @return <code>true</code> if and only if the <code>setChanged</code>
-	 *         method has been called more recently than the
-	 *         <code>clearChanged</code> method on this object;
-	 *         <code>false</code> otherwise.
-	 * @see java.util.Observable#clearChanged()
-	 * @see java.util.Observable#setChanged()
-	 */
-	public synchronized boolean hasChanged() {
-		return changed;
-	}
+    /**
+     * Sets the changed.
+     */
+    protected synchronized void setChanged() {
+        changed = true;
+    }
 
-	/**
-	 * Returns the number of observers of this <tt>Observable</tt> object.
-	 * 
-	 * @return the number of observers of this object.
-	 */
-	public synchronized int countObservers() {
-		return obs.size();
-	}
+    /**
+     * Clear changed.
+     */
+    protected synchronized void clearChanged() {
+        changed = false;
+    }
+
+    /**
+     * Checks for changed.
+     * 
+     * @return true, if successful
+     */
+    public synchronized boolean hasChanged() {
+        return changed;
+    }
+
+    /**
+     * Count observers.
+     * 
+     * @return the int
+     */
+    public synchronized int countObservers() {
+        return obs.size();
+    }
 
 }

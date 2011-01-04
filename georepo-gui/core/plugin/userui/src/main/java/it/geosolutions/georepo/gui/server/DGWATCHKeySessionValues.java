@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.server.DGWATCHKeySessionValues,v. 0.1 09/set/2010 15.21.39 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 09/set/2010 15.21.39 $
+ * $ Header: it.geosolutions.georepo.gui.server.DGWATCHKeySessionValues,v. 0.1 3-gen-2011 17.06.55 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.55 $
  *
  * ====================================================================
  *
@@ -29,25 +29,35 @@
  */
 package it.geosolutions.georepo.gui.server;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Enum DGWATCHKeySessionValues.
  */
 public enum DGWATCHKeySessionValues {
 
-	USER_LOGGED_TOKEN("userLoggedToken");
+    /** The USE r_ logge d_ token. */
+    USER_LOGGED_TOKEN("userLoggedToken");
 
-	private String value;
+    /** The value. */
+    private String value;
 
-	DGWATCHKeySessionValues(String value) {
-		this.value = value;
-	}
+    /**
+     * Instantiates a new dGWATCH key session values.
+     * 
+     * @param value
+     *            the value
+     */
+    DGWATCHKeySessionValues(String value) {
+        this.value = value;
+    }
 
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
+    /**
+     * Gets the value.
+     * 
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
 
 }

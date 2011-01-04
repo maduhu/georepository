@@ -5,14 +5,14 @@
 
 package it.geosolutions.georepo.core.dao.util;
 
-import it.geosolutions.georepo.core.dao.util.PwEncoder;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- *
+ * 
  * @author ETj <etj at geo-solutions.it>
  */
 public class PwEncoderTest {

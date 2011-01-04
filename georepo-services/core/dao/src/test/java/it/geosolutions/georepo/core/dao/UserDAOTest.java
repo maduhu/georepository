@@ -20,16 +20,15 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import it.geosolutions.georepo.core.model.*;
+import it.geosolutions.georepo.core.model.User;
 
 import org.junit.Test;
 
 /**
- *
+ * 
  * @author ETj (etj at geo-solutions.it)
  */
 public class UserDAOTest extends BaseDAOTest {
-
 
     @Test
     public void testPersistUser() throws Exception {
@@ -45,6 +44,5 @@ public class UserDAOTest extends BaseDAOTest {
         userDAO.remove(user);
         assertNull("User not deleted", userDAO.find(user.getId()));
     }
-
 
 }

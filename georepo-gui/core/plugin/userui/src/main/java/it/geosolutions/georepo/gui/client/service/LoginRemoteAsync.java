@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.LoginRemoteAsync,v. 0.1 08/lug/2010 11.01.17 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 11.01.17 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.LoginRemoteAsync,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,100 +29,101 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-import java.util.List;
-
-import it.geosolutions.georepo.gui.client.model.RegUser;
 import it.geosolutions.georepo.gui.client.model.User;
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Interface LoginRemoteAsync.
  */
 public interface LoginRemoteAsync {
 
-	/**
-	 * 
-	 * @param userName
-	 * @param password
-	 * @param calback
-	 */
-	public void authenticate(String userName, String password,
-			AsyncCallback<User> calback);
+    /**
+     * Authenticate.
+     * 
+     * @param userName
+     *            the user name
+     * @param password
+     *            the password
+     * @param calback
+     *            the calback
+     */
+    public void authenticate(String userName, String password, AsyncCallback<User> calback);
 
-//	/**
-//	 *
-//	 * @param config
-//	 * @param callback
-//	 */
-//	public void loadUsers(PagingLoadConfig config, String searchText,
-//			AsyncCallback<PagingLoadResult<User>> callback);
-//
-//	/**
-//	 *
-//	 * @param config
-//	 * @param callback
-//	 */
-//	// public void loadAllUsers(PagingLoadConfig config,
-//	// AsyncCallback<PagingLoadResult<User>> callback);
-//
-//	/**
-//	 *
-//	 * @param user
-//	 * @param callback
-//	 */
-//	public void saveUser(User user, AsyncCallback<User> callback);
-//
-//	/**
-//	 *
-//	 * @param userId
-//	 * @param callback
-//	 */
-//	public void deleteUser(Long userId, AsyncCallback<?> callback);
-//
-//	/**
-//	 *
-//	 * @param user
-//	 * @param callback
-//	 */
-//	public void updateUser(User user, AsyncCallback<User> callback);
-//
-//	/**
-//	 *
-//	 * @param userId
-//	 * @param callback
-//	 */
-//	public void getUserDetail(User user, AsyncCallback<User> callback);
-//
-//	/**
-//	 *
-//	 * @param callback
-//	 */
-//	public void findUserNames(AsyncCallback<List<RegUser>> callback);
-//
-	/**
-	 * 
-	 * @param callback
-	 */
-	public void logout(AsyncCallback<?> callback);
+    // /**
+    // *
+    // * @param config
+    // * @param callback
+    // */
+    // public void loadUsers(PagingLoadConfig config, String searchText,
+    // AsyncCallback<PagingLoadResult<User>> callback);
+    //
+    // /**
+    // *
+    // * @param config
+    // * @param callback
+    // */
+    // // public void loadAllUsers(PagingLoadConfig config,
+    // // AsyncCallback<PagingLoadResult<User>> callback);
+    //
+    // /**
+    // *
+    // * @param user
+    // * @param callback
+    // */
+    // public void saveUser(User user, AsyncCallback<User> callback);
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @param callback
+    // */
+    // public void deleteUser(Long userId, AsyncCallback<?> callback);
+    //
+    // /**
+    // *
+    // * @param user
+    // * @param callback
+    // */
+    // public void updateUser(User user, AsyncCallback<User> callback);
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @param callback
+    // */
+    // public void getUserDetail(User user, AsyncCallback<User> callback);
+    //
+    // /**
+    // *
+    // * @param callback
+    // */
+    // public void findUserNames(AsyncCallback<List<RegUser>> callback);
+    //
+    /**
+     * Logout.
+     * 
+     * @param callback
+     *            the callback
+     */
+    public void logout(AsyncCallback<?> callback);
 
-//	/**
-//	 *
-//	 * @param config
-//	 * @param searchText
-//	 * @param callback
-//	 */
-//	public void getRelatedUsers(PagingLoadConfig config, long aoiID,
-//			AsyncCallback<PagingLoadResult<User>> callback);
-//
-//	/**
-//	 *
-//	 * @param aoiId
-//	 * @param callback
-//	 * @return
-//	 */
-//	public void getRelatedUsersCount(long aoiId, AsyncCallback<Integer> callback);
+    // /**
+    // *
+    // * @param config
+    // * @param searchText
+    // * @param callback
+    // */
+    // public void getRelatedUsers(PagingLoadConfig config, long aoiID,
+    // AsyncCallback<PagingLoadResult<User>> callback);
+    //
+    // /**
+    // *
+    // * @param aoiId
+    // * @param callback
+    // * @return
+    // */
+    // public void getRelatedUsersCount(long aoiId, AsyncCallback<Integer> callback);
 
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.SaveStaus,v. 0.1 02/ago/2010 09.15.23 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 02/ago/2010 09.15.23 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.SaveStaus,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -29,30 +29,51 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- *
+ * The Class SaveStaus.
  */
 public class SaveStaus extends StatusWidget {
-	
-	public enum EnumSaveStatus {
-		STATUS_SAVE("x-status-ok"), STATUS_NO_SAVE("x-status-not-ok"), STATUS_SAVE_ERROR(
-				"x-status-error"), STATUS_MESSAGE_SAVE("Operation Ok"), STATUS_MESSAGE_NOT_SAVE(
-				"Operation Failed"), STATUS_MESSAGE_SAVE_ERROR(
-				"Service Error");
 
-		private String value;
+    /**
+     * The Enum EnumSaveStatus.
+     */
+    public enum EnumSaveStatus {
 
-		EnumSaveStatus(String value) {
-			this.value = value;
-		}
+        /** The STATU s_ save. */
+        STATUS_SAVE("x-status-ok"),
+        /** The STATU s_ n o_ save. */
+        STATUS_NO_SAVE("x-status-not-ok"),
+        /** The STATU s_ sav e_ error. */
+        STATUS_SAVE_ERROR("x-status-error"),
+        /** The STATU s_ messag e_ save. */
+        STATUS_MESSAGE_SAVE("Operation Ok"),
+        /** The STATU s_ messag e_ no t_ save. */
+        STATUS_MESSAGE_NOT_SAVE("Operation Failed"),
+        /** The STATU s_ messag e_ sav e_ error. */
+        STATUS_MESSAGE_SAVE_ERROR("Service Error");
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
+        /** The value. */
+        private String value;
+
+        /**
+         * Instantiates a new enum save status.
+         * 
+         * @param value
+         *            the value
+         */
+        EnumSaveStatus(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
 
 }

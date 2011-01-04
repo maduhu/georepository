@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.mvc.MessagesController,v. 0.1 25/set/2010 16.13.37 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 25/set/2010 16.13.37 $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.MessagesController,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -30,40 +30,47 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class MessagesController.
  */
 public class MessagesController extends Controller {
 
-	private MessagesView messagesView;
+    /** The messages view. */
+    private MessagesView messagesView;
 
-	public MessagesController() {
-		registerEventTypes(DGWATCHEvents.INIT_RESOURCES_MODULE,
-				DGWATCHEvents.SEND_ALERT_MESSAGE,
-				DGWATCHEvents.SEND_ERROR_MESSAGE,
-				DGWATCHEvents.SEND_INFO_MESSAGE);
-	}
+    /**
+     * Instantiates a new messages controller.
+     */
+    public MessagesController() {
+        registerEventTypes(DGWATCHEvents.INIT_RESOURCES_MODULE, DGWATCHEvents.SEND_ALERT_MESSAGE,
+                DGWATCHEvents.SEND_ERROR_MESSAGE, DGWATCHEvents.SEND_INFO_MESSAGE);
+    }
 
-	@Override
-	protected void initialize() {
-		// TODO Auto-generated method stub
-		this.messagesView = new MessagesView(this);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.Controller#initialize()
+     */
+    @Override
+    protected void initialize() {
+        // TODO Auto-generated method stub
+        this.messagesView = new MessagesView(this);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
-	 * .mvc.AppEvent)
-	 */
-	@Override
-	public void handleEvent(AppEvent event) {
-		// TODO Auto-generated method stub
-		forwardToView(messagesView, event);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
+     * .mvc.AppEvent)
+     */
+    @Override
+    public void handleEvent(AppEvent event) {
+        // TODO Auto-generated method stub
+        forwardToView(messagesView, event);
+    }
 }

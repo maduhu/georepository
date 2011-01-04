@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.DistribUpdateInterval,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -28,46 +31,72 @@ package it.geosolutions.georepo.gui.client;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class DistribUpdateInterval.
  */
 public class DistribUpdateInterval extends BeanModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2604147167853598222L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -2604147167853598222L;
 
-	public enum DistribUpdateIntervalEnum {
-		TIME("distribTime");
+    /**
+     * The Enum DistribUpdateIntervalEnum.
+     */
+    public enum DistribUpdateIntervalEnum {
 
-		private String value;
+        /** The TIME. */
+        TIME("distribTime");
 
-		DistribUpdateIntervalEnum(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
+        /**
+         * Instantiates a new distrib update interval enum.
+         * 
+         * @param value
+         *            the value
+         */
+        DistribUpdateIntervalEnum(String value) {
+            this.value = value;
+        }
 
-	/**
-	 * 
-	 */
-	public DistribUpdateInterval(String time) {
-		setTime(time);
-	}
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
 
-	public void setTime(String time) {
-		set(DistribUpdateIntervalEnum.TIME.getValue(), time);
-	}
+    /**
+     * Instantiates a new distrib update interval.
+     * 
+     * @param time
+     *            the time
+     */
+    public DistribUpdateInterval(String time) {
+        setTime(time);
+    }
 
-	public String getTime() {
-		return get(DistribUpdateIntervalEnum.TIME.getValue());
-	}
+    /**
+     * Sets the time.
+     * 
+     * @param time
+     *            the new time
+     */
+    public void setTime(String time) {
+        set(DistribUpdateIntervalEnum.TIME.getValue(), time);
+    }
+
+    /**
+     * Gets the time.
+     * 
+     * @return the time
+     */
+    public String getTime() {
+        return get(DistribUpdateIntervalEnum.TIME.getValue());
+    }
 }

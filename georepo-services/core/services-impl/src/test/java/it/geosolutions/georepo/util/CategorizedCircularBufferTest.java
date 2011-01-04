@@ -21,15 +21,16 @@
 package it.geosolutions.georepo.util;
 
 import java.util.List;
+
 import junit.framework.TestCase;
+
 import org.junit.Test;
 
 /**
- *
+ * 
  * @author ETj (etj at geo-solutions.it)
  */
 public class CategorizedCircularBufferTest extends TestCase {
-
 
     @Test
     public void testAdd() {
@@ -100,9 +101,6 @@ public class CategorizedCircularBufferTest extends TestCase {
         }
     }
 
-
-
-
     @Test
     public void testSubListByKey() {
         CategorizedCircularBuffer<String, Long> ccb = new CategorizedCircularBuffer<String, Long>(6);
@@ -119,6 +117,5 @@ public class CategorizedCircularBufferTest extends TestCase {
         assertEquals("e2", l.get(0));
         assertEquals("e0", l.get(1));
     }
-
 
 }

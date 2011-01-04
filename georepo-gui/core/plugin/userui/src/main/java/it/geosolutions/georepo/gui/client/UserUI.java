@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.UserUI,v. 0.1 08/lug/2010 10.05.23 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 10.05.23 $
+ * $ Header: it.geosolutions.georepo.gui.client.UserUI,v. 0.1 3-gen-2011 17.06.55 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.55 $
  *
  * ====================================================================
  *
@@ -32,23 +32,30 @@ package it.geosolutions.georepo.gui.client;
 import it.geosolutions.georepo.gui.client.controller.LoginController;
 import it.geosolutions.georepo.gui.client.controller.MemberController;
 import it.geosolutions.georepo.gui.client.controller.ServicesController;
+
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.EntryPoint;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class UserUI.
  */
 public class UserUI implements EntryPoint {
 
-	private Dispatcher dispatcher;
+    /** The dispatcher. */
+    private Dispatcher dispatcher;
 
-	public void onModuleLoad() {
-		dispatcher = Dispatcher.get();
-		dispatcher.addController(new LoginController());
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
+     */
+    public void onModuleLoad() {
+        dispatcher = Dispatcher.get();
+        dispatcher.addController(new LoginController());
         dispatcher.addController(new ServicesController());
         dispatcher.addController(new MemberController());
 
-		dispatcher.dispatch(DGWATCHEvents.INIT_USER_UI_MODULE);
-	}
+        dispatcher.dispatch(DGWATCHEvents.INIT_USER_UI_MODULE);
+    }
 }

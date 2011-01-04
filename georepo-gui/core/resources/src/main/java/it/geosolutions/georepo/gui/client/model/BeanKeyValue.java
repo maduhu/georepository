@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.model.BeanKeyValue,v. 0.1 09/lug/2010 14.44.45 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 14.44.45 $
+ * $ Header: it.geosolutions.georepo.gui.client.model.BeanKeyValue,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -29,28 +29,48 @@
  */
 package it.geosolutions.georepo.gui.client.model;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Enum BeanKeyValue.
  */
 public enum BeanKeyValue {
 
-	USER_NAME("userName"), EMAIL("emailAddress"), EMAIL_ENABLE("emailEnable"), RSS_ENABLE(
-			"rssEnable"), REDUCED_CONTENT("reducedContent"), USER_ENABLED(
-			"userEnabled"), NAME("name"), PATH("path"), REDUCED_CONTENT_UPDATE(
-			"REDUCED_CONTENT_UPDATE");
+    /** The USE r_ name. */
+    USER_NAME("userName"), /** The EMAIL. */
+    EMAIL("emailAddress"), /** The EMAI l_ enable. */
+    EMAIL_ENABLE("emailEnable"), /** The RS s_ enable. */
+    RSS_ENABLE("rssEnable"),
+    /** The REDUCE d_ content. */
+    REDUCED_CONTENT("reducedContent"),
+    /** The USE r_ enabled. */
+    USER_ENABLED("userEnabled"),
+    /** The NAME. */
+    NAME("name"),
+    /** The PATH. */
+    PATH("path"),
+    /** The REDUCE d_ conten t_ update. */
+    REDUCED_CONTENT_UPDATE("REDUCED_CONTENT_UPDATE");
 
-	private String value;
+    /** The value. */
+    private String value;
 
-	BeanKeyValue(String value) {
-		this.value = value;
-	}
+    /**
+     * Instantiates a new bean key value.
+     * 
+     * @param value
+     *            the value
+     */
+    BeanKeyValue(String value) {
+        this.value = value;
+    }
 
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
+    /**
+     * Gets the value.
+     * 
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
 
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.mvc.FilterView,v. 0.1 18/ago/2010 09.28.34 created by frank $
- * $Revision: 0.1 $
- * $Date: 18/ago/2010 09.28.34 $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.FilterView,v. 0.1 3-gen-2011 16.52.35 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.35 $
  *
  * ====================================================================
  *
@@ -33,69 +33,78 @@ import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.widget.AOISFilter;
 import it.geosolutions.georepo.gui.client.widget.FilterBindingWidget;
+
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class FilterView.
  */
 public class FilterView extends View {
 
-	private AOISFilter filter;
+    /** The filter. */
+    private AOISFilter filter;
 
-	public FilterView(Controller controller) {
-		super(controller);
-		this.filter = new AOISFilter();
-	}
+    /**
+     * Instantiates a new filter view.
+     * 
+     * @param controller
+     *            the controller
+     */
+    public FilterView(Controller controller) {
+        super(controller);
+        this.filter = new AOISFilter();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client.
-	 * mvc.AppEvent)
-	 */
-	@Override
-	protected void handleEvent(AppEvent event) {
-		if (event.getType() == DGWATCHEvents.ATTACH_AOI_FILTER)
-			onAttachFilterWidget(event);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client. mvc.AppEvent)
+     */
+    @Override
+    protected void handleEvent(AppEvent event) {
+        if (event.getType() == DGWATCHEvents.ATTACH_AOI_FILTER)
+            onAttachFilterWidget(event);
 
-		if (event.getType() == DGWATCHEvents.UNBIND_FILTER_WIDGET)
-			onUnbindFilterWidget();
+        if (event.getType() == DGWATCHEvents.UNBIND_FILTER_WIDGET)
+            onUnbindFilterWidget();
 
-	}
+    }
 
-	/**
-	 * Attach Filter Widget on East Panel
-	 * 
-	 * @param event
-	 */
-	private void onAttachFilterWidget(AppEvent event) {
-		ContentPanel east = (ContentPanel) event.getData();
-		east.add(this.filter);
-		east.layout();
-	}
+    /**
+     * On attach filter widget.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onAttachFilterWidget(AppEvent event) {
+        ContentPanel east = (ContentPanel) event.getData();
+        east.add(this.filter);
+        east.layout();
+    }
 
-	/**
-	 * Unbind Filter Widget and Disables All Buttons
-	 */
-	private void onUnbindFilterWidget() {
-		FilterBindingWidget filterBindingWidget = this.filter.getFilterBinding();
-		filterBindingWidget.unBindModel();
-		
-		filter.setHeading(I18nProvider.getMessages().aoiFilterLabel() +
-                " (Attribute Filter disabled)");
+    /**
+     * On unbind filter widget.
+     */
+    private void onUnbindFilterWidget() {
+        FilterBindingWidget filterBindingWidget = this.filter.getFilterBinding();
+        filterBindingWidget.unBindModel();
 
-	}
+        filter.setHeading(I18nProvider.getMessages().aoiFilterLabel()
+                + " (Attribute Filter disabled)");
 
-	/**
-	 * @return the filter
-	 */
-	public AOISFilter getFilter() {
-		return filter;
-	}
+    }
+
+    /**
+     * Gets the filter.
+     * 
+     * @return the filter
+     */
+    public AOISFilter getFilter() {
+        return filter;
+    }
 
 }

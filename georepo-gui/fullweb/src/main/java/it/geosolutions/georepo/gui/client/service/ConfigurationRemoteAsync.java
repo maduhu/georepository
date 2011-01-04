@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.service.ConfigurationRemoteAsync,v. 0.1 09/lug/2010 11.20.15 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.20.15 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.ConfigurationRemoteAsync,v. 0.1 3-gen-2011 17.04.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.04.50 $
  *
  * ====================================================================
  *
@@ -29,16 +29,22 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-
 import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Interface ConfigurationRemoteAsync.
  */
 public interface ConfigurationRemoteAsync {
-	
-	public void initServerConfiguration(AsyncCallback<DGWATCHGlobalConfiguration>  callback);
+
+    /**
+     * Inits the server configuration.
+     * 
+     * @param callback
+     *            the callback
+     */
+    public void initServerConfiguration(AsyncCallback<DGWATCHGlobalConfiguration> callback);
 
 }

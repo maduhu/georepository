@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.server.service.ILoginService,v. 0.1 08/lug/2010 11.23.58 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 11.23.58 $
+ * $ Header: it.geosolutions.georepo.gui.server.service.ILoginService,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,39 +29,48 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
+import it.geosolutions.georepo.gui.client.model.User;
 
 import javax.servlet.http.HttpSession;
 
-import it.geosolutions.georepo.gui.client.model.User;
-
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Interface ILoginService.
  */
 public interface ILoginService {
 
-	public User authenticate(String userName, String password,
-			HttpSession session);
+    /**
+     * Authenticate.
+     * 
+     * @param userName
+     *            the user name
+     * @param password
+     *            the password
+     * @param session
+     *            the session
+     * @return the user
+     */
+    public User authenticate(String userName, String password, HttpSession session);
 
-//	public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
-//			String searchText) throws ApplicationException;
-//
-//	// public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
-//	// throws ApplicationException;
-//
-//	public User saveUser(User user) throws ApplicationException;
-//
-//	public void deleteUser(Long userId) throws ApplicationException;
-//
-//	public User updateUser(User user);
-//
-//	public User getUserDetail(User user) throws ApplicationException;
-//
-//	public List<RegUser> findUserNames(HttpSession session)
-//			throws ApplicationException;
-//
-//	public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
-//			long aoiID) throws ApplicationException;
-//
-//	public int getRelatedUsersCount(long aoiId);
+    // public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
+    // String searchText) throws ApplicationException;
+    //
+    // // public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
+    // // throws ApplicationException;
+    //
+    // public User saveUser(User user) throws ApplicationException;
+    //
+    // public void deleteUser(Long userId) throws ApplicationException;
+    //
+    // public User updateUser(User user);
+    //
+    // public User getUserDetail(User user) throws ApplicationException;
+    //
+    // public List<RegUser> findUserNames(HttpSession session)
+    // throws ApplicationException;
+    //
+    // public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
+    // long aoiID) throws ApplicationException;
+    //
+    // public int getRelatedUsersCount(long aoiId);
 }

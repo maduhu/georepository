@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.model.Filter,v. 0.1 18/ago/2010 09.33.09 created by frank $
- * $Revision: 0.1 $
- * $Date: 18/ago/2010 09.33.09 $
+ * $ Header: it.geosolutions.georepo.gui.client.model.Filter,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -33,273 +33,376 @@ import java.util.Date;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class Filter.
  */
 public class Filter extends BeanModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3211603941157005133L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 3211603941157005133L;
 
-	public enum FilterKeyValue {
-		LEGACY_ID("legacyId"), AOI("aoi"), OWNER("ownerFilter"), ACQ_DATE(
-				"acqDate"), DATA_LAYER("dataLayer"), CLOUD_COVER("cloudCover"), /*RETRIEVE_TYPE(
-				"retrieveType"), RETRIEVE_TYPE_INCREMENTAL(
-				"retrieveTypeIncremental"),*/ FILTER_LEGACY("filterLegacy"), FILTER_ACQ_DATE(
-				"filterAcqDate"), FILTER_DATA_LAYER("filterDataLayer"), FILTER_CLOUD_COVER(
-				"filterCloudCover"), SOURCE_ID("sourceId"), FILTER_SOURCE("filterSource");
+    /**
+     * The Enum FilterKeyValue.
+     */
+    public enum FilterKeyValue {
 
-		private String value;
+        /** The LEGAC y_ id. */
+        LEGACY_ID("legacyId"),
+        /** The AOI. */
+        AOI("aoi"),
+        /** The OWNER. */
+        OWNER("ownerFilter"),
+        /** The AC q_ date. */
+        ACQ_DATE("acqDate"),
+        /** The DAT a_ layer. */
+        DATA_LAYER("dataLayer"),
+        /** The CLOU d_ cover. */
+        CLOUD_COVER("cloudCover"), /*
+                                    * RETRIEVE_TYPE( "retrieveType"), RETRIEVE_TYPE_INCREMENTAL(
+                                    * "retrieveTypeIncremental"),
+                                    *//** The FILTE r_ legacy. */
+        FILTER_LEGACY("filterLegacy"),
+        /** The FILTE r_ ac q_ date. */
+        FILTER_ACQ_DATE("filterAcqDate"),
+        /** The FILTE r_ dat a_ layer. */
+        FILTER_DATA_LAYER("filterDataLayer"),
+        /** The FILTE r_ clou d_ cover. */
+        FILTER_CLOUD_COVER("filterCloudCover"),
+        /** The SOURC e_ id. */
+        SOURCE_ID("sourceId"),
+        /** The FILTE r_ source. */
+        FILTER_SOURCE("filterSource");
 
-		FilterKeyValue(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
+        /**
+         * Instantiates a new filter key value.
+         * 
+         * @param value
+         *            the value
+         */
+        FilterKeyValue(String value) {
+            this.value = value;
+        }
 
-	}
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
 
-	private String legacyId;
-	private String filterLegacy;
-	private Date acqDate;
-	private String filterAcqDate;
-	private String dataLayer;
-	private String filterDataLayer;
-	private Float cloudCover;
-	private String filterCloudCover;
-	private String sourceId;
-	private String filterSource;
-	private long userID;
-	private long aoiID;
+    }
 
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
+    /** The legacy id. */
+    private String legacyId;
 
-	/**
-	 * @param legacyId
-	 *            the legacyId to set
-	 */
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
-		set(FilterKeyValue.LEGACY_ID.getValue(), this.legacyId);
-	}
+    /** The filter legacy. */
+    private String filterLegacy;
 
-	/**
-	 * @return the acqDate
-	 */
-	public Date getAcqDate() {
-		return acqDate;
-	}
+    /** The acq date. */
+    private Date acqDate;
 
-	/**
-	 * @param acqDate
-	 *            the acqDate to set
-	 */
-	public void setAcqDate(Date acqDate) {
-		this.acqDate = acqDate;
-		set(FilterKeyValue.ACQ_DATE.getValue(), this.acqDate);
-	}
+    /** The filter acq date. */
+    private String filterAcqDate;
 
-	/**
-	 * @return the dataLayer
-	 */
-	public String getDataLayer() {
-		return dataLayer;
-	}
+    /** The data layer. */
+    private String dataLayer;
 
-	/**
-	 * @param dataLayer
-	 *            the dataLayer to set
-	 */
-	public void setDataLayer(String dataLayer) {
-		this.dataLayer = dataLayer;
-		set(FilterKeyValue.DATA_LAYER.getValue(), this.dataLayer);
-	}
+    /** The filter data layer. */
+    private String filterDataLayer;
 
-	/**
-	 * @return the cloudCover
-	 */
-	public Float getCloudCover() {
-		return cloudCover;
-	}
+    /** The cloud cover. */
+    private Float cloudCover;
 
-	/**
-	 * @param cloudCover
-	 *            the cloudCover to set
-	 */
-	public void setCloudCover(Float cloudCover) {
-		this.cloudCover = cloudCover;
-		set(FilterKeyValue.CLOUD_COVER.getValue(), this.cloudCover);
-	}
+    /** The filter cloud cover. */
+    private String filterCloudCover;
 
-//	/**
-//	 * @return the retrieveType
-//     * @deprecated
-//	 */
-//	public String getRetrieveType() {
-//		return retrieveType;
-//	}
-//
-//	/**
-//	 * @param retrieveType
-//	 *            the retrieveType to set
-//     * @deprecated
-//	 */
-//	public void setRetrieveType(String retrieveType) {
-//		this.retrieveType = retrieveType;
-//		set(FilterKeyValue.RETRIEVE_TYPE.getValue(), this.retrieveType);
-//	}
+    /** The source id. */
+    private String sourceId;
 
-	/**
-	 * @return the userID
-	 */
-	public long getUserID() {
-		return userID;
-	}
+    /** The filter source. */
+    private String filterSource;
 
-	/**
-	 * @param userID
-	 *            the userID to set
-	 */
-	public void setUserID(long userID) {
-		this.userID = userID;
-	}
+    /** The user id. */
+    private long userID;
 
-	/**
-	 * @return the aoiID
-	 */
-	public long getAoiID() {
-		return aoiID;
-	}
+    /** The aoi id. */
+    private long aoiID;
 
-	/**
-	 * @param aoiID
-	 *            the aoiID to set
-	 */
-	public void setAoiID(long aoiID) {
-		this.aoiID = aoiID;
-	}
+    /**
+     * Gets the legacy id.
+     * 
+     * @return the legacy id
+     */
+    public String getLegacyId() {
+        return legacyId;
+    }
 
-	/**
-	 * @return the filterLegacy
-	 */
-	public String getFilterLegacy() {
-		return filterLegacy;
-	}
+    /**
+     * Sets the legacy id.
+     * 
+     * @param legacyId
+     *            the new legacy id
+     */
+    public void setLegacyId(String legacyId) {
+        this.legacyId = legacyId;
+        set(FilterKeyValue.LEGACY_ID.getValue(), this.legacyId);
+    }
 
-	/**
-	 * @param filterLegacy
-	 *            the filterLegacy to set
-	 */
-	public void setFilterLegacy(String filterLegacy) {
-		this.filterLegacy = filterLegacy;
-		set(FilterKeyValue.FILTER_LEGACY.getValue(), this.filterLegacy);
-	}
+    /**
+     * Gets the acq date.
+     * 
+     * @return the acq date
+     */
+    public Date getAcqDate() {
+        return acqDate;
+    }
 
-	/**
-	 * @return the filterAcqDate
-	 */
-	public String getFilterAcqDate() {
-		return filterAcqDate;
-	}
+    /**
+     * Sets the acq date.
+     * 
+     * @param acqDate
+     *            the new acq date
+     */
+    public void setAcqDate(Date acqDate) {
+        this.acqDate = acqDate;
+        set(FilterKeyValue.ACQ_DATE.getValue(), this.acqDate);
+    }
 
-	/**
-	 * @param filterAcqDate
-	 *            the filterAcqDate to set
-	 */
-	public void setFilterAcqDate(String filterAcqDate) {
-		this.filterAcqDate = filterAcqDate;
-		set(FilterKeyValue.FILTER_ACQ_DATE.getValue(), this.filterAcqDate);
-	}
+    /**
+     * Gets the data layer.
+     * 
+     * @return the data layer
+     */
+    public String getDataLayer() {
+        return dataLayer;
+    }
 
-	/**
-	 * @return the filterDataLayer
-	 */
-	public String getFilterDataLayer() {
-		return filterDataLayer;
-	}
+    /**
+     * Sets the data layer.
+     * 
+     * @param dataLayer
+     *            the new data layer
+     */
+    public void setDataLayer(String dataLayer) {
+        this.dataLayer = dataLayer;
+        set(FilterKeyValue.DATA_LAYER.getValue(), this.dataLayer);
+    }
 
-	/**
-	 * @param filterDataLayer
-	 *            the filterDataLayer to set
-	 */
-	public void setFilterDataLayer(String filterDataLayer) {
-		this.filterDataLayer = filterDataLayer;
-		set(FilterKeyValue.FILTER_DATA_LAYER.getValue(), this.filterDataLayer);
-	}
+    /**
+     * Gets the cloud cover.
+     * 
+     * @return the cloud cover
+     */
+    public Float getCloudCover() {
+        return cloudCover;
+    }
 
-	/**
-	 * @return the filterCloudCover
-	 */
-	public String getFilterCloudCover() {
-		return filterCloudCover;
-	}
+    /**
+     * Sets the cloud cover.
+     * 
+     * @param cloudCover
+     *            the new cloud cover
+     */
+    public void setCloudCover(Float cloudCover) {
+        this.cloudCover = cloudCover;
+        set(FilterKeyValue.CLOUD_COVER.getValue(), this.cloudCover);
+    }
 
-	/**
-	 * @param filterCloudCover
-	 *            the filterCloudCover to set
-	 */
-	public void setFilterCloudCover(String filterCloudCover) {
-		this.filterCloudCover = filterCloudCover;
-		set(FilterKeyValue.FILTER_CLOUD_COVER.getValue(), this.filterCloudCover);
-	}
-	
-	/**
-	 * @return the sourceId
-	 */
-	public String getSourceId() {
-		return sourceId;
-	}
+    // /**
+    // * @return the retrieveType
+    // * @deprecated
+    // */
+    // public String getRetrieveType() {
+    // return retrieveType;
+    // }
+    //
+    // /**
+    // * @param retrieveType
+    // * the retrieveType to set
+    // * @deprecated
+    // */
+    // public void setRetrieveType(String retrieveType) {
+    // this.retrieveType = retrieveType;
+    // set(FilterKeyValue.RETRIEVE_TYPE.getValue(), this.retrieveType);
+    // }
 
-	/**
-	 * @param sourceId the sourceId to set
-	 */
-	public void setSourceId(String sourceId) {
-		this.sourceId = sourceId;
-		set(FilterKeyValue.SOURCE_ID.getValue(), this.sourceId);
-	}
-	
-	/**
-	 * @return the filterSource
-	 */
-	public String getFilterSource() {
-		return filterSource;
-	}
+    /**
+     * Gets the user id.
+     * 
+     * @return the user id
+     */
+    public long getUserID() {
+        return userID;
+    }
 
-	/**
-	 * @param filterSource the filterSource to set
-	 */
-	public void setFilterSource(String filterSource) {
-		this.filterSource = filterSource;
-		set(FilterKeyValue.FILTER_SOURCE.getValue(), this.filterSource);
-	}
+    /**
+     * Sets the user id.
+     * 
+     * @param userID
+     *            the new user id
+     */
+    public void setUserID(long userID) {
+        this.userID = userID;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Filter [legacyId=" + legacyId + ", filterLegacy="
-				+ filterLegacy + ", acqDate=" + acqDate + ", filterAcqDate="
-				+ filterAcqDate + ", dataLayer=" + dataLayer
-				+ ", filterDataLayer=" + filterDataLayer + ", cloudCover="
-				+ cloudCover + ", filterCloudCover=" + filterCloudCover
-				/*+ ", retrieveType=" + retrieveType*/ + ", userID=" + userID
-				+ ", aoiID=" + aoiID + "]";
-	}
+    /**
+     * Gets the aoi id.
+     * 
+     * @return the aoi id
+     */
+    public long getAoiID() {
+        return aoiID;
+    }
+
+    /**
+     * Sets the aoi id.
+     * 
+     * @param aoiID
+     *            the new aoi id
+     */
+    public void setAoiID(long aoiID) {
+        this.aoiID = aoiID;
+    }
+
+    /**
+     * Gets the filter legacy.
+     * 
+     * @return the filter legacy
+     */
+    public String getFilterLegacy() {
+        return filterLegacy;
+    }
+
+    /**
+     * Sets the filter legacy.
+     * 
+     * @param filterLegacy
+     *            the new filter legacy
+     */
+    public void setFilterLegacy(String filterLegacy) {
+        this.filterLegacy = filterLegacy;
+        set(FilterKeyValue.FILTER_LEGACY.getValue(), this.filterLegacy);
+    }
+
+    /**
+     * Gets the filter acq date.
+     * 
+     * @return the filter acq date
+     */
+    public String getFilterAcqDate() {
+        return filterAcqDate;
+    }
+
+    /**
+     * Sets the filter acq date.
+     * 
+     * @param filterAcqDate
+     *            the new filter acq date
+     */
+    public void setFilterAcqDate(String filterAcqDate) {
+        this.filterAcqDate = filterAcqDate;
+        set(FilterKeyValue.FILTER_ACQ_DATE.getValue(), this.filterAcqDate);
+    }
+
+    /**
+     * Gets the filter data layer.
+     * 
+     * @return the filter data layer
+     */
+    public String getFilterDataLayer() {
+        return filterDataLayer;
+    }
+
+    /**
+     * Sets the filter data layer.
+     * 
+     * @param filterDataLayer
+     *            the new filter data layer
+     */
+    public void setFilterDataLayer(String filterDataLayer) {
+        this.filterDataLayer = filterDataLayer;
+        set(FilterKeyValue.FILTER_DATA_LAYER.getValue(), this.filterDataLayer);
+    }
+
+    /**
+     * Gets the filter cloud cover.
+     * 
+     * @return the filter cloud cover
+     */
+    public String getFilterCloudCover() {
+        return filterCloudCover;
+    }
+
+    /**
+     * Sets the filter cloud cover.
+     * 
+     * @param filterCloudCover
+     *            the new filter cloud cover
+     */
+    public void setFilterCloudCover(String filterCloudCover) {
+        this.filterCloudCover = filterCloudCover;
+        set(FilterKeyValue.FILTER_CLOUD_COVER.getValue(), this.filterCloudCover);
+    }
+
+    /**
+     * Gets the source id.
+     * 
+     * @return the source id
+     */
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    /**
+     * Sets the source id.
+     * 
+     * @param sourceId
+     *            the new source id
+     */
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+        set(FilterKeyValue.SOURCE_ID.getValue(), this.sourceId);
+    }
+
+    /**
+     * Gets the filter source.
+     * 
+     * @return the filter source
+     */
+    public String getFilterSource() {
+        return filterSource;
+    }
+
+    /**
+     * Sets the filter source.
+     * 
+     * @param filterSource
+     *            the new filter source
+     */
+    public void setFilterSource(String filterSource) {
+        this.filterSource = filterSource;
+        set(FilterKeyValue.FILTER_SOURCE.getValue(), this.filterSource);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Filter [legacyId=" + legacyId + ", filterLegacy=" + filterLegacy + ", acqDate="
+                + acqDate + ", filterAcqDate=" + filterAcqDate + ", dataLayer=" + dataLayer
+                + ", filterDataLayer=" + filterDataLayer + ", cloudCover=" + cloudCover
+                + ", filterCloudCover=" + filterCloudCover
+                /* + ", retrieveType=" + retrieveType */+ ", userID=" + userID + ", aoiID=" + aoiID
+                + "]";
+    }
 
 }

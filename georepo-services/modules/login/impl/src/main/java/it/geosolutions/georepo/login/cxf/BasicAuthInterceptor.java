@@ -24,6 +24,7 @@ import it.geosolutions.georepo.api.AuthProvider;
 import it.geosolutions.georepo.api.dto.Authority;
 import it.geosolutions.georepo.api.dto.GrantedAuths;
 import it.geosolutions.georepo.login.util.GrantAll;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -42,11 +43,11 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * 
  * Adds basic authentication to CXF services by using login operation.
- *
+ * 
  * @author ETj (etj at geo-solutions.it)
- *
+ * 
  * @see http://chrisdail.com/2008/03/31/apache-cxf-with-http-basic-authentication/
  */
 public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
@@ -59,17 +60,16 @@ public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
 
     public BasicAuthInterceptor() {
         super(Phase.UNMARSHAL);
-//        addAfter(BareInInterceptor.class.getName());
-//        addAfter(RPCInInterceptor.class.getName());
-//        addAfter(DocLiteralInInterceptor.class.getName());
+        // addAfter(BareInInterceptor.class.getName());
+        // addAfter(RPCInInterceptor.class.getName());
+        // addAfter(DocLiteralInInterceptor.class.getName());
     }
 
     @Override
-    public void handleMessage(Message message)
-            throws Fault {
+    public void handleMessage(Message message) throws Fault {
         // This is set by CXF
         AuthorizationPolicy policy = message.get(AuthorizationPolicy.class);
-        
+
         // If the policy is not set, the user did not specify
         // credentials. A 401 is sent to the client to indicate
         // that authentication is required
@@ -78,30 +78,30 @@ public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
             return;
         }
 
-//        // allow auth to anybody
-//        GrantedAuths ga = new GrantedAuths();
-//        ga.setAuthorities(Arrays.asList(Authority.LOGIN, Authority.REMOTE));
-//        message.put("grantedAuths", ga);
-//        return;
+        // // allow auth to anybody
+        // GrantedAuths ga = new GrantedAuths();
+        // ga.setAuthorities(Arrays.asList(Authority.LOGIN, Authority.REMOTE));
+        // message.put("grantedAuths", ga);
+        // return;
 
         GrantedAuths ga = null;
 
-        try{
+        try {
             ga = authProvider.login(policy.getUserName(), policy.getPassword());
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             LOGGER.warn("Login failed:" + ex.getMessage());
             sendErrorResponse(message, HttpURLConnection.HTTP_FORBIDDEN);
             return;
         }
 
-        if(! ga.getAuthorities().contains(Authority.REMOTE)) {
+        if (!ga.getAuthorities().contains(Authority.REMOTE)) {
             sendErrorResponse(message, HttpURLConnection.HTTP_FORBIDDEN);
             return;
         }
 
         message.put("grantedAuths", ga);
 
-//        sendErrorResponse(message, HttpURLConnection.HTTP_FORBIDDEN);
+        // sendErrorResponse(message, HttpURLConnection.HTTP_FORBIDDEN);
         // connectid is not set, the called method should issue an Auth error
     }
 
@@ -110,11 +110,11 @@ public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
         Message outMessage = getOutMessage(message);
         outMessage.put(Message.RESPONSE_CODE, responseCode);
         // Set the response headers
-        Map responseHeaders = (Map)message.get(Message.PROTOCOL_HEADERS);
+        Map responseHeaders = (Map) message.get(Message.PROTOCOL_HEADERS);
 
         if (responseHeaders != null) {
             responseHeaders.put("WWW-Authenticate", Arrays.asList("Basic realm=\"" + realm + "\""));
-            responseHeaders.put("Content-Length",   Arrays.asList("0"));
+            responseHeaders.put("Content-Length", Arrays.asList("0"));
         }
 
         message.getInterceptorChain().abort();
@@ -122,7 +122,7 @@ public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
             getConduit(message).prepare(outMessage);
 
             OutputStream os = outMessage.getContent(OutputStream.class);
-            String errmsg = "Error "+responseCode + ": ";
+            String errmsg = "Error " + responseCode + ": ";
             os.write(errmsg.getBytes());
             LOGGER.info("Sending error " + responseCode);
 
@@ -144,8 +144,7 @@ public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
         return outMessage;
     }
 
-    private Conduit getConduit(Message inMessage)
-            throws IOException {
+    private Conduit getConduit(Message inMessage) throws IOException {
         Exchange exchange = inMessage.getExchange();
         EndpointReferenceType target = exchange.get(EndpointReferenceType.class);
         Conduit conduit = exchange.getDestination().getBackChannel(inMessage, null, target);
@@ -153,14 +152,13 @@ public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
         return conduit;
     }
 
-    private void close(Message outMessage)
-            throws IOException {
+    private void close(Message outMessage) throws IOException {
         OutputStream os = outMessage.getContent(OutputStream.class);
         os.flush();
         os.close();
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     public void setRealm(String realm) {
         this.realm = realm;
@@ -169,5 +167,5 @@ public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
     public void setAuthProvider(AuthProvider authProvider) {
         this.authProvider = authProvider;
     }
-    
+
 }

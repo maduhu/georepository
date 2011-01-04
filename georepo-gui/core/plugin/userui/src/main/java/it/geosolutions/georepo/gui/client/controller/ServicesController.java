@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.controller.ServicesController,v. 0.1 30/set/2010 10.37.57 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 10.37.57 $
+ * $ Header: it.geosolutions.georepo.gui.client.controller.ServicesController,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -35,29 +35,36 @@ import it.geosolutions.georepo.gui.client.service.QuartzRemote;
 import it.geosolutions.georepo.gui.client.service.QuartzRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.SyncRemote;
 import it.geosolutions.georepo.gui.client.service.SyncRemoteAsync;
+
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe, Tobia Di Pisa
- * 
+ * The Class ServicesController.
  */
 public class ServicesController extends Controller {
 
+    /** The quartz service. */
     private final QuartzRemoteAsync quartzService = QuartzRemote.Util.getInstance();
+
+    /** The sync service. */
     private final SyncRemoteAsync syncService = SyncRemote.Util.getInstance();
 
+    /**
+     * Instantiates a new services controller.
+     */
     public ServicesController() {
-        registerEventTypes(DGWATCHEvents.INIT_USER_UI_MODULE, DGWATCHEvents.QUARTZ_TRIGGER, DGWATCHEvents.RUN_WATCH);
+        registerEventTypes(DGWATCHEvents.INIT_USER_UI_MODULE, DGWATCHEvents.QUARTZ_TRIGGER,
+                DGWATCHEvents.RUN_WATCH);
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
+     * @see com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
      * .mvc.AppEvent)
      */
     @Override
@@ -71,7 +78,10 @@ public class ServicesController extends Controller {
     }
 
     /**
+     * On run watch.
+     * 
      * @param event
+     *            the event
      */
     private void onRunWatch(AppEvent event) {
         final Watch watch = (Watch) event.getData();
@@ -81,50 +91,49 @@ public class ServicesController extends Controller {
 
                 public void onFailure(Throwable caught) {
                     Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
-                        "Quartz Service",
-                        "There was an error in launching the trigger with"
-                            + " timer "
-                            + watch.getUpInteval()
-                            + " h on Quartz Service." });
+                            "Quartz Service",
+                            "There was an error in launching the trigger with" + " timer "
+                                    + watch.getUpInteval() + " h on Quartz Service." });
                 }
 
                 public void onSuccess(Object result) {
                     Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                        "Quartz Service",
-                        "Success in launching the trigger"
-                            + " with timer "
-                            + watch.getUpInteval()
-                            + " h on Quartz Service." });
+                            "Quartz Service",
+                            "Success in launching the trigger" + " with timer "
+                                    + watch.getUpInteval() + " h on Quartz Service." });
                 }
             });
         } else {
             // Distribution
             Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                "Distribution Watch",
-                "Distribution Watch Triggered" });
+                    "Distribution Watch", "Distribution Watch Triggered" });
             int delayInSeconds = 10; // TODO: Get delay from UI
-            this.syncService.runDistribution(watch.getId(), delayInSeconds, new AsyncCallback<Void>() {
+            this.syncService.runDistribution(watch.getId(), delayInSeconds,
+                    new AsyncCallback<Void>() {
 
-                public void onFailure(Throwable caught) {
-                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
-                        "Sync Service",
-                        "Failure executing distribution: ["
-                            + String.valueOf(watch.getTitle())
-                            + "]" });
-                }
+                        public void onFailure(Throwable caught) {
+                            Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
+                                    "Sync Service",
+                                    "Failure executing distribution: ["
+                                            + String.valueOf(watch.getTitle()) + "]" });
+                        }
 
-                public void onSuccess(Void result) {
-                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                        "Sync Service",
-                        "Successful Distribution: [" + String.valueOf(watch.getTitle()) + "]" });
-                }
-            });
+                        public void onSuccess(Void result) {
+                            Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                                    "Sync Service",
+                                    "Successful Distribution: [" + String.valueOf(watch.getTitle())
+                                            + "]" });
+                        }
+                    });
         }
 
     }
 
     /**
+     * On quartz trigger.
+     * 
      * @param event
+     *            the event
      */
     private void onQuartzTrigger(AppEvent event) {
 
@@ -133,20 +142,16 @@ public class ServicesController extends Controller {
 
             public void onFailure(Throwable caught) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Quartz Service",
-                    "There was an error in launching the trigger with"
-                        + " timer "
-                        + interval.intValue()
-                        + " h on Quartz Service." });
+                        "Quartz Service",
+                        "There was an error in launching the trigger with" + " timer "
+                                + interval.intValue() + " h on Quartz Service." });
             }
 
             public void onSuccess(Object result) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                    "Quartz Service",
-                    "Success in launching the trigger"
-                        + " with timer "
-                        + interval.intValue()
-                        + " h on Quartz Service." });
+                        "Quartz Service",
+                        "Success in launching the trigger" + " with timer " + interval.intValue()
+                                + " h on Quartz Service." });
             }
         });
     }

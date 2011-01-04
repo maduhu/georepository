@@ -20,12 +20,17 @@
 
 package it.geosolutions.georepo.core.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 /**
  * Basic user info
@@ -36,13 +41,13 @@ import java.io.Serializable;
 @Entity(name = "User")
 @Table(name = "gr_user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "user")
-
 @XmlRootElement(name = "User")
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue//(strategy=GenerationType.SEQUENCE, generator="DG_WATCH_SEQ")
-//    @SequenceGenerator(name="DG_WATCH_SEQ", sequenceName="DG_WATCH_SEQ")
+    @GeneratedValue
+    // (strategy=GenerationType.SEQUENCE, generator="DG_WATCH_SEQ")
+    // @SequenceGenerator(name="DG_WATCH_SEQ", sequenceName="DG_WATCH_SEQ")
     @Column
     private long id;
 
@@ -67,5 +72,5 @@ public class User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
 }

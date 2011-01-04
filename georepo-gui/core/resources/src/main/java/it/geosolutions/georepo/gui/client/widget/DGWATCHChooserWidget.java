@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget,v. 0.1 22/lug/2010 10.30.25 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 22/lug/2010 10.30.25 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.10 $
  *
  * ====================================================================
  *
@@ -29,8 +29,8 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-
 import it.geosolutions.georepo.gui.client.widget.SearchStatus.EnumSearchStatus;
+
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.core.XTemplate;
@@ -54,266 +54,356 @@ import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.ListView;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
-import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.LabelToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
+ * The Class DGWATCHChooserWidget.
  * 
+ * @param <T>
+ *            the generic type
  */
 public abstract class DGWATCHChooserWidget<T extends BeanModel> {
 
-	protected ListStore<T> store;
-	protected SimpleComboBox<String> sort;
-	protected XTemplate detailTp;
-	protected ListView<T> view;
-	protected LayoutContainer details;
-	protected Dialog chooser;
-	protected ToolBar bar;
-	protected RpcProxy<PagingLoadResult<T>> proxy;
-	protected PagingLoader<PagingLoadResult<ModelData>> loader;
-	protected PagingToolBar toolBar;
-	protected TextField<String> search;
-	protected ContentPanel main;
-	protected Button ok;
-	protected Button cancel;
-	protected SearchStatus searchStatus;
+    /** The store. */
+    protected ListStore<T> store;
 
-	protected String searchText;
+    /** The sort. */
+    protected SimpleComboBox<String> sort;
 
-	public DGWATCHChooserWidget() {
-		createTemplate();
-		createStore();
-		createChooser();
-		createMainPanel();
-		initListView();
-	}
+    /** The detail tp. */
+    protected XTemplate detailTp;
 
-	private void initListView() {
-		view = new ListView<T>();
+    /** The view. */
+    protected ListView<T> view;
 
-		view.setId("img-chooser-view");
-		view.setBorders(false);
-		view.setStore(store);
+    /** The details. */
+    protected LayoutContainer details;
 
-		setListProperties();
+    /** The chooser. */
+    protected Dialog chooser;
 
-		view.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		view.getSelectionModel().addListener(Events.SelectionChange,
-				new Listener<SelectionChangedEvent<T>>() {
-					public void handleEvent(SelectionChangedEvent<T> be) {
-						onSelectionChange(be);
-					}
-				});
-		main.add(view);
+    /** The bar. */
+    protected ToolBar bar;
 
-		createDetails();
+    /** The proxy. */
+    protected RpcProxy<PagingLoadResult<T>> proxy;
 
-	}
+    /** The loader. */
+    protected PagingLoader<PagingLoadResult<ModelData>> loader;
 
-	private void createDetails() {
-		details = new LayoutContainer();
-		details.setBorders(true);
-		details.setStyleAttribute("backgroundColor", "white");
+    /** The tool bar. */
+    protected PagingToolBar toolBar;
 
-		BorderLayoutData eastData = new BorderLayoutData(LayoutRegion.EAST,
-				150, 150, 250);
-		eastData.setSplit(true);
+    /** The search. */
+    protected TextField<String> search;
 
-		BorderLayoutData centerData = new BorderLayoutData(LayoutRegion.CENTER);
-		centerData.setMargins(new Margins(0, 5, 0, 0));
+    /** The main. */
+    protected ContentPanel main;
 
-		chooser.add(main, centerData);
-		chooser.add(details, eastData);
+    /** The ok. */
+    protected Button ok;
 
-	}
+    /** The cancel. */
+    protected Button cancel;
 
-	private void createMainPanel() {
-		main = new ContentPanel();
-		main.setBorders(true);
-		main.setBodyBorder(false);
-		main.setLayout(new FitLayout());
-		main.setHeaderVisible(false);
+    /** The search status. */
+    protected SearchStatus searchStatus;
 
-		bar = new ToolBar();
-		bar.add(new LabelToolItem("Search: "));
+    /** The search text. */
+    protected String searchText;
 
-		search = new TextField<String>();
-		search.setWidth(100);
+    /**
+     * Instantiates a new dGWATCH chooser widget.
+     */
+    public DGWATCHChooserWidget() {
+        createTemplate();
+        createStore();
+        createChooser();
+        createMainPanel();
+        initListView();
+    }
 
-		search.addKeyListener(new KeyListener() {
+    /**
+     * Inits the list view.
+     */
+    private void initListView() {
+        view = new ListView<T>();
 
-			@Override
+        view.setId("img-chooser-view");
+        view.setBorders(false);
+        view.setStore(store);
+
+        setListProperties();
+
+        view.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        view.getSelectionModel().addListener(Events.SelectionChange,
+                new Listener<SelectionChangedEvent<T>>() {
+                    public void handleEvent(SelectionChangedEvent<T> be) {
+                        onSelectionChange(be);
+                    }
+                });
+        main.add(view);
+
+        createDetails();
+
+    }
+
+    /**
+     * Creates the details.
+     */
+    private void createDetails() {
+        details = new LayoutContainer();
+        details.setBorders(true);
+        details.setStyleAttribute("backgroundColor", "white");
+
+        BorderLayoutData eastData = new BorderLayoutData(LayoutRegion.EAST, 150, 150, 250);
+        eastData.setSplit(true);
+
+        BorderLayoutData centerData = new BorderLayoutData(LayoutRegion.CENTER);
+        centerData.setMargins(new Margins(0, 5, 0, 0));
+
+        chooser.add(main, centerData);
+        chooser.add(details, eastData);
+
+    }
+
+    /**
+     * Creates the main panel.
+     */
+    private void createMainPanel() {
+        main = new ContentPanel();
+        main.setBorders(true);
+        main.setBodyBorder(false);
+        main.setLayout(new FitLayout());
+        main.setHeaderVisible(false);
+
+        bar = new ToolBar();
+        bar.add(new LabelToolItem("Search: "));
+
+        search = new TextField<String>();
+        search.setWidth(100);
+
+        search.addKeyListener(new KeyListener() {
+
+            @Override
             public void componentKeyUp(ComponentEvent event) {
-				if ((event.getKeyCode() == 8) && (search.getValue() == null)) {
-					reset();
-				}
-			}
+                if ((event.getKeyCode() == 8) && (search.getValue() == null)) {
+                    reset();
+                }
+            }
 
-			@Override
+            @Override
             public void componentKeyPress(ComponentEvent event) {
-				if (event.getKeyCode() == 13) {
-					searchText = search.getValue() == null ? "" : search
-							.getValue();
-					loader.load(0, 25);
-				}
-			}
+                if (event.getKeyCode() == 13) {
+                    searchText = search.getValue() == null ? "" : search.getValue();
+                    loader.load(0, 25);
+                }
+            }
 
-		});
+        });
 
-		bar.add(search);
-		bar.add(new SeparatorToolItem());
-		bar.add(new LabelToolItem("Sort By:"));
+        bar.add(search);
+        bar.add(new SeparatorToolItem());
+        bar.add(new LabelToolItem("Sort By:"));
 
-		sort = new SimpleComboBox<String>();
-		sort.setTriggerAction(TriggerAction.ALL);
-		sort.setEditable(false);
-		sort.setForceSelection(true);
-		sort.setWidth(90);
+        sort = new SimpleComboBox<String>();
+        sort.setTriggerAction(TriggerAction.ALL);
+        sort.setEditable(false);
+        sort.setForceSelection(true);
+        sort.setWidth(90);
 
-		setComboProperties();
+        setComboProperties();
 
-		bar.add(sort);
+        bar.add(sort);
 
-		main.setTopComponent(bar);
-	}
+        main.setTopComponent(bar);
+    }
 
-	private void createChooser() {
-		chooser = new Dialog();
-		chooser.setMinWidth(500);
-		chooser.setMinHeight(300);
-		chooser.setModal(true);
-		chooser.setLayout(new BorderLayout());
-		chooser.setBodyStyle("border: none;background: none");
-		chooser.setBodyBorder(false);
-		chooser.setButtons("");
-		chooser.setHideOnButtonClick(true);
+    /**
+     * Creates the chooser.
+     */
+    private void createChooser() {
+        chooser = new Dialog();
+        chooser.setMinWidth(500);
+        chooser.setMinHeight(300);
+        chooser.setModal(true);
+        chooser.setLayout(new BorderLayout());
+        chooser.setBodyStyle("border: none;background: none");
+        chooser.setBodyBorder(false);
+        chooser.setButtons("");
+        chooser.setHideOnButtonClick(true);
 
-		setDialogProperties();
-		
-		this.searchStatus = new SearchStatus();
-		this.searchStatus.setAutoWidth(true);
+        setDialogProperties();
 
-		chooser.getButtonBar().add(this.searchStatus);
-		
-		this.ok = new Button("Ok", new SelectionListener<ButtonEvent>() {
+        this.searchStatus = new SearchStatus();
+        this.searchStatus.setAutoWidth(true);
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				if (!view.getSelectionModel().getSelection().isEmpty()) {
-					onDispatch(view.getSelectionModel().getSelectedItem());
-				}
+        chooser.getButtonBar().add(this.searchStatus);
 
-			}
-		});
+        this.ok = new Button("Ok", new SelectionListener<ButtonEvent>() {
 
-		this.ok.disable();
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                if (!view.getSelectionModel().getSelection().isEmpty()) {
+                    onDispatch(view.getSelectionModel().getSelectedItem());
+                }
 
-		chooser.addButton(ok);
+            }
+        });
 
-		this.cancel = new Button("Cancel",
-				new SelectionListener<ButtonEvent>() {
+        this.ok.disable();
 
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						cancel();
-					}
-				});
-		
+        chooser.addButton(ok);
 
-		chooser.addButton(cancel);
+        this.cancel = new Button("Cancel", new SelectionListener<ButtonEvent>() {
 
-	}
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                cancel();
+            }
+        });
 
-	private void onSelectionChange(SelectionChangedEvent<T> be) {
-		if (!be.getSelection().isEmpty()) {
-			detailTp.overwrite(details.getElement(),
-					Util.getJsObject(be.getSelection().get(0)));
-			ok.enable();
-		} else {
-			ok.disable();
-			details.el().setInnerHtml("");
-		}
+        chooser.addButton(cancel);
 
-	}
+    }
 
-	public void cancel() {
-		chooser.hide();
-		reset();
-	}
+    /**
+     * On selection change.
+     * 
+     * @param be
+     *            the be
+     */
+    private void onSelectionChange(SelectionChangedEvent<T> be) {
+        if (!be.getSelection().isEmpty()) {
+            detailTp.overwrite(details.getElement(), Util.getJsObject(be.getSelection().get(0)));
+            ok.enable();
+        } else {
+            ok.disable();
+            details.el().setInnerHtml("");
+        }
 
-	public void reset() {
-		this.search.reset();
-		this.store.removeAll();
-		this.toolBar.clear();
-		this.toolBar.disable();
-		ok.disable();
-		view.getSelectionModel().deselectAll();
-		this.searchStatus.clearStatus("");
-	}
+    }
 
-	public void clearListViewElements() {
-		this.store.removeAll();
-		this.toolBar.clear();
-		this.toolBar.disable();
-	}
+    /**
+     * Cancel.
+     */
+    public void cancel() {
+        chooser.hide();
+        reset();
+    }
 
-	/**
-	 * Set the correct Status Iconn Style
-	 */
-	public void setSearchStatus(EnumSearchStatus status,
-			EnumSearchStatus message) {
-		this.searchStatus.setIconStyle(status.getValue());
-		this.searchStatus.setText(message.getValue());
-	}
+    /**
+     * Reset.
+     */
+    public void reset() {
+        this.search.reset();
+        this.store.removeAll();
+        this.toolBar.clear();
+        this.toolBar.disable();
+        ok.disable();
+        view.getSelectionModel().deselectAll();
+        this.searchStatus.clearStatus("");
+    }
 
-	public abstract void setListProperties();
+    /**
+     * Clear list view elements.
+     */
+    public void clearListViewElements() {
+        this.store.removeAll();
+        this.toolBar.clear();
+        this.toolBar.disable();
+    }
 
-	public abstract void createStore();
+    /**
+     * Sets the search status.
+     * 
+     * @param status
+     *            the status
+     * @param message
+     *            the message
+     */
+    public void setSearchStatus(EnumSearchStatus status, EnumSearchStatus message) {
+        this.searchStatus.setIconStyle(status.getValue());
+        this.searchStatus.setText(message.getValue());
+    }
 
-	public abstract void createTemplate();
+    /**
+     * Sets the list properties.
+     */
+    public abstract void setListProperties();
 
-	public abstract void setComboProperties();
+    /**
+     * Creates the store.
+     */
+    public abstract void createStore();
 
-	public abstract void onDispatch(T model);
+    /**
+     * Creates the template.
+     */
+    public abstract void createTemplate();
 
-	public abstract void setDialogProperties();
+    /**
+     * Sets the combo properties.
+     */
+    public abstract void setComboProperties();
 
-	/**
-	 * @return the store
-	 */
-	public ListStore<T> getStore() {
-		return store;
-	}
+    /**
+     * On dispatch.
+     * 
+     * @param model
+     *            the model
+     */
+    public abstract void onDispatch(T model);
 
-	/**
-	 * @return the detailTp
-	 */
-	public XTemplate getDetailTp() {
-		return detailTp;
-	}
+    /**
+     * Sets the dialog properties.
+     */
+    public abstract void setDialogProperties();
 
-	/**
-	 * @return the details
-	 */
-	public LayoutContainer getDetails() {
-		return details;
-	}
+    /**
+     * Gets the store.
+     * 
+     * @return the store
+     */
+    public ListStore<T> getStore() {
+        return store;
+    }
 
-	/**
-	 * @return the chooser
-	 */
-	public Dialog getChooser() {
-		return chooser;
-	}
+    /**
+     * Gets the detail tp.
+     * 
+     * @return the detail tp
+     */
+    public XTemplate getDetailTp() {
+        return detailTp;
+    }
+
+    /**
+     * Gets the details.
+     * 
+     * @return the details
+     */
+    public LayoutContainer getDetails() {
+        return details;
+    }
+
+    /**
+     * Gets the chooser.
+     * 
+     * @return the chooser
+     */
+    public Dialog getChooser() {
+        return chooser;
+    }
 
 }

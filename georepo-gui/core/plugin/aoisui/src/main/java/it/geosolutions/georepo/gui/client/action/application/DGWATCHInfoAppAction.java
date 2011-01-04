@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.application.DGWATCHInfoAppAction,v. 0.1 27/lug/2010 11.20.08 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.20.08 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.application.DGWATCHInfoAppAction,v. 0.1 3-gen-2011 16.51.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.51.33 $
  *
  * ====================================================================
  *
@@ -32,19 +32,29 @@ package it.geosolutions.georepo.gui.client.action.application;
 import it.geosolutions.georepo.gui.client.Category;
 import it.geosolutions.georepo.gui.client.action.ToolbarApplicationAction;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Class DGWATCHInfoAppAction.
  */
 public class DGWATCHInfoAppAction extends ToolbarApplicationAction {
 
-	public DGWATCHInfoAppAction() {
-		super(I18nProvider.getMessages().applicationName(), Category.DGWATCH_INFO);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Instantiates a new dGWATCH info app action.
+     */
+    public DGWATCHInfoAppAction() {
+        super(I18nProvider.getMessages().applicationName(), Category.DGWATCH_INFO);
+        // TODO Auto-generated constructor stub
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent be) {
     }
 

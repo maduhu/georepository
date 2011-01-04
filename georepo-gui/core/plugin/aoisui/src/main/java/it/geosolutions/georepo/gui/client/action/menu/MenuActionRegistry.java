@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.menu.MenuActionRegistry,v. 0.1 30/set/2010 16.55.10 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 16.55.10 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.menu.MenuActionRegistry,v. 0.1 3-gen-2011 16.51.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.51.45 $
  *
  * ====================================================================
  *
@@ -32,63 +32,68 @@ package it.geosolutions.georepo.gui.client.action.menu;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class MenuActionRegistry.
  */
 public final class MenuActionRegistry {
 
-	private static final Map<String, MenuActionCreator> REGISTRY;
+    /** The Constant REGISTRY. */
+    private static final Map<String, MenuActionCreator> REGISTRY;
 
-	static {
-		REGISTRY = new HashMap<String, MenuActionCreator>();
+    static {
+        REGISTRY = new HashMap<String, MenuActionCreator>();
 
-		REGISTRY.put("quartzTriggerA", new MenuActionCreator() {
+        REGISTRY.put("quartzTriggerA", new MenuActionCreator() {
 
-			public MenuAction createAction() {
-				// TODO Auto-generated method stub
-				return new RunTrigger1();
-			}
-		});
+            public MenuAction createAction() {
+                // TODO Auto-generated method stub
+                return new RunTrigger1();
+            }
+        });
 
-		REGISTRY.put("quartzTriggerB", new MenuActionCreator() {
+        REGISTRY.put("quartzTriggerB", new MenuActionCreator() {
 
-			public MenuAction createAction() {
-				// TODO Auto-generated method stub
-				return new RunTrigger4();
-			}
-		});
+            public MenuAction createAction() {
+                // TODO Auto-generated method stub
+                return new RunTrigger4();
+            }
+        });
 
-		REGISTRY.put("quartzTriggerC", new MenuActionCreator() {
+        REGISTRY.put("quartzTriggerC", new MenuActionCreator() {
 
-			public MenuAction createAction() {
-				// TODO Auto-generated method stub
-				return new RunTrigger24();
-			}
-		});
-	}
+            public MenuAction createAction() {
+                // TODO Auto-generated method stub
+                return new RunTrigger24();
+            }
+        });
+    }
 
-	/**
-	 * 
-	 * @param key
-	 * @param menuActionCreator
-	 */
-	public static void put(String key, MenuActionCreator menuActionCreator) {
-		if (key != null && menuActionCreator != null)
-			REGISTRY.put(key, menuActionCreator);
-	}
+    /**
+     * Put.
+     * 
+     * @param key
+     *            the key
+     * @param menuActionCreator
+     *            the menu action creator
+     */
+    public static void put(String key, MenuActionCreator menuActionCreator) {
+        if (key != null && menuActionCreator != null)
+            REGISTRY.put(key, menuActionCreator);
+    }
 
-	/**
-	 * Return Menu Action
-	 * 
-	 * @param key
-	 *            key with the action is registered
-	 */
-	public static MenuAction get(String key) {
-		MenuActionCreator menuActionCreator = REGISTRY.get(key);
-		if (menuActionCreator == null)
-			return null;
-		return menuActionCreator.createAction();
-	}
+    /**
+     * Gets the.
+     * 
+     * @param key
+     *            the key
+     * @return the menu action
+     */
+    public static MenuAction get(String key) {
+        MenuActionCreator menuActionCreator = REGISTRY.get(key);
+        if (menuActionCreator == null)
+            return null;
+        return menuActionCreator.createAction();
+    }
 
 }

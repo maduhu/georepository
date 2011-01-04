@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.binding.ComboTypeFieldBinding,v. 0.1 03/ago/2010 10.13.18 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 03/ago/2010 10.13.18 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.ComboTypeFieldBinding,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.10 $
  *
  * ====================================================================
  *
@@ -29,67 +29,87 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding;
 
-
 import it.geosolutions.georepo.gui.client.SendType;
 import it.geosolutions.georepo.gui.client.model.Watch;
+
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.store.Record;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.Field;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class ComboTypeFieldBinding.
  */
 public class ComboTypeFieldBinding extends FieldBinding {
 
-	private Object oldValue;
+    /** The old value. */
+    private Object oldValue;
 
-	@SuppressWarnings("rawtypes")
-	public ComboTypeFieldBinding(Field field, String property) {
-		super(field, property);
-	}
+    /**
+     * Instantiates a new combo type field binding.
+     * 
+     * @param field
+     *            the field
+     * @param property
+     *            the property
+     */
+    @SuppressWarnings("rawtypes")
+    public ComboTypeFieldBinding(Field field, String property) {
+        super(field, property);
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateField(boolean)
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateField(boolean updateOriginalValue) {
-		Object val = onConvertModelValue(model.get(property));
+    public void updateField(boolean updateOriginalValue) {
+        Object val = onConvertModelValue(model.get(property));
 
-		if (oldValue == null)
-			oldValue = val;
+        if (oldValue == null)
+            oldValue = val;
 
-		((ComboBox<SendType>) field).setValue(new SendType(val.toString()));
+        ((ComboBox<SendType>) field).setValue(new SendType(val.toString()));
 
-		if (updateOriginalValue) {
-			((ComboBox<SendType>) field).setOriginalValue(new SendType(val
-					.toString()));
-		}
-	}
+        if (updateOriginalValue) {
+            ((ComboBox<SendType>) field).setOriginalValue(new SendType(val.toString()));
+        }
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateModel()
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateModel() {
-		Object val = onConvertFieldValue(field.getValue());
-		if (store != null) {
-			Record r = store.getRecord(model);
-			if (r != null) {
-				r.setValid(property, field.isValid());
-				r.set(property, val);
-			}
-		} else {
-			// model.set(property, ((SendType) val).getType());
-			((Watch) model).setSendType(((SendType) val).getType());
-		}
-	}
+    public void updateModel() {
+        Object val = onConvertFieldValue(field.getValue());
+        if (store != null) {
+            Record r = store.getRecord(model);
+            if (r != null) {
+                r.setValid(property, field.isValid());
+                r.set(property, val);
+            }
+        } else {
+            // model.set(property, ((SendType) val).getType());
+            ((Watch) model).setSendType(((SendType) val).getType());
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	public void resetValue() {
-		oldValue = onConvertFieldValue(field.getValue());
+    /**
+     * Reset value.
+     */
+    @SuppressWarnings("unchecked")
+    public void resetValue() {
+        oldValue = onConvertFieldValue(field.getValue());
 
-		((ComboBox<SendType>) field)
-				.setValue(new SendType(oldValue.toString()));
+        ((ComboBox<SendType>) field).setValue(new SendType(oldValue.toString()));
 
-		// model.set(property, oldValue.toString());
-		((Watch) model).setSendType(((SendType) oldValue).getType());
-	}
+        // model.set(property, oldValue.toString());
+        ((Watch) model).setSendType(((SendType) oldValue).getType());
+    }
 }

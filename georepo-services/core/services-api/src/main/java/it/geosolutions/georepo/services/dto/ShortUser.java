@@ -24,12 +24,13 @@ import it.geosolutions.georepo.core.model.User;
 
 /**
  * A compact representation of User useful in lists.
- *
+ * 
  * @author Etj (etj@geo-solutions.it)
  */
 public class ShortUser {
 
     private long id;
+
     private String name;
 
     public ShortUser() {

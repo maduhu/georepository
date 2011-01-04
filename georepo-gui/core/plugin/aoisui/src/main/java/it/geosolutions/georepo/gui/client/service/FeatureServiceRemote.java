@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.tab.GeoRSSTabItem,v. 0.1 09/lug/2010 10.23.26 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 10.23.26 $
+ * $ Header: it.geosolutions.georepo.gui.client.service.FeatureServiceRemote,v. 0.1 3-gen-2011 16.52.44 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.44 $
  *
  * ====================================================================
  *
@@ -31,46 +31,55 @@ package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Feature;
+
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author tobaro
- *
+ * The Interface FeatureServiceRemote.
  */
-public interface FeatureServiceRemote  extends RemoteService {
+public interface FeatureServiceRemote extends RemoteService {
 
-	/**
-	 * @author tobaro
-	 *
-	 */
-	public static class Util {
-		private static FeatureServiceRemoteAsync instance;
+    /**
+     * The Class Util.
+     */
+    public static class Util {
 
-		/**
-		 * @return FeatureServiceRemoteAsync
-		 */
-		public static FeatureServiceRemoteAsync getInstance() {
-			if (instance == null) {
-				instance = (FeatureServiceRemoteAsync) GWT
-						.create(FeatureServiceRemote.class);
-				ServiceDefTarget target = (ServiceDefTarget) instance;
-				target.setServiceEntryPoint(GWT.getModuleBaseURL()
-						+ "FeatureServiceRemote");
-			}
-			
-			return instance;
-		}
-	}
+        /** The instance. */
+        private static FeatureServiceRemoteAsync instance;
 
-	/** 
-	 * @param config
-	 * @return PagingLoadResult
-	 * 
-	 */
-	public PagingLoadResult<Feature> getUserFeatures(PagingLoadConfig config, long userId) throws ApplicationException;
-	
+        /**
+         * Gets the single instance of Util.
+         * 
+         * @return single instance of Util
+         */
+        public static FeatureServiceRemoteAsync getInstance() {
+            if (instance == null) {
+                instance = (FeatureServiceRemoteAsync) GWT.create(FeatureServiceRemote.class);
+                ServiceDefTarget target = (ServiceDefTarget) instance;
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "FeatureServiceRemote");
+            }
+
+            return instance;
+        }
+    }
+
+    /**
+     * Gets the user features.
+     * 
+     * @param config
+     *            the config
+     * @param userId
+     *            the user id
+     * @return the user features
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public PagingLoadResult<Feature> getUserFeatures(PagingLoadConfig config, long userId)
+            throws ApplicationException;
+
 }

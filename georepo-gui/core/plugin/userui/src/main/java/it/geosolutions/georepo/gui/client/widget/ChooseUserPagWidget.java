@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.ChooseUserWidget,v. 0.1 22/lug/2010 12.03.28 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 22/lug/2010 12.03.28 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.ChooseUserPagWidget,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,20 +29,18 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.service.LoginRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget;
 import it.geosolutions.georepo.gui.client.widget.SearchStatus.EnumSearchStatus;
+
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.core.XTemplate;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
 import com.extjs.gxt.ui.client.data.LoadEvent;
 import com.extjs.gxt.ui.client.data.ModelData;
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.RpcProxy;
 import com.extjs.gxt.ui.client.event.Events;
@@ -55,149 +53,198 @@ import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class ChooseUserPagWidget.
  */
 public class ChooseUserPagWidget extends DGWATCHChooserWidget<User> {
 
-	private LoginRemoteAsync service;
+    /** The service. */
+    private LoginRemoteAsync service;
 
-	public ChooseUserPagWidget(LoginRemoteAsync service) {
-		super();
-		this.service = service;
-	}
+    /**
+     * Instantiates a new choose user pag widget.
+     * 
+     * @param service
+     *            the service
+     */
+    public ChooseUserPagWidget(LoginRemoteAsync service) {
+        super();
+        this.service = service;
+    }
 
-	@Override
-	public void setListProperties() {
-		view.setDisplayProperty(BeanKeyValue.USER_NAME.getValue());
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget#setListProperties()
+     */
+    @Override
+    public void setListProperties() {
+        view.setDisplayProperty(BeanKeyValue.USER_NAME.getValue());
+    }
 
-	@Override
-	public void createStore() {
-		toolBar = new PagingToolBar(25);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget#createStore()
+     */
+    @Override
+    public void createStore() {
+        toolBar = new PagingToolBar(25);
 
-		this.proxy = new RpcProxy<PagingLoadResult<User>>() {
+        this.proxy = new RpcProxy<PagingLoadResult<User>>() {
 
-			@Override
-			protected void load(Object loadConfig,
-					AsyncCallback<PagingLoadResult<User>> callback) {
+            @Override
+            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<User>> callback) {
 
                 // TODO REFACTOR GG
-//				service.loadUsers((PagingLoadConfig) loadConfig, searchText,
-//						callback);
-				
-			}
-		};
+                // service.loadUsers((PagingLoadConfig) loadConfig, searchText,
+                // callback);
 
-		loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
+            }
+        };
 
-		loader.setRemoteSort(false);
+        loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
 
-		store = new ListStore<User>(loader);
+        loader.setRemoteSort(false);
 
-		this.toolBar.bind(loader);
-		this.toolBar.disable();
-		
-		setUpLoadListener();
+        store = new ListStore<User>(loader);
 
-	}
+        this.toolBar.bind(loader);
+        this.toolBar.disable();
 
-	@Override
-	public void createTemplate() {
-		detailTp = XTemplate.create(getDetailTemplate());
-	}
+        setUpLoadListener();
 
-	@Override
-	public void setComboProperties() {
-		sort.add("Sort Results");
-		sort.add("User Name");
-		sort.setSimpleValue("Sort Results");
-		sort.addListener(Events.Select, new Listener<FieldEvent>() {
-			public void handleEvent(FieldEvent be) {
-				if(!sort.getSimpleValue().equals("Sort Results"))
-					sort();
-			}
-		});
+    }
 
-		main.setBottomComponent(this.toolBar);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget#createTemplate()
+     */
+    @Override
+    public void createTemplate() {
+        detailTp = XTemplate.create(getDetailTemplate());
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget#setComboProperties()
+     */
+    @Override
+    public void setComboProperties() {
+        sort.add("Sort Results");
+        sort.add("User Name");
+        sort.setSimpleValue("Sort Results");
+        sort.addListener(Events.Select, new Listener<FieldEvent>() {
+            public void handleEvent(FieldEvent be) {
+                if (!sort.getSimpleValue().equals("Sort Results"))
+                    sort();
+            }
+        });
 
-	private void sort() {
-		if(!store.getModels().isEmpty())
-			store.sort("userName", SortDir.ASC);
-	}
+        main.setBottomComponent(this.toolBar);
 
-	public native String getDetailTemplate() /*-{ 
-		return ['<div class="details">', 
-			'<tpl for=".">', 
-			'<img src="{path}"><div class="details-info">', 
-			'<b>User Name:</b>', 
-			'<span>{userName}</span>', 
-			'</tpl>', 
-			'</div>'].join(""); 
-	}-*/;
+    }
 
-	@Override
-	public void onDispatch(User model) {
-		searchStatus.setBusy("UnShare AOI....");
-		Dispatcher.forwardEvent(DGWATCHEvents.UNSHARE_AOI, model);
-	}
+    /**
+     * Sort.
+     */
+    private void sort() {
+        if (!store.getModels().isEmpty())
+            store.sort("userName", SortDir.ASC);
+    }
 
-	@Override
-	public void setDialogProperties() {
-		chooser.setHeading("Choose User");
-		chooser.setResizable(false);
+    /**
+     * Gets the detail template.
+     * 
+     * @return the detail template
+     */
+    public native String getDetailTemplate() /*-{ 
+                                             return ['<div class="details">', 
+                                             '<tpl for=".">', 
+                                             '<img src="{path}"><div class="details-info">', 
+                                             '<b>User Name:</b>', 
+                                             '<span>{userName}</span>', 
+                                             '</tpl>', 
+                                             '</div>'].join(""); 
+                                             }-*/;
 
-		chooser.addListener(Events.Show, new Listener<WindowEvent>() {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget#onDispatch(com.extjs.gxt.ui
+     * .client.data.BeanModel)
+     */
+    @Override
+    public void onDispatch(User model) {
+        searchStatus.setBusy("UnShare AOI....");
+        Dispatcher.forwardEvent(DGWATCHEvents.UNSHARE_AOI, model);
+    }
 
-			public void handleEvent(WindowEvent be) {
-				searchText = "";
-				loader.load(0, 25);
-			}
-		});
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget#setDialogProperties()
+     */
+    @Override
+    public void setDialogProperties() {
+        chooser.setHeading("Choose User");
+        chooser.setResizable(false);
 
-		chooser.addListener(Events.Hide, new Listener<WindowEvent>() {
+        chooser.addListener(Events.Show, new Listener<WindowEvent>() {
 
-			public void handleEvent(WindowEvent be) {
-				reset();
-			}
-		});
-	}
+            public void handleEvent(WindowEvent be) {
+                searchText = "";
+                loader.load(0, 25);
+            }
+        });
 
-	private void setUpLoadListener() {
-		loader.addLoadListener(new LoadListener() {
+        chooser.addListener(Events.Hide, new Listener<WindowEvent>() {
 
-			@Override
+            public void handleEvent(WindowEvent be) {
+                reset();
+            }
+        });
+    }
+
+    /**
+     * Sets the up load listener.
+     */
+    private void setUpLoadListener() {
+        loader.addLoadListener(new LoadListener() {
+
+            @Override
             public void loaderBeforeLoad(LoadEvent le) {
-				searchStatus.setBusy("Connection to the Server");
-				if (ok.isEnabled())
-					ok.disable();
-			}
+                searchStatus.setBusy("Connection to the Server");
+                if (ok.isEnabled())
+                    ok.disable();
+            }
 
-			@Override
+            @Override
             public void loaderLoad(LoadEvent le) {
-				setSearchStatus(EnumSearchStatus.STATUS_SEARCH,
-						EnumSearchStatus.STATUS_MESSAGE_SEARCH);
-				toolBar.enable();
-			}
+                setSearchStatus(EnumSearchStatus.STATUS_SEARCH,
+                        EnumSearchStatus.STATUS_MESSAGE_SEARCH);
+                toolBar.enable();
+            }
 
-			@Override
+            @Override
             public void loaderLoadException(LoadEvent le) {
-				clearListViewElements();
-				try {
-					throw le.exception;
-				} catch (ApplicationException e) {
-					setSearchStatus(EnumSearchStatus.STATUS_NO_SEARCH,
-							EnumSearchStatus.STATUS_MESSAGE_NOT_SEARCH);
-				} catch (Throwable e) {
-					setSearchStatus(EnumSearchStatus.STATUS_SEARCH_ERROR,
-							EnumSearchStatus.STATUS_MESSAGE_SEARCH_ERROR);
-				}
-			}
+                clearListViewElements();
+                try {
+                    throw le.exception;
+                } catch (ApplicationException e) {
+                    setSearchStatus(EnumSearchStatus.STATUS_NO_SEARCH,
+                            EnumSearchStatus.STATUS_MESSAGE_NOT_SEARCH);
+                } catch (Throwable e) {
+                    setSearchStatus(EnumSearchStatus.STATUS_SEARCH_ERROR,
+                            EnumSearchStatus.STATUS_MESSAGE_SEARCH_ERROR);
+                }
+            }
 
-		});
+        });
 
-	}
+    }
 }

@@ -20,7 +20,6 @@
 
 package it.geosolutions.georepo.services.exception;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.ws.WebFault;
 
 /**
@@ -30,15 +29,16 @@ import javax.xml.ws.WebFault;
  * @author ETj
  */
 
-@WebFault(name="IllegalParameterFault", faultBean="it.geosolutions.georepo.services.exception.IllegalParameterFault")
+@WebFault(name = "IllegalParameterFault", faultBean = "it.geosolutions.georepo.services.exception.IllegalParameterFault")
 public class IllegalParameterFault extends Exception {
-	
+
     public IllegalParameterFault() {
     }
 
     /**
      * This is needed, or the SOAP client will throw an ex in initialization:
-     * java.lang.NoSuchMethodException: it.geosolutions.georepo.services.exception.ResourceNotFoundFault.<init>(java.lang.String)
+     * java.lang.NoSuchMethodException:
+     * it.geosolutions.georepo.services.exception.ResourceNotFoundFault.<init>(java.lang.String)
      */
     public IllegalParameterFault(String msg) {
         super(msg);

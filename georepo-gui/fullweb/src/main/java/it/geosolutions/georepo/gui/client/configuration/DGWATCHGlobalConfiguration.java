@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration,v. 0.1 09/lug/2010 11.22.40 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.22.40 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration,v. 0.1 3-gen-2011 17.04.32 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.04.32 $
  *
  * ====================================================================
  *
@@ -32,35 +32,43 @@ package it.geosolutions.georepo.gui.client.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.geosolutions.georepo.gui.client.configuration.IDGWATCHConfiguration;
-import it.geosolutions.georepo.gui.client.configuration.IToolbarItemManager;
-import it.geosolutions.georepo.gui.client.configuration.IUserBeanManager;
-
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Class DGWATCHGlobalConfiguration.
  */
 @Component("dgwatchGlobalConfiguration")
 public class DGWATCHGlobalConfiguration implements IDGWATCHConfiguration {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3377836318526396981L;
-	
-	@Autowired
-	private IUserBeanManager userBeanManager;
-	
-	@Autowired
-	private IToolbarItemManager toolbarItemManager;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -3377836318526396981L;
 
-	public IUserBeanManager getUserBeanManager() {
-		// TODO Auto-generated method stub
-		return userBeanManager;
-	}
+    /** The user bean manager. */
+    @Autowired
+    private IUserBeanManager userBeanManager;
 
-	public IToolbarItemManager getToolbarItemManager() {
-		return toolbarItemManager;
-	}
+    /** The toolbar item manager. */
+    @Autowired
+    private IToolbarItemManager toolbarItemManager;
+
+    /**
+     * Gets the user bean manager.
+     * 
+     * @return the user bean manager
+     */
+    public IUserBeanManager getUserBeanManager() {
+        // TODO Auto-generated method stub
+        return userBeanManager;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.configuration.IDGWATCHConfiguration#getToolbarItemManager
+     * ()
+     */
+    public IToolbarItemManager getToolbarItemManager() {
+        return toolbarItemManager;
+    }
 
 }

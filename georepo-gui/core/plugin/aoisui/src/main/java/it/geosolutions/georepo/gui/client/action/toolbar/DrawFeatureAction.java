@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.toolbar.DrawFeatureAction,v. 0.1 27/lug/2010 14.21.53 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 14.21.53 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.toolbar.DrawFeatureAction,v. 0.1 3-gen-2011 16.52.16 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.16 $
  *
  * ====================================================================
  *
@@ -29,31 +29,40 @@
  */
 package it.geosolutions.georepo.gui.client.action.toolbar;
 
-
 import it.geosolutions.georepo.gui.client.Category;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.button.ToggleButton;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- *
+ * The Class DrawFeatureAction.
  */
 public class DrawFeatureAction extends ToolbarMapAction {
 
-	public DrawFeatureAction() {
-		super(I18nProvider.getMessages().drawFeatureToolTip(), Category.DGWATCH_DRAW);
-	}
+    /**
+     * Instantiates a new draw feature action.
+     */
+    public DrawFeatureAction() {
+        super(I18nProvider.getMessages().drawFeatureToolTip(), Category.DGWATCH_DRAW);
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent baseEvent) {
         ToggleButton button = (ToggleButton) baseEvent.getSource();
 
         if (button.isPressed()) {
-                Dispatcher.forwardEvent(DGWATCHEvents.ACTIVATE_DRAW_FEATURES);
+            Dispatcher.forwardEvent(DGWATCHEvents.ACTIVATE_DRAW_FEATURES);
         } else
-                Dispatcher.forwardEvent(DGWATCHEvents.DEACTIVATE_DRAW_FEATURES);
+            Dispatcher.forwardEvent(DGWATCHEvents.DEACTIVATE_DRAW_FEATURES);
     }
 }

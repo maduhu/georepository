@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AOISWidget,v. 0.1 08/lug/2010 15.59.48 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 15.59.48 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AOISWidget,v. 0.1 3-gen-2011 16.52.57 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.57 $
  *
  * ====================================================================
  *
@@ -30,37 +30,47 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.model.AOI;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank, Tobia Di Pisa
- * 
+ * The Class AOISWidget.
  */
 public class AOISWidget extends ContentPanel {
 
-	private DGWATCHBindingWidget<AOI> aoiBinding;
+    /** The aoi binding. */
+    private DGWATCHBindingWidget<AOI> aoiBinding;
 
+    /**
+     * Instantiates a new aOIS widget.
+     * 
+     * @param paneHeading
+     *            the pane heading
+     */
     public AOISWidget(String paneHeading) {
-    	setId("aoisWidget");
+        setId("aoisWidget");
         setHeading(paneHeading);
         setLayout(new FitLayout());
 
-		setLayoutOnChange(true);
+        setLayoutOnChange(true);
 
         this.aoiBinding = new AOIBindingWidget();
 
         add(this.aoiBinding.getFormPanel());
-        
+
         setScrollMode(Scroll.AUTOY);
     }
 
-	/**
-	 * @return the aoiBinding
-	 */
-	public DGWATCHBindingWidget<AOI> getAoiBinding() {
-		return aoiBinding;
-	}
+    /**
+     * Gets the aoi binding.
+     * 
+     * @return the aoi binding
+     */
+    public DGWATCHBindingWidget<AOI> getAoiBinding() {
+        return aoiBinding;
+    }
 
 }

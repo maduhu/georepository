@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.ToolbarActionRegistry,v. 0.1 27/lug/2010 11.16.01 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.16.01 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.ToolbarActionRegistry,v. 0.1 3-gen-2011 16.16.36 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.16.36 $
  *
  * ====================================================================
  *
@@ -29,11 +29,6 @@
  */
 package it.geosolutions.georepo.gui.client.action;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.gwtopenmaps.openlayers.client.MapWidget;
-
 import it.geosolutions.georepo.gui.client.action.application.AdministrationModeAction;
 import it.geosolutions.georepo.gui.client.action.application.DGWATCHInfoAppAction;
 import it.geosolutions.georepo.gui.client.action.application.LogoutAction;
@@ -46,65 +41,71 @@ import it.geosolutions.georepo.gui.client.action.toolbar.UploadAction;
 import it.geosolutions.georepo.gui.client.action.toolbar.ZoomInAction;
 import it.geosolutions.georepo.gui.client.action.toolbar.ZoomOutAction;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.gwtopenmaps.openlayers.client.MapWidget;
+
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class ToolbarActionRegistry.
  */
 public final class ToolbarActionRegistry {
 
-	private static final Map<String, ToolActionCreator> REGISTRY;
+    /** The Constant REGISTRY. */
+    private static final Map<String, ToolActionCreator> REGISTRY;
 
-	static {
-		REGISTRY = new HashMap<String, ToolActionCreator>();
+    static {
+        REGISTRY = new HashMap<String, ToolActionCreator>();
 
-		REGISTRY.put("dgwatchInfoApp", new ToolActionCreator() {
+        REGISTRY.put("dgwatchInfoApp", new ToolActionCreator() {
 
-			public ToolbarAction createActionTool(MapWidget mapWidget) {
-				return new DGWATCHInfoAppAction();
-			}
-		});
+            public ToolbarAction createActionTool(MapWidget mapWidget) {
+                return new DGWATCHInfoAppAction();
+            }
+        });
 
-		REGISTRY.put("zoomIn", new ToolActionCreator() {
+        REGISTRY.put("zoomIn", new ToolActionCreator() {
 
-			public ToolbarAction createActionTool(MapWidget mapWidget) {
-				return new ZoomInAction(mapWidget);
-			}
-		});
+            public ToolbarAction createActionTool(MapWidget mapWidget) {
+                return new ZoomInAction(mapWidget);
+            }
+        });
 
-		REGISTRY.put("zoomOut", new ToolActionCreator() {
+        REGISTRY.put("zoomOut", new ToolActionCreator() {
 
-			public ToolbarAction createActionTool(MapWidget mapWidget) {
-				return new ZoomOutAction(mapWidget);
-			}
-		});
+            public ToolbarAction createActionTool(MapWidget mapWidget) {
+                return new ZoomOutAction(mapWidget);
+            }
+        });
 
-		REGISTRY.put("drawFeature", new ToolActionCreator() {
+        REGISTRY.put("drawFeature", new ToolActionCreator() {
 
-			public ToolbarAction createActionTool(MapWidget mapWidget) {
-				return new DrawFeatureAction();
-			}
-		});
+            public ToolbarAction createActionTool(MapWidget mapWidget) {
+                return new DrawFeatureAction();
+            }
+        });
 
-		REGISTRY.put("uploadSHP", new ToolActionCreator() {
+        REGISTRY.put("uploadSHP", new ToolActionCreator() {
 
-			public ToolbarAction createActionTool(MapWidget mapWidget) {
-				return new UploadAction();
-			}
-		});
+            public ToolbarAction createActionTool(MapWidget mapWidget) {
+                return new UploadAction();
+            }
+        });
 
-		REGISTRY.put("logout", new ToolActionCreator() {
+        REGISTRY.put("logout", new ToolActionCreator() {
 
-			public ToolbarAction createActionTool(MapWidget mapWidget) {
-				return new LogoutAction();
-			}
-		});
+            public ToolbarAction createActionTool(MapWidget mapWidget) {
+                return new LogoutAction();
+            }
+        });
 
-		REGISTRY.put("cleanDGWMenu", new ToolActionCreator() {
+        REGISTRY.put("cleanDGWMenu", new ToolActionCreator() {
 
-			public ToolbarAction createActionTool(MapWidget mapWidget) {
-				return new CleanDgWatchMenu();
-			}
-		});
+            public ToolbarAction createActionTool(MapWidget mapWidget) {
+                return new CleanDgWatchMenu();
+            }
+        });
 
         REGISTRY.put("quartzMonitoring", new ToolActionCreator() {
 
@@ -133,31 +134,34 @@ public final class ToolbarActionRegistry {
                 return new AdministrationModeAction();
             }
         });
-	}
+    }
 
-	/**
-	 * 
-	 * @param key
-	 * @param toolActionCreator
-	 */
-	public static void put(String key, ToolActionCreator toolActionCreator) {
-		if (key != null && toolActionCreator != null)
-			REGISTRY.put(key, toolActionCreator);
-	}
+    /**
+     * Put.
+     * 
+     * @param key
+     *            the key
+     * @param toolActionCreator
+     *            the tool action creator
+     */
+    public static void put(String key, ToolActionCreator toolActionCreator) {
+        if (key != null && toolActionCreator != null)
+            REGISTRY.put(key, toolActionCreator);
+    }
 
-	/**
-	 * Return the Toolbar Action
-	 * 
-	 * @param key
-	 *            key with the action is registered
-	 * @param mapWidget
-	 *            map which will contains the toolAction
-	 * @return null or the toolAction registered
-	 */
-	public static ToolbarAction get(String key, MapWidget mapWidget) {
-		ToolActionCreator toolActionCreator = REGISTRY.get(key);
-		if (toolActionCreator == null)
-			return null;
-		return toolActionCreator.createActionTool(mapWidget);
-	}
+    /**
+     * Gets the.
+     * 
+     * @param key
+     *            the key
+     * @param mapWidget
+     *            the map widget
+     * @return the toolbar action
+     */
+    public static ToolbarAction get(String key, MapWidget mapWidget) {
+        ToolActionCreator toolActionCreator = REGISTRY.get(key);
+        if (toolActionCreator == null)
+            return null;
+        return toolActionCreator.createActionTool(mapWidget);
+    }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.controller.LoginController,v. 0.1 08/lug/2010 10.40.05 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 10.40.05 $
+ * $ Header: it.geosolutions.georepo.gui.client.controller.MemberController,v. 0.1 3-gen-2011 17.06.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.54 $
  *
  * ====================================================================
  *
@@ -29,150 +29,165 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
-import it.geosolutions.georepo.gui.client.AdministrationMode;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.AOI;
-import it.geosolutions.georepo.gui.client.model.DistributionNode;
 import it.geosolutions.georepo.gui.client.model.Member;
 import it.geosolutions.georepo.gui.client.service.MembersRemote;
 import it.geosolutions.georepo.gui.client.service.MembersRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.SearchStatus.EnumSearchStatus;
+
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import java.util.List;
-
-
+// TODO: Auto-generated Javadoc
 /**
- * Controller for all Member-related functionality.
- *
- * @author gmurray
- *
+ * The Class MemberController.
  */
 public class MemberController extends Controller {
 
+    /** The member view. */
     private MemberView memberView;
-	private MembersRemoteAsync membersRemote = MembersRemote.Util.getInstance();
 
-	public MemberController() {
-		registerEventTypes(
-                DGWATCHEvents.ATTACH_MEMBER_WIDGET,
+    /** The members remote. */
+    private MembersRemoteAsync membersRemote = MembersRemote.Util.getInstance();
+
+    /**
+     * Instantiates a new member controller.
+     */
+    public MemberController() {
+        registerEventTypes(DGWATCHEvents.ATTACH_MEMBER_WIDGET,
                 DGWATCHEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET,
                 DGWATCHEvents.ATTACH_NODE_SELECTION_WIDGET,
-				DGWATCHEvents.SHOW_SEARCH_MEMBER_WIDGET,
-				DGWATCHEvents.BIND_SELECTED_MEMBER,
-				DGWATCHEvents.UNBIND_SELECTED_MEMBER,
-                DGWATCHEvents.BIND_SOURCE_DISTRIBUTION_NODES,
+                DGWATCHEvents.SHOW_SEARCH_MEMBER_WIDGET, DGWATCHEvents.BIND_SELECTED_MEMBER,
+                DGWATCHEvents.UNBIND_SELECTED_MEMBER, DGWATCHEvents.BIND_SOURCE_DISTRIBUTION_NODES,
                 DGWATCHEvents.BIND_MEMBER_DISTRIBUTION_NODES);
-	}
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.Controller#initialize()
+     */
+    @Override
     protected void initialize() {
         this.memberView = new MemberView(this);
-	}
+    }
 
-	@Override
-	public void handleEvent(AppEvent event) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client.mvc.AppEvent)
+     */
+    @Override
+    public void handleEvent(AppEvent event) {
 
-		if (event.getType() == DGWATCHEvents.BIND_SELECTED_MEMBER) {
-			onBindSelectedMember(event);
+        if (event.getType() == DGWATCHEvents.BIND_SELECTED_MEMBER) {
+            onBindSelectedMember(event);
         }
-		
+
         if (event.getType() == DGWATCHEvents.UNBIND_SELECTED_MEMBER) {
             onUnBindSelectedMember();
         }
 
         forwardToView(this.memberView, event);
-	}
+    }
 
+    /**
+     * On un bind selected member.
+     */
+    private void onUnBindSelectedMember() {
+        unBindMember();
+    }
 
-	/**
-	 * 
-	 */
-	private void onUnBindSelectedMember() {
-		unBindMember();
-	}
+    /**
+     * On bind selected member.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onBindSelectedMember(AppEvent event) {
+        final Member member = (Member) event.getData();
 
-	/**
-	 * @param event
-	 */
-	private void onBindSelectedMember(AppEvent event) {
-		final Member member = (Member) event.getData();
-
-		this.memberView.setSearchStatus(EnumSearchStatus.STATUS_SEARCH,
-				EnumSearchStatus.STATUS_MESSAGE_MEMBER_DETAIL);
-		Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-				new String[] { I18nProvider.getMessages().memberDetails(),
-							   I18nProvider.getMessages().bindingMemberDetail() });
+        this.memberView.setSearchStatus(EnumSearchStatus.STATUS_SEARCH,
+                EnumSearchStatus.STATUS_MESSAGE_MEMBER_DETAIL);
+        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                I18nProvider.getMessages().memberDetails(),
+                I18nProvider.getMessages().bindingMemberDetail() });
         this.memberView.cancelSearch();
-		bindMember(member);
+        bindMember(member);
 
         // load member/node assignments
-//        this.membersRemote.getMemberNodes(member.getConnectId(), new AsyncCallback<List<DistributionNode>>() {
-//
-//            public void onFailure(Throwable caught) {
-//
-//                Dispatcher.forwardEvent(
-//                        DGWATCHEvents.SEND_ERROR_MESSAGE,
-//                        new String[] {
-//                                I18nProvider.getMessages().memberServiceName(),
-//                                I18nProvider.getMessages().memberDistributionNodeFetchFailureMessage(member.getMemberName()) });
-//            }
-//
-//            public void onSuccess(List<DistributionNode> result) {
-//
-//                Dispatcher.forwardEvent(DGWATCHEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-//                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-//                        new String[] {
-//                                I18nProvider.getMessages().memberServiceName(),
-//                                I18nProvider.getMessages().memberDistributionNodeFetchSuccessMessage(member.getMemberName()) });
-//            }
-//        });
-	}
+        // this.membersRemote.getMemberNodes(member.getConnectId(), new
+        // AsyncCallback<List<DistributionNode>>() {
+        //
+        // public void onFailure(Throwable caught) {
+        //
+        // Dispatcher.forwardEvent(
+        // DGWATCHEvents.SEND_ERROR_MESSAGE,
+        // new String[] {
+        // I18nProvider.getMessages().memberServiceName(),
+        // I18nProvider.getMessages().memberDistributionNodeFetchFailureMessage(member.getMemberName())
+        // });
+        // }
+        //
+        // public void onSuccess(List<DistributionNode> result) {
+        //
+        // Dispatcher.forwardEvent(DGWATCHEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
+        // Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
+        // new String[] {
+        // I18nProvider.getMessages().memberServiceName(),
+        // I18nProvider.getMessages().memberDistributionNodeFetchSuccessMessage(member.getMemberName())
+        // });
+        // }
+        // });
+    }
 
-	/**
-	 * @param member
-	 */
-	private void bindMember(Member member) {
-		
-		// ////////////////////////
+    /**
+     * Bind member.
+     * 
+     * @param member
+     *            the member
+     */
+    private void bindMember(Member member) {
+
+        // ////////////////////////
         // bind data to view
-		// ////////////////////////
-		
+        // ////////////////////////
+
         this.memberView.bindMember(member);
 
-		// ///////////////////////////
-		// Reset the grids contents
-		// ///////////////////////////
+        // ///////////////////////////
+        // Reset the grids contents
+        // ///////////////////////////
 
-		Dispatcher.forwardEvent(DGWATCHEvents.RESET_AOI_GRID);
-		Dispatcher.forwardEvent(DGWATCHEvents.RESET_RSS_GRID);
+        Dispatcher.forwardEvent(DGWATCHEvents.RESET_AOI_GRID);
+        Dispatcher.forwardEvent(DGWATCHEvents.RESET_RSS_GRID);
 
-		memberView.getMemberManagementWidget().setHeading(I18nProvider.getMessages().memberManagementLabel() +
-                " (" + member.getMemberName() + ")");
-		
+        memberView.getMemberManagementWidget().setHeading(
+                I18nProvider.getMessages().memberManagementLabel() + " (" + member.getMemberName()
+                        + ")");
+
         memberView.getMemberManagementWidget().getMemberInfo().setSelected(true);
-        
-	}
-	
-	/**
-	 * 
-	 */
-	private void unBindMember() {
-		
-		// ///////////////////////////
+
+    }
+
+    /**
+     * Un bind member.
+     */
+    private void unBindMember() {
+
+        // ///////////////////////////
         // unbind data to view
-		// ///////////////////////////
-		
-        this.memberView.unBindMember();   
-        
-		memberView.getMemberManagementWidget().setHeading(I18nProvider.getMessages().memberManagementLabel());
-		
+        // ///////////////////////////
+
+        this.memberView.unBindMember();
+
+        memberView.getMemberManagementWidget().setHeading(
+                I18nProvider.getMessages().memberManagementLabel());
+
         memberView.getMemberManagementWidget().getMemberInfo().setSelected(false);
-        
-	}
+
+    }
 
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.controller.MapController,v. 0.1 08/lug/2010 12.45.35 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 12.45.35 $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.MapController,v. 0.1 3-gen-2011 16.52.35 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.35 $
  *
  * ====================================================================
  *
@@ -30,50 +30,53 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class MapController.
  */
 public class MapController extends Controller {
 
-	private MapView mapView;
+    /** The map view. */
+    private MapView mapView;
 
-	/**
-	 * 
-	 */
-	public MapController() {
-		registerEventTypes(
-				DGWATCHEvents.INIT_AOIS_UI_MODULE,// DGWATCHEvents.INIT_DGWATCH_MAIN_UI,
-				DGWATCHEvents.ATTACH_MAP_WIDGET, DGWATCHEvents.UPDATE_MAP_SIZE,
-				DGWATCHEvents.ATTACH_TOOLBAR,
-				DGWATCHEvents.ACTIVATE_DRAW_FEATURES,
-				DGWATCHEvents.DEACTIVATE_DRAW_FEATURES,
-				DGWATCHEvents.ERASE_AOI_FEATURES,
-				DGWATCHEvents.ENABLE_DRAW_BUTTON,
-				DGWATCHEvents.DISABLE_DRAW_BUTTON,
-				DGWATCHEvents.DRAW_AOI_ON_MAP, DGWATCHEvents.ZOOM_TO_CENTER,
+    /**
+     * Instantiates a new map controller.
+     */
+    public MapController() {
+        registerEventTypes(
+                DGWATCHEvents.INIT_AOIS_UI_MODULE,// DGWATCHEvents.INIT_DGWATCH_MAIN_UI,
+                DGWATCHEvents.ATTACH_MAP_WIDGET, DGWATCHEvents.UPDATE_MAP_SIZE,
+                DGWATCHEvents.ATTACH_TOOLBAR, DGWATCHEvents.ACTIVATE_DRAW_FEATURES,
+                DGWATCHEvents.DEACTIVATE_DRAW_FEATURES, DGWATCHEvents.ERASE_AOI_FEATURES,
+                DGWATCHEvents.ENABLE_DRAW_BUTTON, DGWATCHEvents.DISABLE_DRAW_BUTTON,
+                DGWATCHEvents.DRAW_AOI_ON_MAP, DGWATCHEvents.ZOOM_TO_CENTER,
                 DGWATCHEvents.ADMIN_MODE_CHANGE, DGWATCHEvents.LOGIN_SUCCESS);
-	}
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.Controller#initialize()
+     */
+    @Override
     public void initialize() {
-		this.mapView = new MapView(this);
-	}
+        this.mapView = new MapView(this);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
-	 * .mvc.AppEvent)
-	 */
-	@Override
-	public void handleEvent(AppEvent event) {
-		forwardToView(mapView, event);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
+     * .mvc.AppEvent)
+     */
+    @Override
+    public void handleEvent(AppEvent event) {
+        forwardToView(mapView, event);
 
-	}
+    }
 
 }

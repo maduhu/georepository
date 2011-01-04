@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.toolbar.DrawFeatureAction,v. 0.1 27/lug/2010 14.21.53 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 14.21.53 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.toolbar.CleanDgWatchMenu,v. 0.1 3-gen-2011 16.52.16 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.16 $
  *
  * ====================================================================
  *
@@ -33,33 +33,40 @@ import it.geosolutions.georepo.gui.client.Category;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia Di Pisa
- * 
+ * The Class CleanDgWatchMenu.
  */
 public class CleanDgWatchMenu extends ToolbarMapAction {
 
-	/**
-	 * 
-	 */
-	public CleanDgWatchMenu() {
-		super(I18nProvider.getMessages().cleanDGWatchMenuToolTip(), Category.DGWATCH_CLEAN);
-	}
+    /**
+     * Instantiates a new clean dg watch menu.
+     */
+    public CleanDgWatchMenu() {
+        super(I18nProvider.getMessages().cleanDGWatchMenuToolTip(), Category.DGWATCH_CLEAN);
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent baseEvent) {
-    	 Dispatcher.forwardEvent(DGWATCHEvents.UNBIND_SELECTED_MEMBER);
-    	 Dispatcher.forwardEvent(DGWATCHEvents.UNBINDING_WATCH_WIDGET);
-         Dispatcher.forwardEvent(DGWATCHEvents.UNBIND_FILTER_WIDGET);
-         Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_UNBIND);
-         Dispatcher.forwardEvent(DGWATCHEvents.RESET_AOI_GRID);
-         Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
-         Dispatcher.forwardEvent(DGWATCHEvents.RESET_RSS_GRID);
-         Dispatcher.forwardEvent(DGWATCHEvents.RESET_WATCH_GRID);
+        Dispatcher.forwardEvent(DGWATCHEvents.UNBIND_SELECTED_MEMBER);
+        Dispatcher.forwardEvent(DGWATCHEvents.UNBINDING_WATCH_WIDGET);
+        Dispatcher.forwardEvent(DGWATCHEvents.UNBIND_FILTER_WIDGET);
+        Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_UNBIND);
+        Dispatcher.forwardEvent(DGWATCHEvents.RESET_AOI_GRID);
+        Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
+        Dispatcher.forwardEvent(DGWATCHEvents.RESET_RSS_GRID);
+        Dispatcher.forwardEvent(DGWATCHEvents.RESET_WATCH_GRID);
 
-         Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
                 I18nProvider.getMessages().cleanDGWatchDialogTitle(),
                 I18nProvider.getMessages().cleanDGWatchDialogMessage() });
     }

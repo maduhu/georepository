@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.WatchesController,v. 0.1 3-gen-2011 16.52.35 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.35 $
  *
  * ====================================================================
  *
@@ -32,26 +35,32 @@ import it.geosolutions.georepo.gui.client.model.Watch;
 import it.geosolutions.georepo.gui.client.service.WatchServiceRemote;
 import it.geosolutions.georepo.gui.client.service.WatchServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.WatchesInfoBindingWidget;
+
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- * 
+ * The Class WatchesController.
  */
 public class WatchesController extends Controller {
 
+    /** The watch remote. */
     private final WatchServiceRemoteAsync watchRemote = WatchServiceRemote.Util.getInstance();
 
+    /** The watches view. */
     private WatchesView watchesView;
 
     /**
-	 * 
-	 */
+     * Instantiates a new watches controller.
+     */
     public WatchesController() {
-        registerEventTypes(DGWATCHEvents.INIT_AOIS_UI_MODULE, DGWATCHEvents.ATTACH_WATCHES_WIDGET, DGWATCHEvents.BINDING_WATCH_WIDGET, DGWATCHEvents.UNBINDING_WATCH_WIDGET, DGWATCHEvents.SAVE_WATCH, DGWATCHEvents.UPDATE_WATCH, DGWATCHEvents.TRIGGER_WATCH, DGWATCHEvents.LOGIN_SUCCESS, DGWATCHEvents.DELETE_WATCH);
+        registerEventTypes(DGWATCHEvents.INIT_AOIS_UI_MODULE, DGWATCHEvents.ATTACH_WATCHES_WIDGET,
+                DGWATCHEvents.BINDING_WATCH_WIDGET, DGWATCHEvents.UNBINDING_WATCH_WIDGET,
+                DGWATCHEvents.SAVE_WATCH, DGWATCHEvents.UPDATE_WATCH, DGWATCHEvents.TRIGGER_WATCH,
+                DGWATCHEvents.LOGIN_SUCCESS, DGWATCHEvents.DELETE_WATCH);
     }
 
     /*
@@ -67,8 +76,7 @@ public class WatchesController extends Controller {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
+     * @see com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
      * .mvc.AppEvent)
      */
     @Override
@@ -102,7 +110,10 @@ public class WatchesController extends Controller {
     }
 
     /**
+     * On delete watch.
+     * 
      * @param event
+     *            the event
      */
     private void onDeleteWatch(AppEvent event) {
         final ClientShortWatch shortWatch = (ClientShortWatch) event.getData();
@@ -110,14 +121,14 @@ public class WatchesController extends Controller {
 
             public void onFailure(Throwable caught) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Watch Service",
-                    "There was an error binding the WATCH " + shortWatch.getTitle() });
+                        "Watch Service",
+                        "There was an error binding the WATCH " + shortWatch.getTitle() });
             }
 
             public void onSuccess(Object result) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                    "Watch Service",
-                    "The Watch " + shortWatch.getTitle() + " has been deleted" });
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
+                        new String[] { "Watch Service",
+                                "The Watch " + shortWatch.getTitle() + " has been deleted" });
 
                 WatchesInfoBindingWidget watchWidget = watchesView.getWmWidget().getWatchesInfo();
 
@@ -134,7 +145,10 @@ public class WatchesController extends Controller {
     }
 
     /**
+     * On trigger watch.
+     * 
      * @param event
+     *            the event
      */
     private void onTriggerWatch(AppEvent event) {
         final ClientShortWatch shortWatch = (ClientShortWatch) event.getData();
@@ -142,14 +156,13 @@ public class WatchesController extends Controller {
 
             public void onFailure(Throwable caught) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Watch Service",
-                    "There was an error binding the WATCH " + shortWatch.getTitle() });
+                        "Watch Service",
+                        "There was an error binding the WATCH " + shortWatch.getTitle() });
             }
 
             public void onSuccess(Watch result) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                    "Watch Service",
-                    "The Watch has been retrieved" });
+                        "Watch Service", "The Watch has been retrieved" });
 
                 Dispatcher.forwardEvent(DGWATCHEvents.RUN_WATCH, result);
 
@@ -158,7 +171,10 @@ public class WatchesController extends Controller {
     }
 
     /**
+     * On update watch.
+     * 
      * @param event
+     *            the event
      */
     private void onUpdateWatch(AppEvent event) {
         final Watch watch = (Watch) event.getData();
@@ -167,14 +183,13 @@ public class WatchesController extends Controller {
 
             public void onFailure(Throwable caught) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Watch Service",
-                    "There was an error updating the WATCH " + watch.getTitle() });
+                        "Watch Service",
+                        "There was an error updating the WATCH " + watch.getTitle() });
             }
 
             public void onSuccess(Watch result) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                    "Watch Service",
-                    "The watch has been successfully updated." });
+                        "Watch Service", "The watch has been successfully updated." });
 
                 bindWatch(result);
             }
@@ -182,22 +197,24 @@ public class WatchesController extends Controller {
     }
 
     /**
+     * On save watch.
+     * 
      * @param event
+     *            the event
      */
     private void onSaveWatch(AppEvent event) {
         final Watch watch = (Watch) event.getData();
         this.watchRemote.saveWatch(watch, new AsyncCallback<Watch>() {
 
             public void onFailure(Throwable caught) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Watch Service",
-                    "There was an error saving the WATCH " + watch.getTitle() });
+                Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE,
+                        new String[] { "Watch Service",
+                                "There was an error saving the WATCH " + watch.getTitle() });
             }
 
             public void onSuccess(Watch result) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                    "Watch retrieved",
-                    "The Watch has been saved" + watch.getTitle() });
+                        "Watch retrieved", "The Watch has been saved" + watch.getTitle() });
 
                 bindWatch(result);
             }
@@ -205,15 +222,18 @@ public class WatchesController extends Controller {
     }
 
     /**
-	 * 
-	 */
+     * On watch un bind.
+     */
     private void onWatchUnBind() {
         WatchesInfoBindingWidget wibw = (watchesView.getWmWidget().getWatchesInfo());
         wibw.unBindModel();
     }
 
     /**
+     * On watch bind.
+     * 
      * @param event
+     *            the event
      */
     private void onWatchBind(AppEvent event) {
         final ClientShortWatch shortWatch = (ClientShortWatch) event.getData();
@@ -221,14 +241,13 @@ public class WatchesController extends Controller {
 
             public void onFailure(Throwable caught) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Watch Service",
-                    "There was an error binding the WATCH " + shortWatch.getTitle() });
+                        "Watch Service",
+                        "There was an error binding the WATCH " + shortWatch.getTitle() });
             }
 
             public void onSuccess(Watch result) {
                 Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-                    "Watch retrieved",
-                    "The Watch has been retrieved" });
+                        "Watch retrieved", "The Watch has been retrieved" });
                 bindWatch(result);
 
                 Dispatcher.forwardEvent(DGWATCHEvents.LOAD_WATCH_AOI, result);
@@ -238,7 +257,10 @@ public class WatchesController extends Controller {
     }
 
     /**
+     * Bind watch.
+     * 
      * @param watch
+     *            the watch
      */
     private void bindWatch(Watch watch) {
         WatchesInfoBindingWidget wibw = (watchesView.getWmWidget().getWatchesInfo());

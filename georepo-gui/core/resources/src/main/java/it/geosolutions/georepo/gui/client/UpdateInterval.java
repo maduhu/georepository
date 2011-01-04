@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.UpdateInterval,v. 0.1 28/lug/2010 14.45.24 created by frank $
- * $Revision: 0.1 $
- * $Date: 28/lug/2010 14.45.24 $
+ * $ Header: it.geosolutions.georepo.gui.client.UpdateInterval,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.12 $
  *
  * ====================================================================
  *
@@ -31,46 +31,72 @@ package it.geosolutions.georepo.gui.client;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class UpdateInterval.
  */
 public class UpdateInterval extends BeanModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7274712696304091963L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 7274712696304091963L;
 
-	public enum UpdateIntervalEnum {
-		TIME("time");
+    /**
+     * The Enum UpdateIntervalEnum.
+     */
+    public enum UpdateIntervalEnum {
 
-		private String value;
+        /** The TIME. */
+        TIME("time");
 
-		UpdateIntervalEnum(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
+        /**
+         * Instantiates a new update interval enum.
+         * 
+         * @param value
+         *            the value
+         */
+        UpdateIntervalEnum(String value) {
+            this.value = value;
+        }
 
-	/**
-	 * 
-	 */
-	public UpdateInterval(String time) {
-		setTime(time);
-	}
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
 
-	public void setTime(String time) {
-		set(UpdateIntervalEnum.TIME.getValue(), time);
-	}
+    /**
+     * Instantiates a new update interval.
+     * 
+     * @param time
+     *            the time
+     */
+    public UpdateInterval(String time) {
+        setTime(time);
+    }
 
-	public String getTime() {
-		return get(UpdateIntervalEnum.TIME.getValue());
-	}
+    /**
+     * Sets the time.
+     * 
+     * @param time
+     *            the new time
+     */
+    public void setTime(String time) {
+        set(UpdateIntervalEnum.TIME.getValue(), time);
+    }
+
+    /**
+     * Gets the time.
+     * 
+     * @return the time
+     */
+    public String getTime() {
+        return get(UpdateIntervalEnum.TIME.getValue());
+    }
 }

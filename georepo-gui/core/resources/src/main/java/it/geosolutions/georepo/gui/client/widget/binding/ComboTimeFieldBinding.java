@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.binding.ComboTimeFieldBinding,v. 0.1 03/ago/2010 10.14.42 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 03/ago/2010 10.14.42 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.ComboTimeFieldBinding,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -29,69 +29,88 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding;
 
-
 import it.geosolutions.georepo.gui.client.UpdateInterval;
 import it.geosolutions.georepo.gui.client.model.Watch;
+
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.store.Record;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.Field;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class ComboTimeFieldBinding.
  */
 public class ComboTimeFieldBinding extends FieldBinding {
 
-	private Object oldValue;
+    /** The old value. */
+    private Object oldValue;
 
-	@SuppressWarnings("rawtypes")
-	public ComboTimeFieldBinding(Field field, String property) {
-		super(field, property);
-	}
+    /**
+     * Instantiates a new combo time field binding.
+     * 
+     * @param field
+     *            the field
+     * @param property
+     *            the property
+     */
+    @SuppressWarnings("rawtypes")
+    public ComboTimeFieldBinding(Field field, String property) {
+        super(field, property);
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateField(boolean)
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateField(boolean updateOriginalValue) {
-		Object val = onConvertModelValue(model.get(property));
+    public void updateField(boolean updateOriginalValue) {
+        Object val = onConvertModelValue(model.get(property));
 
-		if (oldValue == null)
-			oldValue = val;
+        if (oldValue == null)
+            oldValue = val;
 
-		((ComboBox<UpdateInterval>) field).setValue(new UpdateInterval(val
-				.toString()));
+        ((ComboBox<UpdateInterval>) field).setValue(new UpdateInterval(val.toString()));
 
-		if (updateOriginalValue) {
-			((ComboBox<UpdateInterval>) field)
-					.setOriginalValue(new UpdateInterval(val.toString()));
-		}
-	}
+        if (updateOriginalValue) {
+            ((ComboBox<UpdateInterval>) field).setOriginalValue(new UpdateInterval(val.toString()));
+        }
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateModel()
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateModel() {
-		Object val = onConvertFieldValue(field.getValue());
-		if (store != null) {
-			Record r = store.getRecord(model);
-			if (r != null) {
-				r.setValid(property, field.isValid());
-				r.set(property, val);
-			}
-		} else {
-			// model.set(property, ((UpdateInterval) val).getTime());
-			((Watch) model).setUpInteval(((UpdateInterval) val).getTime());
-		}
-	}
+    public void updateModel() {
+        Object val = onConvertFieldValue(field.getValue());
+        if (store != null) {
+            Record r = store.getRecord(model);
+            if (r != null) {
+                r.setValid(property, field.isValid());
+                r.set(property, val);
+            }
+        } else {
+            // model.set(property, ((UpdateInterval) val).getTime());
+            ((Watch) model).setUpInteval(((UpdateInterval) val).getTime());
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	public void resetValue() {
-		oldValue = onConvertFieldValue(field.getValue());
+    /**
+     * Reset value.
+     */
+    @SuppressWarnings("unchecked")
+    public void resetValue() {
+        oldValue = onConvertFieldValue(field.getValue());
 
-		((ComboBox<UpdateInterval>) field).setValue(new UpdateInterval(oldValue
-				.toString()));
+        ((ComboBox<UpdateInterval>) field).setValue(new UpdateInterval(oldValue.toString()));
 
-		// model.set(property, oldValue.toString());
-		((Watch) model).setUpInteval(((UpdateInterval) oldValue).getTime());
-	}
+        // model.set(property, oldValue.toString());
+        ((Watch) model).setUpInteval(((UpdateInterval) oldValue).getTime());
+    }
 
 }

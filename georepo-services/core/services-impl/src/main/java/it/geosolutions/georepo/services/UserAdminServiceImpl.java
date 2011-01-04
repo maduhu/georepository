@@ -19,29 +19,29 @@
  */
 package it.geosolutions.georepo.services;
 
-
+import it.geosolutions.georepo.core.dao.UserDAO;
 import it.geosolutions.georepo.core.model.User;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.georepo.services.dto.ShortUser;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.trg.search.Search;
-import it.geosolutions.georepo.core.dao.UserDAO;
 import org.apache.log4j.Logger;
 
+import com.trg.search.Search;
+
 /**
- *
+ * 
  * @author ETj (etj at geo-solutions.it)
  */
 public class UserAdminServiceImpl implements UserAdminService {
 
     private final static Logger LOGGER = Logger.getLogger(UserAdminServiceImpl.class);
-    
+
     private UserDAO userDao;
 
-    //==========================================================================
+    // ==========================================================================
     @Override
     public long insertUser(User watch) {
         userDao.persist(watch);
@@ -114,8 +114,7 @@ public class UserAdminServiceImpl implements UserAdminService {
         return userDao.count(searchCriteria);
     }
 
-
-    //==========================================================================
+    // ==========================================================================
 
     private List<ShortUser> convertToShortList(List<User> watchList) {
         List<ShortUser> swList = new ArrayList<ShortUser>(watchList.size());
@@ -126,7 +125,7 @@ public class UserAdminServiceImpl implements UserAdminService {
         return swList;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     public void setUserDao(UserDAO userDao) {
         this.userDao = userDao;

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AOIBindingWidget,v. 0.1 19/lug/2010 15.52.13 created by frank $
- * $Revision: 0.1 $
- * $Date: 19/lug/2010 15.52.13 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AOIBindingWidget,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.56 $
  *
  * ====================================================================
  *
@@ -34,6 +34,7 @@ import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.AOI.AOIKeyValue;
+
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -51,303 +52,323 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank, Tobia Di Pisa
- * 
+ * The Class AOIBindingWidget.
  */
 public class AOIBindingWidget extends DGWATCHBindingWidget<AOI> {
 
-	private TextField<String> title;
-	private DateField dateCreation;
-	private DateField lastUpdate;
-	private DateField expiration;
-	private TextField<String> area;
+    /** The title. */
+    private TextField<String> title;
 
-	private Button addAOI;
-	private Button updateAOI;
-	private Button deleteAOI;
-	private Button searchAOI;
-	private Button aoiClean;
+    /** The date creation. */
+    private DateField dateCreation;
 
-	private FormData formData;
-	
-	private boolean selected;
+    /** The last update. */
+    private DateField lastUpdate;
 
-	/**
-	 * 
-	 */
-	public AOIBindingWidget() {
-		this.init();
-	}
+    /** The expiration. */
+    private DateField expiration;
 
-	/**
-	 * 
-	 */
-	private void init() {
-		formPanel = createFormPanel();
-		formBinding = new FormBinding(formPanel, true);
-		formData = new FormData("-20");
+    /** The area. */
+    private TextField<String> area;
 
-	}
+    /** The add aoi. */
+    private Button addAOI;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.BindingWidget#createFormPanel
-	 * ()
-	 */
-	@Override
-	public FormPanel createFormPanel() {
-		FormPanel fp = new FormPanel();
-		fp.setFrame(true);
-		fp.setHeaderVisible(false);
-		fp.setAutoHeight(true);
+    /** The update aoi. */
+    private Button updateAOI;
 
-		FieldSet fieldSet = new FieldSet();
-		fieldSet.setHeading(I18nProvider.getMessages().aoiHeading());
-		fieldSet.setCheckboxToggle(false);
-		fieldSet.setCollapsible(false);
+    /** The delete aoi. */
+    private Button deleteAOI;
 
-		FormLayout layout = new FormLayout();
-		fieldSet.setLayout(layout);
+    /** The search aoi. */
+    private Button searchAOI;
 
-		title = new TextField<String>();
-		title.setId(AOIKeyValue.TITLE.getValue());
-		title.setName(AOIKeyValue.TITLE.getValue());
-		title.setFieldLabel(I18nProvider.getMessages().aoiTitleLabel());
-		title.setWidth(100);
-		fieldSet.add(title, formData);
+    /** The aoi clean. */
+    private Button aoiClean;
 
-		dateCreation = new DateField();
-		dateCreation.setId(AOIKeyValue.DATE_CREATION.getValue());
-		dateCreation.setName(AOIKeyValue.DATE_CREATION.getValue());
-		dateCreation.setFieldLabel(I18nProvider.getMessages().aoiDateCreation());
-		dateCreation.setWidth(100);
-		dateCreation.setHideTrigger(true);
-		dateCreation.setEditable(false);
-		dateCreation.setEnabled(false);
-		fieldSet.add(dateCreation, formData);
+    /** The form data. */
+    private FormData formData;
 
-		lastUpdate = new DateField();
-		lastUpdate.setId(AOIKeyValue.LAST_UPDATE.getValue());
-		lastUpdate.setName(AOIKeyValue.LAST_UPDATE.getValue());
-		lastUpdate.setFieldLabel(I18nProvider.getMessages().aoiLastUpdate());
-		lastUpdate.setWidth(100);
-		lastUpdate.setHideTrigger(true);
-		lastUpdate.setEditable(false);
-		lastUpdate.setEnabled(false);
-		fieldSet.add(lastUpdate, formData);
+    /** The selected. */
+    private boolean selected;
 
-		expiration = new DateField();
-		expiration.setId(AOIKeyValue.EXPIRATION.getValue());
-		expiration.setName(AOIKeyValue.EXPIRATION.getValue());
-		expiration.setFieldLabel(I18nProvider.getMessages().aoiExpiration());
-		expiration.setWidth(100);
-		fieldSet.add(expiration, formData);
+    /**
+     * Instantiates a new aOI binding widget.
+     */
+    public AOIBindingWidget() {
+        this.init();
+    }
 
-		area = new TextField<String>();
-		area.setId(AOIKeyValue.AREA.getValue());
-		area.setName(AOIKeyValue.AREA.getValue());
-		area.setFieldLabel(I18nProvider.getMessages().aoiArea());
-		area.setWidth(100);
-		area.setEnabled(false);
-		fieldSet.add(area, formData);
+    /**
+     * Inits the.
+     */
+    private void init() {
+        formPanel = createFormPanel();
+        formBinding = new FormBinding(formPanel, true);
+        formData = new FormData("-20");
 
-		fp.add(fieldSet);
+    }
 
-		FlexTable table = new FlexTable();
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.BindingWidget#createFormPanel ()
+     */
+    @Override
+    public FormPanel createFormPanel() {
+        FormPanel fp = new FormPanel();
+        fp.setFrame(true);
+        fp.setHeaderVisible(false);
+        fp.setAutoHeight(true);
 
-		table.setCellSpacing(8);
-		table.setCellPadding(4);
+        FieldSet fieldSet = new FieldSet();
+        fieldSet.setHeading(I18nProvider.getMessages().aoiHeading());
+        fieldSet.setCheckboxToggle(false);
+        fieldSet.setCollapsible(false);
 
-		addAOI = new Button(I18nProvider.getMessages().aoiNew(), new SelectionListener<ButtonEvent>() {
+        FormLayout layout = new FormLayout();
+        fieldSet.setLayout(layout);
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-						new String[] { "Add AOI", "New AOI button pressed." });
-				Dispatcher.forwardEvent(DGWATCHEvents.SHOW_ADD_AOI);
-			}
-		});
+        title = new TextField<String>();
+        title.setId(AOIKeyValue.TITLE.getValue());
+        title.setName(AOIKeyValue.TITLE.getValue());
+        title.setFieldLabel(I18nProvider.getMessages().aoiTitleLabel());
+        title.setWidth(100);
+        fieldSet.add(title, formData);
 
-		addAOI.setWidth(100);
+        dateCreation = new DateField();
+        dateCreation.setId(AOIKeyValue.DATE_CREATION.getValue());
+        dateCreation.setName(AOIKeyValue.DATE_CREATION.getValue());
+        dateCreation.setFieldLabel(I18nProvider.getMessages().aoiDateCreation());
+        dateCreation.setWidth(100);
+        dateCreation.setHideTrigger(true);
+        dateCreation.setEditable(false);
+        dateCreation.setEnabled(false);
+        fieldSet.add(dateCreation, formData);
 
-		addAOI.setIcon(Resources.ICONS.addAOI());
+        lastUpdate = new DateField();
+        lastUpdate.setId(AOIKeyValue.LAST_UPDATE.getValue());
+        lastUpdate.setName(AOIKeyValue.LAST_UPDATE.getValue());
+        lastUpdate.setFieldLabel(I18nProvider.getMessages().aoiLastUpdate());
+        lastUpdate.setWidth(100);
+        lastUpdate.setHideTrigger(true);
+        lastUpdate.setEditable(false);
+        lastUpdate.setEnabled(false);
+        fieldSet.add(lastUpdate, formData);
 
-		table.getCellFormatter().setHorizontalAlignment(1, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        expiration = new DateField();
+        expiration.setId(AOIKeyValue.EXPIRATION.getValue());
+        expiration.setName(AOIKeyValue.EXPIRATION.getValue());
+        expiration.setFieldLabel(I18nProvider.getMessages().aoiExpiration());
+        expiration.setWidth(100);
+        fieldSet.add(expiration, formData);
 
-		table.setWidget(1, 1, this.addAOI);
+        area = new TextField<String>();
+        area.setId(AOIKeyValue.AREA.getValue());
+        area.setName(AOIKeyValue.AREA.getValue());
+        area.setFieldLabel(I18nProvider.getMessages().aoiArea());
+        area.setWidth(100);
+        area.setEnabled(false);
+        fieldSet.add(area, formData);
 
-		updateAOI = new Button(I18nProvider.getMessages().aoiUpdate(), new SelectionListener<ButtonEvent>() {
+        fp.add(fieldSet);
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
+        FlexTable table = new FlexTable();
 
-				AOI aoi = getModel();				
-				aoi = checkIfUpdate(aoi);
+        table.setCellSpacing(8);
+        table.setCellPadding(4);
 
-				if (aoi != null) {
-					Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-							new String[] { "Update AOI",
-									"Update AOI button pressed." });
-					Dispatcher.forwardEvent(DGWATCHEvents.UPDATE_AOI, aoi);
-				}
-			}
-		});
+        addAOI = new Button(I18nProvider.getMessages().aoiNew(),
+                new SelectionListener<ButtonEvent>() {
 
-		updateAOI.disable();
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                                "Add AOI", "New AOI button pressed." });
+                        Dispatcher.forwardEvent(DGWATCHEvents.SHOW_ADD_AOI);
+                    }
+                });
 
-		updateAOI.setWidth(100);
-		updateAOI.setIcon(Resources.ICONS.editAOI());
+        addAOI.setWidth(100);
 
-		table.getCellFormatter().setHorizontalAlignment(1, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        addAOI.setIcon(Resources.ICONS.addAOI());
 
-		table.setWidget(1, 2, this.updateAOI);
+        table.getCellFormatter().setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_CENTER);
 
-		deleteAOI = new Button(I18nProvider.getMessages().aoiDelete(), new SelectionListener<ButtonEvent>() {
+        table.setWidget(1, 1, this.addAOI);
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-						new String[] { "Delete AOI",
-								"Delete AOI button pressed." });
-				MessageBox.confirm("Delete AOI", "Are you sure to delete AOI "
-						+ getModel().getTitle() + " ?",
-						new Listener<MessageBoxEvent>() {
+        updateAOI = new Button(I18nProvider.getMessages().aoiUpdate(),
+                new SelectionListener<ButtonEvent>() {
 
-							public void handleEvent(MessageBoxEvent be) {
-								Button btn = be.getButtonClicked();
-								if (btn.getText().equalsIgnoreCase("YES")){
-									Dispatcher.forwardEvent(DGWATCHEvents.DELETE_AOI, getModel());
-								}
-							}
-						});
-			}
-		});
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
 
-		deleteAOI.disable();
+                        AOI aoi = getModel();
+                        aoi = checkIfUpdate(aoi);
 
-		deleteAOI.setWidth(100);
-		deleteAOI.setIcon(Resources.ICONS.deleteAOI());
+                        if (aoi != null) {
+                            Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                                    "Update AOI", "Update AOI button pressed." });
+                            Dispatcher.forwardEvent(DGWATCHEvents.UPDATE_AOI, aoi);
+                        }
+                    }
+                });
 
-		table.getCellFormatter().setHorizontalAlignment(1, 3,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        updateAOI.disable();
 
-		table.setWidget(1, 3, this.deleteAOI);
+        updateAOI.setWidth(100);
+        updateAOI.setIcon(Resources.ICONS.editAOI());
 
-		searchAOI = new Button(I18nProvider.getMessages().aoiSearch(), new SelectionListener<ButtonEvent>() {
+        table.getCellFormatter().setHorizontalAlignment(1, 2, HasHorizontalAlignment.ALIGN_CENTER);
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-						new String[] { "Search AOI",
-								"Search AOI button pressed." });
-				Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_AOI);
-			}
-		});
+        table.setWidget(1, 2, this.updateAOI);
 
-		searchAOI.setWidth(100);
+        deleteAOI = new Button(I18nProvider.getMessages().aoiDelete(),
+                new SelectionListener<ButtonEvent>() {
 
-		searchAOI.setIcon(Resources.ICONS.search());
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                                "Delete AOI", "Delete AOI button pressed." });
+                        MessageBox.confirm("Delete AOI", "Are you sure to delete AOI "
+                                + getModel().getTitle() + " ?", new Listener<MessageBoxEvent>() {
 
-		table.getCellFormatter().setHorizontalAlignment(2, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
+                            public void handleEvent(MessageBoxEvent be) {
+                                Button btn = be.getButtonClicked();
+                                if (btn.getText().equalsIgnoreCase("YES")) {
+                                    Dispatcher.forwardEvent(DGWATCHEvents.DELETE_AOI, getModel());
+                                }
+                            }
+                        });
+                    }
+                });
 
-		table.setWidget(2, 1, this.searchAOI);
-		
-		aoiClean = new Button(I18nProvider.getMessages().aoiClean(), new SelectionListener<ButtonEvent>() {
+        deleteAOI.disable();
 
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-						new String[] { "Clean AOI",
-								"Clean AOI button pressed." });
-				Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_UNBIND);
-			}
-		});
+        deleteAOI.setWidth(100);
+        deleteAOI.setIcon(Resources.ICONS.deleteAOI());
 
-		aoiClean.setIcon(Resources.ICONS.cleanDgWatchMenu());
-		aoiClean.setWidth(100);
-		aoiClean.disable();
+        table.getCellFormatter().setHorizontalAlignment(1, 3, HasHorizontalAlignment.ALIGN_CENTER);
 
-		table.getCellFormatter().setHorizontalAlignment(2, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
+        table.setWidget(1, 3, this.deleteAOI);
 
-		table.setWidget(2, 2, this.aoiClean);
+        searchAOI = new Button(I18nProvider.getMessages().aoiSearch(),
+                new SelectionListener<ButtonEvent>() {
 
-		fp.add(table);
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                                "Search AOI", "Search AOI button pressed." });
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_AOI);
+                    }
+                });
 
-		return fp;
-	}
+        searchAOI.setWidth(100);
 
-	/**
-	 * Enable Both Delete AOI and Update AOI Buttons
-	 */
-	public void enableButtons() {
-		this.deleteAOI.enable();
-		this.updateAOI.enable();
-		this.aoiClean.enable();
-	}
+        searchAOI.setIcon(Resources.ICONS.search());
 
-	/**
-	 * Disable Both Delete AOI and Update AOI Buttons
-	 */
-	public void disableButtons() {
-		this.deleteAOI.disable();
-		this.updateAOI.disable();
-		this.aoiClean.disable();
-	}
+        table.getCellFormatter().setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_CENTER);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel
-	 * ()
-	 */
-	@Override
+        table.setWidget(2, 1, this.searchAOI);
+
+        aoiClean = new Button(I18nProvider.getMessages().aoiClean(),
+                new SelectionListener<ButtonEvent>() {
+
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                                "Clean AOI", "Clean AOI button pressed." });
+                        Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_UNBIND);
+                    }
+                });
+
+        aoiClean.setIcon(Resources.ICONS.cleanDgWatchMenu());
+        aoiClean.setWidth(100);
+        aoiClean.disable();
+
+        table.getCellFormatter().setHorizontalAlignment(2, 2, HasHorizontalAlignment.ALIGN_CENTER);
+
+        table.setWidget(2, 2, this.aoiClean);
+
+        fp.add(table);
+
+        return fp;
+    }
+
+    /**
+     * Enable buttons.
+     */
+    public void enableButtons() {
+        this.deleteAOI.enable();
+        this.updateAOI.enable();
+        this.aoiClean.enable();
+    }
+
+    /**
+     * Disable buttons.
+     */
+    public void disableButtons() {
+        this.deleteAOI.disable();
+        this.updateAOI.disable();
+        this.aoiClean.disable();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel ()
+     */
+    @Override
     public void unBindModel() {
-		super.unBindModel();
-		disableButtons();
-	}
-	
-	/**
-	 * @return the selected
-	 */
-	public boolean isSelected() {
-		return selected;
-	}
+        super.unBindModel();
+        disableButtons();
+    }
 
-	/**
-	 * @param selected the selected to set
-	 */
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
-	
-	/**
-	 * @param aoi
-	 */
-	public AOI checkIfUpdate(AOI aoi){
-		boolean dirty = false;
-		
-		if (title.isDirty()) {
-			aoi.setTitle(title.getValue());
-			dirty = true;
-		}
+    /**
+     * Checks if is selected.
+     * 
+     * @return true, if is selected
+     */
+    public boolean isSelected() {
+        return selected;
+    }
 
-		if (expiration.isDirty()) {
-			aoi.setExpiration(expiration.getValue());
-			dirty = true;
-		}
-		
-		if(dirty)
-			return aoi;
-		else
-			return null;
-	}
+    /**
+     * Sets the selected.
+     * 
+     * @param selected
+     *            the new selected
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    /**
+     * Check if update.
+     * 
+     * @param aoi
+     *            the aoi
+     * @return the aOI
+     */
+    public AOI checkIfUpdate(AOI aoi) {
+        boolean dirty = false;
+
+        if (title.isDirty()) {
+            aoi.setTitle(title.getValue());
+            dirty = true;
+        }
+
+        if (expiration.isDirty()) {
+            aoi.setExpiration(expiration.getValue());
+            dirty = true;
+        }
+
+        if (dirty)
+            return aoi;
+        else
+            return null;
+    }
 
 }

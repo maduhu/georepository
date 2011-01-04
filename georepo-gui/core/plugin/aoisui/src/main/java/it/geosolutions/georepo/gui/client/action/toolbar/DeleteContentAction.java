@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.toolbar.ZoomOut,v. 0.1 27/lug/2010 11.23.49 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.23.49 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.toolbar.DeleteContentAction,v. 0.1 3-gen-2011 16.52.16 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.16 $
  *
  * ====================================================================
  *
@@ -29,26 +29,33 @@
  */
 package it.geosolutions.georepo.gui.client.action.toolbar;
 
-
 import it.geosolutions.georepo.gui.client.Category;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 
+// TODO: Auto-generated Javadoc
 /**
- * This action triggers a deletion of content from a particular remote node.
- *
- * @author gmurray
- *
+ * The Class DeleteContentAction.
  */
-public class DeleteContentAction extends ToolbarMapAction
-{
-	public DeleteContentAction() {
-		super(I18nProvider.getMessages().deleteContentToolTip(), Category.DELETE_CONTENT);
-	}
+public class DeleteContentAction extends ToolbarMapAction {
 
+    /**
+     * Instantiates a new delete content action.
+     */
+    public DeleteContentAction() {
+        super(I18nProvider.getMessages().deleteContentToolTip(), Category.DELETE_CONTENT);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent baseEvent) {
         Dispatcher.forwardEvent(DGWATCHEvents.DELETE_CONTENT);
     }

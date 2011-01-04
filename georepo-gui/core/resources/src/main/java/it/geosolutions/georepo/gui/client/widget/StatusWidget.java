@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.StatusWidget,v. 0.1 16/lug/2010 15.30.22 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 16/lug/2010 15.30.22 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.StatusWidget,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -31,26 +31,28 @@ package it.geosolutions.georepo.gui.client.widget;
 
 import com.extjs.gxt.ui.client.widget.Status;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class StatusWidget.
  */
 public class StatusWidget extends Status {
 
-	public StatusWidget() {
-		super();
-	}
+    /**
+     * Instantiates a new status widget.
+     */
+    public StatusWidget() {
+        super();
+    }
 
-	/**
-	 * Enables a busy icon and displays the given text.
-	 * 
-	 * @param text
-	 *            the text to display
-	 */
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.widget.Status#setBusy(java.lang.String)
+     */
+    @Override
     public void setBusy(String text) {
-		setIconStyle("x-loading-status");
-		setText(text);
-	}
+        setIconStyle("x-loading-status");
+        setText(text);
+    }
 
 }

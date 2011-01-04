@@ -1,4 +1,7 @@
 /*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.WatchGridManagementWidget,v. 0.1 3-gen-2011 16.52.55 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.55 $
  *
  * ====================================================================
  *
@@ -27,52 +30,60 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.service.WatchServiceRemoteAsync;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Tobia di Pisa
- *
+ * The Class WatchGridManagementWidget.
  */
 public class WatchGridManagementWidget extends ContentPanel {
 
-	private WatchPaginationGridWidget watchPagGridWidget;
+    /** The watch pag grid widget. */
+    private WatchPaginationGridWidget watchPagGridWidget;
 
+    /**
+     * Instantiates a new watch grid management widget.
+     * 
+     * @param service
+     *            the service
+     */
+    public WatchGridManagementWidget(WatchServiceRemoteAsync service) {
+        setHeaderVisible(false);
+        setFrame(true);
+        setHeight(170);
+        setLayout(new FitLayout());
 
-	/**
-	 * @param service
-	 */
-	public WatchGridManagementWidget(WatchServiceRemoteAsync service) {
-		setHeaderVisible(false);
-		setFrame(true);
-		setHeight(170);
-		setLayout(new FitLayout());
-		
-		this.watchPagGridWidget = new WatchPaginationGridWidget(service);
-		add(this.watchPagGridWidget.getGrid());
+        this.watchPagGridWidget = new WatchPaginationGridWidget(service);
+        add(this.watchPagGridWidget.getGrid());
 
-		super.setMonitorWindowResize(true);
+        super.setMonitorWindowResize(true);
 
-		setScrollMode(Scroll.NONE);
+        setScrollMode(Scroll.NONE);
 
-		setBottomComponent(this.watchPagGridWidget.getToolBar());
-	}
+        setBottomComponent(this.watchPagGridWidget.getToolBar());
+    }
 
-	/* (non-Javadoc)
-	 * @see com.extjs.gxt.ui.client.widget.Component#onWindowResize(int, int)
-	 */
-	@Override
-	protected void onWindowResize(int width, int height) {
-		super.setWidth(width - 5);
-		super.layout();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.widget.Component#onWindowResize(int, int)
+     */
+    @Override
+    protected void onWindowResize(int width, int height) {
+        super.setWidth(width - 5);
+        super.layout();
+    }
 
-	/**
-	 * @return the watchPagGridWidget
-	 */
-	public WatchPaginationGridWidget getWatchPagGridWidget() {
-		return watchPagGridWidget;
-	}
+    /**
+     * Gets the watch pag grid widget.
+     * 
+     * @return the watch pag grid widget
+     */
+    public WatchPaginationGridWidget getWatchPagGridWidget() {
+        return watchPagGridWidget;
+    }
 
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.configuration.IUserBeanManager,v. 0.1 09/lug/2010 11.41.41 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 11.41.41 $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.IUserBeanManager,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -29,19 +29,26 @@
  */
 package it.geosolutions.georepo.gui.client.configuration;
 
+import it.geosolutions.georepo.gui.client.model.User;
 
 import java.io.Serializable;
 import java.util.List;
 
-import it.geosolutions.georepo.gui.client.model.User;
-
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Interface IUserBeanManager.
  */
 public interface IUserBeanManager extends Serializable {
 
-	public List<User> getUsers();
-	
-	public void configureUsers();
+    /**
+     * Gets the users.
+     * 
+     * @return the users
+     */
+    public List<User> getUsers();
+
+    /**
+     * Configure users.
+     */
+    public void configureUsers();
 }

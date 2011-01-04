@@ -25,6 +25,7 @@ import it.geosolutions.georepo.api.dto.Authority;
 import it.geosolutions.georepo.api.dto.GrantedAuths;
 import it.geosolutions.georepo.api.exception.AuthException;
 import it.geosolutions.georepo.login.util.GrantAll;
+import it.geosolutions.georepo.login.util.SessionManager;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -33,20 +34,18 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
-import it.geosolutions.georepo.login.util.SessionManager;
-
 /**
  * @author ETj (etj at geo-solutions.it)
  */
-public class LoginServiceImpl
-        implements LoginService,
-            InitializingBean, DisposableBean {
+public class LoginServiceImpl implements LoginService, InitializingBean, DisposableBean {
 
     private final static Logger LOGGER = Logger.getLogger(LoginServiceImpl.class);
 
-//    private List<String> authorizedRoles;
+    // private List<String> authorizedRoles;
 
-    private AuthProvider authProvider = new GrantAll(); // this provider should be overridden by injecting a true implementation.
+    private AuthProvider authProvider = new GrantAll(); // this provider should be overridden by
+                                                        // injecting a true implementation.
+
     private SessionManager sessionManager;
 
     public LoginServiceImpl() {
@@ -74,35 +73,35 @@ public class LoginServiceImpl
 
     }
 
-    //==========================================================================
+    // ==========================================================================
     // Service methods
-    //==========================================================================
+    // ==========================================================================
 
     @Override
     public String login(String username, String password) throws AuthException {
         LOGGER.info("LOGIN REQUEST FOR " + username);
 
-//        MessageContext msgCtxt = webServiceContext.getMessageContext();
-//        HttpServletRequest req = (HttpServletRequest)msgCtxt.get(MessageContext.SERVLET_REQUEST);
-//        String clientIP = req.getRemoteAddr();
-//
-//        LOGGER.info("LOGIN REQUEST FOR " + username + " @ " + clientIP);
+        // MessageContext msgCtxt = webServiceContext.getMessageContext();
+        // HttpServletRequest req = (HttpServletRequest)msgCtxt.get(MessageContext.SERVLET_REQUEST);
+        // String clientIP = req.getRemoteAddr();
+        //
+        // LOGGER.info("LOGIN REQUEST FOR " + username + " @ " + clientIP);
 
-		if (username == null) {
-			throw new AuthException("Null username");
-		}
-        else {
-            try{
+        if (username == null) {
+            throw new AuthException("Null username");
+        } else {
+            try {
                 GrantedAuths ga = authProvider.login(username, password);
-                if( ! ga.getAuthorities().contains(Authority.LOGIN)) {
-                    LOGGER.warn("Login not granted to user ["+username+"]");
+                if (!ga.getAuthorities().contains(Authority.LOGIN)) {
+                    LOGGER.warn("Login not granted to user [" + username + "]");
                     throw new AuthException("User " + username + "can't log in");
                 }
 
                 String token = sessionManager.createSession(username, ga);
                 return token;
-            } catch(AuthException ex) {
-				LOGGER.warn("Authentication Failed for user ["+username+"]: " + ex.getLocalizedMessage());
+            } catch (AuthException ex) {
+                LOGGER.warn("Authentication Failed for user [" + username + "]: "
+                        + ex.getLocalizedMessage());
                 throw new AuthException("Authentication error", ex);
             }
         }
@@ -120,9 +119,9 @@ public class LoginServiceImpl
         return sessionManager.getGrantedAuthorities(token);
     }
 
-    //==========================================================================
+    // ==========================================================================
     // Setters
-    //==========================================================================
+    // ==========================================================================
 
     public void setAuthProvider(AuthProvider authProvider) {
         LOGGER.info("Setting AuthProvider: " + authProvider.getClass());

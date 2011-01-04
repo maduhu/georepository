@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AOIPaginationGridWidget,v. 0.1 20/lug/2010 10.56.09 created by frank $
- * $Revision: 0.1 $
- * $Date: 20/lug/2010 10.56.09 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AOIPaginationGridWidget,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.56 $
  *
  * ====================================================================
  *
@@ -29,14 +29,15 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.AOI.AOIKeyValue;
 import it.geosolutions.georepo.gui.client.service.AOIServiceRemoteAsync;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
 import com.extjs.gxt.ui.client.data.LoadEvent;
@@ -66,274 +67,300 @@ import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class AOIPaginationGridWidget.
  */
 public class AOIPaginationGridWidget extends DGWATCHGridWidget<AOI> {
 
-	private AOIServiceRemoteAsync service;
-	private RpcProxy<PagingLoadResult<AOI>> proxy;
-	private PagingLoader<PagingLoadResult<ModelData>> loader;
-	private PagingToolBar toolBar;
+    /** The service. */
+    private AOIServiceRemoteAsync service;
 
-	private CheckColumnConfig checkColumn;
+    /** The proxy. */
+    private RpcProxy<PagingLoadResult<AOI>> proxy;
 
-	private long userId;
+    /** The loader. */
+    private PagingLoader<PagingLoadResult<ModelData>> loader;
 
-	/**
-	 * 
-	 */
-	public AOIPaginationGridWidget(AOIServiceRemoteAsync service) {
-		super();
-		this.service = service;
-	}
+    /** The tool bar. */
+    private PagingToolBar toolBar;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#
-	 * setGridProperties ()
-	 */
-	@Override
-	public void setGridProperties() {
-		grid.setAutoExpandColumn(AOIKeyValue.TITLE.getValue());
+    /** The check column. */
+    private CheckColumnConfig checkColumn;
 
-		grid.addListener(Events.CellDoubleClick, new Listener<BaseEvent>() {
+    /** The user id. */
+    private long userId;
 
-			public void handleEvent(BaseEvent be) {
-				Dispatcher.forwardEvent(DGWATCHEvents.BIND_SELECTED_AOI, grid
-						.getSelectionModel().getSelectedItem());
-			}
-		});
+    /**
+     * Instantiates a new aOI pagination grid widget.
+     * 
+     * @param service
+     *            the service
+     */
+    public AOIPaginationGridWidget(AOIServiceRemoteAsync service) {
+        super();
+        this.service = service;
+    }
 
-		grid.setLoadMask(true);
-		grid.setAutoWidth(true);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# setGridProperties ()
+     */
+    @Override
+    public void setGridProperties() {
+        grid.setAutoExpandColumn(AOIKeyValue.TITLE.getValue());
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#
-	 * prepareColumnModel()
-	 */
-	@Override
-	public ColumnModel prepareColumnModel() {
-		List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
+        grid.addListener(Events.CellDoubleClick, new Listener<BaseEvent>() {
 
-		ColumnConfig titleColumn = new ColumnConfig();
-		titleColumn.setId(AOIKeyValue.TITLE.getValue());
-		titleColumn.setHeader(I18nProvider.getMessages().aoiTitleLabel());
-		titleColumn.setWidth(100);
-		configs.add(titleColumn);
+            public void handleEvent(BaseEvent be) {
+                Dispatcher.forwardEvent(DGWATCHEvents.BIND_SELECTED_AOI, grid.getSelectionModel()
+                        .getSelectedItem());
+            }
+        });
 
-		checkColumn = new CheckColumnConfig(AOIKeyValue.SHARED.getValue(),
-                I18nProvider.getMessages().aoiSharedLabel(), 80);
+        grid.setLoadMask(true);
+        grid.setAutoWidth(true);
+    }
 
-		CellEditor checkBoxEditor = new CellEditor(new CheckBox());
-		checkBoxEditor.setEnabled(false);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     */
+    @Override
+    public ColumnModel prepareColumnModel() {
+        List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
-		this.checkColumn.setEditor(checkBoxEditor);
+        ColumnConfig titleColumn = new ColumnConfig();
+        titleColumn.setId(AOIKeyValue.TITLE.getValue());
+        titleColumn.setHeader(I18nProvider.getMessages().aoiTitleLabel());
+        titleColumn.setWidth(100);
+        configs.add(titleColumn);
 
-		this.checkColumn.setSortable(false);
-		this.checkColumn.setResizable(false);
-		this.checkColumn.setMenuDisabled(true);
+        checkColumn = new CheckColumnConfig(AOIKeyValue.SHARED.getValue(), I18nProvider
+                .getMessages().aoiSharedLabel(), 80);
 
-		configs.add(this.checkColumn);
+        CellEditor checkBoxEditor = new CellEditor(new CheckBox());
+        checkBoxEditor.setEnabled(false);
 
-		ColumnConfig features = new ColumnConfig();
-		features.setHeader(I18nProvider.getMessages().aoiFeatureListLabel());
-		features.setWidth(100);
-		features.setRenderer(this.createButtonRendered());
-		features.setMenuDisabled(true);
-		features.setSortable(false);
+        this.checkColumn.setEditor(checkBoxEditor);
 
-		configs.add(features);
+        this.checkColumn.setSortable(false);
+        this.checkColumn.setResizable(false);
+        this.checkColumn.setMenuDisabled(true);
 
-		return new ColumnModel(configs);
-	}
+        configs.add(this.checkColumn);
 
-	private GridCellRenderer<AOI> createButtonRendered() {
-		// TODO Auto-generated method stub
-		GridCellRenderer<AOI> buttonRendered = new GridCellRenderer<AOI>() {
+        ColumnConfig features = new ColumnConfig();
+        features.setHeader(I18nProvider.getMessages().aoiFeatureListLabel());
+        features.setWidth(100);
+        features.setRenderer(this.createButtonRendered());
+        features.setMenuDisabled(true);
+        features.setSortable(false);
 
-			private boolean init;
+        configs.add(features);
 
-			public Object render(final AOI model, String property,
-					ColumnData config, int rowIndex, int colIndex,
-					ListStore<AOI> store, Grid<AOI> grid) {
-				// TODO Auto-generated method stub
-				if (!init) {
-					init = true;
-					grid.addListener(Events.ColumnResize,
-							new Listener<GridEvent<AOI>>() {
+        return new ColumnModel(configs);
+    }
 
-								public void handleEvent(GridEvent<AOI> be) {
-									for (int i = 0; i < be.getGrid().getStore()
-											.getCount(); i++) {
-										if (be.getGrid().getView()
-												.getWidget(i, be.getColIndex()) != null
-												&& be.getGrid()
-														.getView()
-														.getWidget(
-																i,
-																be.getColIndex()) instanceof BoxComponent) {
-											((BoxComponent) be
-													.getGrid()
-													.getView()
-													.getWidget(i,
-															be.getColIndex()))
-													.setWidth(be.getWidth() - 10);
-										}
-									}
-								}
-							});
-				}
+    /**
+     * Creates the button rendered.
+     * 
+     * @return the grid cell renderer
+     */
+    private GridCellRenderer<AOI> createButtonRendered() {
+        // TODO Auto-generated method stub
+        GridCellRenderer<AOI> buttonRendered = new GridCellRenderer<AOI>() {
 
-				Button b = new Button("Get Features",
-						new SelectionListener<ButtonEvent>() {
+            private boolean init;
 
-							@Override
-							public void componentSelected(ButtonEvent ce) {
-								Dispatcher.forwardEvent(
-										DGWATCHEvents.SEND_ALERT_MESSAGE,
-										new String[] { "Get Features",
-												"Action must be implemented" });
-							}
-						});
-				b.setWidth(grid.getColumnModel().getColumnWidth(colIndex) - 10);
-				b.setToolTip(model.getTitle() + " Features");
+            public Object render(final AOI model, String property, ColumnData config, int rowIndex,
+                    int colIndex, ListStore<AOI> store, Grid<AOI> grid) {
+                // TODO Auto-generated method stub
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<AOI>>() {
 
-				return b;
-			}
-		};
-		return buttonRendered;
-	}
+                        public void handleEvent(GridEvent<AOI> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore
-	 * ()
-	 */
-	@Override
-	public void createStore() {
-		toolBar = new PagingToolBar(25);
+                Button b = new Button("Get Features", new SelectionListener<ButtonEvent>() {
 
-		this.proxy = new RpcProxy<PagingLoadResult<AOI>>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        Dispatcher.forwardEvent(DGWATCHEvents.SEND_ALERT_MESSAGE, new String[] {
+                                "Get Features", "Action must be implemented" });
+                    }
+                });
+                b.setWidth(grid.getColumnModel().getColumnWidth(colIndex) - 10);
+                b.setToolTip(model.getTitle() + " Features");
 
-			@Override
-			protected void load(Object loadConfig,
-					AsyncCallback<PagingLoadResult<AOI>> callback) {
-//				service.getUserAOIs((PagingLoadConfig) loadConfig, userId,
-//						callback);
-			}
-		};
+                return b;
+            }
+        };
+        return buttonRendered;
+    }
 
-		loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore ()
+     */
+    @Override
+    public void createStore() {
+        toolBar = new PagingToolBar(25);
 
-		loader.setRemoteSort(false);
+        this.proxy = new RpcProxy<PagingLoadResult<AOI>>() {
 
-		store = new ListStore<AOI>(loader);
+            @Override
+            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<AOI>> callback) {
+                // service.getUserAOIs((PagingLoadConfig) loadConfig, userId,
+                // callback);
+            }
+        };
 
-		this.toolBar.bind(loader);
+        loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
 
-		toolBar.disable();
+        loader.setRemoteSort(false);
 
-		setUpLoadListener();
-	}
+        store = new ListStore<AOI>(loader);
 
-	/**
-	 * @return the loader
-	 */
-	public PagingLoader<PagingLoadResult<ModelData>> getLoader() {
-		return loader;
-	}
+        this.toolBar.bind(loader);
 
-	/**
-	 * @return the toolBar
-	 */
-	public PagingToolBar getToolBar() {
-		return toolBar;
-	}
+        toolBar.disable();
 
-	/**
-	 * @return long
-	 */
-	public long getUserId() {
-		return userId;
-	}
+        setUpLoadListener();
+    }
 
-	/**
-	 * @param userId
-	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+    /**
+     * Gets the loader.
+     * 
+     * @return the loader
+     */
+    public PagingLoader<PagingLoadResult<ModelData>> getLoader() {
+        return loader;
+    }
 
-	/**
-	 * 
-	 */
-	public void clearGridElements() {
-		this.store.removeAll();
-		this.toolBar.clear();
-		this.toolBar.disable();
-	}
+    /**
+     * Gets the tool bar.
+     * 
+     * @return the tool bar
+     */
+    public PagingToolBar getToolBar() {
+        return toolBar;
+    }
 
-	public void removeAOI(AOI aoi) {
-		int index = this.store.indexOf(aoi);
-		if (index != -1)
-			this.store.remove(aoi);
-	}
+    /**
+     * Gets the user id.
+     * 
+     * @return the user id
+     */
+    public long getUserId() {
+        return userId;
+    }
 
-	public void updateAOITitle(AOI aoi) {
-		int index = this.store.indexOf(aoi);
-		if (index != -1) {
-			this.store.remove(aoi);
-			this.store.insert(aoi, index);
-		}
-	}
+    /**
+     * Sets the user id.
+     * 
+     * @param userId
+     *            the new user id
+     */
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
-	public void updateAOIStatus(AOI aoi) {
-		int index = this.store.indexOf(aoi);
-		if (index != -1) {
-			this.store.remove(aoi);
-			this.store.insert(aoi, index);
-		}
-	}
+    /**
+     * Clear grid elements.
+     */
+    public void clearGridElements() {
+        this.store.removeAll();
+        this.toolBar.clear();
+        this.toolBar.disable();
+    }
 
-	private void setUpLoadListener() {
-		loader.addLoadListener(new LoadListener() {
+    /**
+     * Removes the aoi.
+     * 
+     * @param aoi
+     *            the aoi
+     */
+    public void removeAOI(AOI aoi) {
+        int index = this.store.indexOf(aoi);
+        if (index != -1)
+            this.store.remove(aoi);
+    }
 
-			@Override
-			public void loaderBeforeLoad(LoadEvent le) {
-				if (!toolBar.isEnabled())
-					toolBar.enable();
-			}
+    /**
+     * Update aoi title.
+     * 
+     * @param aoi
+     *            the aoi
+     */
+    public void updateAOITitle(AOI aoi) {
+        int index = this.store.indexOf(aoi);
+        if (index != -1) {
+            this.store.remove(aoi);
+            this.store.insert(aoi, index);
+        }
+    }
 
-			@Override
-			public void loaderLoad(LoadEvent le) {
-				BasePagingLoadResult<?> result = le.getData();
-				if (!result.getData().isEmpty()) {
-					int size = result.getData().size();
-					String message = "";
-					if (size == 1)
-						message = I18nProvider.getMessages().aoiAbbreviatedLabel();
-					else
-						message = I18nProvider.getMessages().aoiAbbreviatedPluralLabel();
-					Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-							new String[] {
-									I18nProvider.getMessages().aoiServiceName(),
-									I18nProvider.getMessages().foundLabel() + " " + result.getData().size() + " "
-											+ message });
-				} else {
-					Dispatcher.forwardEvent(DGWATCHEvents.SEND_ALERT_MESSAGE,
-							new String[] { I18nProvider.getMessages().aoiServiceName(),
-                                    I18nProvider.getMessages().aoiNotFoundMessage() });
-				}
-			}
+    /**
+     * Update aoi status.
+     * 
+     * @param aoi
+     *            the aoi
+     */
+    public void updateAOIStatus(AOI aoi) {
+        int index = this.store.indexOf(aoi);
+        if (index != -1) {
+            this.store.remove(aoi);
+            this.store.insert(aoi, index);
+        }
+    }
 
-		});
-	}
+    /**
+     * Sets the up load listener.
+     */
+    private void setUpLoadListener() {
+        loader.addLoadListener(new LoadListener() {
+
+            @Override
+            public void loaderBeforeLoad(LoadEvent le) {
+                if (!toolBar.isEnabled())
+                    toolBar.enable();
+            }
+
+            @Override
+            public void loaderLoad(LoadEvent le) {
+                BasePagingLoadResult<?> result = le.getData();
+                if (!result.getData().isEmpty()) {
+                    int size = result.getData().size();
+                    String message = "";
+                    if (size == 1)
+                        message = I18nProvider.getMessages().aoiAbbreviatedLabel();
+                    else
+                        message = I18nProvider.getMessages().aoiAbbreviatedPluralLabel();
+                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                            I18nProvider.getMessages().aoiServiceName(),
+                            I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
+                                    + " " + message });
+                } else {
+                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_ALERT_MESSAGE, new String[] {
+                            I18nProvider.getMessages().aoiServiceName(),
+                            I18nProvider.getMessages().aoiNotFoundMessage() });
+                }
+            }
+
+        });
+    }
 }

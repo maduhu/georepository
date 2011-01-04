@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.AOISFilter,v. 0.1 08/lug/2010 16.01.55 created by frank $
- * $Revision: 0.1 $
- * $Date: 08/lug/2010 16.01.55 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AOISFilter,v. 0.1 3-gen-2011 16.52.55 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.52.55 $
  *
  * ====================================================================
  *
@@ -30,42 +30,50 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class AOISFilter.
  */
 public class AOISFilter extends ContentPanel {
 
-	private FilterBindingWidget filterBinding;
-//	private FilterInfo filterInfo;
+    /** The filter binding. */
+    private FilterBindingWidget filterBinding;
 
-	public AOISFilter() {
-		setId("aoisFilter");
-		setHeading(I18nProvider.getMessages().aoiFilterLabel());
-		setScrollMode(Scroll.AUTO);
+    // private FilterInfo filterInfo;
 
-		this.filterBinding = new FilterBindingWidget();
-//		this.filterInfo = new FilterInfo();
+    /**
+     * Instantiates a new aOIS filter.
+     */
+    public AOISFilter() {
+        setId("aoisFilter");
+        setHeading(I18nProvider.getMessages().aoiFilterLabel());
+        setScrollMode(Scroll.AUTO);
 
-//		add(filterInfo.getFormPanel());
-		add(filterBinding.getFormPanel());
+        this.filterBinding = new FilterBindingWidget();
+        // this.filterInfo = new FilterInfo();
 
-	}
+        // add(filterInfo.getFormPanel());
+        add(filterBinding.getFormPanel());
 
-	/**
-	 * @return the filterBinding
-	 */
-	public FilterBindingWidget getFilterBinding() {
-		return filterBinding;
-	}
+    }
 
-//	/**
-//	 * @return the filterInfo
-//	 */
-//	public FilterInfo getFilterInfo() {
-//		return filterInfo;
-//	}
+    /**
+     * Gets the filter binding.
+     * 
+     * @return the filter binding
+     */
+    public FilterBindingWidget getFilterBinding() {
+        return filterBinding;
+    }
+
+    // /**
+    // * @return the filterInfo
+    // */
+    // public FilterInfo getFilterInfo() {
+    // return filterInfo;
+    // }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.MapPreviewWidget,v. 0.1 31/ago/2010 09.10.34 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 31/ago/2010 09.10.34 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.map.MapPreviewWidget,v. 0.1 3-gen-2011 16.56.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.56.48 $
  *
  * ====================================================================
  *
@@ -50,146 +50,189 @@ import org.gwtopenmaps.openlayers.client.layer.WMS;
 import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
 import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class MapPreviewWidget.
  */
 public class MapPreviewWidget {
 
-	private MapWidget mapWidget;
-	private MapOptions defaultMapOptions;
-	private Map map;
-	private Layer layer;
-	private Layer osm;
+    /** The map widget. */
+    private MapWidget mapWidget;
 
-	private Vector vector;
+    /** The default map options. */
+    private MapOptions defaultMapOptions;
 
-	public MapPreviewWidget() {
-		this.createMapOption(true);
-	}
+    /** The map. */
+    private Map map;
 
-	private void createMapOption(boolean isGoogle) {
-		// TODO Auto-generated method stub
+    /** The layer. */
+    private Layer layer;
 
-		OpenLayers.setProxyHost("gwtOpenLayersProxy?targetURL=");
+    /** The osm. */
+    private Layer osm;
 
-		this.defaultMapOptions = new MapOptions();
-		this.defaultMapOptions.setNumZoomLevels(18);
-		if (isGoogle) {
-			this.defaultMapOptions.setProjection("EPSG:900913");
-			this.defaultMapOptions.setDisplayProjection(new Projection(
-					"EPSG:4326"));
-			this.defaultMapOptions.setUnits(MapUnits.METERS);
-			this.defaultMapOptions.setMaxExtent(new Bounds(-20037508,
-					-20037508, 20037508, 20037508.34));
-			this.defaultMapOptions.setMaxResolution(new Double(156543.0339)
-					.floatValue());
-		} else {
-			this.defaultMapOptions.setProjection("EPSG:4326");
-		}
+    /** The vector. */
+    private Vector vector;
 
-		initMapWidget(this.defaultMapOptions, isGoogle);
-	}
+    /**
+     * Instantiates a new map preview widget.
+     */
+    public MapPreviewWidget() {
+        this.createMapOption(true);
+    }
 
-	private void initMapWidget(MapOptions defaultMapOptions, boolean isGoogle) {
-		mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
-		this.map = mapWidget.getMap();
-		// this.map.addControl(new LayerSwitcher());
-		if (isGoogle) {
-			this.createOSM();
-			// this.createBaseGoogleLayer();
-		} else {
-			WMSParams wmsParams = new WMSParams();
-			wmsParams.setFormat("image/png");
-			wmsParams.setLayers("basic");
-			wmsParams.setStyles("");
+    /**
+     * Creates the map option.
+     * 
+     * @param isGoogle
+     *            the is google
+     */
+    private void createMapOption(boolean isGoogle) {
+        // TODO Auto-generated method stub
 
-			WMSOptions wmsLayerParams = new WMSOptions();
-			wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
+        OpenLayers.setProxyHost("gwtOpenLayersProxy?targetURL=");
 
-			layer = new WMS("Basic WMS", "http://labs.metacarta.com/wms/vmap0",
-					wmsParams, wmsLayerParams);
-			this.map.addLayer(layer);
-		}
+        this.defaultMapOptions = new MapOptions();
+        this.defaultMapOptions.setNumZoomLevels(18);
+        if (isGoogle) {
+            this.defaultMapOptions.setProjection("EPSG:900913");
+            this.defaultMapOptions.setDisplayProjection(new Projection("EPSG:4326"));
+            this.defaultMapOptions.setUnits(MapUnits.METERS);
+            this.defaultMapOptions.setMaxExtent(new Bounds(-20037508, -20037508, 20037508,
+                    20037508.34));
+            this.defaultMapOptions.setMaxResolution(new Double(156543.0339).floatValue());
+        } else {
+            this.defaultMapOptions.setProjection("EPSG:4326");
+        }
 
-		this.initVectorLayer();
-	}
+        initMapWidget(this.defaultMapOptions, isGoogle);
+    }
 
-	private void createOSM() {
-		this.osm = OSM.THIS("OpenStreetMap Preview", OpenLayers.getProxyHost()
-				+ "http://tile.openstreetmap.org/${z}/${x}/${y}.png",
-				new OSMOptions());
-		;// OSM.Mapnik("OpenStreetMap Preview");
-		this.map.addLayer(osm);
-	}
+    /**
+     * Inits the map widget.
+     * 
+     * @param defaultMapOptions
+     *            the default map options
+     * @param isGoogle
+     *            the is google
+     */
+    private void initMapWidget(MapOptions defaultMapOptions, boolean isGoogle) {
+        mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
+        this.map = mapWidget.getMap();
+        // this.map.addControl(new LayerSwitcher());
+        if (isGoogle) {
+            this.createOSM();
+            // this.createBaseGoogleLayer();
+        } else {
+            WMSParams wmsParams = new WMSParams();
+            wmsParams.setFormat("image/png");
+            wmsParams.setLayers("basic");
+            wmsParams.setStyles("");
 
-	private void initVectorLayer() {
-		VectorOptions vectorOption = new VectorOptions();
-		vectorOption.setStyle(this.createStyle());
-		vectorOption.setDisplayInLayerSwitcher(false);
-		this.vector = new Vector("DGWATCH PREVIEW Vector Layer", vectorOption);
-		this.map.addLayer(vector);
-	}
+            WMSOptions wmsLayerParams = new WMSOptions();
+            wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
 
-	// private void createBaseGoogleLayer() {
-	// GoogleOptions option = new GoogleOptions();
-	// option.setType(GMapType.G_NORMAL_MAP);
-	// option.setSphericalMercator(true);
-	//
-	// layer = new Google("Google Normal Preview", option);
-	// this.map.addLayer(layer);
-	// }
+            layer = new WMS("Basic WMS", "http://labs.metacarta.com/wms/vmap0", wmsParams,
+                    wmsLayerParams);
+            this.map.addLayer(layer);
+        }
 
-	private Style createStyle() {
-		Style style = new Style();
-		style.setStrokeColor("#000000");
-		style.setStrokeWidth(1);
-		style.setFillColor("#FF0000");
-		style.setFillOpacity(0.5);
-		style.setPointRadius(5);
-		style.setStrokeOpacity(1.0);
-		return style;
-	}
+        this.initVectorLayer();
+    }
 
-	public void drawAoiOnMap(String wkt) {
-		this.eraseFeatures();
-		MultiPolygon geom = MultiPolygon.narrowToMultiPolygon(Geometry.fromWKT(
-				wkt).getJSObject());
-		geom.transform(new Projection("EPSG:4326"), new Projection(
-				"EPSG:900913"));
-		VectorFeature vectorFeature = new VectorFeature(geom);
-		this.vector.addFeature(vectorFeature);
-		this.map.zoomToExtent(geom.getBounds());
-	}
+    /**
+     * Creates the osm.
+     */
+    private void createOSM() {
+        this.osm = OSM.THIS("OpenStreetMap Preview", OpenLayers.getProxyHost()
+                + "http://tile.openstreetmap.org/${z}/${x}/${y}.png", new OSMOptions());
+        ;// OSM.Mapnik("OpenStreetMap Preview");
+        this.map.addLayer(osm);
+    }
 
-	/**
-	 * Erase all Features added to Vector Layer
-	 */
-	public void eraseFeatures() {
-		this.vector.destroyFeatures();
-		this.vector.redraw();
-		this.map.updateSize();
-	}
+    /**
+     * Inits the vector layer.
+     */
+    private void initVectorLayer() {
+        VectorOptions vectorOption = new VectorOptions();
+        vectorOption.setStyle(this.createStyle());
+        vectorOption.setDisplayInLayerSwitcher(false);
+        this.vector = new Vector("DGWATCH PREVIEW Vector Layer", vectorOption);
+        this.map.addLayer(vector);
+    }
 
-	/**
-	 * Rebuild Vector Layer
-	 */
-	public void rebuildVectorLayer() {
-		this.map.removeLayer(this.vector);
-		this.initVectorLayer();
-	}
+    // private void createBaseGoogleLayer() {
+    // GoogleOptions option = new GoogleOptions();
+    // option.setType(GMapType.G_NORMAL_MAP);
+    // option.setSphericalMercator(true);
+    //
+    // layer = new Google("Google Normal Preview", option);
+    // this.map.addLayer(layer);
+    // }
 
-	/**
-	 * @return the mapWidget
-	 */
-	public MapWidget getMapWidget() {
-		return mapWidget;
-	}
+    /**
+     * Creates the style.
+     * 
+     * @return the style
+     */
+    private Style createStyle() {
+        Style style = new Style();
+        style.setStrokeColor("#000000");
+        style.setStrokeWidth(1);
+        style.setFillColor("#FF0000");
+        style.setFillOpacity(0.5);
+        style.setPointRadius(5);
+        style.setStrokeOpacity(1.0);
+        return style;
+    }
 
-	/**
-	 * @return the vector
-	 */
-	public Vector getVector() {
-		return vector;
-	}
+    /**
+     * Draw aoi on map.
+     * 
+     * @param wkt
+     *            the wkt
+     */
+    public void drawAoiOnMap(String wkt) {
+        this.eraseFeatures();
+        MultiPolygon geom = MultiPolygon.narrowToMultiPolygon(Geometry.fromWKT(wkt).getJSObject());
+        geom.transform(new Projection("EPSG:4326"), new Projection("EPSG:900913"));
+        VectorFeature vectorFeature = new VectorFeature(geom);
+        this.vector.addFeature(vectorFeature);
+        this.map.zoomToExtent(geom.getBounds());
+    }
+
+    /**
+     * Erase features.
+     */
+    public void eraseFeatures() {
+        this.vector.destroyFeatures();
+        this.vector.redraw();
+        this.map.updateSize();
+    }
+
+    /**
+     * Rebuild vector layer.
+     */
+    public void rebuildVectorLayer() {
+        this.map.removeLayer(this.vector);
+        this.initVectorLayer();
+    }
+
+    /**
+     * Gets the map widget.
+     * 
+     * @return the map widget
+     */
+    public MapWidget getMapWidget() {
+        return mapWidget;
+    }
+
+    /**
+     * Gets the vector.
+     * 
+     * @return the vector
+     */
+    public Vector getVector() {
+        return vector;
+    }
 }

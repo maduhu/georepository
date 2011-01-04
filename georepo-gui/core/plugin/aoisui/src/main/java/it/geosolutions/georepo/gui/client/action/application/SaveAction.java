@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.toolbar.ZoomOut,v. 0.1 27/lug/2010 11.23.49 created by frank $
- * $Revision: 0.1 $
- * $Date: 27/lug/2010 11.23.49 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.application.SaveAction,v. 0.1 3-gen-2011 16.51.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.51.33 $
  *
  * ====================================================================
  *
@@ -29,27 +29,33 @@
  */
 package it.geosolutions.georepo.gui.client.action.application;
 
-
 import it.geosolutions.georepo.gui.client.Category;
 import it.geosolutions.georepo.gui.client.DGWATCHEvents;
 import it.geosolutions.georepo.gui.client.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 
+// TODO: Auto-generated Javadoc
 /**
- * This action triggers a save for the current user context.  This "save" message could be handled in different ways
- * depending on what Administration Mode the application is currently in.
- * 
- * @author gmurray
- *
+ * The Class SaveAction.
  */
-public class SaveAction extends ToolbarMapAction
-{
-	public SaveAction() {
-		super(I18nProvider.getMessages().saveToolTip(), Category.SAVE);
-	}
+public class SaveAction extends ToolbarMapAction {
 
+    /**
+     * Instantiates a new save action.
+     */
+    public SaveAction() {
+        super(I18nProvider.getMessages().saveToolTip(), Category.SAVE);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     */
     public void handleEvent(BaseEvent baseEvent) {
         Dispatcher.forwardEvent(DGWATCHEvents.SAVE);
     }

@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.binding.IFilterFieldBinding,v. 0.1 20/ago/2010 00.07.16 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 20/ago/2010 00.07.16 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.IFilterFieldBinding,v. 0.1 3-gen-2011 16.53.26 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.53.26 $
  *
  * ====================================================================
  *
@@ -29,12 +29,15 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Interface IFilterFieldBinding.
  */
 public interface IFilterFieldBinding {
 
-	public void resetValue();
+    /**
+     * Reset value.
+     */
+    public void resetValue();
 
 }

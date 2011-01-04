@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.model.RegUser,v. 0.1 09/set/2010 09.25.35 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 09/set/2010 09.25.35 $
+ * $ Header: it.geosolutions.georepo.gui.client.model.RegUser,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 17.06.11 $
  *
  * ====================================================================
  *
@@ -31,190 +31,264 @@ package it.geosolutions.georepo.gui.client.model;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class RegUser.
  */
 public class RegUser extends BeanModel implements Comparable<RegUser> {
 
-	public enum RegUserKeyValue {
-		CONNECTE_ID("connectId"), USER_NAME("userName"), FIRST_NAME("firstName"), LAST_NAME(
-				"lastName"), MAIL_ADDRESS("mailAddress"), ORGANIZATIO_NAME(
-				"organizationName"), CHOISE("choise");
+    /**
+     * The Enum RegUserKeyValue.
+     */
+    public enum RegUserKeyValue {
 
-		private String value;
+        /** The CONNECT e_ id. */
+        CONNECTE_ID("connectId"),
+        /** The USE r_ name. */
+        USER_NAME("userName"),
+        /** The FIRS t_ name. */
+        FIRST_NAME("firstName"),
+        /** The LAS t_ name. */
+        LAST_NAME("lastName"),
+        /** The MAI l_ address. */
+        MAIL_ADDRESS("mailAddress"),
+        /** The ORGANIZATI o_ name. */
+        ORGANIZATIO_NAME("organizationName"),
+        /** The CHOISE. */
+        CHOISE("choise");
 
-		RegUserKeyValue(String value) {
-			this.value = value;
-		}
+        /** The value. */
+        private String value;
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
+        /**
+         * Instantiates a new reg user key value.
+         * 
+         * @param value
+         *            the value
+         */
+        RegUserKeyValue(String value) {
+            this.value = value;
+        }
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 838276364210417929L;
+        /**
+         * Gets the value.
+         * 
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+    }
 
-	private String connectId;
-	private String userName;
-	private String firstName;
-	private String lastName;
-	private String mailAddress;
-	private String organizationName;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 838276364210417929L;
 
-	private String choise;
+    /** The connect id. */
+    private String connectId;
 
-	/**
-	 * @return the connectId
-	 */
-	public String getConnectId() {
-		return connectId;
-	}
+    /** The user name. */
+    private String userName;
 
-	/**
-	 * @param connectId
-	 *            the connectId to set
-	 */
-	public void setConnectId(String connectId) {
-		this.connectId = connectId;
-		set(RegUserKeyValue.CONNECTE_ID.getValue(), this.connectId);
-	}
+    /** The first name. */
+    private String firstName;
 
-	/**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
+    /** The last name. */
+    private String lastName;
 
-	/**
-	 * @param userName
-	 *            the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-		set(RegUserKeyValue.USER_NAME.getValue(), this.userName);
-	}
+    /** The mail address. */
+    private String mailAddress;
 
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
+    /** The organization name. */
+    private String organizationName;
 
-	/**
-	 * @param firstName
-	 *            the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-		set(RegUserKeyValue.FIRST_NAME.getValue(), this.firstName);
-	}
+    /** The choise. */
+    private String choise;
 
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
+    /**
+     * Gets the connect id.
+     * 
+     * @return the connect id
+     */
+    public String getConnectId() {
+        return connectId;
+    }
 
-	/**
-	 * @param lastName
-	 *            the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-		set(RegUserKeyValue.LAST_NAME.getValue(), this.lastName);
-	}
+    /**
+     * Sets the connect id.
+     * 
+     * @param connectId
+     *            the new connect id
+     */
+    public void setConnectId(String connectId) {
+        this.connectId = connectId;
+        set(RegUserKeyValue.CONNECTE_ID.getValue(), this.connectId);
+    }
 
-	/**
-	 * @return the mailAddress
-	 */
-	public String getMailAddress() {
-		return mailAddress;
-	}
+    /**
+     * Gets the user name.
+     * 
+     * @return the user name
+     */
+    public String getUserName() {
+        return userName;
+    }
 
-	/**
-	 * @param mailAddress
-	 *            the mailAddress to set
-	 */
-	public void setMailAddress(String mailAddress) {
-		this.mailAddress = mailAddress;
-		set(RegUserKeyValue.MAIL_ADDRESS.getValue(), this.mailAddress);
-	}
+    /**
+     * Sets the user name.
+     * 
+     * @param userName
+     *            the new user name
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+        set(RegUserKeyValue.USER_NAME.getValue(), this.userName);
+    }
 
-	/**
-	 * @return the organizationName
-	 */
-	public String getOrganizationName() {
-		return organizationName;
-	}
+    /**
+     * Gets the first name.
+     * 
+     * @return the first name
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-	/**
-	 * @param organizationName
-	 *            the organizationName to set
-	 */
-	public void setOrganizationName(String organizationName) {
-		this.organizationName = organizationName;
-		set(RegUserKeyValue.ORGANIZATIO_NAME.getValue(), this.organizationName);
-	}
+    /**
+     * Sets the first name.
+     * 
+     * @param firstName
+     *            the new first name
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+        set(RegUserKeyValue.FIRST_NAME.getValue(), this.firstName);
+    }
 
-	/**
-	 * @return the choise
-	 */
-	public String getChoise() {
-		return choise;
-	}
+    /**
+     * Gets the last name.
+     * 
+     * @return the last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-	/**
-	 * @param choise
-	 *            the choise to set value for Combo Box parameter Binding
-	 */
-	public void setChoise(String choise) {
-		this.choise = choise;
-		set(RegUserKeyValue.CHOISE.getValue(), this.choise);
-	}
+    /**
+     * Sets the last name.
+     * 
+     * @param lastName
+     *            the new last name
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+        set(RegUserKeyValue.LAST_NAME.getValue(), this.lastName);
+    }
 
-	/**
-	 * 
-	 * @param userName
-	 * @param organizationName
-	 */
-	public void checkChoise(String userName, String organizationName) {
-		if (organizationName != null)
-			setChoise(userName + " (" + organizationName + ")");
-		else
-			setChoise(userName);
-	}
+    /**
+     * Gets the mail address.
+     * 
+     * @return the mail address
+     */
+    public String getMailAddress() {
+        return mailAddress;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "RegUser [connectId=" + connectId + ", userName=" + userName
-				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", mailAddress=" + mailAddress + ", organizationName="
-				+ organizationName + "]";
-	}
-	
+    /**
+     * Sets the mail address.
+     * 
+     * @param mailAddress
+     *            the new mail address
+     */
+    public void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+        set(RegUserKeyValue.MAIL_ADDRESS.getValue(), this.mailAddress);
+    }
+
+    /**
+     * Gets the organization name.
+     * 
+     * @return the organization name
+     */
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    /**
+     * Sets the organization name.
+     * 
+     * @param organizationName
+     *            the new organization name
+     */
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+        set(RegUserKeyValue.ORGANIZATIO_NAME.getValue(), this.organizationName);
+    }
+
+    /**
+     * Gets the choise.
+     * 
+     * @return the choise
+     */
+    public String getChoise() {
+        return choise;
+    }
+
+    /**
+     * Sets the choise.
+     * 
+     * @param choise
+     *            the new choise
+     */
+    public void setChoise(String choise) {
+        this.choise = choise;
+        set(RegUserKeyValue.CHOISE.getValue(), this.choise);
+    }
+
+    /**
+     * Check choise.
+     * 
+     * @param userName
+     *            the user name
+     * @param organizationName
+     *            the organization name
+     */
+    public void checkChoise(String userName, String organizationName) {
+        if (organizationName != null)
+            setChoise(userName + " (" + organizationName + ")");
+        else
+            setChoise(userName);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "RegUser [connectId=" + connectId + ", userName=" + userName + ", firstName="
+                + firstName + ", lastName=" + lastName + ", mailAddress=" + mailAddress
+                + ", organizationName=" + organizationName + "]";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         return obj instanceof RegUser && compareTo((RegUser) obj) == 0;
     }
 
-	public int compareTo(RegUser o) {
-		// TODO Auto-generated method stub
-		return this.choise.compareTo(o.getChoise());
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(RegUser o) {
+        // TODO Auto-generated method stub
+        return this.choise.compareTo(o.getChoise());
+    }
 
 }

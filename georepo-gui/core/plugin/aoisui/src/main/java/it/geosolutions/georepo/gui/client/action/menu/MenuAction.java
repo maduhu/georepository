@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.action.menu.MenuAction,v. 0.1 30/set/2010 16.50.39 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 30/set/2010 16.50.39 $
+ * $ Header: it.geosolutions.georepo.gui.client.action.menu.MenuAction,v. 0.1 3-gen-2011 16.51.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.51.45 $
  *
  * ====================================================================
  *
@@ -30,83 +30,115 @@
 package it.geosolutions.georepo.gui.client.action.menu;
 
 import it.geosolutions.georepo.gui.client.Category;
+
 import com.extjs.gxt.ui.client.event.MenuEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class MenuAction.
  */
 public abstract class MenuAction extends SelectionListener<MenuEvent> {
 
-	private Category category;
-	private String title;
-	private String id;
-	private boolean enabled;
+    /** The category. */
+    private Category category;
 
-	public MenuAction(String title, Category category) {
-		this.title = title;
-		this.category = category;
-	}
+    /** The title. */
+    private String title;
 
-	/**
-	 * @return the category
-	 */
-	public Category getCategory() {
-		return category;
-	}
+    /** The id. */
+    private String id;
 
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    /** The enabled. */
+    private boolean enabled;
 
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
+    /**
+     * Instantiates a new menu action.
+     * 
+     * @param title
+     *            the title
+     * @param category
+     *            the category
+     */
+    public MenuAction(String title, Category category) {
+        this.title = title;
+        this.category = category;
+    }
 
-	/**
-	 * @param title
-	 *            the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     * Gets the category.
+     * 
+     * @return the category
+     */
+    public Category getCategory() {
+        return category;
+    }
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
+    /**
+     * Sets the category.
+     * 
+     * @param category
+     *            the new category
+     */
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+    /**
+     * Gets the title.
+     * 
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	/**
-	 * @return the enabled
-	 */
-	public boolean isEnabled() {
-		return enabled;
-	}
+    /**
+     * Sets the title.
+     * 
+     * @param title
+     *            the new title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	/**
-	 * @param enabled
-	 *            the enabled to set
-	 */
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Checks if is enabled.
+     * 
+     * @return true, if is enabled
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Sets the enabled.
+     * 
+     * @param enabled
+     *            the new enabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
 }

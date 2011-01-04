@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.binding.filtertype.LegacyIdComboFieldBinding,v. 0.1 19/ago/2010 18.31.53 created by giuseppe $
- * $Revision: 0.1 $
- * $Date: 19/ago/2010 18.31.53 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.filtertype.LegacyIdComboFieldBinding,v. 0.1 3-gen-2011 16.53.35 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.53.35 $
  *
  * ====================================================================
  *
@@ -29,70 +29,91 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding.filtertype;
 
-
 import it.geosolutions.georepo.gui.client.FilterType;
 import it.geosolutions.georepo.gui.client.model.Filter;
 import it.geosolutions.georepo.gui.client.widget.binding.IFilterFieldBinding;
+
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.store.Record;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.Field;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author giuseppe
- * 
+ * The Class LegacyIdComboFieldBinding.
  */
-public class LegacyIdComboFieldBinding extends FieldBinding implements
-		IFilterFieldBinding {
+public class LegacyIdComboFieldBinding extends FieldBinding implements IFilterFieldBinding {
 
-	private Object oldValue;
+    /** The old value. */
+    private Object oldValue;
 
-	@SuppressWarnings("rawtypes")
-	public LegacyIdComboFieldBinding(Field field, String property) {
-		super(field, property);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Instantiates a new legacy id combo field binding.
+     * 
+     * @param field
+     *            the field
+     * @param property
+     *            the property
+     */
+    @SuppressWarnings("rawtypes")
+    public LegacyIdComboFieldBinding(Field field, String property) {
+        super(field, property);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateField(boolean)
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateField(boolean updateOriginalValue) {
-		Object val = onConvertModelValue(model.get(property));
+    public void updateField(boolean updateOriginalValue) {
+        Object val = onConvertModelValue(model.get(property));
 
-		if (oldValue == null)
-			oldValue = val;
+        if (oldValue == null)
+            oldValue = val;
 
-		((ComboBox<FilterType>) field).setValue(new FilterType(val.toString()));
+        ((ComboBox<FilterType>) field).setValue(new FilterType(val.toString()));
 
-		if (updateOriginalValue) {
-			((ComboBox<FilterType>) field).setOriginalValue(new FilterType(val
-					.toString()));
-		}
-	}
+        if (updateOriginalValue) {
+            ((ComboBox<FilterType>) field).setOriginalValue(new FilterType(val.toString()));
+        }
+    }
 
-	@Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.binding.FieldBinding#updateModel()
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public void updateModel() {
-		Object val = onConvertFieldValue(field.getValue());
-		if (store != null) {
-			Record r = store.getRecord(model);
-			if (r != null) {
-				r.setValid(property, field.isValid());
-				r.set(property, val);
-			}
-		} else {
-			// model.set(property, ((SendType) val).getType());
-			((Filter) model).setFilterLegacy(((FilterType) val).getType());
-		}
-	}
+    public void updateModel() {
+        Object val = onConvertFieldValue(field.getValue());
+        if (store != null) {
+            Record r = store.getRecord(model);
+            if (r != null) {
+                r.setValid(property, field.isValid());
+                r.set(property, val);
+            }
+        } else {
+            // model.set(property, ((SendType) val).getType());
+            ((Filter) model).setFilterLegacy(((FilterType) val).getType());
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	public void resetValue() {
-		oldValue = onConvertFieldValue(field.getValue());
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.binding.IFilterFieldBinding#resetValue()
+     */
+    @SuppressWarnings("unchecked")
+    public void resetValue() {
+        oldValue = onConvertFieldValue(field.getValue());
 
-		((ComboBox<FilterType>) field).setValue(new FilterType(oldValue
-				.toString()));
+        ((ComboBox<FilterType>) field).setValue(new FilterType(oldValue.toString()));
 
-		// model.set(property, oldValue.toString());
-		((Filter) model).setFilterLegacy(((FilterType) oldValue).getType());
-	}
+        // model.set(property, oldValue.toString());
+        ((Filter) model).setFilterLegacy(((FilterType) oldValue).getType());
+    }
 }

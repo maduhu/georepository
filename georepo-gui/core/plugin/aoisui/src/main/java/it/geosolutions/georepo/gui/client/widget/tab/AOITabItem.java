@@ -1,7 +1,7 @@
 /*
- * $Header: it.geosolutions.georepo.gui.client.widget.tab.AOITabItem,v. 0.1 09/lug/2010 10.24.38 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 10.24.38 $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.tab.AOITabItem,v. 0.1 3-gen-2011 16.58.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 3-gen-2011 16.58.12 $
  *
  * ====================================================================
  *
@@ -33,45 +33,69 @@ import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.service.AOIServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.AOIManagementWidget;
+
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author frank
- * 
+ * The Class AOITabItem.
  */
 public class AOITabItem extends TabItem {
 
-	private AOIManagementWidget aoiManagementWidget;
+    /** The aoi management widget. */
+    private AOIManagementWidget aoiManagementWidget;
 
-	/**
-	 * 
-	 * @param service
-	 */
-	public AOITabItem(AOIServiceRemoteAsync service) {
-		super(I18nProvider.getMessages().aoiLabel());
-		this.aoiManagementWidget = new AOIManagementWidget(service);
-		add(aoiManagementWidget);
+    /**
+     * Instantiates a new aOI tab item.
+     * 
+     * @param service
+     *            the service
+     */
+    public AOITabItem(AOIServiceRemoteAsync service) {
+        super(I18nProvider.getMessages().aoiLabel());
+        this.aoiManagementWidget = new AOIManagementWidget(service);
+        add(aoiManagementWidget);
 
-		setScrollMode(Scroll.NONE);
-	}
+        setScrollMode(Scroll.NONE);
+    }
 
-	/**
-	 * @return the aoiManagementWidget
-	 */
-	public AOIManagementWidget getAoiManagementWidget() {
-		return aoiManagementWidget;
-	}
+    /**
+     * Gets the aoi management widget.
+     * 
+     * @return the aoi management widget
+     */
+    public AOIManagementWidget getAoiManagementWidget() {
+        return aoiManagementWidget;
+    }
 
-	public void removeAOI(AOI aoi) {
-		this.aoiManagementWidget.removeAOI(aoi);
-	}
+    /**
+     * Removes the aoi.
+     * 
+     * @param aoi
+     *            the aoi
+     */
+    public void removeAOI(AOI aoi) {
+        this.aoiManagementWidget.removeAOI(aoi);
+    }
 
-	public void updateAOITitle(AOI aoi) {
-		this.aoiManagementWidget.updateAOITitle(aoi);
-	}
-	
-	public void updateAOIStatus(AOI aoi) {
-		this.aoiManagementWidget.updateAOIStatus(aoi);
-	}
+    /**
+     * Update aoi title.
+     * 
+     * @param aoi
+     *            the aoi
+     */
+    public void updateAOITitle(AOI aoi) {
+        this.aoiManagementWidget.updateAOITitle(aoi);
+    }
+
+    /**
+     * Update aoi status.
+     * 
+     * @param aoi
+     *            the aoi
+     */
+    public void updateAOIStatus(AOI aoi) {
+        this.aoiManagementWidget.updateAOIStatus(aoi);
+    }
 }
