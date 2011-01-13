@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.mvc;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -47,8 +47,8 @@ public class MessagesController extends Controller {
      * Instantiates a new messages controller.
      */
     public MessagesController() {
-        registerEventTypes(DGWATCHEvents.INIT_RESOURCES_MODULE, DGWATCHEvents.SEND_ALERT_MESSAGE,
-                DGWATCHEvents.SEND_ERROR_MESSAGE, DGWATCHEvents.SEND_INFO_MESSAGE);
+        registerEventTypes(GeoRepoEvents.INIT_RESOURCES_MODULE, GeoRepoEvents.SEND_ALERT_MESSAGE,
+                GeoRepoEvents.SEND_ERROR_MESSAGE, GeoRepoEvents.SEND_INFO_MESSAGE);
     }
 
     /*

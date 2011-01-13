@@ -30,7 +30,7 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.AdministrationMode;
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.StringUtil;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.AOI;
@@ -39,21 +39,21 @@ import it.geosolutions.georepo.gui.client.model.Filter;
 import it.geosolutions.georepo.gui.client.model.GeoConstraint;
 import it.geosolutions.georepo.gui.client.model.Member;
 import it.geosolutions.georepo.gui.client.model.Watch;
-import it.geosolutions.georepo.gui.client.service.AOIServiceRemote;
-import it.geosolutions.georepo.gui.client.service.AOIServiceRemoteAsync;
+//import it.geosolutions.georepo.gui.client.service.AOIServiceRemote;
+//import it.geosolutions.georepo.gui.client.service.AOIServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.MembersRemote;
 import it.geosolutions.georepo.gui.client.service.MembersRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.AOIBindingWidget;
-import it.geosolutions.georepo.gui.client.widget.AOISFilter;
-import it.geosolutions.georepo.gui.client.widget.AOISWidget;
+//import it.geosolutions.georepo.gui.client.widget.AOIBindingWidget;
+//import it.geosolutions.georepo.gui.client.widget.AOISFilter;
+//import it.geosolutions.georepo.gui.client.widget.AOISWidget;
 import it.geosolutions.georepo.gui.client.widget.DistributionNodeManagementWidget;
-import it.geosolutions.georepo.gui.client.widget.FilterBindingWidget;
-import it.geosolutions.georepo.gui.client.widget.GeoConstraintBindingWidget;
-import it.geosolutions.georepo.gui.client.widget.GeoConstraintWidget;
+//import it.geosolutions.georepo.gui.client.widget.FilterBindingWidget;
+//import it.geosolutions.georepo.gui.client.widget.GeoConstraintBindingWidget;
+//import it.geosolutions.georepo.gui.client.widget.GeoConstraintWidget;
 import it.geosolutions.georepo.gui.client.widget.MemberInfoBindingWidget;
 import it.geosolutions.georepo.gui.client.widget.MemberManagementWidget;
-import it.geosolutions.georepo.gui.client.widget.WatchesInfoBindingWidget;
-import it.geosolutions.georepo.gui.client.widget.WatchesManagementWidget;
+//import it.geosolutions.georepo.gui.client.widget.WatchesInfoBindingWidget;
+//import it.geosolutions.georepo.gui.client.widget.WatchesManagementWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +76,8 @@ public class AppController extends Controller {
     /** The app view. */
     private AppView appView;
 
-    /** The aoi remote. */
-    private AOIServiceRemoteAsync aoiRemote = AOIServiceRemote.Util.getInstance();
+//    /** The aoi remote. */
+//    private AOIServiceRemoteAsync aoiRemote = AOIServiceRemote.Util.getInstance();
 
     /** The members remote. */
     private MembersRemoteAsync membersRemote = MembersRemote.Util.getInstance();
@@ -86,8 +86,8 @@ public class AppController extends Controller {
      * Instantiates a new app controller.
      */
     public AppController() {
-        registerEventTypes(DGWATCHEvents.ADMIN_MODE_CHANGE, DGWATCHEvents.INIT_DGWATCH_MAIN_UI,
-                DGWATCHEvents.SESSION_EXPIRED, DGWATCHEvents.SAVE);
+        registerEventTypes(GeoRepoEvents.ADMIN_MODE_CHANGE, GeoRepoEvents.INIT_GEOREPO_MAIN_UI,
+                GeoRepoEvents.SESSION_EXPIRED, GeoRepoEvents.SAVE);
     }
 
     /*
@@ -118,167 +118,167 @@ public class AppController extends Controller {
      */
     @Override
     public void handleEvent(AppEvent event) {
-        if (event.getType() == DGWATCHEvents.SESSION_EXPIRED) {
+        if (event.getType() == GeoRepoEvents.SESSION_EXPIRED) {
             appView.reload();
         }
 
-        if (event.getType() == DGWATCHEvents.ADMIN_MODE_CHANGE) {
+        if (event.getType() == GeoRepoEvents.ADMIN_MODE_CHANGE) {
             this.currentAdminMode = event.getData();
         }
 
-        if (event.getType() == DGWATCHEvents.SAVE) {
+        if (event.getType() == GeoRepoEvents.SAVE) {
             onSaveContext();
         }
 
         forwardToView(appView, event);
     }
 
-    /**
-     * Save watch.
-     */
-    private void saveWatch() {
-        WatchesManagementWidget watchWidget = (WatchesManagementWidget) appView.east
-                .getItemByItemId("watchesManagementWidget");
-        MemberManagementWidget memberWidget = (MemberManagementWidget) appView.east
-                .getItemByItemId("memberManagementWidget");
-        AOISWidget aoiWidget = (AOISWidget) appView.east.getItemByItemId("aoisWidget");
-        AOISFilter filterWidget = (AOISFilter) appView.east.getItemByItemId("aoisFilter");
-
-        final WatchesInfoBindingWidget watchesInfo = watchWidget.getWatchesInfo();
-        final MemberInfoBindingWidget memberInfo = memberWidget.getMemberInfo();
-        final FilterBindingWidget filterBinding = filterWidget.getFilterBinding();
-        final AOIBindingWidget aoiBinding = (AOIBindingWidget) aoiWidget.getAoiBinding();
-
-        if (watchesInfo.isSelected()
-                && (watchesInfo.getFormPanel().isDirty() || filterBinding.getFormPanel().isDirty() || memberInfo
-                        .getFormPanel().isDirty())) {
-
-            // ///////////////////////////////////////////////////////////////////////////////////////
-            // WATCH Selected and Edited. Check if the necessary fields are filled in watch panel
-            // ///////////////////////////////////////////////////////////////////////////////////////
-
-            if (watchesInfo.checkValidation()) {
-
-                if (memberInfo.isSelected() && aoiBinding.isSelected()) {
-
-                    if (aoiBinding.getFormPanel().isDirty()) {
-
-                        // //////////////////////////////
-                        // Update AOI
-                        // //////////////////////////////
-
-                        final AOI newAoi = aoiBinding.checkIfUpdate(aoiBinding.getModel());
-
-                        if (newAoi != null) {
-                            this.aoiRemote.updateAOI(newAoi, new AsyncCallback<AOI>() {
-
-                                public void onFailure(Throwable caught) {
-                                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE,
-                                            new String[] {
-                                                    "AOI Service",
-                                                    "There was an error updating the AOI "
-                                                            + newAoi.getTitle() });
-                                }
-
-                                public void onSuccess(AOI result) {
-
-                                    Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_BIND,
-                                            result);
-                                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-                                            new String[] { "AOI Service",
-                                                    "The aoi has been successfully updated." });
-
-                                    // ////////////////////////////
-                                    // Update WATCH
-                                    // ////////////////////////////
-
-                                    updateWatch(watchesInfo, memberInfo, filterBinding, aoiBinding);
-                                }
-                            });
-                        }
-
-                    } else {
-
-                        // ////////////////////////////
-                        // Update WATCH
-                        // ////////////////////////////
-
-                        updateWatch(watchesInfo, memberInfo, filterBinding, aoiBinding);
-                    }
-
-                } else {
-                    MessageBox.alert("Update",
-                            "You can't update, Member and/or AOI not selected !", null);
-                }
-            } else {
-                MessageBox.alert("Update", "You can't update, some fields are incorrect!", null);
-            }
-
-        } else if (!watchesInfo.isSelected() && watchesInfo.getFormPanel().isDirty()) {
-
-            // ///////////////////////////////////////////////////////////////////////////////////////
-            // WATCH Edited. Check if the necessary fields are filled in watch panel
-            // ///////////////////////////////////////////////////////////////////////////////////////
-
-            if (watchesInfo.checkValidation()) {
-
-                if (memberInfo.isSelected() && aoiBinding.isSelected()) {
-
-                    if (aoiBinding.getFormPanel().isDirty()) {
-
-                        // /////////////////////
-                        // Update AOI
-                        // /////////////////////
-
-                        final AOI newAoi = aoiBinding.checkIfUpdate(aoiBinding.getModel());
-
-                        if (newAoi != null) {
-                            this.aoiRemote.updateAOI(newAoi, new AsyncCallback<AOI>() {
-
-                                public void onFailure(Throwable caught) {
-                                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE,
-                                            new String[] {
-                                                    I18nProvider.getMessages().aoiServiceName(),
-                                                    "There was an error updating the AOI "
-                                                            + newAoi.getTitle() });
-                                }
-
-                                public void onSuccess(AOI result) {
-
-                                    Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_BIND,
-                                            result);
-                                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-                                            new String[] {
-                                                    I18nProvider.getMessages().aoiServiceName(),
-                                                    "The aoi has been successfully updated." });
-
-                                    // ////////////////////////////
-                                    // Save WATCH
-                                    // ////////////////////////////
-
-                                    saveWatch(watchesInfo, memberInfo, filterBinding, aoiBinding);
-                                }
-                            });
-                        }
-
-                    } else {
-
-                        // ////////////////////////////
-                        // Save WATCH
-                        // ////////////////////////////
-
-                        saveWatch(watchesInfo, memberInfo, filterBinding, aoiBinding);
-                    }
-
-                } else {
-                    MessageBox.alert("Save", "You can't save, Member and/or AOI not selected !",
-                            null);
-                }
-            } else {
-                MessageBox.alert("Save", "You can't save, some fields are incorrect!", null);
-            }
-        }
-    }
+//    /**
+//     * Save watch.
+//     */
+//    private void saveWatch() {
+//        WatchesManagementWidget watchWidget = (WatchesManagementWidget) appView.east
+//                .getItemByItemId("watchesManagementWidget");
+//        MemberManagementWidget memberWidget = (MemberManagementWidget) appView.east
+//                .getItemByItemId("memberManagementWidget");
+//        AOISWidget aoiWidget = (AOISWidget) appView.east.getItemByItemId("aoisWidget");
+//        AOISFilter filterWidget = (AOISFilter) appView.east.getItemByItemId("aoisFilter");
+//
+//        final WatchesInfoBindingWidget watchesInfo = watchWidget.getWatchesInfo();
+//        final MemberInfoBindingWidget memberInfo = memberWidget.getMemberInfo();
+//        final FilterBindingWidget filterBinding = filterWidget.getFilterBinding();
+//        final AOIBindingWidget aoiBinding = (AOIBindingWidget) aoiWidget.getAoiBinding();
+//
+//        if (watchesInfo.isSelected()
+//                && (watchesInfo.getFormPanel().isDirty() || filterBinding.getFormPanel().isDirty() || memberInfo
+//                        .getFormPanel().isDirty())) {
+//
+//            // ///////////////////////////////////////////////////////////////////////////////////////
+//            // WATCH Selected and Edited. Check if the necessary fields are filled in watch panel
+//            // ///////////////////////////////////////////////////////////////////////////////////////
+//
+//            if (watchesInfo.checkValidation()) {
+//
+//                if (memberInfo.isSelected() && aoiBinding.isSelected()) {
+//
+//                    if (aoiBinding.getFormPanel().isDirty()) {
+//
+//                        // //////////////////////////////
+//                        // Update AOI
+//                        // //////////////////////////////
+//
+//                        final AOI newAoi = aoiBinding.checkIfUpdate(aoiBinding.getModel());
+//
+//                        if (newAoi != null) {
+//                            this.aoiRemote.updateAOI(newAoi, new AsyncCallback<AOI>() {
+//
+//                                public void onFailure(Throwable caught) {
+//                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+//                                            new String[] {
+//                                                    "AOI Service",
+//                                                    "There was an error updating the AOI "
+//                                                            + newAoi.getTitle() });
+//                                }
+//
+//                                public void onSuccess(AOI result) {
+//
+//                                    Dispatcher.forwardEvent(GeoRepoEvents.AOI_MANAGEMENT_BIND,
+//                                            result);
+//                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+//                                            new String[] { "AOI Service",
+//                                                    "The aoi has been successfully updated." });
+//
+//                                    // ////////////////////////////
+//                                    // Update WATCH
+//                                    // ////////////////////////////
+//
+//                                    updateWatch(watchesInfo, memberInfo, filterBinding, aoiBinding);
+//                                }
+//                            });
+//                        }
+//
+//                    } else {
+//
+//                        // ////////////////////////////
+//                        // Update WATCH
+//                        // ////////////////////////////
+//
+//                        updateWatch(watchesInfo, memberInfo, filterBinding, aoiBinding);
+//                    }
+//
+//                } else {
+//                    MessageBox.alert("Update",
+//                            "You can't update, Member and/or AOI not selected !", null);
+//                }
+//            } else {
+//                MessageBox.alert("Update", "You can't update, some fields are incorrect!", null);
+//            }
+//
+//        } else if (!watchesInfo.isSelected() && watchesInfo.getFormPanel().isDirty()) {
+//
+//            // ///////////////////////////////////////////////////////////////////////////////////////
+//            // WATCH Edited. Check if the necessary fields are filled in watch panel
+//            // ///////////////////////////////////////////////////////////////////////////////////////
+//
+//            if (watchesInfo.checkValidation()) {
+//
+//                if (memberInfo.isSelected() && aoiBinding.isSelected()) {
+//
+//                    if (aoiBinding.getFormPanel().isDirty()) {
+//
+//                        // /////////////////////
+//                        // Update AOI
+//                        // /////////////////////
+//
+//                        final AOI newAoi = aoiBinding.checkIfUpdate(aoiBinding.getModel());
+//
+//                        if (newAoi != null) {
+//                            this.aoiRemote.updateAOI(newAoi, new AsyncCallback<AOI>() {
+//
+//                                public void onFailure(Throwable caught) {
+//                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+//                                            new String[] {
+//                                                    I18nProvider.getMessages().aoiServiceName(),
+//                                                    "There was an error updating the AOI "
+//                                                            + newAoi.getTitle() });
+//                                }
+//
+//                                public void onSuccess(AOI result) {
+//
+//                                    Dispatcher.forwardEvent(GeoRepoEvents.AOI_MANAGEMENT_BIND,
+//                                            result);
+//                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+//                                            new String[] {
+//                                                    I18nProvider.getMessages().aoiServiceName(),
+//                                                    "The aoi has been successfully updated." });
+//
+//                                    // ////////////////////////////
+//                                    // Save WATCH
+//                                    // ////////////////////////////
+//
+//                                    saveWatch(watchesInfo, memberInfo, filterBinding, aoiBinding);
+//                                }
+//                            });
+//                        }
+//
+//                    } else {
+//
+//                        // ////////////////////////////
+//                        // Save WATCH
+//                        // ////////////////////////////
+//
+//                        saveWatch(watchesInfo, memberInfo, filterBinding, aoiBinding);
+//                    }
+//
+//                } else {
+//                    MessageBox.alert("Save", "You can't save, Member and/or AOI not selected !",
+//                            null);
+//                }
+//            } else {
+//                MessageBox.alert("Save", "You can't save, some fields are incorrect!", null);
+//            }
+//        }
+//    }
 
     /**
      * Validate geo constraint.
@@ -337,49 +337,49 @@ public class AppController extends Controller {
         return success;
     }
 
-    /**
-     * Save geo constraint.
-     */
-    private void saveGeoConstraint() {
-        MemberManagementWidget memberWidget = (MemberManagementWidget) appView.east
-                .getItemByItemId("memberManagementWidget");
-        GeoConstraintWidget geoConstraintWidget = (GeoConstraintWidget) appView.east
-                .getItemByItemId("geoConstraintWidget");
-
-        final GeoConstraintBindingWidget geoConstraintInfo = geoConstraintWidget
-                .getGeoConstraintInfo();
-        final MemberInfoBindingWidget memberInfo = memberWidget.getMemberInfo();
-
-        GeoConstraint geoConstraint = geoConstraintInfo.getModel();
-        final Member member = memberInfo.getModel();
-
-        if (validateGeoConstraint(geoConstraint) && validateMember(member)) {
-            // GEOREPO REFACT
-            // this.membersRemote.saveMemberGeoConstraint(member.getConnectId(), geoConstraint, new
-            // AsyncCallback<GeoConstraint>() {
-            //
-            // public void onFailure(Throwable caught) {
-            // Dispatcher.forwardEvent(
-            // DGWATCHEvents.SEND_ERROR_MESSAGE,
-            // new String[] {
-            // I18nProvider.getMessages().memberServiceName(),
-            // I18nProvider.getMessages().geoConstraintBindFailure()
-            // });
-            // }
-            //
-            // public void onSuccess(GeoConstraint result) {
-            // //Dispatcher.forwardEvent(DGWATCHEvents.BIND_SELECTED_GEOCONSTRAINT, result);
-            // // clear out the GeoConstraint
-            // Dispatcher.forwardEvent(DGWATCHEvents.BIND_SELECTED_GEOCONSTRAINT, null);
-            // Dispatcher.forwardEvent(DGWATCHEvents.RELOAD_GEOCONSTRAINTS, member);
-            // Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-            // new String[] {
-            // I18nProvider.getMessages().memberServiceName(),
-            // I18nProvider.getMessages().geoConstraintBindSuccess() });
-            // }
-            // });
-        }
-    }
+//    /**
+//     * Save geo constraint.
+//     */
+//    private void saveGeoConstraint() {
+//        MemberManagementWidget memberWidget = (MemberManagementWidget) appView.east
+//                .getItemByItemId("memberManagementWidget");
+//        GeoConstraintWidget geoConstraintWidget = (GeoConstraintWidget) appView.east
+//                .getItemByItemId("geoConstraintWidget");
+//
+//        final GeoConstraintBindingWidget geoConstraintInfo = geoConstraintWidget
+//                .getGeoConstraintInfo();
+//        final MemberInfoBindingWidget memberInfo = memberWidget.getMemberInfo();
+//
+//        GeoConstraint geoConstraint = geoConstraintInfo.getModel();
+//        final Member member = memberInfo.getModel();
+//
+//        if (validateGeoConstraint(geoConstraint) && validateMember(member)) {
+//            // GEOREPO REFACT
+//            // this.membersRemote.saveMemberGeoConstraint(member.getConnectId(), geoConstraint, new
+//            // AsyncCallback<GeoConstraint>() {
+//            //
+//            // public void onFailure(Throwable caught) {
+//            // Dispatcher.forwardEvent(
+//            // DGWATCHEvents.SEND_ERROR_MESSAGE,
+//            // new String[] {
+//            // I18nProvider.getMessages().memberServiceName(),
+//            // I18nProvider.getMessages().geoConstraintBindFailure()
+//            // });
+//            // }
+//            //
+//            // public void onSuccess(GeoConstraint result) {
+//            // //Dispatcher.forwardEvent(DGWATCHEvents.BIND_SELECTED_GEOCONSTRAINT, result);
+//            // // clear out the GeoConstraint
+//            // Dispatcher.forwardEvent(DGWATCHEvents.BIND_SELECTED_GEOCONSTRAINT, null);
+//            // Dispatcher.forwardEvent(DGWATCHEvents.RELOAD_GEOCONSTRAINTS, member);
+//            // Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
+//            // new String[] {
+//            // I18nProvider.getMessages().memberServiceName(),
+//            // I18nProvider.getMessages().geoConstraintBindSuccess() });
+//            // }
+//            // });
+//        }
+//    }
 
     /**
      * Save member node assignment.
@@ -433,105 +433,105 @@ public class AppController extends Controller {
         // have to assume names of controls, etc. Some Controller/View reorganization is probably
         // necessary,
         // possibly a View/Controller for each admin mode
-        switch (this.currentAdminMode) {
-        case NOTIFICATION_DISTRIBUTION:
-            saveWatch();
-            break;
-        case GEOCONSTRAINTS:
-            saveGeoConstraint();
-            break;
-        case MEMBER:
-            saveMemberNodeAssignment();
-            break;
-        }
+//        switch (this.currentAdminMode) {
+//        case NOTIFICATION_DISTRIBUTION:
+//            saveWatch();
+//            break;
+//        case GEOCONSTRAINTS:
+//            saveGeoConstraint();
+//            break;
+//        case MEMBER:
+//            saveMemberNodeAssignment();
+//            break;
+//        }
     }
 
-    /**
-     * Update watch.
-     * 
-     * @param watchesInfo
-     *            the watches info
-     * @param memberInfo
-     *            the member info
-     * @param filterBinding
-     *            the filter binding
-     * @param aoiBinding
-     *            the aoi binding
-     */
-    private void updateWatch(WatchesInfoBindingWidget watchesInfo,
-            MemberInfoBindingWidget memberInfo, FilterBindingWidget filterBinding,
-            AOIBindingWidget aoiBinding) {
+//    /**
+//     * Update watch.
+//     * 
+//     * @param watchesInfo
+//     *            the watches info
+//     * @param memberInfo
+//     *            the member info
+//     * @param filterBinding
+//     *            the filter binding
+//     * @param aoiBinding
+//     *            the aoi binding
+//     */
+//    private void updateWatch(WatchesInfoBindingWidget watchesInfo,
+//            MemberInfoBindingWidget memberInfo, FilterBindingWidget filterBinding,
+//            AOIBindingWidget aoiBinding) {
+//
+//        Watch watch = watchesInfo.getModelData();
+//        watch.setAoiId(aoiBinding.getModel().getId());
+//
+//        Member member = memberInfo.getModel();
+//        watch.setMember(member);
+//
+//        if (filterBinding.noFilterAttibute()) {
+//            if (filterBinding.getFormPanel().isDirty()) {
+//                if (filterBinding.checkValidation()) {
+//                    Filter filter = filterBinding.injectFilterWidgetValues();
+//                    watch.setFilter(filter);
+//                } else {
+//                    MessageBox.alert("Update", "You can't update , some fields are incorrect!",
+//                            null);
+//                    return;
+//                }
+//            } else {
+//                Filter filter = filterBinding.injectFilterWidgetValues();
+//                watch.setFilter(filter);
+//            }
+//        } else {
+//            watch.setFilter(null);
+//        }
+//
+//        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_WATCH, watch);
+//    }
 
-        Watch watch = watchesInfo.getModelData();
-        watch.setAoiId(aoiBinding.getModel().getId());
-
-        Member member = memberInfo.getModel();
-        watch.setMember(member);
-
-        if (filterBinding.noFilterAttibute()) {
-            if (filterBinding.getFormPanel().isDirty()) {
-                if (filterBinding.checkValidation()) {
-                    Filter filter = filterBinding.injectFilterWidgetValues();
-                    watch.setFilter(filter);
-                } else {
-                    MessageBox.alert("Update", "You can't update , some fields are incorrect!",
-                            null);
-                    return;
-                }
-            } else {
-                Filter filter = filterBinding.injectFilterWidgetValues();
-                watch.setFilter(filter);
-            }
-        } else {
-            watch.setFilter(null);
-        }
-
-        Dispatcher.forwardEvent(DGWATCHEvents.UPDATE_WATCH, watch);
-    }
-
-    /**
-     * Save watch.
-     * 
-     * @param watchesInfo
-     *            the watches info
-     * @param memberInfo
-     *            the member info
-     * @param filterBinding
-     *            the filter binding
-     * @param aoiBinding
-     *            the aoi binding
-     */
-    private void saveWatch(WatchesInfoBindingWidget watchesInfo,
-            MemberInfoBindingWidget memberInfo, FilterBindingWidget filterBinding,
-            AOIBindingWidget aoiBinding) {
-
-        Watch watch = watchesInfo.getModelData();
-
-        Member member = memberInfo.getModel();
-        watch.setMember(member);
-
-        AOI aoi = aoiBinding.getModel();
-        watch.setAoiId(aoi.getId());
-
-        if (filterBinding.noFilterAttibute()) {
-            if (filterBinding.getFormPanel().isDirty()) {
-                if (filterBinding.checkValidation()) {
-                    Filter filter = filterBinding.injectFilterWidgetValues();
-                    watch.setFilter(filter);
-                } else {
-                    MessageBox.alert("Save", "You can't save , some fields are incorrect!", null);
-                    return;
-                }
-            } else {
-                Filter filter = filterBinding.injectFilterWidgetValues();
-                watch.setFilter(filter);
-            }
-        } else {
-            watch.setFilter(null);
-        }
-
-        Dispatcher.forwardEvent(DGWATCHEvents.SAVE_WATCH, watch);
-    }
+//    /**
+//     * Save watch.
+//     * 
+//     * @param watchesInfo
+//     *            the watches info
+//     * @param memberInfo
+//     *            the member info
+//     * @param filterBinding
+//     *            the filter binding
+//     * @param aoiBinding
+//     *            the aoi binding
+//     */
+//    private void saveWatch(WatchesInfoBindingWidget watchesInfo,
+//            MemberInfoBindingWidget memberInfo, FilterBindingWidget filterBinding,
+//            AOIBindingWidget aoiBinding) {
+//
+//        Watch watch = watchesInfo.getModelData();
+//
+//        Member member = memberInfo.getModel();
+//        watch.setMember(member);
+//
+//        AOI aoi = aoiBinding.getModel();
+//        watch.setAoiId(aoi.getId());
+//
+//        if (filterBinding.noFilterAttibute()) {
+//            if (filterBinding.getFormPanel().isDirty()) {
+//                if (filterBinding.checkValidation()) {
+//                    Filter filter = filterBinding.injectFilterWidgetValues();
+//                    watch.setFilter(filter);
+//                } else {
+//                    MessageBox.alert("Save", "You can't save , some fields are incorrect!", null);
+//                    return;
+//                }
+//            } else {
+//                Filter filter = filterBinding.injectFilterWidgetValues();
+//                watch.setFilter(filter);
+//            }
+//        } else {
+//            watch.setFilter(null);
+//        }
+//
+//        Dispatcher.forwardEvent(GeoRepoEvents.SAVE_WATCH, watch);
+//    }
 
     /**
      * Gets the administration mode.

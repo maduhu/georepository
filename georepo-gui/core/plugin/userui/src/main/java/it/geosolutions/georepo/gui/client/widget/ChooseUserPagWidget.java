@@ -30,7 +30,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.service.LoginRemoteAsync;
@@ -57,7 +57,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /**
  * The Class ChooseUserPagWidget.
  */
-public class ChooseUserPagWidget extends DGWATCHChooserWidget<User> {
+public class ChooseUserPagWidget extends GeoRepoChooserWidget<User> {
 
     /** The service. */
     private LoginRemoteAsync service;
@@ -181,7 +181,7 @@ public class ChooseUserPagWidget extends DGWATCHChooserWidget<User> {
     @Override
     public void onDispatch(User model) {
         searchStatus.setBusy("UnShare AOI....");
-        Dispatcher.forwardEvent(DGWATCHEvents.UNSHARE_AOI, model);
+        Dispatcher.forwardEvent(GeoRepoEvents.UNSHARE_AOI, model);
     }
 
     /*

@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
-import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+import it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -42,6 +42,6 @@ public interface IStartupService {
      * 
      * @return the dGWATCH global configuration
      */
-    public DGWATCHGlobalConfiguration initServerConfiguration();
+    public GeoRepoGlobalConfiguration initServerConfiguration();
 
 }

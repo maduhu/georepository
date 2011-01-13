@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client;
 
-import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+import it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration;
 import it.geosolutions.georepo.gui.client.mvc.AppController;
 import it.geosolutions.georepo.gui.client.service.ConfigurationRemote;
 
@@ -61,11 +61,11 @@ public class Application implements EntryPoint {
         dispatcher.addController(new AppController());
 
         ConfigurationRemote.Util.getInstance().initServerConfiguration(
-                new AsyncCallback<DGWATCHGlobalConfiguration>() {
+                new AsyncCallback<GeoRepoGlobalConfiguration>() {
 
-                    public void onSuccess(DGWATCHGlobalConfiguration result) {
-                        DGWATCHUtils.getInstance().setGlobalConfiguration(result);
-                        Dispatcher.forwardEvent(DGWATCHEvents.INIT_DGWATCH_WIDGET);
+                    public void onSuccess(GeoRepoGlobalConfiguration result) {
+                        GeoRepoUtils.getInstance().setGlobalConfiguration(result);
+                        Dispatcher.forwardEvent(GeoRepoEvents.INIT_GEOREPO_WIDGET);
 
                     }
 
@@ -75,7 +75,7 @@ public class Application implements EntryPoint {
                     }
                 });
 
-        // dispatcher.dispatch(DGWATCHEvents.INIT);
+        // dispatcher.dispatch(GeoRepoEvents.INIT);
 
     }
 }

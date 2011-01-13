@@ -35,9 +35,9 @@ import it.geosolutions.georepo.api.exception.AuthException;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Authorization;
 import it.geosolutions.georepo.gui.client.model.User;
-import it.geosolutions.georepo.gui.server.DGWATCHKeySessionValues;
+import it.geosolutions.georepo.gui.server.GeoRepoKeySessionValues;
 import it.geosolutions.georepo.gui.server.service.ILoginService;
-import it.geosolutions.georepo.gui.service.DGWATCHRemoteService;
+import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class LoginService implements ILoginService {
 
     /** The dgwatch remote service. */
     @Autowired
-    private DGWATCHRemoteService dgwatchRemoteService;
+    private GeoRepoRemoteService georepoRemoteService;
 
     /*
      * (non-Javadoc)
@@ -91,8 +91,8 @@ public class LoginService implements ILoginService {
             System.setProperty("javax.net.ssl.trustStorePassword", "geosolutions");
 
             // grantedAuthorities =
-            token = dgwatchRemoteService.getLoginService().login(userName, password);
-            grantedAuths = dgwatchRemoteService.getLoginService().getGrantedAuthorities(token);
+            token = georepoRemoteService.getLoginService().login(userName, password);
+            grantedAuths = georepoRemoteService.getLoginService().getGrantedAuthorities(token);
 
         } catch (ClassNotFoundException e) {
             logger.error("Error :********** " + e.getMessage());
@@ -118,7 +118,7 @@ public class LoginService implements ILoginService {
 
         session.setMaxInactiveInterval(7200);
 
-        session.setAttribute(DGWATCHKeySessionValues.USER_LOGGED_TOKEN.getValue(), token);
+        session.setAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue(), token);
         // session.setAttribute(
         // DGWATCHKeySessionValues.USER_LOGGED_TOKEN.getValue(),
         // grantedAuthorities_NOTUSEDANYMORE.getToken());

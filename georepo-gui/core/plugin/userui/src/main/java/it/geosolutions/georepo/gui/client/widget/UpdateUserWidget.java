@@ -29,8 +29,8 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.DGWATCHData;
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoWidgetsData;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.SendType;
 import it.geosolutions.georepo.gui.client.UpdateInterval;
 import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
@@ -51,7 +51,7 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 /**
  * The Class UpdateUserWidget.
  */
-public class UpdateUserWidget extends DGWATCHUpdateWidget<User> {
+public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
 
     /**
      * The Enum UpdateUserKey.
@@ -137,7 +137,7 @@ public class UpdateUserWidget extends DGWATCHUpdateWidget<User> {
      */
     public void execute() {
         this.saveStatus.setBusy("Operation in progress");
-        Dispatcher.forwardEvent(DGWATCHEvents.UPDATE_USER, this.object);
+        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_USER, this.object);
     }
 
     /*
@@ -198,7 +198,7 @@ public class UpdateUserWidget extends DGWATCHUpdateWidget<User> {
     private void initCombo() {
 
         this.storeTypes = new ListStore<SendType>();
-        this.storeTypes.add(DGWATCHData.getSendTypes());
+        this.storeTypes.add(GeoRepoWidgetsData.getSendTypes());
 
         comboTypes = new ComboBox<SendType>();
         comboTypes.setFieldLabel("Type");
@@ -216,7 +216,7 @@ public class UpdateUserWidget extends DGWATCHUpdateWidget<User> {
         fieldSet.add(comboTypes);
 
         this.storeTimes = new ListStore<UpdateInterval>();
-        this.storeTimes.add(DGWATCHData.getTimes());
+        this.storeTimes.add(GeoRepoWidgetsData.getTimes());
 
         comboTimes = new ComboBox<UpdateInterval>();
         comboTimes.setFieldLabel("Interval");

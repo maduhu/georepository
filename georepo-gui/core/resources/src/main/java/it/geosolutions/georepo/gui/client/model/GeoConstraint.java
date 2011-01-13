@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.model;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -199,7 +199,7 @@ public class GeoConstraint extends BeanModel {
      * Notify state.
      */
     public void notifyState() {
-        Dispatcher.forwardEvent(DGWATCHEvents.GEOCONSTRAINT_SELECTED, this);
+        Dispatcher.forwardEvent(GeoRepoEvents.GEOCONSTRAINT_SELECTED, this);
     }
 
 }

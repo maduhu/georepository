@@ -3,7 +3,7 @@
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
 	<inherits name='com.extjs.gxt.ui.GXT' />
-	<inherits name='it.geosolutions.georepo.gui.AOISUI' />
+	<inherits name='it.geosolutions.georepo.gui.MAPSUI' />
 	<inherits name='it.geosolutions.georepo.gui.UserUI' />
 
 	<entry-point class='it.geosolutions.georepo.gui.client.Application' />

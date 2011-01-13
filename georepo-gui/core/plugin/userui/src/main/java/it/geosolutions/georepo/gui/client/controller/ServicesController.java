@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.model.Watch;
 import it.geosolutions.georepo.gui.client.service.QuartzRemote;
 import it.geosolutions.georepo.gui.client.service.QuartzRemoteAsync;
@@ -57,8 +57,8 @@ public class ServicesController extends Controller {
      * Instantiates a new services controller.
      */
     public ServicesController() {
-        registerEventTypes(DGWATCHEvents.INIT_USER_UI_MODULE, DGWATCHEvents.QUARTZ_TRIGGER,
-                DGWATCHEvents.RUN_WATCH);
+        registerEventTypes(GeoRepoEvents.INIT_USER_UI_MODULE, GeoRepoEvents.QUARTZ_TRIGGER,
+                GeoRepoEvents.RUN_WATCH);
     }
 
     /*
@@ -70,10 +70,10 @@ public class ServicesController extends Controller {
     @Override
     public void handleEvent(AppEvent event) {
 
-        if (event.getType() == DGWATCHEvents.QUARTZ_TRIGGER)
+        if (event.getType() == GeoRepoEvents.QUARTZ_TRIGGER)
             onQuartzTrigger(event);
 
-        if (event.getType() == DGWATCHEvents.RUN_WATCH)
+        if (event.getType() == GeoRepoEvents.RUN_WATCH)
             onRunWatch(event);
     }
 
@@ -90,14 +90,14 @@ public class ServicesController extends Controller {
             this.quartzService.runWatch(watch.getId(), new AsyncCallback<Object>() {
 
                 public void onFailure(Throwable caught) {
-                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
                             "Quartz Service",
                             "There was an error in launching the trigger with" + " timer "
                                     + watch.getUpInteval() + " h on Quartz Service." });
                 }
 
                 public void onSuccess(Object result) {
-                    Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                             "Quartz Service",
                             "Success in launching the trigger" + " with timer "
                                     + watch.getUpInteval() + " h on Quartz Service." });
@@ -105,21 +105,21 @@ public class ServicesController extends Controller {
             });
         } else {
             // Distribution
-            Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                     "Distribution Watch", "Distribution Watch Triggered" });
             int delayInSeconds = 10; // TODO: Get delay from UI
             this.syncService.runDistribution(watch.getId(), delayInSeconds,
                     new AsyncCallback<Void>() {
 
                         public void onFailure(Throwable caught) {
-                            Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
                                     "Sync Service",
                                     "Failure executing distribution: ["
                                             + String.valueOf(watch.getTitle()) + "]" });
                         }
 
                         public void onSuccess(Void result) {
-                            Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                     "Sync Service",
                                     "Successful Distribution: [" + String.valueOf(watch.getTitle())
                                             + "]" });
@@ -141,14 +141,14 @@ public class ServicesController extends Controller {
         this.quartzService.runTrigger(interval.intValue(), new AsyncCallback<Object>() {
 
             public void onFailure(Throwable caught) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
                         "Quartz Service",
                         "There was an error in launching the trigger with" + " timer "
                                 + interval.intValue() + " h on Quartz Service." });
             }
 
             public void onSuccess(Object result) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "Quartz Service",
                         "Success in launching the trigger" + " with timer " + interval.intValue()
                                 + " h on Quartz Service." });

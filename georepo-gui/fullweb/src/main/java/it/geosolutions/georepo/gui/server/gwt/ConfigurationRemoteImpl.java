@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
-import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+import it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration;
 import it.geosolutions.georepo.gui.client.service.ConfigurationRemote;
 import it.geosolutions.georepo.gui.server.service.IStartupService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
@@ -85,7 +85,7 @@ public class ConfigurationRemoteImpl extends RemoteServiceServlet implements Con
      * @see it.geosolutions.georepo.gui.client.service.ConfigurationRemote#
      * initServerConfiguration()
      */
-    public DGWATCHGlobalConfiguration initServerConfiguration() {
+    public GeoRepoGlobalConfiguration initServerConfiguration() {
         // TODO Auto-generated method stub
         return startupService.initServerConfiguration();
     }

@@ -80,7 +80,7 @@ public class UserBeanManager implements IUserBeanManager {
     public void configureUsers() {
         for (int i = 0; i < 200; i++) {
             User user = new User();
-            user.setPath("dgwatch/resources/images/userChoose.jpg");
+            user.setPath("georepo/resources/images/userChoose.jpg");
             user.setName("TEST" + i);
             user.setUserName("user" + i);
             user.setPassword("password" + i);

@@ -19,7 +19,7 @@
         	
 	<modules>
         <module>userui</module>
-        <module>aoisui</module>
+        <module>mapsui</module>
 	</modules>
     
 </project>

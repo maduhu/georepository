@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.User;
@@ -55,7 +55,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 /**
  * The Class UserInfoBindingWidget.
  */
-public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
+public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
     /** The form data. */
     private FormData formData;
@@ -195,9 +195,9 @@ public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] { "Add User",
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "Add User",
                         "Add User botton pressed." });
-                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_ADD_USER_WIDGET);
+                Dispatcher.forwardEvent(GeoRepoEvents.SHOW_ADD_USER_WIDGET);
             }
         });
 
@@ -211,7 +211,7 @@ public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "Delete User", "Delete User button pressed." });
                 MessageBox.confirm("Delete User", "Are you sure to delete user "
                         + getModel().getUserName() + " ?", new Listener<MessageBoxEvent>() {
@@ -219,7 +219,7 @@ public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
                     public void handleEvent(MessageBoxEvent be) {
                         Button btn = be.getButtonClicked();
                         if (btn.getText().equalsIgnoreCase("YES"))
-                            Dispatcher.forwardEvent(DGWATCHEvents.DELETE_USER, getModel());
+                            Dispatcher.forwardEvent(GeoRepoEvents.DELETE_USER, getModel());
                     }
                 });
             }
@@ -237,9 +237,9 @@ public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "Update User", "Update User button pressed." });
-                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_UPDATE_USER_WIDGET, getModel());
+                Dispatcher.forwardEvent(GeoRepoEvents.SHOW_UPDATE_USER_WIDGET, getModel());
             }
         });
 
@@ -255,9 +255,9 @@ public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "Search User", "Search User button pressed." });
-                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_SEARCH_USER_WIDGET);
+                Dispatcher.forwardEvent(GeoRepoEvents.SHOW_SEARCH_USER_WIDGET);
             }
         });
 
@@ -271,9 +271,9 @@ public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] { "Get AOI",
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "Get AOI",
                         "Get AOI button pressed." });
-                Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_USER_AOI, getModel());
+                Dispatcher.forwardEvent(GeoRepoEvents.SEARCH_USER_AOI, getModel());
             }
         });
 
@@ -288,9 +288,9 @@ public class UserInfoBindingWidget extends DGWATCHBindingWidget<User> {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "Get Features", "Get Features button pressed." });
-                Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_USER_GEORSS, getModel());
+                Dispatcher.forwardEvent(GeoRepoEvents.SEARCH_USER_GEORSS, getModel());
             }
         });
 

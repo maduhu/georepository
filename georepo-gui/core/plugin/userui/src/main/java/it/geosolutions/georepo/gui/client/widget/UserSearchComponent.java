@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -81,7 +81,7 @@ public class UserSearchComponent {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SHOW_SEARCH_USER_WIDGET);
+                Dispatcher.forwardEvent(GeoRepoEvents.SHOW_SEARCH_USER_WIDGET);
             }
         });
 
