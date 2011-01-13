@@ -27,6 +27,8 @@
 
     <!-- when adding/removing classes, please also keep aligned the src/test/resource/hibernate.cfg.xml file -->
 
+        <class>it.geosolutions.georepo.core.model.Profile</class>
+        <class>it.geosolutions.georepo.core.model.Instance</class>
         <class>it.geosolutions.georepo.core.model.User</class>
         <class>it.geosolutions.georepo.core.model.ServiceFilter</class>
 

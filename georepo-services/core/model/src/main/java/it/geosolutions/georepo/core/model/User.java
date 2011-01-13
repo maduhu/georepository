@@ -81,7 +81,7 @@ public class User implements Serializable {
     private Boolean enabled;
 
     /** The user. */
-    @ManyToOne(optional = false)
+//    @ManyToOne(optional = false)
     private Profile profile;
 
     /**

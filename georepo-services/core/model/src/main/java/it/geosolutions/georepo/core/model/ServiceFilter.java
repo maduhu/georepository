@@ -88,11 +88,11 @@ public class ServiceFilter implements Serializable {
     private ServiceType serviceType;
 
     /** The profile. */
-    @ManyToOne(optional = false)
+//    @ManyToOne(optional = false)
     private Profile profile;
 
     /** The instance. */
-    @ManyToOne(optional = true)
+//    @ManyToOne(optional = true)
     private Instance instance;
     
     /** The value. */

@@ -50,6 +50,15 @@
 		<url-pattern>/georepo/LoginRemote</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>remoteLoggingServiceImpl</servlet-name>
+		<servlet-class>com.google.gwt.libideas.logging.server.RemoteLoggingServiceImpl</servlet-class> 
+	</servlet> 
+	<servlet-mapping> 
+	    <servlet-name>remoteLoggingServiceImpl</servlet-name> 
+	    <url-pattern>/georepo/logging</url-pattern> 
+	</servlet-mapping>
+	
 <!--	<servlet>
 		<servlet-name>QuartzRemote</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.QuartzRemoteImpl</servlet-class>
@@ -59,14 +68,14 @@
 		<url-pattern>/georepo/QuartzRemote</url-pattern>
 	</servlet-mapping>-->
 
-	<servlet>
+	<!-- servlet>
 		<servlet-name>MembersRemote</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.MembersRemoteImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MembersRemote</servlet-name>
 		<url-pattern>/georepo/MembersRemote</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping -->
 	
 <!--	<servlet>
 		<servlet-name>AOIServiceRemote</servlet-name>
@@ -162,15 +171,6 @@
 		<url-pattern>/serv/*</url-pattern>
 	</servlet-mapping>
 	
-	<!--servlet> 
-    <servlet-name>remoteLoggingServiceImpl</servlet-name> 
-    <servlet-class>com.google.gwt.libideas.logging.server.RemoteLoggingServiceImpl</servlet-class> 
-	</servlet> 
-	<servlet-mapping> 
-    <servlet-name>remoteLoggingServiceImpl</servlet-name> 
-    <url-pattern>/dgwatch/logging</url-pattern> 
-	</servlet-mapping-->
-
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>Application.html</welcome-file>
