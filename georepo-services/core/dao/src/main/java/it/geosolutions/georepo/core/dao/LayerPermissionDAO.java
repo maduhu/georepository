@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -20,30 +20,14 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import it.geosolutions.georepo.core.model.User;
 
-import org.junit.Test;
+
+import it.geosolutions.georepo.core.model.LayerPermission;
 
 /**
  * 
- * @author ETj (etj at geo-solutions.it)
+ * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public class UserDAOTest extends BaseDAOTest {
 
-    @Test
-    public void testPersistUser() throws Exception {
-
-        removeAll();
-
-        User user = createUserAndProfile(getName());
-        userDAO.persist(user);
-
-        // test save & load
-        User loaded = userDAO.find(user.getId());
-        assertNotNull("Can't retrieve user", loaded);
-
-        userDAO.remove(user);
-        assertNull("User not deleted", userDAO.find(user.getId()));
-    }
-
+public interface LayerPermissionDAO extends RestrictedGenericDAO<LayerPermission> {
 }

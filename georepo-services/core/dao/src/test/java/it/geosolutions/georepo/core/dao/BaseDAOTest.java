@@ -20,6 +20,7 @@
 
 package it.geosolutions.georepo.core.dao;
 
+import it.geosolutions.georepo.core.model.Profile;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -38,6 +39,7 @@ public abstract class BaseDAOTest extends TestCase {
     protected final Logger LOGGER;
 
     protected static UserDAO userDAO;
+    protected static ProfileDAO profileDAO;
     protected static ServiceFilterDAO filterDAO;
 
     protected static ClassPathXmlApplicationContext ctx = null;
@@ -54,6 +56,7 @@ public abstract class BaseDAOTest extends TestCase {
                 ctx = new ClassPathXmlApplicationContext(paths);
 
                 userDAO = (UserDAO)ctx.getBean("userDAO");
+                profileDAO = (ProfileDAO)ctx.getBean("profileDAO");
                 filterDAO = (ServiceFilterDAO)ctx.getBean("filterDAO");
             }
         }
@@ -72,7 +75,8 @@ public abstract class BaseDAOTest extends TestCase {
     }
 
     protected void removeAll() {
-        removeAllUsers(); // reference AOI
+        removeAllUsers(); 
+        removeAllProfiles();
     }
 
     protected void removeAllUsers() {
@@ -86,10 +90,32 @@ public abstract class BaseDAOTest extends TestCase {
         assertEquals("Users have not been properly deleted", 0, userDAO.count(null));
     }
 
-    protected User createUser(String base) {
+    protected void removeAllProfiles() {
+        List<Profile> list = profileDAO.findAll();
+        for (Profile item : list) {
+            LOGGER.info("Removing " + item);
+            boolean ret = profileDAO.remove(item);
+            assertTrue("Profile not removed", ret);
+        }
+
+        assertEquals("Profiles have not been properly deleted", 0, profileDAO.count(null));
+    }
+
+    protected User createUser(String base, Profile profile) {
+
         User user = new User();
         user.setName( base );
+        user.setProfile(profile);
         return user;
+    }
+
+    protected User createUserAndProfile(String base) {
+
+        Profile profile = new Profile();
+        profile.setName(base);
+        profileDAO.persist(profile);
+
+        return createUser(base, profile);
     }
 
 

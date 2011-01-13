@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -20,30 +20,31 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import it.geosolutions.georepo.core.model.User;
 
-import org.junit.Test;
+import java.util.List;
+
+import com.trg.search.ISearch;
+import it.geosolutions.georepo.core.model.Profile;
 
 /**
+ * Public interface to define operations on Profiles
  * 
- * @author ETj (etj at geo-solutions.it)
+ * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public class UserDAOTest extends BaseDAOTest {
 
-    @Test
-    public void testPersistUser() throws Exception {
+public interface ProfileDAO /* extends GenericDAO<User, Long> */{
 
-        removeAll();
+    public List<Profile> findAll();
 
-        User user = createUserAndProfile(getName());
-        userDAO.persist(user);
+    public Profile find(Long id);
 
-        // test save & load
-        User loaded = userDAO.find(user.getId());
-        assertNotNull("Can't retrieve user", loaded);
+    public void persist(Profile... entities);
 
-        userDAO.remove(user);
-        assertNull("User not deleted", userDAO.find(user.getId()));
-    }
+    public Profile merge(Profile entity);
 
+    public boolean remove(Profile entity);
+
+    public List<Profile> search(ISearch search);
+
+    public int count(ISearch search);
 }
