@@ -14,6 +14,7 @@ nb*.xml
 *~
 
 georepo-gui/fullweb/war/WEB-INF/classes/
+georepo-gui/fullweb/war/WEB-INF/lib/
 georepo-gui/fullweb/war/georepo/
 
 EOF

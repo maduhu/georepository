@@ -20,9 +20,11 @@ georepo-services/modules/login/target
 georepo-services/modules/login/impl/target
 georepo-services/modules/login/api/target
 georepo-services/core/services-impl/target
+georepo-services/core/fakeweb/target
 georepo-services/core/model/target
 georepo-services/core/target
 georepo-services/core/services-api/target
+georepo-services/core/webgisstub/target
 georepo-services/core/dao/target
 georepo-services/target
 georepo-gui/fullweb/target
