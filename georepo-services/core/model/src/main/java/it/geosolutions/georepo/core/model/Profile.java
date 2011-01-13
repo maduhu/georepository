@@ -40,6 +40,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
@@ -73,12 +75,13 @@ public class Profile implements Serializable {
     private String name;
 
     /** The date creation. */
-    @Column
+    @Column(updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
 
     /** The enabled. */
-    @Column
-    private Boolean enabled;
+    @Column(nullable=false)
+    private boolean enabled;
 
     /**
      * Instantiates a new profile.
@@ -170,7 +173,7 @@ public class Profile implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((dateCreation == null) ? 0 : dateCreation.hashCode());
-        result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+        result = prime * result + Boolean.valueOf(enabled).hashCode();
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
@@ -198,11 +201,7 @@ public class Profile implements Serializable {
         } else if (!dateCreation.equals(other.dateCreation)) {
             return false;
         }
-        if (enabled == null) {
-            if (other.enabled != null) {
-                return false;
-            }
-        } else if (!enabled.equals(other.enabled)) {
+        if ( enabled != other.enabled) {
             return false;
         }
         if (id != other.id) {
@@ -223,18 +222,14 @@ public class Profile implements Serializable {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Profile [");
-        if (dateCreation != null)
-            builder.append("dateCreation=").append(dateCreation).append(", ");
-        if (enabled != null)
-            builder.append("enabled=").append(enabled).append(", ");
-        builder.append("id=").append(id).append(", ");
+        StringBuilder builder = new StringBuilder(this.getClass().getSimpleName());
+        builder.append("[");
+        builder.append("id=").append(id);
         if (name != null)
-            builder.append("name=").append(name);
+            builder.append(" name=").append(name);
+        builder.append(" enabled=").append(enabled);
         builder.append("]");
         return builder.toString();
     }
-
     
 }

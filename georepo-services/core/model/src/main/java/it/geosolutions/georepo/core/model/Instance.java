@@ -48,10 +48,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 /**
  * The Class Instance.
  */
-@Entity(name = "Instance")
-@Table(name = "gr_instance")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "instance")
-@XmlRootElement(name = "Instance")
+//@Entity(name = "Instance")
+//@Table(name = "gr_instance")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "instance")
+//@XmlRootElement(name = "Instance")
 public class Instance implements Serializable {
 
     /** The Constant serialVersionUID. */

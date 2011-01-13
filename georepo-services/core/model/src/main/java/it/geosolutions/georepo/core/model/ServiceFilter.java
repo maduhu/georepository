@@ -55,10 +55,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * The Class ServiceFilter.
  */
 
-@Entity(name = "ServiceFilter")
-@Table(name = "gr_servicefilter")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "servicefilter")
-@XmlRootElement(name = "ServiceFilter")
+//@Entity(name = "ServiceFilter")
+//@Table(name = "gr_servicefilter")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "servicefilter")
+//@XmlRootElement(name = "ServiceFilter")
 public class ServiceFilter implements Serializable {
 
     /** The Constant serialVersionUID. */

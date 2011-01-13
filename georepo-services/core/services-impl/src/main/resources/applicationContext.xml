@@ -16,5 +16,11 @@
         <property name="userDao" ref="userDAO"/>
     </bean>
 
+    <bean id="webgisService" class="it.geosolutions.georepo.services.WGFuncServiceImpl">
+    </bean>
+
+    <bean id="tocService" class="it.geosolutions.georepo.services.WGTocServiceImpl">
+    </bean>
+
 
 </beans>

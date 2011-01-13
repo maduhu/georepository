@@ -42,10 +42,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * The Class User.
@@ -73,15 +76,17 @@ public class User implements Serializable {
     private String name;
 
     /** The date of creation of this user */
-    @Column
+    @Column(updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
 
     /** Is the User Enabled or not in the system? */
-    @Column
-    private Boolean enabled;
+    @Column(nullable=false)
+    private boolean enabled;
 
     /** The user. */
-//    @ManyToOne(optional = false)
+    @ManyToOne(optional = false)
+    @ForeignKey(name="fk_user_profile")
     private Profile profile;
 
     /**
@@ -180,7 +185,7 @@ public class User implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((dateCreation == null) ? 0 : dateCreation.hashCode());
-        result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+        result = prime * result + (Boolean.valueOf(enabled).hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((profile == null) ? 0 : profile.hashCode());
@@ -209,11 +214,7 @@ public class User implements Serializable {
         } else if (!dateCreation.equals(other.dateCreation)) {
             return false;
         }
-        if (enabled == null) {
-            if (other.enabled != null) {
-                return false;
-            }
-        } else if (!enabled.equals(other.enabled)) {
+        if(enabled != other.enabled) {
             return false;
         }
         if (id != other.id) {
@@ -244,9 +245,8 @@ public class User implements Serializable {
         StringBuilder builder = new StringBuilder();
         builder.append("User [");
         if (dateCreation != null)
-            builder.append("dateCreation=").append(dateCreation).append(", ");
-        if (enabled != null)
-            builder.append("enabled=").append(enabled).append(", ");
+            builder.append("dateCreation=").append(dateCreation).append(", ");        
+        builder.append("enabled=").append(enabled).append(", ");
         builder.append("id=").append(id).append(", ");
         if (name != null)
             builder.append("name=").append(name).append(", ");
