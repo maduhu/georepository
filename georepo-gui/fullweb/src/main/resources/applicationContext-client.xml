@@ -23,8 +23,6 @@
 
        <context:component-scan base-package="it.geosolutions.georepo.gui" />
 
-<!--       <context:annotation-config />-->
-
        <import resource="applicationContext-Service.xml" />
 
        <!-- ================================================================ -->
@@ -37,64 +35,6 @@
     <!-- ====================================================================-->
     <!-- Some extra bean here: we're replacing some functionalities we do not need in test -->
     <!-- ====================================================================-->
-
-<!--    <alias name="fakeMemberWebService" alias="memberWebService"/>-->
-
-    <!-- Old SOAP services ================================================= -->
-<!--    	implementor="#dgwatchService"
-    	implementor="#securityService"
-    	implementor="#internalService"
-    	implementor="#featureAdminService"
-    	implementor="#featureAdminService"
-    	implementor="#quartzService"
-    	implementor="#quartzService"
-    	implementor="#rssUserService"        -->
-
-<!--
-    <jaxws:endpoint id="dgwatchServiceSOAP"
-    	implementorClass="it.geosolutions.georepo.services.DGWatchServiceImpl"
-    	implementor="#dgwatchService"
-    	address="/soap">
-
-    <jaxws:endpoint id="dgwatchServiceXML"
-    	implementorClass="it.geosolutions.georepo.services.DGWatchServiceImpl"
-    	implementor="#dgwatchService"
-    	address="/xml"
-    	bindingUri="http://apache.org/cxf/binding/http"  >
-
-    <jaxws:endpoint id="securityServiceSOAP"
-    	implementorClass="it.geosolutions.georepo.security.DGSecurityServiceImpl"
-    	implementor="#securityService"
-    	address="/security">
-
-    <jaxws:endpoint id="internalServiceSOAP"
-    	implementorClass="it.geosolutions.georepo.internal.DGInternalServiceImpl"
-    	implementor="#internalService"
-    	address="/internal">
-
-    <jaxws:endpoint id="featureAdminServiceSOAP"
-    	implementorClass="it.geosolutions.georepo.services.FeatureAdminServiceImpl"
-        serviceName="dgservices:FeatureAdminService"
-    	implementor="#featureAdminService"
-    	address="/featureAdmin">
-
-    <jaxws:endpoint id="dgwatchQuartzXML"
-    	implementorClass="it.geosolutions.georepo.quartz.DGQuartzServiceImpl"
-    	implementor="#quartzService"
-    	address="/quartz"
-    	bindingUri="http://apache.org/cxf/binding/http"  >
-
-    <jaxws:endpoint id="rssUserServiceXML"
-    	implementorClass="it.geosolutions.georepo.rsspublisher.RSSUserServiceImpl"
-    	implementor="#rssUserService"
-    	address="/rss"
-    	bindingUri="http://apache.org/cxf/binding/http"  >
--->
-
-<!--	<context:annotation-config />-->
-
-<!--	<aop:aspectj-autoproxy proxy-target-class="true"/>	-->
-
 
 	<!-- Load CXF modules from cxf.jar -->
     <import resource="classpath:META-INF/cxf/cxf.xml"/>

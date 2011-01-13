@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.widget.LoginStatus.EnumLoginStatus;
@@ -139,7 +139,7 @@ public class LoginWidget extends Dialog {
         getButtonBar().add(new FillToolItem());
 
         reset = new Button(I18nProvider.getMessages().resetLabel());
-        reset.setIconStyle("x-dgwatch-reset");
+        reset.setIconStyle("x-georepo-reset");
         reset.addSelectionListener(new SelectionListener<ButtonEvent>() {
             @Override
             public void componentSelected(ButtonEvent ce) {
@@ -149,7 +149,7 @@ public class LoginWidget extends Dialog {
         });
 
         login = new Button(I18nProvider.getMessages().loginLabel());
-        login.setIconStyle("x-dgwatch-login");
+        login.setIconStyle("x-georepo-login");
         login.disable();
         login.addSelectionListener(new SelectionListener<ButtonEvent>() {
             @Override
@@ -202,7 +202,7 @@ public class LoginWidget extends Dialog {
         status.setBusy(I18nProvider.getMessages().pleaseWaitMessage());
         getButtonBar().disable();
 
-        Dispatcher.forwardEvent(DGWATCHEvents.LOGIN, new String[] { userName.getValue(),
+        Dispatcher.forwardEvent(GeoRepoEvents.LOGIN, new String[] { userName.getValue(),
                 password.getValue() });
     }
 

@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client;
 
-import it.geosolutions.georepo.gui.client.icons.DGWATCHIcons;
+import it.geosolutions.georepo.gui.client.icons.GeoRepoIcons;
 
 import com.google.gwt.core.client.GWT;
 
@@ -40,6 +40,6 @@ import com.google.gwt.core.client.GWT;
 public class Resources {
 
     /** The Constant ICONS. */
-    public static final DGWATCHIcons ICONS = GWT.create(DGWATCHIcons.class);
+    public static final GeoRepoIcons ICONS = GWT.create(GeoRepoIcons.class);
 
 }

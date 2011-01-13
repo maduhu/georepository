@@ -56,7 +56,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /**
  * The Class AOIUserPrefWidget.
  */
-public class AOIUserPrefWidget extends DGWATCHGridWidget<User> {
+public class AOIUserPrefWidget extends GeoRepoGridWidget<User> {
 
     /** The parent. */
     private AOIUserPrefContainer parent;

@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Member;
@@ -52,7 +52,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 /**
  * The Class MemberInfoBindingWidget.
  */
-public class MemberInfoBindingWidget extends DGWATCHBindingWidget<Member> {
+public class MemberInfoBindingWidget extends GeoRepoBindingWidget<Member> {
 
     /** The form data. */
     private FormData formData;
@@ -136,10 +136,10 @@ public class MemberInfoBindingWidget extends DGWATCHBindingWidget<Member> {
 
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 I18nProvider.getMessages().searchMember(),
                                 I18nProvider.getMessages().searchMemberPressed() });
-                        Dispatcher.forwardEvent(DGWATCHEvents.SHOW_SEARCH_MEMBER_WIDGET);
+                        Dispatcher.forwardEvent(GeoRepoEvents.SHOW_SEARCH_MEMBER_WIDGET);
                     }
                 });
 
@@ -154,7 +154,7 @@ public class MemberInfoBindingWidget extends DGWATCHBindingWidget<Member> {
 
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        Dispatcher.forwardEvent(DGWATCHEvents.SEARCH_MEMBER_WATCHES, getModel());
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEARCH_MEMBER_WATCHES, getModel());
                     }
                 });
 

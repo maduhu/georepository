@@ -30,7 +30,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.model.Member;
 import it.geosolutions.georepo.gui.client.model.MemberKeyValue;
 import it.geosolutions.georepo.gui.client.service.MembersRemoteAsync;
@@ -59,7 +59,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /**
  * The Class SearchPagMemberWidget.
  */
-public class SearchPagMemberWidget extends DGWATCHSearchWidget<Member> {
+public class SearchPagMemberWidget extends GeoRepoSearchWidget<Member> {
 
     /** The service. */
     private MembersRemoteAsync service;
@@ -169,7 +169,7 @@ public class SearchPagMemberWidget extends DGWATCHSearchWidget<Member> {
     @Override
     public void select() {
         searchStatus.setBusy("Get Member Details....");
-        Dispatcher.forwardEvent(DGWATCHEvents.BIND_SELECTED_MEMBER, grid.getSelectionModel()
+        Dispatcher.forwardEvent(GeoRepoEvents.BIND_SELECTED_MEMBER, grid.getSelectionModel()
                 .getSelectedItem());
     }
 

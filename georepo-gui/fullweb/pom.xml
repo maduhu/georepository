@@ -169,10 +169,10 @@
 			<artifactId>gui-resources</artifactId>
 		</dependency>
 
-		<!--  AOIS UI -->
+		<!--  MAPS UI -->
 		<dependency>
 			<groupId>it.geosolutions.georepository</groupId>
-			<artifactId>gui-aoiui</artifactId>
+			<artifactId>gui-mapsui</artifactId>
 		</dependency>
 
 		<!--  USER UI -->

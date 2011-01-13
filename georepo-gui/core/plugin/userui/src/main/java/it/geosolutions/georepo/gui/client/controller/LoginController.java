@@ -30,7 +30,7 @@
 package it.geosolutions.georepo.gui.client.controller;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.service.LoginRemote;
@@ -38,9 +38,9 @@ import it.geosolutions.georepo.gui.client.service.LoginRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.AOIUserPrefContainer;
 import it.geosolutions.georepo.gui.client.widget.AddUserWidget;
 import it.geosolutions.georepo.gui.client.widget.ChooseUserPagWidget;
-import it.geosolutions.georepo.gui.client.widget.DGWATCHChooserWidget;
-import it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget;
-import it.geosolutions.georepo.gui.client.widget.DGWATCHUpdateWidget;
+import it.geosolutions.georepo.gui.client.widget.GeoRepoChooserWidget;
+import it.geosolutions.georepo.gui.client.widget.GeoRepoSearchWidget;
+import it.geosolutions.georepo.gui.client.widget.GeoRepoUpdateWidget;
 import it.geosolutions.georepo.gui.client.widget.LoginWidget;
 import it.geosolutions.georepo.gui.client.widget.SearchPagUserWidget;
 import it.geosolutions.georepo.gui.client.widget.UpdateUserWidget;
@@ -70,7 +70,7 @@ public class LoginController extends Controller {
     private LoginWidget loginWidget;
 
     /** The choose user widget. */
-    private DGWATCHChooserWidget<User> chooseUserWidget;
+    private GeoRepoChooserWidget<User> chooseUserWidget;
 
     /** The user management widget. */
     private UserManagementWidget userManagementWidget;
@@ -79,10 +79,10 @@ public class LoginController extends Controller {
     private AddUserWidget addUserWidget;
 
     /** The search widget. */
-    private DGWATCHSearchWidget<User> searchWidget;
+    private GeoRepoSearchWidget<User> searchWidget;
 
     /** The update user. */
-    private DGWATCHUpdateWidget<User> updateUser;
+    private GeoRepoUpdateWidget<User> updateUser;
 
     /** The aoi user container. */
     private AOIUserPrefContainer aoiUserContainer;
@@ -92,15 +92,15 @@ public class LoginController extends Controller {
      */
     public LoginController() {
         registerEventTypes(
-                DGWATCHEvents.INIT_USER_UI_MODULE,// DGWATCHEvents.INIT,
-                DGWATCHEvents.INIT_DGWATCH_WIDGET, DGWATCHEvents.LOGIN,
-                DGWATCHEvents.ATTACH_USER_WIDGET, DGWATCHEvents.SHOW_CHOOSER_USER_WIDGET,
-                DGWATCHEvents.SHOW_ADD_USER_WIDGET, DGWATCHEvents.SAVE_USER,
-                DGWATCHEvents.SHOW_SEARCH_USER_WIDGET, DGWATCHEvents.BIND_SELECTED_USER,
-                DGWATCHEvents.DELETE_USER, DGWATCHEvents.SHOW_UPDATE_USER_WIDGET,
-                DGWATCHEvents.UPDATE_USER, DGWATCHEvents.NOTIFY_UNSHARE_ERROR,
-                DGWATCHEvents.NOTIFY_UNSHARE_SUCCESS, DGWATCHEvents.UNBIND_USER_WIDGET,
-                DGWATCHEvents.LOGOUT, DGWATCHEvents.CHECK_RELATED_USERS_COUNT);
+                GeoRepoEvents.INIT_USER_UI_MODULE,// DGWATCHEvents.INIT,
+                GeoRepoEvents.INIT_GEOREPO_WIDGET, GeoRepoEvents.LOGIN,
+                GeoRepoEvents.ATTACH_USER_WIDGET, GeoRepoEvents.SHOW_CHOOSER_USER_WIDGET,
+                GeoRepoEvents.SHOW_ADD_USER_WIDGET, GeoRepoEvents.SAVE_USER,
+                GeoRepoEvents.SHOW_SEARCH_USER_WIDGET, GeoRepoEvents.BIND_SELECTED_USER,
+                GeoRepoEvents.DELETE_USER, GeoRepoEvents.SHOW_UPDATE_USER_WIDGET,
+                GeoRepoEvents.UPDATE_USER, GeoRepoEvents.NOTIFY_UNSHARE_ERROR,
+                GeoRepoEvents.NOTIFY_UNSHARE_SUCCESS, GeoRepoEvents.UNBIND_USER_WIDGET,
+                GeoRepoEvents.LOGOUT, GeoRepoEvents.CHECK_RELATED_USERS_COUNT);
     }
 
     /*
@@ -115,7 +115,7 @@ public class LoginController extends Controller {
         this.loginWidget.addListener(Events.Hide, new Listener<WindowEvent>() {
 
             public void handleEvent(WindowEvent be) {
-                Dispatcher.forwardEvent(DGWATCHEvents.INIT_DGWATCH_MAIN_UI);
+                Dispatcher.forwardEvent(GeoRepoEvents.INIT_GEOREPO_MAIN_UI);
                 loginWidget.reset();
             }
         });
@@ -141,52 +141,52 @@ public class LoginController extends Controller {
      */
     @Override
     public void handleEvent(AppEvent event) {
-        if (event.getType() == DGWATCHEvents.INIT_DGWATCH_WIDGET)
+        if (event.getType() == GeoRepoEvents.INIT_GEOREPO_WIDGET)
             onShowLoginWidget();
 
-        if (event.getType() == DGWATCHEvents.LOGIN)
+        if (event.getType() == GeoRepoEvents.LOGIN)
             onLogin(event);
 
-        if (event.getType() == DGWATCHEvents.ATTACH_USER_WIDGET)
+        if (event.getType() == GeoRepoEvents.ATTACH_USER_WIDGET)
             onAttachUserWidget(event);
 
-        if (event.getType() == DGWATCHEvents.SHOW_CHOOSER_USER_WIDGET)
+        if (event.getType() == GeoRepoEvents.SHOW_CHOOSER_USER_WIDGET)
             onShowChooseUserWidget();
 
-        if (event.getType() == DGWATCHEvents.SHOW_ADD_USER_WIDGET)
+        if (event.getType() == GeoRepoEvents.SHOW_ADD_USER_WIDGET)
             onShowAddUserWidget();
 
-        if (event.getType() == DGWATCHEvents.SAVE_USER)
+        if (event.getType() == GeoRepoEvents.SAVE_USER)
             onSaveUser(event);
 
-        if (event.getType() == DGWATCHEvents.SHOW_SEARCH_USER_WIDGET)
+        if (event.getType() == GeoRepoEvents.SHOW_SEARCH_USER_WIDGET)
             onShowSearchUSerWidget();
 
-        if (event.getType() == DGWATCHEvents.BIND_SELECTED_USER)
+        if (event.getType() == GeoRepoEvents.BIND_SELECTED_USER)
             onBindSelectedUser(event);
 
-        if (event.getType() == DGWATCHEvents.DELETE_USER)
+        if (event.getType() == GeoRepoEvents.DELETE_USER)
             onDeleteUser(event);
 
-        if (event.getType() == DGWATCHEvents.SHOW_UPDATE_USER_WIDGET)
+        if (event.getType() == GeoRepoEvents.SHOW_UPDATE_USER_WIDGET)
             onShowUpdateUserWidget(event);
 
-        if (event.getType() == DGWATCHEvents.UPDATE_USER)
+        if (event.getType() == GeoRepoEvents.UPDATE_USER)
             onUpdateUser(event);
 
-        if (event.getType() == DGWATCHEvents.NOTIFY_UNSHARE_ERROR)
+        if (event.getType() == GeoRepoEvents.NOTIFY_UNSHARE_ERROR)
             onNotifyUnshareError();
 
-        if (event.getType() == DGWATCHEvents.NOTIFY_UNSHARE_SUCCESS)
+        if (event.getType() == GeoRepoEvents.NOTIFY_UNSHARE_SUCCESS)
             onNotifyUnshareSuccess();
 
-        if (event.getType() == DGWATCHEvents.UNBIND_USER_WIDGET)
+        if (event.getType() == GeoRepoEvents.UNBIND_USER_WIDGET)
             onUnbindUserWidget();
 
-        if (event.getType() == DGWATCHEvents.LOGOUT)
+        if (event.getType() == GeoRepoEvents.LOGOUT)
             onLogout();
 
-        if (event.getType() == DGWATCHEvents.CHECK_RELATED_USERS_COUNT)
+        if (event.getType() == GeoRepoEvents.CHECK_RELATED_USERS_COUNT)
             onCheckRelatedUsersCount(event);
     }
 
@@ -242,12 +242,12 @@ public class LoginController extends Controller {
         this.loginRemote.logout(new AsyncCallback<Object>() {
 
             public void onFailure(Throwable caught) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE, new String[] {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
                         "Logout Service", "There was an error in logout" });
             }
 
             public void onSuccess(Object result) {
-                Dispatcher.forwardEvent(DGWATCHEvents.SESSION_EXPIRED);
+                Dispatcher.forwardEvent(GeoRepoEvents.SESSION_EXPIRED);
             }
         });
 
@@ -500,8 +500,8 @@ public class LoginController extends Controller {
                     loginWidget.setStatusLoginFinder(EnumLoginStatus.STATUS_LOGIN,
                             EnumLoginStatus.STATUS_MESSAGE_LOGIN);
                     loginWidget.hide();
-                    Dispatcher.forwardEvent(DGWATCHEvents.ZOOM_TO_CENTER);
-                    Dispatcher.forwardEvent(DGWATCHEvents.LOGIN_SUCCESS, user);
+                    Dispatcher.forwardEvent(GeoRepoEvents.ZOOM_TO_CENTER);
+                    Dispatcher.forwardEvent(GeoRepoEvents.LOGIN_SUCCESS, user);
                 } else {
                     loginWidget.setStatusLoginFinder(EnumLoginStatus.STATUS_NO_LOGIN,
                             EnumLoginStatus.STATUS_MESSAGE_NOT_LOGIN);

@@ -56,6 +56,6 @@ public class UserUI implements EntryPoint {
         dispatcher.addController(new ServicesController());
         dispatcher.addController(new MemberController());
 
-        dispatcher.dispatch(DGWATCHEvents.INIT_USER_UI_MODULE);
+        dispatcher.dispatch(GeoRepoEvents.INIT_USER_UI_MODULE);
     }
 }

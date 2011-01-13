@@ -101,7 +101,7 @@ public class User extends BeanModel {
      * Instantiates a new user.
      */
     public User() {
-        setPath("dgwatch/resources/images/userChoose.jpg");
+        setPath("georepo/resources/images/userChoose.jpg");
     }
 
     /**

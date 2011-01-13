@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
-import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+import it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration;
 import it.geosolutions.georepo.gui.server.service.IStartupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,18 +40,18 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class StartupService implements IStartupService {
 
-    /** The dgwatch global configuration. */
+    /** The GeoRepo global configuration. */
     @Autowired
-    private DGWATCHGlobalConfiguration dgwatchGlobalConfiguration;
+    private GeoRepoGlobalConfiguration georepoGlobalConfiguration;
 
     /*
      * (non-Javadoc)
      * 
      * @see it.geosolutions.georepo.gui.server.service.IStartupService#initServerConfiguration()
      */
-    public DGWATCHGlobalConfiguration initServerConfiguration() {
+    public GeoRepoGlobalConfiguration initServerConfiguration() {
         // TODO Auto-generated method stub
-        return dgwatchGlobalConfiguration;
+        return georepoGlobalConfiguration;
     }
 
 }

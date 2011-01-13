@@ -10,8 +10,8 @@ http://www.springframework.org/schema/context
 
 	<context:annotation-config />
 
-	<bean id="dgwatchRemoteService"
-		class="it.geosolutions.georepo.gui.service.DGWATCHRemoteService">
+	<bean id="georepoRemoteService"
+		class="it.geosolutions.georepo.gui.service.GeoRepoRemoteService">
 		<property name="loginService" ref="mainLoginService" />
 		<property name="userAdminService" ref="userAdminService" />
 <!--		<property name="userProvider" ref="userProvider" />-->

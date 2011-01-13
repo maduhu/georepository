@@ -29,12 +29,12 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.model.DistributionNode;
 import it.geosolutions.georepo.gui.client.model.Member;
 import it.geosolutions.georepo.gui.client.service.MembersRemote;
 import it.geosolutions.georepo.gui.client.service.MembersRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget;
+import it.geosolutions.georepo.gui.client.widget.GeoRepoSearchWidget;
 import it.geosolutions.georepo.gui.client.widget.DistributionNodeManagementWidget;
 import it.geosolutions.georepo.gui.client.widget.MemberManagementWidget;
 import it.geosolutions.georepo.gui.client.widget.SearchPagMemberWidget;
@@ -64,7 +64,7 @@ public class MemberView extends View {
     private DistributionNodeManagementWidget nodeManagementWidget;
 
     /** The search member widget. */
-    private DGWATCHSearchWidget<Member> searchMemberWidget;
+    private GeoRepoSearchWidget<Member> searchMemberWidget;
 
     /**
      * Instantiates a new member view.
@@ -101,25 +101,25 @@ public class MemberView extends View {
     @Override
     public void handleEvent(AppEvent event) {
 
-        if (event.getType() == DGWATCHEvents.ATTACH_MEMBER_WIDGET) {
+        if (event.getType() == GeoRepoEvents.ATTACH_MEMBER_WIDGET) {
             onAttachMemberWidget(event);
         }
 
-        if (event.getType() == DGWATCHEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET) {
+        if (event.getType() == GeoRepoEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET) {
             onAttachGeoConstraintMemberWidget(event);
         }
 
-        if (event.getType() == DGWATCHEvents.ATTACH_NODE_SELECTION_WIDGET) {
+        if (event.getType() == GeoRepoEvents.ATTACH_NODE_SELECTION_WIDGET) {
             onAttachNodeSelectionWidget(event);
         }
 
-        if (event.getType() == DGWATCHEvents.SHOW_SEARCH_MEMBER_WIDGET) {
+        if (event.getType() == GeoRepoEvents.SHOW_SEARCH_MEMBER_WIDGET) {
             onShowSearchMemberWidget();
         }
-        if (event.getType() == DGWATCHEvents.BIND_SOURCE_DISTRIBUTION_NODES) {
+        if (event.getType() == GeoRepoEvents.BIND_SOURCE_DISTRIBUTION_NODES) {
             onBindSourceNodes(event);
         }
-        if (event.getType() == DGWATCHEvents.BIND_MEMBER_DISTRIBUTION_NODES) {
+        if (event.getType() == GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES) {
             onBindMemberNodes(event);
         }
     }

@@ -44,7 +44,7 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 /**
  * The Class UserGridWidget.
  */
-public class UserGridWidget extends DGWATCHGridWidget<User> {
+public class UserGridWidget extends GeoRepoGridWidget<User> {
 
     /** The email enable. */
     private CheckColumnConfig emailEnable;

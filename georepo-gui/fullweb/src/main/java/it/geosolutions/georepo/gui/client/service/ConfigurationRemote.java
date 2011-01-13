@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+import it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -69,6 +69,6 @@ public interface ConfigurationRemote extends RemoteService {
      * 
      * @return the dGWATCH global configuration
      */
-    public DGWATCHGlobalConfiguration initServerConfiguration();
+    public GeoRepoGlobalConfiguration initServerConfiguration();
 
 }

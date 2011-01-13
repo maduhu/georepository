@@ -30,7 +30,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.service.LoginRemoteAsync;
@@ -58,7 +58,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /**
  * The Class SearchPagUserWidget.
  */
-public class SearchPagUserWidget extends DGWATCHSearchWidget<User> {
+public class SearchPagUserWidget extends GeoRepoSearchWidget<User> {
 
     /** The service. */
     private LoginRemoteAsync service;
@@ -171,7 +171,7 @@ public class SearchPagUserWidget extends DGWATCHSearchWidget<User> {
     @Override
     public void select() {
         searchStatus.setBusy("Get User Details....");
-        Dispatcher.forwardEvent(DGWATCHEvents.BIND_SELECTED_USER, grid.getSelectionModel()
+        Dispatcher.forwardEvent(GeoRepoEvents.BIND_SELECTED_USER, grid.getSelectionModel()
                 .getSelectedItem());
     }
 

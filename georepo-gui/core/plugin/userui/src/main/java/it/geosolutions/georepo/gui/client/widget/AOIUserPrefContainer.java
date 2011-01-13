@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.service.LoginRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.SearchStatus.EnumSearchStatus;
 
@@ -153,7 +153,7 @@ public class AOIUserPrefContainer extends Window {
             }
         });
 
-        cancel.setIconStyle("x-dgwatch-cancel");
+        cancel.setIconStyle("x-georepo-cancel");
 
         formPanel.addButton(cancel);
 
@@ -172,7 +172,7 @@ public class AOIUserPrefContainer extends Window {
             public void handleEvent(MessageBoxEvent be) {
                 Button btn = be.getButtonClicked();
                 if (btn.getText().equalsIgnoreCase("YES"))
-                    Dispatcher.forwardEvent(DGWATCHEvents.DELETE_AOI, aoiUserPref.getAoi());
+                    Dispatcher.forwardEvent(GeoRepoEvents.DELETE_AOI, aoiUserPref.getAoi());
             }
         });
 

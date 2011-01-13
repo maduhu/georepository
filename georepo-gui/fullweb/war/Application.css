@@ -1,65 +1,65 @@
 /** Add css rules here for your application. */
 
 .x-loading-status {   
-  background-image: url(dgwatch/resources/images/loading.gif);
+  background-image: url(georepo/resources/images/loading.gif);
 }
 .x-status-ok {   
-  background-image: url(dgwatch/resources/images/ok.png);
+  background-image: url(georepo/resources/images/ok.png);
 }
 .x-status-not-ok {   
-  background-image: url(dgwatch/resources/images/not_found.png);
+  background-image: url(georepo/resources/images/not_found.png);
 }
 .x-status-error {   
-  background-image: url(dgwatch/resources/images/error.png);
+  background-image: url(georepo/resources/images/error.png);
 }
-.x-dgwatch-cancel {   
-  background-image: url(dgwatch/resources/images/cancel.png);
+.x-georepo-cancel {   
+  background-image: url(georepo/resources/images/cancel.png);
 }
-.x-dgwatch-update {   
-  background-image: url(dgwatch/resources/images/icon_update.png);
+.x-georepo-update {   
+  background-image: url(georepo/resources/images/icon_update.png);
 }
-.x-dgwatch-reset {   
-  background-image: url(dgwatch/resources/images/reset.png);
+.x-georepo-reset {   
+  background-image: url(georepo/resources/images/reset.png);
 }
-.x-dgwatch-save {   
-  background-image: url(dgwatch/resources/images/save.png);
+.x-georepo-save {   
+  background-image: url(georepo/resources/images/save.png);
 }
-.x-dgwatch-submit {   
-  background-image: url(dgwatch/resources/images/submit.png);
+.x-georepo-submit {   
+  background-image: url(georepo/resources/images/submit.png);
 }
-.x-dgwatch-login {   
-  background-image: url(dgwatch/resources/images/login.png);
+.x-georepo-login {   
+  background-image: url(georepo/resources/images/login.png);
 }
-.x-dgwatch-select {   
-  background-image: url(dgwatch/resources/images/select.png);
+.x-georepo-select {   
+  background-image: url(georepo/resources/images/select.png);
 }
-.x-dgwatch-unshare {   
-  background-image: url(dgwatch/resources/images/unshare.png);
+.x-georepo-unshare {   
+  background-image: url(georepo/resources/images/unshare.png);
 }
-.x-dgwatch-filter {   
-  background-image: url(dgwatch/resources/images/filter_ogc.png);
+.x-georepo-filter {   
+  background-image: url(georepo/resources/images/filter_ogc.png);
 }
-.x-dgwatch-features {   
-  background-image: url(dgwatch/resources/images/show_features.png);
+.x-georepo-features {   
+  background-image: url(georepo/resources/images/show_features.png);
 }
-.x-dgwatch-clear {   
-  background-image: url(dgwatch/resources/images/eraser_minus.png);
+.x-georepo-clear {   
+  background-image: url(georepo/resources/images/eraser_minus.png);
 }
-.x-dgwatch-quartz {   
-  background-image: url(dgwatch/resources/images/quartz.png);
+.x-georepo-quartz {   
+  background-image: url(georepo/resources/images/quartz.png);
 }
-.x-dgwatch-clock {   
-  background-image: url(dgwatch/resources/images/Clock-Icon.png);
+.x-georepo-clock {   
+  background-image: url(georepo/resources/images/Clock-Icon.png);
 }
-.x-dgwatch-add {   
-  background-image: url(dgwatch/resources/images/email_add.png);
+.x-georepo-add {   
+  background-image: url(georepo/resources/images/email_add.png);
   background-position:center; 
 }
-.x-dgwatch-delete {   
-  background-image: url(dgwatch/resources/images/email_delete.png);
+.x-georepo-delete {   
+  background-image: url(georepo/resources/images/email_delete.png);
   background-position:center; 
 }
-.x-dgwatch-edit {   
-  background-image: url(dgwatch/resources/images/email_edit.png);
+.x-georepo-edit {   
+  background-image: url(georepo/resources/images/email_edit.png);
   background-position:center; 
 }

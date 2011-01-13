@@ -54,6 +54,6 @@ public class ResourcesEntryPoint implements EntryPoint {
 
         dispatcher.addController(new MessagesController());
 
-        dispatcher.dispatch(DGWATCHEvents.INIT_RESOURCES_MODULE);
+        dispatcher.dispatch(GeoRepoEvents.INIT_RESOURCES_MODULE);
     }
 }

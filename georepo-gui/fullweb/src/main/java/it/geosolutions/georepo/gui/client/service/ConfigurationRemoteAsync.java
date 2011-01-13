@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration;
+import it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -45,6 +45,6 @@ public interface ConfigurationRemoteAsync {
      * @param callback
      *            the callback
      */
-    public void initServerConfiguration(AsyncCallback<DGWATCHGlobalConfiguration> callback);
+    public void initServerConfiguration(AsyncCallback<GeoRepoGlobalConfiguration> callback);
 
 }

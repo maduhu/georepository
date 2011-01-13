@@ -29,13 +29,13 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.DGWATCHData;
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoWidgetsData;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.SendType;
 import it.geosolutions.georepo.gui.client.UpdateInterval;
 import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
 import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
-import it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget;
+import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
 import it.geosolutions.georepo.gui.client.model.RegUser;
 import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.model.RegUser.RegUserKeyValue;
@@ -57,7 +57,7 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 /**
  * The Class AddUserWidget.
  */
-public class AddUserWidget extends DGWATCHFormWidget {
+public class AddUserWidget extends GeoRepoFormWidget {
 
     // private TextField<String> userName;
     /** The combo user names. */
@@ -95,7 +95,7 @@ public class AddUserWidget extends DGWATCHFormWidget {
     public void execute() {
         this.saveStatus.setBusy("Operation in progress");
         this.injectValue();
-        Dispatcher.forwardEvent(DGWATCHEvents.SAVE_USER, this.userToSave);
+        Dispatcher.forwardEvent(GeoRepoEvents.SAVE_USER, this.userToSave);
     }
 
     /*
@@ -167,7 +167,7 @@ public class AddUserWidget extends DGWATCHFormWidget {
      */
     private void initCombo() {
         this.storeTypes = new ListStore<SendType>();
-        this.storeTypes.add(DGWATCHData.getSendTypes());
+        this.storeTypes.add(GeoRepoWidgetsData.getSendTypes());
 
         comboTypes = new ComboBox<SendType>();
         comboTypes.setFieldLabel("Type");
@@ -183,7 +183,7 @@ public class AddUserWidget extends DGWATCHFormWidget {
         this.fieldSet.add(comboTypes);
 
         this.storeTimes = new ListStore<UpdateInterval>();
-        this.storeTimes.add(DGWATCHData.getTimes());
+        this.storeTimes.add(GeoRepoWidgetsData.getTimes());
 
         comboTimes = new ComboBox<UpdateInterval>();
         comboTimes.setFieldLabel("Interval");

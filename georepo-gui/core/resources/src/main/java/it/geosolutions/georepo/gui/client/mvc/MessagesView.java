@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.mvc;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.MessageBoxEvent;
@@ -64,17 +64,17 @@ public class MessagesView extends View {
     @Override
     protected void handleEvent(AppEvent event) {
         // TODO Auto-generated method stub
-        if (event.getType() == DGWATCHEvents.SEND_ALERT_MESSAGE) {
+        if (event.getType() == GeoRepoEvents.SEND_ALERT_MESSAGE) {
             onSendAlertMessage(event);
             return;
         }
 
-        if (event.getType() == DGWATCHEvents.SEND_INFO_MESSAGE) {
+        if (event.getType() == GeoRepoEvents.SEND_INFO_MESSAGE) {
             onSendInfoMessage(event);
             return;
         }
 
-        if (event.getType() == DGWATCHEvents.SEND_ERROR_MESSAGE)
+        if (event.getType() == GeoRepoEvents.SEND_ERROR_MESSAGE)
             onSendErrorMessage(event);
 
     }

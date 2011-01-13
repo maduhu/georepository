@@ -29,7 +29,7 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Member;
 import it.geosolutions.georepo.gui.client.service.MembersRemote;
@@ -56,12 +56,12 @@ public class MemberController extends Controller {
      * Instantiates a new member controller.
      */
     public MemberController() {
-        registerEventTypes(DGWATCHEvents.ATTACH_MEMBER_WIDGET,
-                DGWATCHEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET,
-                DGWATCHEvents.ATTACH_NODE_SELECTION_WIDGET,
-                DGWATCHEvents.SHOW_SEARCH_MEMBER_WIDGET, DGWATCHEvents.BIND_SELECTED_MEMBER,
-                DGWATCHEvents.UNBIND_SELECTED_MEMBER, DGWATCHEvents.BIND_SOURCE_DISTRIBUTION_NODES,
-                DGWATCHEvents.BIND_MEMBER_DISTRIBUTION_NODES);
+        registerEventTypes(GeoRepoEvents.ATTACH_MEMBER_WIDGET,
+                GeoRepoEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET,
+                GeoRepoEvents.ATTACH_NODE_SELECTION_WIDGET,
+                GeoRepoEvents.SHOW_SEARCH_MEMBER_WIDGET, GeoRepoEvents.BIND_SELECTED_MEMBER,
+                GeoRepoEvents.UNBIND_SELECTED_MEMBER, GeoRepoEvents.BIND_SOURCE_DISTRIBUTION_NODES,
+                GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES);
     }
 
     /*
@@ -82,11 +82,11 @@ public class MemberController extends Controller {
     @Override
     public void handleEvent(AppEvent event) {
 
-        if (event.getType() == DGWATCHEvents.BIND_SELECTED_MEMBER) {
+        if (event.getType() == GeoRepoEvents.BIND_SELECTED_MEMBER) {
             onBindSelectedMember(event);
         }
 
-        if (event.getType() == DGWATCHEvents.UNBIND_SELECTED_MEMBER) {
+        if (event.getType() == GeoRepoEvents.UNBIND_SELECTED_MEMBER) {
             onUnBindSelectedMember();
         }
 
@@ -111,7 +111,7 @@ public class MemberController extends Controller {
 
         this.memberView.setSearchStatus(EnumSearchStatus.STATUS_SEARCH,
                 EnumSearchStatus.STATUS_MESSAGE_MEMBER_DETAIL);
-        Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
+        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                 I18nProvider.getMessages().memberDetails(),
                 I18nProvider.getMessages().bindingMemberDetail() });
         this.memberView.cancelSearch();
@@ -161,8 +161,8 @@ public class MemberController extends Controller {
         // Reset the grids contents
         // ///////////////////////////
 
-        Dispatcher.forwardEvent(DGWATCHEvents.RESET_AOI_GRID);
-        Dispatcher.forwardEvent(DGWATCHEvents.RESET_RSS_GRID);
+        Dispatcher.forwardEvent(GeoRepoEvents.RESET_AOI_GRID);
+        Dispatcher.forwardEvent(GeoRepoEvents.RESET_RSS_GRID);
 
         memberView.getMemberManagementWidget().setHeading(
                 I18nProvider.getMessages().memberManagementLabel() + " (" + member.getMemberName()

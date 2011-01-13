@@ -29,9 +29,10 @@
  */
 package it.geosolutions.georepo.gui.client.mvc;
 
-import it.geosolutions.georepo.gui.client.DGWATCHEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
@@ -72,6 +73,8 @@ public class AppView extends View {
 
     /** The north. */
     protected ContentPanel north;
+
+    private TabWidget tabWidget;
 
     /**
      * Instantiates a new app view.
@@ -132,12 +135,12 @@ public class AppView extends View {
         east.addListener(Events.Resize, new Listener<BaseEvent>() {
 
             public void handleEvent(BaseEvent be) {
-                Dispatcher.forwardEvent(DGWATCHEvents.UPDATE_MAP_SIZE);
+                Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
 
             }
         });
 
-        configureAccordionPanel();
+        //configureAccordionPanel();
 
         viewport.add(east, data);
     }
@@ -156,7 +159,12 @@ public class AppView extends View {
         south.setScrollMode(Scroll.NONE);
         south.setHeaderVisible(false);
 
-        Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_AOI_TAB_WIDGET, south);
+        this.tabWidget = new TabWidget(/*featureRemote, membersRemote, watchRemote*/);
+
+        south.add(this.tabWidget);
+        south.layout();
+        
+        Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, tabWidget);
 
         viewport.add(south, data);
     }
@@ -173,8 +181,8 @@ public class AppView extends View {
 
         viewport.add(center, data);
 
-        Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_MAP_WIDGET, this.center);
-        Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_TOOLBAR, this.north);
+        Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MAP_WIDGET, this.center);
+        Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_TOOLBAR, this.north);
     }
 
     /**
@@ -184,19 +192,19 @@ public class AppView extends View {
         AppController controller = (AppController) this.getController();
         switch (controller.getAdministrationMode()) {
         case NOTIFICATION_DISTRIBUTION:
-            Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_WATCHES_WIDGET, east);
+            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MEMBER_WIDGET, east);
+            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_WATCHES_WIDGET, east);
             // Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_USER_WIDGET, east);
-            Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_AOI_WIDGET, east);
-            Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_AOI_FILTER, east);
+            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_AOI_WIDGET, east);
+            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_AOI_FILTER, east);
             break;
         case GEOCONSTRAINTS:
-            Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_GEOCONSTRAINT_AOI_WIDGET, east);
+            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET, east);
+            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_GEOCONSTRAINT_AOI_WIDGET, east);
             break;
         case MEMBER:
-            Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_NODE_SELECTION_WIDGET, east);
+            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MEMBER_WIDGET, east);
+            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_NODE_SELECTION_WIDGET, east);
             break;
         default:
             assert false : "invalid AdministrationMode: " + controller.getAdministrationMode();
@@ -210,10 +218,10 @@ public class AppView extends View {
      */
     @Override
     protected void handleEvent(AppEvent event) {
-        if (event.getType() == DGWATCHEvents.INIT_DGWATCH_MAIN_UI) {
+        if (event.getType() == GeoRepoEvents.INIT_GEOREPO_MAIN_UI) {
             initUI();
         }
-        if (event.getType() == DGWATCHEvents.ADMIN_MODE_CHANGE) {
+        if (event.getType() == GeoRepoEvents.ADMIN_MODE_CHANGE) {
             onAdminModeChange(event);
         }
     }
@@ -226,8 +234,8 @@ public class AppView extends View {
      */
     private void onAdminModeChange(AppEvent event) {
         this.east.removeAll();
-        Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
-        Dispatcher.forwardEvent(DGWATCHEvents.AOI_MANAGEMENT_UNBIND);
+        Dispatcher.forwardEvent(GeoRepoEvents.ERASE_AOI_FEATURES);
+        Dispatcher.forwardEvent(GeoRepoEvents.AOI_MANAGEMENT_UNBIND);
         configureAccordionPanel();
         this.east.layout();
     }

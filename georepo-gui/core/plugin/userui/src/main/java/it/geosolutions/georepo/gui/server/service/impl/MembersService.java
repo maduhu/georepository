@@ -32,9 +32,9 @@ package it.geosolutions.georepo.gui.server.service.impl;
 import it.geosolutions.georepo.api.dto.RegisteredUser;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Member;
-import it.geosolutions.georepo.gui.server.DGWATCHKeySessionValues;
+import it.geosolutions.georepo.gui.server.GeoRepoKeySessionValues;
 import it.geosolutions.georepo.gui.server.service.IMembersService;
-import it.geosolutions.georepo.gui.service.DGWATCHRemoteService;
+import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -62,7 +62,7 @@ public class MembersService implements IMembersService {
 
     /** The dgwatch remote service. */
     @Autowired
-    private DGWATCHRemoteService dgwatchRemoteService;
+    private GeoRepoRemoteService georepoRemoteService;
 
     /*
      * (non-Javadoc)
@@ -74,7 +74,7 @@ public class MembersService implements IMembersService {
     public PagingLoadResult<Member> loadMembers(HttpSession session, PagingLoadConfig config,
             String searchText) throws ApplicationException {
 
-        String token = (String) session.getAttribute(DGWATCHKeySessionValues.USER_LOGGED_TOKEN
+        String token = (String) session.getAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN
                 .getValue());
 
         if (token == null)
@@ -83,14 +83,14 @@ public class MembersService implements IMembersService {
         List<Member> memberListDTO = new ArrayList<Member>();
         int start = config.getOffset();
 
-        long memberCount = dgwatchRemoteService.getUserProvider().getUsersCount(searchText);
+        long memberCount = georepoRemoteService.getUserProvider().getUsersCount(searchText);
         // long memberCount = dgwatchRemoteService.getInternalService().getUsersCount(token);
 
         Long t = new Long(memberCount);
 
         // int page = start == 0 ? start : start / config.getLimit();
 
-        List<RegisteredUser> memberList = dgwatchRemoteService.getUserProvider().getUsers(
+        List<RegisteredUser> memberList = georepoRemoteService.getUserProvider().getUsers(
                 searchText, start, config.getLimit());
         // List<RegisteredUser> memberList =
         // dgwatchRemoteService.getInternalService().getUsers(token, start, config.getLimit());
