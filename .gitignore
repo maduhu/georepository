@@ -11,6 +11,7 @@ nb*.xml
 *~
 
 georepo-gui/fullweb/war/WEB-INF/classes/
+georepo-gui/fullweb/war/WEB-INF/lib/
 georepo-gui/fullweb/war/georepo/
 
 georepo-services/modules/generic-api/target
@@ -27,7 +28,7 @@ georepo-services/target
 georepo-gui/fullweb/target
 georepo-gui/core/target
 georepo-gui/core/plugin/target
-georepo-gui/core/plugin/aoisui/target
+georepo-gui/core/plugin/mapsui/target
 georepo-gui/core/plugin/userui/target
 georepo-gui/core/resources/target
 georepo-gui/target
