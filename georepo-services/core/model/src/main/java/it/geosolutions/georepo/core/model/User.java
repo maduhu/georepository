@@ -75,6 +75,18 @@ public class User implements Serializable {
     @Column
     private String name;
 
+    /** The user name. */
+    @Column(nullable=true)
+    private String fullName;
+
+    /** The password. */
+    @Column(nullable=true)
+    private String password;
+
+    /** The email address. */
+    @Column(nullable=true)
+    private String emailAddress;
+    
     /** The date of creation of this user */
     @Column(updatable=false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -131,6 +143,48 @@ public class User implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @param fullName the fullName to set
+     */
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    /**
+     * @return the fullName
+     */
+    public String getFullName() {
+        return fullName;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param emailAddress the emailAddress to set
+     */
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    /**
+     * @return the emailAddress
+     */
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
     /**
