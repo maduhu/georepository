@@ -19,7 +19,6 @@
         <param-value>log4j.properties</param-value>
     </context-param>
 
-
 	<!-- spring context loader -->
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
@@ -59,85 +58,11 @@
 	    <url-pattern>/georepo/logging</url-pattern> 
 	</servlet-mapping>
 	
-<!--	<servlet>
-		<servlet-name>QuartzRemote</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.gwt.QuartzRemoteImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>QuartzRemote</servlet-name>
-		<url-pattern>/georepo/QuartzRemote</url-pattern>
-	</servlet-mapping>-->
-
-	<!-- servlet>
-		<servlet-name>MembersRemote</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.gwt.MembersRemoteImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>MembersRemote</servlet-name>
-		<url-pattern>/georepo/MembersRemote</url-pattern>
-	</servlet-mapping -->
-	
-<!--	<servlet>
-		<servlet-name>AOIServiceRemote</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.gwt.AOIRemoteImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AOIServiceRemote</servlet-name>
-		<url-pattern>/georepo/AOIServiceRemote</url-pattern>
-	</servlet-mapping>-->
-
-<!--	<servlet>
-		<servlet-name>FilterServiceRemote</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.gwt.FilterRemoteImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FilterServiceRemote</servlet-name>
-		<url-pattern>/georepo/FilterServiceRemote</url-pattern>
-	</servlet-mapping>-->
-
-<!--	<servlet>
-		<servlet-name>FeatureServiceRemote</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.gwt.FeatureServiceRemoteImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FeatureServiceRemote</servlet-name>
-		<url-pattern>/georepo/FeatureServiceRemote</url-pattern>
-	</servlet-mapping>-->
-	
-<!--    <servlet>
-		<servlet-name>WatchServiceRemote</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.gwt.WatchServiceRemoteImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>WatchServiceRemote</servlet-name>
-		<url-pattern>/dgwatch/WatchServiceRemote</url-pattern>
-	</servlet-mapping>-->
-
-<!--    <servlet>
-        <servlet-name>SyncServiceRemote</servlet-name>
-        <servlet-class>it.geosolutions.georepo.gui.server.gwt.SyncRemoteImpl</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SyncServiceRemote</servlet-name>
-        <url-pattern>/dgwatch/SyncRemote</url-pattern>
-    </servlet-mapping>-->
-
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-<!--    <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/georepo/WatchService</url-pattern>
-    </servlet-mapping>-->
-
-<!--    <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/dgwatch/ImageryTransfer</url-pattern>
-    </servlet-mapping>-->
-
 
 	<servlet>
 		<servlet-name>uploadServlet</servlet-name>

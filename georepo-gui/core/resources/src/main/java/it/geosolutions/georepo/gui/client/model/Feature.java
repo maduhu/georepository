@@ -100,9 +100,6 @@ public class Feature extends BeanModel {
     /** The user. */
     private User user;
 
-    /** The aoi. */
-    private AOI aoi;
-
     /** The creation date. */
     private Date creationDate;
 
@@ -181,26 +178,6 @@ public class Feature extends BeanModel {
     public void setUser(User user) {
         this.user = user;
         set(FeatureKeyValue.USER.getValue(), this.user == null ? null : this.user.getUserName());
-    }
-
-    /**
-     * Gets the aoi.
-     * 
-     * @return the aoi
-     */
-    public AOI getAoi() {
-        return aoi;
-    }
-
-    /**
-     * Sets the aoi.
-     * 
-     * @param aoi
-     *            the new aoi
-     */
-    public void setAoi(AOI aoi) {
-        this.aoi = aoi;
-        set(FeatureKeyValue.AOI.getValue(), this.aoi == null ? null : this.user.getName());
     }
 
     /**
@@ -330,10 +307,9 @@ public class Feature extends BeanModel {
      */
     @Override
     public String toString() {
-        return "Feature [id=" + id + ", title=" + title + ", user=" + user + ", aoi=" + aoi
-                + ", creationDate=" + creationDate + ", externalId=" + externalId
-                + ", externalSortingDate=" + externalSortingDate + ", wfsResponseBlob="
-                + wfsResponseBlob + ", lastSentByMail=" + lastSentByMail + ", lastSentByRSS="
-                + lastSentByRSS + "]";
+        return "Feature [id=" + id + ", title=" + title + ", user=" + user + ", creationDate="
+                + creationDate + ", externalId=" + externalId + ", externalSortingDate="
+                + externalSortingDate + ", wfsResponseBlob=" + wfsResponseBlob
+                + ", lastSentByMail=" + lastSentByMail + ", lastSentByRSS=" + lastSentByRSS + "]";
     }
 }

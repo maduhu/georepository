@@ -30,8 +30,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.AOI;
-import it.geosolutions.georepo.gui.client.model.AOI.AOIKeyValue;
+import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.model.Filter.FilterKeyValue;
 
 import com.extjs.gxt.ui.client.binding.FormBinding;
@@ -43,7 +42,7 @@ import com.extjs.gxt.ui.client.widget.layout.FormData;
 /**
  * The Class FilterInfo.
  */
-public class FilterInfo extends GeoRepoBindingWidget<AOI> {
+public class FilterInfo extends GeoRepoBindingWidget<User> {
 
     /** The aoi. */
     private LabelField aoi;
@@ -82,14 +81,12 @@ public class FilterInfo extends GeoRepoBindingWidget<AOI> {
 
         aoi = new LabelField();
         aoi.setId(FilterKeyValue.AOI.getValue());
-        aoi.setName(AOIKeyValue.AOI.getValue());
         aoi.setFieldLabel(I18nProvider.getMessages().aoiAbbreviatedLabel());
         aoi.setWidth(150);
         fp.add(aoi, formData);
 
         owner = new LabelField();
         owner.setId(FilterKeyValue.OWNER.getValue());
-        owner.setName(AOIKeyValue.OWNER.getValue());
         // owner.setFieldLabel(I18nProvider.getMessages().aoiOwnerLabel());
         owner.setWidth(150);
         fp.add(owner, formData);

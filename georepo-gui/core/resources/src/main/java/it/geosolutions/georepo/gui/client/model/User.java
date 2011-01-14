@@ -32,7 +32,6 @@ package it.geosolutions.georepo.gui.client.model;
 import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
 import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
@@ -90,9 +89,6 @@ public class User extends BeanModel {
 
     /** The path. */
     private String path;
-
-    /** The areas oi. */
-    private List<AOI> areasOI = new ArrayList<AOI>();
 
     /** The granted authorizations. */
     private List<Authorization> grantedAuthorizations;
@@ -460,77 +456,6 @@ public class User extends BeanModel {
     public void setPath(String path) {
         this.path = path;
         set(BeanKeyValue.PATH.getValue(), this.path);
-    }
-
-    /**
-     * Gets the areas oi.
-     * 
-     * @return the areas oi
-     */
-    public List<AOI> getAreasOI() {
-        return areasOI;
-    }
-
-    /**
-     * Adds the area oi.
-     * 
-     * @param aoi
-     *            the aoi
-     */
-    public void addAreaOI(AOI aoi) {
-        this.areasOI.add(aoi);
-    }
-
-    /**
-     * Removes the area oi.
-     * 
-     * @param aoi
-     *            the aoi
-     */
-    public void removeAreaOI(AOI aoi) {
-        this.areasOI.remove(aoi);
-    }
-
-    /**
-     * Removes the area oi.
-     * 
-     * @param i
-     *            the i
-     */
-    public void removeAreaOI(int i) {
-        this.areasOI.remove(i);
-    }
-
-    /**
-     * Gets the area oi.
-     * 
-     * @param i
-     *            the i
-     * @return the area oi
-     */
-    public AOI getAreaOI(int i) {
-        if (i < 0 || i > this.areasOI.size())
-            throw new IllegalArgumentException("Invalid Position.");
-        return this.areasOI.get(i);
-    }
-
-    /**
-     * Gets the all areas oi.
-     * 
-     * @return the all areas oi
-     */
-    public int getAllAreasOI() {
-        return this.areasOI.size();
-    }
-
-    /**
-     * Sets the areas oi.
-     * 
-     * @param areasOI
-     *            the new areas oi
-     */
-    public void setAreasOI(List<AOI> areasOI) {
-        this.areasOI = areasOI;
     }
 
     /**

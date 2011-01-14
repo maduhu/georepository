@@ -31,7 +31,6 @@ package it.geosolutions.georepo.gui.client.widget.observer;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Observable;
-import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.Filter;
 import it.geosolutions.georepo.gui.client.model.User;
 
@@ -43,25 +42,11 @@ import com.extjs.gxt.ui.client.mvc.Dispatcher;
  */
 public class ObserverFilterWidget extends Observable {
 
-    /** The aoi selected. */
-    private AOI aoiSelected;
-
     /** The user selected. */
     private User userSelected;
 
     /** The default filter. */
     private Filter defaultFilter;
-
-    /**
-     * Sets the aoi selected.
-     * 
-     * @param aoiSelected
-     *            the new aoi selected
-     */
-    public void setAoiSelected(AOI aoiSelected) {
-        this.aoiSelected = aoiSelected;
-        this.notifyBinding();
-    }
 
     /**
      * Sets the user selected.
@@ -81,15 +66,6 @@ public class ObserverFilterWidget extends Observable {
      */
     public User getUserSelected() {
         return userSelected;
-    }
-
-    /**
-     * Gets the aoi selected.
-     * 
-     * @return the aoi selected
-     */
-    public AOI getAoiSelected() {
-        return aoiSelected;
     }
 
     /**
@@ -121,19 +97,10 @@ public class ObserverFilterWidget extends Observable {
     }
 
     /**
-     * Exist selected aoi.
-     * 
-     * @return true, if successful
-     */
-    public boolean existSelectedAOI() {
-        return this.aoiSelected != null;
-    }
-
-    /**
      * Notify binding.
      */
     private void notifyBinding() {
-        if (existSelectedUser() && existSelectedAOI()) {
+        if (existSelectedUser()) {
             super.setChanged();
             super.notifyObservers();
         } else {
@@ -145,12 +112,12 @@ public class ObserverFilterWidget extends Observable {
      * Exist default filter.
      */
     public void existDefaultFilter() {
-        if ((this.aoiSelected.isShared()) || (this.userSelected.equals(aoiSelected.getOwner()))) {
-            Dispatcher.forwardEvent(GeoRepoEvents.EXIST_DEFAULT_FILTER);
-        } else {
-            // UNBIND THE MODEL
-            unbind();
-        }
+//        if ((this.aoiSelected.isShared()) || (this.userSelected.equals(aoiSelected.getOwner()))) {
+//            Dispatcher.forwardEvent(GeoRepoEvents.EXIST_DEFAULT_FILTER);
+//        } else {
+//            // UNBIND THE MODEL
+//            unbind();
+//        }
     }
 
     /**

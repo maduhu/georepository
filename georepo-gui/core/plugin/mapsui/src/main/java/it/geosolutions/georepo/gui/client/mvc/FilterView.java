@@ -30,9 +30,6 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.widget.AOISFilter;
-import it.geosolutions.georepo.gui.client.widget.FilterBindingWidget;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -46,7 +43,7 @@ import com.extjs.gxt.ui.client.widget.ContentPanel;
 public class FilterView extends View {
 
     /** The filter. */
-    private AOISFilter filter;
+//    private AOISFilter filter;
 
     /**
      * Instantiates a new filter view.
@@ -56,7 +53,7 @@ public class FilterView extends View {
      */
     public FilterView(Controller controller) {
         super(controller);
-        this.filter = new AOISFilter();
+//        this.filter = new AOISFilter();
     }
 
     /*
@@ -82,7 +79,7 @@ public class FilterView extends View {
      */
     private void onAttachFilterWidget(AppEvent event) {
         ContentPanel east = (ContentPanel) event.getData();
-        east.add(this.filter);
+//        east.add(this.filter);
         east.layout();
     }
 
@@ -90,21 +87,12 @@ public class FilterView extends View {
      * On unbind filter widget.
      */
     private void onUnbindFilterWidget() {
-        FilterBindingWidget filterBindingWidget = this.filter.getFilterBinding();
-        filterBindingWidget.unBindModel();
+//        FilterBindingWidget filterBindingWidget = this.filter.getFilterBinding();
+//        filterBindingWidget.unBindModel();
+//
+//        filter.setHeading(I18nProvider.getMessages().aoiFilterLabel()
+//                + " (Attribute Filter disabled)");
 
-        filter.setHeading(I18nProvider.getMessages().aoiFilterLabel()
-                + " (Attribute Filter disabled)");
-
-    }
-
-    /**
-     * Gets the filter.
-     * 
-     * @return the filter
-     */
-    public AOISFilter getFilter() {
-        return filter;
     }
 
 }

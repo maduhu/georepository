@@ -29,8 +29,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding;
 
-import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
-import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 
 import com.extjs.gxt.ui.client.binding.FieldBinding;
@@ -69,11 +67,7 @@ public class GeoRepoUserFormBinding extends FormBinding {
                 String name = f.getName();
                 if (name != null) {
                     FieldBinding b;
-                    if (f.getId().equalsIgnoreCase(SendTypeEnum.TYPE.getValue()))
-                        b = new ComboTypeFieldBinding(f, f.getName());
-                    else if (f.getId().equalsIgnoreCase(UpdateIntervalEnum.TIME.getValue()))
-                        b = new ComboTimeFieldBinding(f, f.getName());
-                    else if (f.getId().equals(BeanKeyValue.REDUCED_CONTENT_UPDATE.getValue()))
+                    if (f.getId().equals(BeanKeyValue.REDUCED_CONTENT_UPDATE.getValue()))
                         b = new ReducedContentFieldBinding(f, f.getName());
                     else
                         b = new GeoRepoFieldBinding(f, f.getName());

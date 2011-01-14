@@ -29,10 +29,9 @@
  */
 package it.geosolutions.georepo.gui.client;
 
-import it.geosolutions.georepo.gui.client.mvc.MAPSController;
 import it.geosolutions.georepo.gui.client.mvc.FilterController;
+import it.geosolutions.georepo.gui.client.mvc.MAPSController;
 import it.geosolutions.georepo.gui.client.mvc.MapController;
-import it.geosolutions.georepo.gui.client.mvc.WatchesController;
 
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.EntryPoint;
@@ -58,7 +57,6 @@ public class MAPSUI implements EntryPoint {
         dispatcher.addController(new MAPSController());
         // dispatcher.addController(new FeatureController());
         dispatcher.addController(new FilterController());
-        dispatcher.addController(new WatchesController());
 
         dispatcher.dispatch(GeoRepoEvents.INIT_MAPS_UI_MODULE);
 

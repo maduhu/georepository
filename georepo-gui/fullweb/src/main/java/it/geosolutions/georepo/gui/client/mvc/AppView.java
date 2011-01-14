@@ -190,25 +190,6 @@ public class AppView extends View {
      */
     private void configureAccordionPanel() {
         AppController controller = (AppController) this.getController();
-        switch (controller.getAdministrationMode()) {
-        case NOTIFICATION_DISTRIBUTION:
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_WATCHES_WIDGET, east);
-            // Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_USER_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_AOI_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_AOI_FILTER, east);
-            break;
-        case GEOCONSTRAINTS:
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_GEOCONSTRAINT_AOI_WIDGET, east);
-            break;
-        case MEMBER:
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_NODE_SELECTION_WIDGET, east);
-            break;
-        default:
-            assert false : "invalid AdministrationMode: " + controller.getAdministrationMode();
-        }
     }
 
     /*

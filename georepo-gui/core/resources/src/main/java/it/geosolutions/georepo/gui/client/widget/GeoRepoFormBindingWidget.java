@@ -30,7 +30,6 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.model.Authorization;
-import it.geosolutions.georepo.gui.client.widget.binding.GeoRepoWatchFormBinding;
 
 import java.util.List;
 
@@ -50,9 +49,6 @@ public abstract class GeoRepoFormBindingWidget<T extends BaseModel> {
     /** The form panel. */
     protected FormPanel formPanel;
 
-    /** The form binding. */
-    protected GeoRepoWatchFormBinding formBinding;
-
     /** The model. */
     private T model;
 
@@ -64,14 +60,14 @@ public abstract class GeoRepoFormBindingWidget<T extends BaseModel> {
      */
     public void bindModel(T model) {
         this.model = model;
-        this.formBinding.bind(model);
+//        this.formBinding.bind(model);
     }
 
     /**
      * Un bind model.
      */
     public void unBindModel() {
-        this.formBinding.unbind();
+//        this.formBinding.unbind();
     }
 
     /**
@@ -80,7 +76,7 @@ public abstract class GeoRepoFormBindingWidget<T extends BaseModel> {
      * @return the form binding
      */
     public FormBinding getFormBinding() {
-        return formBinding;
+        return /*formBinding*/ null;
     }
 
     /**

@@ -30,7 +30,6 @@
 package it.geosolutions.georepo.gui.client;
 
 import it.geosolutions.georepo.gui.client.controller.LoginController;
-import it.geosolutions.georepo.gui.client.controller.MemberController;
 import it.geosolutions.georepo.gui.client.controller.ServicesController;
 
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -54,7 +53,6 @@ public class UserUI implements EntryPoint {
         dispatcher = Dispatcher.get();
         dispatcher.addController(new LoginController());
         dispatcher.addController(new ServicesController());
-        dispatcher.addController(new MemberController());
 
         dispatcher.dispatch(GeoRepoEvents.INIT_USER_UI_MODULE);
     }
