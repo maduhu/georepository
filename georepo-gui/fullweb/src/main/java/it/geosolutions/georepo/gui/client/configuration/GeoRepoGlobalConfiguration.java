@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.configuration.DGWATCHGlobalConfiguration,v. 0.1 3-gen-2011 17.04.32 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration,v. 0.1 14-gen-2011 19.27.01 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.04.32 $
+ * $ Date: 14-gen-2011 19.27.01 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -34,7 +37,7 @@ import org.springframework.stereotype.Component;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class DGWATCHGlobalConfiguration.
+ * The Class GeoRepoGlobalConfiguration.
  */
 @Component("georepoGlobalConfiguration")
 public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration {

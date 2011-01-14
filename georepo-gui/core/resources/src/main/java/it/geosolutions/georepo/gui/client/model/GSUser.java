@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.User,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.GSUser,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.11 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -36,7 +39,7 @@ import com.extjs.gxt.ui.client.data.BeanModel;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class User.
+ * The Class GSUser.
  */
 public class GSUser extends BeanModel {
 
@@ -49,7 +52,7 @@ public class GSUser extends BeanModel {
     /** The name. */
     private String name;
 
-    /** The user name. */
+    /** The full name. */
     private String fullName;
 
     /** The password. */
@@ -58,13 +61,13 @@ public class GSUser extends BeanModel {
     /** The email address. */
     private String emailAddress;
     
-    /** The date of creation of this user */
+    /** The date creation. */
     private Date dateCreation;
 
-    /** Is the GSUser Enabled or not in the system? */
+    /** The enabled. */
     private boolean enabled;
 
-    /** The user. */
+    /** The profile. */
     private Profile profile;
 
     /** The path. */
@@ -74,7 +77,7 @@ public class GSUser extends BeanModel {
     private List<Authorization> grantedAuthorizations;
 
     /**
-     * Instantiates a new user.
+     * Instantiates a new gS user.
      */
     public GSUser() {
         setPath("georepo/resources/images/userChoose.jpg");
@@ -120,7 +123,10 @@ public class GSUser extends BeanModel {
     }
 
     /**
-     * @param fullName the fullName to set
+     * Sets the user name.
+     * 
+     * @param fullName
+     *            the new user name
      */
     public void setFullName(String fullName) {
         //TODO
@@ -129,7 +135,9 @@ public class GSUser extends BeanModel {
     }
 
     /**
-     * @return the fullName
+     * Gets the user name.
+     * 
+     * @return the user name
      */
     public String getFullName() {
         return fullName;
@@ -176,33 +184,38 @@ public class GSUser extends BeanModel {
     }
 
     /**
-     * @param dateCreation the dateCreation to set
+     * Sets the date of creation of this user.
+     * 
+     * @param dateCreation
+     *            the new date of creation of this user
      */
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
     }
 
     /**
-     * @return the dateCreation
+     * Gets the date of creation of this user.
+     * 
+     * @return the date of creation of this user
      */
     public Date getDateCreation() {
         return dateCreation;
     }
 
     /**
-     * Checks if is enabled.
+     * Checks if is is the GSUser Enabled or not in the system?.
      * 
-     * @return true, if is enabled
+     * @return the is the GSUser Enabled or not in the system?
      */
     public boolean isEnabled() {
         return enabled;
     }
 
     /**
-     * Sets the enabled.
+     * Sets the is the GSUser Enabled or not in the system?.
      * 
      * @param enabled
-     *            the new enabled
+     *            the new is the GSUser Enabled or not in the system?
      */
     public void setEnabled(boolean enabled) {
         set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
@@ -210,14 +223,19 @@ public class GSUser extends BeanModel {
     }
 
     /**
-     * @param profile the profile to set
+     * Sets the user.
+     * 
+     * @param profile
+     *            the new user
      */
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
     /**
-     * @return the profile
+     * Gets the user.
+     * 
+     * @return the user
      */
     public Profile getProfile() {
         return profile;

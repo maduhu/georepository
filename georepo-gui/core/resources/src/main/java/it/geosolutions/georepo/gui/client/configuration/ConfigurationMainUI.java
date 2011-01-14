@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.10 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -36,9 +39,12 @@ package it.geosolutions.georepo.gui.client.configuration;
 public enum ConfigurationMainUI {
 
     /** The CENTER. */
-    CENTER("CENTER_PANEL"), /** The EAST. */
-    EAST("EAST_PANEL"), /** The SOUTH. */
-    SOUTH("SOUTH_PANEL"), /** The VIEWPORT. */
+    CENTER("CENTER_PANEL"), 
+ /** The EAST. */
+    EAST("EAST_PANEL"), 
+ /** The SOUTH. */
+    SOUTH("SOUTH_PANEL"), 
+ /** The VIEWPORT. */
     VIEWPORT("VIEWPORT");
 
     /** The value. */

@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.DGWATCHUtils,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.GeoRepoUtils,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.12 $
+ * $ Date: 14-gen-2011 19.29.23 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -33,7 +36,7 @@ import it.geosolutions.georepo.gui.client.configuration.IGeoRepoConfiguration;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class DGWATCHUtils.
+ * The Class GeoRepoUtils.
  */
 public class GeoRepoUtils {
 
@@ -44,9 +47,9 @@ public class GeoRepoUtils {
     private IGeoRepoConfiguration globalConfiguration;
 
     /**
-     * Gets the single instance of DGWATCHUtils.
+     * Gets the single instance of GeoRepoUtils.
      * 
-     * @return single instance of DGWATCHUtils
+     * @return single instance of GeoRepoUtils
      */
     public static GeoRepoUtils getInstance() {
         if (INSTANCE == null) {

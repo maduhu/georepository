@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.DGWATCHEvents,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.GeoRepoEvents,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.12 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -33,7 +36,7 @@ import com.extjs.gxt.ui.client.event.EventType;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class GEOREPOEvents.
+ * The Class GeoRepoEvents.
  */
 public class GeoRepoEvents {
 
@@ -52,7 +55,7 @@ public class GeoRepoEvents {
     /** The Constant SEND_INFO_MESSAGE. */
     public static final EventType SEND_INFO_MESSAGE = new EventType();
 
-    /** The Constant INIT_AOIS_UI_MODULE. */
+    /** The Constant INIT_MAPS_UI_MODULE. */
     public static final EventType INIT_MAPS_UI_MODULE = new EventType();
 
     /** The Constant INIT_USER_UI_MODULE. */
@@ -85,7 +88,7 @@ public class GeoRepoEvents {
     /** The Constant ATTACH_AOI_FILTER. */
     public static final EventType ATTACH_AOI_FILTER = new EventType();
 
-    /** The Constant ATTACH_AOI_TAB_WIDGET. */
+    /** The Constant ATTACH_BOTTOM_TAB_WIDGETS. */
     public static final EventType ATTACH_BOTTOM_TAB_WIDGETS = new EventType();
 
     /** The Constant SHOW_UPLOAD_WIDGET. */

@@ -1,5 +1,34 @@
-/**
+/*
+ * $ Header: it.geosolutions.georepo.gui.client.model.Profile,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 14-gen-2011 19.29.23 $
+ *
+ * ====================================================================
+ *
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
+ *
+ * GPLv3 + Classpath exception
  * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. 
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by developers
+ * of GeoSolutions.  For more information on GeoSolutions, please see
+ * <http://www.geo-solutions.it/>.
+ *
  */
 package it.geosolutions.georepo.gui.client.model;
 
@@ -9,17 +38,16 @@ import java.util.Map;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Alessio
- *
+ * The Class Profile.
  */
 public class Profile extends BeanModel {
 
-    /**
-     * 
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 3475163929906592234L;
 
+    /** The id. */
     private long id;
 
     /** The name. */
@@ -31,17 +59,22 @@ public class Profile extends BeanModel {
     /** The enabled. */
     private boolean enabled;
 
-    /** Custom properties associated to the profile */
+    /** The custom props. */
     private Map<String, String> customProps = new HashMap<String, String>();
 
     /** The path. */
     private String path;
     
+    /**
+     * Instantiates a new profile.
+     */
     public Profile() {
         setPath("georepo/resources/images/profile.jpg");
     }
     
     /**
+     * Gets the id.
+     * 
      * @return the id
      */
     public long getId() {
@@ -49,13 +82,18 @@ public class Profile extends BeanModel {
     }
 
     /**
-     * @param id the id to set
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
      */
     public void setId(long id) {
         this.id = id;
     }
 
     /**
+     * Gets the name.
+     * 
      * @return the name
      */
     public String getName() {
@@ -63,27 +101,37 @@ public class Profile extends BeanModel {
     }
 
     /**
-     * @param name the name to set
+     * Sets the name.
+     * 
+     * @param name
+     *            the new name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * @return the dateCreation
+     * Gets the date creation.
+     * 
+     * @return the date creation
      */
     public Date getDateCreation() {
         return dateCreation;
     }
 
     /**
-     * @param dateCreation the dateCreation to set
+     * Sets the date creation.
+     * 
+     * @param dateCreation
+     *            the new date creation
      */
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
     }
 
     /**
+     * Checks if is the enabled.
+     * 
      * @return the enabled
      */
     public boolean isEnabled() {
@@ -91,34 +139,47 @@ public class Profile extends BeanModel {
     }
 
     /**
-     * @param enabled the enabled to set
+     * Sets the enabled.
+     * 
+     * @param enabled
+     *            the new enabled
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
     /**
-     * @return the customProps
+     * Gets the custom properties associated to the profile.
+     * 
+     * @return the custom properties associated to the profile
      */
     public Map<String, String> getCustomProps() {
         return customProps;
     }
 
     /**
-     * @param customProps the customProps to set
+     * Sets the custom properties associated to the profile.
+     * 
+     * @param customProps
+     *            the new custom properties associated to the profile
      */
     public void setCustomProps(Map<String, String> customProps) {
         this.customProps = customProps;
     }
 
     /**
-     * @param path the path to set
+     * Sets the path.
+     * 
+     * @param path
+     *            the new path
      */
     public void setPath(String path) {
         this.path = path;
     }
 
     /**
+     * Gets the path.
+     * 
      * @return the path
      */
     public String getPath() {

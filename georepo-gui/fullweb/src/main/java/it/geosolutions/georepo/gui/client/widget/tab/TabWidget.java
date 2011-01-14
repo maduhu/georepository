@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.tab.TabWidget,v. 0.1 3-gen-2011 16.58.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.tab.TabWidget,v. 0.1 14-gen-2011 19.27.41 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.58.12 $
+ * $ Date: 14-gen-2011 19.27.41 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -46,13 +49,6 @@ public class TabWidget extends TabPanel implements Listener {
 
     /**
      * Instantiates a new tab widget.
-     * 
-     * @param featureRemote
-     *            the feature remote
-     * @param memberRemote
-     *            the member remote
-     * @param watchService
-     *            the watch service
      */
     public TabWidget(/*FeatureServiceRemoteAsync featureRemote, MembersRemoteAsync memberRemote,
             WatchServiceRemoteAsync watchService*/) {
@@ -73,13 +69,6 @@ public class TabWidget extends TabPanel implements Listener {
 
     /**
      * Inits the tab item.
-     * 
-     * @param featureService
-     *            the feature service
-     * @param memberService
-     *            the member service
-     * @param watchService
-     *            the watch service
      */
     private void initTabItem(/*FeatureServiceRemoteAsync featureService,
             MembersRemoteAsync memberService, WatchServiceRemoteAsync watchService*/) {

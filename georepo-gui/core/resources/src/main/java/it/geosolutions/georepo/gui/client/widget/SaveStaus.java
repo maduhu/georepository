@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.SaveStaus,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.SaveStaus,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.11 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -42,14 +45,19 @@ public class SaveStaus extends StatusWidget {
 
         /** The STATU s_ save. */
         STATUS_SAVE("x-status-ok"),
+        
         /** The STATU s_ n o_ save. */
         STATUS_NO_SAVE("x-status-not-ok"),
+        
         /** The STATU s_ sav e_ error. */
         STATUS_SAVE_ERROR("x-status-error"),
+        
         /** The STATU s_ messag e_ save. */
         STATUS_MESSAGE_SAVE("Operation Ok"),
+        
         /** The STATU s_ messag e_ no t_ save. */
         STATUS_MESSAGE_NOT_SAVE("Operation Failed"),
+        
         /** The STATU s_ messag e_ sav e_ error. */
         STATUS_MESSAGE_SAVE_ERROR("Service Error");
 

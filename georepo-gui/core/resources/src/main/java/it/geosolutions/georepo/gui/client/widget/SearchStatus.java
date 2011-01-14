@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.SearchStatus,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.SearchStatus,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.10 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -42,28 +45,40 @@ public class SearchStatus extends StatusWidget {
 
         /** The STATU s_ search. */
         STATUS_SEARCH("x-status-ok"),
+        
         /** The STATU s_ n o_ search. */
         STATUS_NO_SEARCH("x-status-not-ok"),
+        
         /** The STATU s_ searc h_ error. */
         STATUS_SEARCH_ERROR("x-status-error"),
+        
         /** The STATU s_ messag e_ search. */
         STATUS_MESSAGE_SEARCH("Search OK"),
+        
         /** The STATU s_ messag e_ no t_ search. */
         STATUS_MESSAGE_NOT_SEARCH("No Results Found"),
+        
         /** The STATU s_ messag e_ searc h_ error. */
         STATUS_MESSAGE_SEARCH_ERROR("Search Service Error"),
+        
         /** The STATU s_ messag e_ use r_ detai l_ error. */
         STATUS_MESSAGE_USER_DETAIL_ERROR("User Detail Error"),
+        
         /** The STATU s_ messag e_ use r_ detail. */
         STATUS_MESSAGE_USER_DETAIL("User Detail Ok"),
+        
         /** The STATU s_ messag e_ ao i_ detai l_ error. */
         STATUS_MESSAGE_AOI_DETAIL_ERROR("AOI Deatil Error"),
+        
         /** The STATU s_ messag e_ ao i_ detail. */
         STATUS_MESSAGE_AOI_DETAIL("AOI Deatil Ok"),
+        
         /** The STATU s_ messag e_ ao i_ unshar e_ error. */
         STATUS_MESSAGE_AOI_UNSHARE_ERROR("Unshare AOI Error"),
+        
         /** The STATU s_ messag e_ ao i_ unshare. */
         STATUS_MESSAGE_AOI_UNSHARE("Unshare AOI Ok"),
+        
         /** The STATU s_ messag e_ membe r_ detail. */
         STATUS_MESSAGE_MEMBER_DETAIL("Member Detail Ok");
 

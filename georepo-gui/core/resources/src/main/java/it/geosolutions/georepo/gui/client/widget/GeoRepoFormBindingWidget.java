@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.DGWATCHFormBindingWidget,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.10 $
+ * $ Date: 14-gen-2011 19.29.23 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -39,7 +42,7 @@ import com.extjs.gxt.ui.client.widget.form.FormPanel;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class DGWATCHFormBindingWidget.
+ * The Class GeoRepoFormBindingWidget.
  * 
  * @param <T>
  *            the generic type
