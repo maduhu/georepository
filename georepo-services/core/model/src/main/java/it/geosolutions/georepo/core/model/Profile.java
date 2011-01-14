@@ -34,11 +34,15 @@ package it.geosolutions.georepo.core.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,6 +50,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * The Class Profile.
@@ -83,10 +88,21 @@ public class Profile implements Serializable {
     @Column(nullable=false)
     private boolean enabled;
 
+    /** Custom properties associated to the profile */
+    @org.hibernate.annotations.CollectionOfElements
+    @JoinTable( name = "gr_profile_custom_props",
+                joinColumns = @JoinColumn(name = "profile_id"))
+    @org.hibernate.annotations.MapKey(columns =@Column(name = "propkey"))
+    @Column(name = "propvalue")
+    @ForeignKey(name="fk_custom_profile")
+    private Map<String, String> customProps = new HashMap<String, String>();
+
     /**
      * Instantiates a new profile.
      */
     public Profile() {
+
+
     }
 
     /**
@@ -163,6 +179,14 @@ public class Profile implements Serializable {
      */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Map<String, String> getCustomProps() {
+        return customProps;
+    }
+
+    public void setCustomProps(Map<String, String> customProps) {
+        this.customProps = customProps;
     }
 
     /* (non-Javadoc)

@@ -19,7 +19,7 @@
  */
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.core.model.User;
+import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
@@ -35,7 +35,7 @@ import org.codehaus.jra.Post;
 import org.codehaus.jra.Put;
 
 /**
- * Operations on {@link User User}s.
+ * Operations on {@link GSUser GSUser}s.
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
@@ -47,11 +47,11 @@ public interface UserAdminService {
 
     @Put
     @HttpResource(location = "/users")
-    long insertUser(@WebParam(name = "user") User user);
+    long insertUser(@WebParam(name = "user") GSUser user);
 
     @Post
     @HttpResource(location = "/users")
-    long updateUser(@WebParam(name = "user") User user) throws ResourceNotFoundFault;
+    long updateUser(@WebParam(name = "user") GSUser user) throws ResourceNotFoundFault;
 
     @Delete
     @HttpResource(location = "/users/{id}")
@@ -59,7 +59,7 @@ public interface UserAdminService {
 
     @Get
     @HttpResource(location = "/users/{id}")
-    User getUser(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    GSUser getUser(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
 
     @Get
     @HttpResource(location = "/users")

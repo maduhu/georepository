@@ -20,7 +20,7 @@
 package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.dao.UserDAO;
-import it.geosolutions.georepo.core.model.User;
+import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
@@ -43,14 +43,14 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     // ==========================================================================
     @Override
-    public long insertUser(User watch) {
+    public long insertUser(GSUser watch) {
         userDao.persist(watch);
         return watch.getId();
     }
 
     @Override
-    public long updateUser(User user) throws ResourceNotFoundFault {
-        User orig = userDao.find(user.getId());
+    public long updateUser(GSUser user) throws ResourceNotFoundFault {
+        GSUser orig = userDao.find(user.getId());
         if (orig == null) {
             throw new ResourceNotFoundFault("User not found", user.getId());
         }
@@ -60,8 +60,8 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public User getUser(long id) throws ResourceNotFoundFault {
-        User user = userDao.find(id);
+    public GSUser getUser(long id) throws ResourceNotFoundFault {
+        GSUser user = userDao.find(id);
 
         if (user == null) {
             throw new ResourceNotFoundFault("User not found", id);
@@ -72,7 +72,7 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     @Override
     public boolean deleteUser(long id) throws ResourceNotFoundFault {
-        User user = userDao.find(id);
+        GSUser user = userDao.find(id);
 
         if (user == null) {
             throw new ResourceNotFoundFault("User not found", id);
@@ -84,13 +84,13 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     @Override
     public List<ShortUser> getAllUsers() {
-        List<User> found = userDao.findAll();
+        List<GSUser> found = userDao.findAll();
         return convertToShortList(found);
     }
 
     @Override
     public List<ShortUser> getUsers(String nameLike, int page, int entries) {
-        Search searchCriteria = new Search(User.class);
+        Search searchCriteria = new Search(GSUser.class);
         searchCriteria.setMaxResults(entries);
         searchCriteria.setPage(page);
         searchCriteria.addSortAsc("name");
@@ -99,13 +99,13 @@ public class UserAdminServiceImpl implements UserAdminService {
             searchCriteria.addFilterILike("name", nameLike);
         }
 
-        List<User> foundWatch = userDao.search(searchCriteria);
+        List<GSUser> foundWatch = userDao.search(searchCriteria);
         return convertToShortList(foundWatch);
     }
 
     @Override
     public long getUsersCount(String nameLike) {
-        Search searchCriteria = new Search(User.class);
+        Search searchCriteria = new Search(GSUser.class);
 
         if (nameLike != null) {
             searchCriteria.addFilterILike("name", nameLike);
@@ -116,9 +116,9 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     // ==========================================================================
 
-    private List<ShortUser> convertToShortList(List<User> watchList) {
+    private List<ShortUser> convertToShortList(List<GSUser> watchList) {
         List<ShortUser> swList = new ArrayList<ShortUser>(watchList.size());
-        for (User watch : watchList) {
+        for (GSUser watch : watchList) {
             swList.add(new ShortUser(watch));
         }
 

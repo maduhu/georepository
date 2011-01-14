@@ -48,7 +48,8 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <scope>compile</scope>
+            <!-- need transitive dependency: service-API looks for annotation and would complain about these -->
+            <!--<scope>provided</scope> -->
             <exclusions>
                 <exclusion>
                     <groupId>asm</groupId>
@@ -67,7 +68,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-commons-annotations</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope> <!-- the dao module should import them for runtime -->
             <exclusions>
                 <exclusion>
                     <groupId>asm</groupId>
@@ -88,7 +89,7 @@
         <dependency>
             <groupId>org.hibernatespatial</groupId>
             <artifactId>hibernate-spatial-postgis</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope> <!-- the dao module should import them for runtime -->
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -101,12 +102,12 @@
         <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope> <!-- the dao module should import them for runtime -->
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope> <!-- the dao module should import them for runtime -->
         </dependency>
    		
    	<!-- Apache Commons -->

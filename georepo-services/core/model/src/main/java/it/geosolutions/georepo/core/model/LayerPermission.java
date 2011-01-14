@@ -23,12 +23,16 @@ package it.geosolutions.georepo.core.model;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
 import it.geosolutions.georepo.core.model.enums.AccessType;
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -74,6 +78,15 @@ public class LayerPermission {
     @ManyToOne(optional = false)
     @ForeignKey(name="fk_layer_workspace")
     private WorkspacePermission workspacePermission;
+
+    /** Custom properties associated to the Layer */
+    @org.hibernate.annotations.CollectionOfElements
+    @JoinTable( name = "gr_layer_custom_props",
+                joinColumns = @JoinColumn(name = "layerperm_id"))
+    @org.hibernate.annotations.MapKey(columns =@Column(name = "propkey"))
+    @Column(name = "propvalue")
+    @ForeignKey(name="fk_custom_layer")
+    private Map<String, String> customProps = new HashMap<String, String>();
 
 
     @XmlJavaTypeAdapter(MultiPolygonAdapter.class)
@@ -131,6 +144,14 @@ public class LayerPermission {
 
     public void setWorkspacePermission(WorkspacePermission workspacePermission) {
         this.workspacePermission = workspacePermission;
+    }
+
+    public Map<String, String> getCustomProps() {
+        return customProps;
+    }
+
+    public void setCustomProps(Map<String, String> customProps) {
+        this.customProps = customProps;
     }
 
 }

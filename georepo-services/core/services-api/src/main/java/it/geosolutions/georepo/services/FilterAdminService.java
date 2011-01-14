@@ -20,7 +20,7 @@
 package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.model.ServiceFilter;
-import it.geosolutions.georepo.core.model.User;
+import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.georepo.services.dto.ShortUser;
 
@@ -34,7 +34,7 @@ import org.codehaus.jra.Post;
 import org.codehaus.jra.Put;
 
 /**
- * Operations on {@link User User}s.
+ * Operations on {@link GSUser GSUser}s.
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */

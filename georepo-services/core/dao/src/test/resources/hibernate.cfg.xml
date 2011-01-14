@@ -10,7 +10,7 @@
     <!--        <property name="hibernate.connection.url">NOT USEFUL</property>-->
     <!--        <property name="hibernate.connection.username">NOT USEFUL</property>-->
     <!--        <property name="hibernate.connection.password">NOT USEFUL</property>-->
-    <mapping class="it.geosolutions.georepo.core.model.User"/>
+    <mapping class="it.geosolutions.georepo.core.model.GSUser"/>
 <!--    <mapping class="it.geosolutions.georepo.core.model.ServiceFilter"/>-->
 <!--    <mapping class="it.geosolutions.georepo.core.model.AttribFilters"/>-->
     <mapping class="it.geosolutions.georepo.core.model.AttributePermission"/>

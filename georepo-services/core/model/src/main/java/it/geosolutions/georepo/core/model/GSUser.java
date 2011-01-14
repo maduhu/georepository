@@ -1,5 +1,5 @@
 /*
- * $ Header: it.geosolutions.georepo.core.model.User,v. 0.1 4-gen-2011 16.22.14 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.core.model.GSUser,v. 0.1 4-gen-2011 16.22.14 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
  * $ Date: 4-gen-2011 16.22.14 $
  *
@@ -51,16 +51,16 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ForeignKey;
 
 /**
- * The Class User.
- * 
- * This Class represents the GeoRepository User Entity and is part of the base Model.
+ * A User that can access GeoServer resources.
+ *
+ * <P>A GSUser is <B>not</B> in the domain of the users which can log into GeoRepository.
  * 
  */
-@Entity(name = "User")
-@Table(name = "gr_user")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "user")
-@XmlRootElement(name = "User")
-public class User implements Serializable {
+@Entity(name = "GSUser")
+@Table(name = "gr_gsuser")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "GSUser")
+@XmlRootElement(name = "GSUser")
+public class GSUser implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -8739310455060618812L;
@@ -92,7 +92,7 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
 
-    /** Is the User Enabled or not in the system? */
+    /** Is the GSUser Enabled or not in the system? */
     @Column(nullable=false)
     private boolean enabled;
 
@@ -104,7 +104,7 @@ public class User implements Serializable {
     /**
      * Instantiates a new user.
      */
-    public User() {
+    public GSUser() {
     }
 
     /**
@@ -257,10 +257,10 @@ public class User implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof User)) {
+        if (!(obj instanceof GSUser)) {
             return false;
         }
-        User other = (User) obj;
+        GSUser other = (GSUser) obj;
         if (dateCreation == null) {
             if (other.dateCreation != null) {
                 return false;

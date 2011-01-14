@@ -20,7 +20,7 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import it.geosolutions.georepo.core.model.User;
+import it.geosolutions.georepo.core.model.GSUser;
 
 import org.junit.Test;
 
@@ -35,11 +35,11 @@ public class UserDAOTest extends BaseDAOTest {
 
         removeAll();
 
-        User user = createUserAndProfile(getName());
+        GSUser user = createUserAndProfile(getName());
         userDAO.persist(user);
 
         // test save & load
-        User loaded = userDAO.find(user.getId());
+        GSUser loaded = userDAO.find(user.getId());
         assertNotNull("Can't retrieve user", loaded);
 
         userDAO.remove(user);

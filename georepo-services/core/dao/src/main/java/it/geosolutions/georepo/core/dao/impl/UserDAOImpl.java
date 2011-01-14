@@ -20,7 +20,7 @@
 package it.geosolutions.georepo.core.dao.impl;
 
 import it.geosolutions.georepo.core.dao.UserDAO;
-import it.geosolutions.georepo.core.model.User;
+import it.geosolutions.georepo.core.model.GSUser;
 
 import java.util.List;
 
@@ -35,34 +35,34 @@ import com.trg.search.ISearch;
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @Transactional
-public class UserDAOImpl extends BaseDAO<User, Long>
-// extends GenericDAOImpl<User, Long>
+public class UserDAOImpl extends BaseDAO<GSUser, Long>
+// extends GenericDAOImpl<GSUser, Long>
         implements UserDAO {
 
     final private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public void persist(User... entities) {
+    public void persist(GSUser... entities) {
         super.persist(entities);
     }
 
     @Override
-    public List<User> findAll() {
+    public List<GSUser> findAll() {
         return super.findAll();
     }
 
     @Override
-    public List<User> search(ISearch search) {
+    public List<GSUser> search(ISearch search) {
         return super.search(search);
     }
 
     @Override
-    public User merge(User entity) {
+    public GSUser merge(GSUser entity) {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(User entity) {
+    public boolean remove(GSUser entity) {
         return super.remove(entity);
     }
 

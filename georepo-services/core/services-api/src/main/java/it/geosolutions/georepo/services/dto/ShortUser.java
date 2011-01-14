@@ -20,10 +20,10 @@
 
 package it.geosolutions.georepo.services.dto;
 
-import it.geosolutions.georepo.core.model.User;
+import it.geosolutions.georepo.core.model.GSUser;
 
 /**
- * A compact representation of User useful in lists.
+ * A compact representation of GSUser useful in lists.
  * 
  * @author Etj (etj@geo-solutions.it)
  */
@@ -36,7 +36,7 @@ public class ShortUser {
     public ShortUser() {
     }
 
-    public ShortUser(User user) {
+    public ShortUser(GSUser user) {
         this.id = user.getId();
         this.name = user.getName();
     }

@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import it.geosolutions.georepo.core.model.User;
+import it.geosolutions.georepo.core.model.GSUser;
 
 /**
  *
@@ -80,8 +80,8 @@ public abstract class BaseDAOTest extends TestCase {
     }
 
     protected void removeAllUsers() {
-        List<User> list = userDAO.findAll();
-        for (User item : list) {
+        List<GSUser> list = userDAO.findAll();
+        for (GSUser item : list) {
             LOGGER.info("Removing " + item);
             boolean ret = userDAO.remove(item);
             assertTrue("User not removed", ret);
@@ -101,15 +101,15 @@ public abstract class BaseDAOTest extends TestCase {
         assertEquals("Profiles have not been properly deleted", 0, profileDAO.count(null));
     }
 
-    protected User createUser(String base, Profile profile) {
+    protected GSUser createUser(String base, Profile profile) {
 
-        User user = new User();
+        GSUser user = new GSUser();
         user.setName( base );
         user.setProfile(profile);
         return user;
     }
 
-    protected User createUserAndProfile(String base) {
+    protected GSUser createUserAndProfile(String base) {
 
         Profile profile = new Profile();
         profile.setName(base);
