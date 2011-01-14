@@ -214,7 +214,7 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "Delete User", "Delete User button pressed." });
                 MessageBox.confirm("Delete User", "Are you sure to delete user "
-                        + getModel().getUserName() + " ?", new Listener<MessageBoxEvent>() {
+                        + getModel().getName() + " ?", new Listener<MessageBoxEvent>() {
 
                     public void handleEvent(MessageBoxEvent be) {
                         Button btn = be.getButtonClicked();

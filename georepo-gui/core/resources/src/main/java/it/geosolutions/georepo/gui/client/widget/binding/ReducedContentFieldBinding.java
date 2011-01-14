@@ -29,8 +29,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding;
 
-import it.geosolutions.georepo.gui.client.model.User;
-
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.store.Record;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
@@ -40,6 +38,7 @@ import com.extjs.gxt.ui.client.widget.form.Field;
 /**
  * The Class ReducedContentFieldBinding.
  */
+//TODO
 public class ReducedContentFieldBinding extends FieldBinding {
 
     /** The old value. */
@@ -95,7 +94,8 @@ public class ReducedContentFieldBinding extends FieldBinding {
             }
         } else {
             // model.set(property, ((UpdateInterval) val).getTime());
-            ((User) model).setReducedContent((Boolean) val);
+            //TODO
+//            ((User) model).setReducedContent((Boolean) val);
         }
     }
 
@@ -108,7 +108,8 @@ public class ReducedContentFieldBinding extends FieldBinding {
         ((CheckBox) field).setValue((Boolean) oldValue);
 
         // model.set(property, oldValue.toString());
-        ((User) model).setReducedContent((Boolean) oldValue);
+        //TODO
+//        ((User) model).setReducedContent((Boolean) oldValue);
     }
 
 }

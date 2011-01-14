@@ -103,7 +103,7 @@ public class LoginService implements ILoginService {
         }
 
         User user = new User();
-        user.setUserName(userName);
+        user.setName(userName);
         user.setPassword(password);
 
         // convert the server-side auths to client-side auths

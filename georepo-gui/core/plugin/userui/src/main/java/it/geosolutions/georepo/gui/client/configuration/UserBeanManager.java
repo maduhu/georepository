@@ -82,11 +82,9 @@ public class UserBeanManager implements IUserBeanManager {
             User user = new User();
             user.setPath("georepo/resources/images/userChoose.jpg");
             user.setName("TEST" + i);
-            user.setUserName("user" + i);
+            user.setFullName("user" + i);
             user.setPassword("password" + i);
             user.setEmailAddress("user" + i + "@test.it");
-            user.setEmailEnable(true);
-            user.setRssEnable(true);
             this.users.add(user);
         }
     }

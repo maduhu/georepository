@@ -177,7 +177,7 @@ public class Feature extends BeanModel {
      */
     public void setUser(User user) {
         this.user = user;
-        set(FeatureKeyValue.USER.getValue(), this.user == null ? null : this.user.getUserName());
+        set(FeatureKeyValue.USER.getValue(), this.user == null ? null : this.user.getName());
     }
 
     /**

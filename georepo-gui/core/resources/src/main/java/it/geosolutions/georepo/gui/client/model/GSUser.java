@@ -38,7 +38,7 @@ import com.extjs.gxt.ui.client.data.BeanModel;
 /**
  * The Class User.
  */
-public class User extends BeanModel {
+public class GSUser extends BeanModel {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -5117714882113396553L;
@@ -76,7 +76,7 @@ public class User extends BeanModel {
     /**
      * Instantiates a new user.
      */
-    public User() {
+    public GSUser() {
         setPath("georepo/resources/images/userChoose.jpg");
     }
 
@@ -293,10 +293,10 @@ public class User extends BeanModel {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof User)) {
+        if (!(obj instanceof GSUser)) {
             return false;
         }
-        User other = (User) obj;
+        GSUser other = (GSUser) obj;
         if (dateCreation == null) {
             if (other.dateCreation != null) {
                 return false;
