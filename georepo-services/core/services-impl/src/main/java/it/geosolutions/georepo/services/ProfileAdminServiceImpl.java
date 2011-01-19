@@ -67,14 +67,15 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public ShortProfile getProfile(long id) throws ResourceNotFoundFault {
+    public Profile getProfile(long id) throws ResourceNotFoundFault {
         Profile profile = profileDao.find(id);
 
         if (profile == null) {
             throw new ResourceNotFoundFault("Profile not found", id);
         }
 
-        return new ShortProfile(profile);
+//        return new ShortProfile(profile);
+        return profile;
     }
 
     @Override

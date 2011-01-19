@@ -60,7 +60,7 @@ public interface ProfileAdminService {
 
     @Get
     @HttpResource(location = "/profiles/{id}")
-    ShortProfile getProfile(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    Profile getProfile(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
 
     @Get
     @HttpResource(location = "/profiles")
