@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.ConfigurationRemote,v. 0.1 3-gen-2011 17.04.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.ConfigurationRemote,v. 0.1 14-gen-2011 19.27.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.04.50 $
+ * $ Date: 14-gen-2011 19.27.37 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -50,9 +53,9 @@ public interface ConfigurationRemote extends RemoteService {
         private static ConfigurationRemoteAsync instance;
 
         /**
-         * Gets the single instance of Util.
+         * Gets the instance.
          * 
-         * @return single instance of Util
+         * @return the instance
          */
         public static ConfigurationRemoteAsync getInstance() {
             if (instance == null) {
@@ -67,7 +70,7 @@ public interface ConfigurationRemote extends RemoteService {
     /**
      * Inits the server configuration.
      * 
-     * @return the dGWATCH global configuration
+     * @return the geo repo global configuration
      */
     public GeoRepoGlobalConfiguration initServerConfiguration();
 

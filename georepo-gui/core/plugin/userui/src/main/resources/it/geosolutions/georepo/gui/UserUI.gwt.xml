@@ -11,13 +11,4 @@
 	<servlet path="/LoginRemote"
 		class="it.geosolutions.georepo.gui.server.gwt.LoginRemoteImpl" />
 
-	<!-- servlet path="/QuartzRemote"
-		class="it.geosolutions.georepo.gui.server.gwt.QuartzRemoteImpl" />
-
-	<servlet path="/MembersRemote"
-		class="it.geosolutions.georepo.gui.server.gwt.MembersRemoteImpl" />
-
-    <servlet path="/SyncServiceRemote"
-        class="it.geosolutions.georepo.gui.server.gwt.SyncServiceRemoteImpl" / -->
-
 </module>

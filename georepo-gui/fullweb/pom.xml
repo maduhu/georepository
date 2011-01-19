@@ -321,7 +321,7 @@
 				<configuration>
 					<warSourceExcludes>.gwt-tmp/**</warSourceExcludes>
 					<warSourceDirectory>war</warSourceDirectory>
-					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+					<webXml>war/WEB-INF/web.xml</webXml>
 				</configuration>
 			</plugin>
 			

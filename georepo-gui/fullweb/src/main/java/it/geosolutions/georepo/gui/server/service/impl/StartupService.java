@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.impl.StartupService,v. 0.1 3-gen-2011 17.05.14 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.impl.StartupService,v. 0.1 14-gen-2011 19.27.51 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.05.14 $
+ * $ Date: 14-gen-2011 19.27.51 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -40,7 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class StartupService implements IStartupService {
 
-    /** The GeoRepo global configuration. */
+    /** The georepo global configuration. */
     @Autowired
     private GeoRepoGlobalConfiguration georepoGlobalConfiguration;
 

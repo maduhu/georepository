@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.observer.ObserverFilterWidget,v. 0.1 3-gen-2011 16.58.03 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.observer.ObserverFilterWidget,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.58.03 $
+ * $ Date: 14-gen-2011 19.28.37 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -31,7 +34,6 @@ package it.geosolutions.georepo.gui.client.widget.observer;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Observable;
-import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.Filter;
 import it.geosolutions.georepo.gui.client.model.User;
 
@@ -43,25 +45,11 @@ import com.extjs.gxt.ui.client.mvc.Dispatcher;
  */
 public class ObserverFilterWidget extends Observable {
 
-    /** The aoi selected. */
-    private AOI aoiSelected;
-
     /** The user selected. */
     private User userSelected;
 
     /** The default filter. */
     private Filter defaultFilter;
-
-    /**
-     * Sets the aoi selected.
-     * 
-     * @param aoiSelected
-     *            the new aoi selected
-     */
-    public void setAoiSelected(AOI aoiSelected) {
-        this.aoiSelected = aoiSelected;
-        this.notifyBinding();
-    }
 
     /**
      * Sets the user selected.
@@ -81,15 +69,6 @@ public class ObserverFilterWidget extends Observable {
      */
     public User getUserSelected() {
         return userSelected;
-    }
-
-    /**
-     * Gets the aoi selected.
-     * 
-     * @return the aoi selected
-     */
-    public AOI getAoiSelected() {
-        return aoiSelected;
     }
 
     /**
@@ -121,19 +100,10 @@ public class ObserverFilterWidget extends Observable {
     }
 
     /**
-     * Exist selected aoi.
-     * 
-     * @return true, if successful
-     */
-    public boolean existSelectedAOI() {
-        return this.aoiSelected != null;
-    }
-
-    /**
      * Notify binding.
      */
     private void notifyBinding() {
-        if (existSelectedUser() && existSelectedAOI()) {
+        if (existSelectedUser()) {
             super.setChanged();
             super.notifyObservers();
         } else {
@@ -145,12 +115,12 @@ public class ObserverFilterWidget extends Observable {
      * Exist default filter.
      */
     public void existDefaultFilter() {
-        if ((this.aoiSelected.isShared()) || (this.userSelected.equals(aoiSelected.getOwner()))) {
-            Dispatcher.forwardEvent(GeoRepoEvents.EXIST_DEFAULT_FILTER);
-        } else {
-            // UNBIND THE MODEL
-            unbind();
-        }
+//        if ((this.aoiSelected.isShared()) || (this.userSelected.equals(aoiSelected.getOwner()))) {
+//            Dispatcher.forwardEvent(GeoRepoEvents.EXIST_DEFAULT_FILTER);
+//        } else {
+//            // UNBIND THE MODEL
+//            unbind();
+//        }
     }
 
     /**

@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.Filter,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.Filter,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.11 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -49,28 +52,38 @@ public class Filter extends BeanModel {
 
         /** The LEGAC y_ id. */
         LEGACY_ID("legacyId"),
+        
         /** The AOI. */
         AOI("aoi"),
+        
         /** The OWNER. */
         OWNER("ownerFilter"),
+        
         /** The AC q_ date. */
         ACQ_DATE("acqDate"),
+        
         /** The DAT a_ layer. */
         DATA_LAYER("dataLayer"),
+        
         /** The CLOU d_ cover. */
         CLOUD_COVER("cloudCover"), /*
                                     * RETRIEVE_TYPE( "retrieveType"), RETRIEVE_TYPE_INCREMENTAL(
                                     * "retrieveTypeIncremental"),
                                     *//** The FILTE r_ legacy. */
         FILTER_LEGACY("filterLegacy"),
+        
         /** The FILTE r_ ac q_ date. */
         FILTER_ACQ_DATE("filterAcqDate"),
+        
         /** The FILTE r_ dat a_ layer. */
         FILTER_DATA_LAYER("filterDataLayer"),
+        
         /** The FILTE r_ clou d_ cover. */
         FILTER_CLOUD_COVER("filterCloudCover"),
+        
         /** The SOURC e_ id. */
         SOURCE_ID("sourceId"),
+        
         /** The FILTE r_ source. */
         FILTER_SOURCE("filterSource");
 

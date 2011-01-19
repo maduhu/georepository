@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.AOISUI,v. 0.1 3-gen-2011 16.15.58 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.MAPSUI,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.15.58 $
+ * $ Date: 14-gen-2011 19.28.37 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -29,17 +32,16 @@
  */
 package it.geosolutions.georepo.gui.client;
 
-import it.geosolutions.georepo.gui.client.mvc.MAPSController;
 import it.geosolutions.georepo.gui.client.mvc.FilterController;
+import it.geosolutions.georepo.gui.client.mvc.MAPSController;
 import it.geosolutions.georepo.gui.client.mvc.MapController;
-import it.geosolutions.georepo.gui.client.mvc.WatchesController;
 
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.EntryPoint;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class AOISUI.
+ * The Class MAPSUI.
  */
 public class MAPSUI implements EntryPoint {
 
@@ -58,7 +60,6 @@ public class MAPSUI implements EntryPoint {
         dispatcher.addController(new MAPSController());
         // dispatcher.addController(new FeatureController());
         dispatcher.addController(new FilterController());
-        dispatcher.addController(new WatchesController());
 
         dispatcher.dispatch(GeoRepoEvents.INIT_MAPS_UI_MODULE);
 

@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.FilterInfo,v. 0.1 3-gen-2011 16.52.56 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.FilterInfo,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.52.56 $
+ * $ Date: 14-gen-2011 19.28.37 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -30,8 +33,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.AOI;
-import it.geosolutions.georepo.gui.client.model.AOI.AOIKeyValue;
+import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.model.Filter.FilterKeyValue;
 
 import com.extjs.gxt.ui.client.binding.FormBinding;
@@ -43,7 +45,7 @@ import com.extjs.gxt.ui.client.widget.layout.FormData;
 /**
  * The Class FilterInfo.
  */
-public class FilterInfo extends GeoRepoBindingWidget<AOI> {
+public class FilterInfo extends GeoRepoBindingWidget<User> {
 
     /** The aoi. */
     private LabelField aoi;
@@ -82,14 +84,12 @@ public class FilterInfo extends GeoRepoBindingWidget<AOI> {
 
         aoi = new LabelField();
         aoi.setId(FilterKeyValue.AOI.getValue());
-        aoi.setName(AOIKeyValue.AOI.getValue());
         aoi.setFieldLabel(I18nProvider.getMessages().aoiAbbreviatedLabel());
         aoi.setWidth(150);
         fp.add(aoi, formData);
 
         owner = new LabelField();
         owner.setId(FilterKeyValue.OWNER.getValue());
-        owner.setName(AOIKeyValue.OWNER.getValue());
         // owner.setFieldLabel(I18nProvider.getMessages().aoiOwnerLabel());
         owner.setWidth(150);
         fp.add(owner, formData);

@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.binding.ReducedContentFieldBinding,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.ReducedContentFieldBinding,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.10 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -29,8 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget.binding;
 
-import it.geosolutions.georepo.gui.client.model.User;
-
 import com.extjs.gxt.ui.client.binding.FieldBinding;
 import com.extjs.gxt.ui.client.store.Record;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
@@ -40,6 +41,7 @@ import com.extjs.gxt.ui.client.widget.form.Field;
 /**
  * The Class ReducedContentFieldBinding.
  */
+//TODO
 public class ReducedContentFieldBinding extends FieldBinding {
 
     /** The old value. */
@@ -95,7 +97,8 @@ public class ReducedContentFieldBinding extends FieldBinding {
             }
         } else {
             // model.set(property, ((UpdateInterval) val).getTime());
-            ((User) model).setReducedContent((Boolean) val);
+            //TODO
+//            ((User) model).setReducedContent((Boolean) val);
         }
     }
 
@@ -108,7 +111,8 @@ public class ReducedContentFieldBinding extends FieldBinding {
         ((CheckBox) field).setValue((Boolean) oldValue);
 
         // model.set(property, oldValue.toString());
-        ((User) model).setReducedContent((Boolean) oldValue);
+        //TODO
+//        ((User) model).setReducedContent((Boolean) oldValue);
     }
 
 }

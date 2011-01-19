@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.DGWATCHFormBindingWidget,v. 0.1 3-gen-2011 17.06.10 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.10 $
+ * $ Date: 14-gen-2011 19.29.23 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -30,7 +33,6 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.model.Authorization;
-import it.geosolutions.georepo.gui.client.widget.binding.GeoRepoWatchFormBinding;
 
 import java.util.List;
 
@@ -40,7 +42,7 @@ import com.extjs.gxt.ui.client.widget.form.FormPanel;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class DGWATCHFormBindingWidget.
+ * The Class GeoRepoFormBindingWidget.
  * 
  * @param <T>
  *            the generic type
@@ -49,9 +51,6 @@ public abstract class GeoRepoFormBindingWidget<T extends BaseModel> {
 
     /** The form panel. */
     protected FormPanel formPanel;
-
-    /** The form binding. */
-    protected GeoRepoWatchFormBinding formBinding;
 
     /** The model. */
     private T model;
@@ -64,14 +63,14 @@ public abstract class GeoRepoFormBindingWidget<T extends BaseModel> {
      */
     public void bindModel(T model) {
         this.model = model;
-        this.formBinding.bind(model);
+//        this.formBinding.bind(model);
     }
 
     /**
      * Un bind model.
      */
     public void unBindModel() {
-        this.formBinding.unbind();
+//        this.formBinding.unbind();
     }
 
     /**
@@ -80,7 +79,7 @@ public abstract class GeoRepoFormBindingWidget<T extends BaseModel> {
      * @return the form binding
      */
     public FormBinding getFormBinding() {
-        return formBinding;
+        return /*formBinding*/ null;
     }
 
     /**

@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.BeanKeyValue,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.BeanKeyValue,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.11 $
+ * $ Date: 14-gen-2011 19.29.23 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -36,18 +39,26 @@ package it.geosolutions.georepo.gui.client.model;
 public enum BeanKeyValue {
 
     /** The USE r_ name. */
-    USER_NAME("userName"), /** The EMAIL. */
-    EMAIL("emailAddress"), /** The EMAI l_ enable. */
-    EMAIL_ENABLE("emailEnable"), /** The RS s_ enable. */
+    USER_NAME("userName"), 
+ /** The EMAIL. */
+    EMAIL("emailAddress"), 
+ /** The EMAI l_ enable. */
+    EMAIL_ENABLE("emailEnable"), 
+ /** The RS s_ enable. */
     RSS_ENABLE("rssEnable"),
+    
     /** The REDUCE d_ content. */
     REDUCED_CONTENT("reducedContent"),
+    
     /** The USE r_ enabled. */
     USER_ENABLED("userEnabled"),
+    
     /** The NAME. */
     NAME("name"),
+    
     /** The PATH. */
     PATH("path"),
+    
     /** The REDUCE d_ conten t_ update. */
     REDUCED_CONTENT_UPDATE("REDUCED_CONTENT_UPDATE");
 

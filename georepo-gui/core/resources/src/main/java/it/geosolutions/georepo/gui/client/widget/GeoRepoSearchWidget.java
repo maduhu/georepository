@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.GeoRepoSearchWidget,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.11 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -66,7 +69,7 @@ import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class DGWATCHSearchWidget.
+ * The Class GeoRepoSearchWidget.
  * 
  * @param <T>
  *            the generic type
@@ -110,7 +113,7 @@ public abstract class GeoRepoSearchWidget<T extends BaseModel> extends Window {
     protected String searchText;
 
     /**
-     * Instantiates a new dGWATCH search widget.
+     * Instantiates a new geo repo search widget.
      */
     public GeoRepoSearchWidget() {
         initWindow();

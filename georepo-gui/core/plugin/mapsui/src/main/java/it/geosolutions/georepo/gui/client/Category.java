@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.Category,v. 0.1 3-gen-2011 16.15.58 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.Category,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.15.58 $
+ * $ Date: 14-gen-2011 19.28.38 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -37,26 +40,37 @@ public enum Category {
 
     /** The ADMINISTRATIO n_ mode. */
     ADMINISTRATION_MODE,
+    
     /** The CLOCK. */
     CLOCK,
+    
     /** The DELET e_ content. */
     DELETE_CONTENT,
-    /** The DGWATC h_ clean. */
+    
+    /** The GEOREP o_ clean. */
     GEOREPO_CLEAN,
-    /** The DGWATC h_ draw. */
+    
+    /** The GEOREP o_ draw. */
     GEOREPO_DRAW,
-    /** The DGWATC h_ info. */
+    
+    /** The GEOREP o_ info. */
     GEOREPO_INFO,
-    /** The DGWATC h_ uploa d_ shp. */
+    
+    /** The GEOREP o_ uploa d_ shp. */
     GEOREPO_UPLOAD_SHP,
-    /** The DGWATC h_ zoo m_ in. */
+    
+    /** The GEOREP o_ zoo m_ in. */
     GEOREPO_ZOOM_IN,
-    /** The DGWATC h_ zoo m_ out. */
+    
+    /** The GEOREP o_ zoo m_ out. */
     GEOREPO_ZOOM_OUT,
+    
     /** The LOGOUT. */
     LOGOUT,
+    
     /** The QUARTZ. */
     QUARTZ,
+    
     /** The SAVE. */
     SAVE,
 

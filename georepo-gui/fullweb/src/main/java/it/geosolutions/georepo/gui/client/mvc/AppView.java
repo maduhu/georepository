@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.mvc.AppView,v. 0.1 3-gen-2011 17.04.42 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.AppView,v. 0.1 14-gen-2011 19.27.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.04.42 $
+ * $ Date: 14-gen-2011 19.27.23 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -74,6 +77,7 @@ public class AppView extends View {
     /** The north. */
     protected ContentPanel north;
 
+    /** The tab widget. */
     private TabWidget tabWidget;
 
     /**
@@ -164,7 +168,7 @@ public class AppView extends View {
         south.add(this.tabWidget);
         south.layout();
         
-        Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, tabWidget);
+        Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, this.tabWidget);
 
         viewport.add(south, data);
     }
@@ -190,25 +194,6 @@ public class AppView extends View {
      */
     private void configureAccordionPanel() {
         AppController controller = (AppController) this.getController();
-        switch (controller.getAdministrationMode()) {
-        case NOTIFICATION_DISTRIBUTION:
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_WATCHES_WIDGET, east);
-            // Dispatcher.forwardEvent(DGWATCHEvents.ATTACH_USER_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_AOI_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_AOI_FILTER, east);
-            break;
-        case GEOCONSTRAINTS:
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_GEOCONSTRAINT_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_GEOCONSTRAINT_AOI_WIDGET, east);
-            break;
-        case MEMBER:
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MEMBER_WIDGET, east);
-            Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_NODE_SELECTION_WIDGET, east);
-            break;
-        default:
-            assert false : "invalid AdministrationMode: " + controller.getAdministrationMode();
-        }
     }
 
     /*
@@ -243,8 +228,9 @@ public class AppView extends View {
     /**
      * Reload.
      */
-    public native void reload()/*-{
-                               $wnd.window.location.reload();
-                               }-*/;
+    public native void reload()
+    /*-{
+        $wnd.window.location.reload();
+    }-*/;
 
 }

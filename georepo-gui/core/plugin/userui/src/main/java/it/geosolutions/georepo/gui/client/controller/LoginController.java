@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.controller.LoginController,v. 0.1 3-gen-2011 17.06.53 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.controller.LoginController,v. 0.1 14-gen-2011 19.29.51 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.53 $
+ * $ Date: 14-gen-2011 19.29.51 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -31,12 +34,9 @@ package it.geosolutions.georepo.gui.client.controller;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.model.AOI;
 import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.service.LoginRemote;
 import it.geosolutions.georepo.gui.client.service.LoginRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.AOIUserPrefContainer;
-import it.geosolutions.georepo.gui.client.widget.AddUserWidget;
 import it.geosolutions.georepo.gui.client.widget.ChooseUserPagWidget;
 import it.geosolutions.georepo.gui.client.widget.GeoRepoChooserWidget;
 import it.geosolutions.georepo.gui.client.widget.GeoRepoSearchWidget;
@@ -75,17 +75,11 @@ public class LoginController extends Controller {
     /** The user management widget. */
     private UserManagementWidget userManagementWidget;
 
-    /** The add user widget. */
-    private AddUserWidget addUserWidget;
-
     /** The search widget. */
     private GeoRepoSearchWidget<User> searchWidget;
 
     /** The update user. */
     private GeoRepoUpdateWidget<User> updateUser;
-
-    /** The aoi user container. */
-    private AOIUserPrefContainer aoiUserContainer;
 
     /**
      * Instantiates a new login controller.
@@ -129,9 +123,7 @@ public class LoginController extends Controller {
     private void initWidget() {
         this.chooseUserWidget = new ChooseUserPagWidget(loginRemote);
         this.searchWidget = new SearchPagUserWidget(this.loginRemote);
-        this.addUserWidget = new AddUserWidget();
         this.updateUser = new UpdateUserWidget();
-        this.aoiUserContainer = new AOIUserPrefContainer(this.loginRemote);
     }
 
     /*
@@ -197,7 +189,7 @@ public class LoginController extends Controller {
      *            the event
      */
     private void onCheckRelatedUsersCount(AppEvent event) {
-        final AOI aoi = (AOI) event.getData();
+//        final AOI aoi = (AOI) event.getData();
 
         // TODO REFACTOR GG
         // this.loginRemote.getRelatedUsersCount(aoi.getId(),

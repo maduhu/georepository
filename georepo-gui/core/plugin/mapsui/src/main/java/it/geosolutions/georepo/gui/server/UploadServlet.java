@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.UploadServlet,v. 0.1 3-gen-2011 16.58.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.UploadServlet,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.58.23 $
+ * $ Date: 14-gen-2011 19.28.38 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -29,7 +32,7 @@
  */
 package it.geosolutions.georepo.gui.server;
 
-import it.geosolutions.georepo.gui.server.utility.DGWATCHIoUtility;
+import it.geosolutions.georepo.gui.server.utility.IoUtility;
 
 import java.io.File;
 import java.io.IOException;
@@ -162,7 +165,7 @@ public class UploadServlet extends HttpServlet {
         Polygon[] geomArray = null;
         File shpDir = null;
         try {
-            shpDir = DGWATCHIoUtility.decompress("DGWATCH", file, File.createTempFile(
+            shpDir = IoUtility.decompress("DGWATCH", file, File.createTempFile(
                     "dgwatch-temp", ".tmp"));
 
             if (shpDir == null)

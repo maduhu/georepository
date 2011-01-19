@@ -11,4 +11,5 @@
      <entry-point class='it.geosolutions.georepo.gui.client.ResourcesEntryPoint' />
      
 	<source path="client" />
+	
 </module>

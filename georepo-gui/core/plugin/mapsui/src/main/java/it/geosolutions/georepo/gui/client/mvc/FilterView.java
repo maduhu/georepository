@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.mvc.FilterView,v. 0.1 3-gen-2011 16.52.35 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.FilterView,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.52.35 $
+ * $ Date: 14-gen-2011 19.28.38 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -30,9 +33,6 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.widget.AOISFilter;
-import it.geosolutions.georepo.gui.client.widget.FilterBindingWidget;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -45,8 +45,13 @@ import com.extjs.gxt.ui.client.widget.ContentPanel;
  */
 public class FilterView extends View {
 
-    /** The filter. */
-    private AOISFilter filter;
+    /**
+     * Instantiates a new filter view.
+     * 
+     * @param controller
+     *            the controller
+     */
+//    private AOISFilter filter;
 
     /**
      * Instantiates a new filter view.
@@ -56,7 +61,7 @@ public class FilterView extends View {
      */
     public FilterView(Controller controller) {
         super(controller);
-        this.filter = new AOISFilter();
+//        this.filter = new AOISFilter();
     }
 
     /*
@@ -82,7 +87,7 @@ public class FilterView extends View {
      */
     private void onAttachFilterWidget(AppEvent event) {
         ContentPanel east = (ContentPanel) event.getData();
-        east.add(this.filter);
+//        east.add(this.filter);
         east.layout();
     }
 
@@ -90,21 +95,12 @@ public class FilterView extends View {
      * On unbind filter widget.
      */
     private void onUnbindFilterWidget() {
-        FilterBindingWidget filterBindingWidget = this.filter.getFilterBinding();
-        filterBindingWidget.unBindModel();
+//        FilterBindingWidget filterBindingWidget = this.filter.getFilterBinding();
+//        filterBindingWidget.unBindModel();
+//
+//        filter.setHeading(I18nProvider.getMessages().aoiFilterLabel()
+//                + " (Attribute Filter disabled)");
 
-        filter.setHeading(I18nProvider.getMessages().aoiFilterLabel()
-                + " (Attribute Filter disabled)");
-
-    }
-
-    /**
-     * Gets the filter.
-     * 
-     * @return the filter
-     */
-    public AOISFilter getFilter() {
-        return filter;
     }
 
 }

@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.tab.TabWidget,v. 0.1 3-gen-2011 16.58.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.tab.TabWidget,v. 0.1 14-gen-2011 19.27.41 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.58.12 $
+ * $ Date: 14-gen-2011 19.27.41 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -31,10 +34,6 @@ package it.geosolutions.georepo.gui.client.widget.tab;
 
 //import it.geosolutions.georepo.gui.client.AdministrationMode;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-//import it.geosolutions.georepo.gui.client.model.GeoConstraint;
-//import it.geosolutions.georepo.gui.client.service.FeatureServiceRemoteAsync;
-//import it.geosolutions.georepo.gui.client.service.MembersRemoteAsync;
-//import it.geosolutions.georepo.gui.client.service.WatchServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -48,34 +47,8 @@ import com.extjs.gxt.ui.client.widget.TabPanel;
  */
 public class TabWidget extends TabPanel implements Listener {
 
-//    /** The geo rss. */
-//    private GeoRSSTabItem geoRSS;
-//
-//    /** The geo constraint. */
-//    private GeoConstraintTabItem geoConstraint;
-//
-//    /** The gcdn. */
-//    private GCDNTabItem gcdn;
-//
-//    // private AOITabItem aoi;
-//    /** The watch. */
-//    private WatchTabItem watch;
-//
-//    /** The executed watches. */
-//    private ExecutedWatchesTabItem executedWatches;
-//
-//    /** The current admin mode. */
-//    private AdministrationMode currentAdminMode;
-
     /**
      * Instantiates a new tab widget.
-     * 
-     * @param featureRemote
-     *            the feature remote
-     * @param memberRemote
-     *            the member remote
-     * @param watchService
-     *            the watch service
      */
     public TabWidget(/*FeatureServiceRemoteAsync featureRemote, MembersRemoteAsync memberRemote,
             WatchServiceRemoteAsync watchService*/) {
@@ -83,10 +56,7 @@ public class TabWidget extends TabPanel implements Listener {
         initTab();
         initTabItem(/*featureRemote, memberRemote, watchService*/);
 
-        addListener(GeoRepoEvents.ADMIN_MODE_CHANGE, this);
         addListener(GeoRepoEvents.BIND_SELECTED_MEMBER, this);
-        addListener(GeoRepoEvents.GEOCONSTRAINT_DELETED, this);
-        addListener(GeoRepoEvents.RELOAD_GEOCONSTRAINTS, this);
     }
 
     /**
@@ -99,13 +69,6 @@ public class TabWidget extends TabPanel implements Listener {
 
     /**
      * Inits the tab item.
-     * 
-     * @param featureService
-     *            the feature service
-     * @param memberService
-     *            the member service
-     * @param watchService
-     *            the watch service
      */
     private void initTabItem(/*FeatureServiceRemoteAsync featureService,
             MembersRemoteAsync memberService, WatchServiceRemoteAsync watchService*/) {
@@ -125,61 +88,6 @@ public class TabWidget extends TabPanel implements Listener {
         super.doLayout();
 
     }
-
-//    /**
-//     * Gets the geo rss.
-//     * 
-//     * @return the geo rss
-//     */
-//    public GeoRSSTabItem getGeoRSS() {
-//        return geoRSS;
-//    }
-//
-//    /**
-//     * Gets the gcdn.
-//     * 
-//     * @return the gcdn
-//     */
-//    public GCDNTabItem getGcdn() {
-//        return gcdn;
-//    }
-
-    // /**
-    // * @return the aoi
-    // */
-    // public AOITabItem getAoi() {
-    // return aoi;
-    // }
-
-//    /**
-//     * Gets the watch.
-//     * 
-//     * @return the watch
-//     */
-//    public WatchTabItem getWatch() {
-//        return watch;
-//    }
-//
-//    /**
-//     * Gets the executed watches.
-//     * 
-//     * @return the executed watches
-//     */
-//    public ExecutedWatchesTabItem getExecutedWatches() {
-//        return executedWatches;
-//    }
-
-    // public void removeAOI(AOI aoi) {
-    // this.aoi.removeAOI(aoi);
-    // }
-    //
-    // public void updateAOITitle(AOI aoi) {
-    // this.aoi.updateAOITitle(aoi);
-    // }
-    //	
-    // public void updateAOIStatus(AOI aoi) {
-    // this.aoi.updateAOIStatus(aoi);
-    // }
 
     /*
      * (non-Javadoc)
@@ -201,35 +109,6 @@ public class TabWidget extends TabPanel implements Listener {
 //            onReloadGeoConstraints((AppEvent) e);
 //        }
     }
-
-//    /**
-//     * On admin mode change.
-//     * 
-//     * @param event
-//     *            the event
-//     */
-//    private void onAdminModeChange(AppEvent event) {
-//        this.currentAdminMode = event.getData();
-//
-//        this.removeAll();
-//        switch (this.currentAdminMode) {
-//        case NOTIFICATION_DISTRIBUTION:
-//            add(geoRSS);
-//            add(gcdn);
-//            // add(aoi);
-//            add(watch);
-//            break;
-//        case GEOCONSTRAINTS:
-//            add(geoConstraint);
-//            break;
-//        case MEMBER:
-//            add(gcdn);
-//            // add(aoi);
-//            break;
-//        default:
-//            assert false : "invalid AdministrationMode: " + this.currentAdminMode;
-//        }
-//    }
 
     /**
      * Forward to all tabs.
@@ -263,24 +142,4 @@ public class TabWidget extends TabPanel implements Listener {
         forwardToAllTabs(event);
     }
 
-//    /**
-//     * On geo constraint deleted.
-//     * 
-//     * @param event
-//     *            the event
-//     */
-//    private void onGeoConstraintDeleted(AppEvent event) {
-//        this.geoConstraint.removeGeoConstraint((Integer) event.getData());
-//    }
-//
-//    /**
-//     * Contains.
-//     * 
-//     * @param gc
-//     *            the gc
-//     * @return true, if successful
-//     */
-//    public boolean contains(GeoConstraint gc) {
-//        return this.geoConstraint.contains(gc);
-//    }
 }

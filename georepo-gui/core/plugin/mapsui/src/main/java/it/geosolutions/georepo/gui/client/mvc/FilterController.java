@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.mvc.FilterController,v. 0.1 3-gen-2011 16.52.35 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.FilterController,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 16.52.35 $
+ * $ Date: 14-gen-2011 19.28.38 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -30,7 +33,6 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Filter;
 import it.geosolutions.georepo.gui.client.widget.observer.FilterWatcher;
 import it.geosolutions.georepo.gui.client.widget.observer.ObserverFilterWidget;
@@ -94,8 +96,8 @@ public class FilterController extends Controller {
         if (event.getType() == GeoRepoEvents.EXIST_DEFAULT_FILTER)
             onExistDefaultFilter(event);
 
-        if (event.getType() == GeoRepoEvents.SET_USER_PREF)
-            onSetUserPref(event);
+//        if (event.getType() == GeoRepoEvents.SET_USER_PREF)
+//            onSetUserPref(event);
 
         if (event.getType() == GeoRepoEvents.UPDATE_TITLE)
             onUpdateTitlePref();
@@ -107,48 +109,8 @@ public class FilterController extends Controller {
      * On update title pref.
      */
     private void onUpdateTitlePref() {
-        filterView.getFilter().setHeading(
-                I18nProvider.getMessages().aoiFilterLabel() + " (Attribute Filter disabled)");
-    }
-
-    // @SuppressWarnings("rawtypes")
-    /**
-     * On set user pref.
-     * 
-     * @param event
-     *            the event
-     */
-    private void onSetUserPref(AppEvent event) {
-        // final Filter filter = (Filter) event.getData();
-        //
-        // this.filterService.setUserPref(filter.getUserID(), filter.getAoiID(),
-        // filter, new AsyncCallback() {
-        //
-        // public void onFailure(Throwable caught) {
-        // Dispatcher
-        // .forwardEvent(
-        // DGWATCHEvents.SEND_ERROR_MESSAGE,
-        // new String[] { "Filter Sercice",
-        // "There was an error in setting User Pref for AOI." });
-        // }
-        //
-        // public void onSuccess(Object result) {
-        // Dispatcher
-        // .forwardEvent(DGWATCHEvents.UNBIND_USER_WIDGET);
-        // Dispatcher
-        // .forwardEvent(DGWATCHEvents.UNBIND_FILTER_WIDGET);
-        // Dispatcher.forwardEvent(DGWATCHEvents.RESET_AOI_GRID);
-        // Dispatcher.forwardEvent(DGWATCHEvents.RESET_RSS_GRID);
-        // Dispatcher.forwardEvent(DGWATCHEvents.CHECK_AOI_STATUS);
-        //
-        // Dispatcher.forwardEvent(
-        // DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-        // "Filter Service",
-        // "Set User Pref for AOI with ID : "
-        // + filter.getAoiID() });
-        // }
-        // });
-
+//        filterView.getFilter().setHeading(
+//                I18nProvider.getMessages().aoiFilterLabel() + " (Attribute Filter disabled)");
     }
 
     /**
@@ -197,11 +159,11 @@ public class FilterController extends Controller {
      *            the filter
      */
     private void bindModels(Filter filter) {
-        this.filterView.getFilter().getFilterBinding().unBindModel();
-        this.filterView.getFilter().getFilterBinding().bindModel(filter);
-
-        filterView.getFilter().setHeading(
-                I18nProvider.getMessages().aoiFilterLabel() + " (Attribute Filter enabled)");
+//        this.filterView.getFilter().getFilterBinding().unBindModel();
+//        this.filterView.getFilter().getFilterBinding().bindModel(filter);
+//
+//        filterView.getFilter().setHeading(
+//                I18nProvider.getMessages().aoiFilterLabel() + " (Attribute Filter enabled)");
 
     }
 }

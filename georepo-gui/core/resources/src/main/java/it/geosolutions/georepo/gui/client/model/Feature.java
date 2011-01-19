@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.Feature,v. 0.1 3-gen-2011 17.06.12 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.Feature,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.12 $
+ * $ Date: 14-gen-2011 19.29.23 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -46,22 +49,31 @@ public class Feature extends BeanModel {
 
         /** The ID. */
         ID("id"),
+        
         /** The DAT e_ creation. */
         DATE_CREATION("creationDate"),
+        
         /** The EXTERNA l_ id. */
         EXTERNAL_ID("externalId"),
+        
         /** The EXTERNA l_ sortin g_ date. */
         EXTERNAL_SORTING_DATE("externalSortingDate"),
+        
         /** The USER. */
         USER("user"),
+        
         /** The TITLE. */
         TITLE("title"),
+        
         /** The AOI. */
         AOI("aoi"),
+        
         /** The WF s_ respons e_ blob. */
         WFS_RESPONSE_BLOB("wfsResponseBlob"),
+        
         /** The LAS t_ sen t_ b y_ mail. */
         LAST_SENT_BY_MAIL("lastSentByMail"),
+        
         /** The LAS t_ sen t_ b y_ rss. */
         LAST_SENT_BY_RSS("lastSentByRss");
 
@@ -99,9 +111,6 @@ public class Feature extends BeanModel {
 
     /** The user. */
     private User user;
-
-    /** The aoi. */
-    private AOI aoi;
 
     /** The creation date. */
     private Date creationDate;
@@ -180,27 +189,7 @@ public class Feature extends BeanModel {
      */
     public void setUser(User user) {
         this.user = user;
-        set(FeatureKeyValue.USER.getValue(), this.user == null ? null : this.user.getUserName());
-    }
-
-    /**
-     * Gets the aoi.
-     * 
-     * @return the aoi
-     */
-    public AOI getAoi() {
-        return aoi;
-    }
-
-    /**
-     * Sets the aoi.
-     * 
-     * @param aoi
-     *            the new aoi
-     */
-    public void setAoi(AOI aoi) {
-        this.aoi = aoi;
-        set(FeatureKeyValue.AOI.getValue(), this.aoi == null ? null : this.user.getName());
+        set(FeatureKeyValue.USER.getValue(), this.user == null ? null : this.user.getName());
     }
 
     /**
@@ -224,19 +213,19 @@ public class Feature extends BeanModel {
     }
 
     /**
-     * Gets the ID of this feature in the source system.
+     * Gets the external id.
      * 
-     * @return the ID of this feature in the source system
+     * @return the external id
      */
     public String getExternalId() {
         return externalId;
     }
 
     /**
-     * Sets the ID of this feature in the source system.
+     * Sets the external id.
      * 
      * @param externalId
-     *            the new ID of this feature in the source system
+     *            the new external id
      */
     public void setExternalId(String externalId) {
         this.externalId = externalId;
@@ -244,19 +233,19 @@ public class Feature extends BeanModel {
     }
 
     /**
-     * Gets the a Date attribute in the source system that is monotonically ascending.
+     * Gets the external sorting date.
      * 
-     * @return the a Date attribute in the source system that is monotonically ascending
+     * @return the external sorting date
      */
     public Date getExternalSortingDate() {
         return externalSortingDate;
     }
 
     /**
-     * Sets the a Date attribute in the source system that is monotonically ascending.
+     * Sets the external sorting date.
      * 
      * @param externalSortingDate
-     *            the new a Date attribute in the source system that is monotonically ascending
+     *            the new external sorting date
      */
     public void setExternalSortingDate(Date externalSortingDate) {
         this.externalSortingDate = externalSortingDate;
@@ -330,10 +319,9 @@ public class Feature extends BeanModel {
      */
     @Override
     public String toString() {
-        return "Feature [id=" + id + ", title=" + title + ", user=" + user + ", aoi=" + aoi
-                + ", creationDate=" + creationDate + ", externalId=" + externalId
-                + ", externalSortingDate=" + externalSortingDate + ", wfsResponseBlob="
-                + wfsResponseBlob + ", lastSentByMail=" + lastSentByMail + ", lastSentByRSS="
-                + lastSentByRSS + "]";
+        return "Feature [id=" + id + ", title=" + title + ", user=" + user + ", creationDate="
+                + creationDate + ", externalId=" + externalId + ", externalSortingDate="
+                + externalSortingDate + ", wfsResponseBlob=" + wfsResponseBlob
+                + ", lastSentByMail=" + lastSentByMail + ", lastSentByRSS=" + lastSentByRSS + "]";
     }
 }

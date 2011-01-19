@@ -1,12 +1,15 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.User,v. 0.1 3-gen-2011 17.06.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.User,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 3-gen-2011 17.06.11 $
+ * $ Date: 14-gen-2011 19.29.22 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -29,10 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.model;
 
-import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
-import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
-
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
@@ -49,50 +49,29 @@ public class User extends BeanModel {
     /** The id. */
     private long id;
 
-    /** The account state. */
-    private boolean accountState;
-
     /** The name. */
     private String name;
 
-    /** The user name. */
-    private String userName;
-
-    /** The connect id. */
-    private String connectId;
+    /** The full name. */
+    private String fullName;
 
     /** The password. */
     private String password;
 
     /** The email address. */
     private String emailAddress;
+    
+    /** The date creation. */
+    private Date dateCreation;
 
     /** The enabled. */
     private boolean enabled;
 
-    /** The email enable. */
-    private boolean emailEnable;
-
-    /** The rss enable. */
-    private boolean rssEnable;
-
-    /** The reduced content. */
-    private boolean reducedContent;
-
-    /** The send type. */
-    private String sendType;
-
-    /** The update interval. */
-    private int updateInterval;
-
-    /** The up inteval. */
-    private String upInteval;
+    /** The profile. */
+    private Profile profile;
 
     /** The path. */
     private String path;
-
-    /** The areas oi. */
-    private List<AOI> areasOI = new ArrayList<AOI>();
 
     /** The granted authorizations. */
     private List<Authorization> grantedAuthorizations;
@@ -124,25 +103,6 @@ public class User extends BeanModel {
     }
 
     /**
-     * Checks if is account state.
-     * 
-     * @return true, if is account state
-     */
-    public boolean isAccountState() {
-        return accountState;
-    }
-
-    /**
-     * Sets the account state.
-     * 
-     * @param accountState
-     *            the new account state
-     */
-    public void setAccountState(boolean accountState) {
-        this.accountState = accountState;
-    }
-
-    /**
      * Gets the name.
      * 
      * @return the name
@@ -163,43 +123,26 @@ public class User extends BeanModel {
     }
 
     /**
+     * Sets the user name.
+     * 
+     * @param fullName
+     *            the new user name
+     */
+    public void setFullName(String fullName) {
+        //TODO
+//        set(BeanKeyValue.USER_NAME.getValue(), userName);
+        this.fullName = fullName;
+    }
+
+    /**
      * Gets the user name.
      * 
      * @return the user name
      */
-    public String getUserName() {
-        return userName;
+    public String getFullName() {
+        return fullName;
     }
 
-    /**
-     * Sets the user name.
-     * 
-     * @param userName
-     *            the new user name
-     */
-    public void setUserName(String userName) {
-        set(BeanKeyValue.USER_NAME.getValue(), userName);
-        this.userName = userName;
-    }
-
-    /**
-     * Gets the connect id.
-     * 
-     * @return the connect id
-     */
-    public String getConnectId() {
-        return connectId;
-    }
-
-    /**
-     * Sets the connect id.
-     * 
-     * @param connectId
-     *            the new connect id
-     */
-    public void setConnectId(String connectId) {
-        this.connectId = connectId;
-    }
 
     /**
      * Gets the password.
@@ -241,19 +184,38 @@ public class User extends BeanModel {
     }
 
     /**
-     * Checks if is enabled.
+     * Sets the date of creation of this user.
      * 
-     * @return true, if is enabled
+     * @param dateCreation
+     *            the new date of creation of this user
+     */
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    /**
+     * Gets the date of creation of this user.
+     * 
+     * @return the date of creation of this user
+     */
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    /**
+     * Checks if is is the GSUser Enabled or not in the system?.
+     * 
+     * @return the is the GSUser Enabled or not in the system?
      */
     public boolean isEnabled() {
         return enabled;
     }
 
     /**
-     * Sets the enabled.
+     * Sets the is the GSUser Enabled or not in the system?.
      * 
      * @param enabled
-     *            the new enabled
+     *            the new is the GSUser Enabled or not in the system?
      */
     public void setEnabled(boolean enabled) {
         set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
@@ -261,185 +223,22 @@ public class User extends BeanModel {
     }
 
     /**
-     * Checks if is email enable.
+     * Sets the user.
      * 
-     * @return true, if is email enable
+     * @param profile
+     *            the new user
      */
-    public boolean isEmailEnable() {
-        return emailEnable;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     /**
-     * Sets the email enable.
+     * Gets the user.
      * 
-     * @param emailEnable
-     *            the new email enable
+     * @return the user
      */
-    public void setEmailEnable(boolean emailEnable) {
-        set(BeanKeyValue.EMAIL_ENABLE.getValue(), emailEnable);
-        this.emailEnable = emailEnable;
-    }
-
-    /**
-     * Checks if is rss enable.
-     * 
-     * @return true, if is rss enable
-     */
-    public boolean isRssEnable() {
-        return rssEnable;
-    }
-
-    /**
-     * Sets the rss enable.
-     * 
-     * @param rssEnable
-     *            the new rss enable
-     */
-    public void setRssEnable(boolean rssEnable) {
-        set(BeanKeyValue.RSS_ENABLE.getValue(), rssEnable);
-        this.rssEnable = rssEnable;
-    }
-
-    /**
-     * Checks if is reduced content.
-     * 
-     * @return true, if is reduced content
-     */
-    public boolean isReducedContent() {
-        return reducedContent;
-    }
-
-    /**
-     * Sets the reduced content.
-     * 
-     * @param reducedContent
-     *            the new reduced content
-     */
-    public void setReducedContent(boolean reducedContent) {
-        set(BeanKeyValue.REDUCED_CONTENT.getValue(), reducedContent);
-        this.reducedContent = reducedContent;
-    }
-
-    /**
-     * Gets the send type.
-     * 
-     * @return the send type
-     */
-    public String getSendType() {
-        return sendType;
-    }
-
-    /**
-     * Sets the send type.
-     * 
-     * @param sendType
-     *            the new send type
-     */
-    public void setSendType(String sendType) {
-        this.sendType = sendType;
-        set(SendTypeEnum.TYPE.getValue(), this.sendType);
-        checkSendType();
-    }
-
-    /**
-     * Check send type.
-     */
-    private void checkSendType() {
-        if (sendType.equals("Both")) {
-            setEmailEnable(true);
-            setRssEnable(true);
-        }
-
-        if (sendType.equals("Email")) {
-            setEmailEnable(true);
-            setRssEnable(false);
-        }
-
-        if (sendType.equals("RSS")) {
-            setRssEnable(true);
-            setEmailEnable(false);
-        }
-
-    }
-
-    /**
-     * Check send type.
-     * 
-     * @param emailEnable
-     *            the email enable
-     * @param rssEnable
-     *            the rss enable
-     */
-    public void checkSendType(boolean emailEnable, boolean rssEnable) {
-        if (emailEnable && rssEnable) {
-            setEmailEnable(true);
-            setRssEnable(true);
-            setSendType("Both");
-        } else if (emailEnable) {
-            setEmailEnable(true);
-            setSendType("Email");
-        } else if (rssEnable) {
-            setRssEnable(true);
-            setSendType("RSS");
-        }
-    }
-
-    /**
-     * Gets the update interval.
-     * 
-     * @return the update interval
-     */
-    public int getUpdateInterval() {
-        return updateInterval;
-    }
-
-    /**
-     * Sets the update interval.
-     * 
-     * @param updateInterval
-     *            the new update interval
-     */
-    public void setUpdateInterval(int updateInterval) {
-        this.updateInterval = updateInterval;
-    }
-
-    /**
-     * Gets the up inteval.
-     * 
-     * @return the up inteval
-     */
-    public String getUpInteval() {
-        return upInteval;
-    }
-
-    /**
-     * Sets the up inteval.
-     * 
-     * @param upInteval
-     *            the new up inteval
-     */
-    public void setUpInteval(String upInteval) {
-        this.upInteval = upInteval;
-        set(UpdateIntervalEnum.TIME.getValue(), this.upInteval);
-        checkUpInterval();
-    }
-
-    /**
-     * Check up interval.
-     */
-    private void checkUpInterval() {
-        if (upInteval.equals("1h")) {
-            setUpdateInterval(1);
-        }
-
-        if (upInteval.equals("4h")) {
-            setUpdateInterval(4);
-        }
-
-        if (upInteval.equals("24h")) {
-            setUpdateInterval(24);
-        }
-
+    public Profile getProfile() {
+        return profile;
     }
 
     /**
@@ -463,77 +262,6 @@ public class User extends BeanModel {
     }
 
     /**
-     * Gets the areas oi.
-     * 
-     * @return the areas oi
-     */
-    public List<AOI> getAreasOI() {
-        return areasOI;
-    }
-
-    /**
-     * Adds the area oi.
-     * 
-     * @param aoi
-     *            the aoi
-     */
-    public void addAreaOI(AOI aoi) {
-        this.areasOI.add(aoi);
-    }
-
-    /**
-     * Removes the area oi.
-     * 
-     * @param aoi
-     *            the aoi
-     */
-    public void removeAreaOI(AOI aoi) {
-        this.areasOI.remove(aoi);
-    }
-
-    /**
-     * Removes the area oi.
-     * 
-     * @param i
-     *            the i
-     */
-    public void removeAreaOI(int i) {
-        this.areasOI.remove(i);
-    }
-
-    /**
-     * Gets the area oi.
-     * 
-     * @param i
-     *            the i
-     * @return the area oi
-     */
-    public AOI getAreaOI(int i) {
-        if (i < 0 || i > this.areasOI.size())
-            throw new IllegalArgumentException("Invalid Position.");
-        return this.areasOI.get(i);
-    }
-
-    /**
-     * Gets the all areas oi.
-     * 
-     * @return the all areas oi
-     */
-    public int getAllAreasOI() {
-        return this.areasOI.size();
-    }
-
-    /**
-     * Sets the areas oi.
-     * 
-     * @param areasOI
-     *            the new areas oi
-     */
-    public void setAreasOI(List<AOI> areasOI) {
-        this.areasOI = areasOI;
-    }
-
-    /**
      * Sets the granted authorizations.
      * 
      * @param ga
@@ -552,48 +280,124 @@ public class User extends BeanModel {
         return this.grantedAuthorizations;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((dateCreation == null) ? 0 : dateCreation.hashCode());
+        result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
+        result = prime * result + (enabled ? 1231 : 1237);
+        result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
+        result = prime * result
+                + ((grantedAuthorizations == null) ? 0 : grantedAuthorizations.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((path == null) ? 0 : path.hashCode());
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (!(obj instanceof User)) {
             return false;
+        }
         User other = (User) obj;
-        return id == other.id;
+        if (dateCreation == null) {
+            if (other.dateCreation != null) {
+                return false;
+            }
+        } else if (!dateCreation.equals(other.dateCreation)) {
+            return false;
+        }
+        if (emailAddress == null) {
+            if (other.emailAddress != null) {
+                return false;
+            }
+        } else if (!emailAddress.equals(other.emailAddress)) {
+            return false;
+        }
+        if (enabled != other.enabled) {
+            return false;
+        }
+        if (fullName == null) {
+            if (other.fullName != null) {
+                return false;
+            }
+        } else if (!fullName.equals(other.fullName)) {
+            return false;
+        }
+        if (grantedAuthorizations == null) {
+            if (other.grantedAuthorizations != null) {
+                return false;
+            }
+        } else if (!grantedAuthorizations.equals(other.grantedAuthorizations)) {
+            return false;
+        }
+        if (id != other.id) {
+            return false;
+        }
+        if (name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
+        if (password == null) {
+            if (other.password != null) {
+                return false;
+            }
+        } else if (!password.equals(other.password)) {
+            return false;
+        }
+        if (path == null) {
+            if (other.path != null) {
+                return false;
+            }
+        } else if (!path.equals(other.path)) {
+            return false;
+        }
+        return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "User [name=" + name + ", userName=" + userName + ", password=" + password
-                + ", emailAddress=" + emailAddress + ", enabled=" + enabled + ", emailEnable="
-                + emailEnable + ", rssEnable=" + rssEnable + ", reducedContent=" + reducedContent
-                + ", sendType=" + sendType + ", updateInterval=" + updateInterval + ", upInteval="
-                + upInteval + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("User [");
+        if (dateCreation != null)
+            builder.append("dateCreation=").append(dateCreation).append(", ");
+        if (emailAddress != null)
+            builder.append("emailAddress=").append(emailAddress).append(", ");
+        builder.append("enabled=").append(enabled).append(", ");
+        if (fullName != null)
+            builder.append("fullName=").append(fullName).append(", ");
+        if (grantedAuthorizations != null)
+            builder.append("grantedAuthorizations=").append(grantedAuthorizations).append(", ");
+        builder.append("id=").append(id).append(", ");
+        if (name != null)
+            builder.append("name=").append(name).append(", ");
+        if (password != null)
+            builder.append("password=").append(password).append(", ");
+        if (path != null)
+            builder.append("path=").append(path);
+        builder.append("]");
+        return builder.toString();
     }
 
 }
