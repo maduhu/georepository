@@ -35,11 +35,11 @@ import org.hibernate.annotations.ForeignKey;
  *
  * @author ETj (etj at geo-solutions.it)
  */
-@Entity(name = "WorkspacePermission")
-@Table(name = "gr_perm_workspace")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "WorkspacePermission")
-@XmlRootElement(name = "WorkspacePermission")
-public class WorkspacePermission {
+@Entity(name = "InstancePermission")
+@Table(name = "gr_perm_instance")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "InstancePermission")
+@XmlRootElement(name = "InstancePermission")
+public class InstancePermission {
 
     /** The id. */
     @Id
@@ -47,16 +47,19 @@ public class WorkspacePermission {
     @Column
     private long id;
 
-    @Column(nullable=false)
-    private String workspace;
+    @Column(nullable=false, unique=true)
+    private String name;
 
     @Column(nullable=false)
     private boolean enabled;
 
     @ManyToOne(optional = false)
-    @ForeignKey(name="fk_workspacep_instancep")
-    private InstancePermission instancePermission;
+    @ForeignKey(name="fk_instancep_instance")
+    private GSInstance instance;
 
+    @ManyToOne(optional = false)
+    @ForeignKey(name="fk_instancep_profile")
+    private Profile profile;
 
     public boolean isEnabled() {
         return enabled;
@@ -74,20 +77,28 @@ public class WorkspacePermission {
         this.id = id;
     }
 
-    public String getWorkspace() {
-        return workspace;
+    public GSInstance getInstance() {
+        return instance;
     }
 
-    public void setWorkspace(String workspace) {
-        this.workspace = workspace;
+    public void setInstance(GSInstance instance) {
+        this.instance = instance;
     }
 
-    public InstancePermission getInstancePermission() {
-        return instancePermission;
+    public String getName() {
+        return name;
     }
 
-    public void setInstancePermission(InstancePermission instancePermission) {
-        this.instancePermission = instancePermission;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
 }

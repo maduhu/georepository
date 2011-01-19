@@ -19,8 +19,8 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
-import it.geosolutions.georepo.core.dao.UserDAO;
-import it.geosolutions.georepo.core.model.GSUser;
+import it.geosolutions.georepo.core.dao.GSInstanceDAO;
+import it.geosolutions.georepo.core.model.GSInstance;
 
 import java.util.List;
 
@@ -30,39 +30,39 @@ import org.springframework.transaction.annotation.Transactional;
 import com.trg.search.ISearch;
 
 /**
- * Public implementation of the UserDAO interface
+ * Public implementation of the GSInstanceDAO interface
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @Transactional
-public class UserDAOImpl extends BaseDAO<GSUser, Long>
-// extends GenericDAOImpl<GSUser, Long>
-        implements UserDAO {
+public class GSInstanceDAOImpl extends BaseDAO<GSInstance, Long>
+// extends GenericDAOImpl<GSInstance, Long>
+        implements GSInstanceDAO {
 
-    final private static Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
+    final private static Logger LOGGER = Logger.getLogger(GSInstanceDAOImpl.class);
 
     @Override
-    public void persist(GSUser... entities) {
+    public void persist(GSInstance... entities) {
         super.persist(entities);
     }
 
     @Override
-    public List<GSUser> findAll() {
+    public List<GSInstance> findAll() {
         return super.findAll();
     }
 
     @Override
-    public List<GSUser> search(ISearch search) {
+    public List<GSInstance> search(ISearch search) {
         return super.search(search);
     }
 
     @Override
-    public GSUser merge(GSUser entity) {
+    public GSInstance merge(GSInstance entity) {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(GSUser entity) {
+    public boolean remove(GSInstance entity) {
         return super.remove(entity);
     }
 

@@ -19,7 +19,7 @@
  */
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.core.dao.UserDAO;
+import it.geosolutions.georepo.core.dao.GSUserDAO;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
@@ -39,13 +39,13 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     private final static Logger LOGGER = Logger.getLogger(UserAdminServiceImpl.class);
 
-    private UserDAO userDao;
+    private GSUserDAO userDao;
 
     // ==========================================================================
     @Override
-    public long insertUser(GSUser watch) {
-        userDao.persist(watch);
-        return watch.getId();
+    public long insertUser(GSUser user) {
+        userDao.persist(user);
+        return user.getId();
     }
 
     @Override
@@ -99,8 +99,8 @@ public class UserAdminServiceImpl implements UserAdminService {
             searchCriteria.addFilterILike("name", nameLike);
         }
 
-        List<GSUser> foundWatch = userDao.search(searchCriteria);
-        return convertToShortList(foundWatch);
+        List<GSUser> found = userDao.search(searchCriteria);
+        return convertToShortList(found);
     }
 
     @Override
@@ -116,10 +116,10 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     // ==========================================================================
 
-    private List<ShortUser> convertToShortList(List<GSUser> watchList) {
-        List<ShortUser> swList = new ArrayList<ShortUser>(watchList.size());
-        for (GSUser watch : watchList) {
-            swList.add(new ShortUser(watch));
+    private List<ShortUser> convertToShortList(List<GSUser> list) {
+        List<ShortUser> swList = new ArrayList<ShortUser>(list.size());
+        for (GSUser user : list) {
+            swList.add(new ShortUser(user));
         }
 
         return swList;
@@ -127,7 +127,7 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     // ==========================================================================
 
-    public void setUserDao(UserDAO userDao) {
+    public void setUserDao(GSUserDAO userDao) {
         this.userDao = userDao;
     }
 

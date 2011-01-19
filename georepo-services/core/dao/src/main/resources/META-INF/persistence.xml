@@ -30,5 +30,7 @@
     <class>it.geosolutions.georepo.core.model.ServicePermission</class>
     <class>it.geosolutions.georepo.core.model.StylePermission</class>
     <class>it.geosolutions.georepo.core.model.WorkspacePermission</class>
+    <class>it.geosolutions.georepo.core.model.GSInstance</class>
+    <class>it.geosolutions.georepo.core.model.InstancePermission</class>
   </persistence-unit>
 </persistence>

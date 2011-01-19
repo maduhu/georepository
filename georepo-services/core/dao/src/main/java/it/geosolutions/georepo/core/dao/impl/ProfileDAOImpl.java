@@ -19,8 +19,8 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
-
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.trg.search.ISearch;
 import it.geosolutions.georepo.core.dao.ProfileDAO;
 import it.geosolutions.georepo.core.model.Profile;
+import org.hibernate.Hibernate;
 
 /**
  * Public implementation of the ProfileDAO interface
@@ -36,7 +37,7 @@ import it.geosolutions.georepo.core.model.Profile;
  */
 @Transactional
 public class ProfileDAOImpl extends BaseDAO<Profile, Long>
-// extends GenericDAOImpl<User, Long>
+        // extends GenericDAOImpl<User, Long>
         implements ProfileDAO {
 
     final private static Logger LOGGER = Logger.getLogger(ProfileDAOImpl.class);
@@ -71,4 +72,28 @@ public class ProfileDAOImpl extends BaseDAO<Profile, Long>
         return super.removeById(id);
     }
 
+    @Override
+    public Map<String, String> getCustomProps(Long id) {
+        Profile found = find(id);
+        if (found != null) {
+            Map<String, String> props = found.getCustomProps();
+
+            if (props != null && !Hibernate.isInitialized(props)) {
+                Hibernate.initialize(props); // fetch the props
+            }
+            return props;
+        } else {
+            throw new IllegalArgumentException("Profile not found");
+        }
+    }
+
+    @Override
+    public void setCustomProps(Long id, Map<String, String> props) {
+        Profile profile = find(id);
+        if (profile != null) {
+            profile.setCustomProps(props);
+        } else {
+            throw new IllegalArgumentException("Profile not found");
+        }
+    }
 }

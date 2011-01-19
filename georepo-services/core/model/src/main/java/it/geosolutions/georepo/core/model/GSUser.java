@@ -33,6 +33,8 @@
 
 package it.geosolutions.georepo.core.model;
 
+import com.vividsolutions.jts.geom.MultiPolygon;
+import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -45,10 +47,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Type;
 
 /**
  * A User that can access GeoServer resources.
@@ -72,7 +76,7 @@ public class GSUser implements Serializable {
     private long id;
 
     /** The name. */
-    @Column
+    @Column(nullable=false, unique=true)
     private String name;
 
     /** The user name. */
@@ -100,6 +104,10 @@ public class GSUser implements Serializable {
     @ManyToOne(optional = false)
     @ForeignKey(name="fk_user_profile")
     private Profile profile;
+
+	@Type(type = "org.hibernatespatial.GeometryUserType")
+	@Column(name = "allowedArea")
+	private MultiPolygon allowedArea;
 
     /**
      * Instantiates a new user.
@@ -230,6 +238,16 @@ public class GSUser implements Serializable {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
+    @XmlJavaTypeAdapter(MultiPolygonAdapter.class)
+    public MultiPolygon getAllowedArea() {
+        return allowedArea;
+    }
+
+    public void setAllowedArea(MultiPolygon allowedArea) {
+        this.allowedArea = allowedArea;
+    }
+
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()

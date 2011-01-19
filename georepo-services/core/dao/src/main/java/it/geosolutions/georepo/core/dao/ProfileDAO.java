@@ -25,6 +25,7 @@ import java.util.List;
 
 import com.trg.search.ISearch;
 import it.geosolutions.georepo.core.model.Profile;
+import java.util.Map;
 
 /**
  * Public interface to define operations on Profiles
@@ -32,19 +33,7 @@ import it.geosolutions.georepo.core.model.Profile;
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 
-public interface ProfileDAO /* extends GenericDAO<User, Long> */{
-
-    public List<Profile> findAll();
-
-    public Profile find(Long id);
-
-    public void persist(Profile... entities);
-
-    public Profile merge(Profile entity);
-
-    public boolean remove(Profile entity);
-
-    public List<Profile> search(ISearch search);
-
-    public int count(ISearch search);
+public interface ProfileDAO 
+        extends RestrictedGenericDAO<Profile>,
+                CustomPropsProvider /* extends GenericDAO<User, Long> */{
 }

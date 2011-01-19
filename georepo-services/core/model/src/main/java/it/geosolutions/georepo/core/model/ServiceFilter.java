@@ -93,7 +93,7 @@ public class ServiceFilter implements Serializable {
 
     /** The instance. */
 //    @ManyToOne(optional = true)
-    private Instance instance;
+    private GSInstance instance;
     
     /** The value. */
     @Column(length = 4000)
@@ -241,14 +241,14 @@ public class ServiceFilter implements Serializable {
     /**
      * @param instance the instance to set
      */
-    public void setInstance(Instance instance) {
+    public void setInstance(GSInstance instance) {
         this.instance = instance;
     }
 
     /**
      * @return the instance
      */
-    public Instance getInstance() {
+    public GSInstance getInstance() {
         return instance;
     }
 

@@ -76,7 +76,7 @@ public class Profile implements Serializable {
     private long id;
 
     /** The name. */
-    @Column(nullable=false, updatable=true)
+    @Column(nullable=false, updatable=true, unique=true)
     private String name;
 
     /** The date creation. */

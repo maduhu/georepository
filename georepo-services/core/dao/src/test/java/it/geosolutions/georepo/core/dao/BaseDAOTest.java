@@ -20,6 +20,10 @@
 
 package it.geosolutions.georepo.core.dao;
 
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 import it.geosolutions.georepo.core.model.Profile;
 import java.util.List;
 
@@ -38,9 +42,9 @@ import it.geosolutions.georepo.core.model.GSUser;
 public abstract class BaseDAOTest extends TestCase {
     protected final Logger LOGGER;
 
-    protected static UserDAO userDAO;
+    protected static GSUserDAO userDAO;
     protected static ProfileDAO profileDAO;
-    protected static ServiceFilterDAO filterDAO;
+//    protected static ServiceFilterDAO filterDAO;
 
     protected static ClassPathXmlApplicationContext ctx = null;
 
@@ -55,9 +59,9 @@ public abstract class BaseDAOTest extends TestCase {
                 };
                 ctx = new ClassPathXmlApplicationContext(paths);
 
-                userDAO = (UserDAO)ctx.getBean("userDAO");
+                userDAO = (GSUserDAO)ctx.getBean("gsuserDAO");
                 profileDAO = (ProfileDAO)ctx.getBean("profileDAO");
-                filterDAO = (ServiceFilterDAO)ctx.getBean("filterDAO");
+//                filterDAO = (ServiceFilterDAO)ctx.getBean("filterDAO");
             }
         }
     }
@@ -109,35 +113,45 @@ public abstract class BaseDAOTest extends TestCase {
         return user;
     }
 
-    protected GSUser createUserAndProfile(String base) {
+    protected Profile createProfile(String base) {
 
         Profile profile = new Profile();
         profile.setName(base);
         profileDAO.persist(profile);
+        return profile;
+    }
 
+    protected GSUser createUserAndProfile(String base) {
+
+        Profile profile = createProfile(base);
         return createUser(base, profile);
     }
 
 
-//    protected final static String MULTIPOLYGONWKT = "MULTIPOLYGON(((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482)))";
-//    protected final static String POLYGONWKT = "POLYGON((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482))";
-//
-//    protected MultiPolygon buildMultiPolygon() throws ParseException {
-//        WKTReader reader = new WKTReader();
-//        MultiPolygon mp = (MultiPolygon) reader.read(MULTIPOLYGONWKT);
-//        mp.setSRID(4326);
-//
-//        return mp;
-//    }
-//
-//    protected Polygon buildPolygon() throws ParseException {
-//        WKTReader reader = new WKTReader();
-//        Polygon mp = (Polygon) reader.read(POLYGONWKT);
-//        mp.setSRID(4326);
-//
-//        return mp;
-//    }
+    protected final static String MULTIPOLYGONWKT = "MULTIPOLYGON(((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482)))";
+    protected final static String POLYGONWKT = "POLYGON((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482))";
 
+    protected MultiPolygon buildMultiPolygon() {
+        try {
+            WKTReader reader = new WKTReader();
+            MultiPolygon mp = (MultiPolygon) reader.read(MULTIPOLYGONWKT);
+            mp.setSRID(4326);
+            return mp;
+        } catch (ParseException ex) {
+            throw new RuntimeException("Unexpected exception: " + ex.getMessage(), ex);
+        }
+    }
+
+    protected Polygon buildPolygon() {
+        try {
+            WKTReader reader = new WKTReader();
+            Polygon mp = (Polygon) reader.read(POLYGONWKT);
+            mp.setSRID(4326);
+            return mp;
+        } catch (ParseException ex) {
+            throw new RuntimeException("Unexpected exception: " + ex.getMessage(), ex);
+        }
+    }
 
     //==========================================================================
 

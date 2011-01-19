@@ -13,7 +13,12 @@
        default-autowire="byName">
 
     <bean id="userAdminService" class="it.geosolutions.georepo.services.UserAdminServiceImpl">
-        <property name="userDao" ref="userDAO"/>
+        <property name="userDao" ref="gsuserDAO"/>
+    </bean>
+
+    <bean id="profileAdminService" class="it.geosolutions.georepo.services.ProfileAdminServiceImpl">
+<!--        <property name="userDao" ref="gsuserDAO"/>-->
+        <property name="profileDao" ref="profileDAO"/>
     </bean>
 
     <bean id="webgisService" class="it.geosolutions.georepo.services.WGFuncServiceImpl">

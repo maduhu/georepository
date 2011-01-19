@@ -26,7 +26,9 @@ import java.util.List;
 import com.trg.search.ISearch;
 
 /**
- * Public interface to define operations on Profiles
+ * Public interface to define a restricted set of operation wrt to ones
+ * defined in GenericDAO.
+ * This may be useful if some constraints are implemented in the DAO, so that
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
@@ -38,6 +40,7 @@ public interface RestrictedGenericDAO<ENTITY> /* extends GenericDAO<User, Long> 
     public void persist(ENTITY... entities);
     public ENTITY merge(ENTITY entity);
     public boolean remove(ENTITY entity);
+    public boolean removeById(Long id);
     public List<ENTITY> search(ISearch search);
     public int count(ISearch search);
 }

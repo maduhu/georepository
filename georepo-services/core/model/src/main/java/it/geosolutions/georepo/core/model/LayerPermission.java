@@ -76,7 +76,7 @@ public class LayerPermission {
 	private MultiPolygon area;
 
     @ManyToOne(optional = false)
-    @ForeignKey(name="fk_layer_workspace")
+    @ForeignKey(name="fk_layerp_workspacep")
     private WorkspacePermission workspacePermission;
 
     /** Custom properties associated to the Layer */

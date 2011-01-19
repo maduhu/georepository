@@ -20,46 +20,42 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import it.geosolutions.georepo.core.model.GSUser;
+import it.geosolutions.georepo.core.model.ServiceFilter;
+import it.geosolutions.georepo.core.model.util.FilterValueEncoder;
 
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author ETj (etj at geo-solutions.it)
  */
-public class UserDAOTest extends BaseDAOTest {
+public class FilterDAOTest_ extends BaseDAOTest {
+
 
     @Test
-    public void testPersistUser() throws Exception {
+    public void testPersistFilter() throws Exception {
 
         removeAll();
 
-        long id;
-        {
-            GSUser user = createUserAndProfile(getName());
-            userDAO.persist(user);
-            id = user.getId();
-        }
+        ServiceFilter filter = new ServiceFilter();
+        filter.setService("TEST");
+        filter.setProperty("testProp");
+
+        FilterValueEncoder fve = new FilterValueEncoder();
+        fve.add("testString");
+        fve.add(42);
+
+        filter.setValue(fve.encodeValue());
+
+        filterDAO.persist(filter);
 
         // test save & load
-        {
-            GSUser loaded = userDAO.find(id);
-            assertNotNull("Can't retrieve user", loaded);
+        ServiceFilter loaded = filterDAO.find(filter.getId());
+        assertNotNull("Can't retrieve filter", loaded);
 
-            assertNull(loaded.getAllowedArea());
-            loaded.setAllowedArea(buildMultiPolygon());
-            userDAO.merge(loaded);
-        }
-
-        {
-            GSUser loaded2 = userDAO.find(id);
-            assertNotNull("Can't retrieve user", loaded2);
-            assertNotNull(loaded2.getAllowedArea());
-        }
-
-        userDAO.removeById(id);
-        assertNull("User not deleted", userDAO.find(id));
+        filterDAO.remove(loaded);
+        assertNull("Filter not deleted", filterDAO.find(loaded.getId()));
     }
+
 
 }

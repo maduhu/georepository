@@ -65,7 +65,7 @@ public class ServicePermission {
 	private MultiPolygon area;
 
     @ManyToOne(optional = false)
-    @ForeignKey(name="fk_service_profile")
+    @ForeignKey(name="fk_servicep_profile")
     private Profile profile;
 
     @XmlJavaTypeAdapter(MultiPolygonAdapter.class)

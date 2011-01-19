@@ -1,5 +1,5 @@
 /*
- * $ Header: it.geosolutions.georepo.core.model.Instance,v. 0.1 4-gen-2011 17.18.09 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.core.model.GSInstance,v. 0.1 4-gen-2011 17.18.09 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
  * $ Date: 4-gen-2011 17.18.09 $
  *
@@ -40,19 +40,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * The Class Instance.
+ * A GeoServer instance
  */
-//@Entity(name = "Instance")
-//@Table(name = "gr_instance")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "instance")
-//@XmlRootElement(name = "Instance")
-public class Instance implements Serializable {
+@Entity(name = "GSInstance")
+@Table(name = "gr_gsinstance")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "gsinstance")
+@XmlRootElement(name = "GSInstance")
+public class GSInstance implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -2584592064221812813L;
@@ -68,25 +70,23 @@ public class Instance implements Serializable {
     private String name;
 
     /** The description. */
-    @Column(nullable = false, updatable = true)
+    @Column(nullable = true, updatable = true)
     private String description;
 
     /** The date creation. */
-    @Column
+    @Column(updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
 
     /** The host. */
     @Column(nullable = false, updatable = true)
-    private String host;
+    private String baseURL;
 
-    /** The port. */
-    @Column(nullable = true, updatable = true)
-    private int port;
 
     /**
      * Instantiates a new instance.
      */
-    public Instance() {
+    public GSInstance() {
 
     }
 
@@ -146,33 +146,14 @@ public class Instance implements Serializable {
         this.dateCreation = dateCreation;
     }
 
-    /**
-     * @return the host
-     */
-    public String getHost() {
-        return host;
+    public String getBaseURL() {
+        return baseURL;
     }
 
-    /**
-     * @param host the host to set
-     */
-    public void setHost(String host) {
-        this.host = host;
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
     }
 
-    /**
-     * @return the port
-     */
-    public int getPort() {
-        return port;
-    }
-
-    /**
-     * @param port the port to set
-     */
-    public void setPort(int port) {
-        this.port = port;
-    }
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
@@ -183,10 +164,9 @@ public class Instance implements Serializable {
         int result = 1;
         result = prime * result + ((dateCreation == null) ? 0 : dateCreation.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((host == null) ? 0 : host.hashCode());
+        result = prime * result + ((baseURL == null) ? 0 : baseURL.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + port;
         return result;
     }
 
@@ -201,10 +181,10 @@ public class Instance implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Instance)) {
+        if (!(obj instanceof GSInstance)) {
             return false;
         }
-        Instance other = (Instance) obj;
+        GSInstance other = (GSInstance) obj;
         if (dateCreation == null) {
             if (other.dateCreation != null) {
                 return false;
@@ -219,11 +199,11 @@ public class Instance implements Serializable {
         } else if (!description.equals(other.description)) {
             return false;
         }
-        if (host == null) {
-            if (other.host != null) {
+        if (baseURL == null) {
+            if (other.baseURL != null) {
                 return false;
             }
-        } else if (!host.equals(other.host)) {
+        } else if (!baseURL.equals(other.baseURL)) {
             return false;
         }
         if (id != other.id) {
@@ -234,9 +214,6 @@ public class Instance implements Serializable {
                 return false;
             }
         } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (port != other.port) {
             return false;
         }
         return true;
@@ -253,12 +230,12 @@ public class Instance implements Serializable {
             builder.append("dateCreation=").append(dateCreation).append(", ");
         if (description != null)
             builder.append("description=").append(description).append(", ");
-        if (host != null)
-            builder.append("host=").append(host).append(", ");
+        if (baseURL != null)
+            builder.append("baseURL=").append(baseURL).append(", ");
         builder.append("id=").append(id).append(", ");
         if (name != null)
-            builder.append("name=").append(name).append(", ");
-        builder.append("port=").append(port).append("]");
+            builder.append("name=").append(name);
+        builder.append("]");
         return builder.toString();
     }
 
