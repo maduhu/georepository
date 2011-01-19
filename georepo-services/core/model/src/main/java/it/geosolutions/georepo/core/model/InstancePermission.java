@@ -47,9 +47,6 @@ public class InstancePermission {
     @Column
     private long id;
 
-    @Column(nullable=false, unique=true)
-    private String name;
-
     @Column(nullable=false)
     private boolean enabled;
 
@@ -83,14 +80,6 @@ public class InstancePermission {
 
     public void setInstance(GSInstance instance) {
         this.instance = instance;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Profile getProfile() {
