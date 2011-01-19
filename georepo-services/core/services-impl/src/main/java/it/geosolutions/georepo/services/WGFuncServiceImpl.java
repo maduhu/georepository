@@ -37,25 +37,12 @@ public class WGFuncServiceImpl implements WebGisFuncService {
 
     @Override
     public WebGisProperty getProperty(String propertyName) {
-        WebGisProperty property = new WebGisProperty();
-        property.setPropertyName(propertyName);
-        property.setProfile(WebGisProfile.Base);
-        property.setValue("42");
-        return property;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<WebGisProperty> getProfileProperties(WebGisProfile profile) throws IllegalParameterFault {
-        LOGGER.warn("Profile is " + profile);
-        System.out.println("Profile is " + profile);
-        if(profile == null)
-            throw new IllegalParameterFault("Bad profile");
-
-        List<WebGisProperty> ret = new ArrayList<WebGisProperty>();
-        ret.add(getProperty("test1"));
-        ret.add(getProperty("test2"));
-        return ret;
-//        return (WebGisProperty[])ret.toArray();
+    public List<WebGisProperty> getProfileProperties(String profile) throws IllegalParameterFault {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

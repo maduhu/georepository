@@ -52,7 +52,7 @@ public interface WebGisFuncService {
 //    @WebResult(name="property")
     List<WebGisProperty> getProfileProperties(
 //            @WebParam(name = "profile")
-            @PathParam("profile") WebGisProfile profile
+            @PathParam("profile") String profile
             ) throws IllegalParameterFault;
 
 

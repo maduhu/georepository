@@ -34,6 +34,28 @@ import javax.xml.namespace.QName;
  */
 @XmlRootElement(name="layer")
 public class TOCLayer {
+    public enum TOCProps {
+        groupName("NOGROUP"),
+        format("image/png"),
+        baseLayer("false"),
+        visible("false"),
+        filtro1(""),
+        singleTile("false"),
+        isInternal("false"),
+        isQueryable("false"),
+        infoPossible("false"),
+        typeLayer("0");
+
+        private String defaultValue;
+
+        private TOCProps(String defaultValue) {
+            this.defaultValue = defaultValue;
+        }
+
+        public String getDefault() {
+            return defaultValue;
+        }
+    }
 
 //    <layer name="RealItaly_tiles" title="RealItaly" abstract="RealItaly"
 //       srs="EPSG:4326"
@@ -43,7 +65,7 @@ public class TOCLayer {
 //       filtro1="" singleTile="false" isInternal="false" isQueryable="false"
 //       infoPossible="false" typeLayer="0">
 
-    private int georepoLayerId;
+    private long georepoLayerId;
     
     private String name;
     private String title;
@@ -52,6 +74,12 @@ public class TOCLayer {
     private double minX, minY, maxX, maxY;
 
     private Map<String,String> properties = new HashMap<String, String>();
+
+    public TOCLayer() {
+        for (TOCProps tocProp : TOCProps.values()) {
+            properties.put(tocProp.name(), tocProp.getDefault());
+        }
+    }
 
     @XmlAttribute(name="abstract")
     public String getAbs() {
@@ -126,11 +154,11 @@ public class TOCLayer {
     }
 
     @XmlAttribute
-    public int getGeorepoLayerId() {
+    public long getGeorepoLayerId() {
         return georepoLayerId;
     }
 
-    public void setGeorepoLayerId(int georepoLayerId) {
+    public void setGeorepoLayerId(long georepoLayerId) {
         this.georepoLayerId = georepoLayerId;
     }
 

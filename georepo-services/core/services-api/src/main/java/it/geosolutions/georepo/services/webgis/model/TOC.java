@@ -41,28 +41,23 @@ public class TOC {
 //                        </layer>
 //                </server>
 
-    private List<Server> serverList = new ArrayList<Server>();
+    private List<Group> groupList = new ArrayList<Group>();
 
-    @XmlElement(name="server")
-    public List<Server> getServerList() {
-        return serverList;
+    @XmlElement(name="group")
+    public List<Group> getGroupList() {
+        return groupList;
     }
 
-    public void setServerList(List<Server> serverList) {
-        this.serverList = serverList;
+    public void setGroupList(List<Group> serverList) {
+        this.groupList = serverList;
     }
 
 
+    @XmlRootElement(name="group")
+    static public class Group {
 
-    @XmlRootElement(name="server")
-    static public class Server {
-//        @XmlAttribute
-
-        private String name;
-//        @XmlAttribute
-
+        private String title;
         private String url;
-
         List<TOCLayer> layerList = new ArrayList<TOCLayer>();
 
         @XmlElement(name="layer")
@@ -75,12 +70,12 @@ public class TOC {
         }
 
         @XmlAttribute
-        public String getName() {
-            return name;
+        public String getTitle() {
+            return title;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setTitle(String name) {
+            this.title = name;
         }
 
         @XmlAttribute
@@ -92,7 +87,10 @@ public class TOC {
             this.url = url;
         }
 
+        @Override
+        public String toString() {
+            return "Group{" + "title=" + title + " url=" + url + " layerList=" + layerList + '}';
+        }        
     }
-
 
 }
