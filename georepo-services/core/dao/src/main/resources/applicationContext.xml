@@ -40,7 +40,7 @@
 
 	<bean id="gsuserDAO" class="it.geosolutions.georepo.core.dao.impl.GSUserDAOImpl" />
 	<bean id="profileDAO" class="it.geosolutions.georepo.core.dao.impl.ProfileDAOImpl" />
-<!--	<bean id="filterDAO" class="it.geosolutions.georepo.core.dao.impl.ServiceFilterDAOImpl" />-->
 	<bean id="instanceDAO" class="it.geosolutions.georepo.core.dao.impl.GSInstanceDAOImpl" />
+	<bean id="instancePermissionDAO" class="it.geosolutions.georepo.core.dao.impl.InstancePermissionDAOImpl" />
 	
 </beans>
