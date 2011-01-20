@@ -43,7 +43,7 @@ public enum BeanKeyValue {
     
     FULL_NAME("fullName"),
 
-    PROFILE_NAME("profileName"),
+    PROFILE("profile"),
 
     DATE_CREATION("dateCreation"),
     

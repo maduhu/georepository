@@ -115,7 +115,7 @@ public class GSUser extends BeanModel {
      */
     public void setName(String name) {
         this.name = name;
-        set(BeanKeyValue.USER_NAME.getValue(), this.name);
+        set(BeanKeyValue.NAME.getValue(), this.name);
     }
 
     /**
@@ -226,6 +226,7 @@ public class GSUser extends BeanModel {
      */
     public void setProfile(Profile profile) {
         this.profile = profile;
+        set(BeanKeyValue.PROFILE.getValue(), profile);
     }
 
     /**

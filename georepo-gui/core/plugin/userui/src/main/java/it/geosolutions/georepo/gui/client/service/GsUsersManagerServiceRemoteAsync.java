@@ -32,7 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.model.User;
+import it.geosolutions.georepo.gui.client.model.GSUser;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -49,6 +49,6 @@ public interface GsUsersManagerServiceRemoteAsync {
      * @param config
      * @param callback
      */
-    public void getGsUsers(PagingLoadConfig config, AsyncCallback<PagingLoadResult<User>> callback);
+    public void getGsUsers(PagingLoadConfig config, AsyncCallback<PagingLoadResult<GSUser>> callback);
 
 }

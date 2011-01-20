@@ -31,6 +31,7 @@ package it.geosolutions.georepo.gui.server.service.impl;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.server.service.IGsUsersManagerService;
 
 import java.util.ArrayList;
@@ -70,8 +71,14 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             alfa.setEmailAddress("alessio.fabiani@gmail.com");
             alfa.setDateCreation(new Date());
             
+            Profile profile_base = new Profile();
+            profile_base.setName("BASE");
+            profile_base.setDateCreation(new Date());
+            profile_base.setEnabled(true);
+            alfa.setProfile(profile_base);
+            
             usersListDTO.add(alfa);
             
-            return new BasePagingLoadResult<GSUser>(usersListDTO, 0, 1);
+            return new BasePagingLoadResult<GSUser>(usersListDTO/*, 0, 1*/);
 	}
 }
