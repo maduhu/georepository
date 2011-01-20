@@ -20,12 +20,15 @@
 
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.services.exception.IllegalParameterFault;
+import it.geosolutions.georepo.core.model.GSInstance;
+import it.geosolutions.georepo.core.model.InstancePermission;
+import it.geosolutions.georepo.core.model.LayerPermission;
+import it.geosolutions.georepo.services.exception.BadRequestWebEx;
+import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.webgis.model.TOC;
-import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
 import it.geosolutions.georepo.services.webgis.WebGisTOCService;
-import it.geosolutions.georepo.services.webgis.model.TOC.Server;
 import it.geosolutions.georepo.services.webgis.model.TOCLayer;
+import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
@@ -36,86 +39,104 @@ import org.apache.log4j.Logger;
  */
 public class WGTocServiceImpl implements WebGisTOCService {
     private final static Logger LOGGER = Logger.getLogger(WGTocServiceImpl.class);
-
-    private Map<Integer, TOCLayer> layerStore = new HashMap<Integer, TOCLayer>();
+    private FakeDataStorage fakeDAO = new FakeDataStorage();
 
     @Override
-    public TOC getTOC(WebGisProfile profile) throws IllegalParameterFault {
+    public TOC getTOC(String profile) {
+
+        if(profile == null)
+            throw new BadRequestWebEx("Missing Profile");
+
+        try {
+            WebGisProfile wgp = WebGisProfile.valueOf(profile);
+        } catch (IllegalArgumentException e) {
+            throw new NotFoundWebEx("Profile not found: " + profile);
+        }
+
+        // groupTitle, Group
+        Map<String, TOC.Group> groups = new HashMap<String, TOC.Group>();
+
+        for (InstancePermission instancePermission : fakeDAO.getInstancePermissions(profile)) {
+            GSInstance instance = instancePermission.getInstance();
+            for (LayerPermission layerPermission : fakeDAO.getLayerPermissions(instancePermission)) {
+                String groupTitle = layerPermission.getCustomProps().get(TOCLayer.TOCProps.groupName.name());
+                if(groupTitle==null)
+                    groupTitle = "UNGROUPED";
+                TOC.Group group = fetchOrCreateGroup(groups, groupTitle, instance.getBaseURL());
+                TOCLayer tocl = createLayer(layerPermission, instance);
+                group.getLayerList().add(tocl);
+            }
+
+        }
+
         TOC toc = new TOC();
-
-        int baseLayerId = profile == WebGisProfile.Base ? 100 :
-                          profile == WebGisProfile.Analisi ? 200 :
-                          profile == WebGisProfile.Avanzato ? 300 : 0;
-
-        Server s;
-        s = new TOC.Server();
-        s.setName("server1 for profile " + profile);
-        s.setUrl("http://server1");
-        s.getLayerList().add(createLayer("1_1", baseLayerId + 1));
-        s.getLayerList().add(createLayer("1_2", baseLayerId + 2));
-        s.getLayerList().add(createLayer("1_3", baseLayerId + 3));
-        toc.getServerList().add(s);
-
-        s = new TOC.Server();
-        s.setName("server2 for profile " + profile);
-        s.setUrl("http://server2");
-        s.getLayerList().add(createLayer("2_1", baseLayerId + 11));
-        toc.getServerList().add(s);
-
+        for (TOC.Group group : groups.values()) {
+            toc.getGroupList().add(group);
+        }
         return toc;
     }
 
-    private TOCLayer createLayer(String base, int id) {
-        TOCLayer l = new TOCLayer();
-        l.setName("name_"+ base);
-        l.setTitle("title_"+base);
-        l.setAbs("abstract_"+base);
-        l.getProperties().put("keyA"+base, "valA"+base);
-        l.getProperties().put("keyB"+base, "valB"+base);
-        l.getProperties().put("format", "image/png");
-        l.getProperties().put("baseLayer", "false");
-        l.setGeorepoLayerId(id);
+    private static TOC.Group fetchOrCreateGroup(Map<String, TOC.Group> groups, String groupTitle, String url) {
+        String groupKey = groupTitle+" @ "+url;
 
-        layerStore.put(id, l);
+        TOC.Group group = groups.get(groupKey);
+        if(group == null) {
+            group = new TOC.Group();
+            group.setTitle(groupTitle);
+            group.setUrl(url);
+            groups.put(groupKey, group);
+        }
+
+        return group;
+    }
+
+    TOCLayer createLayer(LayerPermission lp, GSInstance instance) {
+        TOCLayer l = new TOCLayer();
+        l.setName(lp.getLayerName());
+        l.setGeorepoLayerId(lp.getId());
+        for (Map.Entry<String, String> entry : lp.getCustomProps().entrySet()) {
+            l.getProperties().put(entry.getKey(), entry.getValue());
+        }
+
+        // next info shall be read from the server's getCapa
+        l.setTitle("TITLE of " + lp.getLayerName());
+        l.setAbs("ABS of " + lp.getLayerName());
+        l.setMinX(-180);
+        l.setMaxX(180);
+        l.setMinY(-90);
+        l.setMaxY(90);
+        l.setSrs("EPSG:4326");
+
         return l;
     }
 
     @Override
-    public String setProperty(int layerId, String propertyName, String propertyValue) {
+    public String setProperty(long layerId, String propertyName, String propertyValue) {
 
-        // associate a profile for testing
-        WebGisProfile profile;
-        if(layerId >= 300)
-            profile = WebGisProfile.Avanzato;
-        else if(layerId >= 200)
-            profile = WebGisProfile.Analisi;
-        else if(layerId >= 100)
-            profile = WebGisProfile.Base;
-        else
-            throw new IllegalArgumentException("Bad layerid");
+        LayerPermission lp = fakeDAO.getLayerPermission(layerId);
 
-        TOCLayer l = layerStore.get(layerId);
-        if(l == null)
-            throw new IllegalArgumentException("Layer "+layerId+" not found");
+        if(lp == null)
+            throw new NotFoundWebEx("Layer "+layerId+" not found");
 
-        if(l.getProperties().containsKey(propertyName)) {
-            LOGGER.info("Setting property " +propertyName + " to " + propertyValue + " for layer " + layerId + " in profile " + profile);
-            String oldValue = l.getProperties().put(propertyName, propertyValue);
+        if(lp.getCustomProps().containsKey(propertyName)) {
+            LOGGER.info("Setting property " +propertyName + " to " + propertyValue + " for layer " + layerId + " in profile ???" );
+            String oldValue = lp.getCustomProps().put(propertyName, propertyValue);
             return oldValue;
         } else {
             LOGGER.info("Will not set property " +propertyName + " to " + propertyValue + " for layer " + layerId + ": property not found");
-            return "ERROR: property " + propertyName + " not found"; // need a better way to return error status: http code?
+            throw new NotFoundWebEx("Property "+propertyName+" not found");
         }
     }
 
     @Override
-    public String getProperty(int layerId, String propertyName) {
-        TOCLayer l = layerStore.get(layerId);
-        if(l == null)
-            throw new IllegalArgumentException("Layer "+layerId+" not found");
+    public String getProperty(long layerId, String propertyName) {
+        LayerPermission lp = fakeDAO.getLayerPermission(layerId);
+
+        if(lp == null)
+            throw new NotFoundWebEx("Layer "+layerId+" not found");
 
         LOGGER.info("Getting property " +propertyName );
-        return l.getProperties().get(propertyName);
+        return lp.getCustomProps().get(propertyName);
     }
     
 }

@@ -19,7 +19,6 @@
  */
 package it.geosolutions.georepo.services.webgis;
 
-import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
 import it.geosolutions.georepo.services.exception.IllegalParameterFault;
 import it.geosolutions.georepo.services.webgis.model.TOC;
 
@@ -43,21 +42,23 @@ public interface WebGisTOCService {
     @GET
     @Path("/profile/{profile}/toc")
     TOC getTOC(
-            @PathParam("profile") WebGisProfile profile
+            @PathParam("profile") String profile
             ) throws IllegalParameterFault;
 
 
     @GET
     @Path("/layer/{layerId}/property/{propertyName}")
+    @Produces("text/plain")
     String getProperty(
-            @PathParam("layerId")int layerId,
+            @PathParam("layerId")long layerId,
             @PathParam("propertyName")String propertyName
             );
 
     @PUT
     @Path("/layer/{layerId}/property/{propertyName}/{propertyValue}")
+    @Produces("text/plain")
     String setProperty(
-            @PathParam("layerId")int layerId,
+            @PathParam("layerId")long layerId,
             @PathParam("propertyName")String propertyName,
             @PathParam("propertyValue")String propertyValue
             );

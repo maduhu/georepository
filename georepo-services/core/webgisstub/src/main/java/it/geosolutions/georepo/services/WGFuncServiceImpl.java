@@ -20,7 +20,9 @@
 
 package it.geosolutions.georepo.services;
 
+import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.IllegalParameterFault;
+import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
 import it.geosolutions.georepo.services.webgis.model.WebGisProperty;
 import it.geosolutions.georepo.services.webgis.WebGisFuncService;
@@ -45,11 +47,17 @@ public class WGFuncServiceImpl implements WebGisFuncService {
     }
 
     @Override
-    public List<WebGisProperty> getProfileProperties(WebGisProfile profile) throws IllegalParameterFault {
+    public List<WebGisProperty> getProfileProperties(String profile) throws IllegalParameterFault {
         LOGGER.warn("Profile is " + profile);
         System.out.println("Profile is " + profile);
         if(profile == null)
-            throw new IllegalParameterFault("Bad profile");
+            throw new BadRequestWebEx("Missing Profile");
+
+        try {
+            WebGisProfile wgp = WebGisProfile.valueOf(profile);
+        } catch (IllegalArgumentException e) {
+            throw new NotFoundWebEx("Profile not found: " + profile);
+        }
 
         List<WebGisProperty> ret = new ArrayList<WebGisProperty>();
         ret.add(getProperty("test1"));
