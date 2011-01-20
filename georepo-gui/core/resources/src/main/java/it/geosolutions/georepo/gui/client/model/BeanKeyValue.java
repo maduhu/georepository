@@ -39,26 +39,37 @@ package it.geosolutions.georepo.gui.client.model;
 public enum BeanKeyValue {
 
     /** The USE r_ name. */
-    USER_NAME("userName"), 
- /** The EMAIL. */
-    EMAIL("emailAddress"), 
- /** The EMAI l_ enable. */
-    EMAIL_ENABLE("emailEnable"), 
- /** The RS s_ enable. */
-    RSS_ENABLE("rssEnable"),
+    USER_NAME("userName"),
     
+    FULL_NAME("fullName"),
+
+    PROFILE_NAME("profileName"),
+
+    DATE_CREATION("dateCreation"),
+    
+    /** The EMAIL. */
+    EMAIL("emailAddress"),
+    
+    /** The EMAI l_ enable. */
+    EMAIL_ENABLE("emailEnable"),
+    
+    /** The RS s_ enable. */
+    RSS_ENABLE("rssEnable"),
+
     /** The REDUCE d_ content. */
     REDUCED_CONTENT("reducedContent"),
-    
+
     /** The USE r_ enabled. */
     USER_ENABLED("userEnabled"),
-    
+
+    PROFILE_ENABLED("profileEnabled"),
+
     /** The NAME. */
     NAME("name"),
-    
+
     /** The PATH. */
     PATH("path"),
-    
+
     /** The REDUCE d_ conten t_ update. */
     REDUCED_CONTENT_UPDATE("REDUCED_CONTENT_UPDATE");
 

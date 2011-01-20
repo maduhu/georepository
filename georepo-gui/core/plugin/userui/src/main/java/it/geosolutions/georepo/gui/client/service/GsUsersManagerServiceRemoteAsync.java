@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.UserUI,v. 0.1 14-gen-2011 19.29.52 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.LoginRemoteAsync,v. 0.1 14-gen-2011 19.29.51 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.52 $
+ * $ Date: 14-gen-2011 19.29.51 $
  *
  * ====================================================================
  *
@@ -30,35 +30,25 @@
  * <http://www.geo-solutions.it/>.
  *
  */
-package it.geosolutions.georepo.gui.client;
+package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.controller.LoginController;
-import it.geosolutions.georepo.gui.client.controller.ServicesController;
-import it.geosolutions.georepo.gui.client.controller.USERSController;
+import it.geosolutions.georepo.gui.client.model.User;
 
-import com.extjs.gxt.ui.client.mvc.Dispatcher;
-import com.google.gwt.core.client.EntryPoint;
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class UserUI.
+ * The Interface LoginRemoteAsync.
  */
-public class UserUI implements EntryPoint {
+public interface GsUsersManagerServiceRemoteAsync {
 
-    /** The dispatcher. */
-    private Dispatcher dispatcher;
-
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
+     * @param config
+     * @param callback
      */
-    public void onModuleLoad() {
-        dispatcher = Dispatcher.get();
-        dispatcher.addController(new LoginController());
-        dispatcher.addController(new ServicesController());
-        dispatcher.addController(new USERSController());
+    public void getGsUsers(PagingLoadConfig config, AsyncCallback<PagingLoadResult<User>> callback);
 
-        dispatcher.dispatch(GeoRepoEvents.INIT_USER_UI_MODULE);
-    }
 }

@@ -32,11 +32,9 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
-import com.extjs.gxt.ui.client.event.ComponentEvent;
-import com.extjs.gxt.ui.client.event.WidgetListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
@@ -47,51 +45,52 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 public class UserManagementWidget extends ContentPanel {
 
     /** The user info. */
-    private UserInfoBindingWidget userInfo;
+    private UserGridWidget usersInfo;
 
     /**
      * Instantiates a new user management widget.
      */
-    public UserManagementWidget() {
-        setHeading(I18nProvider.getMessages().userManagementLabel());
+    public UserManagementWidget(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
+        setHeaderVisible(false);
+        setFrame(true);
+        setHeight(170);
         setLayout(new FitLayout());
 
-        setLayoutOnChange(true);
+        setUsersInfo(new UserGridWidget(gsManagerServiceRemote));
 
-        userInfo = new UserInfoBindingWidget();
+        add(getUsersInfo().getGrid());
 
-        add(userInfo.getFormPanel());
+        super.setMonitorWindowResize(true);
 
-        addWidgetListener(new WidgetListener() {
-            @Override
-            public void widgetResized(ComponentEvent ce) {
-                userInfo.getFormPanel().setHeight(getHeight());
-            }
-        });
+        setScrollMode(Scroll.NONE);
 
-        setScrollMode(Scroll.AUTOY);
+        setBottomComponent(this.getUsersInfo().getToolBar());
     }
 
-    /**
-     * Gets the user info.
+    /*
+     * (non-Javadoc)
      * 
-     * @return the user info
+     * @see com.extjs.gxt.ui.client.widget.Component#onWindowResize(int, int)
      */
-    public UserInfoBindingWidget getUserInfo() {
-        return userInfo;
+    @Override
+    protected void onWindowResize(int width, int height) {
+        // TODO Auto-generated method stub
+        super.setWidth(width - 5);
+        super.layout();
     }
 
     /**
-     * Enable buttons.
+     * @param usersInfo the usersInfo to set
      */
-    public void enableButtons() {
-        this.userInfo.enableButtons();
+    public void setUsersInfo(UserGridWidget usersInfo) {
+        this.usersInfo = usersInfo;
     }
 
     /**
-     * Disable buttons.
+     * @return the usersInfo
      */
-    public void disableButtons() {
-        this.userInfo.disableButtons();
+    public UserGridWidget getUsersInfo() {
+        return usersInfo;
     }
+    
 }

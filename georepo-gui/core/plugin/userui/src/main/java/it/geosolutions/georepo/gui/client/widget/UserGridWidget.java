@@ -32,16 +32,45 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.User;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
+import com.extjs.gxt.ui.client.data.BasePagingLoader;
+import com.extjs.gxt.ui.client.data.LoadEvent;
+import com.extjs.gxt.ui.client.data.ModelData;
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.extjs.gxt.ui.client.data.PagingLoader;
+import com.extjs.gxt.ui.client.data.RpcProxy;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.FieldEvent;
+import com.extjs.gxt.ui.client.event.GridEvent;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.LoadListener;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.form.CheckBox;
+import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
+import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -49,17 +78,30 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
  */
 public class UserGridWidget extends GeoRepoGridWidget<User> {
 
+    /** The service. */
+    private GsUsersManagerServiceRemoteAsync service;
+    
     /** The email enable. */
     private CheckColumnConfig emailEnable;
 
     /** The rss enable. */
     private CheckColumnConfig rssEnable;
 
+    /** The proxy. */
+    private RpcProxy<PagingLoadResult<User>> proxy;
+
+    /** The loader. */
+    private PagingLoader<PagingLoadResult<ModelData>> loader;
+
+    /** The tool bar. */
+    private PagingToolBar toolBar;
+    
     /**
      * Instantiates a new user grid widget.
      */
-    public UserGridWidget() {
+    public UserGridWidget(GsUsersManagerServiceRemoteAsync service) {
         super();
+        this.service = service;
     }
 
     /**
@@ -80,8 +122,11 @@ public class UserGridWidget extends GeoRepoGridWidget<User> {
     @Override
     public void setGridProperties() {
         grid.setAutoExpandColumn(BeanKeyValue.USER_NAME.getValue());
-        grid.addPlugin(emailEnable);
-        grid.addPlugin(rssEnable);
+//        grid.addPlugin(emailEnable);
+//        grid.addPlugin(rssEnable);
+        
+        grid.setLoadMask(true);
+        grid.setAutoWidth(true);
     }
 
     /*
@@ -96,27 +141,61 @@ public class UserGridWidget extends GeoRepoGridWidget<User> {
         ColumnConfig userNameColumn = new ColumnConfig();
         userNameColumn.setId(BeanKeyValue.USER_NAME.getValue());
         userNameColumn.setHeader("User Name");
-        userNameColumn.setWidth(80);
+        userNameColumn.setWidth(100);
         configs.add(userNameColumn);
 
-        ColumnConfig emailAddress = new ColumnConfig();
-        emailAddress.setId(BeanKeyValue.EMAIL.getValue());
-        emailAddress.setHeader("Email");
-        emailAddress.setWidth(100);
-        configs.add(emailAddress);
+        ColumnConfig dateCreationColumn = new ColumnConfig();
+        dateCreationColumn.setId(BeanKeyValue.DATE_CREATION.getValue());
+        dateCreationColumn.setHeader("Date Creation");
+        dateCreationColumn.setWidth(100);
+        configs.add(dateCreationColumn);
 
-        // CellEditor checkBoxMailEditor = new CellEditor(new CheckBox());
+        ColumnConfig userEnabledColumn = new ColumnConfig();
+        userEnabledColumn.setId(BeanKeyValue.USER_ENABLED.getValue());
+        userEnabledColumn.setHeader("Enabled");
+        userEnabledColumn.setWidth(100);
+        userEnabledColumn.setRenderer(this.createEnableCheckBox());
+        userEnabledColumn.setMenuDisabled(true);
+        userEnabledColumn.setSortable(false);
+        configs.add(userEnabledColumn);
 
-        emailEnable = new CheckColumnConfig(BeanKeyValue.EMAIL_ENABLE.getValue(), "Mail", 60);
+        ColumnConfig userProfileColumn = new ColumnConfig();
+        userProfileColumn.setId(BeanKeyValue.PROFILE_NAME.getValue());
+        userProfileColumn.setHeader("Profile");
+        userProfileColumn.setWidth(100);
+        userProfileColumn.setRenderer(this.createProfilesComboBox());
+        userProfileColumn.setMenuDisabled(true);
+        userProfileColumn.setSortable(false);
+        configs.add(userProfileColumn);
 
-        // emailAddress.setEditor(checkBoxMailEditor);
-        configs.add(emailEnable);
+        ColumnConfig detailsActionColumn = new ColumnConfig();
+        detailsActionColumn.setHeader("Details");
+        detailsActionColumn.setWidth(100);
+        configs.add(detailsActionColumn);
 
-        // CellEditor checkBoxRSSEditor = new CellEditor(new CheckBox());
-
-        rssEnable = new CheckColumnConfig(BeanKeyValue.RSS_ENABLE.getValue(), "RSS", 60);
-        // rssEnable.setEditor(checkBoxRSSEditor);
-        configs.add(rssEnable);
+        ColumnConfig removeActionColumn = new ColumnConfig();
+        removeActionColumn.setHeader("Remove");
+        removeActionColumn.setWidth(100);
+        configs.add(removeActionColumn);
+        
+//        ColumnConfig emailAddress = new ColumnConfig();
+//        emailAddress.setId(BeanKeyValue.EMAIL.getValue());
+//        emailAddress.setHeader("Email");
+//        emailAddress.setWidth(100);
+//        configs.add(emailAddress);
+//
+//        // CellEditor checkBoxMailEditor = new CellEditor(new CheckBox());
+//
+//        emailEnable = new CheckColumnConfig(BeanKeyValue.EMAIL_ENABLE.getValue(), "Mail", 60);
+//
+//        // emailAddress.setEditor(checkBoxMailEditor);
+//        configs.add(emailEnable);
+//
+//        // CellEditor checkBoxRSSEditor = new CellEditor(new CheckBox());
+//
+//        rssEnable = new CheckColumnConfig(BeanKeyValue.RSS_ENABLE.getValue(), "RSS", 60);
+//        // rssEnable.setEditor(checkBoxRSSEditor);
+//        configs.add(rssEnable);
 
         return new ColumnModel(configs);
     }
@@ -128,7 +207,230 @@ public class UserGridWidget extends GeoRepoGridWidget<User> {
      */
     @Override
     public void createStore() {
-        store = new ListStore<User>();
+        this.toolBar = new PagingToolBar(25);
+
+        this.proxy = new RpcProxy<PagingLoadResult<User>>() {
+
+            @Override
+            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<User>> callback) {
+                service.getGsUsers((PagingLoadConfig) loadConfig, callback);
+            }
+            
+        };
+
+        loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
+
+        loader.setRemoteSort(false);
+
+        store = new ListStore<User>(loader);
+
+        this.toolBar.bind(loader);
+
+        this.toolBar.disable();
+        
+        setUpLoadListener();
     }
 
+    /**
+     * Gets the loader.
+     * 
+     * @return the loader
+     */
+    public PagingLoader<PagingLoadResult<ModelData>> getLoader() {
+        return loader;
+    }
+
+    /**
+     * Gets the tool bar.
+     * 
+     * @return the tool bar
+     */
+    public PagingToolBar getToolBar() {
+        return toolBar;
+    }
+
+    /**
+     * Clear grid elements.
+     */
+    public void clearGridElements() {
+        this.store.removeAll();
+        this.toolBar.clear();
+        this.toolBar.disable();
+    }
+
+    /**
+     * Sets the up load listener.
+     */
+    private void setUpLoadListener() {
+        loader.addLoadListener(new LoadListener() {
+
+            @Override
+            public void loaderBeforeLoad(LoadEvent le) {
+                if (!toolBar.isEnabled())
+                    toolBar.enable();
+            }
+
+            @Override
+            public void loaderLoad(LoadEvent le) {
+                
+                //TODO: change messages here!!
+                
+                BasePagingLoadResult<?> result = le.getData();
+                if (!result.getData().isEmpty()) {
+                    int size = result.getData().size();
+                    String message = "";
+                    if (size == 1)
+                        message = I18nProvider.getMessages().featureLabel();
+                    else
+                        message = I18nProvider.getMessages().featurePluralLabel();
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                            I18nProvider.getMessages().featureServiceName(),
+                            I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
+                                    + " " + message });
+                } else {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
+                            I18nProvider.getMessages().featureServiceName(),
+                            I18nProvider.getMessages().featureNotFoundMessage() });
+                }
+            }
+
+        });
+    }
+    
+    /**
+     * @return GridCellRenderer<ClientShortWatch>
+     */
+    private GridCellRenderer<GSUser> createEnableCheckBox() {
+
+        GridCellRenderer<GSUser> buttonRendered =
+            new GridCellRenderer<GSUser>() {
+
+                private boolean init;
+
+                public Object render(
+                        final GSUser model, String property, ColumnData config, int rowIndex, 
+                        int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
+
+                    if (!init) {
+                        init = true;
+                        grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
+
+                            public void handleEvent(GridEvent<GSUser> be) {
+                                for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                    if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                        ((BoxComponent) be.getGrid().getView().getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    CheckBox userEnabledButton = new CheckBox();
+                    userEnabledButton.setToolTip("Test");
+                    userEnabledButton.setValue(model.isEnabled());
+                    
+                    userEnabledButton.addListener(Events.OnClick, new Listener<FieldEvent>() {
+
+                        public void handleEvent(FieldEvent be) {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                  "GeoServer Users",
+                                  "Enable check!" });                            
+                        }
+                    });
+                    
+                    return userEnabledButton;
+                }
+            };
+
+        return buttonRendered;
+    }
+    
+    /**
+     * @return GridCellRenderer<ClientShortWatch>
+     */
+    private GridCellRenderer<GSUser> createProfilesComboBox() {
+
+        GridCellRenderer<GSUser> buttonRendered =
+            new GridCellRenderer<GSUser>() {
+
+                private boolean init;
+
+                public Object render(
+                        final GSUser model, String property, ColumnData config, int rowIndex, 
+                        int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
+
+                    if (!init) {
+                        init = true;
+                        grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
+
+                            public void handleEvent(GridEvent<GSUser> be) {
+                                for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                    if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                        ((BoxComponent) be.getGrid().getView().getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    // TODO: generalize this!
+                    ComboBox<Profile> profilesComboBox = new ComboBox<Profile> ();
+                    profilesComboBox.setId("userProfilesCombo");
+                    profilesComboBox.setName("userProfilesCombo");
+                    profilesComboBox.setEmptyText("(Select Profile)");
+                    profilesComboBox.setDisplayField("name");
+                    profilesComboBox.setEditable(true);
+                    profilesComboBox.setStore(getAvailableProfiles());                    
+                    profilesComboBox.setTypeAhead(true);
+                    profilesComboBox.setTriggerAction(TriggerAction.ALL);
+                    profilesComboBox.setWidth(200);
+                    
+                    profilesComboBox.addListener(Events.OnChange, new Listener<FieldEvent>() {
+
+                        public void handleEvent(FieldEvent be) {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                  "GeoServer Users",
+                                  "Profiles" });                            
+                        }
+                    });
+                    
+                    return profilesComboBox;
+                }
+
+                /**
+                 * @return
+                 */
+                private ListStore<Profile> getAvailableProfiles() {
+                    ListStore<Profile> availableProfiles = new ListStore<Profile>();
+                    List<Profile> profiles = new ArrayList<Profile>();
+                    Profile profile_base = new Profile();
+                    Profile profile_analysis = new Profile();
+                    Profile profile_advanced = new Profile();
+                    
+                    profile_base.setName("BASE");
+                    profile_base.setDateCreation(new Date());
+                    profile_base.setEnabled(true);
+
+                    profile_analysis.setName("ANALYSIS");
+                    profile_analysis.setDateCreation(new Date());
+                    profile_analysis.setEnabled(true);
+
+                    profile_advanced.setName("ADVANCED");
+                    profile_advanced.setDateCreation(new Date());
+                    profile_advanced.setEnabled(true);
+
+                    profiles.add(profile_base);
+                    profiles.add(profile_analysis);
+                    profiles.add(profile_advanced);
+                    
+                    availableProfiles.add(profiles);
+                    
+                    return availableProfiles;
+                }
+            };
+
+        return buttonRendered;
+    }
 }

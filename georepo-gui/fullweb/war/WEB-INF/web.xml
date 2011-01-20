@@ -57,6 +57,15 @@
 	    <servlet-name>remoteLoggingServiceImpl</servlet-name> 
 	    <url-pattern>/georepo/logging</url-pattern> 
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GsUsersManagerServiceRemote</servlet-name>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.GsUsersManagerServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GsUsersManagerServiceRemote</servlet-name>
+		<url-pattern>/georepo/GsUsersManagerServiceRemote</url-pattern>
+	</servlet-mapping>
 	
     <servlet>
         <servlet-name>dispatcher</servlet-name>

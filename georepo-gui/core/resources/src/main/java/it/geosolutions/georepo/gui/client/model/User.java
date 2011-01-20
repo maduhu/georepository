@@ -67,9 +67,6 @@ public class User extends BeanModel {
     /** The enabled. */
     private boolean enabled;
 
-    /** The profile. */
-    private Profile profile;
-
     /** The path. */
     private String path;
 
@@ -119,7 +116,7 @@ public class User extends BeanModel {
      */
     public void setName(String name) {
         this.name = name;
-        set(BeanKeyValue.NAME.getValue(), this.name);
+        set(BeanKeyValue.USER_NAME.getValue(), this.name);
     }
 
     /**
@@ -129,9 +126,8 @@ public class User extends BeanModel {
      *            the new user name
      */
     public void setFullName(String fullName) {
-        //TODO
-//        set(BeanKeyValue.USER_NAME.getValue(), userName);
         this.fullName = fullName;
+        set(BeanKeyValue.FULL_NAME.getValue(), fullName);
     }
 
     /**
@@ -179,8 +175,8 @@ public class User extends BeanModel {
      *            the new email address
      */
     public void setEmailAddress(String emailAddress) {
-        set(BeanKeyValue.EMAIL.getValue(), emailAddress);
         this.emailAddress = emailAddress;
+        set(BeanKeyValue.EMAIL.getValue(), emailAddress);
     }
 
     /**
@@ -191,6 +187,7 @@ public class User extends BeanModel {
      */
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
+        set(BeanKeyValue.DATE_CREATION.getValue(), dateCreation);
     }
 
     /**
@@ -218,27 +215,8 @@ public class User extends BeanModel {
      *            the new is the GSUser Enabled or not in the system?
      */
     public void setEnabled(boolean enabled) {
-        set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
         this.enabled = enabled;
-    }
-
-    /**
-     * Sets the user.
-     * 
-     * @param profile
-     *            the new user
-     */
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
-    /**
-     * Gets the user.
-     * 
-     * @return the user
-     */
-    public Profile getProfile() {
-        return profile;
+        set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
     }
 
     /**

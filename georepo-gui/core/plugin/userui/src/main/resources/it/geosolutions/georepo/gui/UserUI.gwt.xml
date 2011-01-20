@@ -11,4 +11,7 @@
 	<servlet path="/LoginRemote"
 		class="it.geosolutions.georepo.gui.server.gwt.LoginRemoteImpl" />
 
+	<servlet path="/GsUsersManagerServiceRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.GsUsersManagerServiceImpl" />
+		
 </module>

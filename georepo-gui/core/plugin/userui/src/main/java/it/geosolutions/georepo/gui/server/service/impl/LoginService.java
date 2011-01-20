@@ -122,9 +122,8 @@ public class LoginService implements ILoginService {
         session.setMaxInactiveInterval(7200);
 
         session.setAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue(), token);
-        // session.setAttribute(
-        // DGWATCHKeySessionValues.USER_LOGGED_TOKEN.getValue(),
-        // grantedAuthorities_NOTUSEDANYMORE.getToken());
+        /* session.setAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue(),
+                grantedAuthorities_NOTUSEDANYMORE.getToken()); */
 
         return user;
     }

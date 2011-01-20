@@ -108,6 +108,7 @@ public class Profile extends BeanModel {
      */
     public void setName(String name) {
         this.name = name;
+        set(BeanKeyValue.NAME.getValue(), name);
     }
 
     /**
@@ -127,6 +128,7 @@ public class Profile extends BeanModel {
      */
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
+        set(BeanKeyValue.DATE_CREATION.getValue(), dateCreation);
     }
 
     /**
@@ -146,6 +148,7 @@ public class Profile extends BeanModel {
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+        set(BeanKeyValue.PROFILE_ENABLED.getValue(), enabled);
     }
 
     /**
@@ -175,6 +178,7 @@ public class Profile extends BeanModel {
      */
     public void setPath(String path) {
         this.path = path;
+        set(BeanKeyValue.PATH.getValue(), path);
     }
 
     /**

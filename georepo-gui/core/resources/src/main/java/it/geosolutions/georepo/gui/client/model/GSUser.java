@@ -33,7 +33,6 @@
 package it.geosolutions.georepo.gui.client.model;
 
 import java.util.Date;
-import java.util.List;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
 
@@ -44,7 +43,7 @@ import com.extjs.gxt.ui.client.data.BeanModel;
 public class GSUser extends BeanModel {
 
     /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = -5117714882113396553L;
+    private static final long serialVersionUID = 270623297309308741L;
 
     /** The id. */
     private long id;
@@ -72,9 +71,6 @@ public class GSUser extends BeanModel {
 
     /** The path. */
     private String path;
-
-    /** The granted authorizations. */
-    private List<Authorization> grantedAuthorizations;
 
     /**
      * Instantiates a new gS user.
@@ -119,7 +115,7 @@ public class GSUser extends BeanModel {
      */
     public void setName(String name) {
         this.name = name;
-        set(BeanKeyValue.NAME.getValue(), this.name);
+        set(BeanKeyValue.USER_NAME.getValue(), this.name);
     }
 
     /**
@@ -129,9 +125,8 @@ public class GSUser extends BeanModel {
      *            the new user name
      */
     public void setFullName(String fullName) {
-        //TODO
-//        set(BeanKeyValue.USER_NAME.getValue(), userName);
         this.fullName = fullName;
+        set(BeanKeyValue.FULL_NAME.getValue(), fullName);
     }
 
     /**
@@ -179,8 +174,8 @@ public class GSUser extends BeanModel {
      *            the new email address
      */
     public void setEmailAddress(String emailAddress) {
-        set(BeanKeyValue.EMAIL.getValue(), emailAddress);
         this.emailAddress = emailAddress;
+        set(BeanKeyValue.EMAIL.getValue(), emailAddress);
     }
 
     /**
@@ -191,6 +186,7 @@ public class GSUser extends BeanModel {
      */
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
+        set(BeanKeyValue.DATE_CREATION.getValue(), dateCreation);
     }
 
     /**
@@ -218,8 +214,8 @@ public class GSUser extends BeanModel {
      *            the new is the GSUser Enabled or not in the system?
      */
     public void setEnabled(boolean enabled) {
-        set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
         this.enabled = enabled;
+        set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
     }
 
     /**
@@ -261,25 +257,6 @@ public class GSUser extends BeanModel {
         set(BeanKeyValue.PATH.getValue(), this.path);
     }
 
-    /**
-     * Sets the granted authorizations.
-     * 
-     * @param ga
-     *            the new granted authorizations
-     */
-    public void setGrantedAuthorizations(List<Authorization> ga) {
-        this.grantedAuthorizations = ga;
-    }
-
-    /**
-     * Gets the granted authorizations.
-     * 
-     * @return the granted authorizations
-     */
-    public List<Authorization> getGrantedAuthorizations() {
-        return this.grantedAuthorizations;
-    }
-
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -291,8 +268,6 @@ public class GSUser extends BeanModel {
         result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
         result = prime * result + (enabled ? 1231 : 1237);
         result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
-        result = prime * result
-                + ((grantedAuthorizations == null) ? 0 : grantedAuthorizations.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -339,13 +314,6 @@ public class GSUser extends BeanModel {
         } else if (!fullName.equals(other.fullName)) {
             return false;
         }
-        if (grantedAuthorizations == null) {
-            if (other.grantedAuthorizations != null) {
-                return false;
-            }
-        } else if (!grantedAuthorizations.equals(other.grantedAuthorizations)) {
-            return false;
-        }
         if (id != other.id) {
             return false;
         }
@@ -387,8 +355,6 @@ public class GSUser extends BeanModel {
         builder.append("enabled=").append(enabled).append(", ");
         if (fullName != null)
             builder.append("fullName=").append(fullName).append(", ");
-        if (grantedAuthorizations != null)
-            builder.append("grantedAuthorizations=").append(grantedAuthorizations).append(", ");
         builder.append("id=").append(id).append(", ");
         if (name != null)
             builder.append("name=").append(name).append(", ");

@@ -139,8 +139,8 @@ public class LoginController extends Controller {
         if (event.getType() == GeoRepoEvents.LOGIN)
             onLogin(event);
 
-        if (event.getType() == GeoRepoEvents.ATTACH_USER_WIDGET)
-            onAttachUserWidget(event);
+//        if (event.getType() == GeoRepoEvents.ATTACH_USER_WIDGET)
+//            onAttachUserWidget(event);
 
         if (event.getType() == GeoRepoEvents.SHOW_CHOOSER_USER_WIDGET)
             onShowChooseUserWidget();
@@ -172,8 +172,8 @@ public class LoginController extends Controller {
         if (event.getType() == GeoRepoEvents.NOTIFY_UNSHARE_SUCCESS)
             onNotifyUnshareSuccess();
 
-        if (event.getType() == GeoRepoEvents.UNBIND_USER_WIDGET)
-            onUnbindUserWidget();
+//        if (event.getType() == GeoRepoEvents.UNBIND_USER_WIDGET)
+//            onUnbindUserWidget();
 
         if (event.getType() == GeoRepoEvents.LOGOUT)
             onLogout();
@@ -245,12 +245,12 @@ public class LoginController extends Controller {
 
     }
 
-    /**
-     * On unbind user widget.
-     */
-    private void onUnbindUserWidget() {
-        userManagementWidget.getUserInfo().unBindModel();
-    }
+//    /**
+//     * On unbind user widget.
+//     */
+//    private void onUnbindUserWidget() {
+//        userManagementWidget.getUserInfo().unBindModel();
+//    }
 
     /**
      * On notify unshare success.
@@ -464,18 +464,18 @@ public class LoginController extends Controller {
         this.chooseUserWidget.getChooser().show();
     }
 
-    /**
-     * On attach user widget.
-     * 
-     * @param event
-     *            the event
-     */
-    private void onAttachUserWidget(AppEvent event) {
-        ContentPanel east = (ContentPanel) event.getData();
-        this.userManagementWidget = new UserManagementWidget();
-        east.add(userManagementWidget);
-        east.layout();
-    }
+//    /**
+//     * On attach user widget.
+//     * 
+//     * @param event
+//     *            the event
+//     */
+//    private void onAttachUserWidget(AppEvent event) {
+//        ContentPanel east = (ContentPanel) event.getData();
+//        this.userManagementWidget = new UserManagementWidget();
+//        east.add(userManagementWidget);
+//        east.layout();
+//    }
 
     /**
      * On login.
