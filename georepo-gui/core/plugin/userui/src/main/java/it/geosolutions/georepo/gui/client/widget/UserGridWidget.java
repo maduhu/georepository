@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.GSUser;
@@ -44,7 +45,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.extjs.gxt.ui.client.data.BaseModel;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
 import com.extjs.gxt.ui.client.data.LoadEvent;
@@ -53,6 +53,7 @@ import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoader;
 import com.extjs.gxt.ui.client.data.RpcProxy;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.GridEvent;
@@ -62,9 +63,9 @@ import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.store.Store;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.StoreFilterField;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
@@ -73,6 +74,7 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
+import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
@@ -173,14 +175,20 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
 
         ColumnConfig detailsActionColumn = new ColumnConfig();
         detailsActionColumn.setId("userDetails");
-        detailsActionColumn.setHeader("Details");
+        // detailsActionColumn.setHeader("Details");
         detailsActionColumn.setWidth(80);
+        detailsActionColumn.setRenderer(this.createUserDetailsButton());
+        detailsActionColumn.setMenuDisabled(true);
+        detailsActionColumn.setSortable(false);
         configs.add(detailsActionColumn);
 
         ColumnConfig removeActionColumn = new ColumnConfig();
         removeActionColumn.setId("removeUser");
-        removeActionColumn.setHeader("Remove");
+        // removeActionColumn.setHeader("Remove");
         removeActionColumn.setWidth(80);
+        removeActionColumn.setRenderer(this.createUserDeleteButton());
+        removeActionColumn.setMenuDisabled(true);
+        removeActionColumn.setSortable(false);
         configs.add(removeActionColumn);
 
         // ColumnConfig emailAddress = new ColumnConfig();
@@ -228,7 +236,8 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         store = new ListStore<GSUser>(loader);
 
         // Search tool
-        StoreFilterField<GSUser> filter = new StoreFilterField<GSUser>() {
+        SearchFilterField<GSUser> filter = new SearchFilterField<GSUser>() {
+
             @Override
             protected boolean doSelect(Store<GSUser> store, GSUser parent, GSUser record,
                     String property, String filter) {
@@ -240,15 +249,34 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 }
                 return false;
             }
+
         };
         filter.setWidth(130);
+        filter.setIcon(Resources.ICONS.search());
         // Bind the filter field to your grid store (grid.getStore())
         filter.bind(store);
 
+        // Add User button
+        // TODO: generalize this!
+        Button addUserButton = new Button("Add User");
+        addUserButton.setIcon(Resources.ICONS.add());
+
+        addUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+
+            public void handleEvent(ButtonEvent be) {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                        "GeoServer Users", "Add User" });
+            }
+        });
+
         this.toolBar.bind(loader);
+        this.toolBar.add(new SeparatorToolItem());
+        this.toolBar.add(addUserButton);
+        this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
-        
-        //this.toolBar.disable();
+        this.toolBar.add(new SeparatorToolItem());
+
+        // this.toolBar.disable();
 
         setUpLoadListener();
     }
@@ -456,4 +484,93 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
 
         return buttonRendered;
     }
+
+    private GridCellRenderer<GSUser> createUserDeleteButton() {
+        GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
+
+            private boolean init;
+
+            public Object render(final GSUser model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
+
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
+
+                        public void handleEvent(GridEvent<GSUser> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // TODO: generalize this!
+                Button removeUserButton = new Button("Remove");
+                removeUserButton.setIcon(Resources.ICONS.delete());
+
+                removeUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+
+                    public void handleEvent(ButtonEvent be) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                "GeoServer Users", "Remove User: " + model.getName() });
+                    }
+                });
+
+                return removeUserButton;
+            }
+
+        };
+
+        return buttonRendered;
+    }
+
+    private GridCellRenderer<GSUser> createUserDetailsButton() {
+        GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
+
+            private boolean init;
+
+            public Object render(final GSUser model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
+
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
+
+                        public void handleEvent(GridEvent<GSUser> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // TODO: generalize this!
+                Button userDetailsButton = new Button("Details");
+                userDetailsButton.setIcon(Resources.ICONS.table());
+
+                userDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+
+                    public void handleEvent(ButtonEvent be) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                "GeoServer Users", "Selected User: " + model.getName() });
+                    }
+                });
+
+                return userDetailsButton;
+            }
+
+        };
+
+        return buttonRendered;
+    }
+
 }

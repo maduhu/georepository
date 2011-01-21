@@ -64,8 +64,6 @@ public class GsUsersTabItem extends TabItem {
 
         setScrollMode(Scroll.NONE);
 
-        System.out.println(" - ITEM: GsUsersTabItem -- METHOD: GsUsersTabItem --- 'going to invoke widget loader...' ");
-
         getUserManagementWidget().getUsersInfo().getLoader().load(0, 25);
 
     }
