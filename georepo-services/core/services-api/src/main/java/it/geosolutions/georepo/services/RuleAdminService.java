@@ -70,12 +70,29 @@ public interface RuleAdminService {
     @Path("/rules")
     List<ShortRule> getAll();
 
+    /**
+     * Return the Rules according to the filter.
+     * <UL>
+     * <LI>If a parameter is set to "*", it will match any null or not null value;</LI>
+     * <LI>If a parameter is set to <TT>null</TT>, it will match only null values;</LI>
+     * <LI>If a parameter is set to other values, it will strictly match the related field value;</LI>
+     * </UL>
+     *
+     * @param userId The (Long) id of the GSUser, OR the "*" String, OR null
+     * @param profileId The (Long) id of the Profile, OR the "*" String, OR null
+     * @param instanceId The (Long) id of the GSInstance, OR the "*" String, OR null
+     *
+     * @param page used for retrieving paged data, may be null if not used. If not null, also <TT>entries</TT> should be defined.
+     * @param entries used for retrieving paged data, may be null if not used. If not null, also <TT>page</TT> should be defined.
+     *
+     * @see #getMatchingRules(java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer) getMatchingRules(...)
+     */
     @GET
     @Path("/rules/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
     List<ShortRule> getList(
-            @PathParam("userId") Long userId,
-            @PathParam("profileId") Long profileId,
-            @PathParam("instanceId") Long instanceId,
+            @PathParam("userId") String userId,
+            @PathParam("profileId") String profileId,
+            @PathParam("instanceId") String instanceId,
 
             @PathParam("service") String service,
             @PathParam("request") String request,
@@ -89,9 +106,9 @@ public interface RuleAdminService {
     @GET
     @Path("/rulescount/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
     long getCount(
-            @PathParam("userId") Long userId,
-            @PathParam("profileId") Long profileId,
-            @PathParam("instanceId") Long instanceId,
+            @PathParam("userId") String userId,
+            @PathParam("profileId") String profileId,
+            @PathParam("instanceId") String instanceId,
 
             @PathParam("service") String service,
             @PathParam("request") String request,
@@ -102,6 +119,31 @@ public interface RuleAdminService {
     @GET
     @Path("/rules/{id}/details")
     LayerDetails getDetails(@PathParam("id") long id) throws ResourceNotFoundFault;
+
+    /**
+     * Return the Rules according to the filter.
+     * <P>
+     * Differently from {@link getList(Long,Long,Long,String,String,String,String,Integer,Integer) getList()},
+     *  when a param is set, it will match
+     * all the rules with the corresponding matching field,
+     * plus all the rules having that field set to null.
+     * <BR>Null params will always match.
+     */
+    @GET
+    @Path("/rules/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
+    List<ShortRule> getMatchingRules(
+            @PathParam("userId") Long userId,
+            @PathParam("profileId") Long profileId,
+            @PathParam("instanceId") Long instanceId,
+
+            @PathParam("service") String service,
+            @PathParam("request") String request,
+            @PathParam("workspace") String workspace,
+            @PathParam("layer") String layer
+
+//            ,@QueryParam("page") Integer page
+//            ,@QueryParam("entries") Integer entries
+            );
 
 
 //    @Get

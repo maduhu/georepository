@@ -29,11 +29,12 @@
         <property name="instancePermissionDAO" ref="instancePermissionDAO"/>
     </bean>-->
 
+<!--
     <bean id="webgisService" class="it.geosolutions.georepo.services.WGFuncServiceImpl">
     </bean>
 
     <bean id="tocService" class="it.geosolutions.georepo.services.WGTocServiceImpl">
     </bean>
-
+-->
 
 </beans>

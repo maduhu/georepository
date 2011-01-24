@@ -19,10 +19,8 @@
  */
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.core.dao.GSUserDAO;
-import it.geosolutions.georepo.core.model.GSUser;
+import com.trg.search.Filter;
 import it.geosolutions.georepo.core.model.LayerDetails;
-import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
@@ -94,8 +92,8 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     }
 
     @Override
-    public List<ShortRule> getList(Long userId, Long profileId,
-            Long instanceId, String service, String request,
+    public List<ShortRule> getList(String userId, String profileId, String instanceId,
+            String service, String request,
             String workspace, String layer,
             Integer page, Integer entries) {
 
@@ -104,25 +102,101 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         }
 
         Search searchCriteria = new Search(Rule.class);
+        searchCriteria.addSortAsc("priority");
+
+        addLongSearchCriteria(searchCriteria, userId,       "gsuser");
+        addLongSearchCriteria(searchCriteria, profileId,    "profile");
+        addLongSearchCriteria(searchCriteria, instanceId,   "instance");
+
+        addStringSearchCriteria(searchCriteria, service,    "service");
+        addStringSearchCriteria(searchCriteria, request,    "request");
+        addStringSearchCriteria(searchCriteria, workspace,  "workspace");
+        addStringSearchCriteria(searchCriteria, layer,      "layer");
 
         if(entries != null) {
             searchCriteria.setMaxResults(entries);
             searchCriteria.setPage(page);
         }
 
-        searchCriteria.addSortAsc("priority");
+        List<Rule> found = ruleDAO.search(searchCriteria);
+        return convertToShortList(found);
+    }
 
-//        searchCriteria.addFilterILike("name", nameLike);
-//
-//        List<GSUser> found = ruleDAO.search(searchCriteria);
-//        return convertToShortList(found);
-        return null; // TODO
+    protected void addLongSearchCriteria(Search searchCriteria, String id, String fieldName) throws BadRequestWebEx {
+        if (id == null) {
+            searchCriteria.addFilterNull(fieldName);
+        } else if (id.equals("*")) {
+            // do not add any filter
+        } else {
+            try {
+                searchCriteria.addFilterEqual(fieldName + ".id", Long.valueOf(id));
+            } catch (NumberFormatException ex) {
+                throw new BadRequestWebEx("Bad "+fieldName+" '" + id + "'");
+            }
+        }
+    }
+
+    protected void addStringSearchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
+        if (value == null) {
+            searchCriteria.addFilterNull(fieldName);
+        } else if (value.equals("*")) {
+            // do not add any filter
+        } else {
+            searchCriteria.addFilterEqual(fieldName, value);
+        }
     }
 
     @Override
-    public long getCount(Long userId, Long profileId, Long instanceId, String service, String request, String workspace, String layer) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public long getCount(String userId, String profileId, String instanceId, String service, String request, String workspace, String layer) {
+        Search searchCriteria = new Search(Rule.class);
+
+        addLongSearchCriteria(searchCriteria, userId,       "gsuser");
+        addLongSearchCriteria(searchCriteria, profileId,    "profile");
+        addLongSearchCriteria(searchCriteria, instanceId,   "instance");
+
+        addStringSearchCriteria(searchCriteria, service,    "service");
+        addStringSearchCriteria(searchCriteria, request,    "request");
+        addStringSearchCriteria(searchCriteria, workspace,  "workspace");
+        addStringSearchCriteria(searchCriteria, layer,      "layer");
+
+        return ruleDAO.count(searchCriteria);
     }
+
+    @Override
+    public List<ShortRule> getMatchingRules(Long userId, Long profileId, Long instanceId, String service, String request, String workspace, String layer) {
+        Search searchCriteria = new Search(Rule.class);
+        searchCriteria.addSortAsc("priority");
+
+        addIdMatchSearchCriteria(searchCriteria, userId,       "gsuser");
+        addIdMatchSearchCriteria(searchCriteria, profileId,    "profile");
+        addIdMatchSearchCriteria(searchCriteria, instanceId,   "instance");
+
+        addStringMatchSearchCriteria(searchCriteria, service,    "service");
+        addStringMatchSearchCriteria(searchCriteria, request,    "request");
+        addStringMatchSearchCriteria(searchCriteria, workspace,  "workspace");
+        addStringMatchSearchCriteria(searchCriteria, layer,      "layer");
+
+        List<Rule> found = ruleDAO.search(searchCriteria);
+        return convertToShortList(found);
+
+    }
+
+    protected void addIdMatchSearchCriteria(Search searchCriteria, Long id, String fieldName) throws BadRequestWebEx {
+        if (id == null)
+            throw new BadRequestWebEx(fieldName + " is null");
+
+        searchCriteria.addFilterOr(
+                Filter.isNull(fieldName),
+                Filter.equal(fieldName, id));
+    }
+
+    protected void addStringMatchSearchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
+
+        searchCriteria.addFilterOr(
+                Filter.isNull(fieldName),
+                Filter.equal(fieldName, value));
+    }
+
 
     @Override
     public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
