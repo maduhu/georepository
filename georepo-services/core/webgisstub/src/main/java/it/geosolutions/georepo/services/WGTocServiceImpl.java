@@ -31,6 +31,7 @@ import it.geosolutions.georepo.services.webgis.model.TOCLayer;
 import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import org.apache.log4j.Logger;
 
 /**
@@ -42,6 +43,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
     private FakeDataStorage fakeDAO = new FakeDataStorage();
 
     @Override
+    @XmlElementWrapper(name="pippo")
     public TOC getTOC(String profile) {
 
         if(profile == null)

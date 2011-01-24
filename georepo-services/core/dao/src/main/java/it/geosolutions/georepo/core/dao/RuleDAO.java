@@ -20,14 +20,13 @@
 
 package it.geosolutions.georepo.core.dao;
 
-import it.geosolutions.georepo.core.model.InstancePermission;
-
+import it.geosolutions.georepo.core.model.Rule;
 
 /**
- * Public interface to define operations on InstancePermission
+ * Public interface to define operations on Rule
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 
-public interface InstancePermissionDAO extends RestrictedGenericDAO<InstancePermission> {
+public interface RuleDAO extends RestrictedGenericDAO<Rule> {
 }

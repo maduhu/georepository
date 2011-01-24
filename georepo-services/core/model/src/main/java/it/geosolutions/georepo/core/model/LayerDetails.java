@@ -22,18 +22,15 @@ package it.geosolutions.georepo.core.model;
 
 import com.vividsolutions.jts.geom.MultiPolygon;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
-import it.geosolutions.georepo.core.model.enums.AccessType;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -43,14 +40,16 @@ import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 /**
+ * Details may be set only for ules with non-wildcarded profile, instance, workspace,layer.
+ *
  *
  * @author ETj (etj at geo-solutions.it)
  */
-@Entity(name = "LayerPermission")
-@Table(name = "gr_perm_layer")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "LayerPermission")
-@XmlRootElement(name = "LayerPermission")
-public class LayerPermission {
+@Entity(name = "LayerDetails")
+@Table(name = "gr_layer_details")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "LayerDetails")
+@XmlRootElement(name = "LayerDetails")
+public class LayerDetails {
 
     /** The id. */
     @Id
@@ -61,9 +60,9 @@ public class LayerPermission {
     @Column(nullable=false)
     private String layerName;
 
-    @Column(length=5, nullable=false)
-    @Enumerated(EnumType.STRING)
-    private AccessType accessType;
+//    @Column(length=5, nullable=false)
+//    @Enumerated(EnumType.STRING)
+//    private AccessType accessType;
 
     @Column
     private String defaultStyle;
@@ -75,9 +74,9 @@ public class LayerPermission {
 	@Column(name = "area")
 	private MultiPolygon area;
 
-    @ManyToOne(optional = false)
-    @ForeignKey(name="fk_layerp_workspacep")
-    private WorkspacePermission workspacePermission;
+//    @OneToOne(optional = false)
+//    @ForeignKey(name="fk_detail_rule")
+//    private Rule rule;
 
     /** Custom properties associated to the Layer */
     @org.hibernate.annotations.CollectionOfElements
@@ -98,13 +97,13 @@ public class LayerPermission {
         this.area = area;
     }
 
-    public AccessType getAccessType() {
-        return accessType;
-    }
-
-    public void setAccessType(AccessType accessType) {
-        this.accessType = accessType;
-    }
+//    public AccessType getAccessType() {
+//        return accessType;
+//    }
+//
+//    public void setAccessType(AccessType accessType) {
+//        this.accessType = accessType;
+//    }
 
     public String getCqlFilter() {
         return cqlFilter;
@@ -138,13 +137,13 @@ public class LayerPermission {
         this.layerName = layerName;
     }
 
-    public WorkspacePermission getWorkspacePermission() {
-        return workspacePermission;
-    }
-
-    public void setWorkspacePermission(WorkspacePermission workspacePermission) {
-        this.workspacePermission = workspacePermission;
-    }
+//    public WorkspacePermission getWorkspacePermission() {
+//        return workspacePermission;
+//    }
+//
+//    public void setWorkspacePermission(WorkspacePermission workspacePermission) {
+//        this.workspacePermission = workspacePermission;
+//    }
 
     public Map<String, String> getCustomProps() {
         return customProps;
@@ -153,5 +152,13 @@ public class LayerPermission {
     public void setCustomProps(Map<String, String> customProps) {
         this.customProps = customProps;
     }
+
+//    public Rule getRule() {
+//        return rule;
+//    }
+//
+//    public void setRule(Rule rule) {
+//        this.rule = rule;
+//    }
 
 }

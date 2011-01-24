@@ -28,12 +28,13 @@ import com.trg.search.ISearch;
 /**
  * Public interface to define a restricted set of operation wrt to ones
  * defined in GenericDAO.
- * This may be useful if some constraints are implemented in the DAO, so that
+ * This may be useful if some constraints are implemented in the DAO, so that fewer
+ * point of access are allowed.
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 
-public interface RestrictedGenericDAO<ENTITY> /* extends GenericDAO<User, Long> */{
+public interface RestrictedGenericDAO<ENTITY> /* extends GenericDAO<ENTITY, Long> */{
 
     public List<ENTITY> findAll();
     public ENTITY find(Long id);

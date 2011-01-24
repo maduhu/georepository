@@ -20,12 +20,7 @@
 
 package it.geosolutions.georepo.core.dao;
 
-
-import java.util.List;
-
-import com.trg.search.ISearch;
 import it.geosolutions.georepo.core.model.Profile;
-import java.util.Map;
 
 /**
  * Public interface to define operations on Profiles
@@ -35,5 +30,5 @@ import java.util.Map;
 
 public interface ProfileDAO 
         extends RestrictedGenericDAO<Profile>,
-                CustomPropsProvider /* extends GenericDAO<User, Long> */{
+                CustomPropsProvider {
 }

@@ -1,8 +1,4 @@
 /*
- * $ Header: it.geosolutions.georepo.core.model.enums.ServiceType,v. 0.1 4-gen-2011 16.49.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
- * $ Revision: 0.1 $
- * $ Date: 4-gen-2011 16.49.11 $
- *
  * ====================================================================
  *
  * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
@@ -34,19 +30,10 @@
 package it.geosolutions.georepo.core.model.enums;
 
 /**
- * The Enum ServiceType.
+ * The Enum GrantType.
  */
-public enum ServiceType {
-    
-    /** The BOOLEAN. */
-    BOOLEAN,
-    
-    /** The SINGL e_ value. */
-    SINGLE_VALUE,
-    
-    /** The MULT i_ value. */
-    MULTI_VALUE,
-    
-    /** The GEOMETRIC. */
-    GEOMETRIC
+public enum GrantType {
+    ALLOW,
+    DENY,
+    LIMIT
 }

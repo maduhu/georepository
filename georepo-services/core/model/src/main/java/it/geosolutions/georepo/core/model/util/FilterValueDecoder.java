@@ -33,7 +33,6 @@
 
 package it.geosolutions.georepo.core.model.util;
 
-import it.geosolutions.georepo.core.model.ServiceFilter;
 import it.geosolutions.georepo.core.model.enums.ValueType;
 
 import java.io.IOException;
@@ -72,18 +71,6 @@ public class FilterValueDecoder {
         SAXBuilder saxBuilder = new SAXBuilder();
         Document jdomDocument = saxBuilder.build(new StringReader(this.value));
         e = jdomDocument.getRootElement();
-    }
-
-    /**
-     * Instantiates a new filter value decoder.
-     * 
-     * @param filter
-     *            the filter
-     * @throws IOException
-     * @throws JDOMException
-     */
-    public FilterValueDecoder(ServiceFilter filter) throws JDOMException, IOException {
-        this(filter.getValue());
     }
 
     /**

@@ -20,50 +20,56 @@
 
 package it.geosolutions.georepo.core.model;
 
+import com.vividsolutions.jts.geom.MultiPolygon;
+import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Type;
 
 /**
+ * Defines general limits (such as an Area ) for a Rule
+ * RuleLimits may be set only for rules with a Limit access type.
  *
  * @author ETj (etj at geo-solutions.it)
  */
-@Entity(name = "InstancePermission")
-@Table(name = "gr_perm_instance")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "InstancePermission")
-@XmlRootElement(name = "InstancePermission")
-public class InstancePermission {
+@Entity(name = "RuleLimits")
+@Table(name = "gr_rule_limits", 
+    uniqueConstraints= @UniqueConstraint(columnNames="rule_id"))
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "RuleLimits")
+@XmlRootElement(name = "RuleLimits")
+public class RuleLimits {
 
     /** The id. */
     @Id
-    @GeneratedValue
     @Column
     private long id;
 
-    @Column(nullable=false)
-    private boolean enabled;
+    @OneToOne(optional=false)
+    @Check(constraints="rule.access='LIMIT'") // ??? check this 
+    @ForeignKey(name="fk_limits_rule")
+    private Rule rule;
 
-    @ManyToOne(optional = false)
-    @ForeignKey(name="fk_instancep_instance")
-    private GSInstance instance;
+	@Type(type = "org.hibernatespatial.GeometryUserType")
+	@Column(name = "area")
+	private MultiPolygon allowedArea;
 
-    @ManyToOne(optional = false)
-    @ForeignKey(name="fk_instancep_profile")
-    private Profile profile;
-
-    public boolean isEnabled() {
-        return enabled;
+    @XmlJavaTypeAdapter(MultiPolygonAdapter.class)
+    public MultiPolygon getAllowedArea() {
+        return allowedArea;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setAllowedArea(MultiPolygon allowedArea) {
+        this.allowedArea = allowedArea;
     }
 
     public long getId() {
@@ -74,20 +80,12 @@ public class InstancePermission {
         this.id = id;
     }
 
-    public GSInstance getInstance() {
-        return instance;
+    public Rule getRule() {
+        return rule;
     }
 
-    public void setInstance(GSInstance instance) {
-        this.instance = instance;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setRule(Rule rule) {
+        this.rule = rule;
     }
 
 }

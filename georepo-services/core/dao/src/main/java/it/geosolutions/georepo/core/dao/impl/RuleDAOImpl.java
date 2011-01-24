@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -19,49 +19,51 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
-import com.trg.search.ISearch;
-import it.geosolutions.georepo.core.dao.ServiceFilterDAO;
-import it.geosolutions.georepo.core.model.ServiceFilter;
-import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
+import it.geosolutions.georepo.core.model.GSUser;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.trg.search.ISearch;
+import it.geosolutions.georepo.core.dao.RuleDAO;
+import it.geosolutions.georepo.core.model.Rule;
+
 /**
- * Public implementation of the ServiceFilterDAO interface
+ * Public implementation of the GSUserDAO interface
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @Transactional
-public class ServiceFilterDAOImpl
-        extends BaseDAO<ServiceFilter, Long>
-//        extends GenericDAOImpl<User, Long>
-        implements ServiceFilterDAO {
+public class RuleDAOImpl extends BaseDAO<Rule, Long>
+// extends GenericDAOImpl<GSUser, Long>
+        implements RuleDAO {
 
-    final private static Logger LOGGER = Logger.getLogger(ServiceFilterDAOImpl.class);
+    final private static Logger LOGGER = Logger.getLogger(RuleDAOImpl.class);
 
     @Override
-    public void persist(ServiceFilter... entities) {
+    public void persist(Rule... entities) {
         super.persist(entities);
     }
 
     @Override
-    public List<ServiceFilter> findAll() {
+    public List<Rule> findAll() {
         return super.findAll();
     }
 
     @Override
-    public List<ServiceFilter> search(ISearch search) {
+    public List<Rule> search(ISearch search) {
         return super.search(search);
     }
 
     @Override
-    public ServiceFilter merge(ServiceFilter entity) {
+    public Rule merge(Rule entity) {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(ServiceFilter entity) {
+    public boolean remove(Rule entity) {
         return super.remove(entity);
     }
 

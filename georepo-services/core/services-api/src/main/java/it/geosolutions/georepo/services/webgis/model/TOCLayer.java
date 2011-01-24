@@ -44,7 +44,10 @@ public class TOCLayer {
         isInternal("false"),
         isQueryable("false"),
         infoPossible("false"),
-        typeLayer("0");
+        typeLayer("0"),
+        minScale(""),
+        maxScale("")
+        ;
 
         private String defaultValue;
 

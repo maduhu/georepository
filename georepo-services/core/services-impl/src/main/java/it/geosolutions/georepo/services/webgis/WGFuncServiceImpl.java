@@ -18,32 +18,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.geosolutions.georepo.services;
+package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.services.exception.IllegalParameterFault;
-import it.geosolutions.georepo.services.webgis.model.TOC;
-import it.geosolutions.georepo.services.webgis.WebGisTOCService;
+import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
+import it.geosolutions.georepo.services.webgis.model.WebGisProperty;
+import it.geosolutions.georepo.services.webgis.WebGisFuncService;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class WGTocServiceImpl implements WebGisTOCService {
-    private final static Logger LOGGER = Logger.getLogger(WGTocServiceImpl.class);
+public class WGFuncServiceImpl implements WebGisFuncService {
+    private final static Logger LOGGER = Logger.getLogger(WGFuncServiceImpl.class);
 
     @Override
-    public TOC getTOC(String profile) throws IllegalParameterFault {
+    public WebGisProperty getProperty(String propertyName) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String getProperty(long layerId, String propertyName) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public String setProperty(long layerId, String propertyName, String propertyValue) {
+    public List<WebGisProperty> getProfileProperties(String profile) throws IllegalParameterFault {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -22,30 +22,11 @@ package it.geosolutions.georepo.core.dao;
 
 import it.geosolutions.georepo.core.model.GSUser;
 
-import java.util.List;
-
-import com.trg.search.ISearch;
-
 /**
  * Public interface to define operations on GSUsers
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 
-public interface GSUserDAO extends RestrictedGenericDAO<GSUser>/* extends GenericDAO<GSUser, Long> */{
-
-//    public List<GSUser> findAll();
-//
-//    public GSUser find(Long id);
-//
-//    public void persist(GSUser... user);
-//
-//    public GSUser merge(GSUser user);
-//
-//    public boolean remove(GSUser user);
-//    public boolean removeById(Long id);
-//
-//    public List<GSUser> search(ISearch search);
-//
-//    public int count(ISearch search);
+public interface GSUserDAO extends RestrictedGenericDAO<GSUser> {
 }

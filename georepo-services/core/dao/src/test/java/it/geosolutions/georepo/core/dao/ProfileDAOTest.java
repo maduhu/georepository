@@ -46,6 +46,53 @@ public class ProfileDAOTest extends BaseDAOTest {
         {
             Profile loaded = profileDAO.find(id);
             assertNotNull("Can't retrieve profile", loaded);
+            assertEquals(getName(), loaded.getName());
+        }
+
+        profileDAO.removeById(id);
+        assertNull("User not deleted", profileDAO.find(id));
+    }
+
+    @Test
+    public void testMerge() throws Exception {
+
+        removeAll();
+
+        long id;
+        {
+            Profile profile = createProfile(getName());
+            id = profile.getId();
+        }
+
+        {
+            Profile loaded = profileDAO.find(id);
+            assertNotNull("Can't retrieve profile", loaded);
+            assertEquals(getName(), loaded.getName());
+
+            loaded.setName("aNewName");
+            profileDAO.merge(loaded);
+        }
+
+        {
+            Profile loaded = profileDAO.find(id);
+            assertEquals("aNewName", loaded.getName());
+        }
+
+        profileDAO.removeById(id);
+        assertNull("User not deleted", profileDAO.find(id));
+    }
+
+
+
+    @Test
+    public void testProps() throws Exception {
+
+        removeAll();
+
+        long id;
+        {
+            Profile profile = createProfile(getName());
+            id = profile.getId();
         }
 
         {
@@ -72,6 +119,35 @@ public class ProfileDAOTest extends BaseDAOTest {
         {
             Map<String, String> props = profileDAO.getCustomProps(id);
             assertTrue(props.isEmpty());
+        }
+
+        profileDAO.removeById(id);
+        assertNull("User not deleted", profileDAO.find(id));
+    }
+
+    @Test
+    public void testDeletePropsOnCascade() throws Exception {
+
+        removeAll();
+
+        long id;
+        {
+            Profile profile = createProfile(getName());
+            id = profile.getId();
+        }
+
+        // test save & load
+        {
+            Profile loaded = profileDAO.find(id);
+            assertNotNull("Can't retrieve profile", loaded);
+        }
+
+        {
+            Map<String, String> props = profileDAO.getCustomProps(id);
+            assertTrue(props.isEmpty());
+            props.put("k1", "v1");
+            props.put("k2", "v2");
+            profileDAO.setCustomProps(id, props);
         }
 
         profileDAO.removeById(id);

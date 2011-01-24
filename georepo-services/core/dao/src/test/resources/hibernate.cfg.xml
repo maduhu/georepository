@@ -11,16 +11,19 @@
     <!--        <property name="hibernate.connection.username">NOT USEFUL</property>-->
     <!--        <property name="hibernate.connection.password">NOT USEFUL</property>-->
     <mapping class="it.geosolutions.georepo.core.model.GSUser"/>
+    <mapping class="it.geosolutions.georepo.core.model.Profile"/>
     <mapping class="it.geosolutions.georepo.core.model.GSInstance"/>
-    <mapping class="it.geosolutions.georepo.core.model.InstancePermission"/>
+    <mapping class="it.geosolutions.georepo.core.model.Rule"/>
+    <mapping class="it.geosolutions.georepo.core.model.RuleLimits"/>
+    <mapping class="it.geosolutions.georepo.core.model.LayerDetails"/>
+<!--    <mapping class="it.geosolutions.georepo.core.model.InstancePermission"/>-->
 <!--    <mapping class="it.geosolutions.georepo.core.model.ServiceFilter"/>-->
 <!--    <mapping class="it.geosolutions.georepo.core.model.AttribFilters"/>-->
-    <mapping class="it.geosolutions.georepo.core.model.AttributePermission"/>
+<!--    <mapping class="it.geosolutions.georepo.core.model.AttributePermission"/>
     <mapping class="it.geosolutions.georepo.core.model.LayerPermission"/>
-    <mapping class="it.geosolutions.georepo.core.model.Profile"/>
     <mapping class="it.geosolutions.georepo.core.model.RequestPermission"/>
     <mapping class="it.geosolutions.georepo.core.model.ServicePermission"/>
     <mapping class="it.geosolutions.georepo.core.model.StylePermission"/>
-    <mapping class="it.geosolutions.georepo.core.model.WorkspacePermission"/>
+    <mapping class="it.geosolutions.georepo.core.model.WorkspacePermission"/>-->
   </session-factory>
 </hibernate-configuration>
