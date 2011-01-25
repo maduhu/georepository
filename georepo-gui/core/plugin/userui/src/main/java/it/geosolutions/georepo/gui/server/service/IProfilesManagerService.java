@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.binding.IFilterFieldBinding,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.IProfilesManagerService,v. 0.1 25-gen-2011 11.23.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 11.23.49 $
  *
  * ====================================================================
  *
@@ -30,17 +30,28 @@
  * <http://www.geo-solutions.it/>.
  *
  */
-package it.geosolutions.georepo.gui.client.widget.binding;
+package it.geosolutions.georepo.gui.server.service;
+
+import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.Profile;
+
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface IFilterFieldBinding.
+ * The Interface IProfilesManagerService.
  */
-public interface IFilterFieldBinding {
+public interface IProfilesManagerService {
 
-    /**
-     * Reset value.
+	/**
+     * Gets the profiles.
+     * 
+     * @param config
+     *            the config
+     * @return the profiles
+     * @throws ApplicationException
+     *             the application exception
      */
-    public void resetValue();
-
+	public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config) throws ApplicationException;
 }

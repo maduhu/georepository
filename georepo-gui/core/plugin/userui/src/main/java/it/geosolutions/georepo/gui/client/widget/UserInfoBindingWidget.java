@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.UserInfoBindingWidget,v. 0.1 14-gen-2011 19.29.51 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserInfoBindingWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.51 $
+ * $ Date: 25-gen-2011 11.23.48 $
  *
  * ====================================================================
  *
@@ -150,32 +150,32 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
         fieldSet.add(email, formData);
 
-        emailEnable = new CheckBox();
-        emailEnable.setId(BeanKeyValue.EMAIL_ENABLE.getValue());
-        emailEnable.setName(BeanKeyValue.EMAIL_ENABLE.getValue());
-        emailEnable.setFieldLabel("Email enable");
-        emailEnable.setWidth(150);
-        emailEnable.setEnabled(false);
+//        emailEnable = new CheckBox();
+//        emailEnable.setId(BeanKeyValue.EMAIL_ENABLE.getValue());
+//        emailEnable.setName(BeanKeyValue.EMAIL_ENABLE.getValue());
+//        emailEnable.setFieldLabel("Email enable");
+//        emailEnable.setWidth(150);
+//        emailEnable.setEnabled(false);
+//
+//        fieldSet.add(emailEnable, formData);
 
-        fieldSet.add(emailEnable, formData);
+//        rssEnable = new CheckBox();
+//        rssEnable.setId(BeanKeyValue.RSS_ENABLE.getValue());
+//        rssEnable.setName(BeanKeyValue.RSS_ENABLE.getValue());
+//        rssEnable.setFieldLabel("Rss enable");
+//        rssEnable.setWidth(150);
+//        rssEnable.setEnabled(false);
+//
+//        fieldSet.add(rssEnable, formData);
 
-        rssEnable = new CheckBox();
-        rssEnable.setId(BeanKeyValue.RSS_ENABLE.getValue());
-        rssEnable.setName(BeanKeyValue.RSS_ENABLE.getValue());
-        rssEnable.setFieldLabel("Rss enable");
-        rssEnable.setWidth(150);
-        rssEnable.setEnabled(false);
-
-        fieldSet.add(rssEnable, formData);
-
-        reducedContent = new CheckBox();
-        reducedContent.setId(BeanKeyValue.REDUCED_CONTENT.getValue());
-        reducedContent.setName(BeanKeyValue.REDUCED_CONTENT.getValue());
-        reducedContent.setFieldLabel("Hide Attributions");
-        reducedContent.setWidth(150);
-        reducedContent.setEnabled(false);
-
-        fieldSet.add(reducedContent, formData);
+//        reducedContent = new CheckBox();
+//        reducedContent.setId(BeanKeyValue.REDUCED_CONTENT.getValue());
+//        reducedContent.setName(BeanKeyValue.REDUCED_CONTENT.getValue());
+//        reducedContent.setFieldLabel("Hide Attributions");
+//        reducedContent.setWidth(150);
+//        reducedContent.setEnabled(false);
+//
+//        fieldSet.add(reducedContent, formData);
 
         userEnabled = new CheckBox();
         userEnabled.setId(BeanKeyValue.USER_ENABLED.getValue());

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.UserGridWidget,v. 0.1 14-gen-2011 19.29.52 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserGridWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.52 $
+ * $ Date: 25-gen-2011 11.23.48 $
  *
  * ====================================================================
  *
@@ -103,6 +103,9 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
 
     /**
      * Instantiates a new user grid widget.
+     * 
+     * @param service
+     *            the service
      */
     public UserGridWidget(GsUsersManagerServiceRemoteAsync service) {
         super();
@@ -348,7 +351,9 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     }
 
     /**
-     * @return GridCellRenderer<ClientShortWatch>
+     * Creates the enable check box.
+     * 
+     * @return the grid cell renderer
      */
     private GridCellRenderer<GSUser> createEnableCheckBox() {
 
@@ -395,7 +400,9 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     }
 
     /**
-     * @return GridCellRenderer<ClientShortWatch>
+     * Creates the profiles combo box.
+     * 
+     * @return the grid cell renderer
      */
     private GridCellRenderer<GSUser> createProfilesComboBox() {
 
@@ -456,6 +463,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
             private ListStore<Profile> getAvailableProfiles() {
                 ListStore<Profile> availableProfiles = new ListStore<Profile>();
                 List<Profile> profiles = new ArrayList<Profile>();
+                
                 Profile profile_base = new Profile();
                 Profile profile_analysis = new Profile();
                 Profile profile_advanced = new Profile();
@@ -485,6 +493,11 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         return buttonRendered;
     }
 
+    /**
+     * Creates the user delete button.
+     * 
+     * @return the grid cell renderer
+     */
     private GridCellRenderer<GSUser> createUserDeleteButton() {
         GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
 
@@ -529,6 +542,11 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         return buttonRendered;
     }
 
+    /**
+     * Creates the user details button.
+     * 
+     * @return the grid cell renderer
+     */
     private GridCellRenderer<GSUser> createUserDetailsButton() {
         GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
 

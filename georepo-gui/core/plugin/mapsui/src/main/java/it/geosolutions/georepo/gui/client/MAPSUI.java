@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.MAPSUI,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.MAPSUI,v. 0.1 25-gen-2011 11.30.32 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.37 $
+ * $ Date: 25-gen-2011 11.30.32 $
  *
  * ====================================================================
  *
@@ -32,7 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client;
 
-import it.geosolutions.georepo.gui.client.mvc.FilterController;
 import it.geosolutions.georepo.gui.client.mvc.MAPSController;
 import it.geosolutions.georepo.gui.client.mvc.MapController;
 
@@ -59,7 +58,7 @@ public class MAPSUI implements EntryPoint {
         dispatcher.addController(new MapController());
         dispatcher.addController(new MAPSController());
         // dispatcher.addController(new FeatureController());
-        dispatcher.addController(new FilterController());
+//        dispatcher.addController(new FilterController());
 
         dispatcher.dispatch(GeoRepoEvents.INIT_MAPS_UI_MODULE);
 

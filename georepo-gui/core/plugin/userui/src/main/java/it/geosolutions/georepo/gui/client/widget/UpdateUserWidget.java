@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.UpdateUserWidget,v. 0.1 14-gen-2011 19.29.51 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UpdateUserWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.51 $
+ * $ Date: 25-gen-2011 11.23.48 $
  *
  * ====================================================================
  *
@@ -181,14 +181,14 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
 
         fieldSet.add(email);
 
-        reducedContent = new CheckBox();
-        reducedContent.setId(BeanKeyValue.REDUCED_CONTENT_UPDATE.getValue());
-        reducedContent.setName(BeanKeyValue.REDUCED_CONTENT.getValue());
-        reducedContent.setFieldLabel("Hide Attributions");
-        reducedContent.setWidth(150);
-        reducedContent.setEnabled(true);
-
-        fieldSet.add(reducedContent);
+//        reducedContent = new CheckBox();
+//        reducedContent.setId(BeanKeyValue.REDUCED_CONTENT_UPDATE.getValue());
+//        reducedContent.setName(BeanKeyValue.REDUCED_CONTENT.getValue());
+//        reducedContent.setFieldLabel("Hide Attributions");
+//        reducedContent.setWidth(150);
+//        reducedContent.setEnabled(true);
+//
+//        fieldSet.add(reducedContent);
 
         this.initCombo();
 

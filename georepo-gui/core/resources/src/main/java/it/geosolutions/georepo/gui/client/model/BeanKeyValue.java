@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.BeanKeyValue,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.BeanKeyValue,v. 0.1 25-gen-2011 11.24.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.23 $
+ * $ Date: 25-gen-2011 11.24.45 $
  *
  * ====================================================================
  *
@@ -40,38 +40,54 @@ public enum BeanKeyValue {
 
     /** The USE r_ name. */
     USER_NAME("userName"),
-    
+
+    /** The FUL l_ name. */
     FULL_NAME("fullName"),
 
-    PROFILE("profile"),
+    /** The USER. */
+    USER("user"),
 
-    DATE_CREATION("dateCreation"),
+    /** The PROFILE. */
+    PROFILE("profile"),
     
+    /** The RULE. */
+    RULE("rule"),
+    
+    /** The SERVICE. */
+    SERVICE("service"),
+
+    /** The REQUEST. */
+    REQUEST("request"),
+
+    /** The WORKSPACE. */
+    WORKSPACE("workspace"),
+
+    /** The LAYER. */
+    LAYER("layer"),
+    
+    /** The GRANT. */
+    GRANT("grant"),
+
+    /** The DAT e_ creation. */
+    DATE_CREATION("dateCreation"),
+
     /** The EMAIL. */
     EMAIL("emailAddress"),
-    
-    /** The EMAI l_ enable. */
-    EMAIL_ENABLE("emailEnable"),
-    
-    /** The RS s_ enable. */
-    RSS_ENABLE("rssEnable"),
-
-    /** The REDUCE d_ content. */
-    REDUCED_CONTENT("reducedContent"),
 
     /** The USE r_ enabled. */
     USER_ENABLED("userEnabled"),
 
+    /** The PROFIL e_ enabled. */
     PROFILE_ENABLED("profileEnabled"),
 
     /** The NAME. */
     NAME("name"),
 
+    /** The PRIORITY. */
+    PRIORITY("rulePriority"),
+    
     /** The PATH. */
-    PATH("path"),
-
-    /** The REDUCE d_ conten t_ update. */
-    REDUCED_CONTENT_UPDATE("REDUCED_CONTENT_UPDATE");
+    PATH("path");
 
     /** The value. */
     private String value;

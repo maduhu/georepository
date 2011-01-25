@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.mvc.MAPSController,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.controller.USERSController,v. 0.1 25-gen-2011 12.04.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 12.04.33 $
  *
  * ====================================================================
  *
@@ -35,7 +35,13 @@ package it.geosolutions.georepo.gui.client.controller;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.tab.GsUsersTabItem;
+import it.geosolutions.georepo.gui.client.widget.tab.ProfilesTabItem;
+import it.geosolutions.georepo.gui.client.widget.tab.RulesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -43,11 +49,18 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class MAPSController.
+ * The Class USERSController.
  */
 public class USERSController extends Controller {
 
+    /** The gs manager service remote. */
     private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote = GsUsersManagerServiceRemote.Util.getInstance();
+    
+    /** The profiles manager service remote. */
+    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util.getInstance();
+    
+    /** The rules manager service remote. */
+    private RulesManagerServiceRemoteAsync rulesManagerServiceRemote = RulesManagerServiceRemote.Util.getInstance();
     
 //    /** The feature remote. */
 //    private FeatureServiceRemoteAsync featureRemote = FeatureServiceRemote.Util.getInstance();
@@ -62,7 +75,7 @@ public class USERSController extends Controller {
 //    private GeoRepoSearchWidget<GeoConstraint> geoConstraintSearchWidget;
 
     /**
- * Instantiates a new mAPS controller.
+ * Instantiates a new uSERS controller.
  */
     public USERSController() {
         registerEventTypes(
@@ -110,9 +123,17 @@ public class USERSController extends Controller {
 //        forwardToView(aoiView, event);
     }
 
+    /**
+     * On attach tab widgets.
+     * 
+     * @param event
+     *            the event
+     */
     private void onAttachTabWidgets(AppEvent event) {
         TabWidget tabWidget = (TabWidget)event.getData();
         tabWidget.add(new GsUsersTabItem(gsManagerServiceRemote));
+        tabWidget.add(new ProfilesTabItem(profilesManagerServiceRemote));
+        tabWidget.add(new RulesTabItem(rulesManagerServiceRemote));
     }
 
     /**

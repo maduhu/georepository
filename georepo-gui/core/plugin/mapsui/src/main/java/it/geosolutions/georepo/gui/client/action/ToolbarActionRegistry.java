@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.action.ToolbarActionRegistry,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.action.ToolbarActionRegistry,v. 0.1 25-gen-2011 11.30.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 11.30.33 $
  *
  * ====================================================================
  *
@@ -32,15 +32,8 @@
  */
 package it.geosolutions.georepo.gui.client.action;
 
-import it.geosolutions.georepo.gui.client.action.application.AdministrationModeAction;
 import it.geosolutions.georepo.gui.client.action.application.GeoRepoInfoAppAction;
 import it.geosolutions.georepo.gui.client.action.application.LogoutAction;
-import it.geosolutions.georepo.gui.client.action.application.QuartzMonitoringAction;
-import it.geosolutions.georepo.gui.client.action.application.SaveAction;
-import it.geosolutions.georepo.gui.client.action.toolbar.CleanDgWatchMenu;
-import it.geosolutions.georepo.gui.client.action.toolbar.DeleteContentAction;
-import it.geosolutions.georepo.gui.client.action.toolbar.DrawFeatureAction;
-import it.geosolutions.georepo.gui.client.action.toolbar.UploadAction;
 import it.geosolutions.georepo.gui.client.action.toolbar.ZoomInAction;
 import it.geosolutions.georepo.gui.client.action.toolbar.ZoomOutAction;
 

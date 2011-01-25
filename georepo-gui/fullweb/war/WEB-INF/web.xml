@@ -58,6 +58,9 @@
 	    <url-pattern>/georepo/logging</url-pattern> 
 	</servlet-mapping>
 
+	<!-- *****************************************************************************************  -->
+	<!-- **                                TAB WIDGETS                                          **  -->
+	<!-- *****************************************************************************************  -->
 	<servlet>
 		<servlet-name>GsUsersManagerServiceRemote</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.GsUsersManagerServiceImpl</servlet-class>
@@ -66,7 +69,19 @@
 		<servlet-name>GsUsersManagerServiceRemote</servlet-name>
 		<url-pattern>/georepo/GsUsersManagerServiceRemote</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ProfilesManagerServiceRemote</servlet-name>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.ProfilesManagerServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProfilesManagerServiceRemote</servlet-name>
+		<url-pattern>/georepo/ProfilesManagerServiceRemote</url-pattern>
+	</servlet-mapping>
 	
+	<!-- *****************************************************************************************  -->
+	<!-- **                                DISPATCHER                                           **  -->
+	<!-- *****************************************************************************************  -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

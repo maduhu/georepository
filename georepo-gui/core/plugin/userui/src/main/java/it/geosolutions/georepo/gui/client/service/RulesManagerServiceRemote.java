@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.FilterServiceRemote,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote,v. 0.1 25-gen-2011 11.47.13 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.37 $
+ * $ Date: 25-gen-2011 11.47.13 $
  *
  * ====================================================================
  *
@@ -32,15 +32,20 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
+import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.Rule;
+
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface FilterServiceRemote.
+ * The Interface RulesManagerServiceRemote.
  */
-public interface FilterServiceRemote extends RemoteService {
+public interface RulesManagerServiceRemote extends RemoteService {
 
     /**
      * The Class Util.
@@ -48,38 +53,32 @@ public interface FilterServiceRemote extends RemoteService {
     public static class Util {
 
         /** The instance. */
-        private static FilterServiceRemoteAsync instance;
+        private static RulesManagerServiceRemoteAsync instance;
 
         /**
          * Gets the instance.
          * 
          * @return the instance
          */
-        public static FilterServiceRemoteAsync getInstance() {
+        public static RulesManagerServiceRemoteAsync getInstance() {
             if (instance == null) {
-                instance = (FilterServiceRemoteAsync) GWT.create(FilterServiceRemote.class);
+                instance = (RulesManagerServiceRemoteAsync) GWT.create(RulesManagerServiceRemote.class);
                 ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "FilterServiceRemote");
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "RulesManagerServiceRemote");
             }
             return instance;
         }
     }
 
-    // /**
-    // *
-    // * @param userID
-    // * @param aoiID
-    // * @return
-    // */
-    // public Filter findFilterByUserAOI(long userID, long aoiID);
-    //
-    // /**
-    // *
-    // * @param userId
-    // * @param aoiId
-    // * @param filter
-    // */
-    // public void setUserPref(long userId, long aoiId, Filter filter)
-    // throws ApplicationException;
+    /**
+     * Gets the rules.
+     * 
+     * @param config
+     *            the config
+     * @return the rules
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public PagingLoadResult<Rule> getRules(PagingLoadConfig config) throws ApplicationException;
 
 }

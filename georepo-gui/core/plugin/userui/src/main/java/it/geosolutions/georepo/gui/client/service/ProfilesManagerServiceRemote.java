@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.FeatureServiceRemote,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.37 $
+ * $ Date: 25-gen-2011 11.23.48 $
  *
  * ====================================================================
  *
@@ -33,7 +33,7 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.Feature;
+import it.geosolutions.georepo.gui.client.model.Profile;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -43,9 +43,9 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface FeatureServiceRemote.
+ * The Interface ProfilesManagerServiceRemote.
  */
-public interface FeatureServiceRemote extends RemoteService {
+public interface ProfilesManagerServiceRemote extends RemoteService {
 
     /**
      * The Class Util.
@@ -53,36 +53,32 @@ public interface FeatureServiceRemote extends RemoteService {
     public static class Util {
 
         /** The instance. */
-        private static FeatureServiceRemoteAsync instance;
+        private static ProfilesManagerServiceRemoteAsync instance;
 
         /**
          * Gets the instance.
          * 
          * @return the instance
          */
-        public static FeatureServiceRemoteAsync getInstance() {
+        public static ProfilesManagerServiceRemoteAsync getInstance() {
             if (instance == null) {
-                instance = (FeatureServiceRemoteAsync) GWT.create(FeatureServiceRemote.class);
+                instance = (ProfilesManagerServiceRemoteAsync) GWT.create(ProfilesManagerServiceRemote.class);
                 ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "FeatureServiceRemote");
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "ProfilesManagerServiceRemote");
             }
-
             return instance;
         }
     }
 
     /**
-     * Gets the user features.
+     * Gets the profiles.
      * 
      * @param config
      *            the config
-     * @param userId
-     *            the user id
-     * @return the user features
+     * @return the profiles
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Feature> getUserFeatures(PagingLoadConfig config, long userId)
-            throws ApplicationException;
+    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config) throws ApplicationException;
 
 }

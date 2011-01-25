@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.Profile,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.Profile,v. 0.1 25-gen-2011 11.24.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.23 $
+ * $ Date: 25-gen-2011 11.24.45 $
  *
  * ====================================================================
  *
@@ -152,19 +152,19 @@ public class Profile extends BeanModel {
     }
 
     /**
-     * Gets the custom properties associated to the profile.
+     * Gets the custom props.
      * 
-     * @return the custom properties associated to the profile
+     * @return the custom props
      */
     public Map<String, String> getCustomProps() {
         return customProps;
     }
 
     /**
-     * Sets the custom properties associated to the profile.
+     * Sets the custom props.
      * 
      * @param customProps
-     *            the new custom properties associated to the profile
+     *            the new custom props
      */
     public void setCustomProps(Map<String, String> customProps) {
         this.customProps = customProps;

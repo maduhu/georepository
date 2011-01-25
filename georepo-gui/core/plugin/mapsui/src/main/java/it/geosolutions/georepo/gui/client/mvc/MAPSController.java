@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.mvc.MAPSController,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.mvc.MAPSController,v. 0.1 25-gen-2011 11.30.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 11.30.33 $
  *
  * ====================================================================
  *
@@ -33,8 +33,6 @@
 package it.geosolutions.georepo.gui.client.mvc;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.service.FeatureServiceRemote;
-import it.geosolutions.georepo.gui.client.service.FeatureServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -45,8 +43,8 @@ import com.extjs.gxt.ui.client.mvc.Controller;
  */
 public class MAPSController extends Controller {
 
-    /** The feature remote. */
-    private FeatureServiceRemoteAsync featureRemote = FeatureServiceRemote.Util.getInstance();
+//    /** The feature remote. */
+//    private FeatureServiceRemoteAsync featureRemote = FeatureServiceRemote.Util.getInstance();
 
 //    /** The tab widget. */
 //    private TabWidget tabWidget;

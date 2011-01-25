@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.Category,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.Category,v. 0.1 25-gen-2011 11.30.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 11.30.33 $
  *
  * ====================================================================
  *
@@ -38,12 +38,6 @@ package it.geosolutions.georepo.gui.client;
  */
 public enum Category {
 
-    /** The ADMINISTRATIO n_ mode. */
-    ADMINISTRATION_MODE,
-    
-    /** The CLOCK. */
-    CLOCK,
-    
     /** The DELET e_ content. */
     DELETE_CONTENT,
     
@@ -56,20 +50,17 @@ public enum Category {
     /** The GEOREP o_ info. */
     GEOREPO_INFO,
     
-    /** The GEOREP o_ uploa d_ shp. */
-    GEOREPO_UPLOAD_SHP,
-    
     /** The GEOREP o_ zoo m_ in. */
     GEOREPO_ZOOM_IN,
     
     /** The GEOREP o_ zoo m_ out. */
     GEOREPO_ZOOM_OUT,
     
+    /** The GEOREP o_ uploa d_ shp. */
+    GEOREPO_UPLOAD_SHP,
+    
     /** The LOGOUT. */
     LOGOUT,
-    
-    /** The QUARTZ. */
-    QUARTZ,
     
     /** The SAVE. */
     SAVE,

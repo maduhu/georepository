@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.action.menu.MenuActionRegistry,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.action.menu.MenuActionRegistry,v. 0.1 25-gen-2011 11.30.32 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.37 $
+ * $ Date: 25-gen-2011 11.30.32 $
  *
  * ====================================================================
  *
@@ -47,29 +47,29 @@ public final class MenuActionRegistry {
     static {
         REGISTRY = new HashMap<String, MenuActionCreator>();
 
-        REGISTRY.put("quartzTriggerA", new MenuActionCreator() {
+//        REGISTRY.put("quartzTriggerA", new MenuActionCreator() {
+//
+//            public MenuAction createAction() {
+//                // TODO Auto-generated method stub
+//                return new RunTrigger1();
+//            }
+//        });
 
-            public MenuAction createAction() {
-                // TODO Auto-generated method stub
-                return new RunTrigger1();
-            }
-        });
+//        REGISTRY.put("quartzTriggerB", new MenuActionCreator() {
+//
+//            public MenuAction createAction() {
+//                // TODO Auto-generated method stub
+//                return new RunTrigger4();
+//            }
+//        });
 
-        REGISTRY.put("quartzTriggerB", new MenuActionCreator() {
-
-            public MenuAction createAction() {
-                // TODO Auto-generated method stub
-                return new RunTrigger4();
-            }
-        });
-
-        REGISTRY.put("quartzTriggerC", new MenuActionCreator() {
-
-            public MenuAction createAction() {
-                // TODO Auto-generated method stub
-                return new RunTrigger24();
-            }
-        });
+//        REGISTRY.put("quartzTriggerC", new MenuActionCreator() {
+//
+//            public MenuAction createAction() {
+//                // TODO Auto-generated method stub
+//                return new RunTrigger24();
+//            }
+//        });
     }
 
     /**
