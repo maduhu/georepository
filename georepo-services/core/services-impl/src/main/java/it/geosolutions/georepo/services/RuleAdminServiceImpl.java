@@ -162,6 +162,11 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     }
 
     @Override
+    public long getCountAll() {
+        return getCount("*", "*", "*", "*", "*", "*", "*");
+    }
+
+    @Override
     public long getCount(String userId, String profileId, String instanceId, String service, String request, String workspace, String layer) {
         Search searchCriteria = new Search(Rule.class);
 
@@ -216,15 +221,16 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     /**
      * Add criteria for <B>matching</B>:
      * <UL>
+     * <LI>null values will not add a constraint criteria</LI>
      * <LI>any string will match that specific value and any rules with that field set to null</LI>
      * </UL>
-     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
      */
     protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
-
-        searchCriteria.addFilterOr(
-                Filter.isNull(fieldName),
-                Filter.equal(fieldName, value));
+        if(value != null) {
+            searchCriteria.addFilterOr(
+                    Filter.isNull(fieldName),
+                    Filter.equal(fieldName, value));
+        }
     }
 
 

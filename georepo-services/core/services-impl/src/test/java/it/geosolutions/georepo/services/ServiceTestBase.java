@@ -20,9 +20,11 @@
 
 package it.geosolutions.georepo.services;
 
+import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.services.dto.ShortProfile;
+import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import java.util.List;
@@ -34,7 +36,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class ServiceTestStruct extends TestCase {
+public class ServiceTestBase extends TestCase {
 
     protected final Logger LOGGER = Logger.getLogger(getClass());
 
@@ -45,13 +47,13 @@ public class ServiceTestStruct extends TestCase {
 
     protected static ClassPathXmlApplicationContext ctx = null;
 
-    public ServiceTestStruct() {
+    public ServiceTestBase() {
 //        LOGGER = Logger.getLogger(getClass());
 
-        synchronized(ServiceTestStruct.class) {
+        synchronized(ServiceTestBase.class) {
             if(ctx == null) {
                 String[] paths = {
-                        "applicationContext.xml"
+                        "classpath*:applicationContext.xml"
 //                         ,"applicationContext-test.xml"
                 };
                 ctx = new ClassPathXmlApplicationContext(paths);
@@ -68,6 +70,7 @@ public class ServiceTestStruct extends TestCase {
     protected void setUp() throws Exception {
         LOGGER.info("################ Running " + getClass().getSimpleName() + "::" + getName() );
         super.setUp();
+        removeAll();
     }
 
     public void testCheckServices() {
@@ -78,8 +81,22 @@ public class ServiceTestStruct extends TestCase {
     }
 
     protected void removeAll() throws ResourceNotFoundFault {
+        LOGGER.info("***** removeAll()");
+        removeAllRules();
         removeAllUsers();
         removeAllProfiles();
+        removeAllInstances();
+    }
+
+    protected void removeAllRules() throws ResourceNotFoundFault {
+        List<ShortRule> list = ruleAdminService.getAll();
+        for (ShortRule item : list) {
+            LOGGER.info("Removing " + item);
+            boolean ret = ruleAdminService.delete(item.getId());
+            assertTrue("Rule not removed", ret);
+        }
+
+        assertEquals("Rules have not been properly deleted", 0, ruleAdminService.getCountAll());
     }
 
     protected void removeAllUsers() throws ResourceNotFoundFault {
@@ -104,23 +121,39 @@ public class ServiceTestStruct extends TestCase {
         assertEquals("Profiles have not been properly deleted", 0, profileAdminService.getCount(null));
     }
 
+    protected void removeAllInstances() throws ResourceNotFoundFault {
+        List<GSInstance> list = instanceAdminService.getAll();
+        for (GSInstance item : list) {
+            LOGGER.info("Removing " + item);
+            boolean ret = instanceAdminService.delete(item.getId());
+            assertTrue("GSInstance not removed", ret);
+        }
+
+        assertEquals("Instances have not been properly deleted", 0, instanceAdminService.getCount(null));
+    }
+
     protected GSUser createUser(String base, Profile profile) {
 
         GSUser user = new GSUser();
         user.setName( base );
         user.setProfile(profile);
+        userAdminService.insert(user);
         return user;
     }
 
-    protected Profile createProfile(String base) throws ResourceNotFoundFault {
+    protected Profile createProfile(String base) {
 
         ShortProfile profile = new ShortProfile();
         profile.setName(base);
         long id = profileAdminService.insert(profile);
-        return profileAdminService.get(id);
+        try {
+            return profileAdminService.get(id);
+        } catch (ResourceNotFoundFault ex) {
+            throw new RuntimeException("Should never happen ("+id+")", ex);
+        }
     }
 
-    protected GSUser createUserAndProfile(String base) throws ResourceNotFoundFault {
+    protected GSUser createUserAndProfile(String base) {
 
         Profile profile = createProfile(base);
         return createUser(base, profile);

@@ -271,7 +271,7 @@
                     </components>
                     <componentProperties>
                         <configurationfile>/src/test/resources/hibernate.cfg.xml</configurationfile>
-                        <outputfilename>dgwatch.ddl</outputfilename>
+                        <outputfilename>georepository.ddl</outputfilename>
 <!--                        <namingstrategy>mycompany.myapp.IRDNamingStrategy</namingstrategy>-->
 
 <!--                        <scan-classes>true</scan-classes>

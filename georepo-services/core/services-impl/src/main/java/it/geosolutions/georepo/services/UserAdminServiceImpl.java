@@ -30,6 +30,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.trg.search.Search;
+import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 
 /**
  * 
@@ -72,14 +73,8 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     @Override
     public boolean delete(long id) throws ResourceNotFoundFault {
-        GSUser user = userDao.find(id);
-
-        if (user == null) {
-            throw new ResourceNotFoundFault("User not found", id);
-        }
-
         // data on ancillary tables should be deleted by cascading
-        return userDao.remove(user);
+        return userDao.removeById(id);
     }
 
     @Override
@@ -89,10 +84,19 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public List<ShortUser> getList(String nameLike, int page, int entries) {
+    public List<ShortUser> getList(String nameLike, Integer page, Integer entries) {
+
+        if( (page != null && entries == null) || (page ==null && entries != null)) {
+            throw new BadRequestWebEx("Page and entries params should be declared together.");
+        }
+
         Search searchCriteria = new Search(GSUser.class);
-        searchCriteria.setMaxResults(entries);
-        searchCriteria.setPage(page);
+
+        if(page != null) {
+            searchCriteria.setMaxResults(entries);
+            searchCriteria.setPage(page);
+        }
+        
         searchCriteria.addSortAsc("name");
 
         if (nameLike != null) {

@@ -179,4 +179,43 @@ public class ShortRule {
     public void setWorkspace(String workspace) {
         this.workspace = workspace;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(getClass().getSimpleName())
+                .append("[id:").append(id)
+                .append(" pri:").append(priority);
+
+        if(userId != null)
+                sb.append(" uId:").append(userId);
+        if(userName != null)
+                sb.append(" uName:").append(userName);
+
+        if(profileId != null)
+                sb.append(" pId:").append(profileId);
+        if(profileName != null)
+                sb.append(" pName:").append(profileName);
+
+        if(instanceId != null)
+                sb.append(" iId:").append(instanceId);
+        if(instanceName != null)
+                sb.append(" iName:").append(instanceName);
+
+        if(service != null)
+                sb.append(" srv:").append(service);
+        if(request != null)
+                sb.append(" req:").append(request);
+
+        if(workspace != null)
+                sb.append(" ws:").append(workspace);
+        if(layer != null)
+                sb.append(" l:").append(layer);
+
+        sb.append(" acc:").append(access);
+
+        return sb.toString();
+
+    }
+
+
 }

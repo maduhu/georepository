@@ -67,8 +67,10 @@ public interface UserAdminService {
 
     @Get
     @HttpResource(location = "/users/{nameLike}/{page}/{entries}")
-    List<ShortUser> getList(@WebParam(name = "nameLike") String nameLike,
-            @WebParam(name = "page") int page, @WebParam(name = "entries") int entries);
+    List<ShortUser> getList(
+            @WebParam(name = "nameLike") String nameLike,
+            @WebParam(name = "page") Integer page,
+            @WebParam(name = "entries") Integer entries);
 
     @Get
     @HttpResource(location = "/userscount/{nameLike}")

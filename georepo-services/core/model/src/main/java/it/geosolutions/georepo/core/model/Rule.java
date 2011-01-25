@@ -97,6 +97,20 @@ public class Rule {
     @ForeignKey(name="fk_rule_details")
     private LayerDetails layerDetails;
 
+    public Rule() {
+    }
+
+    public Rule(long priority, GSUser gsuser, Profile profile, GSInstance instance, String service, String request, String workspace, String layer, GrantType access) {
+        this.priority = priority;
+        this.gsuser = gsuser;
+        this.profile = profile;
+        this.instance = instance;
+        this.service = service;
+        this.request = request;
+        this.workspace = workspace;
+        this.layer = layer;
+        this.access = access;
+    }
 
     public Long getId() {
         return id;

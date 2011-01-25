@@ -103,6 +103,10 @@ public interface RuleAdminService {
             @QueryParam("entries") Integer entries
             );
 
+    /**
+     * Return the Rules count according to the filter.
+     * The same filtering policy as {@link getList(String,String,String,String,String,String,String,Integer,Integer) getList()} is respected.
+     */
     @GET
     @Path("/rulescount/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
     long getCount(
@@ -116,6 +120,8 @@ public interface RuleAdminService {
             @PathParam("layer") String layer
      );
 
+    long getCountAll();
+
     // ==========================================================================
 
     @GET
@@ -125,7 +131,7 @@ public interface RuleAdminService {
     /**
      * Return the Rules according to the filter.
      * <P>
-     * Differently from {@link getList(Long,Long,Long,String,String,String,String,Integer,Integer) getList()},
+     * Differently from {@link getList(String,String,String,String,String,String,String,Integer,Integer) getList()},
      *  when a param is set, it will match
      * all the rules with the corresponding matching field,
      * plus all the rules having that field set to null.
