@@ -44,7 +44,7 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
 
     // ==========================================================================
     @Override
-    public long insertProfile(ShortProfile profile) {
+    public long insert(ShortProfile profile) {
         Profile p = new Profile();
         p.setName(profile.getName());
         p.setEnabled(profile.isEnabled());
@@ -53,7 +53,7 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public long updateProfile(ShortProfile profile) throws ResourceNotFoundFault {
+    public long update(ShortProfile profile) throws ResourceNotFoundFault {
         Profile orig = profileDao.find(profile.getId());
         if (orig == null) {
             throw new ResourceNotFoundFault("Profile not found", profile.getId());
@@ -67,7 +67,7 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public Profile getProfile(long id) throws ResourceNotFoundFault {
+    public Profile get(long id) throws ResourceNotFoundFault {
         Profile profile = profileDao.find(id);
 
         if (profile == null) {
@@ -79,7 +79,7 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public boolean deleteProfile(long id) throws ResourceNotFoundFault {
+    public boolean delete(long id) throws ResourceNotFoundFault {
         Profile profile = profileDao.find(id);
 
         if (profile == null) {
@@ -91,13 +91,13 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public List<ShortProfile> getAllProfiles() {
+    public List<ShortProfile> getAll() {
         List<Profile> found = profileDao.findAll();
         return convertToShortList(found);
     }
 
     @Override
-    public List<ShortProfile> getProfiles(String nameLike, int page, int entries) {
+    public List<ShortProfile> getList(String nameLike, int page, int entries) {
         Search searchCriteria = new Search(Profile.class);
         searchCriteria.setMaxResults(entries);
         searchCriteria.setPage(page);
@@ -113,7 +113,7 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public long getProfilesCount(String nameLike) {
+    public long getCount(String nameLike) {
         Search searchCriteria = new Search(Profile.class);
 
         if (nameLike != null) {

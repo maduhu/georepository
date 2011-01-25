@@ -19,10 +19,8 @@
  */
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.core.dao.GSUserDAO;
-import it.geosolutions.georepo.core.model.GSUser;
+import com.trg.search.Filter;
 import it.geosolutions.georepo.core.model.LayerDetails;
-import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
@@ -94,8 +92,8 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     }
 
     @Override
-    public List<ShortRule> getList(Long userId, Long profileId,
-            Long instanceId, String service, String request,
+    public List<ShortRule> getList(String userId, String profileId, String instanceId,
+            String service, String request,
             String workspace, String layer,
             Integer page, Integer entries) {
 
@@ -104,41 +102,136 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         }
 
         Search searchCriteria = new Search(Rule.class);
+        searchCriteria.addSortAsc("priority");
+
+        addLongSearchCriteria(searchCriteria, userId,       "gsuser");
+        addLongSearchCriteria(searchCriteria, profileId,    "profile");
+        addLongSearchCriteria(searchCriteria, instanceId,   "instance");
+
+        addStringSearchCriteria(searchCriteria, service,    "service");
+        addStringSearchCriteria(searchCriteria, request,    "request");
+        addStringSearchCriteria(searchCriteria, workspace,  "workspace");
+        addStringSearchCriteria(searchCriteria, layer,      "layer");
 
         if(entries != null) {
             searchCriteria.setMaxResults(entries);
             searchCriteria.setPage(page);
         }
 
-        searchCriteria.addSortAsc("priority");
+        List<Rule> found = ruleDAO.search(searchCriteria);
+        return convertToShortList(found);
+    }
 
-//        searchCriteria.addFilterILike("name", nameLike);
-//
-//        List<GSUser> found = ruleDAO.search(searchCriteria);
-//        return convertToShortList(found);
-        return null; // TODO
+    /**
+     * Add criteria for <B>searching</B>:
+     * <UL>
+     * <LI>a null id will only match a null field</LI>
+     * <LI>an id=="*" will match everything, so no filter condition is needed</LI>
+     * <LI>a valid numeric id will only match that numeric value</LI>
+     * </UL>
+     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
+     */
+    protected void addLongSearchCriteria(Search searchCriteria, String id, String fieldName) throws BadRequestWebEx {
+        if (id == null) {
+            searchCriteria.addFilterNull(fieldName);
+        } else if (id.equals("*")) {
+            // do not add any filter
+        } else {
+            try {
+                searchCriteria.addFilterEqual(fieldName + ".id", Long.valueOf(id));
+            } catch (NumberFormatException ex) {
+                throw new BadRequestWebEx("Bad "+fieldName+" '" + id + "'");
+            }
+        }
+    }
+
+    /**
+     * Add criteria for <B>searching</B>:
+     * <LI>a null value will only match a null field</LI>
+     * <LI>a value=="*" will match everything, so no filter condition is needed</LI>
+     * <LI>any other value will only match that value</LI>
+     */
+    protected void addStringSearchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
+        if (value == null) {
+            searchCriteria.addFilterNull(fieldName);
+        } else if (value.equals("*")) {
+            // do not add any filter
+        } else {
+            searchCriteria.addFilterEqual(fieldName, value);
+        }
     }
 
     @Override
-    public long getCount(Long userId, Long profileId, Long instanceId, String service, String request, String workspace, String layer) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public long getCount(String userId, String profileId, String instanceId, String service, String request, String workspace, String layer) {
+        Search searchCriteria = new Search(Rule.class);
+
+        addLongSearchCriteria(searchCriteria, userId,       "gsuser");
+        addLongSearchCriteria(searchCriteria, profileId,    "profile");
+        addLongSearchCriteria(searchCriteria, instanceId,   "instance");
+
+        addStringSearchCriteria(searchCriteria, service,    "service");
+        addStringSearchCriteria(searchCriteria, request,    "request");
+        addStringSearchCriteria(searchCriteria, workspace,  "workspace");
+        addStringSearchCriteria(searchCriteria, layer,      "layer");
+
+        return ruleDAO.count(searchCriteria);
     }
+
+    @Override
+    public List<ShortRule> getMatchingRules(Long userId, Long profileId, Long instanceId, String service, String request, String workspace, String layer) {
+        Search searchCriteria = new Search(Rule.class);
+        searchCriteria.addSortAsc("priority");
+
+        addIdMatchCriteria(searchCriteria, userId,       "gsuser");
+        addIdMatchCriteria(searchCriteria, profileId,    "profile");
+        addIdMatchCriteria(searchCriteria, instanceId,   "instance");
+
+        addStringMatchCriteria(searchCriteria, service,    "service");
+        addStringMatchCriteria(searchCriteria, request,    "request");
+        addStringMatchCriteria(searchCriteria, workspace,  "workspace");
+        addStringMatchCriteria(searchCriteria, layer,      "layer");
+
+        List<Rule> found = ruleDAO.search(searchCriteria);
+        return convertToShortList(found);
+
+    }
+
+    /**
+     * Add criteria for <B>matching</B>:
+     * <UL>
+     * <LI>null IDs will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting negative values)</LI>
+     * <LI>a valid numeric id will match that numeric value and any rules with that id set to null</LI>
+     * </UL>
+     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
+     */
+    protected void addIdMatchCriteria(Search searchCriteria, Long id, String fieldName) throws BadRequestWebEx {
+        if (id == null)
+            throw new BadRequestWebEx(fieldName + " is null");
+
+        searchCriteria.addFilterOr(
+                Filter.isNull(fieldName),
+                Filter.equal(fieldName + ".id", id));
+    }
+
+    /**
+     * Add criteria for <B>matching</B>:
+     * <UL>
+     * <LI>any string will match that specific value and any rules with that field set to null</LI>
+     * </UL>
+     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
+     */
+    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
+
+        searchCriteria.addFilterOr(
+                Filter.isNull(fieldName),
+                Filter.equal(fieldName, value));
+    }
+
 
     @Override
     public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-//    @Override
-//    public long getCount(String nameLike) {
-//        Search searchCriteria = new Search(GSUser.class);
-//
-//        if (nameLike != null) {
-//            searchCriteria.addFilterILike("name", nameLike);
-//        }
-//
-//        return ruleDAO.count(searchCriteria);
-//    }
 
     // ==========================================================================
 

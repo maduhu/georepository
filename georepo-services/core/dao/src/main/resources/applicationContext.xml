@@ -41,6 +41,7 @@
 	<bean id="gsuserDAO" class="it.geosolutions.georepo.core.dao.impl.GSUserDAOImpl" />
 	<bean id="profileDAO" class="it.geosolutions.georepo.core.dao.impl.ProfileDAOImpl" />
 	<bean id="instanceDAO" class="it.geosolutions.georepo.core.dao.impl.GSInstanceDAOImpl" />
+	<bean id="ruleDAO" class="it.geosolutions.georepo.core.dao.impl.RuleDAOImpl" />
 <!--	<bean id="instancePermissionDAO" class="it.geosolutions.georepo.core.dao.impl.InstancePermissionDAOImpl" />-->
 	
 </beans>

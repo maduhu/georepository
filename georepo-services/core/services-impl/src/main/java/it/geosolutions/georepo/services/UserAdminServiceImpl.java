@@ -43,13 +43,13 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     // ==========================================================================
     @Override
-    public long insertUser(GSUser user) {
+    public long insert(GSUser user) {
         userDao.persist(user);
         return user.getId();
     }
 
     @Override
-    public long updateUser(GSUser user) throws ResourceNotFoundFault {
+    public long update(GSUser user) throws ResourceNotFoundFault {
         GSUser orig = userDao.find(user.getId());
         if (orig == null) {
             throw new ResourceNotFoundFault("User not found", user.getId());
@@ -60,7 +60,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public GSUser getUser(long id) throws ResourceNotFoundFault {
+    public GSUser get(long id) throws ResourceNotFoundFault {
         GSUser user = userDao.find(id);
 
         if (user == null) {
@@ -71,7 +71,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public boolean deleteUser(long id) throws ResourceNotFoundFault {
+    public boolean delete(long id) throws ResourceNotFoundFault {
         GSUser user = userDao.find(id);
 
         if (user == null) {
@@ -83,13 +83,13 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public List<ShortUser> getAllUsers() {
+    public List<ShortUser> getAll() {
         List<GSUser> found = userDao.findAll();
         return convertToShortList(found);
     }
 
     @Override
-    public List<ShortUser> getUsers(String nameLike, int page, int entries) {
+    public List<ShortUser> getList(String nameLike, int page, int entries) {
         Search searchCriteria = new Search(GSUser.class);
         searchCriteria.setMaxResults(entries);
         searchCriteria.setPage(page);
@@ -104,7 +104,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public long getUsersCount(String nameLike) {
+    public long getCount(String nameLike) {
         Search searchCriteria = new Search(GSUser.class);
 
         if (nameLike != null) {
