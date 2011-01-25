@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.ButtonBar,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.ButtonBar,v. 0.1 25-gen-2011 11.30.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 11.30.33 $
  *
  * ====================================================================
  *
@@ -437,9 +437,9 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
         case DELETE_CONTENT:
             button.setIcon(Resources.ICONS.delete());
             break;
-        case QUARTZ:
-            button.setIconStyle("x-georepo-quartz");
-            break;
+//        case QUARTZ:
+//            button.setIconStyle("x-georepo-quartz");
+//            break;
         }
     }
 
@@ -452,11 +452,11 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
      *            the cat
      */
     private void setMenuIcon(MenuItem item, Category cat) {
-        switch (cat) {
-        case CLOCK:
-            item.setIconStyle("x-georepo-clock");
-            break;
-        }
+//        switch (cat) {
+//        case CLOCK:
+//            item.setIconStyle("x-georepo-clock");
+//            break;
+//        }
     }
 
     /**

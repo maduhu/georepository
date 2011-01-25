@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.action.application.QuartzMonitoringAction,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.37 $
+ * $ Date: 25-gen-2011 11.23.48 $
  *
  * ====================================================================
  *
@@ -30,34 +30,29 @@
  * <http://www.geo-solutions.it/>.
  *
  */
-package it.geosolutions.georepo.gui.client.action.application;
+package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.Category;
-import it.geosolutions.georepo.gui.client.action.ToolbarApplicationAction;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.Profile;
 
-import com.extjs.gxt.ui.client.event.BaseEvent;
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class QuartzMonitoringAction.
+ * The Interface ProfilesManagerServiceRemoteAsync.
  */
-public class QuartzMonitoringAction extends ToolbarApplicationAction {
+public interface ProfilesManagerServiceRemoteAsync {
 
     /**
-     * Instantiates a new quartz monitoring action.
-     */
-    public QuartzMonitoringAction() {
-        super(I18nProvider.getMessages().quartzTriggerMenu(), Category.QUARTZ);
-        // TODO Auto-generated constructor stub
-    }
-
-    /*
-     * (non-Javadoc)
+     * Gets the profiles.
      * 
-     * @see
-     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
+     * @param config
+     *            the config
+     * @param callback
+     *            the callback
+     * @return the profiles
      */
-    public void handleEvent(BaseEvent baseEvent) {
-    }
+    public void getProfiles(PagingLoadConfig config, AsyncCallback<PagingLoadResult<Profile>> callback);
+
 }

@@ -1,12 +1,15 @@
 /*
- * $Header: com.digitalglobe.dgwatch.gui.client.widget.tab.GeoRSSTabItem,v. 0.1 09/lug/2010 10.23.26 created by frank $
- * $Revision: 0.1 $
- * $Date: 09/lug/2010 10.23.26 $
+ * $ Header: it.geosolutions.georepo.gui.server.service.impl.GsUsersManagerServiceImpl,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 25-gen-2011 11.23.48 $
  *
  * ====================================================================
  *
- * Copyright (C) 2010 GeoSolutions S.A.S.
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
  *
+ * GPLv3 + Classpath exception
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -46,13 +49,14 @@ import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author tobaro
- *
+ * The Class GsUsersManagerServiceImpl.
  */
 @Component("gsUsersManagerServiceGWT")
 public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
 	
+	/** The logger. */
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 //	@Autowired
@@ -79,6 +83,6 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             
             usersListDTO.add(alfa);
             
-            return new BasePagingLoadResult<GSUser>(usersListDTO/*, 0, 1*/);
+            return new BasePagingLoadResult<GSUser>(usersListDTO, 0, usersListDTO.size());
 	}
 }

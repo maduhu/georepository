@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.FeatureManagementWidget,v. 0.1 14-gen-2011 19.28.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.RuleManagementWidget,v. 0.1 25-gen-2011 12.18.52 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.37 $
+ * $ Date: 25-gen-2011 12.18.52 $
  *
  * ====================================================================
  *
@@ -32,7 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.service.FeatureServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
@@ -40,33 +40,34 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class FeatureManagementWidget.
+ * The Class RuleManagementWidget.
  */
-public class FeatureManagementWidget extends ContentPanel {
+public class RuleManagementWidget extends ContentPanel {
 
-    /** The feature pag grid widget. */
-    private FeaturePaginationGridWidget featurePagGridWidget;
+    /** The rules info. */
+    private RuleGridWidget rulesInfo;
 
     /**
-     * Instantiates a new feature management widget.
+     * Instantiates a new rule management widget.
      * 
-     * @param service
-     *            the service
+     * @param rulesManagerServiceRemote
+     *            the rules manager service remote
      */
-    public FeatureManagementWidget(FeatureServiceRemoteAsync service) {
+    public RuleManagementWidget(RulesManagerServiceRemoteAsync rulesManagerServiceRemote) {
         setHeaderVisible(false);
         setFrame(true);
         setHeight(170);
         setLayout(new FitLayout());
-        this.featurePagGridWidget = new FeaturePaginationGridWidget(service);
 
-        add(this.featurePagGridWidget.getGrid());
+        setRulesInfo(new RuleGridWidget(rulesManagerServiceRemote));
+
+        add(getRulesInfo().getGrid());
 
         super.setMonitorWindowResize(true);
 
         setScrollMode(Scroll.NONE);
 
-        setBottomComponent(this.featurePagGridWidget.getToolBar());
+        setBottomComponent(this.getRulesInfo().getToolBar());
     }
 
     /*
@@ -82,11 +83,22 @@ public class FeatureManagementWidget extends ContentPanel {
     }
 
     /**
-     * Gets the feature pag grid widget.
+     * Sets the profiles info.
      * 
-     * @return the feature pag grid widget
+     * @param rulesInfo
+     *            the new profiles info
      */
-    public FeaturePaginationGridWidget getFeaturePagGridWidget() {
-        return featurePagGridWidget;
+    public void setRulesInfo(RuleGridWidget rulesInfo) {
+        this.rulesInfo = rulesInfo;
     }
+
+    /**
+     * Gets the profiles info.
+     * 
+     * @return the profiles info
+     */
+    public RuleGridWidget getRulesInfo() {
+        return rulesInfo;
+    }
+
 }

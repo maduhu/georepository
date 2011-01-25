@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.LoginRemoteAsync,v. 0.1 14-gen-2011 19.29.51 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync,v. 0.1 25-gen-2011 11.23.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.51 $
+ * $ Date: 25-gen-2011 11.23.50 $
  *
  * ====================================================================
  *
@@ -40,14 +40,18 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface LoginRemoteAsync.
+ * The Interface GsUsersManagerServiceRemoteAsync.
  */
 public interface GsUsersManagerServiceRemoteAsync {
 
     /**
+     * Gets the gs users.
      * 
      * @param config
+     *            the config
      * @param callback
+     *            the callback
+     * @return the gs users
      */
     public void getGsUsers(PagingLoadConfig config, AsyncCallback<PagingLoadResult<GSUser>> callback);
 

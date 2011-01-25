@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.controller.LoginController,v. 0.1 14-gen-2011 19.29.51 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.controller.LoginController,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.51 $
+ * $ Date: 25-gen-2011 11.23.48 $
  *
  * ====================================================================
  *
@@ -253,8 +253,8 @@ public class LoginController extends Controller {
 //    }
 
     /**
-     * On notify unshare success.
-     */
+ * On notify unshare success.
+ */
     private void onNotifyUnshareSuccess() {
         this.chooseUserWidget.setSearchStatus(EnumSearchStatus.STATUS_SEARCH,
                 EnumSearchStatus.STATUS_MESSAGE_AOI_UNSHARE);
@@ -478,11 +478,11 @@ public class LoginController extends Controller {
 //    }
 
     /**
-     * On login.
-     * 
-     * @param event
-     *            the event
-     */
+ * On login.
+ * 
+ * @param event
+ *            the event
+ */
     private void onLogin(AppEvent event) {
         String[] values = (String[]) event.getData();
         this.loginRemote.authenticate(values[0], values[1], new AsyncCallback<User>() {

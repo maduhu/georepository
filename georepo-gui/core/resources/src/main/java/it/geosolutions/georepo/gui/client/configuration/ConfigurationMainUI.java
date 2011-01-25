@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI,v. 0.1 25-gen-2011 11.24.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.22 $
+ * $ Date: 25-gen-2011 11.24.43 $
  *
  * ====================================================================
  *
@@ -40,10 +40,13 @@ public enum ConfigurationMainUI {
 
     /** The CENTER. */
     CENTER("CENTER_PANEL"), 
+ 
  /** The EAST. */
     EAST("EAST_PANEL"), 
+ 
  /** The SOUTH. */
     SOUTH("SOUTH_PANEL"), 
+ 
  /** The VIEWPORT. */
     VIEWPORT("VIEWPORT");
 

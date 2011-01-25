@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.tab.GeoRSSTabItem,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.tab.GsUsersTabItem,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 11.23.48 $
  *
  * ====================================================================
  *
@@ -42,21 +42,27 @@ import com.extjs.gxt.ui.client.widget.TabItem;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class GeoRSSTabItem.
+ * The Class GsUsersTabItem.
  */
 public class GsUsersTabItem extends TabItem {
 
-    /** The feature management widget. */
+    /** The user management widget. */
     private UserManagementWidget userManagementWidget;
 
     /**
-     * Instantiates a new geo rss tab item.
+     * Instantiates a new gs users tab item.
      */
     public GsUsersTabItem() {
         super(I18nProvider.getMessages().userManagementLabel());
         setIcon(Resources.ICONS.user());
     }
 
+    /**
+     * Instantiates a new gs users tab item.
+     * 
+     * @param gsManagerServiceRemote
+     *            the gs manager service remote
+     */
     public GsUsersTabItem(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
         this();
         setUserManagementWidget(new UserManagementWidget(gsManagerServiceRemote));
@@ -69,14 +75,19 @@ public class GsUsersTabItem extends TabItem {
     }
 
     /**
-     * @param userManagementWidget the userManagementWidget to set
+     * Sets the feature management widget.
+     * 
+     * @param userManagementWidget
+     *            the new feature management widget
      */
     public void setUserManagementWidget(UserManagementWidget userManagementWidget) {
         this.userManagementWidget = userManagementWidget;
     }
 
     /**
-     * @return the userManagementWidget
+     * Gets the feature management widget.
+     * 
+     * @return the feature management widget
      */
     public UserManagementWidget getUserManagementWidget() {
         return userManagementWidget;

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.binding.GeoRepoUserFormBinding,v. 0.1 14-gen-2011 19.29.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.binding.GeoRepoUserFormBinding,v. 0.1 25-gen-2011 11.24.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.23 $
+ * $ Date: 25-gen-2011 11.24.45 $
  *
  * ====================================================================
  *
@@ -70,9 +70,9 @@ public class GeoRepoUserFormBinding extends FormBinding {
                 String name = f.getName();
                 if (name != null) {
                     FieldBinding b;
-                    if (f.getId().equals(BeanKeyValue.REDUCED_CONTENT_UPDATE.getValue()))
-                        b = new ReducedContentFieldBinding(f, f.getName());
-                    else
+//                    if (f.getId().equals(BeanKeyValue.REDUCED_CONTENT_UPDATE.getValue()))
+//                        b = new ReducedContentFieldBinding(f, f.getName());
+//                    else
                         b = new GeoRepoFieldBinding(f, f.getName());
                     bindings.put(f.getId(), b);
                 }

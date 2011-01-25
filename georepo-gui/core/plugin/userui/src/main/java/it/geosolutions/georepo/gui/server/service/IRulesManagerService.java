@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.tab.GCDNTabItem,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.IRulesManagerService,v. 0.1 25-gen-2011 11.50.06 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 11.50.06 $
  *
  * ====================================================================
  *
@@ -30,23 +30,28 @@
  * <http://www.geo-solutions.it/>.
  *
  */
-package it.geosolutions.georepo.gui.client.widget.tab;
+package it.geosolutions.georepo.gui.server.service;
 
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.Rule;
 
-import com.extjs.gxt.ui.client.widget.TabItem;
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class GCDNTabItem.
+ * The Interface IRulesManagerService.
  */
-public class GCDNTabItem extends TabItem {
+public interface IRulesManagerService {
 
     /**
-     * Instantiates a new gCDN tab item.
+     * Gets the rules.
+     * 
+     * @param config
+     *            the config
+     * @return the rules
+     * @throws ApplicationException
+     *             the application exception
      */
-    public GCDNTabItem() {
-        super(I18nProvider.getMessages().gcdnLabel());
-    }
-
+    public PagingLoadResult<Rule> getRules(PagingLoadConfig config) throws ApplicationException;
 }

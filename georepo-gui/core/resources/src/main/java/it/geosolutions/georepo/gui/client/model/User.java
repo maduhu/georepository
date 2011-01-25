@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.User,v. 0.1 14-gen-2011 19.29.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.User,v. 0.1 25-gen-2011 11.24.44 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.22 $
+ * $ Date: 25-gen-2011 11.24.44 $
  *
  * ====================================================================
  *
@@ -120,10 +120,10 @@ public class User extends BeanModel {
     }
 
     /**
-     * Sets the user name.
+     * Sets the full name.
      * 
      * @param fullName
-     *            the new user name
+     *            the new full name
      */
     public void setFullName(String fullName) {
         this.fullName = fullName;
@@ -131,9 +131,9 @@ public class User extends BeanModel {
     }
 
     /**
-     * Gets the user name.
+     * Gets the full name.
      * 
-     * @return the user name
+     * @return the full name
      */
     public String getFullName() {
         return fullName;
@@ -180,10 +180,10 @@ public class User extends BeanModel {
     }
 
     /**
-     * Sets the date of creation of this user.
+     * Sets the date creation.
      * 
      * @param dateCreation
-     *            the new date of creation of this user
+     *            the new date creation
      */
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
@@ -191,28 +191,28 @@ public class User extends BeanModel {
     }
 
     /**
-     * Gets the date of creation of this user.
+     * Gets the date creation.
      * 
-     * @return the date of creation of this user
+     * @return the date creation
      */
     public Date getDateCreation() {
         return dateCreation;
     }
 
     /**
-     * Checks if is is the GSUser Enabled or not in the system?.
+     * Checks if is the enabled.
      * 
-     * @return the is the GSUser Enabled or not in the system?
+     * @return the enabled
      */
     public boolean isEnabled() {
         return enabled;
     }
 
     /**
-     * Sets the is the GSUser Enabled or not in the system?.
+     * Sets the enabled.
      * 
      * @param enabled
-     *            the new is the GSUser Enabled or not in the system?
+     *            the new enabled
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.FeatureServiceRemoteAsync,v. 0.1 14-gen-2011 19.28.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync,v. 0.1 25-gen-2011 11.45.59 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.28.38 $
+ * $ Date: 25-gen-2011 11.45.59 $
  *
  * ====================================================================
  *
@@ -32,7 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.model.Feature;
+import it.geosolutions.georepo.gui.client.model.Rule;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -40,22 +40,19 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface FeatureServiceRemoteAsync.
+ * The Interface RulesManagerServiceRemoteAsync.
  */
-public interface FeatureServiceRemoteAsync {
+public interface RulesManagerServiceRemoteAsync {
 
     /**
-     * Gets the user features.
+     * Gets the rules.
      * 
      * @param config
      *            the config
-     * @param userId
-     *            the user id
      * @param callback
      *            the callback
-     * @return the user features
+     * @return the rules
      */
-    public void getUserFeatures(PagingLoadConfig config, long userId,
-            AsyncCallback<PagingLoadResult<Feature>> callback);
+    public void getRules(PagingLoadConfig config, AsyncCallback<PagingLoadResult<Rule>> callback);
 
 }

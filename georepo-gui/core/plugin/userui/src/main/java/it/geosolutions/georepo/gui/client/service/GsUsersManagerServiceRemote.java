@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.LoginRemote,v. 0.1 14-gen-2011 19.29.52 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote,v. 0.1 25-gen-2011 11.23.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 14-gen-2011 19.29.52 $
+ * $ Date: 25-gen-2011 11.23.49 $
  *
  * ====================================================================
  *
@@ -43,7 +43,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface LoginRemote.
+ * The Interface GsUsersManagerServiceRemote.
  */
 public interface GsUsersManagerServiceRemote extends RemoteService {
 
@@ -70,10 +70,14 @@ public interface GsUsersManagerServiceRemote extends RemoteService {
         }
     }
 
-    /** 
-     * @param config
-     * @return PagingLoadResult
+    /**
+     * Gets the gs users.
      * 
+     * @param config
+     *            the config
+     * @return the gs users
+     * @throws ApplicationException
+     *             the application exception
      */
     public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config) throws ApplicationException;
 
