@@ -48,33 +48,34 @@ public interface ProfileAdminService {
 
     @Post
     @HttpResource(location = "/profiles")
-    long insertProfile(@WebParam(name = "profile") ShortProfile profile);
+    long insert(@WebParam(name = "profile") ShortProfile profile);
 
     @Put
     @HttpResource(location = "/profiles")
-    long updateProfile(@WebParam(name = "profile") ShortProfile profile) throws ResourceNotFoundFault;
+    long update(@WebParam(name = "profile") ShortProfile profile) throws ResourceNotFoundFault;
 
     @Delete
     @HttpResource(location = "/profiles/{id}")
-    boolean deleteProfile(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    boolean delete(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
 
     @Get
     @HttpResource(location = "/profiles/{id}")
-    Profile getProfile(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    Profile get(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
 
     @Get
     @HttpResource(location = "/profiles")
-    List<ShortProfile> getAllProfiles();
+    List<ShortProfile> getAll();
 
     @Get
     @HttpResource(location = "/profiles/{nameLike}/{page}/{entries}")
-    List<ShortProfile> getProfiles(@WebParam(name = "nameLike") String nameLike,
+    List<ShortProfile> getList(@WebParam(name = "nameLike") String nameLike,
             @WebParam(name = "page") int page, @WebParam(name = "entries") int entries);
 
     @Get
     @HttpResource(location = "/profilescount/{nameLike}")
-    long getProfilesCount(@WebParam(name = "nameLike") String nameLike);
+    long getCount(@WebParam(name = "nameLike") String nameLike);
 
+    // ==========================================================================
 
     @Get
     @HttpResource(location = "/profiles/{id}/props")

@@ -116,6 +116,8 @@ public interface RuleAdminService {
             @PathParam("layer") String layer
      );
 
+    // ==========================================================================
+
     @GET
     @Path("/rules/{id}/details")
     LayerDetails getDetails(@PathParam("id") long id) throws ResourceNotFoundFault;

@@ -41,13 +41,13 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
 
     // ==========================================================================
     @Override
-    public long insertInstance(GSInstance instance) {
+    public long insert(GSInstance instance) {
         instanceDAO.persist(instance);
         return instance.getId();
     }
 
     @Override
-    public long updateInstance(GSInstance instance) throws ResourceNotFoundFault {
+    public long update(GSInstance instance) throws ResourceNotFoundFault {
         GSInstance orig = instanceDAO.find(instance.getId());
         if (orig == null) {
             throw new ResourceNotFoundFault("GSInstance not found", instance.getId());
@@ -58,7 +58,7 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
     }
 
     @Override
-    public GSInstance getInstance(long id) throws ResourceNotFoundFault {
+    public GSInstance get(long id) throws ResourceNotFoundFault {
         GSInstance instance = instanceDAO.find(id);
 
         if (instance == null) {
@@ -70,7 +70,7 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
     }
 
     @Override
-    public boolean deleteInstance(long id) throws ResourceNotFoundFault {
+    public boolean delete(long id) throws ResourceNotFoundFault {
         GSInstance instance = instanceDAO.find(id);
 
         if (instance == null) {
@@ -82,14 +82,14 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
     }
 
     @Override
-    public List<GSInstance> getAllInstances() {
+    public List<GSInstance> getAll() {
         List<GSInstance> found = instanceDAO.findAll();
         return found;
 //        return convertToShortList(found);
     }
 
     @Override
-    public List<GSInstance> getInstances(String nameLike, int page, int entries) {
+    public List<GSInstance> getList(String nameLike, int page, int entries) {
         Search searchCriteria = new Search(GSInstance.class);
         searchCriteria.setMaxResults(entries);
         searchCriteria.setPage(page);
@@ -105,7 +105,7 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
     }
 
     @Override
-    public long getInstancesCount(String nameLike) {
+    public long getCount(String nameLike) {
         Search searchCriteria = new Search(GSInstance.class);
 
         if (nameLike != null) {

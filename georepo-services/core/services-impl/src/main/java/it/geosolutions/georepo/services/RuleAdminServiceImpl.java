@@ -122,6 +122,15 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         return convertToShortList(found);
     }
 
+    /**
+     * Add criteria for <B>searching</B>:
+     * <UL>
+     * <LI>a null id will only match a null field</LI>
+     * <LI>an id=="*" will match everything, so no filter condition is needed</LI>
+     * <LI>a valid numeric id will only match that numeric value</LI>
+     * </UL>
+     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
+     */
     protected void addLongSearchCriteria(Search searchCriteria, String id, String fieldName) throws BadRequestWebEx {
         if (id == null) {
             searchCriteria.addFilterNull(fieldName);
@@ -136,6 +145,12 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         }
     }
 
+    /**
+     * Add criteria for <B>searching</B>:
+     * <LI>a null value will only match a null field</LI>
+     * <LI>a value=="*" will match everything, so no filter condition is needed</LI>
+     * <LI>any other value will only match that value</LI>
+     */
     protected void addStringSearchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
         if (value == null) {
             searchCriteria.addFilterNull(fieldName);
@@ -167,30 +182,45 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         Search searchCriteria = new Search(Rule.class);
         searchCriteria.addSortAsc("priority");
 
-        addIdMatchSearchCriteria(searchCriteria, userId,       "gsuser");
-        addIdMatchSearchCriteria(searchCriteria, profileId,    "profile");
-        addIdMatchSearchCriteria(searchCriteria, instanceId,   "instance");
+        addIdMatchCriteria(searchCriteria, userId,       "gsuser");
+        addIdMatchCriteria(searchCriteria, profileId,    "profile");
+        addIdMatchCriteria(searchCriteria, instanceId,   "instance");
 
-        addStringMatchSearchCriteria(searchCriteria, service,    "service");
-        addStringMatchSearchCriteria(searchCriteria, request,    "request");
-        addStringMatchSearchCriteria(searchCriteria, workspace,  "workspace");
-        addStringMatchSearchCriteria(searchCriteria, layer,      "layer");
+        addStringMatchCriteria(searchCriteria, service,    "service");
+        addStringMatchCriteria(searchCriteria, request,    "request");
+        addStringMatchCriteria(searchCriteria, workspace,  "workspace");
+        addStringMatchCriteria(searchCriteria, layer,      "layer");
 
         List<Rule> found = ruleDAO.search(searchCriteria);
         return convertToShortList(found);
 
     }
 
-    protected void addIdMatchSearchCriteria(Search searchCriteria, Long id, String fieldName) throws BadRequestWebEx {
+    /**
+     * Add criteria for <B>matching</B>:
+     * <UL>
+     * <LI>null IDs will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting negative values)</LI>
+     * <LI>a valid numeric id will match that numeric value and any rules with that id set to null</LI>
+     * </UL>
+     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
+     */
+    protected void addIdMatchCriteria(Search searchCriteria, Long id, String fieldName) throws BadRequestWebEx {
         if (id == null)
             throw new BadRequestWebEx(fieldName + " is null");
 
         searchCriteria.addFilterOr(
                 Filter.isNull(fieldName),
-                Filter.equal(fieldName, id));
+                Filter.equal(fieldName + ".id", id));
     }
 
-    protected void addStringMatchSearchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
+    /**
+     * Add criteria for <B>matching</B>:
+     * <UL>
+     * <LI>any string will match that specific value and any rules with that field set to null</LI>
+     * </UL>
+     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
+     */
+    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
 
         searchCriteria.addFilterOr(
                 Filter.isNull(fieldName),
@@ -202,17 +232,6 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-//    @Override
-//    public long getCount(String nameLike) {
-//        Search searchCriteria = new Search(GSUser.class);
-//
-//        if (nameLike != null) {
-//            searchCriteria.addFilterILike("name", nameLike);
-//        }
-//
-//        return ruleDAO.count(searchCriteria);
-//    }
 
     // ==========================================================================
 

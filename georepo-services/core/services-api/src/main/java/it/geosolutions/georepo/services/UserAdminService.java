@@ -47,30 +47,30 @@ public interface UserAdminService {
 
     @Put
     @HttpResource(location = "/users")
-    long insertUser(@WebParam(name = "user") GSUser user);
+    long insert(@WebParam(name = "user") GSUser user);
 
     @Post
     @HttpResource(location = "/users")
-    long updateUser(@WebParam(name = "user") GSUser user) throws ResourceNotFoundFault;
+    long update(@WebParam(name = "user") GSUser user) throws ResourceNotFoundFault;
 
     @Delete
     @HttpResource(location = "/users/{id}")
-    boolean deleteUser(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    boolean delete(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
 
     @Get
     @HttpResource(location = "/users/{id}")
-    GSUser getUser(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    GSUser get(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
 
     @Get
     @HttpResource(location = "/users")
-    List<ShortUser> getAllUsers();
+    List<ShortUser> getAll();
 
     @Get
     @HttpResource(location = "/users/{nameLike}/{page}/{entries}")
-    List<ShortUser> getUsers(@WebParam(name = "nameLike") String nameLike,
+    List<ShortUser> getList(@WebParam(name = "nameLike") String nameLike,
             @WebParam(name = "page") int page, @WebParam(name = "entries") int entries);
 
     @Get
     @HttpResource(location = "/userscount/{nameLike}")
-    long getUsersCount(@WebParam(name = "nameLike") String nameLike);
+    long getCount(@WebParam(name = "nameLike") String nameLike);
 }

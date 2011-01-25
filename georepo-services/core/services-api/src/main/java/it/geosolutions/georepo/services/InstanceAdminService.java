@@ -23,7 +23,6 @@ import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -47,40 +46,31 @@ public interface InstanceAdminService {
 
     @Post
     @HttpResource(location = "/instances")
-    long insertInstance(@WebParam(name = "instance") GSInstance instance);
+    long insert(@WebParam(name = "instance") GSInstance instance);
 
     @Put
     @HttpResource(location = "/instances")
-    long updateInstance(@WebParam(name = "instance") GSInstance instance) throws ResourceNotFoundFault;
+    long update(@WebParam(name = "instance") GSInstance instance) throws ResourceNotFoundFault;
 
     @Delete
     @HttpResource(location = "/instances/{id}")
-    boolean deleteInstance(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    boolean delete(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
 
     @Get
     @HttpResource(location = "/instances/{id}")
-    GSInstance getInstance(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    GSInstance get(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
 
     @Get
     @HttpResource(location = "/instances")
-    List<GSInstance> getAllInstances();
+    List<GSInstance> getAll();
 
     @Get
     @HttpResource(location = "/instances/{nameLike}/{page}/{entries}")
-    List<GSInstance> getInstances(@WebParam(name = "nameLike") String nameLike,
+    List<GSInstance> getList(@WebParam(name = "nameLike") String nameLike,
             @WebParam(name = "page") int page, @WebParam(name = "entries") int entries);
 
     @Get
     @HttpResource(location = "/instancescount/{nameLike}")
-    long getInstancesCount(@WebParam(name = "nameLike") String nameLike);
-
-
-//    @Get
-//    @HttpResource(location = "/instances/{id}/props")
-//    public Map<String, String> getCustomProps(@WebParam(name = "id") Long id);
-//
-//    @Put
-//    @HttpResource(location = "/instances/{id}/props")
-//    public void setCustomProps(@WebParam(name = "id")Long id, Map<String, String> props);
+    long getCount(@WebParam(name = "nameLike") String nameLike);
 
 }
