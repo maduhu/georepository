@@ -53,12 +53,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ForeignKey;
 
 /**
- * The Class Profile.
- * 
- * This Class represents a Profile for the Users. A Profile can be associated to an Instance and contains a
- * pre-defined set of Service Filters.
- * 
- * If a User needs some specific Filters for a certain Instance, a new Profile must be defined.
+ * A grouping for {@link GSUser}s.
+ * <P>
  */
 @Entity(name = "Profile")
 @Table(name = "gr_profile")

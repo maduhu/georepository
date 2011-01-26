@@ -1,8 +1,4 @@
 /*
- * $ Header: it.geosolutions.georepo.core.model.GSInstance,v. 0.1 4-gen-2011 17.18.09 created by afabiani <alessio.fabiani at geo-solutions.it> $
- * $ Revision: 0.1 $
- * $ Date: 4-gen-2011 17.18.09 $
- *
  * ====================================================================
  *
  * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
@@ -48,7 +44,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A GeoServer instance
+ * A GeoServer instance.
+ *
+ * <P><B>TODO</B>: how does a GeoServer instance identify itself?
  */
 @Entity(name = "GSInstance")
 @Table(name = "gr_gsinstance")

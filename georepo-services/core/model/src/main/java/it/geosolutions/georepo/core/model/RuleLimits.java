@@ -22,6 +22,7 @@ package it.geosolutions.georepo.core.model;
 
 import com.vividsolutions.jts.geom.MultiPolygon;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
+import it.geosolutions.georepo.core.model.enums.GrantType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -37,8 +38,8 @@ import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
 /**
- * Defines general limits (such as an Area ) for a Rule
- * RuleLimits may be set only for rules with a Limit access type.
+ * Defines general limits (such as an Area ) for a {@link Rule}.
+ * <BR>RuleLimits may be set only for rules with a {@link GrantType#LIMIT} access type.
  *
  * @author ETj (etj at geo-solutions.it)
  */

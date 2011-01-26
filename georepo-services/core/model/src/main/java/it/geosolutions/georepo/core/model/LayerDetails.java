@@ -97,14 +97,6 @@ public class LayerDetails {
         this.area = area;
     }
 
-//    public AccessType getAccessType() {
-//        return accessType;
-//    }
-//
-//    public void setAccessType(AccessType accessType) {
-//        this.accessType = accessType;
-//    }
-
     public String getCqlFilter() {
         return cqlFilter;
     }
@@ -136,14 +128,6 @@ public class LayerDetails {
     public void setLayerName(String layerName) {
         this.layerName = layerName;
     }
-
-//    public WorkspacePermission getWorkspacePermission() {
-//        return workspacePermission;
-//    }
-//
-//    public void setWorkspacePermission(WorkspacePermission workspacePermission) {
-//        this.workspacePermission = workspacePermission;
-//    }
 
     public Map<String, String> getCustomProps() {
         return customProps;

@@ -39,7 +39,8 @@
         <module>services-api</module>
         <module>services-impl</module>
 
-<!--        <module>fakeweb</module> -->
+        <module>webtest</module> 
+<!--        <module>webgisstub</module> -->
     </modules>
 
 </project>
