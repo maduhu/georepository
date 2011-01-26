@@ -33,8 +33,6 @@
     <packaging>jar</packaging>
     <name>GeoRepo - Core - Services implementation</name>
 
-
-
     <dependencies>
 
 	    <!-- =========================================================== -->
@@ -56,7 +54,6 @@
             <artifactId>services-api</artifactId>
         </dependency>
 
-
 	    <!-- =========================================================== -->
         <!-- APACHE COMMONS -->
 
@@ -74,19 +71,10 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
-        
+        			
+        <!-- =========================================================== -->
+        <!-- SPRING -->
 
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
-			
-    <!-- SPRING -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jmx</artifactId>
@@ -107,14 +95,30 @@
             <artifactId>spring-core</artifactId>
             <scope>provided</scope>
         </dependency>
-    
+
+        <!-- =========================================================== -->
+        <!-- MISC -->
+
         <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
+        <!-- =========================================================== -->
+        <!-- PERSISTENCE -->
+
+<!--        <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-		<!-- HIBERNATE-GENERIC-DAO -->
+		 HIBERNATE-GENERIC-DAO 
         <dependency>
             <groupId>com.trg</groupId>
             <artifactId>trg-dao</artifactId>
@@ -130,7 +134,7 @@
             <artifactId>trg-search-jpa-hibernate</artifactId>
         </dependency>
 		
-		<!-- HIBERNATE-SPATIAL -->
+		 HIBERNATE-SPATIAL 
         <dependency>
             <groupId>org.hibernatespatial</groupId>
             <artifactId>hibernate-spatial-postgis</artifactId>
@@ -140,23 +144,23 @@
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency>-->
 	
   		<!-- CGLIB -->
-        <dependency>
+<!--        <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-        </dependency>
+        </dependency>-->
 
     <!-- HTTP UTILS -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.codehaus.jettison</groupId>
             <artifactId>jettison</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
@@ -171,25 +175,35 @@
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-    
-    <!-- JUnit -->
+    	      
+        <!-- CXF -->
+<!--        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+        </dependency>-->
+      <!-- Velocity (Email templates) -->
+<!--        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+        </dependency>-->
+
+	    <!-- =========================================================== -->
+        <!-- TEST -->
+
+        <!-- Avoids java.lang.ClassNotFoundException: com.sun.ws.rs.ext.RuntimeDelegateImpl -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+	    <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-	      
-			<!-- CXF -->
-        <dependency>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
-        </dependency>
-      <!-- Velocity (Email templates) -->
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-        </dependency>
-	
+
     </dependencies>
   
     <build>

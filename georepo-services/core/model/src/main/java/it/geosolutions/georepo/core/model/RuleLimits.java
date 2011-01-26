@@ -25,6 +25,7 @@ import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -52,8 +53,9 @@ public class RuleLimits {
 
     /** The id. */
     @Id
+//    @GeneratedValue
     @Column
-    private long id;
+    private Long id;
 
     @OneToOne(optional=false)
     @Check(constraints="rule.access='LIMIT'") // ??? check this 
@@ -73,11 +75,11 @@ public class RuleLimits {
         this.allowedArea = allowedArea;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -89,4 +91,8 @@ public class RuleLimits {
         this.rule = rule;
     }
 
+    @Override
+    public String toString() {
+        return "RuleLimits{" + "id=" + id + " rule=" + rule + " allowedArea=" + allowedArea + '}';
+    }
 }

@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
@@ -53,12 +54,12 @@ public class LayerDetails {
 
     /** The id. */
     @Id
-    @GeneratedValue
+//    @GeneratedValue
     @Column
-    private long id;
+    private Long id;
 
-    @Column(nullable=false)
-    private String layerName;
+//    @Column(nullable=false)
+//    private String layerName;
 
 //    @Column(length=5, nullable=false)
 //    @Enumerated(EnumType.STRING)
@@ -74,9 +75,10 @@ public class LayerDetails {
 	@Column(name = "area")
 	private MultiPolygon area;
 
-//    @OneToOne(optional = false)
-//    @ForeignKey(name="fk_detail_rule")
-//    private Rule rule;
+    @OneToOne(optional=false)
+//    @Check(constraints="rule.access='LIMIT'") // ??? check this
+    @ForeignKey(name="fk_details_rule")
+    private Rule rule;
 
     /** Custom properties associated to the Layer */
     @org.hibernate.annotations.CollectionOfElements
@@ -113,21 +115,21 @@ public class LayerDetails {
         this.defaultStyle = defaultStyle;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getLayerName() {
-        return layerName;
-    }
-
-    public void setLayerName(String layerName) {
-        this.layerName = layerName;
-    }
+//    public String getLayerName() {
+//        return layerName;
+//    }
+//
+//    public void setLayerName(String layerName) {
+//        this.layerName = layerName;
+//    }
 
     public Map<String, String> getCustomProps() {
         return customProps;
@@ -137,12 +139,24 @@ public class LayerDetails {
         this.customProps = customProps;
     }
 
-//    public Rule getRule() {
-//        return rule;
-//    }
-//
-//    public void setRule(Rule rule) {
-//        this.rule = rule;
-//    }
+    public Rule getRule() {
+        return rule;
+    }
+
+    public void setRule(Rule rule) {
+        this.rule = rule;
+    }
+
+    @Override
+    public String toString() {
+        return "LayerDetails{" 
+                + "id=" + id
+                + " defStyle=" + defaultStyle
+                + " cql=" + cqlFilter
+                + " area=" + area
+                + " rule=" + rule
+//                + " cProps=" + customProps // failed to lazily initialize a collection of role:
+                + '}';
+    }
 
 }

@@ -19,8 +19,6 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
-import it.geosolutions.georepo.core.dao.GSInstanceDAO;
-import it.geosolutions.georepo.core.model.GSInstance;
 
 import java.util.List;
 
@@ -28,41 +26,50 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.trg.search.ISearch;
+import it.geosolutions.georepo.core.dao.RuleDAO;
+import it.geosolutions.georepo.core.dao.RuleLimitsDAO;
+import it.geosolutions.georepo.core.model.Rule;
+import it.geosolutions.georepo.core.model.RuleLimits;
 
 /**
- * Public implementation of the GSInstanceDAO interface
+ * Public implementation of the RuleLimitsDAO interface
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @Transactional
-public class GSInstanceDAOImpl extends BaseDAO<GSInstance, Long>
-// extends GenericDAOImpl<GSInstance, Long>
-        implements GSInstanceDAO {
+public class RuleLimitsDAOImpl extends BaseDAO<RuleLimits, Long>
+// extends GenericDAOImpl<GSUser, Long>
+        implements RuleLimitsDAO {
 
-    final private static Logger LOGGER = Logger.getLogger(GSInstanceDAOImpl.class);
+    final private static Logger LOGGER = Logger.getLogger(RuleLimitsDAOImpl.class);
 
     @Override
-    public void persist(GSInstance... entities) {
+    public void persist(RuleLimits... entities) {
         super.persist(entities);
     }
 
+//    @Override
+//    public RuleLimits find(Long id) {
+//        return super.find(id);
+//    }
+//
     @Override
-    public List<GSInstance> findAll() {
+    public List<RuleLimits> findAll() {
         return super.findAll();
     }
 
     @Override
-    public List<GSInstance> search(ISearch search) {
+    public List<RuleLimits> search(ISearch search) {
         return super.search(search);
     }
 
     @Override
-    public GSInstance merge(GSInstance entity) {
+    public RuleLimits merge(RuleLimits entity) {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(GSInstance entity) {
+    public boolean remove(RuleLimits entity) {
         return super.remove(entity);
     }
 

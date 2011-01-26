@@ -20,10 +20,16 @@
 
 package it.geosolutions.georepo.services;
 
+import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
+import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.core.model.enums.GrantType;
+import it.geosolutions.georepo.services.exception.BadRequestWebEx;
+import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -138,5 +144,246 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         assertEquals(0, ruleAdminService.getMatchingRules(-1L,-1L,-1L,          "ZZ", null,null,null).size());
 
     }
+
+    public void testRuleLimits() throws ResourceNotFoundFault {
+        final Long id;
+
+        {
+            Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.LIMIT);
+            ruleAdminService.insert(r1);
+            id = r1.getId();
+        }
+
+        // save limits and check it has been saved
+        final Long lid1;
+        {
+            RuleLimits limits = new RuleLimits();
+            ruleAdminService.setLimits(id, limits);
+            lid1 = limits.getId();
+            assertNotNull(lid1);
+        }
+
+        // check limits have been set in Rule
+        {
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getRuleLimits());
+            assertEquals(lid1, loaded.getRuleLimits().getId());
+            LOGGER.info("Found " + loaded + " --> " + loaded.getRuleLimits());
+        }
+
+        // set new limits
+        final Long lid2;
+        {
+            RuleLimits limits = new RuleLimits();
+            ruleAdminService.setLimits(id, limits);
+            lid2 = limits.getId();
+            assertNotNull(lid2);
+        }
+
+        // remove limits
+        {
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getRuleLimits());
+            ruleAdminService.setLimits(id, null);
+
+            Rule loaded2 = ruleAdminService.get(id);
+            assertNull(loaded2.getRuleLimits());
+        }
+
+        // remove Rule and cascade on Limits
+        {
+            RuleLimits limits = new RuleLimits();
+            ruleAdminService.setLimits(id, limits);
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getRuleLimits());
+
+            ruleAdminService.delete(id);
+        }
+
+    }
+
+    public void testRuleLimitsErrors() throws ResourceNotFoundFault {
+
+        try {
+            RuleLimits limits = new RuleLimits();
+            ruleAdminService.setLimits(-10L, limits);
+            fail("Failed recognising not existent rule");
+        } catch (NotFoundWebEx e) {
+            // OK
+        }
+
+        final Long id;
+        Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+        ruleAdminService.insert(r1);
+        id = r1.getId();
+
+        try {
+            RuleLimits limits = new RuleLimits();
+            ruleAdminService.setLimits(id, limits);
+            fail("Failed recognising bad rule type");
+        } catch (BadRequestWebEx e) {
+            // OK
+        }
+
+    }
+
+    public void testRuleDetails() throws ResourceNotFoundFault {
+        final Long id;
+
+        {
+            Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+            ruleAdminService.insert(r1);
+            id = r1.getId();
+        }
+
+        // save details and check it has been saved
+        final Long lid1;
+        {
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(id, details);
+            lid1 = details.getId();
+            assertNotNull(lid1);
+        }
+
+        // check details have been set in Rule
+        {
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getLayerDetails());
+            assertEquals(lid1, loaded.getLayerDetails().getId());
+            LOGGER.info("Found " + loaded + " --> " + loaded.getLayerDetails());
+        }
+
+        // set new details
+        final Long lid2;
+        {
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(id, details);
+            lid2 = details.getId();
+            assertNotNull(lid2);
+        }
+
+        // remove details
+        {
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getLayerDetails());
+            ruleAdminService.setDetails(id, null);
+
+            Rule loaded2 = ruleAdminService.get(id);
+            assertNull(loaded2.getLayerDetails());
+        }
+
+        // remove Rule and cascade on details
+        {
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(id, details);
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getLayerDetails());
+
+            ruleAdminService.delete(id);
+        }
+
+    }
+
+    public void testRuleDetailsErrors() throws ResourceNotFoundFault {
+
+        try {
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(-10L, details);
+            fail("Failed recognising not existent rule");
+        } catch (NotFoundWebEx e) {
+            // OK
+        }
+
+        try {
+            Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.DENY);
+            ruleAdminService.insert(r1);
+            Long id1 = r1.getId();
+
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(id1, details);
+            fail("Failed recognising bad rule type");
+        } catch (BadRequestWebEx e) {
+            // OK
+        }
+
+        try {            
+            Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", null, GrantType.ALLOW);
+            ruleAdminService.insert(r1);
+            Long id1 = r1.getId();
+
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(id1, details);
+            fail("Failed recognising bad rule constraints");
+        } catch (BadRequestWebEx e) {
+            // OK
+        }
+
+    }
+
+    public void testRuleDetailsProps() throws ResourceNotFoundFault {
+        final Long id;
+        final Long lid1;
+
+        {
+            Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+            ruleAdminService.insert(r1);
+            id = r1.getId();
+
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(id, details);
+            lid1 = details.getId();
+            assertNotNull(lid1);
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("k1", "v1");
+            ruleAdminService.setDetailsProps(id, map);
+        }
+
+        // check props have been set in LD
+        {
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getLayerDetails());
+
+            Map<String, String> map = ruleAdminService.getDetailsProps(id);
+            assertEquals(1, map.size());
+        }
+
+        // set new details, old map should be retained
+        final Long lid2;
+        {
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(id, details);
+            lid2 = details.getId();
+            assertNotNull(lid2);
+
+            Map<String, String> map = ruleAdminService.getDetailsProps(id);
+            assertEquals(1, map.size());
+        }
+
+        // remove details
+        {
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getLayerDetails());
+            ruleAdminService.setDetails(id, null);
+            // props should be cascaded
+        }
+
+        // remove Rule and cascade on details
+        {
+            LayerDetails details = new LayerDetails();
+            ruleAdminService.setDetails(id, details);
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("k1", "v1");
+            ruleAdminService.setDetailsProps(id, map);
+
+            Rule loaded = ruleAdminService.get(id);
+            assertNotNull(loaded.getLayerDetails());
+
+            ruleAdminService.delete(id);
+        }
+
+    }
+
 
 }

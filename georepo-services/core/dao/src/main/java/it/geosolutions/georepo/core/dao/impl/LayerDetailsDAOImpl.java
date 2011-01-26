@@ -19,51 +19,57 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
+
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.trg.search.ISearch;
-import it.geosolutions.georepo.core.dao.ProfileDAO;
-import it.geosolutions.georepo.core.model.Profile;
+import it.geosolutions.georepo.core.dao.LayerDetailsDAO;
+import it.geosolutions.georepo.core.model.LayerDetails;
+import java.util.Map;
 import org.hibernate.Hibernate;
 
 /**
- * Public implementation of the ProfileDAO interface
+ * Public implementation of the RuleLimitsDAO interface
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @Transactional
-public class ProfileDAOImpl extends BaseDAO<Profile, Long>
-        // extends GenericDAOImpl<User, Long>
-        implements ProfileDAO {
+public class LayerDetailsDAOImpl extends BaseDAO<LayerDetails, Long>
+// extends GenericDAOImpl<GSUser, Long>
+        implements LayerDetailsDAO {
 
-    final private static Logger LOGGER = Logger.getLogger(ProfileDAOImpl.class);
+    final private static Logger LOGGER = Logger.getLogger(LayerDetailsDAOImpl.class);
 
     @Override
-    public void persist(Profile... entities) {
+    public void persist(LayerDetails... entities) {
         super.persist(entities);
     }
 
+//    @Override
+//    public RuleLimits find(Long id) {
+//        return super.find(id);
+//    }
+//
     @Override
-    public List<Profile> findAll() {
+    public List<LayerDetails> findAll() {
         return super.findAll();
     }
 
     @Override
-    public List<Profile> search(ISearch search) {
+    public List<LayerDetails> search(ISearch search) {
         return super.search(search);
     }
 
     @Override
-    public Profile merge(Profile entity) {
+    public LayerDetails merge(LayerDetails entity) {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(Profile entity) {
+    public boolean remove(LayerDetails entity) {
         return super.remove(entity);
     }
 
@@ -76,7 +82,7 @@ public class ProfileDAOImpl extends BaseDAO<Profile, Long>
 
     @Override
     public Map<String, String> getCustomProps(Long id) {
-        Profile found = find(id);
+        LayerDetails found = find(id);
         if (found != null) {
             Map<String, String> props = found.getCustomProps();
 
@@ -85,17 +91,17 @@ public class ProfileDAOImpl extends BaseDAO<Profile, Long>
             }
             return props;
         } else {
-            throw new IllegalArgumentException("Profile not found");
+            throw new IllegalArgumentException("LayerDetails not found");
         }
     }
 
     @Override
     public void setCustomProps(Long id, Map<String, String> props) {
-        Profile profile = find(id);
-        if (profile != null) {
-            profile.setCustomProps(props);
+        LayerDetails found = find(id);
+        if (found != null) {
+            found.setCustomProps(props);
         } else {
-            throw new IllegalArgumentException("Profile not found");
+            throw new IllegalArgumentException("LayerDetails not found");
         }
     }
 }

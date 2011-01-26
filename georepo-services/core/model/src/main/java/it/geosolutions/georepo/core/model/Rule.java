@@ -17,7 +17,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package it.geosolutions.georepo.core.model;
 
 import it.geosolutions.georepo.core.model.enums.GrantType;
@@ -70,7 +69,8 @@ import org.hibernate.annotations.Index;
  */
 @Entity(name = "Rule")
 @Table(name = "gr_rule",
-    uniqueConstraints = {@UniqueConstraint(columnNames={"gsuser_id", "profile_id","instance_id","service","request","workspace","layer"})})
+uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"gsuser_id", "profile_id", "instance_id", "service", "request", "workspace", "layer"})})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Rule")
 @XmlRootElement(name = "Rule")
 public class Rule {
@@ -82,46 +82,49 @@ public class Rule {
     private Long id;
 
     /** Lower numbers have higher priority */
-    @Column(nullable=false)
-    @Index(name="idx_rule_priority")
+    @Column(nullable = false)
+    @Index(name = "idx_rule_priority")
     private long priority;
 
-    @ManyToOne(optional = true, fetch=FetchType.EAGER)
-    @ForeignKey(name="fk_rule_user")
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @ForeignKey(name = "fk_rule_user")
     private GSUser gsuser;
 
-    @ManyToOne(optional = true, fetch=FetchType.EAGER)
-    @ForeignKey(name="fk_rule_profile")
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @ForeignKey(name = "fk_rule_profile")
     private Profile profile;
 
-    @ManyToOne(optional = true, fetch=FetchType.EAGER)
-    @ForeignKey(name="fk_rule_instance")
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @ForeignKey(name = "fk_rule_instance")
     private GSInstance instance;
 
-
     @Column
-    @Index(name="idx_rule_service")
+    @Index(name = "idx_rule_service")
     private String service;
 
     @Column
-    @Index(name="idx_rule_request")
+    @Index(name = "idx_rule_request")
     private String request;
 
     @Column
-    @Index(name="idx_rule_workspace")
+    @Index(name = "idx_rule_workspace")
     private String workspace;
 
     @Column
-    @Index(name="idx_rule_layer")
+    @Index(name = "idx_rule_layer")
     private String layer;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(nullable = false)
     private GrantType access;
 
-    @OneToOne(optional = true, cascade=CascadeType.REMOVE)
-    @ForeignKey(name="fk_rule_details")
+    @OneToOne(optional = true, cascade = CascadeType.REMOVE, mappedBy = "rule") // main ref is in LayerDetails
+    @ForeignKey(name = "fk_rule_details")
     private LayerDetails layerDetails;
+    
+    @OneToOne(optional = true, cascade = CascadeType.REMOVE, mappedBy = "rule") // main ref is in ruleLimits
+    @ForeignKey(name = "fk_rule_limits")
+    private RuleLimits ruleLimits;
 
     public Rule() {
     }
@@ -153,7 +156,7 @@ public class Rule {
     public void setPriority(long priority) {
         this.priority = priority;
     }
-    
+
     public GSUser getGsuser() {
         return gsuser;
     }
@@ -186,14 +189,6 @@ public class Rule {
         this.layer = layer;
     }
 
-    public LayerDetails getLayerDetails() {
-        return layerDetails;
-    }
-
-    public void setLayerDetails(LayerDetails layerDetails) {
-        this.layerDetails = layerDetails;
-    }
-
     public String getService() {
         return service;
     }
@@ -224,5 +219,69 @@ public class Rule {
 
     public void setAccess(GrantType access) {
         this.access = access;
+    }
+
+    public RuleLimits getRuleLimits() {
+        return ruleLimits;
+    }
+
+    /**
+     * This setter is only used by hibernate, should not be called by the user.
+     * @param ruleLimits
+     */
+    protected void setRuleLimits(RuleLimits ruleLimits) {
+        this.ruleLimits = ruleLimits;
+    }
+
+    public LayerDetails getLayerDetails() {
+        return layerDetails;
+    }
+
+    /**
+     * This setter is only used by hibernate, should not be called by the user.
+     */
+    protected void setLayerDetails(LayerDetails layerDetails) {
+        this.layerDetails = layerDetails;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(getClass().getSimpleName())
+                .append("[id:").append(id)
+                .append(" pri:").append(priority);
+
+        if (gsuser != null) {
+            sb.append(" uId:").append(gsuser.getId());
+            sb.append(" uName:").append(gsuser.getName());
+        }
+
+        if (profile != null) {
+            sb.append(" pId:").append(profile.getId());
+            sb.append(" pName:").append(profile.getName());
+        }
+
+        if (instance != null) {
+            sb.append(" iId:").append(instance.getId());
+            sb.append(" iName:").append(instance.getName());
+        }
+
+        if (service != null) {
+            sb.append(" srv:").append(service);
+        }
+        if (request != null) {
+            sb.append(" req:").append(request);
+        }
+
+        if (workspace != null) {
+            sb.append(" ws:").append(workspace);
+        }
+        if (layer != null) {
+            sb.append(" l:").append(layer);
+        }
+
+        sb.append(" acc:").append(access);
+
+        return sb.toString();
+
     }
 }

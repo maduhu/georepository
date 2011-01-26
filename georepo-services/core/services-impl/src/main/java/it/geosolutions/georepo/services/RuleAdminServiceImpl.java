@@ -29,10 +29,17 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.trg.search.Search;
+import it.geosolutions.georepo.core.dao.LayerDetailsDAO;
 import it.geosolutions.georepo.core.dao.RuleDAO;
+import it.geosolutions.georepo.core.dao.RuleLimitsDAO;
 import it.geosolutions.georepo.core.model.Rule;
+import it.geosolutions.georepo.core.model.RuleLimits;
+import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
+import it.geosolutions.georepo.services.exception.NotFoundWebEx;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -43,6 +50,8 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     private final static Logger LOGGER = Logger.getLogger(RuleAdminServiceImpl.class);
 
     private RuleDAO ruleDAO;
+    private RuleLimitsDAO limitsDAO;
+    private LayerDetailsDAO detailsDAO;
 
     // ==========================================================================
     @Override
@@ -182,6 +191,8 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         return ruleDAO.count(searchCriteria);
     }
 
+    // ==========================================================================
+
     @Override
     public List<ShortRule> getMatchingRules(Long userId, Long profileId, Long instanceId, String service, String request, String workspace, String layer) {
         Search searchCriteria = new Search(Rule.class);
@@ -233,11 +244,103 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         }
     }
 
+    // ==========================================================================
 
     @Override
     public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    // ==========================================================================
+
+    @Override
+    public void setLimits(Long ruleId, RuleLimits limits) {
+        Rule rule = ruleDAO.find(ruleId);
+        if(rule == null)
+            throw new NotFoundWebEx("Rule not found");
+
+        if(rule.getAccess() != GrantType.LIMIT && limits != null)
+            throw new BadRequestWebEx("Rule is not of LIMIT type");
+
+        // remove old limits if any
+        if(rule.getRuleLimits() != null) {
+            limitsDAO.remove(rule.getRuleLimits());
+        }
+
+        if(limits != null) {
+            limits.setId(ruleId);
+            limits.setRule(rule);
+            limitsDAO.persist(limits);
+        } else {
+            LOGGER.info("Removing limits for " + rule);
+            // TODO: remove limits (already removed above?)
+        }
+    }
+    // ==========================================================================
+
+    @Override
+    public void setDetails(Long ruleId, LayerDetails details) {
+        Rule rule = ruleDAO.find(ruleId);
+        if(rule == null)
+            throw new NotFoundWebEx("Rule not found");
+
+        if(rule.getLayer() == null && details != null)
+            throw new BadRequestWebEx("Rule does not refer to a fixed layer");
+
+        if(rule.getAccess() != GrantType.ALLOW && details != null)
+            throw new BadRequestWebEx("Rule is not of ALLOW type");
+
+        final Map<String, String> oldProps;
+
+        // remove old details if any
+        if(rule.getLayerDetails() != null) {
+            oldProps = detailsDAO.getCustomProps(ruleId); 
+            detailsDAO.remove(rule.getLayerDetails());
+        } else
+            oldProps = null;
+
+        if(details != null) {
+            details.setId(ruleId);
+            details.setRule(rule);
+            detailsDAO.persist(details);
+            // restore old properties
+            if(oldProps != null) {
+                LOGGER.info("Restoring " + oldProps.size() + " props from older LayerDetails (id:"+ruleId+")");
+                //cannot reuse the same Map returned by Hibernate, since it is detached now.
+                Map<String, String> newProps = new HashMap<String, String>();
+                newProps.putAll(oldProps);
+                detailsDAO.setCustomProps(ruleId, newProps);
+            }
+        } else {
+            LOGGER.info("Removing details for " + rule);
+        }
+    }
+
+    @Override
+    public void setDetailsProps(Long ruleId, Map<String, String> props) {
+        Rule rule = ruleDAO.find(ruleId);
+        if(rule == null)
+            throw new NotFoundWebEx("Rule not found");
+
+        if(rule.getLayerDetails() == null) {
+            throw new NotFoundWebEx("Rule has no details associated");
+        }
+
+        detailsDAO.setCustomProps(ruleId, props);
+    }
+
+    @Override
+    public Map<String, String> getDetailsProps(Long ruleId) {
+        Rule rule = ruleDAO.find(ruleId);
+        if(rule == null)
+            throw new NotFoundWebEx("Rule not found");
+
+        if(rule.getLayerDetails() == null) {
+            throw new NotFoundWebEx("Rule has no details associated");
+        }
+        return detailsDAO.getCustomProps(ruleId);
+    }
+
 
     // ==========================================================================
 
@@ -256,4 +359,11 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         this.ruleDAO = ruleDAO;
     }
 
+    public void setRuleLimitsDAO(RuleLimitsDAO ruleLimitsDAO) {
+        this.limitsDAO = ruleLimitsDAO;
+    }
+
+    public void setLayerDetailsDAO(LayerDetailsDAO detailsDAO) {
+        this.detailsDAO = detailsDAO;
+    }
 }

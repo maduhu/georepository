@@ -27,6 +27,8 @@
 
     <bean id="ruleAdminService" class="it.geosolutions.georepo.services.RuleAdminServiceImpl">
         <property name="ruleDAO" ref="ruleDAO"/>
+        <property name="ruleLimitsDAO" ref="rulelimitsDAO"/>
+        <property name="layerDetailsDAO" ref="layerdetailsDAO"/>
     </bean>
 
 <!--    <bean id="instancePermissionAdminService" class="it.geosolutions.georepo.services.InstancePermissionAdminServiceImpl">

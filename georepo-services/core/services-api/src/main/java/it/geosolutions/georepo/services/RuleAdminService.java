@@ -22,11 +22,13 @@ package it.geosolutions.georepo.services;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
+import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.services.dto.ShortProfile;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebService;
 import javax.ws.rs.DELETE;
@@ -128,6 +130,8 @@ public interface RuleAdminService {
     @Path("/rules/{id}/details")
     LayerDetails getDetails(@PathParam("id") long id) throws ResourceNotFoundFault;
 
+    // ==========================================================================
+
     /**
      * Return the Rules according to the filter.
      * <P>
@@ -153,7 +157,23 @@ public interface RuleAdminService {
 //            ,@QueryParam("entries") Integer entries
             );
 
+    // ==========================================================================
 
+    void setLimits(Long ruleId, RuleLimits limits);
+
+    // ==========================================================================
+
+    /**
+     * <P>
+     * When setting new Details, old CustomProps will be retained.
+     */
+    void setDetails(Long ruleId, LayerDetails details);
+
+    Map<String, String> getDetailsProps(Long ruleId);
+    void setDetailsProps(Long ruleId, Map<String, String> props);
+
+    // ==========================================================================
+    
 //    @Get
 //    @HttpResource(location = "/rules/{id}/props")
 //    public Map<String, String> getCustomProps(@WebParam(name = "id") Long id);
