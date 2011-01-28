@@ -51,21 +51,23 @@ public class ProfilesTabItem extends TabItem {
     /**
      * Instantiates a new profiles tab item.
      */
-    public ProfilesTabItem() {
+    public ProfilesTabItem(String tabItemId) {
         // TODO: add I18n message
         //super(I18nProvider.getMessages().profiles());
         super("Profiles");
+        setId(tabItemId);
         setIcon(Resources.ICONS.pageEdit());
     }
 
     /**
      * Instantiates a new profiles tab item.
+     * @param profilesTabItemId 
      * 
      * @param profilesManagerServiceRemote
      *            the profiles manager service remote
      */
-    public ProfilesTabItem(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
-        this();
+    public ProfilesTabItem(String tabItemId, ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+        this(tabItemId);
         setProfileManagementWidget(new ProfileManagementWidget(profilesManagerServiceRemote));
         add(getProfileManagementWidget());
 

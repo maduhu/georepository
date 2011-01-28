@@ -79,6 +79,6 @@ public interface ProfilesManagerServiceRemote extends RemoteService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config) throws ApplicationException;
+    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full) throws ApplicationException;
 
 }

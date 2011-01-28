@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client;
 
 import com.extjs.gxt.ui.client.event.EventType;
+import com.extjs.gxt.ui.client.mvc.AppEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -345,5 +346,8 @@ public class GeoRepoEvents {
 
     /** The Constant SAVE_GEOCONSTRAINT_FROM_SHP. */
     public static final EventType SAVE_GEOCONSTRAINT_FROM_SHP = new EventType();
+
+    /** */
+    public static final EventType UPDATE_RULES_GRID_COMBOS = new EventType();
 
 }

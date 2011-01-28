@@ -78,6 +78,33 @@
 		<servlet-name>ProfilesManagerServiceRemote</servlet-name>
 		<url-pattern>/georepo/ProfilesManagerServiceRemote</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InstancesManagerServiceRemote</servlet-name>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.InstancesManagerServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InstancesManagerServiceRemote</servlet-name>
+		<url-pattern>/georepo/InstancesManagerServiceRemote</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RulesManagerServiceRemote</servlet-name>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.RulesManagerServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RulesManagerServiceRemote</servlet-name>
+		<url-pattern>/georepo/RulesManagerServiceRemote</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>WorkspacesManagerServiceRemote</servlet-name>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.WorkspacesManagerServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WorkspacesManagerServiceRemote</servlet-name>
+		<url-pattern>/georepo/WorkspacesManagerServiceRemote</url-pattern>
+	</servlet-mapping>
 	
 	<!-- *****************************************************************************************  -->
 	<!-- **                                DISPATCHER                                           **  -->
@@ -98,7 +125,8 @@
 		<url-pattern>/georepo/upload</url-pattern>
 	</servlet-mapping>
 
-	<!-- Open proxy to circumvent cross-domain XmlHTTPRequest restrictions. -->
+	<!-- Open proxy to circumvent cross-domain XmlHTTPRequest restrictions.
+-->
 	<servlet>
 		<servlet-name>GwtOpenlayersProxy</servlet-name>
 		<servlet-class>

@@ -35,6 +35,7 @@ package it.geosolutions.georepo.gui.client.widget.tab;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.UserManagementWidget;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
@@ -52,20 +53,25 @@ public class GsUsersTabItem extends TabItem {
     /**
      * Instantiates a new gs users tab item.
      */
-    public GsUsersTabItem() {
+    public GsUsersTabItem(String tabItemId) {
         super(I18nProvider.getMessages().userManagementLabel());
+        setId(tabItemId);
         setIcon(Resources.ICONS.user());
     }
 
     /**
      * Instantiates a new gs users tab item.
+     * @param usersTabItemId 
      * 
      * @param gsManagerServiceRemote
      *            the gs manager service remote
+     * @param profilesManagerServiceRemote
      */
-    public GsUsersTabItem(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
-        this();
-        setUserManagementWidget(new UserManagementWidget(gsManagerServiceRemote));
+    public GsUsersTabItem(String tabItemId, GsUsersManagerServiceRemoteAsync gsManagerServiceRemote,
+            ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+        this(tabItemId);
+        setUserManagementWidget(new UserManagementWidget(gsManagerServiceRemote,
+                profilesManagerServiceRemote));
         add(getUserManagementWidget());
 
         setScrollMode(Scroll.NONE);

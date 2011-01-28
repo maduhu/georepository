@@ -181,13 +181,14 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
 
             @Override
             protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<Profile>> callback) {
-                service.getProfiles((PagingLoadConfig) loadConfig, callback);
+                service.getProfiles((PagingLoadConfig) loadConfig, false, callback);
             }
 
         };
         loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
         loader.setRemoteSort(false);
         store = new ListStore<Profile>(loader);
+        //store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
 
         // Search tool
         SearchFilterField<Profile> filter = new SearchFilterField<Profile>() {
@@ -210,12 +211,14 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
         // Bind the filter field to your grid store (grid.getStore())
         filter.bind(store);
 
-        // Add User button
+        // Add Profile button
         // TODO: generalize this!
-        Button addUserButton = new Button("Add Profile");
-        addUserButton.setIcon(Resources.ICONS.add());
+        Button addProfileButton = new Button("Add Profile");
+        addProfileButton.setIcon(Resources.ICONS.add());
+        // TODO: temporally disabled!
+        addProfileButton.setEnabled(false);
 
-        addUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+        addProfileButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
             public void handleEvent(ButtonEvent be) {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
@@ -225,7 +228,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
 
         this.toolBar.bind(loader);
         this.toolBar.add(new SeparatorToolItem());
-        this.toolBar.add(addUserButton);
+        this.toolBar.add(addProfileButton);
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
@@ -332,7 +335,11 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                 }
 
                 CheckBox profileEnabledButton = new CheckBox();
-                profileEnabledButton.setToolTip("Test");
+                // TODO: add correct tooltip text here!
+                //profileEnabledButton.setToolTip("Test");
+                // TODO: Read only mode in this version.
+                profileEnabledButton.setReadOnly(true);
+                
                 profileEnabledButton.setValue(model.isEnabled());
 
                 profileEnabledButton.addListener(Events.OnClick, new Listener<FieldEvent>() {
@@ -380,10 +387,12 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                 }
 
                 // TODO: generalize this!
-                Button removeUserButton = new Button("Remove");
-                removeUserButton.setIcon(Resources.ICONS.delete());
+                Button removeProfileButton = new Button("Remove");
+                removeProfileButton.setIcon(Resources.ICONS.delete());
+                // TODO: temporally disabled!
+                removeProfileButton.setEnabled(false);
 
-                removeUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+                removeProfileButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
@@ -391,7 +400,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                     }
                 });
 
-                return removeUserButton;
+                return removeProfileButton;
             }
 
         };

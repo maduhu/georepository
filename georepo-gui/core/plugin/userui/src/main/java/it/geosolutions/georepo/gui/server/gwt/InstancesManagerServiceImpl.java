@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.gwt.GsUsersManagerServiceImpl,v. 0.1 25-gen-2011 11.23.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.gwt.InstancesManagerServiceImpl,v. 0.1 28-gen-2011 11.36.40 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.49 $
+ * $ Date: 28-gen-2011 11.36.40 $
  *
  * ====================================================================
  *
@@ -33,9 +33,9 @@
 package it.geosolutions.georepo.gui.server.gwt;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.GSUser;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
-import it.geosolutions.georepo.gui.server.service.IGsUsersManagerService;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
+import it.geosolutions.georepo.gui.server.service.IInstancesManagerService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
 
 import org.slf4j.Logger;
@@ -47,32 +47,38 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class GsUsersManagerServiceImpl.
+ * The Class InstancesManagerServiceImpl.
  */
-public class GsUsersManagerServiceImpl extends RemoteServiceServlet implements
-        GsUsersManagerServiceRemote {
+public class InstancesManagerServiceImpl extends RemoteServiceServlet implements
+        InstancesManagerServiceRemote {
 
     /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = -6961825619542958052L;
+    private static final long serialVersionUID = 4293435726429971363L;
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /** The gs user manager service. */
-    private IGsUsersManagerService gsUserManagerService;
+    /** The instances manager service. */
+    private IInstancesManagerService instancesManagerService;
 
     /**
-     * Instantiates a new gs users manager service impl.
+     * Instantiates a new instances manager service impl.
      */
-    public GsUsersManagerServiceImpl() {
-        this.gsUserManagerService = (IGsUsersManagerService) ApplicationContextUtil.getInstance().getBean(
-                "gsUsersManagerServiceGWT");
+    public InstancesManagerServiceImpl() {
+        this.instancesManagerService = (IInstancesManagerService) ApplicationContextUtil
+                .getInstance().getBean("instancesManagerServiceGWT");
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#getGsUsers(com.extjs.gxt.ui.client.data.PagingLoadConfig)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getInstances(com.extjs
+     * .gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException {
-        return gsUserManagerService.getGsUsers(config, full);
+    public PagingLoadResult<GSInstance> getInstances(PagingLoadConfig config, boolean full)
+            throws ApplicationException {
+        return instancesManagerService.getInstances(config, full);
     }
+
 }

@@ -35,13 +35,17 @@ package it.geosolutions.georepo.gui.server.service.impl;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.server.service.IProfilesManagerService;
+import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
+import it.geosolutions.georepo.services.dto.ShortProfile;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
@@ -58,8 +62,8 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    // @Autowired
-    // private DGWATCHRemoteService dgwatchRemoteService;
+    @Autowired
+    private GeoRepoRemoteService georepoRemoteService;
 
     /*
      * (non-Javadoc)
@@ -68,30 +72,65 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
      * com.digitalglobe.dgwatch.gui.server.service.IFeatureService#loadFeature(com.extjs.gxt.ui.
      * client.data.PagingLoadConfig, java.lang.String)
      */
-    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config)
+    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full)
             throws ApplicationException {
+
+        int start = config.getOffset();
+
         List<Profile> profileListDTO = new ArrayList<Profile>();
 
-        Profile profile_base = new Profile();
-        Profile profile_analysis = new Profile();
-        Profile profile_advanced = new Profile();
+        if (full) {
+            Profile all_profile = new Profile();
+            all_profile.setId(-1);
+            all_profile.setName("*");
+            all_profile.setEnabled(true);
+            all_profile.setDateCreation(null);
+            profileListDTO.add(all_profile);
+        }
+        
+        long profilesCount = georepoRemoteService.getProfileAdminService().getCount(null) + 1;
 
-        profile_base.setName("BASE");
-        profile_base.setDateCreation(new Date());
-        profile_base.setEnabled(true);
+        Long t = new Long(profilesCount);
 
-        profile_analysis.setName("ANALYSIS");
-        profile_analysis.setDateCreation(new Date());
-        profile_analysis.setEnabled(true);
+        int page = start == 0 ? start : start / config.getLimit();
 
-        profile_advanced.setName("ADVANCED");
-        profile_advanced.setDateCreation(new Date());
-        profile_advanced.setEnabled(true);
+        List<ShortProfile> profilesList = georepoRemoteService.getProfileAdminService().getList(
+                null, page, config.getLimit());
 
-        profileListDTO.add(profile_base);
-        profileListDTO.add(profile_analysis);
-        profileListDTO.add(profile_advanced);
+        if (profilesList == null) {
+            if (logger.isErrorEnabled())
+                logger.error("No profile found on server");
+            throw new ApplicationException("No profile found on server");
+        }
 
-        return new BasePagingLoadResult<Profile>(profileListDTO, 0, profileListDTO.size());
+        Iterator<ShortProfile> it = profilesList.iterator();
+
+        while (it.hasNext()) {
+            ShortProfile short_profile = it.next();
+
+            it.geosolutions.georepo.core.model.Profile remote_profile;
+            try {
+                remote_profile = georepoRemoteService.getProfileAdminService().get(
+                        short_profile.getId());
+            } catch (ResourceNotFoundFault e) {
+                if (logger.isErrorEnabled())
+                    logger.error("Details for profile " + short_profile.getName()
+                            + " not found on Server!");
+                throw new ApplicationException("Details for profile " + short_profile.getName()
+                        + " not found on Server!");
+            }
+            Profile local_profile = new Profile();
+
+            local_profile.setId(short_profile.getId());
+            local_profile.setName(remote_profile.getName());
+            local_profile.setDateCreation(remote_profile.getDateCreation());
+            local_profile.setEnabled(remote_profile.getEnabled());
+            // TODO: use specific API methods in order to load Profile custom props
+            //local_profile.setCustomProps(remote_profile.getCustomProps());
+
+            profileListDTO.add(local_profile);
+        }
+
+        return new BasePagingLoadResult<Profile>(profileListDTO, config.getOffset(), t.intValue());
     }
 }

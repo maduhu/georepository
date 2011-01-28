@@ -33,10 +33,14 @@
 package it.geosolutions.georepo.gui.server.service.impl;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -67,9 +71,53 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
      * com.digitalglobe.dgwatch.gui.server.service.IFeatureService#loadFeature(com.extjs.gxt.ui.
      * client.data.PagingLoadConfig, java.lang.String)
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config) throws ApplicationException {
+    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException {
         List<Rule> rulesListDTO = new ArrayList<Rule>();
 
+        GSInstance instance = new GSInstance();
+        instance.setName("DemoGeoServer");
+        instance.setDescription("GeoSolutions DEMO GeoServer.");
+        instance.setDateCreation(new Date());
+        instance.setBaseURL("http://demo.geo-solutions.it/geoserver/");
+
+        GSUser alfa = new GSUser();
+        alfa.setName("afabiani");
+        alfa.setFullName("Alessio Fabiani");
+        alfa.setEnabled(false);
+        alfa.setEmailAddress("alessio.fabiani@gmail.com");
+        alfa.setDateCreation(new Date());
+
+        Profile profile_base = new Profile();
+        profile_base.setName("BASE");
+        profile_base.setDateCreation(new Date());
+        profile_base.setEnabled(true);
+        alfa.setProfile(profile_base);
+        
+        Rule rule_1 = new Rule();
+        rule_1.setPriority(0);
+        rule_1.setUser(alfa);
+        rule_1.setProfile(profile_base);
+        rule_1.setInstance(instance);
+        rule_1.setService("WMS");
+        rule_1.setRequest("*");
+        rule_1.setWorkspace("*");
+        rule_1.setLayer("*");
+        rule_1.setGrant("Allow");
+        
+        Rule rule_2 = new Rule();
+        rule_2.setPriority(1);
+        rule_2.setUser(alfa);
+        rule_2.setProfile(profile_base);
+        rule_2.setInstance(instance);
+        rule_2.setService("*");
+        rule_2.setRequest("*");
+        rule_2.setWorkspace("*");
+        rule_2.setLayer("*");
+        rule_2.setGrant("Deny");
+        
+        rulesListDTO.add(rule_1);
+        rulesListDTO.add(rule_2);
+        
         return new BasePagingLoadResult<Rule>(rulesListDTO, 0, rulesListDTO.size());
     }
 }

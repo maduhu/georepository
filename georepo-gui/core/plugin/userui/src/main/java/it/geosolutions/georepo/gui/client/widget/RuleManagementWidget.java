@@ -32,7 +32,11 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
@@ -53,13 +57,17 @@ public class RuleManagementWidget extends ContentPanel {
      * @param rulesManagerServiceRemote
      *            the rules manager service remote
      */
-    public RuleManagementWidget(RulesManagerServiceRemoteAsync rulesManagerServiceRemote) {
+    public RuleManagementWidget(RulesManagerServiceRemoteAsync rulesService,
+            GsUsersManagerServiceRemoteAsync gsUsersService,
+            ProfilesManagerServiceRemoteAsync profilesService,
+            InstancesManagerServiceRemoteAsync instancesService,
+            WorkspacesManagerServiceRemoteAsync workspacesService) {
         setHeaderVisible(false);
         setFrame(true);
         setHeight(170);
         setLayout(new FitLayout());
 
-        setRulesInfo(new RuleGridWidget(rulesManagerServiceRemote));
+        setRulesInfo(new RuleGridWidget(rulesService, gsUsersService, profilesService, instancesService, workspacesService));
 
         add(getRulesInfo().getGrid());
 

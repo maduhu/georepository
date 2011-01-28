@@ -53,6 +53,6 @@ public interface ProfilesManagerServiceRemoteAsync {
      *            the callback
      * @return the profiles
      */
-    public void getProfiles(PagingLoadConfig config, AsyncCallback<PagingLoadResult<Profile>> callback);
+    public void getProfiles(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<Profile>> callback);
 
 }

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.IGsUsersManagerService,v. 0.1 25-gen-2011 11.23.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync,v. 0.1 28-gen-2011 18.27.42 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.50 $
+ * $ Date: 28-gen-2011 18.27.42 $
  *
  * ====================================================================
  *
@@ -30,28 +30,47 @@
  * <http://www.geo-solutions.it/>.
  *
  */
-package it.geosolutions.georepo.gui.server.service;
+package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.Workspace;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface IGsUsersManagerService.
+ * The Interface WorkspacesManagerServiceRemoteAsync.
  */
-public interface IGsUsersManagerService {
+public interface WorkspacesManagerServiceRemoteAsync {
 
-	/**
-     * Gets the gs users.
+    /**
+     * Gets the workspaces.
      * 
      * @param config
      *            the config
-     * @return the gs users
-     * @throws ApplicationException
-     *             the application exception
+     * @param URL
+     *            the uRL
+     * @param callback
+     *            the callback
+     * @return the workspaces
      */
-	public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException;
+    public void getWorkspaces(PagingLoadConfig config, String URL, AsyncCallback<PagingLoadResult<Workspace>> callback);
+
+    /**
+     * Gets the layers.
+     * 
+     * @param loadConfig
+     *            the load config
+     * @param baseURL
+     *            the base url
+     * @param workspace
+     *            the workspace
+     * @param callback
+     *            the callback
+     * @return the layers
+     */
+    public void getLayers(PagingLoadConfig loadConfig, String baseURL, String workspace, AsyncCallback<PagingLoadResult<Layer>> callback);
+
 }

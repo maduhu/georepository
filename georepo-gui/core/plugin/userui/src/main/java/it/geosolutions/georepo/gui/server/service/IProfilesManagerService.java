@@ -44,7 +44,7 @@ import com.extjs.gxt.ui.client.data.PagingLoadResult;
  */
 public interface IProfilesManagerService {
 
-	/**
+    /**
      * Gets the profiles.
      * 
      * @param config
@@ -53,5 +53,6 @@ public interface IProfilesManagerService {
      * @throws ApplicationException
      *             the application exception
      */
-	public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config) throws ApplicationException;
+    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full)
+            throws ApplicationException;
 }

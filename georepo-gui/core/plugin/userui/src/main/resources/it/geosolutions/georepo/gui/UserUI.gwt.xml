@@ -16,8 +16,14 @@
 		
 	<servlet path="/ProfilesManagerServiceRemote"
 		class="it.geosolutions.georepo.gui.server.gwt.ProfilesManagerServiceImpl" />
+	
+	<servlet path="/InstancesManagerServiceRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.InstancesManagerServiceImpl" />
 		
 	<servlet path="/RulesManagerServiceRemote"
 		class="it.geosolutions.georepo.gui.server.gwt.RulesManagerServiceImpl" />
+	
+	<servlet path="/WorkspacesManagerServiceRemote"
+		class="it.geosolutions.georepo.gui.server.gwt.WorkspacesManagerServiceImpl" />
 		
 </module>

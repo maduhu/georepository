@@ -73,11 +73,11 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
      * (non-Javadoc)
      * 
      * @see
-     * it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getProfiles(com.extjs
+     * it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getRules(com.extjs
      * .gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config) throws ApplicationException {
-        return rulesManagerService.getRules(config);
+    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException {
+        return rulesManagerService.getRules(config, full);
     }
 
 }

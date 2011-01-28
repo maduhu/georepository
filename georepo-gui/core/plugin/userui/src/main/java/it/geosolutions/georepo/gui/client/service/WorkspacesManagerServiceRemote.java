@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote,v. 0.1 25-gen-2011 11.47.13 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote,v. 0.1 28-gen-2011 18.28.27 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.47.13 $
+ * $ Date: 28-gen-2011 18.28.27 $
  *
  * ====================================================================
  *
@@ -33,7 +33,8 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.Workspace;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -43,9 +44,9 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface RulesManagerServiceRemote.
+ * The Interface WorkspacesManagerServiceRemote.
  */
-public interface RulesManagerServiceRemote extends RemoteService {
+public interface WorkspacesManagerServiceRemote extends RemoteService {
 
     /**
      * The Class Util.
@@ -53,32 +54,49 @@ public interface RulesManagerServiceRemote extends RemoteService {
     public static class Util {
 
         /** The instance. */
-        private static RulesManagerServiceRemoteAsync instance;
+        private static WorkspacesManagerServiceRemoteAsync instance;
 
         /**
          * Gets the instance.
          * 
          * @return the instance
          */
-        public static RulesManagerServiceRemoteAsync getInstance() {
+        public static WorkspacesManagerServiceRemoteAsync getInstance() {
             if (instance == null) {
-                instance = (RulesManagerServiceRemoteAsync) GWT.create(RulesManagerServiceRemote.class);
+                instance = (WorkspacesManagerServiceRemoteAsync) GWT.create(WorkspacesManagerServiceRemote.class);
                 ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "RulesManagerServiceRemote");
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "WorkspacesManagerServiceRemote");
             }
             return instance;
         }
     }
 
     /**
-     * Gets the rules.
+     * Gets the workspaces.
      * 
      * @param config
      *            the config
-     * @return the rules
+     * @param baseURL
+     *            the base url
+     * @return the workspaces
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException;
+    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String baseURL) throws ApplicationException;
 
+    
+    /**
+     * Gets the layers.
+     * 
+     * @param loadConfig
+     *            the load config
+     * @param baseURL
+     *            the base url
+     * @param workspace
+     *            the workspace
+     * @return the layers
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public PagingLoadResult<Layer> getLayers(PagingLoadConfig loadConfig, String baseURL, String workspace) throws ApplicationException;
 }

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote,v. 0.1 25-gen-2011 11.47.13 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService,v. 0.1 28-gen-2011 18.30.05 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.47.13 $
+ * $ Date: 28-gen-2011 18.30.05 $
  *
  * ====================================================================
  *
@@ -30,55 +30,47 @@
  * <http://www.geo-solutions.it/>.
  *
  */
-package it.geosolutions.georepo.gui.client.service;
+package it.geosolutions.georepo.gui.server.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.Workspace;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface RulesManagerServiceRemote.
+ * The Interface IWorkspacesManagerService.
  */
-public interface RulesManagerServiceRemote extends RemoteService {
+public interface IWorkspacesManagerService {
 
     /**
-     * The Class Util.
-     */
-    public static class Util {
-
-        /** The instance. */
-        private static RulesManagerServiceRemoteAsync instance;
-
-        /**
-         * Gets the instance.
-         * 
-         * @return the instance
-         */
-        public static RulesManagerServiceRemoteAsync getInstance() {
-            if (instance == null) {
-                instance = (RulesManagerServiceRemoteAsync) GWT.create(RulesManagerServiceRemote.class);
-                ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "RulesManagerServiceRemote");
-            }
-            return instance;
-        }
-    }
-
-    /**
-     * Gets the rules.
+     * Gets the workspaces.
      * 
      * @param config
      *            the config
-     * @return the rules
+     * @param URL
+     *            the uRL
+     * @return the workspaces
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException;
+    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String URL) throws ApplicationException;
 
+    /**
+     * Gets the layers.
+     * 
+     * @param config
+     *            the config
+     * @param baseURL
+     *            the base url
+     * @param workspace
+     *            the workspace
+     * @return the layers
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public PagingLoadResult<Layer> getLayers(PagingLoadConfig config, String baseURL,
+            String workspace) throws ApplicationException;
 }

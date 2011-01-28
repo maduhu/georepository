@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote,v. 0.1 25-gen-2011 11.47.13 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote,v. 0.1 28-gen-2011 11.22.15 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.47.13 $
+ * $ Date: 28-gen-2011 11.22.15 $
  *
  * ====================================================================
  *
@@ -33,7 +33,7 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -43,9 +43,9 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface RulesManagerServiceRemote.
+ * The Interface InstancesManagerServiceRemote.
  */
-public interface RulesManagerServiceRemote extends RemoteService {
+public interface InstancesManagerServiceRemote extends RemoteService {
 
     /**
      * The Class Util.
@@ -53,32 +53,32 @@ public interface RulesManagerServiceRemote extends RemoteService {
     public static class Util {
 
         /** The instance. */
-        private static RulesManagerServiceRemoteAsync instance;
+        private static InstancesManagerServiceRemoteAsync instance;
 
         /**
          * Gets the instance.
          * 
          * @return the instance
          */
-        public static RulesManagerServiceRemoteAsync getInstance() {
+        public static InstancesManagerServiceRemoteAsync getInstance() {
             if (instance == null) {
-                instance = (RulesManagerServiceRemoteAsync) GWT.create(RulesManagerServiceRemote.class);
+                instance = (InstancesManagerServiceRemoteAsync) GWT.create(InstancesManagerServiceRemote.class);
                 ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "RulesManagerServiceRemote");
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "InstancesManagerServiceRemote");
             }
             return instance;
         }
     }
 
     /**
-     * Gets the rules.
+     * Gets the instances.
      * 
      * @param config
      *            the config
-     * @return the rules
+     * @return the instances
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException;
+    public PagingLoadResult<GSInstance> getInstances(PagingLoadConfig config, boolean full) throws ApplicationException;
 
 }

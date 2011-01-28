@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.IGsUsersManagerService,v. 0.1 25-gen-2011 11.23.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync,v. 0.1 28-gen-2011 11.22.19 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.50 $
+ * $ Date: 28-gen-2011 11.22.19 $
  *
  * ====================================================================
  *
@@ -30,28 +30,29 @@
  * <http://www.geo-solutions.it/>.
  *
  */
-package it.geosolutions.georepo.gui.server.service;
+package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface IGsUsersManagerService.
+ * The Interface InstancesManagerServiceRemoteAsync.
  */
-public interface IGsUsersManagerService {
+public interface InstancesManagerServiceRemoteAsync {
 
-	/**
-     * Gets the gs users.
+    /**
+     * Gets the instances.
      * 
      * @param config
      *            the config
-     * @return the gs users
-     * @throws ApplicationException
-     *             the application exception
+     * @param callback
+     *            the callback
+     * @return the instances
      */
-	public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException;
+    public void getInstances(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSInstance>> callback);
+
 }

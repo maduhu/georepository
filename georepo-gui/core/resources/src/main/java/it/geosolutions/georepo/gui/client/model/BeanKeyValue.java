@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.BeanKeyValue,v. 0.1 25-gen-2011 11.24.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.BeanKeyValue,v. 0.1 25-gen-2011 16.50.11 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.24.45 $
+ * $ Date: 25-gen-2011 16.50.11 $
  *
  * ====================================================================
  *
@@ -38,10 +38,10 @@ package it.geosolutions.georepo.gui.client.model;
  */
 public enum BeanKeyValue {
 
-    /** The USE r_ name. */
+    /** The USER name. */
     USER_NAME("userName"),
 
-    /** The FUL l_ name. */
+    /** The FULL name. */
     FULL_NAME("fullName"),
 
     /** The USER. */
@@ -68,23 +68,32 @@ public enum BeanKeyValue {
     /** The GRANT. */
     GRANT("grant"),
 
-    /** The DAT e_ creation. */
+    /** The DATE creation. */
     DATE_CREATION("dateCreation"),
 
     /** The EMAIL. */
     EMAIL("emailAddress"),
 
-    /** The USE r_ enabled. */
+    /** The USER enabled. */
     USER_ENABLED("userEnabled"),
 
-    /** The PROFIL e_ enabled. */
+    /** The PROFILE enabled. */
     PROFILE_ENABLED("profileEnabled"),
 
     /** The NAME. */
     NAME("name"),
 
+    /** The DESCRIPTION. */
+    DESCRIPTION("description"),
+    
     /** The PRIORITY. */
     PRIORITY("rulePriority"),
+    
+    /** The BASE url. */
+    BASE_URL("baseUrl"),
+    
+    /** The INSTANCE. */
+    INSTANCE("instance"),
     
     /** The PATH. */
     PATH("path");
