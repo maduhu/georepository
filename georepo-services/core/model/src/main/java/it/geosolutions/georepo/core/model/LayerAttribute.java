@@ -23,10 +23,8 @@ package it.geosolutions.georepo.core.model;
 import it.geosolutions.georepo.core.model.enums.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -36,22 +34,43 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @author ETj (etj at geo-solutions.it)
  */
 @Embeddable
-//@Entity(name = "LayerAttribute")
-//@Table(name = "gr_layer_details")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "LayerDetails")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "LayerAttribute")
 @XmlRootElement(name = "LayerAttribute")
 public class LayerAttribute {
 
-    @Column
+    @Column(nullable=false)
     private String name;
 
     @Column
     private String datatype; // should be an enum?
 
+    /** 
+     * Tells if the attribute can be read, written, or not accessed at all.
+     * <P>
+     * This field should be notnull, but making it so, hibernate will insist to
+     * put it into the PK.
+     * We'll making it notnull in the {@link LayerDetails#attributes parent class},
+     * but this seems not to work. We're enforncing the netnull at the DAO level.
+     *
+     */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true /*false*/)
     private AccessType access;
 
+    public LayerAttribute() {
+    }
+
+    public LayerAttribute(String name, AccessType access) {
+        this.name = name;
+        this.access = access;
+    }
+
+    public LayerAttribute(String name, String datatype, AccessType access) {
+        this.name = name;
+        this.datatype = datatype;
+        this.access = access;
+    }
+    
     public AccessType getAccess() {
         return access;
     }
@@ -74,6 +93,21 @@ public class LayerAttribute {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(getClass().getSimpleName())
+                .append("[name:").append(name)
+                .append(" access:").append(access);
+
+        if (datatype != null) {
+            sb.append(" type:").append(datatype);
+        }
+        sb.append("]");
+
+        return sb.toString();
+
     }
 
 }

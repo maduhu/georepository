@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -32,8 +32,6 @@ public class UserDAOTest extends BaseDAOTest {
 
     @Test
     public void testPersistUser() throws Exception {
-
-        removeAll();
 
         long id;
         {

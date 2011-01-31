@@ -20,10 +20,12 @@
 
 package it.geosolutions.georepo.services;
 
+import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
+import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
@@ -231,6 +233,8 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         final Long lid1;
         {
             LayerDetails details = new LayerDetails();
+            details.getAllowedStyles().add("FIRST_style1");
+            details.getAttributes().add(new LayerAttribute("FIRST_attr1", AccessType.NONE));
             ruleAdminService.setDetails(id, details);
             lid1 = details.getId();
             assertNotNull(lid1);
@@ -239,8 +243,11 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         // check details have been set in Rule
         {
             Rule loaded = ruleAdminService.get(id);
-            assertNotNull(loaded.getLayerDetails());
-            assertEquals(lid1, loaded.getLayerDetails().getId());
+            LayerDetails details = loaded.getLayerDetails();
+            assertNotNull(details);
+            assertEquals(lid1, details.getId());
+            assertEquals(1, details.getAttributes().size());
+            assertEquals(1, details.getAllowedStyles().size());
             LOGGER.info("Found " + loaded + " --> " + loaded.getLayerDetails());
         }
 
@@ -248,15 +255,36 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         final Long lid2;
         {
             LayerDetails details = new LayerDetails();
+            details.getAllowedStyles().add("style1");
+            details.getAllowedStyles().add("style2");
+            details.getAttributes().add(new LayerAttribute("attr1", AccessType.NONE));
+            details.getAttributes().add(new LayerAttribute("attr2", AccessType.READONLY));
+            details.getAttributes().add(new LayerAttribute("attr3", AccessType.READWRITE));
+
+            assertEquals(3, details.getAttributes().size());
+
             ruleAdminService.setDetails(id, details);
             lid2 = details.getId();
             assertNotNull(lid2);
         }
 
-        // remove details
+        // check details
         {
             Rule loaded = ruleAdminService.get(id);
-            assertNotNull(loaded.getLayerDetails());
+            LayerDetails details = loaded.getLayerDetails();
+            assertNotNull(details);
+            for (LayerAttribute layerAttribute : details.getAttributes()) {
+                LOGGER.error(layerAttribute);
+            }
+
+            assertEquals(3, details.getAttributes().size());
+            assertEquals(2, details.getAllowedStyles().size());
+            assertTrue(details.getAllowedStyles().contains("style1"));
+        }
+
+        // remove details
+        {
+            assertNotNull(ruleAdminService.get(id).getLayerDetails());
             ruleAdminService.setDetails(id, null);
 
             Rule loaded2 = ruleAdminService.get(id);

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -34,8 +34,6 @@ public class ProfileDAOTest extends BaseDAOTest {
     @Test
     public void testPersist() throws Exception {
 
-        removeAll();
-
         long id;
         {
             Profile profile = createProfile(getName());
@@ -55,8 +53,6 @@ public class ProfileDAOTest extends BaseDAOTest {
 
     @Test
     public void testMerge() throws Exception {
-
-        removeAll();
 
         long id;
         {
@@ -86,8 +82,6 @@ public class ProfileDAOTest extends BaseDAOTest {
 
     @Test
     public void testProps() throws Exception {
-
-        removeAll();
 
         long id;
         {
@@ -127,8 +121,6 @@ public class ProfileDAOTest extends BaseDAOTest {
 
     @Test
     public void testDeletePropsOnCascade() throws Exception {
-
-        removeAll();
 
         long id;
         {
