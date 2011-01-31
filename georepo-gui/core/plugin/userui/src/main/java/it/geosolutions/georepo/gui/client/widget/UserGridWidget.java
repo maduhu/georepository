@@ -39,10 +39,10 @@ import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
@@ -67,7 +67,6 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
-import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -83,14 +82,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
 
-    /** The service. */
-    private GsUsersManagerServiceRemoteAsync service;
+    /** The gsUsersService. */
+    private GsUsersManagerServiceRemoteAsync gsUsersService;
+    private ProfilesManagerServiceRemoteAsync profilesService;
 
-    /** The email enable. */
-    private CheckColumnConfig emailEnable;
-
-    /** The rss enable. */
-    private CheckColumnConfig rssEnable;
+//    /** The email enable. */
+//    private CheckColumnConfig emailEnable;
+//
+//    /** The rss enable. */
+//    private CheckColumnConfig rssEnable;
 
     /** The proxy. */
     private RpcProxy<PagingLoadResult<GSUser>> proxy;
@@ -104,12 +104,14 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     /**
      * Instantiates a new user grid widget.
      * 
-     * @param service
-     *            the service
+     * @param gsUsersService
+     *            the gsUsersService
      */
-    public UserGridWidget(GsUsersManagerServiceRemoteAsync service) {
+    public UserGridWidget(GsUsersManagerServiceRemoteAsync service,
+            ProfilesManagerServiceRemoteAsync profilesService) {
         super();
-        this.service = service;
+        this.gsUsersService = service;
+        this.profilesService = profilesService;
     }
 
     /**
@@ -225,18 +227,19 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     public void createStore() {
         this.toolBar = new PagingToolBar(25);
 
-        // Loader fro service
+        // Loader fro gsUsersService
         this.proxy = new RpcProxy<PagingLoadResult<GSUser>>() {
 
             @Override
             protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<GSUser>> callback) {
-                service.getGsUsers((PagingLoadConfig) loadConfig, callback);
+                gsUsersService.getGsUsers((PagingLoadConfig) loadConfig, false, callback);
             }
 
         };
         loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
         loader.setRemoteSort(false);
         store = new ListStore<GSUser>(loader);
+        //store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
 
         // Search tool
         SearchFilterField<GSUser> filter = new SearchFilterField<GSUser>() {
@@ -263,6 +266,8 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         // TODO: generalize this!
         Button addUserButton = new Button("Add User");
         addUserButton.setIcon(Resources.ICONS.add());
+        // TODO: temporally disabled!
+        addUserButton.setEnabled(false);
 
         addUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
@@ -381,8 +386,11 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 }
 
                 CheckBox userEnabledButton = new CheckBox();
-                userEnabledButton.setToolTip("Test");
+                // TODO: add correct tooltip text here!
+                // userEnabledButton.setToolTip("Test");
                 userEnabledButton.setValue(model.isEnabled());
+                // TODO: read only mode in this version.
+                userEnabledButton.setReadOnly(true);
 
                 userEnabledButton.addListener(Events.OnClick, new Listener<FieldEvent>() {
 
@@ -433,13 +441,17 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 ComboBox<Profile> profilesComboBox = new ComboBox<Profile>();
                 profilesComboBox.setId("userProfilesCombo");
                 profilesComboBox.setName("userProfilesCombo");
-                profilesComboBox.setEmptyText("(Select Profile)");
-                profilesComboBox.setDisplayField("name");
-                profilesComboBox.setEditable(true);
+                profilesComboBox.setEmptyText("(No profile available)");
+                profilesComboBox.setDisplayField(BeanKeyValue.NAME.getValue());
+                profilesComboBox.setEditable(false);
                 profilesComboBox.setStore(getAvailableProfiles());
                 profilesComboBox.setTypeAhead(true);
                 profilesComboBox.setTriggerAction(TriggerAction.ALL);
                 profilesComboBox.setWidth(150);
+                // TODO: add correct tooltip text here!
+                // profilesComboBox.setToolTip("TODO");
+                // TODO: Read only mode in this version.
+                profilesComboBox.setReadOnly(true);
 
                 if (model.getProfile() != null) {
                     profilesComboBox.setValue(model.getProfile());
@@ -458,33 +470,23 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
             }
 
             /**
+             * TODO: Call Profile Service here!!
+             * 
              * @return
              */
             private ListStore<Profile> getAvailableProfiles() {
                 ListStore<Profile> availableProfiles = new ListStore<Profile>();
-                List<Profile> profiles = new ArrayList<Profile>();
-                
-                Profile profile_base = new Profile();
-                Profile profile_analysis = new Profile();
-                Profile profile_advanced = new Profile();
+                RpcProxy<PagingLoadResult<Profile>> profileProxy = new RpcProxy<PagingLoadResult<Profile>>() {
 
-                profile_base.setName("BASE");
-                profile_base.setDateCreation(new Date());
-                profile_base.setEnabled(true);
+                    @Override
+                    protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<Profile>> callback) {
+                        profilesService.getProfiles((PagingLoadConfig) loadConfig, false, callback);
+                    }
 
-                profile_analysis.setName("ANALYSIS");
-                profile_analysis.setDateCreation(new Date());
-                profile_analysis.setEnabled(true);
-
-                profile_advanced.setName("ADVANCED");
-                profile_advanced.setDateCreation(new Date());
-                profile_advanced.setEnabled(true);
-
-                profiles.add(profile_base);
-                profiles.add(profile_analysis);
-                profiles.add(profile_advanced);
-
-                availableProfiles.add(profiles);
+                };
+                BasePagingLoader<PagingLoadResult<ModelData>> profilesLoader = new BasePagingLoader<PagingLoadResult<ModelData>>(profileProxy);
+                profilesLoader.setRemoteSort(false);
+                availableProfiles = new ListStore<Profile>(profilesLoader);
 
                 return availableProfiles;
             }
@@ -525,6 +527,10 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 // TODO: generalize this!
                 Button removeUserButton = new Button("Remove");
                 removeUserButton.setIcon(Resources.ICONS.delete());
+                // TODO: add correct tooltip text here!
+                // removeUserButton.setToolTip("TODO");
+                // TODO: Read only mode in this version.
+                removeUserButton.setEnabled(false);
 
                 removeUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
@@ -574,6 +580,10 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 // TODO: generalize this!
                 Button userDetailsButton = new Button("Details");
                 userDetailsButton.setIcon(Resources.ICONS.table());
+                // TODO: add correct tooltip text here!
+                // userDetailsButton.setToolTip("TODO");
+                // TODO: Read only mode in this version.
+                userDetailsButton.setEnabled(false);
 
                 userDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 

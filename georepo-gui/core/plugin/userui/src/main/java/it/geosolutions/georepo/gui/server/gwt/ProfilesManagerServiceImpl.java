@@ -72,8 +72,8 @@ public class ProfilesManagerServiceImpl extends RemoteServiceServlet implements
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getProfiles(com.extjs.gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config) throws ApplicationException {
-        return profilesManagerService.getProfiles(config);
+    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full) throws ApplicationException {
+        return profilesManagerService.getProfiles(config, full);
     }
     
 }

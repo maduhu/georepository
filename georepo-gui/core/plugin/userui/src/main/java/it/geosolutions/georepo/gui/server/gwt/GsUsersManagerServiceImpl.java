@@ -72,7 +72,7 @@ public class GsUsersManagerServiceImpl extends RemoteServiceServlet implements
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#getGsUsers(com.extjs.gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config) throws ApplicationException {
-        return gsUserManagerService.getGsUsers(config);
+    public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException {
+        return gsUserManagerService.getGsUsers(config, full);
     }
 }

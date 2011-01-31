@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.controller.USERSController,v. 0.1 25-gen-2011 12.04.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.controller.USERSController,v. 0.1 28-gen-2011 11.49.40 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 12.04.33 $
+ * $ Date: 28-gen-2011 11.49.40 $
  *
  * ====================================================================
  *
@@ -33,12 +33,18 @@
 package it.geosolutions.georepo.gui.client.controller;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.widget.RuleGridWidget;
 import it.geosolutions.georepo.gui.client.widget.tab.GsUsersTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.ProfilesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.RulesTabItem;
@@ -46,6 +52,7 @@ import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -53,34 +60,55 @@ import com.extjs.gxt.ui.client.mvc.Controller;
  */
 public class USERSController extends Controller {
 
+    /** The Constant USERS_TAB_ITEM_ID. */
+    private static final String USERS_TAB_ITEM_ID = "UsersTabItem";
+
+    /** The Constant PROFILES_TAB_ITEM_ID. */
+    private static final String PROFILES_TAB_ITEM_ID = "ProfilesTabItem";
+
+    /** The Constant RULES_TAB_ITEM_ID. */
+    private static final String RULES_TAB_ITEM_ID = "RulesTabItem";
+
     /** The gs manager service remote. */
-    private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote = GsUsersManagerServiceRemote.Util.getInstance();
-    
+    private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote = GsUsersManagerServiceRemote.Util
+            .getInstance();
+
     /** The profiles manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util.getInstance();
-    
+    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
+            .getInstance();
+
+    /** The instances manager service remote. */
+    private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote = InstancesManagerServiceRemote.Util
+            .getInstance();
+
+    private WorkspacesManagerServiceRemoteAsync workspacesManagerServiceRemote = WorkspacesManagerServiceRemote.Util
+            .getInstance();
+
     /** The rules manager service remote. */
-    private RulesManagerServiceRemoteAsync rulesManagerServiceRemote = RulesManagerServiceRemote.Util.getInstance();
-    
-//    /** The feature remote. */
-//    private FeatureServiceRemoteAsync featureRemote = FeatureServiceRemote.Util.getInstance();
+    private RulesManagerServiceRemoteAsync rulesManagerServiceRemote = RulesManagerServiceRemote.Util
+            .getInstance();
 
-//    /** The tab widget. */
-//    private TabWidget tabWidget;
+    /** The tab widget. */
+    private TabWidget tabWidget;
 
-//    /** The aoi search widget. */
-//    private GeoRepoSearchWidget<AOI> aoiSearchWidget;
-//
-//    /** The geo constraint search widget. */
-//    private GeoRepoSearchWidget<GeoConstraint> geoConstraintSearchWidget;
+    // /** The feature remote. */
+    // private FeatureServiceRemoteAsync featureRemote = FeatureServiceRemote.Util.getInstance();
+
+    // /** The tab widget. */
+    // private TabWidget tabWidget;
+
+    // /** The aoi search widget. */
+    // private GeoRepoSearchWidget<AOI> aoiSearchWidget;
+    //
+    // /** The geo constraint search widget. */
+    // private GeoRepoSearchWidget<GeoConstraint> geoConstraintSearchWidget;
 
     /**
- * Instantiates a new uSERS controller.
- */
+     * Instantiates a new uSERS controller.
+     */
     public USERSController() {
-        registerEventTypes(
-                GeoRepoEvents.INIT_MAPS_UI_MODULE,
-                GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
+        registerEventTypes(GeoRepoEvents.INIT_MAPS_UI_MODULE,
+                GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, GeoRepoEvents.UPDATE_RULES_GRID_COMBOS);
     }
 
     /*
@@ -97,8 +125,8 @@ public class USERSController extends Controller {
      * Inits the widget.
      */
     private void initWidget() {
-//        this.aoiSearchWidget = new SearchPagAOIWidget(this.aoiRemote);
-//        this.geoConstraintSearchWidget = new SearchPagingGeoConstraintWidget(this.membersRemote);
+        // this.aoiSearchWidget = new SearchPagAOIWidget(this.aoiRemote);
+        // this.geoConstraintSearchWidget = new SearchPagingGeoConstraintWidget(this.membersRemote);
     }
 
     /*
@@ -112,15 +140,13 @@ public class USERSController extends Controller {
         if (event.getType() == GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS)
             onAttachTabWidgets(event);
 
-//        if (event.getType() == GeoRepoEvents.SEARCH_USER_GEORSS)
-//            onSearchUserFeature(event);
+        if (event.getType() == GeoRepoEvents.UPDATE_RULES_GRID_COMBOS)
+            onUpdateRuleRequestsCombo(event);
 
-//        if (event.getType() == GeoRepoEvents.RESET_RSS_GRID)
-//            onResetRSSGrid();
+        // if (event.getType() == GeoRepoEvents.RESET_RSS_GRID)
+        // onResetRSSGrid();
 
-
-
-//        forwardToView(aoiView, event);
+        // forwardToView(aoiView, event);
     }
 
     /**
@@ -130,10 +156,40 @@ public class USERSController extends Controller {
      *            the event
      */
     private void onAttachTabWidgets(AppEvent event) {
-        TabWidget tabWidget = (TabWidget)event.getData();
-        tabWidget.add(new GsUsersTabItem(gsManagerServiceRemote));
-        tabWidget.add(new ProfilesTabItem(profilesManagerServiceRemote));
-        tabWidget.add(new RulesTabItem(rulesManagerServiceRemote));
+        if (tabWidget == null) {
+            tabWidget = (TabWidget) event.getData();
+            tabWidget.add(new GsUsersTabItem(USERS_TAB_ITEM_ID, gsManagerServiceRemote,
+                    profilesManagerServiceRemote));
+            tabWidget.add(new ProfilesTabItem(PROFILES_TAB_ITEM_ID, profilesManagerServiceRemote));
+            tabWidget.add(new RulesTabItem(RULES_TAB_ITEM_ID, rulesManagerServiceRemote,
+                    gsManagerServiceRemote, profilesManagerServiceRemote,
+                    instancesManagerServiceRemote, workspacesManagerServiceRemote));
+        }
+    }
+
+    /**
+     * On update rule requests combo.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onUpdateRuleRequestsCombo(AppEvent event) {
+        if (tabWidget != null) {
+            Object tabData = event.getData();
+
+            if (tabData instanceof Rule) {
+                Rule model = (Rule) tabData;
+
+                RulesTabItem rulesTabItem = (RulesTabItem) tabWidget
+                        .getItemByItemId(RULES_TAB_ITEM_ID);
+                final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
+                        .getRulesInfo();
+                final Grid<Rule> grid = rulesInfoWidget.getGrid();
+                grid.getStore().remove(model);
+                grid.getStore().add(model);
+                grid.repaint();
+            }
+        }
     }
 
     /**
@@ -143,7 +199,7 @@ public class USERSController extends Controller {
      *            the event
      */
     private void forwardToTabWidget(AppEvent event) {
-//        this.tabWidget.fireEvent(event.getType(), event);
+        // this.tabWidget.fireEvent(event.getType(), event);
     }
 
 }

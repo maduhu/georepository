@@ -79,6 +79,6 @@ public interface RulesManagerServiceRemote extends RemoteService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config) throws ApplicationException;
+    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException;
 
 }

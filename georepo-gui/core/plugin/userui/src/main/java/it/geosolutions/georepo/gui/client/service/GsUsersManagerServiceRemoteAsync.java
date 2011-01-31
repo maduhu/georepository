@@ -53,6 +53,6 @@ public interface GsUsersManagerServiceRemoteAsync {
      *            the callback
      * @return the gs users
      */
-    public void getGsUsers(PagingLoadConfig config, AsyncCallback<PagingLoadResult<GSUser>> callback);
+    public void getGsUsers(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSUser>> callback);
 
 }

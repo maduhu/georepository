@@ -53,6 +53,6 @@ public interface RulesManagerServiceRemoteAsync {
      *            the callback
      * @return the rules
      */
-    public void getRules(PagingLoadConfig config, AsyncCallback<PagingLoadResult<Rule>> callback);
+    public void getRules(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<Rule>> callback);
 
 }

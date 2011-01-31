@@ -33,7 +33,11 @@
 package it.geosolutions.georepo.gui.client.widget.tab;
 
 import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.RuleManagementWidget;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
@@ -51,22 +55,29 @@ public class RulesTabItem extends TabItem {
     /**
      * Instantiates a new rules tab item.
      */
-    public RulesTabItem() {
+    public RulesTabItem(String tabItemId) {
         // TODO: add I18n message
-        //super(I18nProvider.getMessages().profiles());
+        // super(I18nProvider.getMessages().profiles());
         super("Rules");
+        setId(tabItemId);
         setIcon(Resources.ICONS.table());
     }
 
     /**
      * Instantiates a new rules tab item.
+     * @param tabItemId 
      * 
      * @param rulesManagerServiceRemote
      *            the rules manager service remote
      */
-    public RulesTabItem(RulesManagerServiceRemoteAsync rulesManagerServiceRemote) {
-        this();
-        setRuleManagementWidget(new RuleManagementWidget(rulesManagerServiceRemote));
+    public RulesTabItem(String tabItemId, RulesManagerServiceRemoteAsync rulesService,
+            GsUsersManagerServiceRemoteAsync gsUsersService,
+            ProfilesManagerServiceRemoteAsync profilesService,
+            InstancesManagerServiceRemoteAsync instancesService,
+            WorkspacesManagerServiceRemoteAsync workspacesService) {
+        this(tabItemId);
+        setRuleManagementWidget(new RuleManagementWidget(rulesService, gsUsersService,
+                profilesService, instancesService, workspacesService));
         add(getRuleManagementWidget());
 
         setScrollMode(Scroll.NONE);

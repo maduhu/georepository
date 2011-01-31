@@ -53,5 +53,5 @@ public interface IGsUsersManagerService {
      * @throws ApplicationException
      *             the application exception
      */
-	public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config) throws ApplicationException;
+	public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException;
 }

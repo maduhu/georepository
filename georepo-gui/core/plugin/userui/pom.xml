@@ -36,18 +36,28 @@
 		<!-- GeoRepo Resources -->
 		<!-- ============================== -->
 		<dependency>
-                <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>gui-resources</artifactId>
+			<groupId>it.geosolutions.georepository</groupId>
+			<artifactId>gui-resources</artifactId>
 		</dependency>
 		<dependency>
-                <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>login-api</artifactId>
+			<groupId>it.geosolutions.georepository</groupId>
+			<artifactId>login-api</artifactId>
 		</dependency>
 		<dependency>
-                <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>generic-api</artifactId>
+			<groupId>it.geosolutions.georepository</groupId>
+			<artifactId>generic-api</artifactId>
 		</dependency>
 
+		<!-- ============================== -->
+		<!-- JSON Parser -->
+		<!-- ============================== -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		    
 		<!-- ============================== -->
 		<!-- Spring Security -->
 		<!-- ============================== -->
@@ -102,12 +112,14 @@
 	<build>
 
 		<plugins>
-			<!-- ... or ask the plugin to detect them based on gwt modules files and 
-				copy the required java sources -->
+			<!--
+				... or ask the plugin to detect them based on gwt modules files and
+				copy the required java sources
+			-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <version>2.1.0-1</version>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>2.1.0-1</version>
 				<executions>
 					<!-- GWT version detected from dependencyManagement -->
 					<execution>
@@ -132,8 +144,10 @@
 			</plugin>
 		</plugins>
 
-		<!-- TODO: the resources stuff hardcodes paths to source + test directories, 
-			we should be able to use some properties here -->
+		<!--
+			TODO: the resources stuff hardcodes paths to source + test
+			directories, we should be able to use some properties here
+		-->
 		<resources>
 			<resource>
 				<directory>${basedir}/src/main/java</directory>

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.service.GeoRepoRemoteService,v. 0.1 25-gen-2011 11.24.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.service.GeoRepoRemoteService,v. 0.1 26-gen-2011 17.25.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.24.45 $
+ * $ Date: 26-gen-2011 17.25.38 $
  *
  * ====================================================================
  *
@@ -34,6 +34,9 @@ package it.geosolutions.georepo.gui.service;
 
 import it.geosolutions.georepo.api.UserRegistry;
 import it.geosolutions.georepo.login.LoginService;
+import it.geosolutions.georepo.services.InstanceAdminService;
+import it.geosolutions.georepo.services.ProfileAdminService;
+import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.UserAdminService;
 
 // TODO: Auto-generated Javadoc
@@ -51,6 +54,15 @@ public class GeoRepoRemoteService {
     /** The user provider. */
     private UserRegistry userProvider;
 
+    /** The profile admin service. */
+    private ProfileAdminService profileAdminService;
+    
+    /** The instance admin service. */
+    private InstanceAdminService instanceAdminService;
+    
+    /** The rule admin service. */
+    private RuleAdminService ruleAdminService;
+    
     /**
      * Gets the login service.
      * 
@@ -106,6 +118,63 @@ public class GeoRepoRemoteService {
      */
     public void setUserProvider(UserRegistry userProvider) {
         this.userProvider = userProvider;
+    }
+
+    /**
+     * Sets the profile admin service.
+     * 
+     * @param profileAdminService
+     *            the new profile admin service
+     */
+    public void setProfileAdminService(ProfileAdminService profileAdminService) {
+        this.profileAdminService = profileAdminService;
+    }
+
+    /**
+     * Gets the profile admin service.
+     * 
+     * @return the profile admin service
+     */
+    public ProfileAdminService getProfileAdminService() {
+        return profileAdminService;
+    }
+
+    /**
+     * Sets the instance admin service.
+     * 
+     * @param instanceAdminService
+     *            the new instance admin service
+     */
+    public void setInstanceAdminService(InstanceAdminService instanceAdminService) {
+        this.instanceAdminService = instanceAdminService;
+    }
+
+    /**
+     * Gets the instance admin service.
+     * 
+     * @return the instance admin service
+     */
+    public InstanceAdminService getInstanceAdminService() {
+        return instanceAdminService;
+    }
+
+    /**
+     * Sets the rule admin service.
+     * 
+     * @param ruleAdminService
+     *            the new rule admin service
+     */
+    public void setRuleAdminService(RuleAdminService ruleAdminService) {
+        this.ruleAdminService = ruleAdminService;
+    }
+
+    /**
+     * Gets the rule admin service.
+     * 
+     * @return the rule admin service
+     */
+    public RuleAdminService getRuleAdminService() {
+        return ruleAdminService;
     }
 
 }

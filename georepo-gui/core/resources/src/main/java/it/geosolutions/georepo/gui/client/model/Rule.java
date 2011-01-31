@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.model.Rule,v. 0.1 25-gen-2011 11.24.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.model.Rule,v. 0.1 25-gen-2011 16.49.27 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.24.45 $
+ * $ Date: 25-gen-2011 16.49.27 $
  *
  * ====================================================================
  *
@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.model;
 
+
 import com.extjs.gxt.ui.client.data.BeanModel;
 
 // TODO: Auto-generated Javadoc
@@ -41,8 +42,8 @@ import com.extjs.gxt.ui.client.data.BeanModel;
 public class Rule extends BeanModel {
 
     /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = -1778705980964356033L;
-    
+    private static final long serialVersionUID = 5445560155635714470L;
+
     /** The id. */
     private long id;
 
@@ -54,6 +55,9 @@ public class Rule extends BeanModel {
     
     /** The profile. */
     private Profile profile;
+    
+    /** The instance. */
+    private GSInstance instance;
     
     /** The service. */
     private String service;
@@ -157,6 +161,26 @@ public class Rule extends BeanModel {
     public void setProfile(Profile profile) {
         this.profile = profile;
         set(BeanKeyValue.PROFILE.getValue(), this.profile);
+    }
+
+    /**
+     * Sets the instance.
+     * 
+     * @param instance
+     *            the new instance
+     */
+    public void setInstance(GSInstance instance) {
+        this.instance = instance;
+        set(BeanKeyValue.INSTANCE.getValue(), this.instance);
+    }
+
+    /**
+     * Gets the single instance of Rule.
+     * 
+     * @return single instance of Rule
+     */
+    public GSInstance getInstance() {
+        return instance;
     }
 
     /**
@@ -288,6 +312,7 @@ public class Rule extends BeanModel {
         int result = 1;
         result = prime * result + ((grant == null) ? 0 : grant.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + ((instance == null) ? 0 : instance.hashCode());
         result = prime * result + ((layer == null) ? 0 : layer.hashCode());
         result = prime * result + ((path == null) ? 0 : path.hashCode());
         result = prime * result + (int) (priority ^ (priority >>> 32));
@@ -322,6 +347,13 @@ public class Rule extends BeanModel {
             return false;
         }
         if (id != other.id) {
+            return false;
+        }
+        if (instance == null) {
+            if (other.instance != null) {
+                return false;
+            }
+        } else if (!instance.equals(other.instance)) {
             return false;
         }
         if (layer == null) {
@@ -389,6 +421,8 @@ public class Rule extends BeanModel {
         if (grant != null)
             builder.append("grant=").append(grant).append(", ");
         builder.append("id=").append(id).append(", ");
+        if (instance != null)
+            builder.append("instance=").append(instance).append(", ");
         if (layer != null)
             builder.append("layer=").append(layer).append(", ");
         if (path != null)

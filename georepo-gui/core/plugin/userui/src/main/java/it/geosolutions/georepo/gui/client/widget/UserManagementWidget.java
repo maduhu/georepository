@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
@@ -52,14 +53,16 @@ public class UserManagementWidget extends ContentPanel {
      * 
      * @param gsManagerServiceRemote
      *            the gs manager service remote
+     * @param profilesManagerServiceRemote
      */
-    public UserManagementWidget(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
+    public UserManagementWidget(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote,
+            ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
         setHeaderVisible(false);
         setFrame(true);
         setHeight(170);
         setLayout(new FitLayout());
 
-        setUsersInfo(new UserGridWidget(gsManagerServiceRemote));
+        setUsersInfo(new UserGridWidget(gsManagerServiceRemote, profilesManagerServiceRemote));
 
         add(getUsersInfo().getGrid());
 
@@ -100,5 +103,5 @@ public class UserManagementWidget extends ContentPanel {
     public UserGridWidget getUsersInfo() {
         return usersInfo;
     }
-    
+
 }
