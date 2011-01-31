@@ -25,6 +25,12 @@
       <artifactId>services-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- TODO: remove when we switch to using services -->
+    <dependency>
+      <groupId>it.geosolutions.georepository</groupId>
+      <artifactId>services-impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
  </dependencies>
 </project>
 

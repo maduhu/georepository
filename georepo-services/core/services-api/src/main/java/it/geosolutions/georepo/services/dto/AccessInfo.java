@@ -20,18 +20,37 @@
 
 package it.geosolutions.georepo.services.dto;
 
-import com.vividsolutions.jts.geom.Geometry;
 import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.enums.GrantType;
-import java.util.List;
+
 import java.util.Map;
 import java.util.Set;
+
+import com.vividsolutions.jts.geom.Geometry;
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 public class AccessInfo {
+    
+    /**
+     * Default "allow everything" AccessInfo
+     */
+    public static final AccessInfo ALLOW_ALL = new AccessInfo() {
+        {
+            setGrant(GrantType.ALLOW);
+        }
+    };
+    
+    /**
+     * Default "deny everything" AccessInfo
+     */
+    public static final AccessInfo DENY_ALL = new AccessInfo() {
+        {
+            setGrant(GrantType.DENY);
+        }
+    };
 
     /**
      * The resulting grant: allow or deny.
