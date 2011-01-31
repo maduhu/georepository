@@ -23,6 +23,7 @@ package it.geosolutions.georepo.core.model;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.Column;
@@ -33,10 +34,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
@@ -62,13 +66,6 @@ public class LayerDetails {
     @Column
     private Long id;
 
-//    @Column(nullable=false)
-//    private String layerName;
-
-//    @Column(length=5, nullable=false)
-//    @Enumerated(EnumType.STRING)
-//    private AccessType accessType;
-
     @Column
     private String defaultStyle;
 
@@ -93,14 +90,21 @@ public class LayerDetails {
                 joinColumns = @JoinColumn(name = "details_id"))
     @ForeignKey(name="fk_styles_layer")
     @Column(name="styleName")
-    private Set<String> allowedStyles;
+    private Set<String> allowedStyles = new HashSet<String>();
 
-    /** Custom properties associated to the Layer */
+    /** Custom properties associated to the Layer 
+     * <P>We'll use the pair <TT>(details_id, name)</TT> as PK for the associated table.
+     * To do so, we have to perform some trick on the <TT>{@link LayerAttribute#access}</TT> field.
+     */
     @org.hibernate.annotations.CollectionOfElements(fetch=FetchType.EAGER)
     @JoinTable( name = "gr_layer_attributes",
-                joinColumns = @JoinColumn(name = "details_id"))
+                joinColumns = @JoinColumn(name = "details_id"),
+                uniqueConstraints = @UniqueConstraint(columnNames={"details_id", "name"}))
+    // override is used to set the pk as {"details_id", "name"}
+//    @AttributeOverride( name="access", column=@Column(name="access", nullable=false) )
     @ForeignKey(name="fk_attribute_layer")
-    private Set<LayerAttribute> attributes;
+    @Fetch(FetchMode.SELECT) // without this, hibernate will duplicate results(!)
+    private Set<LayerAttribute> attributes = new HashSet<LayerAttribute>();
 
     /** Custom properties associated to the Layer */
     @org.hibernate.annotations.CollectionOfElements
@@ -162,14 +166,6 @@ public class LayerDetails {
         this.id = id;
     }
 
-//    public String getLayerName() {
-//        return layerName;
-//    }
-//
-//    public void setLayerName(String layerName) {
-//        this.layerName = layerName;
-//    }
-
     public Map<String, String> getCustomProps() {
         return customProps;
     }
@@ -199,7 +195,8 @@ public class LayerDetails {
         return "LayerDetails{" 
                 + "id=" + id
                 + " defStyle=" + defaultStyle
-                + " cql=" + cqlFilterRead
+                + " cqlr=" + cqlFilterRead
+                + " cqlw=" + cqlFilterWrite
                 + " area=" + area
                 + " rule=" + rule
 //                + " cProps=" + customProps // failed to lazily initialize a collection of role:

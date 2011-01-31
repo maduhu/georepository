@@ -306,8 +306,11 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         } else
             oldProps = null;
 
+        rule = ruleDAO.find(ruleId);
+        if(rule.getLayerDetails() != null)
+            throw new IllegalStateException("LayerDetails should be null");
+
         if(details != null) {
-            details.setId(ruleId);
             details.setRule(rule);
             detailsDAO.persist(details);
             // restore old properties

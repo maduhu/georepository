@@ -64,6 +64,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 
     @Override
     public AccessInfo getAccessInfo(String userName, String profileName, String instanceName, String service, String request, String workspace, String layer) {
+
         List<Rule> found = getRules(userName, profileName, instanceName, service, request, workspace, layer);
 
         List<RuleLimits> limits = new ArrayList<RuleLimits>();
@@ -176,14 +177,15 @@ public class RuleReaderServiceImpl implements RuleReaderService {
     /**
      * Add criteria for <B>matching</B> names:
      * <UL>
-     * <LI>null names will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting empty strings)</LI>
+     * <LI><STRIKE>null names will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting empty strings)</STRIKE>a null param will match everything</LI>
      * <LI>a valid string will match that specific value and any rules with that name set to null</LI>
      * </UL>
      * We're dealing with <TT><I>name</I></TT>s here, so <U>we'll suppose that the related object's name field is called "<TT>name</TT>"</U>.
      */
     protected void addNameMatchCriteria(Search searchCriteria, String name, String fieldName) throws BadRequestWebEx {
         if (name == null)
-            throw new BadRequestWebEx(fieldName + " is null");
+            return; // TODO: check desired behaviour
+//            throw new BadRequestWebEx(fieldName + " is null");
 
         searchCriteria.addFilterOr(
                 Filter.isNull(fieldName),

@@ -41,7 +41,7 @@ public interface RuleReaderService {
      * Return info on resource accessibility.
      * <P>
      * All parameters reference instances by name.
-     * If a given parameter is <TT>null</TT>, it will match  anything in the related {@link Rule} field.
+     * If a given parameter is <TT>null</TT>, it will match anything in the related {@link Rule} field.
      */
     AccessInfo getAccessInfo(
             @PathParam("user") String userName,

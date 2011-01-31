@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -34,6 +34,7 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import it.geosolutions.georepo.core.model.GSUser;
+import it.geosolutions.georepo.core.model.Rule;
 
 /**
  *
@@ -44,7 +45,9 @@ public abstract class BaseDAOTest extends TestCase {
 
     protected static GSUserDAO userDAO;
     protected static ProfileDAO profileDAO;
-//    protected static ServiceFilterDAO filterDAO;
+    protected static RuleDAO ruleDAO;
+    protected static LayerDetailsDAO detailsDAO;
+    protected static RuleLimitsDAO limitsDAO;
 
     protected static ClassPathXmlApplicationContext ctx = null;
 
@@ -61,7 +64,9 @@ public abstract class BaseDAOTest extends TestCase {
 
                 userDAO = (GSUserDAO)ctx.getBean("gsuserDAO");
                 profileDAO = (ProfileDAO)ctx.getBean("profileDAO");
-//                filterDAO = (ServiceFilterDAO)ctx.getBean("filterDAO");
+                ruleDAO = (RuleDAO)ctx.getBean("ruleDAO");
+                detailsDAO = (LayerDetailsDAO)ctx.getBean("layerdetailsDAO");
+                limitsDAO = (RuleLimitsDAO)ctx.getBean("rulelimitsDAO");
             }
         }
     }
@@ -70,15 +75,22 @@ public abstract class BaseDAOTest extends TestCase {
     protected void setUp() throws Exception {
         LOGGER.info("################ Running " + getClass().getSimpleName() + "::" + getName() );
         super.setUp();
+
+        removeAll();
+        LOGGER.info("##### Ending setup for " + getName() + " ###----------------------");
     }
 
     @Test
     public void testCheckDAOs() {
 
         assertNotNull(userDAO);
+        assertNotNull(profileDAO);
+        assertNotNull(ruleDAO);
+        assertNotNull(detailsDAO);
     }
 
     protected void removeAll() {
+        removeAllRules();
         removeAllUsers(); 
         removeAllProfiles();
     }
@@ -92,6 +104,17 @@ public abstract class BaseDAOTest extends TestCase {
         }
 
         assertEquals("Users have not been properly deleted", 0, userDAO.count(null));
+    }
+
+    protected void removeAllRules() {
+        List<Rule> list = ruleDAO.findAll();
+        for (Rule item : list) {
+            LOGGER.info("Removing " + item);
+            boolean ret = ruleDAO.remove(item);
+            assertTrue("Rule not removed", ret);
+        }
+
+        assertEquals("Rules have not been properly deleted", 0, ruleDAO.count(null));
     }
 
     protected void removeAllProfiles() {

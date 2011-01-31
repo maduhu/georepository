@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.trg.search.ISearch;
 import it.geosolutions.georepo.core.dao.LayerDetailsDAO;
+import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import java.util.Map;
 import org.hibernate.Hibernate;
@@ -45,14 +46,24 @@ public class LayerDetailsDAOImpl extends BaseDAO<LayerDetails, Long>
 
     @Override
     public void persist(LayerDetails... entities) {
+        for (LayerDetails details : entities) {
+            if(details.getRule() == null)
+                throw new NullPointerException("Rule is not set");
+            details.setId(details.getRule().getId());
+
+            for (LayerAttribute attr : details.getAttributes()) {
+                if(attr.getAccess() == null)
+                    throw new NullPointerException("Null access type for attribute " + attr.getName() + " in " + details);
+            }
+        }
         super.persist(entities);
     }
 
 //    @Override
-//    public RuleLimits find(Long id) {
+//    public LayerDetails find(Long id) {
 //        return super.find(id);
 //    }
-//
+
     @Override
     public List<LayerDetails> findAll() {
         return super.findAll();

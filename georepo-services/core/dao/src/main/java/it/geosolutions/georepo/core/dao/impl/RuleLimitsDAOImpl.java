@@ -26,9 +26,7 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.trg.search.ISearch;
-import it.geosolutions.georepo.core.dao.RuleDAO;
 import it.geosolutions.georepo.core.dao.RuleLimitsDAO;
-import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
 
 /**
@@ -48,11 +46,6 @@ public class RuleLimitsDAOImpl extends BaseDAO<RuleLimits, Long>
         super.persist(entities);
     }
 
-//    @Override
-//    public RuleLimits find(Long id) {
-//        return super.find(id);
-//    }
-//
     @Override
     public List<RuleLimits> findAll() {
         return super.findAll();
