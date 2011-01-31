@@ -23,9 +23,9 @@ package it.geosolutions.georepo.core.model;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
 import it.geosolutions.georepo.core.model.enums.GrantType;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -49,7 +49,7 @@ import org.hibernate.annotations.Type;
     uniqueConstraints= @UniqueConstraint(columnNames="rule_id"))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "RuleLimits")
 @XmlRootElement(name = "RuleLimits")
-public class RuleLimits {
+public class RuleLimits implements Serializable {
 
     /** The id. */
     @Id

@@ -22,6 +22,7 @@ package it.geosolutions.georepo.core.model;
 
 import com.vividsolutions.jts.geom.MultiPolygon;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -58,7 +59,7 @@ import org.hibernate.annotations.Type;
 @Table(name = "gr_layer_details")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "LayerDetails")
 @XmlRootElement(name = "LayerDetails")
-public class LayerDetails {
+public class LayerDetails implements Serializable {
 
     /** The id. */
     @Id

@@ -27,8 +27,9 @@
 	</properties>
 
 	<dependencies>
+        
         <!-- =============================================================== -->
-        <!-- DGWatch -->
+        <!-- Main modules -->
         <!-- =============================================================== -->
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
@@ -214,6 +215,18 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+            <version>3.0.4.RELEASE</version>
+		</dependency>
+
+<!--		<dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>org.springframework.web</artifactId>
+           <version>3.0.4.RELEASE</version>
+		</dependency>-->
+
 <!--		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>

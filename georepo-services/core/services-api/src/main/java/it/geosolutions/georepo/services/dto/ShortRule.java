@@ -22,12 +22,13 @@ package it.geosolutions.georepo.services.dto;
 
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.enums.GrantType;
+import java.io.Serializable;
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class ShortRule {
+public class ShortRule implements Serializable {
 
     private Long id;
     private Long priority;

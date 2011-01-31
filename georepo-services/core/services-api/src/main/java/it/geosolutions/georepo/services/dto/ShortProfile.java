@@ -21,6 +21,7 @@
 package it.geosolutions.georepo.services.dto;
 
 import it.geosolutions.georepo.core.model.Profile;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -28,7 +29,7 @@ import java.util.Date;
  * 
  * @author Etj (etj at geo-solutions.it)
  */
-public class ShortProfile {
+public class ShortProfile implements Serializable {
 
     private long id;
     private String name;

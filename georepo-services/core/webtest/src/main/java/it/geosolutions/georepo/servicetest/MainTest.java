@@ -31,27 +31,38 @@ import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.InstanceAdminService;
 import it.geosolutions.georepo.services.ProfileAdminService;
 import it.geosolutions.georepo.services.RuleAdminService;
+import it.geosolutions.georepo.services.RuleReaderService;
 import it.geosolutions.georepo.services.UserAdminService;
+import it.geosolutions.georepo.services.dto.AccessInfo;
 import it.geosolutions.georepo.services.dto.ShortProfile;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class MainTest implements InitializingBean {
+public class MainTest implements InitializingBean, ApplicationContextAware {
 
     private final static Logger LOGGER = Logger.getLogger(MainTest.class);
+
+    private XmlWebApplicationContext applicationContext;
 
     private UserAdminService userAdminService;
     private ProfileAdminService profileAdminService;
     private InstanceAdminService instanceAdminService;
     private RuleAdminService ruleAdminService;
+    private RuleReaderService ruleReaderService;
 
     protected final static String MULTIPOLYGONWKT = "MULTIPOLYGON(((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482)))";
 
@@ -73,9 +84,11 @@ public class MainTest implements InitializingBean {
 
         LOGGER.info("===== Creating Users =====");
         GSUser u1 = createUser("user1");
+        u1.setProfile(p1);
         userAdminService.insert(u1);
 
         GSUser u2 = createUser("user2");
+        u2.setProfile(p2);
         userAdminService.insert(u2);
 
         LOGGER.info("===== Creating Rules =====");
@@ -102,6 +115,32 @@ public class MainTest implements InitializingBean {
                 ruleAdminService.insert(rule);
         }
 
+//        AccessInfo accessInfo = ruleReaderService.getAccessInfo("pippo", null, "gs1", "WMS", null, null, null);
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                boolean success = false;
+                int cnt = 5;
+
+                while( ! success && cnt-->0) {
+                    try{
+                        LOGGER.info("Waiting 5 secs...");
+                        Thread.sleep(5000);
+
+                        LOGGER.info("Trying creating spring remoting client...");
+                        instantiateAndRunSpringRemoting();
+
+                        success = true;
+
+                    } catch (InterruptedException ex) {
+                    }catch(Exception e) {
+                        LOGGER.warn("Failed creating spring remoting client...");
+                    }
+                }
+            }
+        }).start();
+
 
         try {
             LOGGER.info("===== User List =====");
@@ -115,6 +154,24 @@ public class MainTest implements InitializingBean {
 
         } finally {
         }
+    }
+
+
+    public void instantiateAndRunSpringRemoting() {
+//        ruleReaderService = (RuleReaderService) applicationContext.getBean("remoteRuleReaderProxy");
+
+//        <property name="serviceUrl" value="http://localhost:9191/remoting/RuleReader"/>
+//        <property name="serviceInterface" value="it.geosolutions.georepo.services.RuleReaderService"/>
+        HttpInvokerProxyFactoryBean httpInvokerProxyFactoryBean = new HttpInvokerProxyFactoryBean();
+        httpInvokerProxyFactoryBean.setServiceInterface(it.geosolutions.georepo.services.RuleReaderService.class);
+        httpInvokerProxyFactoryBean.setServiceUrl("http://localhost:9191/remoting/RuleReader");
+        httpInvokerProxyFactoryBean.afterPropertiesSet();
+        RuleReaderService rrs = (RuleReaderService) httpInvokerProxyFactoryBean.getObject();
+
+        AccessInfo accessInfo = rrs.getAccessInfo("pippo", null, "gs1", "WMS", null, null, null);
+        LOGGER.info(accessInfo);
+        AccessInfo accessInfo2 = rrs.getAccessInfo("pippo", null, "gs1", "WCS", null, null, null);
+        LOGGER.info(accessInfo2);
     }
 
     //==========================================================================
@@ -204,6 +261,17 @@ public class MainTest implements InitializingBean {
 
     public void setUserAdminService(UserAdminService userAdminService) {
         this.userAdminService = userAdminService;
+    }
+
+    public void setRuleReaderService(RuleReaderService ruleReaderService) {
+        this.ruleReaderService = ruleReaderService;
+    }
+
+
+    @Override
+    public void setApplicationContext(ApplicationContext ac) throws BeansException {
+        this.applicationContext = (XmlWebApplicationContext)ac;
+
     }
 
 }

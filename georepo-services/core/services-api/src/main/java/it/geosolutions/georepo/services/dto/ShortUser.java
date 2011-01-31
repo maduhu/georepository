@@ -21,13 +21,14 @@
 package it.geosolutions.georepo.services.dto;
 
 import it.geosolutions.georepo.core.model.GSUser;
+import java.io.Serializable;
 
 /**
  * A compact representation of GSUser useful in lists.
  * 
  * @author Etj (etj@geo-solutions.it)
  */
-public class ShortUser {
+public class ShortUser implements Serializable {
 
     private long id;
 

@@ -20,6 +20,7 @@
 package it.geosolutions.georepo.core.model;
 
 import it.geosolutions.georepo.core.model.enums.GrantType;
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -73,7 +74,7 @@ uniqueConstraints = {
     @UniqueConstraint(columnNames = {"gsuser_id", "profile_id", "instance_id", "service", "request", "workspace", "layer"})})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Rule")
 @XmlRootElement(name = "Rule")
-public class Rule {
+public class Rule implements Serializable {
 
     /** The id. */
     @Id
@@ -280,6 +281,7 @@ public class Rule {
         }
 
         sb.append(" acc:").append(access);
+        sb.append(']');
 
         return sb.toString();
 

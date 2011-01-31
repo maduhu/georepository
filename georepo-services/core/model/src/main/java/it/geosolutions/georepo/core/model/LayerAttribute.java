@@ -21,6 +21,7 @@
 package it.geosolutions.georepo.core.model;
 
 import it.geosolutions.georepo.core.model.enums.AccessType;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -36,7 +37,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Embeddable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "LayerAttribute")
 @XmlRootElement(name = "LayerAttribute")
-public class LayerAttribute {
+public class LayerAttribute implements Serializable {
 
     @Column(nullable=false)
     private String name;

@@ -27,11 +27,19 @@
    <!-- ================================================================ -->
 
 
-    <bean name="testService" class="it.geosolutions.georepo.servicetest.MainTest" lazy-init="false">
+    <bean name="testService" class="it.geosolutions.georepo.servicetest.MainTest"  >
         <property name="userAdminService" ref="userAdminService" />
         <property name="profileAdminService" ref="profileAdminService" />
         <property name="instanceAdminService" ref="instanceAdminService" />
         <property name="ruleAdminService" ref="ruleAdminService" />
+<!--        <property name="ruleReaderService" ref="remoteRuleReaderProxy" />-->
+
+    </bean>
+
+    <bean id="remoteRuleReaderProxy" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean" lazy-init="true">
+
+        <property name="serviceUrl" value="http://localhost:9191/remoting/RuleReader"/>
+        <property name="serviceInterface" value="it.geosolutions.georepo.services.RuleReaderService"/>
     </bean>
 
     <!--       <context:annotation-config />-->
@@ -60,5 +68,13 @@
 
     </jaxrs:server>-->
 
+    <!-- ====================================================================-->
+    <!-- === Spring remoting Services =======================================-->
+    <!-- ====================================================================-->
+
+<!--    <bean name="/RuleReader" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="ruleReaderService"/>
+        <property name="serviceInterface" value="it.geosolutions.georepo.services.RuleReaderService"/>
+    </bean>-->
 
 </beans>
