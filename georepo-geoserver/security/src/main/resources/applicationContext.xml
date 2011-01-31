@@ -11,7 +11,12 @@
 			http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
 	default-autowire="byName">
 
-	<context:property-placeholder location="classpath:georepo-datasource.properties" />
+
+	<bean id="georepo-gs-property-configurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:georepo-geoserver.properties" />
+		<property name="ignoreResourceNotFound" value="True" />
+	</bean>
 
 	<bean id="georeposityRuleAccessManager" class="it.geosolutions.georepo.GeorepositoryAccessManager">
 		<constructor-arg index="0" ref="ruleReaderService" />

@@ -31,6 +31,26 @@
       <artifactId>services-impl</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>org.geoserver</groupId>
+      <artifactId>main</artifactId>
+      <version>${geoserver-version}</version>
+      <classifier>tests</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.mockrunner</groupId>
+      <artifactId>mockrunner</artifactId>
+      <scope>test</scope>
+      <version>0.3.6</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+      <version>3.8.2</version>
+    </dependency>
  </dependencies>
 </project>
 
