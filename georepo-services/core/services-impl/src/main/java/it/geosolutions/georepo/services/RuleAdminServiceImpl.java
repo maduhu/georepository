@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -53,7 +53,10 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     private RuleLimitsDAO limitsDAO;
     private LayerDetailsDAO detailsDAO;
 
-    // ==========================================================================
+    // =========================================================================
+    // Basic operations
+    // =========================================================================
+
     @Override
     public long insert(Rule rule) {
         ruleDAO.persist(rule);
@@ -191,67 +194,62 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         return ruleDAO.count(searchCriteria);
     }
 
-    // ==========================================================================
+    // =========================================================================
 
-    @Override
-    public List<ShortRule> getMatchingRules(Long userId, Long profileId, Long instanceId, String service, String request, String workspace, String layer) {
-        Search searchCriteria = new Search(Rule.class);
-        searchCriteria.addSortAsc("priority");
+//    @Override
+//    public List<ShortRule> getMatchingRules(Long userId, Long profileId, Long instanceId, String service, String request, String workspace, String layer) {
+//        Search searchCriteria = new Search(Rule.class);
+//        searchCriteria.addSortAsc("priority");
+//
+//        addIdMatchCriteria(searchCriteria, userId,       "gsuser");
+//        addIdMatchCriteria(searchCriteria, profileId,    "profile");
+//        addIdMatchCriteria(searchCriteria, instanceId,   "instance");
+//
+//        addStringMatchCriteria(searchCriteria, service,    "service");
+//        addStringMatchCriteria(searchCriteria, request,    "request");
+//        addStringMatchCriteria(searchCriteria, workspace,  "workspace");
+//        addStringMatchCriteria(searchCriteria, layer,      "layer");
+//
+//        List<Rule> found = ruleDAO.search(searchCriteria);
+//        return convertToShortList(found);
+//
+//    }
+//
+//    /**
+//     * Add criteria for <B>matching</B>:
+//     * <UL>
+//     * <LI>null IDs will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting negative values)</LI>
+//     * <LI>a valid numeric id will match that numeric value and any rules with that id set to null</LI>
+//     * </UL>
+//     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
+//     */
+//    protected void addIdMatchCriteria(Search searchCriteria, Long id, String fieldName) throws BadRequestWebEx {
+//        if (id == null)
+//            throw new BadRequestWebEx(fieldName + " is null");
+//
+//        searchCriteria.addFilterOr(
+//                Filter.isNull(fieldName),
+//                Filter.equal(fieldName + ".id", id));
+//    }
+//
+//    /**
+//     * Add criteria for <B>matching</B>:
+//     * <UL>
+//     * <LI>null values will not add a constraint criteria</LI>
+//     * <LI>any string will match that specific value and any rules with that field set to null</LI>
+//     * </UL>
+//     */
+//    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
+//        if(value != null) {
+//            searchCriteria.addFilterOr(
+//                    Filter.isNull(fieldName),
+//                    Filter.equal(fieldName, value));
+//        }
+//    }
 
-        addIdMatchCriteria(searchCriteria, userId,       "gsuser");
-        addIdMatchCriteria(searchCriteria, profileId,    "profile");
-        addIdMatchCriteria(searchCriteria, instanceId,   "instance");
-
-        addStringMatchCriteria(searchCriteria, service,    "service");
-        addStringMatchCriteria(searchCriteria, request,    "request");
-        addStringMatchCriteria(searchCriteria, workspace,  "workspace");
-        addStringMatchCriteria(searchCriteria, layer,      "layer");
-
-        List<Rule> found = ruleDAO.search(searchCriteria);
-        return convertToShortList(found);
-
-    }
-
-    /**
-     * Add criteria for <B>matching</B>:
-     * <UL>
-     * <LI>null IDs will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting negative values)</LI>
-     * <LI>a valid numeric id will match that numeric value and any rules with that id set to null</LI>
-     * </UL>
-     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
-     */
-    protected void addIdMatchCriteria(Search searchCriteria, Long id, String fieldName) throws BadRequestWebEx {
-        if (id == null)
-            throw new BadRequestWebEx(fieldName + " is null");
-
-        searchCriteria.addFilterOr(
-                Filter.isNull(fieldName),
-                Filter.equal(fieldName + ".id", id));
-    }
-
-    /**
-     * Add criteria for <B>matching</B>:
-     * <UL>
-     * <LI>null values will not add a constraint criteria</LI>
-     * <LI>any string will match that specific value and any rules with that field set to null</LI>
-     * </UL>
-     */
-    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
-        if(value != null) {
-            searchCriteria.addFilterOr(
-                    Filter.isNull(fieldName),
-                    Filter.equal(fieldName, value));
-        }
-    }
-
-    // ==========================================================================
-
-    @Override
-    public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    // ==========================================================================
+    // =========================================================================
+    // Limits
+    // =========================================================================
 
     @Override
     public void setLimits(Long ruleId, RuleLimits limits) {
@@ -276,7 +274,16 @@ public class RuleAdminServiceImpl implements RuleAdminService {
             // TODO: remove limits (already removed above?)
         }
     }
-    // ==========================================================================
+
+    // =========================================================================
+    // Details
+    // =========================================================================
+
+    @Override
+    public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 
     @Override
     public void setDetails(Long ruleId, LayerDetails details) {

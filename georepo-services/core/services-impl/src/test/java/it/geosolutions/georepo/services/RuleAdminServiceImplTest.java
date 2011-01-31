@@ -134,15 +134,6 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         assertEquals(1, ruleAdminService.getCount("*",""+p2.getId(),"*",    "*","*", "*","*"));
         assertEquals(2, ruleAdminService.getCount("*","*","*",              "s1","*", "*","*"));
         assertEquals(0, ruleAdminService.getCount("*","*","*",              "ZZ","*", "*","*"));
-
-
-        assertEquals(0, ruleAdminService.getMatchingRules(-1L,-1L,-1L,          null, null,null,null).size());
-//        LOGGER.error(ruleAdminService.getMatchingRules(-1L,p1.getId(),-1L,   null, null,null,null));
-        assertEquals(3, ruleAdminService.getMatchingRules(-1L,p1.getId(),-1L,   null, null,null,null).size());
-        assertEquals(1, ruleAdminService.getMatchingRules(-1L,p2.getId(),-1L,   null, null,null,null).size());
-        assertEquals(2, ruleAdminService.getMatchingRules(-1L,p1.getId(),-1L,   "s1", null,null,null).size());
-        assertEquals(0, ruleAdminService.getMatchingRules(-1L,-1L,-1L,          "ZZ", null,null,null).size());
-
     }
 
     public void testRuleLimits() throws ResourceNotFoundFault {

@@ -16,6 +16,7 @@
     <mapping class="it.geosolutions.georepo.core.model.Rule"/>
     <mapping class="it.geosolutions.georepo.core.model.RuleLimits"/>
     <mapping class="it.geosolutions.georepo.core.model.LayerDetails"/>
+    <mapping class="it.geosolutions.georepo.core.model.LayerAttribute"/>
 <!--    <mapping class="it.geosolutions.georepo.core.model.InstancePermission"/>-->
 <!--    <mapping class="it.geosolutions.georepo.core.model.ServiceFilter"/>-->
 <!--    <mapping class="it.geosolutions.georepo.core.model.AttribFilters"/>-->

@@ -23,7 +23,6 @@ import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
-import it.geosolutions.georepo.services.dto.ShortProfile;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
@@ -87,7 +86,7 @@ public interface RuleAdminService {
      * @param page used for retrieving paged data, may be null if not used. If not null, also <TT>entries</TT> should be defined.
      * @param entries used for retrieving paged data, may be null if not used. If not null, also <TT>page</TT> should be defined.
      *
-     * @see #getMatchingRules(java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer) getMatchingRules(...)
+     * @see RuleReaderService#getMatchingRules(String, String, String,  String,String, String,String) RuleReaderService.getMatchingRules(...)
      */
     @GET
     @Path("/rules/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
@@ -132,30 +131,30 @@ public interface RuleAdminService {
 
     // ==========================================================================
 
-    /**
-     * Return the Rules according to the filter.
-     * <P>
-     * Differently from {@link getList(String,String,String,String,String,String,String,Integer,Integer) getList()},
-     *  when a param is set, it will match
-     * all the rules with the corresponding matching field,
-     * plus all the rules having that field set to null.
-     * <BR>Null params will always match.
-     */
-    @GET
-    @Path("/rules/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
-    List<ShortRule> getMatchingRules(
-            @PathParam("userId") Long userId,
-            @PathParam("profileId") Long profileId,
-            @PathParam("instanceId") Long instanceId,
-
-            @PathParam("service") String service,
-            @PathParam("request") String request,
-            @PathParam("workspace") String workspace,
-            @PathParam("layer") String layer
-
-//            ,@QueryParam("page") Integer page
-//            ,@QueryParam("entries") Integer entries
-            );
+//    /**
+//     * Return the Rules according to the filter.
+//     * <P>
+//     * Differently from {@link getList(String,String,String,String,String,String,String,Integer,Integer) getList()},
+//     *  when a param is set, it will match
+//     * all the rules with the corresponding matching field,
+//     * plus all the rules having that field set to null.
+//     * <BR>Null params will always match.
+//     */
+//    @GET
+//    @Path("/rules/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
+//    List<ShortRule> getMatchingRules(
+//            @PathParam("userId") Long userId,
+//            @PathParam("profileId") Long profileId,
+//            @PathParam("instanceId") Long instanceId,
+//
+//            @PathParam("service") String service,
+//            @PathParam("request") String request,
+//            @PathParam("workspace") String workspace,
+//            @PathParam("layer") String layer
+//
+////            ,@QueryParam("page") Integer page
+////            ,@QueryParam("entries") Integer entries
+//            );
 
     // ==========================================================================
 

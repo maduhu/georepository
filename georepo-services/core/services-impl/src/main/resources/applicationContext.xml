@@ -31,9 +31,12 @@
         <property name="layerDetailsDAO" ref="layerdetailsDAO"/>
     </bean>
 
-<!--    <bean id="instancePermissionAdminService" class="it.geosolutions.georepo.services.InstancePermissionAdminServiceImpl">
-        <property name="instancePermissionDAO" ref="instancePermissionDAO"/>
-    </bean>-->
+    <bean id="ruleReaderService" class="it.geosolutions.georepo.services.RuleReaderServiceImpl">
+        <property name="ruleDAO" ref="ruleDAO"/>
+        <property name="ruleLimitsDAO" ref="rulelimitsDAO"/>
+        <property name="layerDetailsDAO" ref="layerdetailsDAO"/>
+    </bean>
+
 
 <!--
     <bean id="webgisService" class="it.geosolutions.georepo.services.WGFuncServiceImpl">

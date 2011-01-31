@@ -44,6 +44,7 @@ public class ServiceTestBase extends TestCase {
     protected static ProfileAdminService profileAdminService;
     protected static InstanceAdminService instanceAdminService;
     protected static RuleAdminService ruleAdminService;
+    protected static RuleReaderService ruleReaderService;
 
     protected static ClassPathXmlApplicationContext ctx = null;
 
@@ -62,6 +63,7 @@ public class ServiceTestBase extends TestCase {
                 profileAdminService  = (ProfileAdminService)ctx.getBean("profileAdminService");
                 instanceAdminService = (InstanceAdminService)ctx.getBean("instanceAdminService");
                 ruleAdminService     = (RuleAdminService)ctx.getBean("ruleAdminService");
+                ruleReaderService     = (RuleReaderService)ctx.getBean("ruleReaderService");
             }
         }
     }

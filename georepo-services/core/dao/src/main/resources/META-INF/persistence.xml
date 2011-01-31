@@ -30,6 +30,7 @@
     <class>it.geosolutions.georepo.core.model.Rule</class>
     <class>it.geosolutions.georepo.core.model.RuleLimits</class>
     <class>it.geosolutions.georepo.core.model.LayerDetails</class>
+    <class>it.geosolutions.georepo.core.model.LayerAttribute</class>
 <!--    <class>it.geosolutions.georepo.core.model.RequestPermission</class>
     <class>it.geosolutions.georepo.core.model.ServicePermission</class>
     <class>it.geosolutions.georepo.core.model.StylePermission</class>
