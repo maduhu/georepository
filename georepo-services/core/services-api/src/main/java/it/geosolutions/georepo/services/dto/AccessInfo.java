@@ -20,18 +20,29 @@
 
 package it.geosolutions.georepo.services.dto;
 
-import com.vividsolutions.jts.geom.Geometry;
 import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 public class AccessInfo implements Serializable {
+    
+    /**
+     * Default "allow everything" AccessInfo
+     */
+    public static final AccessInfo ALLOW_ALL = new AccessInfo(GrantType.ALLOW);
+    
+    /**
+     * Default "deny everything" AccessInfo
+     */
+    public static final AccessInfo DENY_ALL = new AccessInfo(GrantType.DENY);
 
     /**
      * The resulting grant: allow or deny.
@@ -48,6 +59,14 @@ public class AccessInfo implements Serializable {
     private Set<LayerAttribute> attributes;
     private Map<String, String> customProps;
     private Set<String> allowedStyles;
+
+
+    public AccessInfo() {
+    }
+
+    public AccessInfo(GrantType grant) {
+        this.grant = grant;
+    }
 
     public Geometry getArea() {
         return area;
