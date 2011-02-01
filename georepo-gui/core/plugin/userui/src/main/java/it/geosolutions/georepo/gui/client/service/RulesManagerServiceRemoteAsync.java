@@ -34,6 +34,8 @@ package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.model.Rule;
 
+import java.util.List;
+
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -53,6 +55,13 @@ public interface RulesManagerServiceRemoteAsync {
      *            the callback
      * @return the rules
      */
-    public void getRules(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<Rule>> callback);
+    public void getRules(PagingLoadConfig config, boolean full,
+            AsyncCallback<PagingLoadResult<Rule>> callback);
 
+    /**
+     * 
+     * @param rules
+     * @param callback
+     */
+    public void saveAllRules(List<Rule> rules, AsyncCallback<PagingLoadResult<Rule>> callback);
 }

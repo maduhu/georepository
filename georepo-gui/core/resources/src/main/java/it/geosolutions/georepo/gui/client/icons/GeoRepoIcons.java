@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.icons.GeoRepoIcons,v. 0.1 25-gen-2011 11.24.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.icons.GeoRepoIcons,v. 0.1 31-gen-2011 12.46.28 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.24.45 $
+ * $ Date: 31-gen-2011 12.46.28 $
  *
  * ====================================================================
  *
@@ -50,6 +50,22 @@ public interface GeoRepoIcons extends ImageBundle {
     @Resource("add.gif")
     AbstractImagePrototype add();
 
+    /**
+     * Arrow down.
+     * 
+     * @return the abstract image prototype
+     */
+    @Resource("arrow_down.png")
+    AbstractImagePrototype arrowDown();
+    
+    /**
+     * Arrow up.
+     * 
+     * @return the abstract image prototype
+     */
+    @Resource("arrow_up.png")
+    AbstractImagePrototype arrowUp();
+    
     /**
      * Page edit.
      * 

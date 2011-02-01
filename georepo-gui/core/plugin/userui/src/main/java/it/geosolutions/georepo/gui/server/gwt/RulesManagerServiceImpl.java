@@ -32,6 +32,8 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
+import java.util.List;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
@@ -80,4 +82,12 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
         return rulesManagerService.getRules(config, full);
     }
 
+    /**
+     * 
+     * @param rules
+     * @throws ApplicationException
+     */
+    public void saveAllRules(List<Rule> rules) throws ApplicationException {
+        rulesManagerService.saveAllRules(rules);
+    }
 }

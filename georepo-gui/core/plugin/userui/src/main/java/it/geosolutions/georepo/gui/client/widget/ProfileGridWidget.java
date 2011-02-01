@@ -197,7 +197,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
             protected boolean doSelect(Store<Profile> store, Profile parent, Profile record,
                     String property, String filter) {
 
-                String name = parent.get("name");
+                String name = parent.get(BeanKeyValue.NAME.getValue());
                 name = name.toLowerCase();
                 if (name.indexOf(filter.toLowerCase()) != -1) {
                     return true;
@@ -287,17 +287,17 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                     int size = result.getData().size();
                     String message = "";
                     if (size == 1)
-                        message = I18nProvider.getMessages().featureLabel();
+                        message = I18nProvider.getMessages().recordLabel();
                     else
-                        message = I18nProvider.getMessages().featurePluralLabel();
+                        message = I18nProvider.getMessages().recordPluralLabel();
                     Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                            I18nProvider.getMessages().featureServiceName(),
+                            I18nProvider.getMessages().remoteServiceName(),
                             I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
                                     + " " + message });
                 } else {
                     Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
-                            I18nProvider.getMessages().featureServiceName(),
-                            I18nProvider.getMessages().featureNotFoundMessage() });
+                            I18nProvider.getMessages().remoteServiceName(),
+                            I18nProvider.getMessages().recordNotFoundMessage() });
                 }
             }
 

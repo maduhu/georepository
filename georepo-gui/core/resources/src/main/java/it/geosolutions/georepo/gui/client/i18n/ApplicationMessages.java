@@ -372,28 +372,28 @@ public interface ApplicationMessages extends Messages {
      * 
      * @return the string
      */
-    public String featureLabel();
+    public String recordLabel();
 
     /**
      * Feature plural label.
      * 
      * @return the string
      */
-    public String featurePluralLabel();
+    public String recordPluralLabel();
 
     /**
      * Feature not found message.
      * 
      * @return the string
      */
-    public String featureNotFoundMessage();
+    public String recordNotFoundMessage();
 
     /**
      * Feature service name.
      * 
      * @return the string
      */
-    public String featureServiceName();
+    public String remoteServiceName();
 
     /**
      * Found label.
@@ -640,7 +640,7 @@ public interface ApplicationMessages extends Messages {
      *            the member name
      * @return the string
      */
-    public String memberDistributionNodeFetchFailureMessage(String memberName);
+    public String ruleFetchFailureMessage();
 
     /**
      * Member distribution node fetch success message.
@@ -649,7 +649,7 @@ public interface ApplicationMessages extends Messages {
      *            the member name
      * @return the string
      */
-    public String memberDistributionNodeFetchSuccessMessage(String memberName);
+    public String ruleFetchSuccessMessage();
 
     /**
      * Member distribution node management.
@@ -684,14 +684,14 @@ public interface ApplicationMessages extends Messages {
      * 
      * @return the string
      */
-    public String memberManagementLabel();
+    public String ruleManagementLabel();
 
     /**
      * Member service name.
      * 
      * @return the string
      */
-    public String memberServiceName();
+    public String ruleServiceName();
 
     /**
      * Member uid.

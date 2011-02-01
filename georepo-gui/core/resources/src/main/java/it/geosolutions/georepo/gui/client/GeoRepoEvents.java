@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.GeoRepoEvents,v. 0.1 25-gen-2011 11.24.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.GeoRepoEvents,v. 0.1 31-gen-2011 13.38.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.24.45 $
+ * $ Date: 31-gen-2011 13.38.37 $
  *
  * ====================================================================
  *
@@ -33,7 +33,6 @@
 package it.geosolutions.georepo.gui.client;
 
 import com.extjs.gxt.ui.client.event.EventType;
-import com.extjs.gxt.ui.client.mvc.AppEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -347,7 +346,22 @@ public class GeoRepoEvents {
     /** The Constant SAVE_GEOCONSTRAINT_FROM_SHP. */
     public static final EventType SAVE_GEOCONSTRAINT_FROM_SHP = new EventType();
 
-    /** */
-    public static final EventType UPDATE_RULES_GRID_COMBOS = new EventType();
+    /** The Constant RULE_UPDATE_GRID_COMBO. */
+    public static final EventType RULE_UPDATE_GRID_COMBO = new EventType();
+
+    /** The Constant RULE_APPLY_CHANGES_GRID_COMBO. */
+    public static final EventType RULE_APPLY_CHANGES_GRID_COMBO = new EventType();
+
+    /** The Constant RULE_DEL. */
+    public static final EventType RULE_DEL = new EventType();
+
+    /** The Constant RULE_ADD. */
+    public static final EventType RULE_ADD = new EventType();
+
+    /** The Constant RULE_PRIORITY_UP. */
+    public static final EventType RULE_PRIORITY_UP = new EventType();
+
+    /** The Constant RULE_PRIORITY_DOWN. */
+    public static final EventType RULE_PRIORITY_DOWN = new EventType();
 
 }

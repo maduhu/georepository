@@ -32,6 +32,8 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
+import java.util.List;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
 
@@ -81,4 +83,10 @@ public interface RulesManagerServiceRemote extends RemoteService {
      */
     public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException;
 
+    /**
+     * 
+     * @param rules
+     * @throws ApplicationException
+     */
+    public void saveAllRules(List<Rule> rules) throws ApplicationException;
 }
