@@ -26,6 +26,7 @@ import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
+import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.InstanceAdminService;
@@ -38,6 +39,8 @@ import it.geosolutions.georepo.services.dto.ShortProfile;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
@@ -47,6 +50,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 import org.springframework.web.context.support.XmlWebApplicationContext;
+
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.io.WKTReader;
 
 /**
  *
@@ -64,32 +70,36 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
     private RuleAdminService ruleAdminService;
     private RuleReaderService ruleReaderService;
 
-    protected final static String MULTIPOLYGONWKT = "MULTIPOLYGON(((48.6894038 62.33877482, 48.7014874 62.33877482, 48.7014874 62.33968662, 48.6894038 62.33968662, 48.6894038 62.33877482)))";
+    protected final static String MULTIPOLYGONWKT = "MULTIPOLYGON(((48 62, 48 63, 49 63, 49 62, 48 62)))";
 
     public void afterPropertiesSet() throws Exception {
         LOGGER.info("===== RESETTING DB DATA =====");
         removeAll();
         
-        LOGGER.info("===== Creating Profiles =====");
+        LOGGER.info("===== Creating Profiles (not actually needed while testing GS) =====");
         ShortProfile shortProfile = new ShortProfile();
-        shortProfile.setName("profile1");
+        shortProfile.setName("basic");
         long pid1 = profileAdminService.insert(shortProfile);
         Profile p1 = profileAdminService.get(pid1);
 
         ShortProfile shortProfile2 = new ShortProfile();
-        shortProfile2.setName("profile2");
+        shortProfile2.setName("advanced");
         long pid2 = profileAdminService.insert(shortProfile2);
         Profile p2 = profileAdminService.get(pid2);
 
 
         LOGGER.info("===== Creating Users =====");
-        GSUser u1 = createUser("user1");
-        u1.setProfile(p1);
-        userAdminService.insert(u1);
+        GSUser cite = createUser("cite");
+        cite.setProfile(p1);
+        userAdminService.insert(cite);
 
-        GSUser u2 = createUser("user2");
-        u2.setProfile(p2);
-        userAdminService.insert(u2);
+        GSUser wmsUser = createUser("wmsuser");
+        wmsUser.setProfile(p1);
+        userAdminService.insert(wmsUser);
+        
+        GSUser areaUser = createUser("area");
+        areaUser.setProfile(p1);
+        userAdminService.insert(areaUser);
 
         LOGGER.info("===== Creating Rules =====");
 
@@ -100,20 +110,27 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         ld1.getAttributes().add(new LayerAttribute("attr2", AccessType.READONLY));
         ld1.getAttributes().add(new LayerAttribute("attr3", AccessType.READWRITE));
 
-        int pri = -1;
-        Rule rules[] = new Rule[100];
-
-
-
-        pri++; rules[pri] = new Rule(pri, null, null, null,   "WCS", null, null, null, GrantType.ALLOW);
-        pri++; rules[pri] = new Rule(pri, null, null, null,   "s1", "r2", "w2", "l2", GrantType.ALLOW);
-        pri++; rules[pri] = new Rule(pri, null, null, null,   "s3", "r3", "w3", "l3", GrantType.ALLOW);
-        pri++; rules[pri] = new Rule(pri, null, null, null,    null, null, null, null, GrantType.DENY);
-
-        for (Rule rule : rules) {
-            if(rule != null)
-                ruleAdminService.insert(rule);
-        }
+        int priority = 0;
+        
+        /* Cite user rules */
+        // allow user cite full control over the cite workspace
+        ruleAdminService.insert(new Rule(priority++, cite, null, null, null, null, "cite", null, GrantType.ALLOW));
+        // allow only getmap on workspace sf
+        ruleAdminService.insert((new Rule(priority++, cite, null, null, "WMS", "GetMap", "sf", null, GrantType.ALLOW)));
+        
+        /* wms user rules */
+        ruleAdminService.insert((new Rule(priority++, wmsUser, null, null, "WMS", null, null, null, GrantType.ALLOW)));
+        
+        /* all powerful but only in a restricted area */
+        Rule areaRestriction = new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.LIMIT);
+        RuleLimits limits = new RuleLimits();
+        limits.setAllowedArea((MultiPolygon) new WKTReader().read(MULTIPOLYGONWKT));
+        long ruleId = ruleAdminService.insert(areaRestriction);
+        ruleAdminService.setLimits(ruleId, limits);
+        ruleAdminService.insert((new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.ALLOW)));
+        
+        // deny everything else
+        ruleAdminService.insert(new Rule(priority++, null, null, null,  null, null, null, null, GrantType.DENY));
 
 //        AccessInfo accessInfo = ruleReaderService.getAccessInfo("pippo", null, "gs1", "WMS", null, null, null);
         new Thread(new Runnable() {
@@ -158,10 +175,6 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
 
 
     public void instantiateAndRunSpringRemoting() {
-//        ruleReaderService = (RuleReaderService) applicationContext.getBean("remoteRuleReaderProxy");
-
-//        <property name="serviceUrl" value="http://localhost:9191/remoting/RuleReader"/>
-//        <property name="serviceInterface" value="it.geosolutions.georepo.services.RuleReaderService"/>
         HttpInvokerProxyFactoryBean httpInvokerProxyFactoryBean = new HttpInvokerProxyFactoryBean();
         httpInvokerProxyFactoryBean.setServiceInterface(it.geosolutions.georepo.services.RuleReaderService.class);
         httpInvokerProxyFactoryBean.setServiceUrl("http://localhost:9191/remoting/RuleReader");

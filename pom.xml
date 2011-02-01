@@ -14,6 +14,7 @@
  <modules>
   <module>georepo-services</module>
   <module>georepo-gui</module>
+  <module>georepo-geoserver</module>
  </modules>
 
 

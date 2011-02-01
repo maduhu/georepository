@@ -89,7 +89,47 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
 
     @Override
     public WorkspaceAccessLimits getAccessLimits(Authentication user, WorkspaceInfo workspace) {
-        return new WorkspaceAccessLimits(CatalogMode.CHALLENGE, true, true);
+        // extract the user name
+        String username = null;
+        if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
+            // shortcut, if the user is the admin, he can do everything
+            if(user.getAuthorities() != null) {
+                for (GrantedAuthority authority : user.getAuthorities()) {
+                    final String userRole = authority.getAuthority();
+                    if (ROOT_ROLE.equals(userRole)) {
+                        return buildAccessLimits(workspace, AccessInfo.ALLOW_ALL);
+                    }
+                }
+            }
+
+            username = user.getName();
+        }
+
+        // get info from the current request
+        String service = null;
+        String request = null;
+        Request owsRequest = Dispatcher.REQUEST.get();
+        if (owsRequest != null) {
+            service = owsRequest.getService();
+            request = owsRequest.getRequest();
+        }
+
+        // get the request infos
+        AccessInfo rule = rules.getAccessInfo(username, null, instanceName, service, request,
+                workspace.getName(), null);
+        if (rule == null) {
+            rule = AccessInfo.DENY_ALL;
+        }
+        return buildAccessLimits(workspace, rule);
+    }
+
+    private WorkspaceAccessLimits buildAccessLimits(WorkspaceInfo workspace, AccessInfo rule) {
+        if (rule == null) {
+            return new WorkspaceAccessLimits(catalogMode, true, true);
+        } else {
+            return new WorkspaceAccessLimits(catalogMode, rule.getGrant() == GrantType.ALLOW, rule
+                    .getGrant() == GrantType.ALLOW);
+        }
     }
 
     @Override
@@ -103,10 +143,12 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         String username = null;
         if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
             // shortcut, if the user is the admin, he can do everything
-            for (GrantedAuthority authority : user.getAuthorities()) {
-                final String userRole = authority.getAuthority();
-                if (ROOT_ROLE.equals(userRole)) {
-                    return buildAccessLimits(resource, AccessInfo.ALLOW_ALL);
+            if(user.getAuthorities() != null) {
+                for (GrantedAuthority authority : user.getAuthorities()) {
+                    final String userRole = authority.getAuthority();
+                    if (ROOT_ROLE.equals(userRole)) {
+                        return buildAccessLimits(resource, AccessInfo.ALLOW_ALL);
+                    }
                 }
             }
 
