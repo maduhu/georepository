@@ -1,5 +1,6 @@
 package it.geosolutions.georepository;
 
+import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.LayerInfo;
 import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.data.test.MockData;
@@ -18,6 +19,14 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.WKTReader;
 
 public class AccessManagerTest extends GeorepositoryBaseTest {
+    
+    /**
+     * Override to have the code access the raw catalog
+     */
+    protected Catalog getCatalog() {
+        return (Catalog) applicationContext.getBean("rawCatalog");
+    }
+
 
     public void testAdmin() {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken("admin",
@@ -87,7 +96,7 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         // now fake a getmap request (using a service and request with a different case than the
         // rules)
         request = new Request();
-        request.setService("WMS");
+        request.setService("wms");
         request.setRequest("GetMap");
         Dispatcher.REQUEST.set(request);
         vl = (VectorAccessLimits) manager.getAccessLimits(user, generic);
@@ -112,7 +121,7 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         // now fake a getmap request (using a service and request with a different case than the
         // rules)
         request = new Request();
-        request.setService("WMS");
+        request.setService("wms");
         Dispatcher.REQUEST.set(request);
         vl = (VectorAccessLimits) manager.getAccessLimits(user, generic);
         assertEquals(Filter.INCLUDE, vl.getReadFilter());

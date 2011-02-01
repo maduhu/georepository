@@ -115,11 +115,13 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         /* Cite user rules */
         // allow user cite full control over the cite workspace
         ruleAdminService.insert(new Rule(priority++, cite, null, null, null, null, "cite", null, GrantType.ALLOW));
-        // allow only getmap on workspace sf
-        ruleAdminService.insert((new Rule(priority++, cite, null, null, "WMS", "GetMap", "sf", null, GrantType.ALLOW)));
+        // allow only getmap, getcapatbilities and reflector usage on workspace sf
+        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetMap", "sf", null, GrantType.ALLOW)));
+        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetCapabilities", "sf", null, GrantType.ALLOW)));
+        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "reflect", "sf", null, GrantType.ALLOW)));
         
         /* wms user rules */
-        ruleAdminService.insert((new Rule(priority++, wmsUser, null, null, "WMS", null, null, null, GrantType.ALLOW)));
+        ruleAdminService.insert((new Rule(priority++, wmsUser, null, null, "wms", null, null, null, GrantType.ALLOW)));
         
         /* all powerful but only in a restricted area */
         Rule areaRestriction = new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.LIMIT);

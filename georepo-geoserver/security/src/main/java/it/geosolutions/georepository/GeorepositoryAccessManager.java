@@ -76,7 +76,7 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
 
     static final FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2(null);
 
-    CatalogMode catalogMode = CatalogMode.CHALLENGE;
+    CatalogMode catalogMode = CatalogMode.HIDE;
 
     RuleReaderService rules;
 
@@ -86,7 +86,7 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         this.rules = rules;
         this.instanceName = instanceName;
     }
-
+    
     @Override
     public WorkspaceAccessLimits getAccessLimits(Authentication user, WorkspaceInfo workspace) {
         // extract the user name
@@ -180,7 +180,6 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
     }
 
     /**
-     * 
      * @param resource
      * @param rule
      * @return
