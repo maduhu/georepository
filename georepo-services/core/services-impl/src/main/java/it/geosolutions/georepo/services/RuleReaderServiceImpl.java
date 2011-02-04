@@ -40,7 +40,12 @@ import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 
 /**
- * 
+ *
+ * <P>
+ * <B>Note:</B> <TT>service</TT> and <TT>request</TT> params are usually set by
+ * the client, and by OGC specs they are not case sensitive, so we're going to
+ * turn all of them uppercase. See also {@link RuleAdminServiceImpl}.
+ *
  * @author ETj (etj at geo-solutions.it)
  */
 public class RuleReaderServiceImpl implements RuleReaderService {
@@ -82,9 +87,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
                     break;
 
                 case DENY:
-                    AccessInfo accessInfo = new AccessInfo();
-                    accessInfo.setGrant(GrantType.DENY);
-                    return accessInfo;
+                    return new AccessInfo(GrantType.DENY);
                     
                 case ALLOW:
                     return buildAllowAccessInfo(rule, limits);
@@ -100,9 +103,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
                 + " w:"+workspace + " l:"+layer);
 
         // Denying by default
-        AccessInfo accessInfo = new AccessInfo();
-        accessInfo.setGrant(GrantType.DENY);
-        return accessInfo;
+        return new AccessInfo(GrantType.DENY);
     }
 
     private AccessInfo buildAllowAccessInfo(Rule rule, List<RuleLimits> limits) {
@@ -165,8 +166,8 @@ public class RuleReaderServiceImpl implements RuleReaderService {
         addNameMatchCriteria(searchCriteria, profileName, "profile");
         addNameMatchCriteria(searchCriteria, instanceName, "instance");
 
-        addStringMatchCriteria(searchCriteria, service, "service");
-        addStringMatchCriteria(searchCriteria, request, "request");
+        addStringMatchCriteria(searchCriteria, service==null?null:service.toUpperCase(), "service"); // see class' javadoc
+        addStringMatchCriteria(searchCriteria, request==null?null:request.toUpperCase(), "request"); // see class' javadoc
         addStringMatchCriteria(searchCriteria, workspace, "workspace");
         addStringMatchCriteria(searchCriteria, layer, "layer");
 

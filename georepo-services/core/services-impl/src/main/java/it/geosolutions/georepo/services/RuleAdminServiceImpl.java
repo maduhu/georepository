@@ -19,7 +19,6 @@
  */
 package it.geosolutions.georepo.services;
 
-import com.trg.search.Filter;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
@@ -42,7 +41,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ *
+ *
+ * <B>Note:</B> <TT>service</TT> and <TT>request</TT> params are usually set by
+ * the client, and by OGC specs they are not case sensitive, so we're going to
+ * turn all of them uppercase. See also {@link RuleReaderServiceImpl}.
+ *
  * @author ETj (etj at geo-solutions.it)
  */
 public class RuleAdminServiceImpl implements RuleAdminService {
@@ -59,6 +63,7 @@ public class RuleAdminServiceImpl implements RuleAdminService {
 
     @Override
     public long insert(Rule rule) {
+        sanitizeFields(rule);
         ruleDAO.persist(rule);
         return rule.getId();
     }
@@ -70,8 +75,24 @@ public class RuleAdminServiceImpl implements RuleAdminService {
             throw new ResourceNotFoundFault("Rule not found", rule.getId());
         }
 
+        sanitizeFields(rule); 
         ruleDAO.merge(rule);
         return orig.getId();
+    }
+
+    /**
+     * <TT>service</TT> and <TT>request</TT> params are usually set by
+     * the client, and by OGC specs they are not case sensitive, so we're going to
+     * turn all of them uppercase. See also {@link RuleReaderServiceImpl}.
+     */
+    protected void sanitizeFields(Rule rule) {
+        // read class' javadoc
+        if (rule.getService() != null) {
+            rule.setService(rule.getService().toUpperCase());
+        }
+        if (rule.getRequest() != null) {
+            rule.setRequest(rule.getRequest().toUpperCase());
+        }
     }
 
     @Override
@@ -113,17 +134,8 @@ public class RuleAdminServiceImpl implements RuleAdminService {
             throw new BadRequestWebEx("Page and entries params should be declared together.");
         }
 
-        Search searchCriteria = new Search(Rule.class);
+        Search searchCriteria = buildRuleSearch(userId, profileId, instanceId, service, request, workspace, layer);
         searchCriteria.addSortAsc("priority");
-
-        addLongSearchCriteria(searchCriteria, userId,       "gsuser");
-        addLongSearchCriteria(searchCriteria, profileId,    "profile");
-        addLongSearchCriteria(searchCriteria, instanceId,   "instance");
-
-        addStringSearchCriteria(searchCriteria, service,    "service");
-        addStringSearchCriteria(searchCriteria, request,    "request");
-        addStringSearchCriteria(searchCriteria, workspace,  "workspace");
-        addStringSearchCriteria(searchCriteria, layer,      "layer");
 
         if(entries != null) {
             searchCriteria.setMaxResults(entries);
@@ -132,6 +144,37 @@ public class RuleAdminServiceImpl implements RuleAdminService {
 
         List<Rule> found = ruleDAO.search(searchCriteria);
         return convertToShortList(found);
+    }
+
+    @Override
+    public long getCountAll() {
+        return getCount("*", "*", "*", "*", "*", "*", "*");
+    }
+
+    @Override
+    public long getCount(String userId, String profileId, String instanceId, String service, String request, String workspace, String layer) {
+        Search searchCriteria = buildRuleSearch(userId, profileId, instanceId, service, request, workspace, layer);
+        return ruleDAO.count(searchCriteria);
+    }
+
+    // =========================================================================
+    // Search stuff
+
+    private Search buildRuleSearch(String userId, String profileId, String instanceId,
+                                String service, String request,
+                                String workspace, String layer) {
+        Search searchCriteria = new Search(Rule.class);
+
+        addLongSearchCriteria(searchCriteria, userId,     "gsuser");
+        addLongSearchCriteria(searchCriteria, profileId,  "profile");
+        addLongSearchCriteria(searchCriteria, instanceId, "instance");
+
+        addStringSearchCriteria(searchCriteria, service==null?null:service.toUpperCase(),   "service");  // read class' javadoc
+        addStringSearchCriteria(searchCriteria, request==null?null:request.toUpperCase(),   "request");  // read class' javadoc
+        addStringSearchCriteria(searchCriteria, workspace,  "workspace");
+        addStringSearchCriteria(searchCriteria, layer,      "layer");
+
+        return searchCriteria;
     }
 
     /**
@@ -172,80 +215,6 @@ public class RuleAdminServiceImpl implements RuleAdminService {
             searchCriteria.addFilterEqual(fieldName, value);
         }
     }
-
-    @Override
-    public long getCountAll() {
-        return getCount("*", "*", "*", "*", "*", "*", "*");
-    }
-
-    @Override
-    public long getCount(String userId, String profileId, String instanceId, String service, String request, String workspace, String layer) {
-        Search searchCriteria = new Search(Rule.class);
-
-        addLongSearchCriteria(searchCriteria, userId,       "gsuser");
-        addLongSearchCriteria(searchCriteria, profileId,    "profile");
-        addLongSearchCriteria(searchCriteria, instanceId,   "instance");
-
-        addStringSearchCriteria(searchCriteria, service,    "service");
-        addStringSearchCriteria(searchCriteria, request,    "request");
-        addStringSearchCriteria(searchCriteria, workspace,  "workspace");
-        addStringSearchCriteria(searchCriteria, layer,      "layer");
-
-        return ruleDAO.count(searchCriteria);
-    }
-
-    // =========================================================================
-
-//    @Override
-//    public List<ShortRule> getMatchingRules(Long userId, Long profileId, Long instanceId, String service, String request, String workspace, String layer) {
-//        Search searchCriteria = new Search(Rule.class);
-//        searchCriteria.addSortAsc("priority");
-//
-//        addIdMatchCriteria(searchCriteria, userId,       "gsuser");
-//        addIdMatchCriteria(searchCriteria, profileId,    "profile");
-//        addIdMatchCriteria(searchCriteria, instanceId,   "instance");
-//
-//        addStringMatchCriteria(searchCriteria, service,    "service");
-//        addStringMatchCriteria(searchCriteria, request,    "request");
-//        addStringMatchCriteria(searchCriteria, workspace,  "workspace");
-//        addStringMatchCriteria(searchCriteria, layer,      "layer");
-//
-//        List<Rule> found = ruleDAO.search(searchCriteria);
-//        return convertToShortList(found);
-//
-//    }
-//
-//    /**
-//     * Add criteria for <B>matching</B>:
-//     * <UL>
-//     * <LI>null IDs will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting negative values)</LI>
-//     * <LI>a valid numeric id will match that numeric value and any rules with that id set to null</LI>
-//     * </UL>
-//     * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
-//     */
-//    protected void addIdMatchCriteria(Search searchCriteria, Long id, String fieldName) throws BadRequestWebEx {
-//        if (id == null)
-//            throw new BadRequestWebEx(fieldName + " is null");
-//
-//        searchCriteria.addFilterOr(
-//                Filter.isNull(fieldName),
-//                Filter.equal(fieldName + ".id", id));
-//    }
-//
-//    /**
-//     * Add criteria for <B>matching</B>:
-//     * <UL>
-//     * <LI>null values will not add a constraint criteria</LI>
-//     * <LI>any string will match that specific value and any rules with that field set to null</LI>
-//     * </UL>
-//     */
-//    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
-//        if(value != null) {
-//            searchCriteria.addFilterOr(
-//                    Filter.isNull(fieldName),
-//                    Filter.equal(fieldName, value));
-//        }
-//    }
 
     // =========================================================================
     // Limits

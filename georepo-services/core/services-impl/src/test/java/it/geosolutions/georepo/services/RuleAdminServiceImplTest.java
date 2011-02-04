@@ -78,7 +78,7 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
             assertNotNull(loaded);
 
             assertEquals("p1", loaded.getProfile().getName());
-            assertEquals("s1", loaded.getService());
+            assertEquals("S1", loaded.getService());
             assertEquals("l1", loaded.getLayer());
 
             loaded.setProfile(p2);
@@ -92,7 +92,7 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
             assertNotNull(loaded);
 
             assertEquals("p2", loaded.getProfile().getName());
-            assertEquals("s2", loaded.getService());
+            assertEquals("S2", loaded.getService());
             assertEquals("l2", loaded.getLayer());
         }
     }
