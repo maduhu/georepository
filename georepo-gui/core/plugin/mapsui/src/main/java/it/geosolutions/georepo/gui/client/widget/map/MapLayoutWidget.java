@@ -190,7 +190,7 @@ public class MapLayoutWidget extends LayoutContainer {
         VectorOptions vectorOption = new VectorOptions();
         vectorOption.setStyle(this.createStyle());
         vectorOption.setDisplayInLayerSwitcher(false);
-        this.vector = new Vector("DGWATCH Vector Layer", vectorOption);
+        this.vector = new Vector("GeoRepo Vector Layer", vectorOption);
         this.map.addLayer(vector);
 
         this.initDrawFeatures(isGoogle);

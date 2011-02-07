@@ -79,7 +79,7 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
         List<Workspace> workspacesListDTO = new ArrayList<Workspace>();
         workspacesListDTO.add(new Workspace("*"));
 
-        if (!remoteURL.equals("*") && !remoteURL.contains("?")) {
+        if (remoteURL != null && !remoteURL.equals("*") && !remoteURL.contains("?")) {
             remoteURL += (!remoteURL.endsWith("/") ? "/" : "") + "rest/workspaces.json";
             String jsonTxt = getRemoteJsonString(remoteURL);
 

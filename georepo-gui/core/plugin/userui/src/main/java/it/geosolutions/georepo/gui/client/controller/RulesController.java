@@ -1,5 +1,5 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.controller.USERSController,v. 0.1 31-gen-2011 13.41.27 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.controller.RulesController,v. 0.1 31-gen-2011 13.41.27 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
  * $ Date: 31-gen-2011 13.41.27 $
  *
@@ -50,8 +50,6 @@ import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.RuleGridWidget;
-import it.geosolutions.georepo.gui.client.widget.tab.GsUsersTabItem;
-import it.geosolutions.georepo.gui.client.widget.tab.ProfilesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.RulesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
@@ -66,15 +64,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class USERSController.
+ * The Class RulesController.
  */
-public class USERSController extends Controller {
-
-    /** The Constant USERS_TAB_ITEM_ID. */
-    private static final String USERS_TAB_ITEM_ID = "UsersTabItem";
-
-    /** The Constant PROFILES_TAB_ITEM_ID. */
-    private static final String PROFILES_TAB_ITEM_ID = "ProfilesTabItem";
+public class RulesController extends Controller {
 
     /** The Constant RULES_TAB_ITEM_ID. */
     private static final String RULES_TAB_ITEM_ID = "RulesTabItem";
@@ -102,27 +94,20 @@ public class USERSController extends Controller {
     /** The tab widget. */
     private TabWidget tabWidget;
 
-    // /** The feature remote. */
-    // private FeatureServiceRemoteAsync featureRemote = FeatureServiceRemote.Util.getInstance();
-
-    // /** The tab widget. */
-    // private TabWidget tabWidget;
-
-    // /** The aoi search widget. */
-    // private GeoRepoSearchWidget<AOI> aoiSearchWidget;
-    //
-    // /** The geo constraint search widget. */
-    // private GeoRepoSearchWidget<GeoConstraint> geoConstraintSearchWidget;
-
     /**
      * Instantiates a new uSERS controller.
      */
-    public USERSController() {
-        registerEventTypes(GeoRepoEvents.INIT_MAPS_UI_MODULE,
-                GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, GeoRepoEvents.RULE_UPDATE_GRID_COMBO,
-                GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO, GeoRepoEvents.RULE_ADD,
-                GeoRepoEvents.RULE_DEL, GeoRepoEvents.RULE_PRIORITY_UP,
-                GeoRepoEvents.RULE_PRIORITY_DOWN);
+    public RulesController() {
+        registerEventTypes(
+                GeoRepoEvents.INIT_MAPS_UI_MODULE,
+                GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, 
+                GeoRepoEvents.RULE_UPDATE_GRID_COMBO,
+                GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO, 
+                GeoRepoEvents.RULE_ADD,
+                GeoRepoEvents.RULE_DEL, 
+                GeoRepoEvents.RULE_PRIORITY_UP,
+                GeoRepoEvents.RULE_PRIORITY_DOWN, 
+                GeoRepoEvents.INJECT_WKT);
     }
 
     /*
@@ -172,7 +157,22 @@ public class USERSController extends Controller {
         if (event.getType() == GeoRepoEvents.RULE_PRIORITY_DOWN)
             onRulePriorityDown(event);
 
+        if (event.getType() == GeoRepoEvents.INJECT_WKT)
+            onInjectWKT(event);
+
         // forwardToView(aoiView, event);
+    }
+
+    /**
+     * TODO: Rule limits
+     * 
+     * @param event
+     */
+    //  Dispatcher.forwardEvent(GeoRepoEvents.ERASE_AOI_FEATURES);
+    //  Dispatcher.forwardEvent(GeoRepoEvents.ENABLE_DRAW_BUTTON);
+    private void onInjectWKT(AppEvent event) {
+        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "WKT",
+                (String) event.getData() });
     }
 
     /**
@@ -184,9 +184,6 @@ public class USERSController extends Controller {
     private void onAttachTabWidgets(AppEvent event) {
         if (tabWidget == null) {
             tabWidget = (TabWidget) event.getData();
-            tabWidget.add(new GsUsersTabItem(USERS_TAB_ITEM_ID, gsManagerServiceRemote,
-                    profilesManagerServiceRemote));
-            tabWidget.add(new ProfilesTabItem(PROFILES_TAB_ITEM_ID, profilesManagerServiceRemote));
             tabWidget.add(new RulesTabItem(RULES_TAB_ITEM_ID, rulesManagerServiceRemote,
                     gsManagerServiceRemote, profilesManagerServiceRemote,
                     instancesManagerServiceRemote, workspacesManagerServiceRemote));
@@ -241,30 +238,22 @@ public class USERSController extends Controller {
 
                                 public void onFailure(Throwable caught) {
 
-                                    Dispatcher
-                                            .forwardEvent(
-                                                    GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                                    new String[] {
-                                                            I18nProvider.getMessages()
-                                                                    .ruleServiceName(),
-                                                            I18nProvider
-                                                                    .getMessages()
-                                                                    .ruleFetchFailureMessage() });
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                            new String[] {
+                                                    I18nProvider.getMessages().ruleServiceName(),
+                                                    I18nProvider.getMessages()
+                                                            .ruleFetchFailureMessage() });
                                 }
 
                                 public void onSuccess(PagingLoadResult<Rule> result) {
 
                                     Dispatcher.forwardEvent(
                                             GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-                                    Dispatcher
-                                            .forwardEvent(
-                                                    GeoRepoEvents.SEND_INFO_MESSAGE,
-                                                    new String[] {
-                                                            I18nProvider.getMessages()
-                                                                    .ruleServiceName(),
-                                                            I18nProvider
-                                                                    .getMessages()
-                                                                    .ruleFetchSuccessMessage() });
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                            new String[] {
+                                                    I18nProvider.getMessages().ruleServiceName(),
+                                                    I18nProvider.getMessages()
+                                                            .ruleFetchSuccessMessage() });
                                 }
                             });
                 }
@@ -465,6 +454,7 @@ public class USERSController extends Controller {
      * @param event
      *            the event
      */
+    @SuppressWarnings("unused")
     private void forwardToTabWidget(AppEvent event) {
         // this.tabWidget.fireEvent(event.getType(), event);
     }

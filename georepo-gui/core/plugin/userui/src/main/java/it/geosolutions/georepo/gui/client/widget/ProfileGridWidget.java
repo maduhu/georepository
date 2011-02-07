@@ -337,7 +337,6 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                 CheckBox profileEnabledButton = new CheckBox();
                 // TODO: add correct tooltip text here!
                 //profileEnabledButton.setToolTip("Test");
-                // TODO: Read only mode in this version.
                 profileEnabledButton.setReadOnly(true);
                 
                 profileEnabledButton.setValue(model.isEnabled());

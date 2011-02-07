@@ -33,8 +33,9 @@
 package it.geosolutions.georepo.gui.client;
 
 import it.geosolutions.georepo.gui.client.controller.LoginController;
-import it.geosolutions.georepo.gui.client.controller.ServicesController;
-import it.geosolutions.georepo.gui.client.controller.USERSController;
+import it.geosolutions.georepo.gui.client.controller.ProfilesController;
+import it.geosolutions.georepo.gui.client.controller.RulesController;
+import it.geosolutions.georepo.gui.client.controller.UsersController;
 
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.google.gwt.core.client.EntryPoint;
@@ -56,8 +57,9 @@ public class UserUI implements EntryPoint {
     public void onModuleLoad() {
         dispatcher = Dispatcher.get();
         dispatcher.addController(new LoginController());
-        dispatcher.addController(new ServicesController());
-        dispatcher.addController(new USERSController());
+        dispatcher.addController(new UsersController());
+        dispatcher.addController(new ProfilesController());
+        dispatcher.addController(new RulesController());
 
         dispatcher.dispatch(GeoRepoEvents.INIT_USER_UI_MODULE);
     }

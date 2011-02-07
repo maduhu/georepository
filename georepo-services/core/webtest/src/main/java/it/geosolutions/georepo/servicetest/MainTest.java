@@ -100,6 +100,10 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         GSUser areaUser = createUser("area");
         areaUser.setProfile(p1);
         userAdminService.insert(areaUser);
+        
+        GSUser uStates = createUser("u-states");
+        uStates.setProfile(p1);
+        userAdminService.insert(uStates);
 
         LOGGER.info("===== Creating Rules =====");
 
@@ -119,6 +123,7 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetMap", "sf", null, GrantType.ALLOW)));
         ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetCapabilities", "sf", null, GrantType.ALLOW)));
         ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "reflect", "sf", null, GrantType.ALLOW)));
+        // allow only GetMap and GetFeature the topp workspace
         
         /* wms user rules */
         ruleAdminService.insert((new Rule(priority++, wmsUser, null, null, "wms", null, null, null, GrantType.ALLOW)));
@@ -131,10 +136,12 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         ruleAdminService.setLimits(ruleId, limits);
         ruleAdminService.insert((new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.ALLOW)));
         
+        /* some users for interactive testing with the default data directory */
+        // uStates can do whatever, but only on topp:states
+        ruleAdminService.insert(new Rule(priority++, uStates, null, null, null, null, "topp", "states", GrantType.ALLOW));
+        
         // deny everything else
         ruleAdminService.insert(new Rule(priority++, null, null, null,  null, null, null, null, GrantType.DENY));
-
-//        AccessInfo accessInfo = ruleReaderService.getAccessInfo("pippo", null, "gs1", "WMS", null, null, null);
         new Thread(new Runnable() {
 
             @Override
