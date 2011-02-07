@@ -13,7 +13,7 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.geoserver.data.test.MockData;
 import org.geoserver.test.GeoServerTestSupport;
 
-public class GeorepositoryBaseTest extends GeoServerTestSupport {
+public abstract class GeorepositoryBaseTest extends GeoServerTestSupport {
 
     GeorepositoryAccessManager manager;
 
