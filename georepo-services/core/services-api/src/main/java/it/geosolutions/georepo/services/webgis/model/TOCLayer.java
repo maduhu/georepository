@@ -68,7 +68,7 @@ public class TOCLayer {
 //       filtro1="" singleTile="false" isInternal="false" isQueryable="false"
 //       infoPossible="false" typeLayer="0">
 
-    private long georepoLayerId;
+    private long georepoId;
     
     private String name;
     private String title;
@@ -157,12 +157,12 @@ public class TOCLayer {
     }
 
     @XmlAttribute
-    public long getGeorepoLayerId() {
-        return georepoLayerId;
+    public long getGeorepoId() {
+        return georepoId;
     }
 
-    public void setGeorepoLayerId(long georepoLayerId) {
-        this.georepoLayerId = georepoLayerId;
+    public void setGeorepoId(long georepoId) {
+        this.georepoId = georepoId;
     }
 
     @XmlTransient // will be encoded by getAny()

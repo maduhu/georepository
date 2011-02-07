@@ -21,15 +21,18 @@
 package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.model.GSInstance;
-import it.geosolutions.georepo.core.model.InstancePermission;
-import it.geosolutions.georepo.core.model.LayerPermission;
+import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.georepo.services.webgis.model.TOC;
 import it.geosolutions.georepo.services.webgis.WebGisTOCService;
+import it.geosolutions.georepo.services.webgis.model.TOCConfig;
+import it.geosolutions.georepo.services.webgis.model.TOCGroup;
 import it.geosolutions.georepo.services.webgis.model.TOCLayer;
 import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import org.apache.log4j.Logger;
@@ -40,11 +43,19 @@ import org.apache.log4j.Logger;
  */
 public class WGTocServiceImpl implements WebGisTOCService {
     private final static Logger LOGGER = Logger.getLogger(WGTocServiceImpl.class);
-    private FakeDataStorage fakeDAO = new FakeDataStorage();
+
+    private RuleAdminService ruleAdminService;
+    private InstanceAdminService instanceAdminService;
+
+    public WGTocServiceImpl() {
+        FakeServices fakeServices = new FakeServices();
+        ruleAdminService = fakeServices.getRuleAdminService();
+        instanceAdminService = fakeServices.getInstanceAdminService();
+    }
 
     @Override
     @XmlElementWrapper(name="pippo")
-    public TOC getTOC(String profile) {
+    public TOCConfig getTOC(String profile) {
 
         if(profile == null)
             throw new BadRequestWebEx("Missing Profile");
@@ -56,53 +67,73 @@ public class WGTocServiceImpl implements WebGisTOCService {
         }
 
         // groupTitle, Group
-        Map<String, TOC.Group> groups = new HashMap<String, TOC.Group>();
+        Map<String, TOCGroup> groups = new HashMap<String, TOCGroup>();
+        Map<Long, GSInstance> instances = new HashMap<Long, GSInstance>();
 
-        for (InstancePermission instancePermission : fakeDAO.getInstancePermissions(profile)) {
-            GSInstance instance = instancePermission.getInstance();
-            for (LayerPermission layerPermission : fakeDAO.getLayerPermissions(instancePermission)) {
-                String groupTitle = layerPermission.getCustomProps().get(TOCLayer.TOCProps.groupName.name());
+        List<ShortRule> rules = ruleAdminService.getList("*", profile, "*", "*", "*", "*", "*", null, null);
+        for (ShortRule shortRule : rules) {
+            if(shortRule.getLayer() != null) {
+                LOGGER.info("retrieving props for Rule " + shortRule);
+                Map<String, String> props = ruleAdminService.getDetailsProps(shortRule.getId());
+
+                String groupTitle = props.get(TOCLayer.TOCProps.groupName.name());
                 if(groupTitle==null)
                     groupTitle = "UNGROUPED";
-                TOC.Group group = fetchOrCreateGroup(groups, groupTitle, instance.getBaseURL());
-                TOCLayer tocl = createLayer(layerPermission, instance);
+                GSInstance gs = fetchInstance(instances, shortRule.getInstanceId());
+                TOCGroup group = fetchOrCreateGroup(groups, groupTitle, gs);
+                TOCLayer tocl = createLayer(gs, shortRule, props);
                 group.getLayerList().add(tocl);
             }
-
         }
 
         TOC toc = new TOC();
-        for (TOC.Group group : groups.values()) {
+        for (TOCGroup group : groups.values()) {
             toc.getGroupList().add(group);
         }
-        return toc;
+        return new TOCConfig(toc);
     }
 
-    private static TOC.Group fetchOrCreateGroup(Map<String, TOC.Group> groups, String groupTitle, String url) {
-        String groupKey = groupTitle+" @ "+url;
+    private GSInstance fetchInstance(Map<Long, GSInstance> instances, Long instanceId) {
+        try {
+            if (instances.containsKey(instanceId)) {
+                return instances.get(instanceId);
+            }
+            GSInstance instance = instanceAdminService.get(instanceId);
+            instances.put(instanceId, instance);
+            return instance;
+        } catch (ResourceNotFoundFault ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return null;
+        }
+    }
 
-        TOC.Group group = groups.get(groupKey);
+    private static TOCGroup fetchOrCreateGroup(Map<String, TOCGroup> groups, String groupTitle, GSInstance instance) {
+        
+        String groupKey = groupTitle+" @ "+instance.getName();
+
+        TOCGroup group = groups.get(groupKey);
         if(group == null) {
-            group = new TOC.Group();
+            group = new TOCGroup();
             group.setTitle(groupTitle);
-            group.setUrl(url);
+            group.setUrl(instance.getBaseURL());
             groups.put(groupKey, group);
         }
 
         return group;
     }
 
-    TOCLayer createLayer(LayerPermission lp, GSInstance instance) {
+
+    TOCLayer createLayer(GSInstance instance, ShortRule rule, Map<String,String> props) {
         TOCLayer l = new TOCLayer();
-        l.setName(lp.getLayerName());
-        l.setGeorepoLayerId(lp.getId());
-        for (Map.Entry<String, String> entry : lp.getCustomProps().entrySet()) {
+        l.setName(rule.getLayer());
+        l.setGeorepoId(rule.getId());
+        for (Map.Entry<String, String> entry : props.entrySet()) {
             l.getProperties().put(entry.getKey(), entry.getValue());
         }
 
         // next info shall be read from the server's getCapa
-        l.setTitle("TITLE of " + lp.getLayerName());
-        l.setAbs("ABS of " + lp.getLayerName());
+        l.setTitle("TITLE of " + rule.getLayer());
+        l.setAbs("ABS of " + rule.getLayer());
         l.setMinX(-180);
         l.setMaxX(180);
         l.setMinY(-90);
@@ -112,17 +143,17 @@ public class WGTocServiceImpl implements WebGisTOCService {
         return l;
     }
 
+    //==========================================================================
+
     @Override
-    public String setProperty(long layerId, String propertyName, String propertyValue) {
+    public String setProperty(long layerId, String propertyName, String propertyValue) throws NotFoundWebEx {
 
-        LayerPermission lp = fakeDAO.getLayerPermission(layerId);
+        Map<String, String> props = ruleAdminService.getDetailsProps(layerId); // throws notfoundex
 
-        if(lp == null)
-            throw new NotFoundWebEx("Layer "+layerId+" not found");
-
-        if(lp.getCustomProps().containsKey(propertyName)) {
+        if(props.containsKey(propertyName)) {
             LOGGER.info("Setting property " +propertyName + " to " + propertyValue + " for layer " + layerId + " in profile ???" );
-            String oldValue = lp.getCustomProps().put(propertyName, propertyValue);
+            String oldValue = props.put(propertyName, propertyValue);
+            ruleAdminService.setDetailsProps(layerId, props);
             return oldValue;
         } else {
             LOGGER.info("Will not set property " +propertyName + " to " + propertyValue + " for layer " + layerId + ": property not found");
@@ -131,14 +162,22 @@ public class WGTocServiceImpl implements WebGisTOCService {
     }
 
     @Override
-    public String getProperty(long layerId, String propertyName) {
-        LayerPermission lp = fakeDAO.getLayerPermission(layerId);
-
-        if(lp == null)
-            throw new NotFoundWebEx("Layer "+layerId+" not found");
+    public String getProperty(long layerId, String propertyName) throws NotFoundWebEx {
+        Map<String, String> props = ruleAdminService.getDetailsProps(layerId); // throws notfoundex
 
         LOGGER.info("Getting property " +propertyName );
-        return lp.getCustomProps().get(propertyName);
+        return props.get(propertyName);
     }
-    
+
+    //==========================================================================
+
+    public void setRuleAdminService(RuleAdminService ruleAdminService) {
+        this.ruleAdminService = ruleAdminService;
+    }
+
+    public void setInstanceAdminService(InstanceAdminService instanceAdminService) {
+        this.instanceAdminService = instanceAdminService;
+    }
+
+
 }

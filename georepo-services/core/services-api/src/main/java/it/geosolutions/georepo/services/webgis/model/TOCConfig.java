@@ -20,17 +20,14 @@
 
 package it.geosolutions.georepo.services.webgis.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-@XmlRootElement(name="toc")
-public class TOC {
+@XmlRootElement(name="configurations")
+public class TOCConfig {
 //                <server name="Foto Aeree" url="http://maps.telespazio.it/snam/snam2-wms">
 //                        <layer name="RealItaly_tiles" title="RealItaly" abstract="RealItaly"
 //                                srs="EPSG:4326" format="image/png" minX="6.62684258" minY="35.49180286"
@@ -40,15 +37,21 @@ public class TOC {
 //                        </layer>
 //                </server>
 
-    private List<TOCGroup> groupList = new ArrayList<TOCGroup>();
+    private TOC toc;
 
-    @XmlElement(name="group")
-    public List<TOCGroup> getGroupList() {
-        return groupList;
+    public TOCConfig() {
     }
 
-    public void setGroupList(List<TOCGroup> serverList) {
-        this.groupList = serverList;
+    public TOCConfig(TOC toc) {
+        this.toc = toc;
+    }
+    
+    public TOC getToc() {
+        return toc;
+    }
+
+    public void setToc(TOC toc) {
+        this.toc = toc;
     }
 
 }

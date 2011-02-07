@@ -22,6 +22,7 @@ package it.geosolutions.georepo.services.webgis.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,26 +30,50 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author ETj (etj at geo-solutions.it)
  */
-@XmlRootElement(name="toc")
-public class TOC {
-//                <server name="Foto Aeree" url="http://maps.telespazio.it/snam/snam2-wms">
-//                        <layer name="RealItaly_tiles" title="RealItaly" abstract="RealItaly"
-//                                srs="EPSG:4326" format="image/png" minX="6.62684258" minY="35.49180286"
-//                                maxX="18.52055698" maxY="47.09192081" baseLayer="false" visible="false"
-//                                filtro1="" singleTile="false" isInternal="false" isQueryable="false"
-//                                infoPossible="false" typeLayer="0">
-//                        </layer>
-//                </server>
 
-    private List<TOCGroup> groupList = new ArrayList<TOCGroup>();
+@XmlRootElement(name="group")
+public class TOCGroup {
 
-    @XmlElement(name="group")
-    public List<TOCGroup> getGroupList() {
-        return groupList;
+    private String title;
+    private String url;
+    private final boolean visible = false;
+    private List<TOCLayer> layerList = new ArrayList<TOCLayer>();
+
+    @XmlElement(name="layer")
+    public List<TOCLayer> getLayerList() {
+        return layerList;
     }
 
-    public void setGroupList(List<TOCGroup> serverList) {
-        this.groupList = serverList;
+    public void setLayerList(List<TOCLayer> layerList) {
+        this.layerList = layerList;
     }
 
+    @XmlAttribute
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String name) {
+        this.title = name;
+    }
+
+    @XmlAttribute
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @XmlAttribute
+    public boolean isVisible() {
+        return visible;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" + "title=" + title + " url=" + url + " layerList=" + layerList + '}';
+    }
 }
+

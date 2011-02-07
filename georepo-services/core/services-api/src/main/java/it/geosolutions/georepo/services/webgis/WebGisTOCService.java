@@ -21,6 +21,7 @@ package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.services.exception.IllegalParameterFault;
 import it.geosolutions.georepo.services.webgis.model.TOC;
+import it.geosolutions.georepo.services.webgis.model.TOCConfig;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -43,7 +44,7 @@ public interface WebGisTOCService {
     @GET
     @Path("/profile/{profile}/toc")
     @XmlElementWrapper(name="pippo")
-    TOC getTOC(
+    TOCConfig getTOC(
             @PathParam("profile") String profile
             ) throws IllegalParameterFault;
 
