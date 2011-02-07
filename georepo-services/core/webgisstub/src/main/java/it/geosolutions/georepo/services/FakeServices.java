@@ -25,6 +25,7 @@ import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
+import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
@@ -76,6 +77,17 @@ public class FakeServices {
             createRule(i1, "layer904", "Gruppo3");
             createRule(i1, "layer905", "Gruppo3");
             createRule(i1, "layer906", "Gruppo2"); // should be diffrent from grp in previous instnance with same name
+
+            createRule(i1, "new layer not yet edited and forgotted somewhere", null);
+
+            createRule(i1, "mappa01", null, "Mappa");
+
+            createRule(i1, "orto01", null, "Ortofoto");
+            createRule(i1, "orto02", null, "Ortofoto");
+
+            createRule(i1, "ibrido01", null, "Ibrido");
+            createRule(i1, "ibrido02", null, "Ibrido");
+            createRule(i1, "ibrido03", null, "Ibrido");
         }
     }
 
@@ -88,8 +100,12 @@ public class FakeServices {
     }
 
     private static long ruleCnt= 100;
-    
+
     private static Rule createRule(GSInstance gsi, String layerName, String group) {
+        return createRule(gsi, layerName, group, null);
+    }
+    
+    private static Rule createRule(GSInstance gsi, String layerName, String group, String bgGroup) {
         Rule rule = new Rule();
         rule.setId(ruleCnt);
         rule.setPriority(ruleCnt++);
@@ -102,7 +118,12 @@ public class FakeServices {
         details.setCqlFilterRead("CQL_"+layerName);
         details.getCustomProps().put(TOCLayer.TOCProps.format.name(), "image/png");
         details.getCustomProps().put(TOCLayer.TOCProps.baseLayer.name(), "false");
-        details.getCustomProps().put(TOCLayer.TOCProps.groupName.name(), group);
+
+        if(group != null)
+            details.getCustomProps().put(TOCLayer.TOCProps.groupName.name(), group);
+
+        if(bgGroup != null)
+            details.getCustomProps().put(TOCLayer.TOCProps.bgGroup.name(), bgGroup);
 
         details.setRule(rule);
 
@@ -197,6 +218,16 @@ public class FakeServices {
 
         @Override
         public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public List<ShortRule> getList(RuleFilter filter, Integer page, Integer entries) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public long getCount(RuleFilter filter) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }

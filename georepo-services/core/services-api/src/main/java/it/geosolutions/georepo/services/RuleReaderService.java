@@ -19,9 +19,9 @@
  */
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.services.dto.AccessInfo;
+import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 
 import java.util.List;
@@ -40,10 +40,48 @@ public interface RuleReaderService {
     /**
      * Return info on resource accessibility.
      * <P>
-     * All parameters reference instances by name.
-     * If a given parameter is <TT>null</TT>, it will match anything in the related {@link Rule} field.
+     * All parameters reference instances by name.<BR>
+     * <LI>If a given parameter is "<TT>*</TT>", it will match <B>any</B> value in the related {@link Rule} field.</LI>
+     * <LI>If a given parameter is <TT>null</TT>, it will match only null (default) values in the related {@link Rule} field.</LI>
+     * </UL>
+     * In order to have a better control on the query, please use {@link #getAccessInfo(RuleFilter filter) }.
+     *
+     * @deprecated Use {@link #getAccessInfo(RuleFilter filter) }
      */
     AccessInfo getAccessInfo(
+            @PathParam("user") String userName,
+            @PathParam("profile") String profileName,
+            @PathParam("instance") String instanceName,
+
+            @PathParam("service") String service,
+            @PathParam("request") String request,
+            @PathParam("workspace") String workspace,
+            @PathParam("layer") String layer
+            );
+
+    /**
+     * Return info on resource accessibility.
+     */
+    AccessInfo getAccessInfo(RuleFilter filter);
+
+    /**
+     * Return the unprocessed {@link Rule} list matching a given filter, sorted
+     * by priority.
+     * <P>
+     * Use {@link getAccessInfo(String,String,String,String,String,String,String) getAccessInfo}
+     * if you need the resulting coalesced access info.
+     * <P>
+     * Differently from {@link RuleAdminService#getList(String,String,String,String,String,String,String,Integer,Integer) RuleAdminService.getList(...)},
+     *  when a param is set, it will match
+     * all the rules with the corresponding matching field,
+     * plus all the rules having that field set to <T>null</TT>.
+     * <BR>Null params will only match null values.
+     * <BR>The "*" string will always match.
+     *
+     * @deprecated Use {@link #getMatchingRules(RuleFilter filter) }
+     */
+
+    List<ShortRule> getMatchingRules(
             @PathParam("user") String userName,
             @PathParam("profile") String profileName,
             @PathParam("instance") String instanceName,
@@ -58,26 +96,11 @@ public interface RuleReaderService {
      * Return the unprocessed {@link Rule} list matching a given filter, sorted
      * by priority.
      * <P>
-     * Use {@link getAccessInfo(String,String,String,String,String,String,String) getAccessInfo}
+     * Use {@link getAccessInfo(RuleFilter) getAccessInfo(RuleFilter)}
      * if you need the resulting coalesced access info.
-     * <P>
-     * Differently from {@link RuleAdminService#getList(String,String,String,String,String,String,String,Integer,Integer) RuleAdminService.getList(...)},
-     *  when a param is set, it will match
-     * all the rules with the corresponding matching field,
-     * plus all the rules having that field set to <T>null</TT>.
-     * <BR>Null params will always match.
      */
+    List<ShortRule> getMatchingRules(RuleFilter filter);
 
-    List<ShortRule> getMatchingRules(
-            @PathParam("user") String userName,
-            @PathParam("profile") String profileName,
-            @PathParam("instance") String instanceName,
-
-            @PathParam("service") String service,
-            @PathParam("request") String request,
-            @PathParam("workspace") String workspace,
-            @PathParam("layer") String layer
-            );
 
     // ==========================================================================
 

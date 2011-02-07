@@ -24,6 +24,7 @@ import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.dto.AccessInfo;
+import it.geosolutions.georepo.services.dto.RuleFilter;
 import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -66,10 +67,28 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
 
         assertEquals(0, ruleReaderService.getMatchingRules("","","",            null, null,null,null).size());
 //        LOGGER.error(ruleAdminService.getMatchingRules(-1L,p1.getId(),-1L,    null, null,null,null));
-        assertEquals(3, ruleReaderService.getMatchingRules("",p1.getName(),"",  null, null,null,null).size());
-        assertEquals(1, ruleReaderService.getMatchingRules("",p2.getName(),"",  null, null,null,null).size());
-        assertEquals(2, ruleReaderService.getMatchingRules("",p1.getName(),"",  "s1", null,null,null).size());
-        assertEquals(0, ruleReaderService.getMatchingRules("","","",            "ZZ", null,null,null).size());
+        assertEquals(3, ruleReaderService.getMatchingRules("",p1.getName(),"",  "*", "*","*","*").size());
+        assertEquals(1, ruleReaderService.getMatchingRules("",p2.getName(),"",  "*", "*","*","*").size());
+        assertEquals(2, ruleReaderService.getMatchingRules("",p1.getName(),"",  "s1", "*","*","*").size());
+        assertEquals(0, ruleReaderService.getMatchingRules("","","",            "ZZ", "*","*","*").size());
+
+        RuleFilter filter;
+        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filter.setProfile(p1.getId());
+        assertEquals(3, ruleReaderService.getMatchingRules(filter).size());
+
+        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filter.setProfile(p1.getName());
+        assertEquals(3, ruleReaderService.getMatchingRules(filter).size());
+
+        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filter.setProfile(p1.getId());
+        filter.setService("s1");
+        assertEquals(2, ruleReaderService.getMatchingRules(filter).size());
+
+        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filter.setService("s3");
+        assertEquals(2, ruleReaderService.getMatchingRules(filter).size());
 
     }
 

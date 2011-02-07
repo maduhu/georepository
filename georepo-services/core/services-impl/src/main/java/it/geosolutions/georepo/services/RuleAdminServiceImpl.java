@@ -19,7 +19,9 @@
  */
 package it.geosolutions.georepo.services;
 
+import com.trg.search.Filter;
 import it.geosolutions.georepo.core.model.LayerDetails;
+import it.geosolutions.georepo.services.dto.RuleFilter.IdNameFilter;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ import it.geosolutions.georepo.core.dao.RuleLimitsDAO;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.core.model.enums.GrantType;
+import it.geosolutions.georepo.services.dto.RuleFilter;
+import it.geosolutions.georepo.services.dto.RuleFilter.NameFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
@@ -124,17 +128,52 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         return convertToShortList(found);
     }
 
+//    /**
+//     * Creating a filter heuristically
+//     * <UL>
+//     * <LI>a null id will only match a null field</LI>
+//     * <LI>an id=="*" will match everything, so no filter condition is needed</LI>
+//     * <LI>a valid numeric id will only match that numeric value</LI>
+//     * </UL>
+//     */
+
     @Override
     public List<ShortRule> getList(String userId, String profileId, String instanceId,
             String service, String request,
             String workspace, String layer,
             Integer page, Integer entries) {
 
+        RuleFilter filter = new RuleFilter(0L, 0L, 0L, service, request, workspace, layer);
+        // adjust IDs
+        adjustFilterHeuristic(filter.getUser(), userId);
+        adjustFilterHeuristic(filter.getProfile(), profileId);
+        adjustFilterHeuristic(filter.getInstance(), instanceId);
+
+        return getList(filter, page, entries);
+    }
+
+    private void adjustFilterHeuristic(IdNameFilter filter, String id) {
+        if (id == null) {
+            filter.setType(RuleFilter.SpecialFilterType.DEFAULT);
+        } else if (id.equals("*")) {
+            filter.setType(RuleFilter.SpecialFilterType.ANY);
+        } else {
+            try {
+                filter.setId(Long.valueOf(id));
+            } catch (NumberFormatException ex) {
+                throw new BadRequestWebEx("Bad id '" + id + "'");
+            }
+        }
+    }
+
+    @Override
+    public List<ShortRule> getList(RuleFilter filter, Integer page, Integer entries) {
+
         if( (page != null && entries == null) || (page ==null && entries != null)) {
             throw new BadRequestWebEx("Page and entries params should be declared together.");
         }
 
-        Search searchCriteria = buildRuleSearch(userId, profileId, instanceId, service, request, workspace, layer);
+        Search searchCriteria = buildRuleSearch(filter);
         searchCriteria.addSortAsc("priority");
 
         if(entries != null) {
@@ -148,71 +187,91 @@ public class RuleAdminServiceImpl implements RuleAdminService {
 
     @Override
     public long getCountAll() {
-        return getCount("*", "*", "*", "*", "*", "*", "*");
+        return getCount(new RuleFilter(RuleFilter.SpecialFilterType.ANY));
     }
 
     @Override
     public long getCount(String userId, String profileId, String instanceId, String service, String request, String workspace, String layer) {
-        Search searchCriteria = buildRuleSearch(userId, profileId, instanceId, service, request, workspace, layer);
+        RuleFilter filter = new RuleFilter(0L, 0L, 0L, service, request, workspace, layer);
+        // adjust IDs
+        adjustFilterHeuristic(filter.getUser(), userId);
+        adjustFilterHeuristic(filter.getProfile(), profileId);
+        adjustFilterHeuristic(filter.getInstance(), instanceId);
+        return getCount(filter);
+    }
+
+    @Override
+    public long getCount(RuleFilter filter) {
+        Search searchCriteria = buildRuleSearch(filter);
         return ruleDAO.count(searchCriteria);
     }
 
     // =========================================================================
     // Search stuff
 
-    private Search buildRuleSearch(String userId, String profileId, String instanceId,
-                                String service, String request,
-                                String workspace, String layer) {
+    private Search buildRuleSearch(RuleFilter filter) {
         Search searchCriteria = new Search(Rule.class);
 
-        addLongSearchCriteria(searchCriteria, userId,     "gsuser");
-        addLongSearchCriteria(searchCriteria, profileId,  "profile");
-        addLongSearchCriteria(searchCriteria, instanceId, "instance");
+        addCriteria(searchCriteria, "gsuser", filter.getUser());
+        addCriteria(searchCriteria, "profile", filter.getProfile());
+        addCriteria(searchCriteria, "instance", filter.getInstance());
 
-        addStringSearchCriteria(searchCriteria, service==null?null:service.toUpperCase(),   "service");  // read class' javadoc
-        addStringSearchCriteria(searchCriteria, request==null?null:request.toUpperCase(),   "request");  // read class' javadoc
-        addStringSearchCriteria(searchCriteria, workspace,  "workspace");
-        addStringSearchCriteria(searchCriteria, layer,      "layer");
+        addStringCriteria(searchCriteria, "service", filter.getService()); // see class' javadoc
+        addStringCriteria(searchCriteria, "request", filter.getRequest()); // see class' javadoc
+        addStringCriteria(searchCriteria, "workspace", filter.getWorkspace());
+        addStringCriteria(searchCriteria, "layer", filter.getLayer());
 
         return searchCriteria;
     }
 
+
     /**
-     * Add criteria for <B>searching</B>:
-     * <UL>
-     * <LI>a null id will only match a null field</LI>
-     * <LI>an id=="*" will match everything, so no filter condition is needed</LI>
-     * <LI>a valid numeric id will only match that numeric value</LI>
-     * </UL>
+     * Add criteria for <B>searching</B>.
+     *
      * We're dealing with IDs here, so <U>we'll suppose that the related object id field is called "id"</U>.
      */
-    protected void addLongSearchCriteria(Search searchCriteria, String id, String fieldName) throws BadRequestWebEx {
-        if (id == null) {
-            searchCriteria.addFilterNull(fieldName);
-        } else if (id.equals("*")) {
-            // do not add any filter
-        } else {
-            try {
-                searchCriteria.addFilterEqual(fieldName + ".id", Long.valueOf(id));
-            } catch (NumberFormatException ex) {
-                throw new BadRequestWebEx("Bad "+fieldName+" '" + id + "'");
-            }
+    private void addCriteria(Search searchCriteria, String fieldName, IdNameFilter filter) {
+        switch (filter.getType()) {
+            case ANY:
+                break; // no filtering
+
+            case DEFAULT:
+                searchCriteria.addFilterNull(fieldName);
+                break;
+
+            case IDVALUE:
+                searchCriteria.addFilter(
+                        Filter.equal(fieldName + ".id", filter.getId()));
+                break;
+
+            case NAMEVALUE:
+                searchCriteria.addFilterOr(
+                        Filter.isNull(fieldName),
+                        Filter.equal(fieldName + ".name", filter.getName()));
+                break;
+
+            default:
+                throw new AssertionError();
         }
     }
 
-    /**
-     * Add criteria for <B>searching</B>:
-     * <LI>a null value will only match a null field</LI>
-     * <LI>a value=="*" will match everything, so no filter condition is needed</LI>
-     * <LI>any other value will only match that value</LI>
-     */
-    protected void addStringSearchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
-        if (value == null) {
-            searchCriteria.addFilterNull(fieldName);
-        } else if (value.equals("*")) {
-            // do not add any filter
-        } else {
-            searchCriteria.addFilterEqual(fieldName, value);
+    private void addStringCriteria(Search searchCriteria, String fieldName, NameFilter filter) {
+        switch (filter.getType()) {
+            case ANY:
+                break; // no filtering
+
+            case DEFAULT:
+                searchCriteria.addFilterNull(fieldName);
+                break;
+
+            case NAMEVALUE:
+                searchCriteria.addFilter(
+                        Filter.equal(fieldName, filter.getName()));
+                break;
+
+            case IDVALUE:
+            default:
+                throw new AssertionError();
         }
     }
 
@@ -345,4 +404,5 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     public void setLayerDetailsDAO(LayerDetailsDAO detailsDAO) {
         this.detailsDAO = detailsDAO;
     }
+
 }

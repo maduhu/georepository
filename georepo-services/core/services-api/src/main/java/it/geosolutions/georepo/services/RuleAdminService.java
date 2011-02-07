@@ -23,6 +23,7 @@ import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
+import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
@@ -40,7 +41,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 /**
- * Operations on {@link Profile Profile}s.
+ * Operations on {@link Rule Rule}s.
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
@@ -87,6 +88,7 @@ public interface RuleAdminService {
      * @param entries used for retrieving paged data, may be null if not used. If not null, also <TT>page</TT> should be defined.
      *
      * @see RuleReaderService#getMatchingRules(String, String, String,  String,String, String,String) RuleReaderService.getMatchingRules(...)
+     * @deprecated Use {@link getList(RuleFilter,Integer,Integer)}
      */
     @GET
     @Path("/rules/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
@@ -105,8 +107,19 @@ public interface RuleAdminService {
             );
 
     /**
+     * Return the Rules according to the filter.
+     *    
+     * @param page used for retrieving paged data, may be null if not used. If not null, also <TT>entries</TT> should be defined.
+     * @param entries used for retrieving paged data, may be null if not used. If not null, also <TT>page</TT> should be defined.
+     *
+     * @see RuleReaderService#getMatchingRules(RuleFilter)
+     */
+    List<ShortRule> getList(RuleFilter filter, Integer page, Integer entries);
+
+    /**
      * Return the Rules count according to the filter.
-     * The same filtering policy as {@link getList(String,String,String,String,String,String,String,Integer,Integer) getList()} is respected.
+     * The same filtering policy as {@link getList(String,String,String,String,String,String,String,Integer,Integer) getList()} is applied.
+     * @deprecated Use {@link getCount(RuleFilter)}
      */
     @GET
     @Path("/rulescount/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
@@ -120,6 +133,12 @@ public interface RuleAdminService {
             @PathParam("workspace") String workspace,
             @PathParam("layer") String layer
      );
+
+
+    /**
+     * Return the Rules count according to the filter.
+     */
+    long getCount(RuleFilter filter);
 
     long getCountAll();
 
@@ -173,12 +192,5 @@ public interface RuleAdminService {
 
     // ==========================================================================
     
-//    @Get
-//    @HttpResource(location = "/rules/{id}/props")
-//    public Map<String, String> getCustomProps(@WebParam(name = "id") Long id);
-//
-//    @Put
-//    @HttpResource(location = "/rules/{id}/props")
-//    public void setCustomProps(@WebParam(name = "id")Long id, Map<String, String> props);
 
 }

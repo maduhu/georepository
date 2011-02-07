@@ -46,7 +46,8 @@ public class TOCLayer {
         infoPossible("false"),
         typeLayer("0"),
         minScale(""),
-        maxScale("")
+        maxScale(""),
+        bgGroup(null)
         ;
 
         private String defaultValue;
@@ -80,7 +81,8 @@ public class TOCLayer {
 
     public TOCLayer() {
         for (TOCProps tocProp : TOCProps.values()) {
-            properties.put(tocProp.name(), tocProp.getDefault());
+            if( null != tocProp.getDefault())
+                properties.put(tocProp.name(), tocProp.getDefault());
         }
     }
 

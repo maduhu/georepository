@@ -23,6 +23,7 @@ package it.geosolutions.georepo.services.webgis.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -42,6 +43,8 @@ public class TOC {
 
     private List<TOCGroup> groupList = new ArrayList<TOCGroup>();
 
+    private List<TOCGroup> backgroundGroupList = new ArrayList<TOCGroup>();
+
     @XmlElement(name="group")
     public List<TOCGroup> getGroupList() {
         return groupList;
@@ -50,5 +53,18 @@ public class TOC {
     public void setGroupList(List<TOCGroup> serverList) {
         this.groupList = serverList;
     }
+
+
+    @XmlElementWrapper(name="background")
+    @XmlElement(name="bggroup")
+    public List<TOCGroup> getBackgroundGroupList() {
+        return backgroundGroupList;
+    }
+
+    public void setBackgroundGroupList(List<TOCGroup> backgroundGroupList) {
+        this.backgroundGroupList = backgroundGroupList;
+    }
+
+
 
 }

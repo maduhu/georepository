@@ -21,6 +21,7 @@ package it.geosolutions.georepo.services;
 
 import com.trg.search.Filter;
 import it.geosolutions.georepo.services.dto.AccessInfo;
+import it.geosolutions.georepo.services.dto.RuleFilter.IdNameFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.core.model.enums.GrantType;
+import it.geosolutions.georepo.services.dto.RuleFilter;
+import it.geosolutions.georepo.services.dto.RuleFilter.NameFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 
@@ -62,15 +65,24 @@ public class RuleReaderServiceImpl implements RuleReaderService {
                     String service, String request,
                     String workspace, String layer) {
 
-        List<Rule> found = getRules(userName, profileName, instanceName, service, request, workspace, layer);
+        return getMatchingRules(new RuleFilter(userName, profileName, instanceName, service, request, workspace, layer));
+    }
+
+    @Override
+    public List<ShortRule> getMatchingRules(RuleFilter filter) {
+        List<Rule> found = getRules(filter);
         return convertToShortList(found);
     }
 
 
     @Override
     public AccessInfo getAccessInfo(String userName, String profileName, String instanceName, String service, String request, String workspace, String layer) {
+        return getAccessInfo(new RuleFilter(userName, profileName, instanceName, service, request, workspace, layer));
+    }
 
-        List<Rule> found = getRules(userName, profileName, instanceName, service, request, workspace, layer);
+    @Override
+    public AccessInfo getAccessInfo(RuleFilter filter) {
+        List<Rule> found = getRules(filter);
 
         List<RuleLimits> limits = new ArrayList<RuleLimits>();
 
@@ -97,10 +109,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
             }
         }
 
-        LOGGER.warn("No rule matching request u:"+userName
-                + " p:"+profileName + " i:"+instanceName
-                + " s:"+service + " r:"+request
-                + " w:"+workspace + " l:"+layer);
+        LOGGER.warn("No rule matching filter " + filter);
 
         // Denying by default
         return new AccessInfo(GrantType.DENY);
@@ -158,55 +167,120 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 
     //==========================================================================
     
-    protected List<Rule> getRules(String userName, String profileName, String instanceName, String service, String request, String workspace, String layer) throws BadRequestWebEx {
+//    protected List<Rule> getRules(String userName, String profileName, String instanceName, String service, String request, String workspace, String layer) throws BadRequestWebEx {
+//        Search searchCriteria = new Search(Rule.class);
+//        searchCriteria.addSortAsc("priority");
+//
+//        addCriteria(searchCriteria, userName, "gsuser");
+//        addCriteria(searchCriteria, profileName, "profile");
+//        addCriteria(searchCriteria, instanceName, "instance");
+//
+//        addStringMatchCriteria(searchCriteria, service==null?null:service.toUpperCase(), "service"); // see class' javadoc
+//        addStringMatchCriteria(searchCriteria, request==null?null:request.toUpperCase(), "request"); // see class' javadoc
+//        addStringMatchCriteria(searchCriteria, workspace, "workspace");
+//        addStringMatchCriteria(searchCriteria, layer, "layer");
+//
+//        List<Rule> found = ruleDAO.search(searchCriteria);
+//        return found;
+//    }
+
+    protected List<Rule> getRules(RuleFilter filter) throws BadRequestWebEx {
         Search searchCriteria = new Search(Rule.class);
         searchCriteria.addSortAsc("priority");
 
-        addNameMatchCriteria(searchCriteria, userName, "gsuser");
-        addNameMatchCriteria(searchCriteria, profileName, "profile");
-        addNameMatchCriteria(searchCriteria, instanceName, "instance");
+        addCriteria(searchCriteria, "gsuser", filter.getUser());
+        addCriteria(searchCriteria, "profile", filter.getProfile());
+        addCriteria(searchCriteria, "instance", filter.getInstance());
 
-        addStringMatchCriteria(searchCriteria, service==null?null:service.toUpperCase(), "service"); // see class' javadoc
-        addStringMatchCriteria(searchCriteria, request==null?null:request.toUpperCase(), "request"); // see class' javadoc
-        addStringMatchCriteria(searchCriteria, workspace, "workspace");
-        addStringMatchCriteria(searchCriteria, layer, "layer");
+        addStringCriteria(searchCriteria, "service", filter.getService()); // see class' javadoc
+        addStringCriteria(searchCriteria, "request", filter.getRequest()); // see class' javadoc
+        addStringCriteria(searchCriteria, "workspace", filter.getWorkspace());
+        addStringCriteria(searchCriteria, "layer", filter.getLayer());
 
         List<Rule> found = ruleDAO.search(searchCriteria);
         return found;
     }
 
-    /**
-     * Add criteria for <B>matching</B> names:
-     * <UL>
-     * <LI><STRIKE>null names will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting empty strings)</STRIKE>a null param will match everything</LI>
-     * <LI>a valid string will match that specific value and any rules with that name set to null</LI>
-     * </UL>
-     * We're dealing with <TT><I>name</I></TT>s here, so <U>we'll suppose that the related object's name field is called "<TT>name</TT>"</U>.
-     */
-    protected void addNameMatchCriteria(Search searchCriteria, String name, String fieldName) throws BadRequestWebEx {
-        if (name == null)
-            return; // TODO: check desired behaviour
-//            throw new BadRequestWebEx(fieldName + " is null");
 
-        searchCriteria.addFilterOr(
-                Filter.isNull(fieldName),
-                Filter.equal(fieldName + ".name", name));
-    }
+    private void addCriteria(Search searchCriteria, String fieldName, IdNameFilter filter) {
+        switch (filter.getType()) {
+            case ANY:
+                break; // no filtering
 
-    /**
-     * Add criteria for <B>matching</B>:
-     * <UL>
-     * <LI>null values will not add a constraint criteria</LI>
-     * <LI>any string will match that specific value and any rules with that field set to null</LI>
-     * </UL>
-     */
-    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
-        if(value != null) {
-            searchCriteria.addFilterOr(
-                    Filter.isNull(fieldName),
-                    Filter.equal(fieldName, value));
+            case DEFAULT:
+                searchCriteria.addFilterNull(fieldName);
+                break;
+                
+            case IDVALUE:
+                searchCriteria.addFilterOr(
+                        Filter.isNull(fieldName),
+                        Filter.equal(fieldName + ".id", filter.getId()));
+                break;
+
+            case NAMEVALUE:
+                searchCriteria.addFilterOr(
+                        Filter.isNull(fieldName),
+                        Filter.equal(fieldName + ".name", filter.getName()));
+                break;
+
+            default:
+                throw new AssertionError();
         }
     }
+
+    private void addStringCriteria(Search searchCriteria, String fieldName, NameFilter filter) {
+        switch (filter.getType()) {
+            case ANY:
+                break; // no filtering
+
+            case DEFAULT:
+                searchCriteria.addFilterNull(fieldName);
+                break;
+
+            case NAMEVALUE:
+                searchCriteria.addFilterOr(
+                        Filter.isNull(fieldName),
+                        Filter.equal(fieldName, filter.getName()));
+                break;
+
+            case IDVALUE:
+            default:
+                throw new AssertionError();
+        }
+    }
+
+//    /**
+//     * Add criteria for <B>matching</B> names:
+//     * <UL>
+//     * <LI><STRIKE>null names will not be accepted: that is: user, profile, instance are required (note you can trick this check by setting empty strings)</STRIKE>a null param will match everything</LI>
+//     * <LI>a valid string will match that specific value and any rules with that name set to null</LI>
+//     * </UL>
+//     * We're dealing with <TT><I>name</I></TT>s here, so <U>we'll suppose that the related object's name field is called "<TT>name</TT>"</U>.
+//     */
+//    protected void addCriteria(Search searchCriteria, String name, String fieldName) throws BadRequestWebEx {
+//        if (name == null)
+//            return; // TODO: check desired behaviour
+////            throw new BadRequestWebEx(fieldName + " is null");
+//
+//        searchCriteria.addFilterOr(
+//                Filter.isNull(fieldName),
+//                Filter.equal(fieldName + ".name", name));
+//    }
+//
+//    /**
+//     * Add criteria for <B>matching</B>:
+//     * <UL>
+//     * <LI>null values will not add a constraint criteria</LI>
+//     * <LI>any string will match that specific value and any rules with that field set to null</LI>
+//     * </UL>
+//     */
+//    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
+//        if(value != null) {
+//            searchCriteria.addFilterOr(
+//                    Filter.isNull(fieldName),
+//                    Filter.equal(fieldName, value));
+//        }
+//    }
 
     // ==========================================================================
 

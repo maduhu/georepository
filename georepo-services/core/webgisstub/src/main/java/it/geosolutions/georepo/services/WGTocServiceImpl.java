@@ -68,6 +68,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
 
         // groupTitle, Group
         Map<String, TOCGroup> groups = new HashMap<String, TOCGroup>();
+        Map<String, TOCGroup> bggroups = new HashMap<String, TOCGroup>();
         Map<Long, GSInstance> instances = new HashMap<Long, GSInstance>();
 
         List<ShortRule> rules = ruleAdminService.getList("*", profile, "*", "*", "*", "*", "*", null, null);
@@ -77,18 +78,28 @@ public class WGTocServiceImpl implements WebGisTOCService {
                 Map<String, String> props = ruleAdminService.getDetailsProps(shortRule.getId());
 
                 String groupTitle = props.get(TOCLayer.TOCProps.groupName.name());
-                if(groupTitle==null)
-                    groupTitle = "UNGROUPED";
                 GSInstance gs = fetchInstance(instances, shortRule.getInstanceId());
+                TOCGroup bg = fetchOrCreateGroup(bggroups, props.get(TOCLayer.TOCProps.bgGroup.name()), gs);
+
+                if( groupTitle==null && bg==null) // not in bg, and group not set: maybe been forgotten?
+                    groupTitle = "UNGROUPED";
+
                 TOCGroup group = fetchOrCreateGroup(groups, groupTitle, gs);
                 TOCLayer tocl = createLayer(gs, shortRule, props);
-                group.getLayerList().add(tocl);
+
+                if(group != null)
+                    group.getLayerList().add(tocl);
+                if(bg != null)
+                    bg.getLayerList().add(tocl);
             }
         }
 
         TOC toc = new TOC();
         for (TOCGroup group : groups.values()) {
             toc.getGroupList().add(group);
+        }
+        for (TOCGroup bggroup : bggroups.values()) {
+            toc.getBackgroundGroupList().add(bggroup);            
         }
         return new TOCConfig(toc);
     }
@@ -108,7 +119,10 @@ public class WGTocServiceImpl implements WebGisTOCService {
     }
 
     private static TOCGroup fetchOrCreateGroup(Map<String, TOCGroup> groups, String groupTitle, GSInstance instance) {
-        
+
+        if(groupTitle == null)
+            return null;
+
         String groupKey = groupTitle+" @ "+instance.getName();
 
         TOCGroup group = groups.get(groupKey);

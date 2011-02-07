@@ -21,8 +21,7 @@
 package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.services.exception.IllegalParameterFault;
-import it.geosolutions.georepo.services.webgis.model.TOC;
-import it.geosolutions.georepo.services.webgis.WebGisTOCService;
+import it.geosolutions.georepo.services.webgis.model.TOCConfig;
 import org.apache.log4j.Logger;
 
 /**
@@ -33,7 +32,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
     private final static Logger LOGGER = Logger.getLogger(WGTocServiceImpl.class);
 
     @Override
-    public TOC getTOC(String profile) throws IllegalParameterFault {
+    public TOCConfig getTOC(String profile) throws IllegalParameterFault {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
