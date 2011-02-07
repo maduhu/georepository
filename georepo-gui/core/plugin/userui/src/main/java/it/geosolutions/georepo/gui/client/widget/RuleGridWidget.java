@@ -220,7 +220,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ColumnConfig ruleServiceWorkspacesColumn = new ColumnConfig();
         ruleServiceWorkspacesColumn.setId(BeanKeyValue.WORKSPACE.getValue());
         ruleServiceWorkspacesColumn.setHeader("Workspace");
-        ruleServiceWorkspacesColumn.setWidth(190);
+        ruleServiceWorkspacesColumn.setWidth(130);
         ruleServiceWorkspacesColumn.setRenderer(this.createServiceWorkspacesComboBox());
         ruleServiceWorkspacesColumn.setMenuDisabled(true);
         ruleServiceWorkspacesColumn.setSortable(false);
@@ -229,7 +229,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ColumnConfig ruleWorkspaceLayersColumn = new ColumnConfig();
         ruleWorkspaceLayersColumn.setId(BeanKeyValue.LAYER.getValue());
         ruleWorkspaceLayersColumn.setHeader("Layer");
-        ruleWorkspaceLayersColumn.setWidth(190);
+        ruleWorkspaceLayersColumn.setWidth(130);
         ruleWorkspaceLayersColumn.setRenderer(this.createWorkspacesLayersComboBox());
         ruleWorkspaceLayersColumn.setMenuDisabled(true);
         ruleWorkspaceLayersColumn.setSortable(false);
@@ -850,8 +850,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                     @Override
                     protected void load(Object loadConfig,
                             AsyncCallback<PagingLoadResult<Workspace>> callback) {
-                        workspacesService.getWorkspaces((PagingLoadConfig) loadConfig, gsInstance
-                                .getBaseURL(), callback);
+                        workspacesService.getWorkspaces((PagingLoadConfig) loadConfig, gsInstance != null ? gsInstance
+                                .getBaseURL() : null, callback);
                     }
 
                 };
@@ -946,8 +946,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                     @Override
                     protected void load(Object loadConfig,
                             AsyncCallback<PagingLoadResult<Layer>> callback) {
-                        workspacesService.getLayers((PagingLoadConfig) loadConfig, gsInstance
-                                .getBaseURL(), workspace, callback);
+                            workspacesService.getLayers((PagingLoadConfig) loadConfig, gsInstance != null ? gsInstance
+                                    .getBaseURL() : null, workspace, callback);
                     }
 
                 };
@@ -1087,8 +1087,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 Button removeRuleButton = new Button("Remove");
                 removeRuleButton.setIcon(Resources.ICONS.delete());
                 // TODO: add correct tooltip text here!
-                // removeUserButton.setToolTip("TODO");
-                // TODO: Read only mode in this version.
+                // removeUserButton.setToolTip("...");
                 removeRuleButton.setEnabled(true);
 
                 removeRuleButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
@@ -1142,9 +1141,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 Button ruleDetailsButton = new Button("Details");
                 ruleDetailsButton.setIcon(Resources.ICONS.table());
                 // TODO: add correct tooltip text here!
-                // userDetailsButton.setToolTip("TODO");
-                // TODO: Read only mode in this version.
-                ruleDetailsButton.setEnabled(false);
+                // userDetailsButton.setToolTip("...");
+                ruleDetailsButton.setEnabled(true);
 
                 ruleDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
@@ -1196,8 +1194,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 ruleAddButton.setBorders(false);
                 ruleAddButton.setIcon(Resources.ICONS.add());
                 // TODO: add correct tooltip text here!
-                // userDetailsButton.setToolTip("TODO");
-                // TODO: Read only mode in this version.
+                // userDetailsButton.setToolTip("...");
                 ruleAddButton.setEnabled(true);
 
                 ruleAddButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
@@ -1251,8 +1248,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 priorityUpButton.setBorders(false);
                 priorityUpButton.setIcon(Resources.ICONS.arrowUp());
                 // TODO: add correct tooltip text here!
-                // userDetailsButton.setToolTip("TODO");
-                // TODO: Read only mode in this version.
+                // userDetailsButton.setToolTip("...");
                 priorityUpButton.setEnabled(true);
 
                 priorityUpButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
@@ -1306,8 +1302,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 priorityDownButton.setBorders(false);
                 priorityDownButton.setIcon(Resources.ICONS.arrowDown());
                 // TODO: add correct tooltip text here!
-                // userDetailsButton.setToolTip("TODO");
-                // TODO: Read only mode in this version.
+                // userDetailsButton.setToolTip("...");
                 priorityDownButton.setEnabled(true);
 
                 priorityDownButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {

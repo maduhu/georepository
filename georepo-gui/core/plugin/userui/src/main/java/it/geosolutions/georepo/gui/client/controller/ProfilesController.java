@@ -33,11 +33,9 @@
 package it.geosolutions.georepo.gui.client.controller;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.tab.GsUsersTabItem;
+import it.geosolutions.georepo.gui.client.widget.tab.ProfilesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -47,14 +45,10 @@ import com.extjs.gxt.ui.client.mvc.Controller;
 /**
  * The Class RulesController.
  */
-public class UsersController extends Controller {
+public class ProfilesController extends Controller {
 
-    /** The Constant USERS_TAB_ITEM_ID. */
-    private static final String USERS_TAB_ITEM_ID = "UsersTabItem";
-
-    /** The gs manager service remote. */
-    private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote = GsUsersManagerServiceRemote.Util
-            .getInstance();
+    /** The Constant PROFILES_TAB_ITEM_ID. */
+    private static final String PROFILES_TAB_ITEM_ID = "ProfilesTabItem";
 
     /** The profiles manager service remote. */
     private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
@@ -66,7 +60,7 @@ public class UsersController extends Controller {
     /**
      * Instantiates a new uSERS controller.
      */
-    public UsersController() {
+    public ProfilesController() {
         registerEventTypes(
                 GeoRepoEvents.INIT_MAPS_UI_MODULE,
                 GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
@@ -111,8 +105,7 @@ public class UsersController extends Controller {
     private void onAttachTabWidgets(AppEvent event) {
         if (tabWidget == null) {
             tabWidget = (TabWidget) event.getData();
-            tabWidget.add(new GsUsersTabItem(USERS_TAB_ITEM_ID, gsManagerServiceRemote,
-                    profilesManagerServiceRemote));
+            tabWidget.add(new ProfilesTabItem(PROFILES_TAB_ITEM_ID, profilesManagerServiceRemote));
         }
     }
 

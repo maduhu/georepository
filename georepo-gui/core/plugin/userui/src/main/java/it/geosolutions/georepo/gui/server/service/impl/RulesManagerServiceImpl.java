@@ -165,7 +165,6 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             local_rule.setWorkspace(remote_rule.getWorkspace() != null ? remote_rule.getWorkspace()
                     : "*");
             local_rule.setLayer(remote_rule.getLayer() != null ? remote_rule.getLayer() : "*");
-            // TODO: ???
             local_rule.setGrant(remote_rule.getAccess() != null ? remote_rule.getAccess()
                     .toString() : "ALLOW");
 

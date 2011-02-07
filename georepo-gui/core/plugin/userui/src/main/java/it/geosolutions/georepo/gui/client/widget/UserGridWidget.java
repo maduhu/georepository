@@ -449,7 +449,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 profilesComboBox.setTriggerAction(TriggerAction.ALL);
                 profilesComboBox.setWidth(150);
                 // TODO: add correct tooltip text here!
-                // profilesComboBox.setToolTip("TODO");
+                // profilesComboBox.setToolTip("...");
                 // TODO: Read only mode in this version.
                 profilesComboBox.setReadOnly(true);
 
@@ -528,7 +528,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 Button removeUserButton = new Button("Remove");
                 removeUserButton.setIcon(Resources.ICONS.delete());
                 // TODO: add correct tooltip text here!
-                // removeUserButton.setToolTip("TODO");
+                // removeUserButton.setToolTip("...");
                 // TODO: Read only mode in this version.
                 removeUserButton.setEnabled(false);
 
@@ -581,7 +581,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 Button userDetailsButton = new Button("Details");
                 userDetailsButton.setIcon(Resources.ICONS.table());
                 // TODO: add correct tooltip text here!
-                // userDetailsButton.setToolTip("TODO");
+                // userDetailsButton.setToolTip("...");
                 // TODO: Read only mode in this version.
                 userDetailsButton.setEnabled(false);
 

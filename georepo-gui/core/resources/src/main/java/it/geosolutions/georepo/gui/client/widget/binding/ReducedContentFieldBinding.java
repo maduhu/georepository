@@ -41,7 +41,6 @@ import com.extjs.gxt.ui.client.widget.form.Field;
 /**
  * The Class ReducedContentFieldBinding.
  */
-//TODO
 public class ReducedContentFieldBinding extends FieldBinding {
 
     /** The old value. */
@@ -111,7 +110,7 @@ public class ReducedContentFieldBinding extends FieldBinding {
         ((CheckBox) field).setValue((Boolean) oldValue);
 
         // model.set(property, oldValue.toString());
-        //TODO
+        // TODO
 //        ((User) model).setReducedContent((Boolean) oldValue);
     }
 
