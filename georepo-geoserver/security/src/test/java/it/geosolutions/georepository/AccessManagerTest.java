@@ -96,8 +96,8 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         // now fake a getmap request (using a service and request with a different case than the
         // rules)
         request = new Request();
-        request.setService("wms");
-        request.setRequest("GetMap");
+        request.setService("WmS");
+        request.setRequest("gETmAP");
         Dispatcher.REQUEST.set(request);
         vl = (VectorAccessLimits) manager.getAccessLimits(user, generic);
         assertEquals(Filter.INCLUDE, vl.getReadFilter());
