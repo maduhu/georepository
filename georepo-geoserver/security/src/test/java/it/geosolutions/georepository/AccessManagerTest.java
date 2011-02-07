@@ -14,6 +14,7 @@ import org.opengis.filter.FilterFactory2;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.WKTReader;
@@ -44,6 +45,22 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         VectorAccessLimits vl = (VectorAccessLimits) manager.getAccessLimits(user, layer);
         assertEquals(Filter.INCLUDE, vl.getReadFilter());
         assertEquals(Filter.INCLUDE, vl.getWriteFilter());
+        assertNull(vl.getReadAttributes());
+        assertNull(vl.getWriteAttributes());
+    }
+    
+    public void testAnonymousUser() {
+        // check workspace access
+        WorkspaceInfo citeWS = getCatalog().getWorkspaceByName(MockData.CITE_PREFIX);
+        WorkspaceAccessLimits wl = manager.getAccessLimits(null, citeWS);
+        assertFalse(wl.isReadable());
+        assertFalse(wl.isWritable());
+
+        // check layer access
+        LayerInfo layer = getCatalog().getLayerByName(getLayerId(MockData.BASIC_POLYGONS));
+        VectorAccessLimits vl = (VectorAccessLimits) manager.getAccessLimits(null, layer);
+        assertEquals(Filter.EXCLUDE, vl.getReadFilter());
+        assertEquals(Filter.EXCLUDE, vl.getWriteFilter());
         assertNull(vl.getReadAttributes());
         assertNull(vl.getWriteAttributes());
     }

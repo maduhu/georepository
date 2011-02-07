@@ -28,6 +28,8 @@ import it.geosolutions.georepo.services.dto.AccessInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.geoserver.catalog.CoverageInfo;
 import org.geoserver.catalog.FeatureTypeInfo;
@@ -49,6 +51,7 @@ import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
 import org.geotools.util.Converters;
+import org.geotools.util.logging.Logging;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.PropertyName;
@@ -65,6 +68,8 @@ import com.vividsolutions.jts.geom.MultiPolygon;
  */
 public class GeorepositoryAccessManager implements ResourceAccessManager {
 
+    static final Logger LOGGER = Logging.getLogger(GeorepositoryAccessManager.class);
+
     enum PropertyAccessMode {
         READ, WRITE
     };
@@ -73,6 +78,8 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
      * The role given to the administrators
      */
     static final String ROOT_ROLE = "ROLE_ADMINISTRATOR";
+    
+    static final String ANONYMOUS = "ANONYMOUS";
 
     static final FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2(null);
 
@@ -85,18 +92,26 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
     public GeorepositoryAccessManager(RuleReaderService rules, String instanceName) {
         this.rules = rules;
         this.instanceName = instanceName;
+
+        LOGGER.log(Level.INFO,
+                "Initializing the GeoRepository access manager with instance name {0}",
+                instanceName);
     }
-    
+
     @Override
     public WorkspaceAccessLimits getAccessLimits(Authentication user, WorkspaceInfo workspace) {
+        LOGGER.log(Level.FINE, "Getting access limits for workspace {0}", workspace.getName());
+
         // extract the user name
-        String username = null;
+        String username = ANONYMOUS;
         if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
             // shortcut, if the user is the admin, he can do everything
-            if(user.getAuthorities() != null) {
+            if (user.getAuthorities() != null) {
                 for (GrantedAuthority authority : user.getAuthorities()) {
                     final String userRole = authority.getAuthority();
                     if (ROOT_ROLE.equals(userRole)) {
+                        LOGGER.log(Level.FINE, "Admin level access, returning "
+                                + "full rights for workspace {0}" + workspace.getName());
                         return buildAccessLimits(workspace, AccessInfo.ALLOW_ALL);
                     }
                 }
@@ -120,7 +135,10 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         if (rule == null) {
             rule = AccessInfo.DENY_ALL;
         }
-        return buildAccessLimits(workspace, rule);
+        WorkspaceAccessLimits limits = buildAccessLimits(workspace, rule);
+        LOGGER.log(Level.SEVERE, "Returning {0} for workspace {1} and user {2}", 
+                new Object[] {limits, workspace.getName(), username});
+        return limits;
     }
 
     private WorkspaceAccessLimits buildAccessLimits(WorkspaceInfo workspace, AccessInfo rule) {
@@ -140,13 +158,15 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
     @Override
     public DataAccessLimits getAccessLimits(Authentication user, ResourceInfo resource) {
         // extract the user name
-        String username = null;
+        String username = ANONYMOUS;
         if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
             // shortcut, if the user is the admin, he can do everything
-            if(user.getAuthorities() != null) {
+            if (user.getAuthorities() != null) {
                 for (GrantedAuthority authority : user.getAuthorities()) {
                     final String userRole = authority.getAuthority();
                     if (ROOT_ROLE.equals(userRole)) {
+                        LOGGER.log(Level.FINE, "Admin level access, returning "
+                                + "full rights for layer {0}" + resource.getPrefixedName());
                         return buildAccessLimits(resource, AccessInfo.ALLOW_ALL);
                     }
                 }
@@ -176,7 +196,10 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         if (rule == null) {
             rule = AccessInfo.DENY_ALL;
         }
-        return buildAccessLimits(resource, rule);
+        DataAccessLimits limits = buildAccessLimits(resource, rule);
+        LOGGER.log(Level.FINE, "Returning {0} for layer {1} and user {2}", 
+                new Object[] {limits, resource.getPrefixedName(), username});
+        return limits;
     }
 
     /**
