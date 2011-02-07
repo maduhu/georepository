@@ -32,6 +32,11 @@
       <artifactId>oracle</artifactId>
       <version>${geoserver-version}</version>
     </dependency>
+    <dependency>
+      <groupId>it.geosolutions.georepository.geoserver</groupId>
+      <artifactId>security</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
    <!-- Jetty test dependencies to start GeoServer from an IDE -->
     <dependency>

@@ -2,7 +2,6 @@ package it.geosolutions.georepository;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 
-import java.io.ByteArrayInputStream;
 import java.util.Collections;
 import java.util.List;
 
