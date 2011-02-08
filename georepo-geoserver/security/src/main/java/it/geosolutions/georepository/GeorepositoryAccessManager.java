@@ -24,6 +24,7 @@ import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.RuleReaderService;
 import it.geosolutions.georepo.services.dto.AccessInfo;
+import it.geosolutions.georepo.services.dto.RuleFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +129,14 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         }
 
         // get the request infos
+//        RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+//        ruleFilter.setUser(username);
+//        ruleFilter.setInstance(instanceName);
+//        ruleFilter.setService(service);
+//        ruleFilter.setRequest(request);
+//        ruleFilter.setWorkspace(workspace.getName());
+//        AccessInfo rule = rules.getAccessInfo(ruleFilter);
+
         AccessInfo rule = rules.getAccessInfo(username, "*", instanceName, service, request,
                 workspace.getName(), "*");
         if (rule == null) {
@@ -189,6 +198,18 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         String workspace = ws.getName();
 
         // get the request infos
+//        RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+//        if(username == null)
+//            ruleFilter.setUser(RuleFilter.SpecialFilterType.DEFAULT);
+//        else
+//            ruleFilter.setUser(username);
+//        ruleFilter.setInstance(instanceName);
+//        ruleFilter.setService(service);
+//        ruleFilter.setRequest(request);
+//        ruleFilter.setWorkspace(workspace);
+//        ruleFilter.setLayer(layer);
+//        AccessInfo rule = rules.getAccessInfo(ruleFilter);
+
         AccessInfo rule = rules.getAccessInfo(username, "*", instanceName, service, request,
                 workspace, layer);
         if (rule == null) {
