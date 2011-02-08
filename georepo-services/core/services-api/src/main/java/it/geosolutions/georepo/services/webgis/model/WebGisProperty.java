@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Property")
 public class WebGisProperty implements Serializable {
+    private static final long serialVersionUID = -2665068231821654507L;
+    
     private WebGisProfile profile;
     private String propertyName;
     private String value;

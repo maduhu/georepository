@@ -30,6 +30,8 @@ import java.io.Serializable;
  */
 public class ShortUser implements Serializable {
 
+    private static final long serialVersionUID = -2484627092672856852L;
+
     private long id;
 
     private String name;

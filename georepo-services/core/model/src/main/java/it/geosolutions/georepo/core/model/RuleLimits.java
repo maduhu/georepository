@@ -51,6 +51,8 @@ import org.hibernate.annotations.Type;
 @XmlRootElement(name = "RuleLimits")
 public class RuleLimits implements Serializable {
 
+    private static final long serialVersionUID = 2829839552804345725L;
+
     /** The id. */
     @Id
 //    @GeneratedValue

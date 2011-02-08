@@ -41,6 +41,7 @@ import org.apache.log4j.Logger;
  * @author ETj (etj at geo-solutions.it)
  */
 public class RuleFilter implements Serializable {
+    private static final long serialVersionUID = 5629211135629700041L;
     private final static Logger LOGGER = Logger.getLogger(RuleFilter.class);
     
     public enum FilterType {
@@ -262,6 +263,8 @@ public class RuleFilter implements Serializable {
 
 
     public static class IdNameFilter implements Serializable {
+        private static final long serialVersionUID = -5984311150423659545L;
+        
         private Long id;
         private String name;
         private FilterType type;
@@ -337,6 +340,7 @@ public class RuleFilter implements Serializable {
 
 
     public static class NameFilter implements Serializable  {
+        private static final long serialVersionUID = 6565336016075974626L;
         private String name;
         private FilterType type;
         private boolean forceUppercase = false;

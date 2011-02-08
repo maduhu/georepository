@@ -39,6 +39,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @XmlRootElement(name = "LayerAttribute")
 public class LayerAttribute implements Serializable {
 
+    private static final long serialVersionUID = -4739817113509675752L;
+
     @Column(nullable=false)
     private String name;
 

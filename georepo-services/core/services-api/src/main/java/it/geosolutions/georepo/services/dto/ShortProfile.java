@@ -31,6 +31,7 @@ import java.util.Date;
  */
 public class ShortProfile implements Serializable {
 
+    private static final long serialVersionUID = -8410646966443187827L;
     private long id;
     private String name;
     private Date dateCreation;

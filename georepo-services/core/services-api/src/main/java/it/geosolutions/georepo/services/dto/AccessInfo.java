@@ -34,6 +34,8 @@ import com.vividsolutions.jts.geom.Geometry;
  */
 public class AccessInfo implements Serializable {
     
+    private static final long serialVersionUID = -9108763358187355342L;
+
     /**
      * Default "allow everything" AccessInfo
      */

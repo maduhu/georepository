@@ -30,6 +30,8 @@ import java.io.Serializable;
  */
 public class ShortRule implements Serializable {
 
+    private static final long serialVersionUID = -9127101015688510863L;
+    
     private Long id;
     private Long priority;
 

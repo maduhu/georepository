@@ -76,6 +76,8 @@ uniqueConstraints = {
 @XmlRootElement(name = "Rule")
 public class Rule implements Serializable {
 
+    private static final long serialVersionUID = -5127129225384707164L;
+
     /** The id. */
     @Id
     @GeneratedValue

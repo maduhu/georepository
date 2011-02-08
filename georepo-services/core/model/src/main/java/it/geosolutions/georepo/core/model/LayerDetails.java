@@ -61,6 +61,8 @@ import org.hibernate.annotations.Type;
 @XmlRootElement(name = "LayerDetails")
 public class LayerDetails implements Serializable {
 
+    private static final long serialVersionUID = -4150963895550551513L;
+
     /** The id. */
     @Id
 //    @GeneratedValue
