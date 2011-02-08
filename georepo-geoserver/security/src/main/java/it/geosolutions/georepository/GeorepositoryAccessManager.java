@@ -120,8 +120,8 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         }
 
         // get info from the current request
-        String service = "*";
-        String request = "*";
+        String service = null;
+        String request = null;
         Request owsRequest = Dispatcher.REQUEST.get();
         if (owsRequest != null) {
             service = owsRequest.getService();
@@ -136,8 +136,12 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
             ruleFilter.setUser(username);
         }
         ruleFilter.setInstance(instanceName);
-        ruleFilter.setService(service);
-        ruleFilter.setRequest(request);
+        if(service != null) {
+            ruleFilter.setService(service);
+        }
+        if(request != null) {
+            ruleFilter.setRequest(request);
+        }
         ruleFilter.setWorkspace(workspace.getName());
         AccessInfo rule = rules.getAccessInfo(ruleFilter);
         
@@ -206,8 +210,12 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         else
             ruleFilter.setUser(username);
         ruleFilter.setInstance(instanceName);
-        ruleFilter.setService(service);
-        ruleFilter.setRequest(request);
+        if(service != null) {
+            ruleFilter.setService(service);
+        }
+        if(request != null) {
+            ruleFilter.setRequest(request);
+        }
         ruleFilter.setWorkspace(workspace);
         ruleFilter.setLayer(layer);
         AccessInfo rule = rules.getAccessInfo(ruleFilter);
