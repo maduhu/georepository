@@ -79,8 +79,6 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
      */
     static final String ROOT_ROLE = "ROLE_ADMINISTRATOR";
     
-    static final String ANONYMOUS = "ANONYMOUS";
-
     static final FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2(null);
 
     CatalogMode catalogMode = CatalogMode.HIDE;
@@ -103,7 +101,7 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         LOGGER.log(Level.FINE, "Getting access limits for workspace {0}", workspace.getName());
 
         // extract the user name
-        String username = ANONYMOUS;
+        String username = null;
         if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
             // shortcut, if the user is the admin, he can do everything
             if (user.getAuthorities() != null) {
@@ -121,8 +119,8 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         }
 
         // get info from the current request
-        String service = null;
-        String request = null;
+        String service = "*";
+        String request = "*";
         Request owsRequest = Dispatcher.REQUEST.get();
         if (owsRequest != null) {
             service = owsRequest.getService();
@@ -130,8 +128,8 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         }
 
         // get the request infos
-        AccessInfo rule = rules.getAccessInfo(username, null, instanceName, service, request,
-                workspace.getName(), null);
+        AccessInfo rule = rules.getAccessInfo(username, "*", instanceName, service, request,
+                workspace.getName(), "*");
         if (rule == null) {
             rule = AccessInfo.DENY_ALL;
         }
@@ -158,7 +156,7 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
     @Override
     public DataAccessLimits getAccessLimits(Authentication user, ResourceInfo resource) {
         // extract the user name
-        String username = ANONYMOUS;
+        String username = null;
         if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
             // shortcut, if the user is the admin, he can do everything
             if (user.getAuthorities() != null) {
@@ -176,8 +174,8 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         }
 
         // get info from the current request
-        String service = null;
-        String request = null;
+        String service = "*";
+        String request = "*";
         Request owsRequest = Dispatcher.REQUEST.get();
         if (owsRequest != null) {
             service = owsRequest.getService();
@@ -191,7 +189,7 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         String workspace = ws.getName();
 
         // get the request infos
-        AccessInfo rule = rules.getAccessInfo(username, null, instanceName, service, request,
+        AccessInfo rule = rules.getAccessInfo(username, "*", instanceName, service, request,
                 workspace, layer);
         if (rule == null) {
             rule = AccessInfo.DENY_ALL;
