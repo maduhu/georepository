@@ -21,7 +21,9 @@
 package it.geosolutions.georepo.services.dto;
 
 import it.geosolutions.georepo.core.model.Rule;
+
 import java.io.Serializable;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -259,7 +261,7 @@ public class RuleFilter implements Serializable {
     }
 
 
-    public static class IdNameFilter {
+    public static class IdNameFilter implements Serializable {
         private Long id;
         private String name;
         private FilterType type;
@@ -334,7 +336,7 @@ public class RuleFilter implements Serializable {
     }
 
 
-    public static class NameFilter {
+    public static class NameFilter implements Serializable  {
         private String name;
         private FilterType type;
         private boolean forceUppercase = false;

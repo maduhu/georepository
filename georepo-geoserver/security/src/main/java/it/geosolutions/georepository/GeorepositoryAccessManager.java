@@ -129,16 +129,18 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         }
 
         // get the request infos
-//        RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
-//        ruleFilter.setUser(username);
-//        ruleFilter.setInstance(instanceName);
-//        ruleFilter.setService(service);
-//        ruleFilter.setRequest(request);
-//        ruleFilter.setWorkspace(workspace.getName());
-//        AccessInfo rule = rules.getAccessInfo(ruleFilter);
-
-        AccessInfo rule = rules.getAccessInfo(username, "*", instanceName, service, request,
-                workspace.getName(), "*");
+        RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        if(username == null) {
+            ruleFilter.setUser(RuleFilter.SpecialFilterType.DEFAULT);
+        } else {
+            ruleFilter.setUser(username);
+        }
+        ruleFilter.setInstance(instanceName);
+        ruleFilter.setService(service);
+        ruleFilter.setRequest(request);
+        ruleFilter.setWorkspace(workspace.getName());
+        AccessInfo rule = rules.getAccessInfo(ruleFilter);
+        
         if (rule == null) {
             rule = AccessInfo.DENY_ALL;
         }
@@ -198,20 +200,18 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         String workspace = ws.getName();
 
         // get the request infos
-//        RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
-//        if(username == null)
-//            ruleFilter.setUser(RuleFilter.SpecialFilterType.DEFAULT);
-//        else
-//            ruleFilter.setUser(username);
-//        ruleFilter.setInstance(instanceName);
-//        ruleFilter.setService(service);
-//        ruleFilter.setRequest(request);
-//        ruleFilter.setWorkspace(workspace);
-//        ruleFilter.setLayer(layer);
-//        AccessInfo rule = rules.getAccessInfo(ruleFilter);
-
-        AccessInfo rule = rules.getAccessInfo(username, "*", instanceName, service, request,
-                workspace, layer);
+        RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        if(username == null)
+            ruleFilter.setUser(RuleFilter.SpecialFilterType.DEFAULT);
+        else
+            ruleFilter.setUser(username);
+        ruleFilter.setInstance(instanceName);
+        ruleFilter.setService(service);
+        ruleFilter.setRequest(request);
+        ruleFilter.setWorkspace(workspace);
+        ruleFilter.setLayer(layer);
+        AccessInfo rule = rules.getAccessInfo(ruleFilter);
+        
         if (rule == null) {
             rule = AccessInfo.DENY_ALL;
         }
