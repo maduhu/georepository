@@ -49,6 +49,7 @@ import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.view.RulesView;
 import it.geosolutions.georepo.gui.client.widget.RuleGridWidget;
 import it.geosolutions.georepo.gui.client.widget.tab.RulesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
@@ -94,6 +95,8 @@ public class RulesController extends Controller {
     /** The tab widget. */
     private TabWidget tabWidget;
 
+    private RulesView rulesView;
+
     /**
      * Instantiates a new uSERS controller.
      */
@@ -101,12 +104,22 @@ public class RulesController extends Controller {
         registerEventTypes(
                 GeoRepoEvents.INIT_MAPS_UI_MODULE,
                 GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, 
+                
                 GeoRepoEvents.RULE_UPDATE_GRID_COMBO,
                 GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO, 
                 GeoRepoEvents.RULE_ADD,
                 GeoRepoEvents.RULE_DEL, 
                 GeoRepoEvents.RULE_PRIORITY_UP,
                 GeoRepoEvents.RULE_PRIORITY_DOWN, 
+                
+                GeoRepoEvents.EDIT_RULE_DETAILS,
+                
+                GeoRepoEvents.RULE_CUSTOM_PROP_ADD,
+                GeoRepoEvents.RULE_CUSTOM_PROP_DEL,
+                GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY,
+                GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE,
+                GeoRepoEvents.RULE_CUSTOM_PROP_APPLY_CHANGES,
+                
                 GeoRepoEvents.INJECT_WKT);
     }
 
@@ -117,6 +130,7 @@ public class RulesController extends Controller {
      */
     @Override
     protected void initialize() {
+        this.rulesView = new RulesView(this);
         initWidget();
     }
 
@@ -160,7 +174,7 @@ public class RulesController extends Controller {
         if (event.getType() == GeoRepoEvents.INJECT_WKT)
             onInjectWKT(event);
 
-        // forwardToView(aoiView, event);
+        forwardToView(this.rulesView, event);
     }
 
     /**
@@ -168,8 +182,8 @@ public class RulesController extends Controller {
      * 
      * @param event
      */
-    //  Dispatcher.forwardEvent(GeoRepoEvents.ERASE_AOI_FEATURES);
-    //  Dispatcher.forwardEvent(GeoRepoEvents.ENABLE_DRAW_BUTTON);
+    // Dispatcher.forwardEvent(GeoRepoEvents.ERASE_AOI_FEATURES);
+    // Dispatcher.forwardEvent(GeoRepoEvents.ENABLE_DRAW_BUTTON);
     private void onInjectWKT(AppEvent event) {
         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "WKT",
                 (String) event.getData() });
@@ -209,6 +223,8 @@ public class RulesController extends Controller {
                         .getRulesInfo();
                 final Grid<Rule> grid = rulesInfoWidget.getGrid();
                 grid.getStore().remove(model);
+                // TODO: details?
+                model.setId(-1);
                 grid.getStore().add(model);
                 grid.repaint();
             }
@@ -233,6 +249,7 @@ public class RulesController extends Controller {
                 ListStore<Rule> store = grid.getStore();
 
                 if (store != null && store.getModels() != null && store.getModels().size() > 0) {
+                    // TODO: details?
                     rulesManagerServiceRemote.saveAllRules(store.getModels(),
                             new AsyncCallback<PagingLoadResult<Rule>>() {
 
@@ -247,6 +264,11 @@ public class RulesController extends Controller {
 
                                 public void onSuccess(PagingLoadResult<Rule> result) {
 
+                                    grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(),
+                                            SortDir.ASC);
+                                    grid.getStore().getLoader().load();
+                                    grid.repaint();
+
                                     Dispatcher.forwardEvent(
                                             GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                                     Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
@@ -258,9 +280,6 @@ public class RulesController extends Controller {
                             });
                 }
             }
-
-            grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
-            grid.repaint();
         }
     }
 
@@ -292,6 +311,8 @@ public class RulesController extends Controller {
                             if (r.getPriority() > model.getPriority()) {
                                 grid.getStore().remove(r);
                                 r.setPriority(r.getPriority() - 1);
+                                // TODO: details?
+                                r.setId(-1);
                                 grid.getStore().add(r);
                             }
                         }
@@ -372,6 +393,8 @@ public class RulesController extends Controller {
 
                     grid.getStore().remove(model);
                     model.setPriority(model.getPriority() - 1);
+                    // TODO: details?
+                    model.setId(-1);
                     grid.getStore().add(model);
                     grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
 
@@ -411,6 +434,8 @@ public class RulesController extends Controller {
 
                     grid.getStore().remove(model);
                     model.setPriority(model.getPriority() + 1);
+                    // TODO: details?
+                    model.setId(-1);
                     grid.getStore().add(model);
                     grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
 
@@ -429,6 +454,7 @@ public class RulesController extends Controller {
      */
     private Rule createNewRule(Rule model) {
         Rule new_rule = new Rule();
+        new_rule.setId(-1);
         new_rule.setPriority(model.getPriority() + 1);
         GSUser all_user = new GSUser();
         all_user.setId(-1);

@@ -1147,8 +1147,13 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 ruleDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Rules", "Selected Rule #" + model.getPriority() });
+                        if (model.getId() < 0) {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
+                                    "GeoServer Rules", "Please apply changes before editing details!" });                            
+                        } else {
+                            Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE_DETAILS, model);
+                        }
+
                     }
                 });
 
@@ -1393,9 +1398,6 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "GeoServer Rules", "Apply Changes" });
                 
-                Rule new_rule = new Rule();
-                new_rule.setId(-1);
-                new_rule.setPriority(-1);
                 Dispatcher.forwardEvent(GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO);
             }
         });

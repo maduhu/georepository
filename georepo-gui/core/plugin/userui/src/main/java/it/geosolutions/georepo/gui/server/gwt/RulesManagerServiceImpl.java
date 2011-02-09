@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.gwt.RulesManagerServiceImpl,v. 0.1 25-gen-2011 11.54.21 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.gwt.RulesManagerServiceImpl,v. 0.1 9-feb-2011 13.02.25 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.54.21 $
+ * $ Date: 9-feb-2011 13.02.25 $
  *
  * ====================================================================
  *
@@ -32,13 +32,14 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
+
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,12 +83,26 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
         return rulesManagerService.getRules(config, full);
     }
 
-    /**
-     * 
-     * @param rules
-     * @throws ApplicationException
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
      */
     public void saveAllRules(List<Rule> rules) throws ApplicationException {
         rulesManagerService.saveAllRules(rules);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerCustomProps(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+     */
+    public PagingLoadResult<LayerCustomProps> getLayerCustomProps(PagingLoadConfig config, Rule rule)
+            throws ApplicationException {
+        return rulesManagerService.getLayerCustomProps(config, rule);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setDetailsProps(java.lang.Long, it.geosolutions.georepo.gui.client.model.data.LayerCustomProps)
+     */
+    public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps)
+            throws ApplicationException {
+        rulesManagerService.setDetailsProps(ruleId, customProps);
     }
 }

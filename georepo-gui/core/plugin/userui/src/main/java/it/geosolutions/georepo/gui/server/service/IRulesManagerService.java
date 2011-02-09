@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.IRulesManagerService,v. 0.1 25-gen-2011 11.50.06 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.IRulesManagerService,v. 0.1 9-feb-2011 13.02.31 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.50.06 $
+ * $ Date: 9-feb-2011 13.02.31 $
  *
  * ====================================================================
  *
@@ -36,6 +36,7 @@ import java.util.List;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -51,6 +52,8 @@ public interface IRulesManagerService {
      * 
      * @param config
      *            the config
+     * @param full
+     *            the full
      * @return the rules
      * @throws ApplicationException
      *             the application exception
@@ -58,9 +61,33 @@ public interface IRulesManagerService {
     public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException;
     
     /**
+     * Save all rules.
      * 
      * @param rules
+     *            the rules
      * @throws ApplicationException
+     *             the application exception
      */
     public void saveAllRules(List<Rule> rules) throws ApplicationException;
+
+    /**
+     * Gets the layer custom props.
+     * 
+     * @param config
+     *            the config
+     * @param rule
+     *            the rule
+     * @return the layer custom props
+     */
+    public PagingLoadResult<LayerCustomProps> getLayerCustomProps(PagingLoadConfig config, Rule rule);
+
+    /**
+     * Sets the details props.
+     * 
+     * @param ruleId
+     *            the rule id
+     * @param customProps
+     *            the custom props
+     */
+    public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps);
 }

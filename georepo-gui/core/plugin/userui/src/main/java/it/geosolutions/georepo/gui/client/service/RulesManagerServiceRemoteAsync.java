@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync,v. 0.1 25-gen-2011 11.45.59 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync,v. 0.1 9-feb-2011 13.01.37 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.45.59 $
+ * $ Date: 9-feb-2011 13.01.37 $
  *
  * ====================================================================
  *
@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 
 import java.util.List;
 
@@ -51,6 +52,8 @@ public interface RulesManagerServiceRemoteAsync {
      * 
      * @param config
      *            the config
+     * @param full
+     *            the full
      * @param callback
      *            the callback
      * @return the rules
@@ -59,9 +62,38 @@ public interface RulesManagerServiceRemoteAsync {
             AsyncCallback<PagingLoadResult<Rule>> callback);
 
     /**
+     * Save all rules.
      * 
      * @param rules
+     *            the rules
      * @param callback
+     *            the callback
      */
     public void saveAllRules(List<Rule> rules, AsyncCallback<PagingLoadResult<Rule>> callback);
+
+    /**
+     * Gets the layer custom props.
+     * 
+     * @param config
+     *            the config
+     * @param rule
+     *            the rule
+     * @param callback
+     *            the callback
+     * @return the layer custom props
+     */
+    public void getLayerCustomProps(PagingLoadConfig config, Rule rule,
+            AsyncCallback<PagingLoadResult<LayerCustomProps>> callback);
+
+    /**
+     * Sets the details props.
+     * 
+     * @param ruleId
+     *            the rule id
+     * @param customProps
+     *            the custom props
+     * @param callback
+     *            the callback
+     */
+    public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps, AsyncCallback<PagingLoadResult<LayerCustomProps>> callback);
 }

@@ -50,11 +50,10 @@ public class TabWidget extends TabPanel implements Listener {
     /**
      * Instantiates a new tab widget.
      */
-    public TabWidget(/*FeatureServiceRemoteAsync featureRemote, MembersRemoteAsync memberRemote,
-            WatchServiceRemoteAsync watchService*/) {
+    public TabWidget() {
         super();
         initTab();
-        initTabItem(/*featureRemote, memberRemote, watchService*/);
+        initTabItem();
 
         addListener(GeoRepoEvents.BIND_SELECTED_MEMBER, this);
     }
@@ -70,21 +69,7 @@ public class TabWidget extends TabPanel implements Listener {
     /**
      * Inits the tab item.
      */
-    private void initTabItem(/*FeatureServiceRemoteAsync featureService,
-            MembersRemoteAsync memberService, WatchServiceRemoteAsync watchService*/) {
-//        this.geoRSS = new GeoRSSTabItem(featureService);
-//        this.gcdn = new GCDNTabItem();
-//        this.geoConstraint = new GeoConstraintTabItem(memberService);
-//        // this.aoi = new AOITabItem(aoiService);
-//        this.watch = new WatchTabItem(watchService);
-//        this.executedWatches = new ExecutedWatchesTabItem(watchService);
-//
-//        add(geoRSS);
-//        add(gcdn);
-//        // add(aoi);
-//        add(watch);
-//        add(executedWatches);
-
+    private void initTabItem() {
         super.doLayout();
 
     }

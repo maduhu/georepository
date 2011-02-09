@@ -364,4 +364,22 @@ public class GeoRepoEvents {
     /** The Constant RULE_PRIORITY_DOWN. */
     public static final EventType RULE_PRIORITY_DOWN = new EventType();
 
+    /** **/
+    public static final EventType EDIT_RULE_DETAILS = new EventType();
+
+    /** **/
+    public static final EventType RULE_CUSTOM_PROP_ADD = new EventType();
+
+    /** **/
+    public static final EventType RULE_CUSTOM_PROP_DEL = new EventType();
+
+    /** **/
+    public static final EventType RULE_CUSTOM_PROP_UPDATE_KEY = new EventType();
+
+    /** **/
+    public static final EventType RULE_CUSTOM_PROP_UPDATE_VALUE = new EventType();
+
+    /** **/
+    public static final EventType RULE_CUSTOM_PROP_APPLY_CHANGES = new EventType();
+
 }

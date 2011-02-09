@@ -136,7 +136,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
 
         ColumnConfig userNameColumn = new ColumnConfig();
         userNameColumn.setId(BeanKeyValue.NAME.getValue());
-        userNameColumn.setHeader("User Name");
+        userNameColumn.setHeader("Profile Name");
         userNameColumn.setWidth(100);
         configs.add(userNameColumn);
 

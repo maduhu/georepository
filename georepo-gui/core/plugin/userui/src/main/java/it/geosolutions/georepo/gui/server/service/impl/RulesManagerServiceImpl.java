@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.impl.RulesManagerServiceImpl,v. 0.1 25-gen-2011 11.52.05 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.impl.RulesManagerServiceImpl,v. 0.1 9-feb-2011 13.03.26 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.52.05 $
+ * $ Date: 9-feb-2011 13.03.26 $
  *
  * ====================================================================
  *
@@ -38,14 +38,17 @@ import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +69,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /** The georepo remote service. */
     @Autowired
     private GeoRepoRemoteService georepoRemoteService;
 
@@ -174,9 +178,11 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         return new BasePagingLoadResult<Rule>(ruleListDTO, config.getOffset(), t.intValue());
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param rules
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IRulesManagerService#saveAllRules(java.util.List)
      */
     public void saveAllRules(List<Rule> rules) throws ApplicationException {
         for (ShortRule rule : georepoRemoteService.getRuleAdminService().getAll()) {
@@ -198,6 +204,13 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         }
     }
 
+    /**
+     * Gets the access type.
+     * 
+     * @param grant
+     *            the grant
+     * @return the access type
+     */
     private GrantType getAccessType(String grant) {
         if (grant != null)
             return GrantType.valueOf(grant);
@@ -205,6 +218,13 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             return GrantType.ALLOW;
     }
 
+    /**
+     * Gets the single instance of RulesManagerServiceImpl.
+     * 
+     * @param instance
+     *            the instance
+     * @return single instance of RulesManagerServiceImpl
+     */
     private it.geosolutions.georepo.core.model.GSInstance getInstance(GSInstance instance) {
         it.geosolutions.georepo.core.model.GSInstance remote_instance = null;
         try {
@@ -216,6 +236,13 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         return remote_instance;
     }
 
+    /**
+     * Gets the profile.
+     * 
+     * @param profile
+     *            the profile
+     * @return the profile
+     */
     private it.geosolutions.georepo.core.model.Profile getProfile(Profile profile) {
         it.geosolutions.georepo.core.model.Profile remote_profile = null;
         try {
@@ -227,6 +254,13 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         return remote_profile;
     }
 
+    /**
+     * Gets the user.
+     * 
+     * @param user
+     *            the user
+     * @return the user
+     */
     private it.geosolutions.georepo.core.model.GSUser getUser(GSUser user) {
         it.geosolutions.georepo.core.model.GSUser remote_user = null;
         try {
@@ -236,5 +270,66 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         }
 
         return remote_user;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IRulesManagerService#getLayerCustomProps(com.extjs
+     * .gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+     */
+    public PagingLoadResult<LayerCustomProps> getLayerCustomProps(PagingLoadConfig config, Rule rule) {
+        int start = config.getOffset();
+        Long t = new Long(0);
+
+        List<LayerCustomProps> customPropsDTO = new ArrayList<LayerCustomProps>();
+
+        if (rule != null && rule.getId() >= 0) {
+            try {
+                Map<String, String> customProperties = georepoRemoteService.getRuleAdminService()
+                        .getDetailsProps(rule.getId());
+
+                if (customProperties == null) {
+                    if (logger.isErrorEnabled())
+                        logger.error("No property found on server");
+                    throw new ApplicationException("No rule found on server");
+                }
+
+                long rulesCount = customProperties.size();
+
+                t = new Long(rulesCount);
+
+                int page = start == 0 ? start : start / config.getLimit();
+
+                for (String key : customProperties.keySet()) {
+                    LayerCustomProps property = new LayerCustomProps();
+                    property.setPropKey(key);
+                    property.setPropValue(customProperties.get(key));
+                    customPropsDTO.add(property);
+                }
+            } catch (Exception e) {
+                // do nothing!
+            }
+        }
+
+        return new BasePagingLoadResult<LayerCustomProps>(customPropsDTO, config.getOffset(), t
+                .intValue());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IRulesManagerService#setDetailsProps(java.lang
+     * .Long, it.geosolutions.georepo.gui.client.model.data.LayerCustomProps)
+     */
+    public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps) {
+        Map<String, String> props = new HashMap<String, String>();
+
+        for (LayerCustomProps prop : customProps) {
+            props.put(prop.getPropKey(), prop.getPropValue());
+        }
+        georepoRemoteService.getRuleAdminService().setDetailsProps(ruleId, props);
     }
 }

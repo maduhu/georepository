@@ -96,7 +96,11 @@ public enum BeanKeyValue {
     INSTANCE("instance"),
     
     /** The PATH. */
-    PATH("path");
+    PATH("path"), 
+    
+    PROP_KEY("prop_key"),
+    
+    PROP_VALUE("prop_value");
 
     /** The value. */
     private String value;
