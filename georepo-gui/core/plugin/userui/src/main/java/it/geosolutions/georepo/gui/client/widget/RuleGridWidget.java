@@ -65,9 +65,11 @@ import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoader;
 import com.extjs.gxt.ui.client.data.RpcProxy;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.GridEvent;
+import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.LoadListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -592,17 +594,38 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                ComboBox<Service> servicesComboBox = new ComboBox<Service>();
+                final ComboBox<Service> servicesComboBox = new ComboBox<Service>();
                 servicesComboBox.setId("ruleServicesCombo");
                 servicesComboBox.setName("ruleServicesCombo");
                 servicesComboBox.setEmptyText("(No service available)");
                 servicesComboBox.setDisplayField(BeanKeyValue.SERVICE.getValue());
                 servicesComboBox.setStore(getAvailableServices(model.getInstance()));
-                servicesComboBox.setEditable(false);
+                servicesComboBox.setEditable(true);
                 servicesComboBox.setTypeAhead(true);
                 servicesComboBox.setTriggerAction(TriggerAction.ALL);
                 servicesComboBox.setWidth(90);
 
+                KeyListener keyListener = new KeyListener() {
+
+                    @Override
+                    public void componentKeyUp(ComponentEvent event) {
+                        if (event.getKeyCode() == '\r') {
+                            event.cancelBubble();
+                            
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                    "GeoServer Rules",
+                                    "Rule " + model.getPriority() + ": Service changed -> "
+                                            + servicesComboBox.getRawValue() });
+
+                            model.setService(servicesComboBox.getRawValue());
+                            model.setRequest("*");
+                            Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
+                        }
+                    }
+                };
+
+                servicesComboBox.addKeyListener(keyListener);
+                
                 if (model.getService() != null) {
                     servicesComboBox.setValue(new Service(model.getService()));
                     servicesComboBox.setSelection(Arrays.asList(new Service(model.getService())));
@@ -623,7 +646,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                     }
 
                 });
-
+                
                 return servicesComboBox;
             }
 
@@ -690,18 +713,38 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                ComboBox<Request> serviceRequestsComboBox = new ComboBox<Request>();
+                final ComboBox<Request> serviceRequestsComboBox = new ComboBox<Request>();
                 serviceRequestsComboBox.setId("ruleServicesRequestCombo");
                 serviceRequestsComboBox.setName("ruleServicesRequestCombo");
                 serviceRequestsComboBox.setEmptyText("(No service request available)");
                 serviceRequestsComboBox.setDisplayField(BeanKeyValue.REQUEST.getValue());
                 serviceRequestsComboBox.setStore(getAvailableServicesRequest(model.getInstance(),
                         model.getService()));
-                serviceRequestsComboBox.setEditable(false);
+                serviceRequestsComboBox.setEditable(true);
                 serviceRequestsComboBox.setTypeAhead(true);
                 serviceRequestsComboBox.setTriggerAction(TriggerAction.ALL);
                 serviceRequestsComboBox.setWidth(180);
 
+                KeyListener keyListener = new KeyListener() {
+
+                    @Override
+                    public void componentKeyUp(ComponentEvent event) {
+                        if (event.getKeyCode() == '\r') {
+                            event.cancelBubble();
+                            
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                    "GeoServer Rules",
+                                    "Rule " + model.getPriority() + ": Request changed -> "
+                                            + serviceRequestsComboBox.getRawValue() });
+                            
+                            model.setRequest(serviceRequestsComboBox.getRawValue());
+                            Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
+                        }
+                    }
+                };
+
+                serviceRequestsComboBox.addKeyListener(keyListener);
+                
                 if (model.getService() != null) {
                     serviceRequestsComboBox.setValue(new Request(model.getRequest()));
                     serviceRequestsComboBox.setSelection(Arrays.asList(new Request(model

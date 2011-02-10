@@ -59,7 +59,7 @@ public class UserManagementWidget extends ContentPanel {
             ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
         setHeaderVisible(false);
         setFrame(true);
-        setHeight(170);
+        setHeight(270);
         setLayout(new FitLayout());
 
         setUsersInfo(new UserGridWidget(gsManagerServiceRemote, profilesManagerServiceRemote));

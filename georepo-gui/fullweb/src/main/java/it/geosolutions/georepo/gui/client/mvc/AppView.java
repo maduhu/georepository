@@ -153,17 +153,19 @@ public class AppView extends View {
      * Creates the south.
      */
     private void createSouth() {
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.SOUTH, 200, 200, 200);
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.SOUTH, 300, 300, 300);
         data.setMargins(new Margins(5, 0, 5, 5));
 
         south = new ContentPanel();
         south.setBodyBorder(false);
+        south.setAnimCollapse(true);
+        south.setCollapsible(true);
         south.setLayout(new FitLayout());
         south.setLayoutOnChange(true);
         south.setScrollMode(Scroll.NONE);
         south.setHeaderVisible(false);
 
-        this.tabWidget = new TabWidget(/*featureRemote, membersRemote, watchRemote*/);
+        this.tabWidget = new TabWidget();
 
         south.add(this.tabWidget);
         south.layout();
