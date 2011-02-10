@@ -66,7 +66,9 @@ import com.extjs.gxt.ui.client.widget.BoxComponent;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
+import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -102,7 +104,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     private PagingToolBar toolBar;
 
     /**
-     * Instantiates a new user grid widget.
+     * Instantiates a new profile grid widget.
      * 
      * @param gsUsersService
      *            the gsUsersService
@@ -115,7 +117,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     }
 
     /**
-     * Instantiates a new user grid widget.
+     * Instantiates a new profile grid widget.
      * 
      * @param models
      *            the models
@@ -151,6 +153,9 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         ColumnConfig userNameColumn = new ColumnConfig();
         userNameColumn.setId(BeanKeyValue.NAME.getValue());
         userNameColumn.setHeader("User Name");
+        TextField<String> userNameField = new TextField<String>();
+        userNameField.setAllowBlank(false);
+        userNameColumn.setEditor(new CellEditor(userNameField));
         userNameColumn.setWidth(100);
         configs.add(userNameColumn);
 
@@ -500,7 +505,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     }
 
     /**
-     * Creates the user delete button.
+     * Creates the profile delete button.
      * 
      * @return the grid cell renderer
      */
@@ -553,7 +558,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     }
 
     /**
-     * Creates the user details button.
+     * Creates the profile details button.
      * 
      * @return the grid cell renderer
      */

@@ -282,7 +282,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     }
     
     /**
-     * Creates the user delete button.
+     * Creates the profile delete button.
      * 
      * @return the grid cell renderer
      */

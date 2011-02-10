@@ -256,11 +256,11 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     }
 
     /**
-     * Gets the user.
+     * Gets the profile.
      * 
-     * @param user
-     *            the user
-     * @return the user
+     * @param profile
+     *            the profile
+     * @return the profile
      */
     private it.geosolutions.georepo.core.model.GSUser getUser(GSUser user) {
         it.geosolutions.georepo.core.model.GSUser remote_user = null;
@@ -334,7 +334,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         LayerDetails details = null;
         try {
             details = georepoRemoteService.getRuleAdminService().getDetails(ruleId);
-        } catch (ResourceNotFoundFault e) {
+        } catch (Exception e) {
             details = new LayerDetails();
             georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
         }

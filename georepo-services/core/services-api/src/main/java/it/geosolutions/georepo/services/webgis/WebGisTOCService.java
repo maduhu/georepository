@@ -20,7 +20,6 @@
 package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.services.exception.IllegalParameterFault;
-import it.geosolutions.georepo.services.webgis.model.TOC;
 import it.geosolutions.georepo.services.webgis.model.TOCConfig;
 
 import javax.ws.rs.GET;

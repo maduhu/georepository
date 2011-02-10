@@ -334,7 +334,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 ComboBox<GSUser> usersComboBox = new ComboBox<GSUser>();
                 usersComboBox.setId("ruleUsersCombo");
                 usersComboBox.setName("ruleUsersCombo");
-                usersComboBox.setEmptyText("(No user available)");
+                usersComboBox.setEmptyText("(No profile available)");
                 usersComboBox.setDisplayField(BeanKeyValue.NAME.getValue());
                 usersComboBox.setEditable(false);
                 usersComboBox.setStore(getAvailableUsers());

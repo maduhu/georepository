@@ -58,20 +58,20 @@ public interface GsUsersManagerServiceRemoteAsync {
     public void getGsUsers(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSUser>> callback);
 
     /**
-     * Save gs user.
+     * Save gs profile.
      * 
-     * @param user
-     *            the user
+     * @param profile
+     *            the profile
      * @param callback
      *            the callback
      */
     public void saveGsUser(GSUser user, AsyncCallback<PagingLoadResult<GSUser>> callback);
 
     /**
-     * Delete gs user.
+     * Delete gs profile.
      * 
-     * @param user
-     *            the user
+     * @param profile
+     *            the profile
      * @param asyncCallback
      *            the callback
      */

@@ -72,10 +72,10 @@ public interface LoginRemote extends RemoteService {
      * Authenticate.
      * 
      * @param userName
-     *            the user name
+     *            the profile name
      * @param password
      *            the password
-     * @return the user
+     * @return the profile
      * @throws ApplicationException
      *             the application exception
      */
@@ -104,11 +104,11 @@ public interface LoginRemote extends RemoteService {
     //
     // /**
     // *
-    // * @param user
+    // * @param profile
     // * @return
     // * @throws ApplicationException
     // */
-    // public User saveUser(User user) throws ApplicationException;
+    // public User saveUser(User profile) throws ApplicationException;
     //
     // /**
     // *
@@ -119,10 +119,10 @@ public interface LoginRemote extends RemoteService {
     //
     // /**
     // *
-    // * @param user
+    // * @param profile
     // * @return
     // */
-    // public User updateUser(User user);
+    // public User updateUser(User profile);
     //
     // /**
     // *
@@ -130,7 +130,7 @@ public interface LoginRemote extends RemoteService {
     // * @return
     // * @throws ApplicationException
     // */
-    // public User getUserDetail(User user) throws ApplicationException;
+    // public User getUserDetail(User profile) throws ApplicationException;
     //
     // /**
     // * @return a List<String> that represented the couple Key - UserName

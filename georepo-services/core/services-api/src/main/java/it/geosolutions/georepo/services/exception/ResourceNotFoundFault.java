@@ -57,7 +57,7 @@ public class ResourceNotFoundFault extends Exception {
     }
 
     public ResourceNotFoundFault(String msg, long id) {
-        super(msg);
+        super(msg + " ("+id+")");
         this.id = id;
     }
 

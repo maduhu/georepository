@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.gwt.ProfilesManagerServiceImpl,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.gwt.ProfilesManagerServiceImpl,v. 0.1 10-feb-2011 17.06.19 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 10-feb-2011 17.06.19 $
  *
  * ====================================================================
  *
@@ -74,6 +74,20 @@ public class ProfilesManagerServiceImpl extends RemoteServiceServlet implements
      */
     public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full) throws ApplicationException {
         return profilesManagerService.getProfiles(config, full);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#deleteProfile(it.geosolutions.georepo.gui.client.model.Profile)
+     */
+    public void deleteProfile(Profile profile) throws ApplicationException {
+        profilesManagerService.deleteProfile(profile);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#saveProfile(it.geosolutions.georepo.gui.client.model.Profile)
+     */
+    public void saveProfile(Profile profile) throws ApplicationException {
+        profilesManagerService.saveProfile(profile);
     }
     
 }

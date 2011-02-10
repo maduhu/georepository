@@ -59,20 +59,20 @@ public interface IGsUsersManagerService {
             throws ApplicationException;
 
     /**
-     * Save user.
+     * Save profile.
      * 
-     * @param user
-     *            the user
+     * @param profile
+     *            the profile
      * @throws ApplicationException
      *             the application exception
      */
     public void saveUser(GSUser user) throws ApplicationException;
 
     /**
-     * Delete user.
+     * Delete profile.
      * 
-     * @param user
-     *            the user
+     * @param profile
+     *            the profile
      */
     public void deleteUser(GSUser user);
 }

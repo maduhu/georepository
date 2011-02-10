@@ -20,14 +20,17 @@
 package it.geosolutions.georepo.core.dao.impl;
 
 
+import it.geosolutions.georepo.core.model.GSUser;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.trg.search.ISearch;
+import com.trg.search.Search;
 import it.geosolutions.georepo.core.dao.RuleDAO;
 import it.geosolutions.georepo.core.model.Rule;
+import org.springframework.dao.DuplicateKeyException;
 
 /**
  * Public implementation of the GSUserDAO interface
@@ -43,8 +46,36 @@ public class RuleDAOImpl extends BaseDAO<Rule, Long>
 
     @Override
     public void persist(Rule... entities) {
+
+        for (Rule rule : entities) {
+            Search search = getDupSearch(rule);
+            if(count(search)>0)
+                throw new DuplicateKeyException("Duplicate Rule " + rule);
+        }
+
         super.persist(entities);
     }
+
+
+    private Search getDupSearch(Rule rule) {
+        Search search = new Search(Rule.class);
+        addSearchField(search, "gsuser", rule.getGsuser());
+        addSearchField(search, "profile", rule.getProfile());
+        addSearchField(search, "instance", rule.getInstance());
+        addSearchField(search, "service", rule.getService());
+        addSearchField(search, "request", rule.getRequest());
+        addSearchField(search, "workspace", rule.getWorkspace());
+        addSearchField(search, "layer", rule.getLayer());
+        return search;
+    }
+
+    private void addSearchField(Search search, String field, Object o) {
+        if( o == null)
+            search.addFilterNull(field);
+        else
+            search.addFilterEqual(field, o);
+    }
+
 
     @Override
     public List<Rule> findAll() {
@@ -58,6 +89,24 @@ public class RuleDAOImpl extends BaseDAO<Rule, Long>
 
     @Override
     public Rule merge(Rule entity) {
+        Search search = getDupSearch(entity);
+        
+        // check if we are dup'ing some other Rule.
+        List<Rule> existent = search(search);
+        switch(existent.size()) {
+            case 0:
+                break;
+
+            case 1:
+                // We may be updating some other fields in this Rule
+                if(! existent.get(0).getId().equals(entity.getId()) )
+                    throw new DuplicateKeyException("Duplicating Rule " + existent.get(0) + " with " + entity);
+                break;
+
+            default:
+                throw new IllegalStateException("Too many rules duplicating " + entity);
+        }
+
         return super.merge(entity);
     }
 
@@ -70,5 +119,6 @@ public class RuleDAOImpl extends BaseDAO<Rule, Long>
     public boolean removeById(Long id) {
         return super.removeById(id);
     }
+
 
 }

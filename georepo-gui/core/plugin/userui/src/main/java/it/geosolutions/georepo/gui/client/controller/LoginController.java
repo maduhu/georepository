@@ -68,16 +68,16 @@ public class LoginController extends Controller {
     /** The login widget. */
     private LoginWidget loginWidget;
 
-    /** The choose user widget. */
+    /** The choose profile widget. */
     private GeoRepoChooserWidget<User> chooseUserWidget;
 
-    /** The user management widget. */
+    /** The profile management widget. */
     private UserManagementWidget userManagementWidget;
 
     /** The search widget. */
     private GeoRepoSearchWidget<User> searchWidget;
 
-    /** The update user. */
+    /** The update profile. */
     private GeoRepoUpdateWidget<User> updateUser;
 
     /**
@@ -236,7 +236,7 @@ public class LoginController extends Controller {
     }
 
 //    /**
-//     * On unbind user widget.
+//     * On unbind profile widget.
 //     */
 //    private void onUnbindUserWidget() {
 //        userManagementWidget.getUserInfo().unBindModel();
@@ -260,7 +260,7 @@ public class LoginController extends Controller {
     }
 
     /**
-     * On show update user widget.
+     * On show update profile widget.
      * 
      * @param event
      *            the event
@@ -271,7 +271,7 @@ public class LoginController extends Controller {
     }
 
     /**
-     * On bind selected user.
+     * On bind selected profile.
      * 
      * @param event
      *            the event
@@ -279,7 +279,7 @@ public class LoginController extends Controller {
     private void onBindSelectedUser(AppEvent event) {
         final User user = (User) event.getData();
         // TODO REFACTOR GG
-        // this.loginRemote.getUserDetail(user, new AsyncCallback<User>() {
+        // this.loginRemote.getUserDetail(profile, new AsyncCallback<User>() {
         //
         // public void onFailure(Throwable caught) {
         // searchWidget.setSearchStatus(
@@ -306,7 +306,7 @@ public class LoginController extends Controller {
     }
 
     /**
-     * On show add user widget.
+     * On show add profile widget.
      */
     private void onShowAddUserWidget() {
         // TODO REFACTOR GG
@@ -342,14 +342,14 @@ public class LoginController extends Controller {
     }
 
     /**
-     * On show choose user widget.
+     * On show choose profile widget.
      */
     private void onShowChooseUserWidget() {
         this.chooseUserWidget.getChooser().show();
     }
 
 //    /**
-//     * On attach user widget.
+//     * On attach profile widget.
 //     * 
 //     * @param event
 //     *            the event
@@ -414,12 +414,12 @@ public class LoginController extends Controller {
 
     }
 
-    // private void bindUser(User user) {
+    // private void bindUser(User profile) {
     // this.userManagementWidget.getUserInfo().unBindModel();
-    // this.userManagementWidget.getUserInfo().bindModel(user);
+    // this.userManagementWidget.getUserInfo().bindModel(profile);
     // this.userManagementWidget.enableButtons();
     //
-    // Dispatcher.forwardEvent(DGWATCHEvents.USER_SELECTED, user);
+    // Dispatcher.forwardEvent(DGWATCHEvents.USER_SELECTED, profile);
     //
     // // ///////////////////////////
     // // Reset the grids contents

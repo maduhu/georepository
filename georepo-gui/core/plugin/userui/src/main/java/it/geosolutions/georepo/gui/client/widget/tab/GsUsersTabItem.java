@@ -47,7 +47,7 @@ import com.extjs.gxt.ui.client.widget.TabItem;
  */
 public class GsUsersTabItem extends TabItem {
 
-    /** The user management widget. */
+    /** The profile management widget. */
     private UserManagementWidget userManagementWidget;
 
     /**

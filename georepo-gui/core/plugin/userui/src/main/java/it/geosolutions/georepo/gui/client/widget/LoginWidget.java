@@ -55,7 +55,7 @@ import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
  */
 public class LoginWidget extends Dialog {
 
-    /** The user name. */
+    /** The profile name. */
     protected TextField<String> userName;
 
     /** The password. */

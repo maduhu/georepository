@@ -67,7 +67,7 @@ public class SearchPagUserWidget extends GeoRepoSearchWidget<User> {
     private LoginRemoteAsync service;
 
     /**
-     * Instantiates a new search pag user widget.
+     * Instantiates a new search pag profile widget.
      * 
      * @param service
      *            the service

@@ -71,7 +71,7 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
     /** The close on submit. */
     private boolean closeOnSubmit;
 
-    /** The user. */
+    /** The profile. */
     protected GSUser user = new GSUser();
 
     private TextField<String> userName;
@@ -89,7 +89,7 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
     private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote;
 
     /**
-     * Instantiates a new adds the gs user widget.
+     * Instantiates a new adds the gs profile widget.
      * 
      * @param submitEvent
      *            the submit event
@@ -308,9 +308,9 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
     }
 
     /**
-     * Gets the user.
+     * Gets the profile.
      * 
-     * @return the user
+     * @return the profile
      */
     public GSUser getUser() {
         return user;

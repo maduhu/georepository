@@ -49,7 +49,7 @@ public class UserManagementWidget extends ContentPanel {
     private UserGridWidget usersInfo;
 
     /**
-     * Instantiates a new user management widget.
+     * Instantiates a new profile management widget.
      * 
      * @param gsManagerServiceRemote
      *            the gs manager service remote
@@ -86,19 +86,19 @@ public class UserManagementWidget extends ContentPanel {
     }
 
     /**
-     * Sets the user info.
+     * Sets the profile info.
      * 
      * @param usersInfo
-     *            the new user info
+     *            the new profile info
      */
     public void setUsersInfo(UserGridWidget usersInfo) {
         this.usersInfo = usersInfo;
     }
 
     /**
-     * Gets the user info.
+     * Gets the profile info.
      * 
-     * @return the user info
+     * @return the profile info
      */
     public UserGridWidget getUsersInfo() {
         return usersInfo;

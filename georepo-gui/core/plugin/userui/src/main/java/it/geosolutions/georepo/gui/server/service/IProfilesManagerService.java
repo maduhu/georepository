@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.IProfilesManagerService,v. 0.1 25-gen-2011 11.23.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.IProfilesManagerService,v. 0.1 10-feb-2011 17.06.42 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.49 $
+ * $ Date: 10-feb-2011 17.06.42 $
  *
  * ====================================================================
  *
@@ -49,10 +49,28 @@ public interface IProfilesManagerService {
      * 
      * @param config
      *            the config
+     * @param full
+     *            the full
      * @return the profiles
      * @throws ApplicationException
      *             the application exception
      */
     public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full)
             throws ApplicationException;
+
+    /**
+     * Delete profile.
+     * 
+     * @param profile
+     *            the profile
+     */
+    public void deleteProfile(Profile profile);
+
+    /**
+     * Save profile.
+     * 
+     * @param profile
+     *            the profile
+     */
+    public void saveProfile(Profile profile);
 }

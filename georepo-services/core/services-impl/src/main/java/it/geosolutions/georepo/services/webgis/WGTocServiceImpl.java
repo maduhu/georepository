@@ -20,8 +20,22 @@
 
 package it.geosolutions.georepo.services.webgis;
 
-import it.geosolutions.georepo.services.exception.IllegalParameterFault;
+import it.geosolutions.georepo.core.model.GSInstance;
+import it.geosolutions.georepo.services.InstanceAdminService;
+import it.geosolutions.georepo.services.RuleAdminService;
+import it.geosolutions.georepo.services.dto.ShortRule;
+import it.geosolutions.georepo.services.exception.BadRequestWebEx;
+import it.geosolutions.georepo.services.exception.NotFoundWebEx;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.webgis.WebGisTOCService;
 import it.geosolutions.georepo.services.webgis.model.TOCConfig;
+import it.geosolutions.georepo.services.webgis.model.TOCGroup;
+import it.geosolutions.georepo.services.webgis.model.TOCLayer;
+import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import org.apache.log4j.Logger;
 
 /**
@@ -31,19 +45,155 @@ import org.apache.log4j.Logger;
 public class WGTocServiceImpl implements WebGisTOCService {
     private final static Logger LOGGER = Logger.getLogger(WGTocServiceImpl.class);
 
-    @Override
-    public TOCConfig getTOC(String profile) throws IllegalParameterFault {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private RuleAdminService ruleAdminService;
+    private InstanceAdminService instanceAdminService;
+
+    public WGTocServiceImpl() {
+        FakeServices fakeServices = new FakeServices();
+        ruleAdminService = fakeServices.getRuleAdminService();
+        instanceAdminService = fakeServices.getInstanceAdminService();
     }
 
     @Override
-    public String getProperty(long layerId, String propertyName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @XmlElementWrapper(name="pippo")
+    public TOCConfig getTOC(String profile) {
+
+        if(profile == null)
+            throw new BadRequestWebEx("Missing Profile");
+
+        try {
+            WebGisProfile wgp = WebGisProfile.valueOf(profile);
+        } catch (IllegalArgumentException e) {
+            throw new NotFoundWebEx("Profile not found: " + profile);
+        }
+
+        // groupTitle, Group
+        Map<String, TOCGroup> tocGroups = new HashMap<String, TOCGroup>();
+        Map<String, TOCGroup> bgGroups = new HashMap<String, TOCGroup>();
+        Map<Long, GSInstance> instances = new HashMap<Long, GSInstance>();
+
+        List<ShortRule> rules = ruleAdminService.getList("*", profile, "*", "*", "*", "*", "*", null, null);
+        for (ShortRule shortRule : rules) {
+            if(shortRule.getLayer() != null) {
+                LOGGER.info("retrieving props for Rule " + shortRule);
+                Map<String, String> props = ruleAdminService.getDetailsProps(shortRule.getId());
+
+                String groupTitle = props.get(TOCLayer.TOCProps.groupName.name());
+                GSInstance gs = fetchInstance(instances, shortRule.getInstanceId());
+                TOCGroup bg = fetchOrCreateGroup(bgGroups, props.get(TOCLayer.TOCProps.bgGroup.name()), gs);
+
+                if( groupTitle==null && bg==null) // not in bg, and group not set: maybe been forgotten?
+                    groupTitle = "UNGROUPED";
+
+                TOCGroup group = fetchOrCreateGroup(tocGroups, groupTitle, gs);
+                TOCLayer tocl = createLayer(gs, shortRule, props);
+
+                if(group != null)
+                    group.getLayerList().add(tocl);
+                if(bg != null)
+                    bg.getLayerList().add(tocl);
+            }
+        }
+
+        TOCConfig tocCfg = new TOCConfig();
+        for (TOCGroup group : tocGroups.values()) {
+            tocCfg.getTOC().add(group);
+        }
+        for (TOCGroup bggroup : bgGroups.values()) {
+            tocCfg.getBackground().add(bggroup);
+        }
+
+        return tocCfg;
+    }
+
+    private GSInstance fetchInstance(Map<Long, GSInstance> instances, Long instanceId) {
+        try {
+            if (instances.containsKey(instanceId)) {
+                return instances.get(instanceId);
+            }
+            GSInstance instance = instanceAdminService.get(instanceId);
+            instances.put(instanceId, instance);
+            return instance;
+        } catch (ResourceNotFoundFault ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return null;
+        }
+    }
+
+    private static TOCGroup fetchOrCreateGroup(Map<String, TOCGroup> groups, String groupTitle, GSInstance instance) {
+
+        if(groupTitle == null)
+            return null;
+
+        String groupKey = groupTitle+" @ "+instance.getName();
+
+        TOCGroup group = groups.get(groupKey);
+        if(group == null) {
+            group = new TOCGroup();
+            group.setTitle(groupTitle);
+            group.setUrl(instance.getBaseURL());
+            groups.put(groupKey, group);
+        }
+
+        return group;
+    }
+
+
+    TOCLayer createLayer(GSInstance instance, ShortRule rule, Map<String,String> props) {
+        TOCLayer l = new TOCLayer();
+        l.setName(rule.getLayer());
+        l.setGeorepoId(rule.getId());
+        for (Map.Entry<String, String> entry : props.entrySet()) {
+            l.getProperties().put(entry.getKey(), entry.getValue());
+        }
+
+        // next info shall be read from the server's getCapa
+        l.setTitle("TITLE of " + rule.getLayer());
+        l.setAbs("ABS of " + rule.getLayer());
+        l.setMinX(-180);
+        l.setMaxX(180);
+        l.setMinY(-90);
+        l.setMaxY(90);
+        l.setSrs("EPSG:4326");
+
+        return l;
+    }
+
+    //==========================================================================
+
+    @Override
+    public String setProperty(long layerId, String propertyName, String propertyValue) throws NotFoundWebEx {
+
+        Map<String, String> props = ruleAdminService.getDetailsProps(layerId); // throws notfoundex
+
+        if(props.containsKey(propertyName)) {
+            LOGGER.info("Setting property " +propertyName + " to " + propertyValue + " for layer " + layerId + " in profile ???" );
+            String oldValue = props.put(propertyName, propertyValue);
+            ruleAdminService.setDetailsProps(layerId, props);
+            return oldValue;
+        } else {
+            LOGGER.info("Will not set property " +propertyName + " to " + propertyValue + " for layer " + layerId + ": property not found");
+            throw new NotFoundWebEx("Property "+propertyName+" not found");
+        }
     }
 
     @Override
-    public String setProperty(long layerId, String propertyName, String propertyValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getProperty(long layerId, String propertyName) throws NotFoundWebEx {
+        Map<String, String> props = ruleAdminService.getDetailsProps(layerId); // throws notfoundex
+
+        LOGGER.info("Getting property " +propertyName );
+        return props.get(propertyName);
     }
+
+    //==========================================================================
+
+    public void setRuleAdminService(RuleAdminService ruleAdminService) {
+        this.ruleAdminService = ruleAdminService;
+    }
+
+    public void setInstanceAdminService(InstanceAdminService instanceAdminService) {
+        this.instanceAdminService = instanceAdminService;
+    }
+
 
 }

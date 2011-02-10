@@ -84,20 +84,20 @@ public interface GsUsersManagerServiceRemote extends RemoteService {
     public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException;
     
     /**
-     * Save gs user.
+     * Save gs profile.
      * 
-     * @param user
-     *            the user
+     * @param profile
+     *            the profile
      * @throws ApplicationException
      *             the application exception
      */
     public void saveGsUser(GSUser user) throws ApplicationException;
 
     /**
-     * Delete gs user.
+     * Delete gs profile.
      * 
-     * @param user
-     *            the user
+     * @param profile
+     *            the profile
      * @throws ApplicationException
      *             the application exception
      */

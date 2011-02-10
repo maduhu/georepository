@@ -45,7 +45,7 @@ public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -3377836318526396981L;
 
-    /** The user bean manager. */
+    /** The profile bean manager. */
     @Autowired
     private IUserBeanManager userBeanManager;
 
@@ -54,9 +54,9 @@ public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration {
     private IToolbarItemManager toolbarItemManager;
 
     /**
-     * Gets the user bean manager.
+     * Gets the profile bean manager.
      * 
-     * @return the user bean manager
+     * @return the profile bean manager
      */
     public IUserBeanManager getUserBeanManager() {
         // TODO Auto-generated method stub

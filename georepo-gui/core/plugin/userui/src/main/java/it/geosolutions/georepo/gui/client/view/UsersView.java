@@ -86,7 +86,7 @@ public class UsersView extends View {
     }
 
     /**
-     * On create new user.
+     * On create new profile.
      * 
      * @param event
      *            the event
@@ -96,7 +96,7 @@ public class UsersView extends View {
     }
 
 //    /**
-//     * On edit user.
+//     * On edit profile.
 //     * 
 //     * @param event
 //     *            the event
@@ -109,7 +109,7 @@ public class UsersView extends View {
 //        } else {
 //            // TODO: i18n!!
 //            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-//                    "Users Editor", "Could not found any associated user!" });
+//                    "Users Editor", "Could not found any associated profile!" });
 //        }
 //    }
 

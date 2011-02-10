@@ -71,7 +71,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
         private String value;
 
         /**
-         * Instantiates a new update user key.
+         * Instantiates a new update profile key.
          * 
          * @param value
          *            the value
@@ -90,7 +90,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
         }
     }
 
-    /** The user name. */
+    /** The profile name. */
     private TextField<String> userName;
 
     /** The email. */

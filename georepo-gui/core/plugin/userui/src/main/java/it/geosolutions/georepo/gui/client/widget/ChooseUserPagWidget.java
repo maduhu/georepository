@@ -66,7 +66,7 @@ public class ChooseUserPagWidget extends GeoRepoChooserWidget<User> {
     private LoginRemoteAsync service;
 
     /**
-     * Instantiates a new choose user pag widget.
+     * Instantiates a new choose profile pag widget.
      * 
      * @param service
      *            the service

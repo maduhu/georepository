@@ -63,7 +63,7 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /** The form data. */
     private FormData formData;
 
-    /** The user name. */
+    /** The profile name. */
     private LabelField userName;
 
     /** The email. */
@@ -78,16 +78,16 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /** The reduced content. */
     private CheckBox reducedContent;
 
-    /** The user enabled. */
+    /** The profile enabled. */
     private CheckBox userEnabled;
 
-    /** The new user. */
+    /** The new profile. */
     private Button newUser;
 
-    /** The update user. */
+    /** The update profile. */
     private Button updateUser;
 
-    /** The delete user. */
+    /** The delete profile. */
     private Button deleteUser;
 
     /** The search. */
@@ -100,7 +100,7 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     private Button getFeatures;
 
     /**
-     * Instantiates a new user info binding widget.
+     * Instantiates a new profile info binding widget.
      */
     public UserInfoBindingWidget() {
         this.init();
@@ -216,7 +216,7 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
             public void componentSelected(ButtonEvent ce) {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "Delete User", "Delete User button pressed." });
-                MessageBox.confirm("Delete User", "Are you sure to delete user "
+                MessageBox.confirm("Delete User", "Are you sure to delete profile "
                         + getModel().getName() + " ?", new Listener<MessageBoxEvent>() {
 
                     public void handleEvent(MessageBoxEvent be) {

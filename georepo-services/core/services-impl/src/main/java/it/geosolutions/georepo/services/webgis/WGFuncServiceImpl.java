@@ -20,7 +20,9 @@
 
 package it.geosolutions.georepo.services.webgis;
 
+import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.IllegalParameterFault;
+import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
 import it.geosolutions.georepo.services.webgis.model.WebGisProperty;
 import it.geosolutions.georepo.services.webgis.WebGisFuncService;
@@ -37,12 +39,31 @@ public class WGFuncServiceImpl implements WebGisFuncService {
 
     @Override
     public WebGisProperty getProperty(String propertyName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        WebGisProperty property = new WebGisProperty();
+        property.setPropertyName(propertyName);
+        property.setProfile(WebGisProfile.Base);
+        property.setValue("42");
+        return property;
     }
 
     @Override
     public List<WebGisProperty> getProfileProperties(String profile) throws IllegalParameterFault {
-        throw new UnsupportedOperationException("Not supported yet.");
+        LOGGER.warn("Profile is " + profile);
+        System.out.println("Profile is " + profile);
+        if(profile == null)
+            throw new BadRequestWebEx("Missing Profile");
+
+        try {
+            WebGisProfile wgp = WebGisProfile.valueOf(profile);
+        } catch (IllegalArgumentException e) {
+            throw new NotFoundWebEx("Profile not found: " + profile);
+        }
+
+        List<WebGisProperty> ret = new ArrayList<WebGisProperty>();
+        ret.add(getProperty("test1"));
+        ret.add(getProperty("test2"));
+        return ret;
+//        return (WebGisProperty[])ret.toArray();
     }
 
 }

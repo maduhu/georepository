@@ -57,7 +57,7 @@ public class UserSearchComponent {
     private Button search;
 
     /**
-     * Instantiates a new user search component.
+     * Instantiates a new profile search component.
      */
     public UserSearchComponent() {
         this.createFormPanel();

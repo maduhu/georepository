@@ -100,8 +100,8 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
 
         if (usersList == null) {
             if (logger.isErrorEnabled())
-                logger.error("No user found on server");
-            throw new ApplicationException("No user found on server");
+                logger.error("No profile found on server");
+            throw new ApplicationException("No profile found on server");
         }
 
         for (ShortUser short_usr : usersList) {
@@ -165,7 +165,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
     }
 
     /**
-     * @param user
+     * @param profile
      * @param remote_user
      * @throws ResourceNotFoundFault
      */
