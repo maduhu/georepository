@@ -54,6 +54,9 @@ import it.geosolutions.georepo.gui.client.widget.RuleGridWidget;
 import it.geosolutions.georepo.gui.client.widget.tab.RulesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -305,22 +308,23 @@ public class RulesController extends Controller {
                     ListStore<Rule> store = grid.getStore();
 
                     if (store != null && store.getModels() != null && store.getModels().size() > 0) {
-                        store.remove(model);
+                        List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels());
+                        rules.remove(model);
 
-                        for (Rule r : store.getModels()) {
+                        for (Rule r : rules) {
                             if (r.getPriority() > model.getPriority()) {
-                                grid.getStore().remove(r);
                                 r.setPriority(r.getPriority() - 1);
                                 // TODO: details?
                                 r.setId(-1);
-                                grid.getStore().add(r);
                             }
                         }
+
+                        grid.getStore().removeAll();
+                        grid.getStore().add(rules);
+                        grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
+                        grid.repaint();
                     }
                 }
-
-                grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
-                grid.repaint();
             }
 
         }
@@ -345,19 +349,19 @@ public class RulesController extends Controller {
                         .getRulesInfo();
                 final Grid<Rule> grid = rulesInfoWidget.getGrid();
 
-                for (Rule r : grid.getStore().getModels()) {
+                List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels());
+                for (Rule r : rules) {
                     if (r.getPriority() > model.getPriority()) {
-                        grid.getStore().remove(r);
                         r.setPriority(r.getPriority() + 1);
-                        grid.getStore().add(r);
                     }
                 }
 
                 Rule new_rule = createNewRule(model);
-
-                grid.getStore().add(new_rule);
+                rules.add(new_rule);
+                
+                grid.getStore().removeAll();
+                grid.getStore().add(rules);
                 grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
-
                 grid.repaint();
             }
         }
@@ -383,21 +387,22 @@ public class RulesController extends Controller {
                 final Grid<Rule> grid = rulesInfoWidget.getGrid();
 
                 if (model.getPriority() > 0) {
-                    for (Rule r : grid.getStore().getModels()) {
-                        if (!r.equals(model) && r.getPriority() >= model.getPriority() - 1) {
-                            grid.getStore().remove(r);
+                    List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels());
+                    rules.remove(model);
+                    for (Rule r : rules) {
+                        if (r.getPriority() >= model.getPriority() - 1) {
                             r.setPriority(r.getPriority() + 1);
-                            grid.getStore().add(r);
                         }
                     }
 
-                    grid.getStore().remove(model);
                     model.setPriority(model.getPriority() - 1);
                     // TODO: details?
                     model.setId(-1);
-                    grid.getStore().add(model);
+                    rules.add(model);
+                    
+                    grid.getStore().removeAll();
+                    grid.getStore().add(rules);
                     grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
-
                     grid.repaint();
                 }
             }
@@ -424,21 +429,22 @@ public class RulesController extends Controller {
                 final Grid<Rule> grid = rulesInfoWidget.getGrid();
 
                 if (model.getPriority() < grid.getStore().getModels().size() - 1) {
-                    for (Rule r : grid.getStore().getModels()) {
-                        if (!r.equals(model) && r.getPriority() == model.getPriority() + 1) {
-                            grid.getStore().remove(r);
+                    List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels());
+                    rules.remove(model);
+                    for (Rule r : rules) {
+                        if (r.getPriority() == model.getPriority() + 1) {
                             r.setPriority(r.getPriority() - 1);
-                            grid.getStore().add(r);
                         }
                     }
 
-                    grid.getStore().remove(model);
                     model.setPriority(model.getPriority() + 1);
                     // TODO: details?
                     model.setId(-1);
-                    grid.getStore().add(model);
+                    rules.add(model);
+                    
+                    grid.getStore().removeAll();
+                    grid.getStore().add(rules);
                     grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
-
                     grid.repaint();
                 }
             }
