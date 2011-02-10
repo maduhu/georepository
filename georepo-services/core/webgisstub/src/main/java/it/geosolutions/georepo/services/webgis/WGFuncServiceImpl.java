@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.geosolutions.georepo.services;
+package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.IllegalParameterFault;

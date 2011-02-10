@@ -18,13 +18,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.geosolutions.georepo.services;
+package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
+import it.geosolutions.georepo.services.InstanceAdminService;
+import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;

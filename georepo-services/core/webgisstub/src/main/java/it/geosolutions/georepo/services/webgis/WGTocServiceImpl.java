@@ -18,14 +18,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.geosolutions.georepo.services;
+package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.core.model.GSInstance;
+import it.geosolutions.georepo.services.InstanceAdminService;
+import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
-import it.geosolutions.georepo.services.webgis.model.TOC;
 import it.geosolutions.georepo.services.webgis.WebGisTOCService;
 import it.geosolutions.georepo.services.webgis.model.TOCConfig;
 import it.geosolutions.georepo.services.webgis.model.TOCGroup;
@@ -67,8 +68,8 @@ public class WGTocServiceImpl implements WebGisTOCService {
         }
 
         // groupTitle, Group
-        Map<String, TOCGroup> groups = new HashMap<String, TOCGroup>();
-        Map<String, TOCGroup> bggroups = new HashMap<String, TOCGroup>();
+        Map<String, TOCGroup> tocGroups = new HashMap<String, TOCGroup>();
+        Map<String, TOCGroup> bgGroups = new HashMap<String, TOCGroup>();
         Map<Long, GSInstance> instances = new HashMap<Long, GSInstance>();
 
         List<ShortRule> rules = ruleAdminService.getList("*", profile, "*", "*", "*", "*", "*", null, null);
@@ -79,12 +80,12 @@ public class WGTocServiceImpl implements WebGisTOCService {
 
                 String groupTitle = props.get(TOCLayer.TOCProps.groupName.name());
                 GSInstance gs = fetchInstance(instances, shortRule.getInstanceId());
-                TOCGroup bg = fetchOrCreateGroup(bggroups, props.get(TOCLayer.TOCProps.bgGroup.name()), gs);
+                TOCGroup bg = fetchOrCreateGroup(bgGroups, props.get(TOCLayer.TOCProps.bgGroup.name()), gs);
 
                 if( groupTitle==null && bg==null) // not in bg, and group not set: maybe been forgotten?
                     groupTitle = "UNGROUPED";
 
-                TOCGroup group = fetchOrCreateGroup(groups, groupTitle, gs);
+                TOCGroup group = fetchOrCreateGroup(tocGroups, groupTitle, gs);
                 TOCLayer tocl = createLayer(gs, shortRule, props);
 
                 if(group != null)
@@ -94,14 +95,15 @@ public class WGTocServiceImpl implements WebGisTOCService {
             }
         }
 
-        TOC toc = new TOC();
-        for (TOCGroup group : groups.values()) {
-            toc.getGroupList().add(group);
+        TOCConfig tocCfg = new TOCConfig();
+        for (TOCGroup group : tocGroups.values()) {
+            tocCfg.getTOC().add(group);
         }
-        for (TOCGroup bggroup : bggroups.values()) {
-            toc.getBackgroundGroupList().add(bggroup);            
+        for (TOCGroup bggroup : bgGroups.values()) {
+            tocCfg.getBackground().add(bggroup);
         }
-        return new TOCConfig(toc);
+
+        return tocCfg;
     }
 
     private GSInstance fetchInstance(Map<Long, GSInstance> instances, Long instanceId) {

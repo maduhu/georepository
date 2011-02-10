@@ -20,6 +20,10 @@
 
 package it.geosolutions.georepo.services.webgis.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -37,21 +41,31 @@ public class TOCConfig {
 //                        </layer>
 //                </server>
 
-    private TOC toc;
+    private List<TOCGroup> background = new ArrayList<TOCGroup>();
+    private List<TOCGroup> toc = new ArrayList<TOCGroup>();
 
     public TOCConfig() {
     }
 
-    public TOCConfig(TOC toc) {
-        this.toc = toc;
-    }
-    
-    public TOC getToc() {
+    @XmlElementWrapper(name="toc")
+    @XmlElement(name="group")
+    public List<TOCGroup> getTOC() {
         return toc;
     }
 
-    public void setToc(TOC toc) {
-        this.toc = toc;
+    public void setTOC(List<TOCGroup> serverList) {
+        this.toc = serverList;
+    }
+
+
+    @XmlElementWrapper(name="background")
+    @XmlElement(name="group")
+    public List<TOCGroup> getBackground() {
+        return background;
+    }
+
+    public void setBackground(List<TOCGroup> backgroundGroupList) {
+        this.background = backgroundGroupList;
     }
 
 }
