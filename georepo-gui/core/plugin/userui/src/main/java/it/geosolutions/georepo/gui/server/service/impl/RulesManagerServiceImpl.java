@@ -197,10 +197,15 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
         for (Rule localRule : rules) {
             it.geosolutions.georepo.core.model.Rule rule = new it.geosolutions.georepo.core.model.Rule(
-                    localRule.getPriority(), getUser(localRule.getUser()), getProfile(localRule
-                            .getProfile()), getInstance(localRule.getInstance()), localRule
-                            .getService(), localRule.getRequest(), localRule.getWorkspace(),
-                    localRule.getLayer(), getAccessType(localRule.getGrant()));
+                    localRule.getPriority(), 
+                    getUser(localRule.getUser()),
+                    getProfile(localRule.getProfile()),
+                    getInstance(localRule.getInstance()),
+                    "*".equals(localRule.getService())?null:localRule.getService(),
+                    "*".equals(localRule.getRequest())?null:localRule.getRequest(),
+                    "*".equals(localRule.getWorkspace())?null:localRule.getWorkspace(),
+                    "*".equals(localRule.getLayer())?null:localRule.getLayer(),
+                    getAccessType(localRule.getGrant()));
             georepoRemoteService.getRuleAdminService().insert(rule);
         }
     }
@@ -229,7 +234,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.GSInstance getInstance(GSInstance instance) {
         it.geosolutions.georepo.core.model.GSInstance remote_instance = null;
         try {
-            remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId());
+            if(instance != null && instance.getId() != -1)
+                remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
         }
@@ -247,7 +253,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.Profile getProfile(Profile profile) {
         it.geosolutions.georepo.core.model.Profile remote_profile = null;
         try {
-            remote_profile = georepoRemoteService.getProfileAdminService().get(profile.getId());
+            if(profile != null && profile.getId() != -1 )
+                remote_profile = georepoRemoteService.getProfileAdminService().get(profile.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
         }
@@ -265,7 +272,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.GSUser getUser(GSUser user) {
         it.geosolutions.georepo.core.model.GSUser remote_user = null;
         try {
-            remote_user = georepoRemoteService.getUserAdminService().get(user.getId());
+            if(user != null && user.getId() != -1)
+                remote_user = georepoRemoteService.getUserAdminService().get(user.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
         }
