@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
+import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
@@ -329,6 +330,13 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
         for (LayerCustomProps prop : customProps) {
             props.put(prop.getPropKey(), prop.getPropValue());
+        }
+        LayerDetails details = null;
+        try {
+            details = georepoRemoteService.getRuleAdminService().getDetails(ruleId);
+        } catch (ResourceNotFoundFault e) {
+            details = new LayerDetails();
+            georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
         }
         georepoRemoteService.getRuleAdminService().setDetailsProps(ruleId, props);
     }
