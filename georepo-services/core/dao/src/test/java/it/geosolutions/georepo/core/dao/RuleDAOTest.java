@@ -402,5 +402,27 @@ public class RuleDAOTest extends BaseDAOTest {
         }
     }
 
+
+    @Test
+    public void testDupRule() throws Exception {
+
+        long uid;
+        long rid;
+        {
+            Rule rule1 = new Rule(10, null, null, null, "s", null, null, null, GrantType.ALLOW);
+            Rule rule2 = new Rule(10, null, null, null, "s", null, null, null, GrantType.ALLOW);
+
+            ruleDAO.persist(rule1);
+
+            try {
+                ruleDAO.persist(rule2);
+                fail("Dup'd rule not detected");
+            } catch (Exception e) {
+                // ok
+            }
+
+        }
+    }
+
 }
 
