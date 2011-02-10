@@ -382,4 +382,7 @@ public class GeoRepoEvents {
     /** **/
     public static final EventType RULE_CUSTOM_PROP_APPLY_CHANGES = new EventType();
 
+    /** **/
+    public static final EventType CREATE_NEW_USER = new EventType();
+
 }

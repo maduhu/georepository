@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.controller.RulesController,v. 0.1 31-gen-2011 13.41.27 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.controller.RulesController,v. 0.1 10-feb-2011 11.33.31 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 31-gen-2011 13.41.27 $
+ * $ Date: 10-feb-2011 11.33.31 $
  *
  * ====================================================================
  *
@@ -95,10 +95,11 @@ public class RulesController extends Controller {
     /** The tab widget. */
     private TabWidget tabWidget;
 
+    /** The rules view. */
     private RulesView rulesView;
 
     /**
-     * Instantiates a new uSERS controller.
+     * Instantiates a new rules controller.
      */
     public RulesController() {
         registerEventTypes(
@@ -138,8 +139,6 @@ public class RulesController extends Controller {
      * Inits the widget.
      */
     private void initWidget() {
-        // this.aoiSearchWidget = new SearchPagAOIWidget(this.aoiRemote);
-        // this.geoConstraintSearchWidget = new SearchPagingGeoConstraintWidget(this.membersRemote);
     }
 
     /*
@@ -178,9 +177,10 @@ public class RulesController extends Controller {
     }
 
     /**
-     * TODO: Rule limits
+     * On inject wkt.
      * 
      * @param event
+     *            the event
      */
     // Dispatcher.forwardEvent(GeoRepoEvents.ERASE_AOI_FEATURES);
     // Dispatcher.forwardEvent(GeoRepoEvents.ENABLE_DRAW_BUTTON);

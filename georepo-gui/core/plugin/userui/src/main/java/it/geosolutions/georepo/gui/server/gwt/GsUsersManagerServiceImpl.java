@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.gwt.GsUsersManagerServiceImpl,v. 0.1 25-gen-2011 11.23.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.gwt.GsUsersManagerServiceImpl,v. 0.1 10-feb-2011 11.08.54 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.49 $
+ * $ Date: 10-feb-2011 11.08.54 $
  *
  * ====================================================================
  *
@@ -74,5 +74,19 @@ public class GsUsersManagerServiceImpl extends RemoteServiceServlet implements
      */
     public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException {
         return gsUserManagerService.getGsUsers(config, full);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#saveGsUser(it.geosolutions.georepo.gui.client.model.GSUser)
+     */
+    public void saveGsUser(GSUser user) throws ApplicationException {
+        gsUserManagerService.saveUser(user);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#deleteGsUser(it.geosolutions.georepo.gui.client.model.GSUser)
+     */
+    public void deleteGsUser(GSUser user) throws ApplicationException {
+        gsUserManagerService.deleteUser(user);
     }
 }

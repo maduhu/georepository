@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.RuleGridWidget,v. 0.1 25-gen-2011 12.16.45 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.RuleGridWidget,v. 0.1 10-feb-2011 13.21.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 12.16.45 $
+ * $ Date: 10-feb-2011 13.21.50 $
  *
  * ====================================================================
  *
@@ -94,15 +94,19 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
-    /** The rulesService. */
+    /** The rules service. */
     private RulesManagerServiceRemoteAsync rulesService;
 
+    /** The gs users service. */
     private GsUsersManagerServiceRemoteAsync gsUsersService;
 
+    /** The profiles service. */
     private ProfilesManagerServiceRemoteAsync profilesService;
 
+    /** The instances service. */
     private InstancesManagerServiceRemoteAsync instancesService;
 
+    /** The workspaces service. */
     private WorkspacesManagerServiceRemoteAsync workspacesService;
 
     /** The proxy. */
@@ -118,7 +122,15 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * Instantiates a new rule grid widget.
      * 
      * @param rulesService
-     *            the rulesService
+     *            the rules service
+     * @param gsUsersService
+     *            the gs users service
+     * @param profilesService
+     *            the profiles service
+     * @param instancesService
+     *            the instances service
+     * @param workspacesService
+     *            the workspaces service
      */
     public RuleGridWidget(RulesManagerServiceRemoteAsync rulesService,
             GsUsersManagerServiceRemoteAsync gsUsersService,
@@ -290,8 +302,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the users combo box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createUsersComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
@@ -377,8 +390,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the profiles combo box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createProfilesComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
@@ -465,8 +479,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the instances combo box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createInstancesComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
@@ -566,8 +581,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the services combo box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createServicesComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
@@ -685,8 +701,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the services request combo box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createServicesRequestComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
@@ -818,8 +835,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the service workspaces combo box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createServiceWorkspacesComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
@@ -912,8 +930,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the workspaces layers combo box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createWorkspacesLayersComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
@@ -1007,8 +1026,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the grants combo box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createGrantsComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
@@ -1098,7 +1118,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the user delete button.
+     * Creates the rule delete button.
      * 
      * @return the grid cell renderer
      */
@@ -1152,7 +1172,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the user details button.
+     * Creates the rule details button.
      * 
      * @return the grid cell renderer
      */
@@ -1209,7 +1229,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
     
     /**
-     * Creates the user details button.
+     * Creates the rule add button.
      * 
      * @return the grid cell renderer
      */
@@ -1264,8 +1284,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
     
     /**
+     * Creates the rule priority up button.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createRulePriorityUpButton() {
         GridCellRenderer<Rule> buttonRendered = new GridCellRenderer<Rule>() {
@@ -1318,8 +1339,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
+     * Creates the rule priority down button.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> createRulePriorityDownButton() {
         GridCellRenderer<Rule> buttonRendered = new GridCellRenderer<Rule>() {

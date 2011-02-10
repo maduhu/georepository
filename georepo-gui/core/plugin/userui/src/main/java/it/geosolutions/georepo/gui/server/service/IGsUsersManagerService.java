@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.IGsUsersManagerService,v. 0.1 25-gen-2011 11.23.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.IGsUsersManagerService,v. 0.1 10-feb-2011 11.09.23 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.50 $
+ * $ Date: 10-feb-2011 11.09.23 $
  *
  * ====================================================================
  *
@@ -44,14 +44,35 @@ import com.extjs.gxt.ui.client.data.PagingLoadResult;
  */
 public interface IGsUsersManagerService {
 
-	/**
+    /**
      * Gets the gs users.
      * 
      * @param config
      *            the config
+     * @param full
+     *            the full
      * @return the gs users
      * @throws ApplicationException
      *             the application exception
      */
-	public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException;
+    public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full)
+            throws ApplicationException;
+
+    /**
+     * Save user.
+     * 
+     * @param user
+     *            the user
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public void saveUser(GSUser user) throws ApplicationException;
+
+    /**
+     * Delete user.
+     * 
+     * @param user
+     *            the user
+     */
+    public void deleteUser(GSUser user);
 }

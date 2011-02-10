@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.dialog.RuleDetailsEditDialog,v. 0.1 7-feb-2011 14.07.30 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.dialog.RuleDetailsEditDialog,v. 0.1 10-feb-2011 11.50.22 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 7-feb-2011 14.07.30 $
+ * $ Date: 10-feb-2011 11.50.22 $
  *
  * ====================================================================
  *
@@ -51,39 +51,50 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.google.gwt.user.client.ui.FormPanel;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RuleDetailsEditDialog.
  */
 public class RuleDetailsEditDialog extends Dialog {
 
+    /** The Constant RULE_DETAILS_DIALOG_ID. */
     public static final String RULE_DETAILS_DIALOG_ID = "ruleDetailsDialog";
 
+    /** The Constant RULE_LAYER_ATTRIBUTES_DIALOG_ID. */
     public static final String RULE_LAYER_ATTRIBUTES_DIALOG_ID = "ruleLayerAttributesDialog";
 
+    /** The Constant RULE_LAYER_CUSTOM_PROPS_DIALOG_ID. */
     public static final String RULE_LAYER_CUSTOM_PROPS_DIALOG_ID = "ruleLayerCustomPropsDialog";
 
+    /** The form panel. */
     private FormPanel formPanel;
 
+    /** The preview fp. */
     private com.extjs.gxt.ui.client.widget.form.FormPanel previewFP;
 
+    /** The save status. */
     private SaveStaus saveStatus;
 
+    /** The done. */
     private Button done;
 
+    /** The wkt. */
     protected String wkt;
     
+    /** The model. */
     private Rule model;
 
-    /**
-     * 
-     */
+    /** The rules manager service remote. */
     private RulesManagerServiceRemoteAsync rulesManagerServiceRemote;
 
+    /** The tab widget. */
     private TabWidget tabWidget;
 
     /**
-     * @param rulesManagerServiceRemote 
+     * Instantiates a new rule details edit dialog.
      * 
+     * @param rulesManagerServiceRemote
+     *            the rules manager service remote
      */
     public RuleDetailsEditDialog(RulesManagerServiceRemoteAsync rulesManagerServiceRemote) {
         this.rulesManagerServiceRemote = rulesManagerServiceRemote;
@@ -121,6 +132,9 @@ public class RuleDetailsEditDialog extends Dialog {
         // add(this.previewFP);
     }
 
+    /* (non-Javadoc)
+     * @see com.extjs.gxt.ui.client.widget.Dialog#createButtons()
+     */
     @Override
     protected void createButtons() {
         super.createButtons();
@@ -145,6 +159,9 @@ public class RuleDetailsEditDialog extends Dialog {
         addButton(done);
     }
 
+    /* (non-Javadoc)
+     * @see com.extjs.gxt.ui.client.widget.Window#show()
+     */
     @Override
     public void show() {
         super.show();
@@ -177,7 +194,7 @@ public class RuleDetailsEditDialog extends Dialog {
     }
 
     /**
-     * 
+     * Reset.
      */
     public void reset() {
         this.done.disable();
@@ -186,7 +203,12 @@ public class RuleDetailsEditDialog extends Dialog {
     }
 
     /**
-     * Set the correct Status Iconn Style
+     * Sets the save status.
+     * 
+     * @param status
+     *            the status
+     * @param message
+     *            the message
      */
     public void setSaveStatus(EnumSaveStatus status, EnumSaveStatus message) {
         this.saveStatus.setIconStyle(status.getValue());
@@ -194,28 +216,36 @@ public class RuleDetailsEditDialog extends Dialog {
     }
 
     /**
-     * @param model the model to set
+     * Sets the model.
+     * 
+     * @param model
+     *            the new model
      */
     public void setModel(Rule model) {
         this.model = model;
     }
 
-    /**
-     * @return the model
+    /* (non-Javadoc)
+     * @see com.extjs.gxt.ui.client.widget.Component#getModel()
      */
     public Rule getModel() {
         return model;
     }
 
     /**
-     * @param tabWidget the tabWidget to set
+     * Sets the tab widget.
+     * 
+     * @param tabWidget
+     *            the new tab widget
      */
     public void setTabWidget(TabWidget tabWidget) {
         this.tabWidget = tabWidget;
     }
 
     /**
-     * @return the tabWidget
+     * Gets the tab widget.
+     * 
+     * @return the tab widget
      */
     public TabWidget getTabWidget() {
         return tabWidget;

@@ -178,14 +178,14 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         userProfileColumn.setSortable(false);
         configs.add(userProfileColumn);
 
-        ColumnConfig detailsActionColumn = new ColumnConfig();
-        detailsActionColumn.setId("userDetails");
-        // detailsActionColumn.setHeader("Details");
-        detailsActionColumn.setWidth(80);
-        detailsActionColumn.setRenderer(this.createUserDetailsButton());
-        detailsActionColumn.setMenuDisabled(true);
-        detailsActionColumn.setSortable(false);
-        configs.add(detailsActionColumn);
+//        ColumnConfig detailsActionColumn = new ColumnConfig();
+//        detailsActionColumn.setId("userDetails");
+//        // detailsActionColumn.setHeader("Details");
+//        detailsActionColumn.setWidth(80);
+//        detailsActionColumn.setRenderer(this.createUserDetailsButton());
+//        detailsActionColumn.setMenuDisabled(true);
+//        detailsActionColumn.setSortable(false);
+//        configs.add(detailsActionColumn);
 
         ColumnConfig removeActionColumn = new ColumnConfig();
         removeActionColumn.setId("removeUser");
@@ -274,6 +274,8 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
             public void handleEvent(ButtonEvent be) {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "GeoServer Users", "Add User" });
+                
+                Dispatcher.forwardEvent(GeoRepoEvents.CREATE_NEW_USER);
             }
         });
 
@@ -389,14 +391,15 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 // TODO: add correct tooltip text here!
                 // userEnabledButton.setToolTip("Test");
                 userEnabledButton.setValue(model.isEnabled());
-                // TODO: read only mode in this version.
-                userEnabledButton.setReadOnly(true);
 
                 userEnabledButton.addListener(Events.OnClick, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Users", "Enable check!" });
+                        
+                        model.setEnabled((Boolean) be.getField().getValue());
+                        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_USER, model);
                     }
                 });
 
@@ -450,8 +453,6 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 profilesComboBox.setWidth(150);
                 // TODO: add correct tooltip text here!
                 // profilesComboBox.setToolTip("...");
-                // TODO: Read only mode in this version.
-                profilesComboBox.setReadOnly(true);
 
                 if (model.getProfile() != null) {
                     profilesComboBox.setValue(model.getProfile());
@@ -463,6 +464,9 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Users", "Profiles" });
+
+                        model.setProfile((Profile) be.getField().getValue());
+                        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_USER, model);
                     }
                 });
 
@@ -529,14 +533,14 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 removeUserButton.setIcon(Resources.ICONS.delete());
                 // TODO: add correct tooltip text here!
                 // removeUserButton.setToolTip("...");
-                // TODO: Read only mode in this version.
-                removeUserButton.setEnabled(false);
 
                 removeUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Users", "Remove User: " + model.getName() });
+                        
+                        Dispatcher.forwardEvent(GeoRepoEvents.DELETE_USER, model);
                     }
                 });
 

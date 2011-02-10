@@ -54,7 +54,6 @@ import com.extjs.gxt.ui.client.event.WindowEvent;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
-import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
@@ -148,23 +147,14 @@ public class LoginController extends Controller {
         if (event.getType() == GeoRepoEvents.SHOW_ADD_USER_WIDGET)
             onShowAddUserWidget();
 
-        if (event.getType() == GeoRepoEvents.SAVE_USER)
-            onSaveUser(event);
-
         if (event.getType() == GeoRepoEvents.SHOW_SEARCH_USER_WIDGET)
             onShowSearchUSerWidget();
 
         if (event.getType() == GeoRepoEvents.BIND_SELECTED_USER)
             onBindSelectedUser(event);
 
-        if (event.getType() == GeoRepoEvents.DELETE_USER)
-            onDeleteUser(event);
-
         if (event.getType() == GeoRepoEvents.SHOW_UPDATE_USER_WIDGET)
             onShowUpdateUserWidget(event);
-
-        if (event.getType() == GeoRepoEvents.UPDATE_USER)
-            onUpdateUser(event);
 
         if (event.getType() == GeoRepoEvents.NOTIFY_UNSHARE_ERROR)
             onNotifyUnshareError();
@@ -270,39 +260,6 @@ public class LoginController extends Controller {
     }
 
     /**
-     * On update user.
-     * 
-     * @param event
-     *            the event
-     */
-    private void onUpdateUser(AppEvent event) {
-        final User user = (User) event.getData();
-
-        // TODO REFACTOR GG
-        // this.loginRemote.updateUser(user, new AsyncCallback<User>() {
-        //
-        // public void onFailure(Throwable caught) {
-        // updateUser.setSaveStatus(EnumSaveStatus.STATUS_SAVE_ERROR,
-        // EnumSaveStatus.STATUS_MESSAGE_SAVE_ERROR);
-        // Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE,
-        // new String[] { "Update User",
-        // "An error occurred when updating the user " });
-        // }
-        //
-        // @SuppressWarnings("deprecation")
-        // public void onSuccess(User result) {
-        // updateUser.setSaveStatus(EnumSaveStatus.STATUS_SAVE,
-        // EnumSaveStatus.STATUS_MESSAGE_SAVE);
-        // bindUser(result);
-        // Dispatcher.forwardEvent(DGWATCHEvents.SEND_INFO_MESSAGE,
-        // new String[] { "Update User",
-        // "he user has been successfully updated." });
-        // updateUser.close();
-        // }
-        // });
-    }
-
-    /**
      * On show update user widget.
      * 
      * @param event
@@ -311,40 +268,6 @@ public class LoginController extends Controller {
     private void onShowUpdateUserWidget(AppEvent event) {
         this.updateUser.bind((User) event.getData());
         this.updateUser.show();
-    }
-
-    /**
-     * On delete user.
-     * 
-     * @param event
-     *            the event
-     */
-    private void onDeleteUser(AppEvent event) {
-        final User user = (User) event.getData();
-        // TODO REFACTOR GG
-        // this.loginRemote.deleteUser(user.getId(), new AsyncCallback<Object>() {
-        //
-        // public void onFailure(Throwable caught) {
-        // Dispatcher.forwardEvent(DGWATCHEvents.SEND_ERROR_MESSAGE,
-        // new String[] { "Delete User",
-        // "There was an error when deleting user" });
-        // }
-        //
-        // public void onSuccess(Object result) {
-        // Dispatcher.forwardEvent(
-        // DGWATCHEvents.SEND_INFO_MESSAGE,
-        // new String[] {
-        // "Delete User",
-        // "The user with User Name: "
-        // + user.getUserName()
-        // + " was successfully deleted." });
-        // userManagementWidget.getUserInfo().unBindModel();
-        // Dispatcher.forwardEvent(DGWATCHEvents.RESET_AOI_GRID);
-        // Dispatcher.forwardEvent(DGWATCHEvents.RESET_RSS_GRID);
-        // Dispatcher.forwardEvent(DGWATCHEvents.USER_SELECTED, null);
-        // Dispatcher.forwardEvent(DGWATCHEvents.CHECK_AOI_OWNER, user);
-        // }
-        // });
     }
 
     /**
@@ -380,45 +303,6 @@ public class LoginController extends Controller {
      */
     private void onShowSearchUSerWidget() {
         this.searchWidget.show();
-    }
-
-    /**
-     * On save user.
-     * 
-     * @param event
-     *            the event
-     */
-    private void onSaveUser(AppEvent event) {
-        // TODO REFACTOR GG
-        // this.loginRemote.saveUser((User) event.getData(),
-        // new AsyncCallback<User>() {
-        //
-        // public void onFailure(Throwable caught) {
-        // addUserWidget.setSaveStatus(
-        // EnumSaveStatus.STATUS_SAVE_ERROR,
-        // EnumSaveStatus.STATUS_MESSAGE_SAVE_ERROR);
-        // Dispatcher
-        // .forwardEvent(
-        // DGWATCHEvents.SEND_ERROR_MESSAGE,
-        // new String[] { "Save User",
-        // "An error occurred while saving the user." });
-        // }
-        //
-        // @SuppressWarnings("deprecation")
-        // public void onSuccess(User result) {
-        // addUserWidget.setSaveStatus(EnumSaveStatus.STATUS_SAVE,
-        // EnumSaveStatus.STATUS_MESSAGE_SAVE);
-        // bindUser(result);
-        // Dispatcher.forwardEvent(
-        // DGWATCHEvents.SEND_INFO_MESSAGE, new String[] {
-        // "Save User",
-        // "the user has been successfully saved with ID : "
-        // + result.getId() });
-        // addUserWidget.close();
-        // }
-        //
-        // });
-
     }
 
     /**

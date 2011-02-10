@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.impl.GsUsersManagerServiceImpl,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.impl.GsUsersManagerServiceImpl,v. 0.1 10-feb-2011 11.10.03 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 10-feb-2011 11.10.03 $
  *
  * ====================================================================
  *
@@ -62,6 +62,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /** The georepo remote service. */
     @Autowired
     private GeoRepoRemoteService georepoRemoteService;
 
@@ -134,5 +135,64 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
         }
 
         return new BasePagingLoadResult<GSUser>(usersListDTO, config.getOffset(), t.intValue());
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IGsUsersManagerService#saveUser(it.geosolutions.georepo.gui.client.model.GSUser)
+     */
+    public void saveUser(GSUser user) throws ApplicationException {
+        it.geosolutions.georepo.core.model.GSUser remote_user = null;
+        if (user.getId() >= 0) {
+            try {
+                remote_user = georepoRemoteService.getUserAdminService().get(user.getId()); 
+                copyUser(user, remote_user);
+                georepoRemoteService.getUserAdminService().update(remote_user);
+            } catch (ResourceNotFoundFault e) {
+                logger.error(e.getLocalizedMessage(), e.getCause());
+                throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+            } 
+        } else {
+            try {
+                remote_user = new it.geosolutions.georepo.core.model.GSUser();
+                copyUser(user, remote_user);
+                georepoRemoteService.getUserAdminService().insert(remote_user);
+            } catch (ResourceNotFoundFault e) {
+                logger.error(e.getLocalizedMessage(), e.getCause());
+                throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+            } 
+        }
+        
+    }
+
+    /**
+     * @param user
+     * @param remote_user
+     * @throws ResourceNotFoundFault
+     */
+    private void copyUser(GSUser user, it.geosolutions.georepo.core.model.GSUser remote_user)
+            throws ResourceNotFoundFault {
+        remote_user.setName(user.getName());
+        remote_user.setFullName(user.getFullName());
+        remote_user.setEmailAddress(user.getEmailAddress());
+        remote_user.setEnabled(user.isEnabled());
+        remote_user.setPassword(user.getPassword());
+        if (user.getProfile() != null && user.getProfile().getId() >= 0) {
+            it.geosolutions.georepo.core.model.Profile remote_profile = georepoRemoteService.getProfileAdminService().get(user.getProfile().getId());
+            remote_user.setProfile(remote_profile);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IGsUsersManagerService#deleteUser(it.geosolutions.georepo.gui.client.model.GSUser)
+     */
+    public void deleteUser(GSUser user) throws ApplicationException {
+        it.geosolutions.georepo.core.model.GSUser remote_user = null;
+        try {
+            remote_user = georepoRemoteService.getUserAdminService().get(user.getId()); 
+            georepoRemoteService.getUserAdminService().delete(remote_user.getId());
+        } catch (ResourceNotFoundFault e) {
+            logger.error(e.getLocalizedMessage(), e.getCause());
+            throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+        }
     }
 }

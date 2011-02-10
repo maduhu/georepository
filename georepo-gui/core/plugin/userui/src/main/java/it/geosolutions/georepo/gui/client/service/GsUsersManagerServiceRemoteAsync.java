@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync,v. 0.1 25-gen-2011 11.23.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync,v. 0.1 10-feb-2011 11.07.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.50 $
+ * $ Date: 10-feb-2011 11.07.33 $
  *
  * ====================================================================
  *
@@ -49,10 +49,32 @@ public interface GsUsersManagerServiceRemoteAsync {
      * 
      * @param config
      *            the config
+     * @param full
+     *            the full
      * @param callback
      *            the callback
      * @return the gs users
      */
     public void getGsUsers(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSUser>> callback);
+
+    /**
+     * Save gs user.
+     * 
+     * @param user
+     *            the user
+     * @param callback
+     *            the callback
+     */
+    public void saveGsUser(GSUser user, AsyncCallback<PagingLoadResult<GSUser>> callback);
+
+    /**
+     * Delete gs user.
+     * 
+     * @param user
+     *            the user
+     * @param asyncCallback
+     *            the callback
+     */
+    public void deleteGsUser(GSUser user, AsyncCallback<PagingLoadResult<GSUser>> callback);
 
 }

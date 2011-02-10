@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote,v. 0.1 25-gen-2011 11.23.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote,v. 0.1 10-feb-2011 11.08.17 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.49 $
+ * $ Date: 10-feb-2011 11.08.17 $
  *
  * ====================================================================
  *
@@ -75,10 +75,31 @@ public interface GsUsersManagerServiceRemote extends RemoteService {
      * 
      * @param config
      *            the config
+     * @param full
+     *            the full
      * @return the gs users
      * @throws ApplicationException
      *             the application exception
      */
     public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException;
+    
+    /**
+     * Save gs user.
+     * 
+     * @param user
+     *            the user
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public void saveGsUser(GSUser user) throws ApplicationException;
 
+    /**
+     * Delete gs user.
+     * 
+     * @param user
+     *            the user
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public void deleteGsUser(GSUser user) throws ApplicationException;
 }

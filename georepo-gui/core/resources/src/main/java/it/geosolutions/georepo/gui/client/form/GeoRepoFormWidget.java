@@ -194,4 +194,9 @@ public abstract class GeoRepoFormWidget extends Window implements IForm {
      * Cancel.
      */
     public abstract void cancel();
+
+    public void injectEvent() {
+        // TODO Auto-generated method stub
+        
+    }
 }
