@@ -62,6 +62,7 @@ import com.extjs.gxt.ui.client.store.Store;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
+import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -134,11 +135,12 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
     public ColumnModel prepareColumnModel() {
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
-        ColumnConfig userNameColumn = new ColumnConfig();
-        userNameColumn.setId(BeanKeyValue.NAME.getValue());
-        userNameColumn.setHeader("Profile Name");
-        userNameColumn.setWidth(100);
-        configs.add(userNameColumn);
+        ColumnConfig profileNameColumn = new ColumnConfig();
+        profileNameColumn.setId(BeanKeyValue.NAME.getValue());
+        profileNameColumn.setHeader("Profile Name");
+        profileNameColumn.setWidth(160);
+        profileNameColumn.setRenderer(this.createProfileNameTextBox());
+        configs.add(profileNameColumn);
 
         ColumnConfig dateCreationColumn = new ColumnConfig();
         dateCreationColumn.setId(BeanKeyValue.DATE_CREATION.getValue());
@@ -223,6 +225,8 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
             public void handleEvent(ButtonEvent be) {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "GeoServer Profile", "Add Profile" });
+                
+                Dispatcher.forwardEvent(GeoRepoEvents.CREATE_NEW_PROFILE);
             }
         });
 
@@ -305,6 +309,59 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
     }
 
     /**
+     * 
+     * @return
+     */
+    private GridCellRenderer<Profile> createProfileNameTextBox() {
+        GridCellRenderer<Profile> buttonRendered = new GridCellRenderer<Profile>() {
+
+            private boolean init;
+
+            public Object render(final Profile model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<Profile> store, Grid<Profile> grid) {
+
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<Profile>>() {
+
+                        public void handleEvent(GridEvent<Profile> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                TextField<String> profileNameTextBox = new TextField<String>();
+                profileNameTextBox.setWidth(150);
+                // TODO: add correct tooltip text here!
+                //profileNameTextBox("Test");
+                
+                profileNameTextBox.setValue(model.getName());
+
+                profileNameTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
+
+                    public void handleEvent(FieldEvent be) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                "GeoServer Profile", "Profile name changed to -> " + be.getField().getValue() });
+                        
+                        model.setName((String) be.getField().getValue());
+                        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_PROFILE, model);
+                    }
+                });
+
+                return profileNameTextBox;
+            }
+        };
+
+        return buttonRendered;
+    }
+    
+    /**
      * Creates the enable check box.
      * 
      * @return the grid cell renderer
@@ -337,7 +394,6 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                 CheckBox profileEnabledButton = new CheckBox();
                 // TODO: add correct tooltip text here!
                 //profileEnabledButton.setToolTip("Test");
-                profileEnabledButton.setReadOnly(true);
                 
                 profileEnabledButton.setValue(model.isEnabled());
 
@@ -346,6 +402,9 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Profile", "Enable check!" });
+                        
+                        model.setEnabled((Boolean) be.getField().getValue());
+                        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_PROFILE, model);
                     }
                 });
 
@@ -388,14 +447,14 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                 // TODO: generalize this!
                 Button removeProfileButton = new Button("Remove");
                 removeProfileButton.setIcon(Resources.ICONS.delete());
-                // TODO: temporally disabled!
-                removeProfileButton.setEnabled(false);
 
                 removeProfileButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Profile", "Remove Profile: " + model.getName() });
+                        
+                        Dispatcher.forwardEvent(GeoRepoEvents.DELETE_PROFILE, model);
                     }
                 });
 

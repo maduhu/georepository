@@ -46,7 +46,7 @@ public interface LoginRemoteAsync {
      * Authenticate.
      * 
      * @param userName
-     *            the user name
+     *            the profile name
      * @param password
      *            the password
      * @param calback
@@ -72,10 +72,10 @@ public interface LoginRemoteAsync {
     //
     // /**
     // *
-    // * @param user
+    // * @param profile
     // * @param callback
     // */
-    // public void saveUser(User user, AsyncCallback<User> callback);
+    // public void saveUser(User profile, AsyncCallback<User> callback);
     //
     // /**
     // *
@@ -86,17 +86,17 @@ public interface LoginRemoteAsync {
     //
     // /**
     // *
-    // * @param user
+    // * @param profile
     // * @param callback
     // */
-    // public void updateUser(User user, AsyncCallback<User> callback);
+    // public void updateUser(User profile, AsyncCallback<User> callback);
     //
     // /**
     // *
     // * @param userId
     // * @param callback
     // */
-    // public void getUserDetail(User user, AsyncCallback<User> callback);
+    // public void getUserDetail(User profile, AsyncCallback<User> callback);
     //
     // /**
     // *

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote,v. 0.1 10-feb-2011 17.05.14 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 10-feb-2011 17.05.14 $
  *
  * ====================================================================
  *
@@ -62,9 +62,12 @@ public interface ProfilesManagerServiceRemote extends RemoteService {
          */
         public static ProfilesManagerServiceRemoteAsync getInstance() {
             if (instance == null) {
-                instance = (ProfilesManagerServiceRemoteAsync) GWT.create(ProfilesManagerServiceRemote.class);
+                instance = (ProfilesManagerServiceRemoteAsync) GWT
+                        .create(ProfilesManagerServiceRemote.class);
                 ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "ProfilesManagerServiceRemote");
+                target
+                        .setServiceEntryPoint(GWT.getModuleBaseURL()
+                                + "ProfilesManagerServiceRemote");
             }
             return instance;
         }
@@ -75,10 +78,33 @@ public interface ProfilesManagerServiceRemote extends RemoteService {
      * 
      * @param config
      *            the config
+     * @param full
+     *            the full
      * @return the profiles
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full) throws ApplicationException;
+    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full)
+            throws ApplicationException;
+
+    /**
+     * Save profile.
+     * 
+     * @param profile
+     *            the profile
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public void saveProfile(Profile profile) throws ApplicationException;
+
+    /**
+     * Delete profile.
+     * 
+     * @param profile
+     *            the profile
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public void deleteProfile(Profile profile) throws ApplicationException;
 
 }

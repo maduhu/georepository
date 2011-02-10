@@ -33,11 +33,9 @@
 package it.geosolutions.georepo.gui.client.view;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.AddGsUserWidget;
+import it.geosolutions.georepo.gui.client.widget.AddProfileWidget;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -47,17 +45,13 @@ import com.extjs.gxt.ui.client.mvc.View;
 /**
  * The Class UsersView.
  */
-public class UsersView extends View {
-
-    /** The gs manager service remote. */
-    private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote = GsUsersManagerServiceRemote.Util
-            .getInstance();
+public class ProfilesView extends View {
 
     /** The profiles manager service remote. */
     private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
             .getInstance();
 
-    private AddGsUserWidget addGsUser;
+    private AddProfileWidget addProfile;
 
     /**
      * Instantiates a new users view.
@@ -65,12 +59,11 @@ public class UsersView extends View {
      * @param controller
      *            the controller
      */
-    public UsersView(Controller controller) {
+    public ProfilesView(Controller controller) {
         super(controller);
 
-        this.addGsUser = new AddGsUserWidget(GeoRepoEvents.SAVE_USER, true);
-        this.addGsUser.setGsUserService(gsManagerServiceRemote);
-        this.addGsUser.setProfileService(profilesManagerServiceRemote);
+        this.addProfile = new AddProfileWidget(GeoRepoEvents.SAVE_PROFILE, true);
+        this.addProfile.setProfileService(profilesManagerServiceRemote);
     }
 
     /*
@@ -80,7 +73,7 @@ public class UsersView extends View {
      */
     @Override
     protected void handleEvent(AppEvent event) {
-        if (event.getType() == GeoRepoEvents.CREATE_NEW_USER)
+        if (event.getType() == GeoRepoEvents.CREATE_NEW_PROFILE)
             onCreateNewUser(event);
 
     }
@@ -92,7 +85,7 @@ public class UsersView extends View {
      *            the event
      */
     private void onCreateNewUser(AppEvent event) {
-        this.addGsUser.show();
+        this.addProfile.show();
     }
 
 //    /**

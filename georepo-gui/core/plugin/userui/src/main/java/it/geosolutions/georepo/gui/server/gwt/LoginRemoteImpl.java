@@ -88,8 +88,8 @@ public class LoginRemoteImpl extends RemoteServiceServlet implements LoginRemote
     // /**
     // *
     // */
-    // public User saveUser(User user) throws ApplicationException {
-    // return loginService.saveUser(user);
+    // public User saveUser(User profile) throws ApplicationException {
+    // return loginService.saveUser(profile);
     // }
     //
     // /**
@@ -104,12 +104,12 @@ public class LoginRemoteImpl extends RemoteServiceServlet implements LoginRemote
     // this.loginService.deleteUser(userId);
     // }
     //
-    // public User updateUser(User user) {
-    // return loginService.updateUser(user);
+    // public User updateUser(User profile) {
+    // return loginService.updateUser(profile);
     // }
     //
-    // public User getUserDetail(User user) throws ApplicationException {
-    // return loginService.getUserDetail(user);
+    // public User getUserDetail(User profile) throws ApplicationException {
+    // return loginService.getUserDetail(profile);
     // }
     //
     // public List<RegUser> findUserNames() throws ApplicationException {

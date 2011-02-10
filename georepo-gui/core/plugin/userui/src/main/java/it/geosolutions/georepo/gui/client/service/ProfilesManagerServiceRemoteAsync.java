@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync,v. 0.1 10-feb-2011 17.04.39 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 10-feb-2011 17.04.39 $
  *
  * ====================================================================
  *
@@ -49,10 +49,32 @@ public interface ProfilesManagerServiceRemoteAsync {
      * 
      * @param config
      *            the config
+     * @param full
+     *            the full
      * @param callback
      *            the callback
      * @return the profiles
      */
     public void getProfiles(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<Profile>> callback);
+
+    /**
+     * Save profile.
+     * 
+     * @param profile
+     *            the profile
+     * @param asyncCallback
+     *            the async callback
+     */
+    public void saveProfile(Profile profile, AsyncCallback<PagingLoadResult<Profile>> asyncCallback);
+
+    /**
+     * Delete profile.
+     * 
+     * @param profile
+     *            the profile
+     * @param asyncCallback
+     *            the async callback
+     */
+    public void deleteProfile(Profile profile, AsyncCallback<PagingLoadResult<Profile>> asyncCallback);
 
 }

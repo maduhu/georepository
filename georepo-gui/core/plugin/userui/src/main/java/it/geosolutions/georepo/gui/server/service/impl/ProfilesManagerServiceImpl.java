@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.server.service.impl.ProfilesManagerServiceImpl,v. 0.1 25-gen-2011 11.23.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.server.service.impl.ProfilesManagerServiceImpl,v. 0.1 10-feb-2011 17.07.06 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.49 $
+ * $ Date: 10-feb-2011 17.07.06 $
  *
  * ====================================================================
  *
@@ -62,6 +62,7 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /** The georepo remote service. */
     @Autowired
     private GeoRepoRemoteService georepoRemoteService;
 
@@ -132,5 +133,51 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
         }
 
         return new BasePagingLoadResult<Profile>(profileListDTO, config.getOffset(), t.intValue());
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IProfilesManagerService#deleteProfile(it.geosolutions.georepo.gui.client.model.Profile)
+     */
+    public void deleteProfile(Profile profile) {
+        it.geosolutions.georepo.core.model.Profile remote_profile = null;
+        try {
+            remote_profile = georepoRemoteService.getProfileAdminService().get(profile.getId()); 
+            georepoRemoteService.getProfileAdminService().delete(remote_profile.getId());
+        } catch (ResourceNotFoundFault e) {
+            logger.error(e.getLocalizedMessage(), e.getCause());
+            throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IProfilesManagerService#saveProfile(it.geosolutions.georepo.gui.client.model.Profile)
+     */
+    public void saveProfile(Profile profile) {
+        it.geosolutions.georepo.core.model.Profile remote_profile = null;
+        if (profile.getId() >= 0) {
+            try {
+                remote_profile = georepoRemoteService.getProfileAdminService().get(profile.getId()); 
+                ShortProfile short_profile = new ShortProfile();
+                short_profile.setId(remote_profile.getId());
+                short_profile.setName(profile.getName());
+                short_profile.setEnabled(profile.isEnabled());
+                georepoRemoteService.getProfileAdminService().update(short_profile);
+            } catch (ResourceNotFoundFault e) {
+                logger.error(e.getLocalizedMessage(), e.getCause());
+                throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+            } 
+        } else {
+            try {
+                remote_profile = new it.geosolutions.georepo.core.model.Profile();
+                ShortProfile short_profile = new ShortProfile();
+                short_profile.setName(profile.getName());
+                short_profile.setEnabled(profile.isEnabled());
+                short_profile.setDateCreation(profile.getDateCreation());
+                georepoRemoteService.getProfileAdminService().insert(short_profile);
+            } catch (Exception e) {
+                logger.error(e.getLocalizedMessage(), e.getCause());
+                throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+            } 
+        }
     }
 }

@@ -385,4 +385,16 @@ public class GeoRepoEvents {
     /** **/
     public static final EventType CREATE_NEW_USER = new EventType();
 
+    /** **/
+    public static final EventType UPDATE_PROFILE = new EventType();
+
+    /** **/
+    public static final EventType DELETE_PROFILE = new EventType();
+
+    /** **/
+    public static final EventType SAVE_PROFILE = new EventType();
+
+    /** **/
+    public static final EventType CREATE_NEW_PROFILE = new EventType();
+
 }

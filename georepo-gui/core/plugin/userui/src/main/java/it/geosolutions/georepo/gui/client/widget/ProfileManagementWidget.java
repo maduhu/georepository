@@ -83,19 +83,19 @@ public class ProfileManagementWidget extends ContentPanel {
     }
 
     /**
-     * Sets the user info.
+     * Sets the profile info.
      * 
      * @param profilesInfo
-     *            the new user info
+     *            the new profile info
      */
     public void setProfilesInfo(ProfileGridWidget profilesInfo) {
         this.profilesInfo = profilesInfo;
     }
 
     /**
-     * Gets the user info.
+     * Gets the profile info.
      * 
-     * @return the user info
+     * @return the profile info
      */
     public ProfileGridWidget getProfilesInfo() {
         return profilesInfo;

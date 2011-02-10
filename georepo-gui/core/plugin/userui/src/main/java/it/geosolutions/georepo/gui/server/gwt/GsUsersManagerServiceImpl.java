@@ -58,7 +58,7 @@ public class GsUsersManagerServiceImpl extends RemoteServiceServlet implements
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /** The gs user manager service. */
+    /** The gs profile manager service. */
     private IGsUsersManagerService gsUserManagerService;
 
     /**

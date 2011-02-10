@@ -46,12 +46,12 @@ public interface ILoginService {
      * Authenticate.
      * 
      * @param userName
-     *            the user name
+     *            the profile name
      * @param password
      *            the password
      * @param session
      *            the session
-     * @return the user
+     * @return the profile
      */
     public User authenticate(String userName, String password, HttpSession session);
 
@@ -61,13 +61,13 @@ public interface ILoginService {
     // // public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
     // // throws ApplicationException;
     //
-    // public User saveUser(User user) throws ApplicationException;
+    // public User saveUser(User profile) throws ApplicationException;
     //
     // public void deleteUser(Long userId) throws ApplicationException;
     //
-    // public User updateUser(User user);
+    // public User updateUser(User profile);
     //
-    // public User getUserDetail(User user) throws ApplicationException;
+    // public User getUserDetail(User profile) throws ApplicationException;
     //
     // public List<RegUser> findUserNames(HttpSession session)
     // throws ApplicationException;

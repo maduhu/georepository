@@ -144,7 +144,7 @@ public class UsersController extends Controller {
     }
 
     /**
-     * On update user.
+     * On update profile.
      * 
      * @param event
      *            the event
@@ -192,7 +192,7 @@ public class UsersController extends Controller {
     }
 
     /**
-     * On delete user.
+     * On delete profile.
      * 
      * @param event
      *            the event
