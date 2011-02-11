@@ -13,7 +13,12 @@ nb*.xml
 georepo-gui/fullweb/war/WEB-INF/classes/
 georepo-gui/fullweb/war/WEB-INF/lib/
 georepo-gui/fullweb/war/georepo/
+georepo-geoserver/web-app/src/main/webapp/data/
 
+georepo-geoserver/web-app/target
+georepo-geoserver/security/target
+georepo-geoserver/target
+target
 georepo-services/modules/generic-api/target
 georepo-services/modules/target
 georepo-services/modules/login/target

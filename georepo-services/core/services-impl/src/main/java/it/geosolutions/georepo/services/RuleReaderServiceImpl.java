@@ -60,6 +60,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
     private LayerDetailsDAO detailsDAO;
 
     @Override
+    @Deprecated
     public List<ShortRule> getMatchingRules(
                     String userName, String profileName, String instanceName,
                     String service, String request,
@@ -76,48 +77,59 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 
 
     @Override
+    @Deprecated
     public AccessInfo getAccessInfo(String userName, String profileName, String instanceName, String service, String request, String workspace, String layer) {
         return getAccessInfo(new RuleFilter(userName, profileName, instanceName, service, request, workspace, layer));
     }
 
     @Override
     public AccessInfo getAccessInfo(RuleFilter filter) {
+        LOGGER.info("Requesting access for " + filter);
         List<Rule> found = getRules(filter);
 
         List<RuleLimits> limits = new ArrayList<RuleLimits>();
+        AccessInfo ret = null;
 
         for (Rule rule : found) {
+            if(ret != null)
+                break;
+                
             switch(rule.getAccess()) {
                 case LIMIT:
                     
                    RuleLimits rl = rule.getRuleLimits();
                    if(rl != null) {
-                       LOGGER.info("Collectiong limits: " + rl);
+                       LOGGER.info("Collecting limits: " + rl);
                        limits.add(rl);
                     } else
                        LOGGER.warn(rule + " has no associated limits");
                     break;
 
                 case DENY:
-                    return new AccessInfo(GrantType.DENY);
+                    ret = new AccessInfo(GrantType.DENY);
+                    break;
                     
                 case ALLOW:
-                    return buildAllowAccessInfo(rule, limits);
+                    ret = buildAllowAccessInfo(rule, limits);
+                    break;
 
                 default:
                     throw new IllegalStateException("Unknown GrantType " + rule.getAccess());
             }
         }
 
-        LOGGER.warn("No rule matching filter " + filter);
+        if(ret == null) {
+            LOGGER.warn("No rule matching filter " + filter);
+            // Denying by default
+            ret = new AccessInfo(GrantType.DENY);
+        }
 
-        // Denying by default
-        return new AccessInfo(GrantType.DENY);
+        LOGGER.info("Returning " + ret + " for " + filter);
+        return ret;
     }
 
     private AccessInfo buildAllowAccessInfo(Rule rule, List<RuleLimits> limits) {
-        AccessInfo accessInfo = new AccessInfo();
-        accessInfo.setGrant(GrantType.ALLOW);
+        AccessInfo accessInfo = new AccessInfo(GrantType.ALLOW);
 
         Geometry area = intersect(limits);
         

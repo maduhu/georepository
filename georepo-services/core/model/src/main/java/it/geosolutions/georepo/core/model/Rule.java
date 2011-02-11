@@ -70,8 +70,8 @@ import org.hibernate.annotations.Index;
  */
 @Entity(name = "Rule")
 @Table(name = "gr_rule",
-uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"gsuser_id", "profile_id", "instance_id", "service", "request", "workspace", "layer"})})
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"gsuser_id", "profile_id", "instance_id", "service", "request", "workspace", "layer"})})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Rule")
 @XmlRootElement(name = "Rule")
 public class Rule implements Serializable {

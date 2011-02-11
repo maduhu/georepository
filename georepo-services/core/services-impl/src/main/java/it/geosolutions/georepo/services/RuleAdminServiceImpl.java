@@ -138,6 +138,7 @@ public class RuleAdminServiceImpl implements RuleAdminService {
 //     */
 
     @Override
+    @Deprecated
     public List<ShortRule> getList(String userId, String profileId, String instanceId,
             String service, String request,
             String workspace, String layer,
@@ -191,6 +192,7 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     }
 
     @Override
+    @Deprecated
     public long getCount(String userId, String profileId, String instanceId, String service, String request, String workspace, String layer) {
         RuleFilter filter = new RuleFilter(0L, 0L, 0L, service, request, workspace, layer);
         // adjust IDs
