@@ -215,6 +215,7 @@ public class ShortRule implements Serializable {
                 sb.append(" l:").append(layer);
 
         sb.append(" acc:").append(access);
+        sb.append(']');
 
         return sb.toString();
 

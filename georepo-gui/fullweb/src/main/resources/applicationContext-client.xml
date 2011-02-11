@@ -3,17 +3,17 @@
 
 	   xmlns:cxf="http://cxf.apache.org/core"
 	   xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+
        xmlns:georepo="http://geosolutions.it/georepo"
 
        xsi:schemaLocation="
-          http://www.springframework.org/schema/beans
-          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-          http://www.springframework.org/schema/context
-          http://www.springframework.org/schema/context/spring-context-3.0.xsd
-          http://cxf.apache.org/jaxws
-          http://cxf.apache.org/schemas/jaxws.xsd
-		  http://cxf.apache.org/core
-		  http://cxf.apache.org/schemas/core.xsd"
+            http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://cxf.apache.org/jaxws                     http://cxf.apache.org/schemas/jaxws.xsd
+            http://cxf.apache.org/jaxrs                     http://cxf.apache.org/schemas/jaxrs.xsd
+            http://cxf.apache.org/core                      http://cxf.apache.org/schemas/core.xsd"
+
        default-autowire="byName">
 
        <context:annotation-config />
@@ -41,28 +41,50 @@
 
 	<!-- Load CXF modules from cxf.jar -->
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
-    <import resource="classpath:META-INF/cxf/cxf-extension-http-binding.xml"/>
-    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
-    <import resource="classpath:META-INF/cxf/cxf-extension-jaxws.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
 
 
     <!-- ====================================================================-->
     <!-- Service endpoints -->
     <!-- ====================================================================-->
 
-    <jaxws:endpoint id="userAdminXML"
-    	implementorClass="it.geosolutions.georepo.services.UserAdminServiceImpl"
-    	implementor="#userAdminService"
-    	address="/ws/useradmin"
-    	bindingUri="http://apache.org/cxf/binding/http"  >
+    <!-- ====================================================================-->
+    <!-- Spring Remoting for GeoServer -->
 
-        <jaxws:serviceFactory>
-		    <bean class="org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean">
-		    	<property name="wrapped" value="true" />
-		    </bean>
-    	</jaxws:serviceFactory>
-    </jaxws:endpoint>
+    <bean id="remoteRuleReaderProxy" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean" lazy-init="true">
+
+        <property name="serviceUrl" value="http://localhost:9191/remoting/RuleReader"/>
+        <property name="serviceInterface" value="it.geosolutions.georepo.services.RuleReaderService"/>
+    </bean>
+
+    <!-- ====================================================================-->
+    <!-- WebGIS Services -->
+
+    <bean id="webgisService" class="it.geosolutions.georepo.services.webgis.WGFuncServiceImpl">
+    </bean>
+
+    <bean id="tocService" class="it.geosolutions.georepo.services.webgis.WGTocServiceImpl">
+    </bean>
+
+    <jaxrs:server id="webgisREST" address="/webgis">
+        <jaxrs:serviceBeans>
+          <ref bean="webgisService"/>
+          <ref bean="tocService"/>
+        </jaxrs:serviceBeans>
+
+<!--        <jaxrs:providers>
+          <ref bean="isProvider" />
+          <ref bean="longProvider" />
+        </jaxrs:providers>-->
+<!--        <bean id="isProvider" class="com.bar.providers.InputStreamProvider"/>
+        <bean id="longProvider" class="com.bar.providers.LongProvider"/>-->
+
+        <jaxrs:features>
+             <cxf:logging/>
+        </jaxrs:features>
+
+    </jaxrs:server>
 
     <!-- ====================================================================-->
     <!-- Enable message logging using the CXF logging feature -->

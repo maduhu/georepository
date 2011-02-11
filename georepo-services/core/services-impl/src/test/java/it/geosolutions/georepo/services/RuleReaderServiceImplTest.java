@@ -25,6 +25,7 @@ import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.dto.AccessInfo;
 import it.geosolutions.georepo.services.dto.RuleFilter;
+import it.geosolutions.georepo.services.dto.ShortRule;
 import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -94,7 +95,7 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
 
     @Test
     public void testGetInfo() {
-        assertEquals(0, ruleAdminService.getCount("*","*","*", "*","*", "*","*"));
+        assertEquals(0, ruleAdminService.getCount(new RuleFilter(RuleFilter.SpecialFilterType.ANY)));
 
         int pri = -1;
         Rule rules[] = new Rule[100];
@@ -108,6 +109,8 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
             if(rule != null)
                 ruleAdminService.insert(rule);
         }
+
+        assertEquals(4, ruleAdminService.getCount(new RuleFilter(RuleFilter.SpecialFilterType.ANY)));
 
 //        ruleAdminService.insert(r1);
 //        ruleAdminService.insert(r2);
@@ -124,14 +127,38 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
 
         AccessInfo accessInfo;
 
-        assertEquals(2, ruleReaderService.getMatchingRules("u0","p0","i0", "WCS", null,"W0","l0").size());
-        accessInfo = ruleReaderService.getAccessInfo("u0","p0","i0", "WCS", null,"W0","l0");
-        assertEquals(GrantType.ALLOW, accessInfo.getGrant());
-        assertNull(accessInfo.getArea());
+        {
+            RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+            ruleFilter.setUser("u0");
+            ruleFilter.setProfile("p0");
+            ruleFilter.setInstance("i0");
+            ruleFilter.setService("WCS");
+            ruleFilter.setRequest(RuleFilter.SpecialFilterType.ANY);
+            ruleFilter.setWorkspace("W0");
+            ruleFilter.setLayer("l0");
 
-        assertEquals(1, ruleReaderService.getMatchingRules("u0","p0","i0", "UNMATCH", null,"W0","l0").size());
-        accessInfo = ruleReaderService.getAccessInfo("u0","p0","i0", "UNMATCH", null,"W0","l0");
-        assertEquals(GrantType.DENY, accessInfo.getGrant());
+            assertEquals(4, ruleReaderService.getMatchingRules(new RuleFilter(RuleFilter.SpecialFilterType.ANY)).size());
+            List<ShortRule> matchingRules = ruleReaderService.getMatchingRules(ruleFilter);
+            LOGGER.info("Matching rules: " + matchingRules);
+            assertEquals(2, matchingRules.size());
+            accessInfo = ruleReaderService.getAccessInfo(ruleFilter);
+            assertEquals(GrantType.ALLOW, accessInfo.getGrant());
+            assertNull(accessInfo.getArea());
+        }
+        {
+            RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+            ruleFilter.setUser("u0");
+            ruleFilter.setProfile("p0");
+            ruleFilter.setInstance("i0");
+            ruleFilter.setService("UNMATCH");
+            ruleFilter.setRequest(RuleFilter.SpecialFilterType.ANY);
+            ruleFilter.setWorkspace("W0");
+            ruleFilter.setLayer("l0");
+
+            assertEquals(1, ruleReaderService.getMatchingRules(ruleFilter).size());
+            accessInfo = ruleReaderService.getAccessInfo(ruleFilter);
+            assertEquals(GrantType.DENY, accessInfo.getGrant());
+        }
     }
 
     @Test
