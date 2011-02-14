@@ -80,6 +80,11 @@ public class GSInstance implements Serializable {
     @Column(nullable = false, updatable = true)
     private String baseURL;
 
+    @Column(nullable = false, updatable = true)
+    private String username;
+
+    @Column(nullable = false, updatable = true)
+    private String password;
 
     /**
      * Instantiates a new instance.
@@ -216,6 +221,23 @@ public class GSInstance implements Serializable {
         }
         return true;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
