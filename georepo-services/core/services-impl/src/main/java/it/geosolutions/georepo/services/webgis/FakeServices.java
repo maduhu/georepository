@@ -232,6 +232,11 @@ public class FakeServices {
         public long getCount(RuleFilter filter) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
+        @Override
+        public int shift(long priorityStart, long offset) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     public class FakeInstanceAdminService implements  InstanceAdminService {

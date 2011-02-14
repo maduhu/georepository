@@ -29,4 +29,13 @@ import it.geosolutions.georepo.core.model.Rule;
  */
 
 public interface RuleDAO extends RestrictedGenericDAO<Rule> {
+
+    /**
+     * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
+     * down by <TT>offset</TT>.
+     *
+     * @return the number of rules updated.
+     */
+    public int shift(long priorityStart, long offset);
+
 }
