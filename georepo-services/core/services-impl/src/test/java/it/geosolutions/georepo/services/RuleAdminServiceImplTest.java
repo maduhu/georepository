@@ -27,10 +27,13 @@ import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
+import it.geosolutions.georepo.services.dto.RuleFilter;
+import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -402,6 +405,31 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
             ruleAdminService.delete(id);
         }
 
+    }
+
+
+    @Test
+    public void testShift() {
+        assertEquals(0, ruleAdminService.getCountAll());
+
+        Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+        Rule r2 = new Rule(20, null, null, null,      "s2", "r2", "w2", "l2", GrantType.ALLOW);
+        Rule r3 = new Rule(30, null, null, null,      "s3", "r3", "w3", "l3", GrantType.ALLOW);
+        Rule r4 = new Rule(40, null, null, null,      "s4", "r3", "w3", "l3", GrantType.ALLOW);
+
+        ruleAdminService.insert(r1);
+        ruleAdminService.insert(r2);
+        ruleAdminService.insert(r3);
+        ruleAdminService.insert(r4);
+
+        int n = ruleAdminService.shift(20, 5);
+        assertEquals(3, n);
+
+        RuleFilter f = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        f.setService("s3");
+        List<ShortRule> loaded = ruleAdminService.getList(f, null, null);
+        assertEquals(1, loaded.size());
+        assertEquals(35, loaded.get(0).getPriority());
     }
 
 

@@ -20,7 +20,6 @@
 package it.geosolutions.georepo.core.dao.impl;
 
 
-import it.geosolutions.georepo.core.model.GSUser;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -30,6 +29,7 @@ import com.trg.search.ISearch;
 import com.trg.search.Search;
 import it.geosolutions.georepo.core.dao.RuleDAO;
 import it.geosolutions.georepo.core.model.Rule;
+import javax.persistence.Query;
 import org.springframework.dao.DuplicateKeyException;
 
 /**
@@ -108,6 +108,23 @@ public class RuleDAOImpl extends BaseDAO<Rule, Long>
         }
 
         return super.merge(entity);
+    }
+
+    @Override
+    public int shift(long priorityStart, long offset) {
+        if(offset <= 0)
+            throw new IllegalArgumentException("Positive offset required");
+
+//        Search search = new Search(Rule.class);
+//        search.addFilterGreaterOrEqual("priority", priorityStart);
+
+        String hql = "UPDATE Rule SET priority=priority+ :offset WHERE priority >= :priorityStart";
+
+        Query query = em().createQuery(hql);
+        query.setParameter("offset", offset);
+        query.setParameter("priorityStart", priorityStart);
+
+        return query.executeUpdate();
     }
 
     @Override

@@ -85,6 +85,17 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     }
 
     /**
+     * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
+     * down by <TT>offset</TT>.
+     *
+     * @return the number of rules updated.
+     */
+    @Override
+    public int shift(long priorityStart, long offset) {
+        return ruleDAO.shift(priorityStart, offset);
+    }
+
+    /**
      * <TT>service</TT> and <TT>request</TT> params are usually set by
      * the client, and by OGC specs they are not case sensitive, so we're going to
      * turn all of them uppercase. See also {@link RuleReaderServiceImpl}.

@@ -60,6 +60,14 @@ public interface RuleAdminService {
     @Path("/rules/{id}")
     long update(@PathParam("rule") Rule rule) throws ResourceNotFoundFault;
 
+    /**
+     * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
+     * down by <TT>offset</TT>.
+     *
+     * @return the number of rules updated.
+     */
+    int shift(long priorityStart, long offset);
+
     @DELETE
     @Path("/rules/{id}")
     boolean delete(@PathParam("id") long id) throws ResourceNotFoundFault;

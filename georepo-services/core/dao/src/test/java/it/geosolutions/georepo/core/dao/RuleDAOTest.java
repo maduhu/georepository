@@ -20,6 +20,7 @@
 
 package it.geosolutions.georepo.core.dao;
 
+import com.trg.search.Search;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.LayerDetails;
@@ -27,6 +28,7 @@ import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -424,5 +426,28 @@ public class RuleDAOTest extends BaseDAOTest {
         }
     }
 
+    @Test
+    public void testShift() {
+        assertEquals(0, ruleDAO.count(new Search(Rule.class)));
+
+        Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+        Rule r2 = new Rule(20, null, null, null,      "s2", "r2", "w2", "l2", GrantType.ALLOW);
+        Rule r3 = new Rule(30, null, null, null,      "s3", "r3", "w3", "l3", GrantType.ALLOW);
+        Rule r4 = new Rule(40, null, null, null,      "s4", "r3", "w3", "l3", GrantType.ALLOW);
+
+        ruleDAO.persist(r1);
+        ruleDAO.persist(r2);
+        ruleDAO.persist(r3);
+        ruleDAO.persist(r4);
+
+        int n = ruleDAO.shift(20, 5);
+        assertEquals(3, n);
+
+        Search s = new Search(Rule.class);
+        s.addFilterEqual("service", "s3");
+        List<Rule> loaded = ruleDAO.search(s);
+        assertEquals(1, loaded.size());
+        assertEquals(35, loaded.get(0).getPriority());
+    }
 }
 
