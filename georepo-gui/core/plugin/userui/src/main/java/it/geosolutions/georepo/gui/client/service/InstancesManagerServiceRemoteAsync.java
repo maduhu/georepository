@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.Profile;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -55,4 +56,23 @@ public interface InstancesManagerServiceRemoteAsync {
      */
     public void getInstances(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSInstance>> callback);
 
+    /**
+     * Save instance.
+     * 
+     * @param instance
+     *            the instance
+     * @param asyncCallback
+     *            the async callback
+     */
+    public void saveInstance(GSInstance instance, AsyncCallback<PagingLoadResult<GSInstance>> asyncCallback);
+
+    /**
+     * Delete instance.
+     * 
+     * @param instance
+     *            the instance
+     * @param asyncCallback
+     *            the async callback
+     */
+    public void deleteInstance(GSInstance instance, AsyncCallback<PagingLoadResult<GSInstance>> asyncCallback);
 }

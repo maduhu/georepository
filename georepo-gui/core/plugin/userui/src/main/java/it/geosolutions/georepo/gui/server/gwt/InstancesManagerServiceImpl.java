@@ -50,10 +50,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The Class InstancesManagerServiceImpl.
  */
 public class InstancesManagerServiceImpl extends RemoteServiceServlet implements
-        InstancesManagerServiceRemote {
+InstancesManagerServiceRemote{
 
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = 4293435726429971363L;
+
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4502086167905144601L;    
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -73,12 +74,28 @@ public class InstancesManagerServiceImpl extends RemoteServiceServlet implements
      * (non-Javadoc)
      * 
      * @see
-     * it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getInstances(com.extjs
+     * it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote#getInstances(com.extjs
      * .gxt.ui.client.data.PagingLoadConfig)
      */
     public PagingLoadResult<GSInstance> getInstances(PagingLoadConfig config, boolean full)
             throws ApplicationException {
         return instancesManagerService.getInstances(config, full);
+    }
+    
+
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote#deleteInstance(it.geosolutions.georepo.gui.client.model.Instance)
+     */
+    public void deleteInstance(GSInstance instance) throws ApplicationException {
+        instancesManagerService.deleteInstance(instance);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote#saveInstance(it.geosolutions.georepo.gui.client.model.Instance)
+     */
+    public void saveInstance(GSInstance instance) throws ApplicationException {
+        instancesManagerService.saveInstance(instance);
     }
 
 }

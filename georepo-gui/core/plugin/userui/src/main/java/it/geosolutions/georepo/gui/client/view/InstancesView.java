@@ -33,9 +33,9 @@
 package it.geosolutions.georepo.gui.client.view;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.AddProfileWidget;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.widget.AddInstanceWidget;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -45,13 +45,13 @@ import com.extjs.gxt.ui.client.mvc.View;
 /**
  * The Class UsersView.
  */
-public class ProfilesView extends View {
+public class InstancesView extends View {
 
-    /** The profiles manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
+    /** The instances manager service remote. */
+    private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote = InstancesManagerServiceRemote.Util
             .getInstance();
 
-    private AddProfileWidget addProfile;
+    private AddInstanceWidget addInstance;
 
     /**
      * Instantiates a new users view.
@@ -59,11 +59,11 @@ public class ProfilesView extends View {
      * @param controller
      *            the controller
      */
-    public ProfilesView(Controller controller) {
+    public InstancesView(Controller controller) {
         super(controller);
 
-        this.addProfile = new AddProfileWidget(GeoRepoEvents.SAVE_PROFILE, true);
-        this.addProfile.setProfileService(profilesManagerServiceRemote);
+        this.addInstance = new AddInstanceWidget(GeoRepoEvents.SAVE_INSTANCE, true);
+        this.addInstance.setInstanceService(instancesManagerServiceRemote);
     }
 
     /*
@@ -73,23 +73,23 @@ public class ProfilesView extends View {
      */
     @Override
     protected void handleEvent(AppEvent event) {
-        if (event.getType() == GeoRepoEvents.CREATE_NEW_PROFILE)
-            onCreateNewProfile(event);
+        if (event.getType() == GeoRepoEvents.CREATE_NEW_INSTANCE)
+            onCreateNewInstance(event);
 
     }
 
     /**
-     * On create new profile.
+     * On create new instance.
      * 
      * @param event
      *            the event
      */
-    private void onCreateNewProfile(AppEvent event) {
-        this.addProfile.show();
+    private void onCreateNewInstance(AppEvent event) {
+        this.addInstance.show();
     }
 
 //    /**
-//     * On edit profile.
+//     * On edit instance.
 //     * 
 //     * @param event
 //     *            the event
@@ -102,7 +102,7 @@ public class ProfilesView extends View {
 //        } else {
 //            // TODO: i18n!!
 //            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-//                    "Users Editor", "Could not found any associated profile!" });
+//                    "Users Editor", "Could not found any associated instance!" });
 //        }
 //    }
 

@@ -98,6 +98,9 @@ public enum BeanKeyValue {
     /** The PATH. */
     PATH("path"), 
     
+    /** The password. */
+    PASSWORD("password"),
+    
     PROP_KEY("prop_key"),
     
     PROP_VALUE("prop_value");

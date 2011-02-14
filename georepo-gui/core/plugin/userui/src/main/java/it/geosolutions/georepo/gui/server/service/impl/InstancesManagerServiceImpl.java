@@ -36,6 +36,7 @@ import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.server.service.IInstancesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -101,17 +102,67 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
         while (it.hasNext()) {
             it.geosolutions.georepo.core.model.GSInstance remote_instance = it.next();
             GSInstance local_instance = new GSInstance();
-
             local_instance.setId(remote_instance.getId());
             local_instance.setName(remote_instance.getName());
             local_instance.setDescription(remote_instance.getDescription());
             local_instance.setDateCreation(remote_instance.getDateCreation());
             local_instance.setBaseURL(remote_instance.getBaseURL());
-
+            local_instance.setUsername(remote_instance.getUsername());
+            local_instance.setPassword(remote_instance.getPassword());
             instancesListDTO.add(local_instance);
         }
 
         return new BasePagingLoadResult<GSInstance>(instancesListDTO, config.getOffset(), t
                 .intValue());
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IInstancesManagerService#deleteInstance(it.geosolutions.georepo.gui.client.model.Instance)
+     */
+    public void deleteInstance(GSInstance instance) {
+        it.geosolutions.georepo.core.model.GSInstance remote_instance = null;
+        try {
+            remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId()); 
+            georepoRemoteService.getInstanceAdminService().delete(remote_instance.getId());
+        } catch (ResourceNotFoundFault e) {
+            logger.error(e.getLocalizedMessage(), e.getCause());
+            throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IInstancesManagerService#saveInstance(it.geosolutions.georepo.gui.client.model.Instance)
+     */
+    public void saveInstance(GSInstance instance) {
+        it.geosolutions.georepo.core.model.GSInstance remote_instance = null;
+        if (instance.getId() >= 0) {
+            try {
+                remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId()); 
+                remote_instance.setName(instance.getName());
+                remote_instance.setDateCreation(instance.getDateCreation());
+                remote_instance.setDescription(instance.getDescription());
+                remote_instance.setBaseURL(instance.getBaseURL());
+                remote_instance.setPassword(instance.getPassword());
+                remote_instance.setUsername(instance.getUsername());
+                georepoRemoteService.getInstanceAdminService().update(remote_instance);
+            } catch (ResourceNotFoundFault e) {
+                logger.error(e.getLocalizedMessage(), e.getCause());
+                throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+            } 
+        } else {
+            try {
+                remote_instance = new it.geosolutions.georepo.core.model.GSInstance();
+                remote_instance.setName(instance.getName());
+                remote_instance.setDateCreation(instance.getDateCreation());
+                remote_instance.setDescription(instance.getDescription());
+                remote_instance.setBaseURL(instance.getBaseURL());
+                remote_instance.setPassword(instance.getPassword());
+                remote_instance.setUsername(instance.getUsername());
+                georepoRemoteService.getInstanceAdminService().insert(remote_instance);
+            } catch (Exception e) {
+                logger.error(e.getLocalizedMessage(), e.getCause());
+                throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
+            } 
+        }
     }
 }

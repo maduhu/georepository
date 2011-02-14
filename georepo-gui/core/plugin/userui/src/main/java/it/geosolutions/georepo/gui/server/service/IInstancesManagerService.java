@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.server.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
+//import it.geosolutions.georepo.core.model.GSInstance;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -55,4 +56,21 @@ public interface IInstancesManagerService {
      */
     public PagingLoadResult<GSInstance> getInstances(PagingLoadConfig config, boolean full)
             throws ApplicationException;
+    
+    /**
+     * Delete instance.
+     * 
+     * @param instance
+     *            the instance
+     */
+    public void deleteInstance(GSInstance instance);
+
+    /**
+     * Save instance.
+     * 
+     * @param instance
+     *            the instance
+     */
+    public void saveInstance(GSInstance instance);
+    
 }

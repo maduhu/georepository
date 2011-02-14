@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client;
 
+import it.geosolutions.georepo.gui.client.controller.InstanceController;
 import it.geosolutions.georepo.gui.client.controller.LoginController;
 import it.geosolutions.georepo.gui.client.controller.ProfilesController;
 import it.geosolutions.georepo.gui.client.controller.RulesController;
@@ -59,6 +60,7 @@ public class UserUI implements EntryPoint {
         dispatcher.addController(new LoginController());
         dispatcher.addController(new UsersController());
         dispatcher.addController(new ProfilesController());
+        dispatcher.addController(new InstanceController());
         dispatcher.addController(new RulesController());
 
         dispatcher.dispatch(GeoRepoEvents.INIT_USER_UI_MODULE);

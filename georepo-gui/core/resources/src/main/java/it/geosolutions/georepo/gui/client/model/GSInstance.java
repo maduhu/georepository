@@ -63,7 +63,14 @@ public class GSInstance extends BeanModel {
     /** The path. */
     private String path;
     
-    /**
+    /** The username */
+    private String username;
+    
+    /** The password */
+    private String password;
+    
+
+	/**
      * Instantiates a new gS instance.
      */
     public GSInstance() {
@@ -188,7 +195,36 @@ public class GSInstance extends BeanModel {
     public String getPath() {
         return path;
     }
-
+    /**
+     * Get the username
+     * @return
+     */
+    public String getUsername() {
+		return username;
+	}
+    /**
+     * Set the username
+     * @param username
+     */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	/**
+	 * Get the password
+	 * @return
+	 */
+	public String getPassword() {
+		return password;
+	}
+	
+	/**
+	 * Set the password
+	 * @param password
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -201,7 +237,10 @@ public class GSInstance extends BeanModel {
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((baseURL == null) ? 0 : baseURL.hashCode());
         result = prime * result + ((path == null) ? 0 : path.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
         return result;
     }
 
@@ -251,6 +290,20 @@ public class GSInstance extends BeanModel {
         } else if (!name.equals(other.name)) {
             return false;
         }
+        if (username == null) {
+            if (other.username != null) {
+                return false;
+            }
+        } else if (!username.equals(other.username)) {
+            return false;
+        }
+        if (password == null) {
+            if (other.password != null) {
+                return false;
+            }
+        } else if (!password.equals(other.password)) {
+            return false;
+        }
         if (path == null) {
             if (other.path != null) {
                 return false;
@@ -277,6 +330,10 @@ public class GSInstance extends BeanModel {
         builder.append("id=").append(id).append(", ");
         if (name != null)
             builder.append("name=").append(name).append(", ");
+        if (username != null)
+            builder.append("username=").append(username).append(", ");
+        if (password != null)
+            builder.append("password=").append(password).append(", ");
         if (path != null)
             builder.append("path=").append(path);
         builder.append("]");
