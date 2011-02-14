@@ -240,6 +240,16 @@
             <name>mortbay-repo</name>
             <url>http://www.mortbay.org/maven2/snapshot</url>
         </pluginRepository>
+
+        <pluginRepository>
+            <id>opengeo</id>
+            <name>OpenGeo Maven Repository</name>
+            <url>http://repo.opengeo.org/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+
     </pluginRepositories>
 
 </project>
