@@ -237,6 +237,11 @@ public class FakeServices {
         public int shift(long priorityStart, long offset) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
+        @Override
+        public void swap(long id1, long id2) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     public class FakeInstanceAdminService implements  InstanceAdminService {

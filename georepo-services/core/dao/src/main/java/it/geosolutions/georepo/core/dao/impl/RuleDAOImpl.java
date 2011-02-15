@@ -128,6 +128,20 @@ public class RuleDAOImpl extends BaseDAO<Rule, Long>
     }
 
     @Override
+    public void swap(long id1, long id2) {
+        Rule rule1 = super.find(id1);
+        Rule rule2 = super.find(id2);
+
+        if(rule1==null || rule2==null)
+            throw new IllegalArgumentException("Rule not found");
+
+        Long tmp = rule1.getPriority();
+        rule1.setPriority(rule2.getPriority());
+        rule2.setPriority(tmp);
+        super.merge(rule1, rule2);
+    }
+
+    @Override
     public boolean remove(Rule entity) {
         return super.remove(entity);
     }

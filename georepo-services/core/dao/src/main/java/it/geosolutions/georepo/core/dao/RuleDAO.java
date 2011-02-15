@@ -38,4 +38,9 @@ public interface RuleDAO extends RestrictedGenericDAO<Rule> {
      */
     public int shift(long priorityStart, long offset);
 
+    /**
+     * Swaps the priorities of the two rules.
+     */
+    public void swap(long id1, long id2);
+
 }

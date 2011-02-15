@@ -449,5 +449,24 @@ public class RuleDAOTest extends BaseDAOTest {
         assertEquals(1, loaded.size());
         assertEquals(35, loaded.get(0).getPriority());
     }
+
+    @Test
+    public void testSwap() {
+        assertEquals(0, ruleDAO.count(new Search(Rule.class)));
+
+        Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+        Rule r2 = new Rule(20, null, null, null,      "s2", "r2", "w2", "l2", GrantType.ALLOW);
+        Rule r3 = new Rule(30, null, null, null,      "s3", "r3", "w3", "l3", GrantType.ALLOW);
+
+        ruleDAO.persist(r1);
+        ruleDAO.persist(r2);
+        ruleDAO.persist(r3);
+
+        ruleDAO.swap(r1.getId(), r2.getId());
+        
+        assertEquals(20, ruleDAO.find(r1.getId()).getPriority());
+        assertEquals(10, ruleDAO.find(r2.getId()).getPriority());
+        assertEquals(30, ruleDAO.find(r3.getId()).getPriority());
+    }
 }
 
