@@ -163,8 +163,7 @@ public class InstanceController extends Controller {
 
                     public void onSuccess(PagingLoadResult<GSInstance> result) {
 
-                        grid.getStore().sort(BeanKeyValue.NAME.getValue(),
-                                SortDir.ASC);
+                        //grid.getStore().sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
                         grid.getStore().getLoader().load();
                         grid.repaint();
 
@@ -208,8 +207,7 @@ public class InstanceController extends Controller {
 
                     public void onSuccess(PagingLoadResult<GSInstance> result) {
 
-                        grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(),
-                                SortDir.ASC);
+                        //grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
                         grid.getStore().getLoader().load();
                         grid.repaint();
 

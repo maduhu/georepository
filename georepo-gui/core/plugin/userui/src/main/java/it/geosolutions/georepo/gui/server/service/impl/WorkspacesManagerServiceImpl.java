@@ -33,14 +33,23 @@
 package it.geosolutions.georepo.gui.server.service.impl;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
+import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 import it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService;
+import it.geosolutions.georepo.gui.server.service.IInstancesManagerService;
+import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +57,10 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NTCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -73,7 +86,7 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
      * it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService#getWorkspaces(com.extjs
      * .gxt.ui.client.data.PagingLoadConfig, java.lang.String)
      */
-    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String remoteURL)
+    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String remoteURL, GSInstance gsInstance)
             throws ApplicationException {
 
         List<Workspace> workspacesListDTO = new ArrayList<Workspace>();
@@ -81,8 +94,13 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
 
         if (remoteURL != null && !remoteURL.equals("*") && !remoteURL.contains("?")) {
             remoteURL += (!remoteURL.endsWith("/") ? "/" : "") + "rest/workspaces.json";
-            String jsonTxt = getRemoteJsonString(remoteURL);
-
+            String jsonTxt = "";
+            /*if(false){// && !checkLogin(remoteURL,null,null)
+            		jsonTxt =  "";
+            	}else{
+            		jsonTxt =  getRemoteJsonString(remoteURL);
+            }*/
+            jsonTxt =  getRemoteJsonString(remoteURL,gsInstance);
             if (jsonTxt != null && jsonTxt.length() > 0) {
                 JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
                 JSONObject workspaceRoot = json.getJSONObject("workspaces");
@@ -93,8 +111,23 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
                     if (workspaces != null && workspaces.isArray() && !workspaces.isEmpty()) {
                         for (int i = 0; i < workspaces.size(); i++) {
                             JSONObject workspace = workspaces.getJSONObject(i);
-
                             workspacesListDTO.add(new Workspace(workspace.getString("name")));
+                            
+                            /*IInstancesManagerService instancesManagerService2 = (IInstancesManagerService) ApplicationContextUtil.getInstance().getBean("instancesManagerServiceGWT");
+                            try{
+                            	GSInstance plr = instancesManagerService2.getInstance(config, gsInstance.getId());//
+		                          
+		                            if(plr!=null && !checkLogin(workspace.getString("href"),plr.getUsername(),plr.getPassword())){//remoteURL
+		                        		//jsonTxt =  "";
+		                            	//workspacesListDTO.add(new Workspace(workspace.getString("name")+" - unauthorized"));
+		                        	}else{
+		                        		//jsonTxt =  getRemoteJsonString(remoteURL);
+		                        		workspacesListDTO.add(new Workspace(workspace.getString("name")));
+		                        }
+                            }catch(Exception e){
+                            	logger.warn("no right for instance name "+gsInstance.getName());
+                            }*/
+                            
                         }
                     }
                 }
@@ -120,7 +153,7 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
         if (baseURL != null && !baseURL.equals("*") && !baseURL.contains("?") && workspace != null
                 && !workspace.equals("*") && workspace.length() > 0) {
             String remoteURL = baseURL + (!baseURL.endsWith("/") ? "/" : "") + "rest/layers.json";
-            String jsonTxt = getRemoteJsonString(remoteURL);
+            String jsonTxt = getRemoteJsonString(remoteURL,null);
 
             if (jsonTxt != null && jsonTxt.length() > 0) {
                 JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
@@ -152,14 +185,25 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
      * 
      * @param remoteURL
      *            the remote url
+     * @param gsInstance 
      * @return the remote json string
      */
-    private String getRemoteJsonString(String remoteURL) {
+    private String getRemoteJsonString(String remoteURL, GSInstance gsInstance) {
+    	
         BufferedReader in = null;
+        IInstancesManagerService instancesManagerService2 = (IInstancesManagerService) ApplicationContextUtil.getInstance().getBean("instancesManagerServiceGWT");
+        try{
+                if(gsInstance!=null && !checkLogin(gsInstance.getBaseURL(),gsInstance.getUsername(),gsInstance.getPassword())){//remoteURL
+            		return null;
+            	}
+        }catch(Exception e){
+        	logger.warn("no right for instance name "+gsInstance.getName());
+        }
         try {
-            URL url = new URL(remoteURL);
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
-
+        	
+        	 URL url = new URL(remoteURL);
+             in = new BufferedReader(new InputStreamReader(url.openStream()));
+      
             String jsonText = "";
             String line = null;
             while ((line = in.readLine()) != null) {
@@ -181,6 +225,45 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
     }
 
     /**
+     * 
+     * @param remoteURL
+     * @param username
+     * @param password
+     * @return
+     */
+    public boolean checkLogin(String remoteURL,String username,String password){
+      	URL url;
+		try {
+			url = new URL(remoteURL);
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			logger.error(e1.getMessage(), e1);
+			return false;
+		}
+    	try{
+    		//String userPassword = "pippo" + ":" + "pippo";
+        	String userPassword = username + ":" + password;
+        	String encoding = new sun.misc.BASE64Encoder().encode (userPassword.getBytes());
+        	URLConnection uc = url.openConnection();
+       	    uc.setRequestProperty ("Authorization", "Basic " + encoding);
+	       	 InputStream content = (InputStream)uc.getInputStream();
+	         BufferedReader in0   = new BufferedReader (new InputStreamReader (content));
+	         String line;
+	         while ((line = in0.readLine()) != null) {
+	           //pw.println (line);
+	        	 logger.debug(line);
+	         }
+	       } catch (MalformedURLException e) {
+	    	   logger.error(e.getMessage(), e);
+	    	   return false;
+	       } catch (IOException e) {
+	    	   logger.error(e.getMessage(), e);
+	    	   return false;
+	       }
+
+    	return true;
+    }
+    /**
      * Check layer is in workspace.
      * 
      * @param baseURL
@@ -197,7 +280,7 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
         try {
             String remoteURL = baseURL + (!baseURL.endsWith("/") ? "/" : "") + "rest/layers/"
                     + layerName + ".json";
-            String jsonTxt = getRemoteJsonString(remoteURL);
+            String jsonTxt = getRemoteJsonString(remoteURL,null);
 
             if (jsonTxt != null && jsonTxt.length() > 0) {
                 JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
@@ -221,5 +304,6 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
 
         return res;
     }
+
 
 }

@@ -58,6 +58,15 @@ public interface IInstancesManagerService {
             throws ApplicationException;
     
     /**
+     * Get the instance
+     * 
+     * @param config
+     * @param l
+     * @return
+     */
+    public GSInstance getInstance(PagingLoadConfig config, long l) throws ApplicationException;
+    
+    /**
      * Delete instance.
      * 
      * @param instance

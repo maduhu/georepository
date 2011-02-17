@@ -33,7 +33,6 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.model.GSInstance;
-import it.geosolutions.georepo.gui.client.model.Profile;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -54,8 +53,17 @@ public interface InstancesManagerServiceRemoteAsync {
      *            the callback
      * @return the instances
      */
-    public void getInstances(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSInstance>> callback);
+    public  void  getInstances(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSInstance>> callback);
 
+    /**
+     * Get the instance
+     * 
+     * @param config
+     * @param name
+     * @return
+     */
+    public void getInstance(PagingLoadConfig config, long id, AsyncCallback<PagingLoadResult<GSInstance>> asyncCallback);
+    
     /**
      * Save instance.
      * 
@@ -75,4 +83,8 @@ public interface InstancesManagerServiceRemoteAsync {
      *            the async callback
      */
     public void deleteInstance(GSInstance instance, AsyncCallback<PagingLoadResult<GSInstance>> asyncCallback);
+    /*public void deleteInstance(GSInstance instance,AsyncCallback<java.lang.Void> arg2);
+    public void getInstance(PagingLoadConfig config, String name, AsyncCallback<GSInstance> arg3);
+    public void getInstances(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSInstance>> arg3);
+    public void saveInstance(GSInstance instance, AsyncCallback<java.lang.Void> arg2);*/
 }

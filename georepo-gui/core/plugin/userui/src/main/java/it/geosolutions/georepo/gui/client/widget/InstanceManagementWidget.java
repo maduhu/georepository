@@ -56,7 +56,7 @@ public class InstanceManagementWidget extends ContentPanel {
     public InstanceManagementWidget(InstancesManagerServiceRemoteAsync instancesManagerServiceRemote) {
         setHeaderVisible(false);
         setFrame(true);
-        setHeight(270);
+        //setHeight("100%");
         setLayout(new FitLayout());
 
         setInstancesInfo(new InstanceGridWidget(instancesManagerServiceRemote));

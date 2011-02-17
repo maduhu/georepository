@@ -376,8 +376,8 @@ public class LoginController extends Controller {
                     loginWidget.setStatusLoginFinder(EnumLoginStatus.STATUS_LOGIN,
                             EnumLoginStatus.STATUS_MESSAGE_LOGIN);
                     loginWidget.hide();
-                    Dispatcher.forwardEvent(GeoRepoEvents.ZOOM_TO_CENTER);
-                    Dispatcher.forwardEvent(GeoRepoEvents.LOGIN_SUCCESS, user);
+                    //Dispatcher.forwardEvent(GeoRepoEvents.ZOOM_TO_CENTER);<<-- ric mod 20100217
+                    //Dispatcher.forwardEvent(GeoRepoEvents.LOGIN_SUCCESS, user);<<-- ric mod 20100217
                 } else {
                     loginWidget.setStatusLoginFinder(EnumLoginStatus.STATUS_NO_LOGIN,
                             EnumLoginStatus.STATUS_MESSAGE_NOT_LOGIN);

@@ -72,7 +72,7 @@ public class InstancesTabItem extends TabItem {
         add(getInstanceManagementWidget());
 
         setScrollMode(Scroll.NONE);
-
+        //setHeight("100%");
         getInstanceManagementWidget().getInstancesInfo().getLoader().load(0, 25);
 
     }

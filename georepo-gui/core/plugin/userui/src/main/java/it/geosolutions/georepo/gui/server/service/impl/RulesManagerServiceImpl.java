@@ -185,6 +185,38 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
      * @see
      * it.geosolutions.georepo.gui.server.service.IRulesManagerService#saveAllRules(java.util.List)
      */
+    public void saveRule(Rule rule) throws ApplicationException {
+
+
+        //for (Rule localRule : rules) {
+            it.geosolutions.georepo.core.model.Rule rule2 = new it.geosolutions.georepo.core.model.Rule(
+                    rule.getPriority(), 
+                    getUser(rule.getUser()),
+                    getProfile(rule.getProfile()),
+                    getInstance(rule.getInstance()),
+                    "*".equals(rule.getService())?null:rule.getService(),
+                    "*".equals(rule.getRequest())?null:rule.getRequest(),
+                    "*".equals(rule.getWorkspace())?null:rule.getWorkspace(),
+                    "*".equals(rule.getLayer())?null:rule.getLayer(),
+                    getAccessType(rule.getGrant()));
+            if(rule.getId()==-1)
+                  georepoRemoteService.getRuleAdminService().insert(rule2);
+            if(rule.getId()!=-1)
+				try {
+					georepoRemoteService.getRuleAdminService().update(rule2);
+				} catch (ResourceNotFoundFault e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            
+        }
+    //}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IRulesManagerService#saveAllRules(java.util.List)
+     */
     public void saveAllRules(List<Rule> rules) throws ApplicationException {
         for (ShortRule rule : georepoRemoteService.getRuleAdminService().getAll()) {
             try {

@@ -41,6 +41,7 @@ import java.util.List;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
@@ -86,6 +87,17 @@ public interface RulesManagerServiceRemote extends RemoteService {
      */
     public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException;
 
+
+    /**
+     * Save rule
+     * 
+     * @param rule
+     *            the rule
+     * @param callback
+     *            the callback
+     */
+    public void saveRule(Rule rules) throws ApplicationException;
+    
     /**
      * Save all rules.
      * 

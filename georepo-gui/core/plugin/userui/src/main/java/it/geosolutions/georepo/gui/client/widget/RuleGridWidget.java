@@ -168,6 +168,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
         grid.setLoadMask(true);
         grid.setAutoWidth(true);
+        //grid.setHeight("100%");<<-- ric mod re 20100217
     }
 
     /*
@@ -867,7 +868,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 ComboBox<Workspace> workspacesComboBox = new ComboBox<Workspace>();
                 workspacesComboBox.setId("ruleWorkspacesCombo");
                 workspacesComboBox.setName("ruleWorkspacesCombo");
-                workspacesComboBox.setEmptyText("(No workspace available)");
+
                 workspacesComboBox.setDisplayField(BeanKeyValue.WORKSPACE.getValue());
                 workspacesComboBox.setEditable(false);
                 workspacesComboBox.setStore(getAvailableWorkspaces(model.getInstance()));
@@ -880,7 +881,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                     workspacesComboBox.setSelection(Arrays.asList(new Workspace(model
                             .getWorkspace())));
                 }
-
+                workspacesComboBox.setEmptyText("(No workspace available)");
                 workspacesComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
@@ -912,7 +913,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                     protected void load(Object loadConfig,
                             AsyncCallback<PagingLoadResult<Workspace>> callback) {
                         workspacesService.getWorkspaces((PagingLoadConfig) loadConfig, gsInstance != null ? gsInstance
-                                .getBaseURL() : null, callback);
+                                .getBaseURL() : null, gsInstance, callback);
                     }
 
                 };
@@ -962,7 +963,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 ComboBox<Layer> workspaceLayersComboBox = new ComboBox<Layer>();
                 workspaceLayersComboBox.setId("ruleLayersCombo");
                 workspaceLayersComboBox.setName("ruleLayersCombo");
-                workspaceLayersComboBox.setEmptyText("(No layer available)");
+
                 workspaceLayersComboBox.setDisplayField(BeanKeyValue.LAYER.getValue());
                 workspaceLayersComboBox.setEditable(false);
                 workspaceLayersComboBox.setStore(getAvailableLayers(model.getInstance(), model
@@ -976,7 +977,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                     workspaceLayersComboBox
                             .setSelection(Arrays.asList(new Layer(model.getLayer())));
                 }
-
+                workspaceLayersComboBox.setEmptyText("(No layer available)");
                 workspaceLayersComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
@@ -1058,7 +1059,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 ComboBox<Grant> grantsComboBox = new ComboBox<Grant>();
                 grantsComboBox.setId("grantsCombo");
                 grantsComboBox.setName("grantsCombo");
-                grantsComboBox.setEmptyText("(No grant types available)");
+
                 grantsComboBox.setDisplayField(BeanKeyValue.GRANT.getValue());
                 grantsComboBox.setEditable(false);
                 grantsComboBox.setStore(getAvailableGrants());
@@ -1071,7 +1072,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                     grantsComboBox
                             .setSelection(Arrays.asList(new Grant(model.getGrant())));
                 }
-
+                grantsComboBox.setEmptyText("(No grant types available)");
                 grantsComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
@@ -1210,12 +1211,12 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 ruleDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
-                        if (model.getId() < 0) {
-                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
-                                    "GeoServer Rules", "Please apply changes before editing details!" });                            
-                        } else {
+                       // if (model.getId() < 0) {
+                       //     Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
+                       //             "GeoServer Rules", "Please apply changes before editing details!" });                            
+                       // } else {
                             Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE_DETAILS, model);
-                        }
+                       // }
 
                     }
                 });
@@ -1453,7 +1454,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 Dispatcher.forwardEvent(GeoRepoEvents.RULE_ADD, new_rule);
             }
         });
-
+/* ric mod 20100217
         Button saveRulesButton = new Button("Apply Changes");
         saveRulesButton.setIcon(Resources.ICONS.save());
 
@@ -1466,17 +1467,19 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 Dispatcher.forwardEvent(GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO);
             }
         });
-
+*/
         this.toolBar.bind(loader);
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(addRuleButton);
-        this.toolBar.add(saveRulesButton);
+        //this.toolBar.add(saveRulesButton);<<-- ric mod 20100217
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
-
+        //this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add 20100216
+       // this.toolBar.setStyleAttribute("top", "95%");//<<-- ric add 20100217
+       // this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add 20100217
         // this.toolBar.disable();
-
+        //this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add 20100216
         setUpLoadListener();
     }
 

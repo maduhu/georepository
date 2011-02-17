@@ -38,7 +38,6 @@ import it.geosolutions.georepo.gui.client.model.GSInstance;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
@@ -83,6 +82,15 @@ public interface InstancesManagerServiceRemote extends RemoteService {
     public PagingLoadResult<GSInstance> getInstances(PagingLoadConfig config, boolean full) throws ApplicationException;
     
 
+    /**
+     * Get the instance
+     * 
+     * @param config
+     * @param name
+     * @return
+     */
+    public GSInstance getInstance(PagingLoadConfig config, long id);
+    
     /**
      * Save instance.
      * 

@@ -75,7 +75,7 @@ public class GsUsersTabItem extends TabItem {
         add(getUserManagementWidget());
 
         setScrollMode(Scroll.NONE);
-
+        //setHeight("100%");
         getUserManagementWidget().getUsersInfo().getLoader().load(0, 25);
 
     }

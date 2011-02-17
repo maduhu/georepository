@@ -56,7 +56,7 @@ public class ProfileManagementWidget extends ContentPanel {
     public ProfileManagementWidget(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
         setHeaderVisible(false);
         setFrame(true);
-        setHeight(270);
+        //setHeight("100%");
         setLayout(new FitLayout());
 
         setProfilesInfo(new ProfileGridWidget(profilesManagerServiceRemote));

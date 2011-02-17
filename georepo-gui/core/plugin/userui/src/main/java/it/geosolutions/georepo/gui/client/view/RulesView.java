@@ -273,8 +273,7 @@ public class RulesView extends View {
 
             public void onSuccess(PagingLoadResult<LayerCustomProps> result) {
 
-                // grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(),
-                // SortDir.ASC);
+                //grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
                 layerCustomPropsInfo.getStore().getLoader().load();
                 layerCustomPropsInfo.getGrid().repaint();
 

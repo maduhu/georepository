@@ -81,7 +81,7 @@ public class RulesTabItem extends TabItem {
         add(getRuleManagementWidget());
 
         setScrollMode(Scroll.NONE);
-
+        //setHeight("100%");
         getRuleManagementWidget().getRulesInfo().getLoader().load(0, 25);
 
     }

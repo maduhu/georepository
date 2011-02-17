@@ -86,6 +86,13 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
      */
+    public void saveRule(Rule rule) throws ApplicationException {
+        rulesManagerService.saveRule(rule);
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
+     */
     public void saveAllRules(List<Rule> rules) throws ApplicationException {
         rulesManagerService.saveAllRules(rules);
     }

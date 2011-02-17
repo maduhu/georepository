@@ -36,6 +36,11 @@ import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
+import com.extjs.gxt.ui.client.event.ResizeEvent;
+import com.extjs.gxt.ui.client.event.ResizeListener;
+import com.extjs.gxt.ui.client.event.BorderLayoutEvent;
+//import com.gwtext.client.widgets.event.PanelListenerAdapter;
+//import com.gwtext.client.widgets.event.ResizableListenerAdapter;
 
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
@@ -43,11 +48,13 @@ import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.fx.Resizable;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.util.Margins;
+import com.extjs.gxt.ui.client.widget.BoxComponent;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.layout.AccordionLayout;
@@ -55,7 +62,18 @@ import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.ui.RootPanel;
-
+/* import com.gwtext.client.data.*;  
+ import com.gwtext.client.widgets.Button;  
+ import com.gwtext.client.widgets.Panel;  
+ import com.gwtext.client.widgets.Toolbar;  
+ import com.gwtext.client.widgets.ToolbarButton;  
+ import com.gwtext.client.widgets.event.ButtonListenerAdapter;  
+ import com.gwtext.client.widgets.form.ComboBox;  
+ import com.gwtext.client.widgets.form.DateField;  
+ import com.gwtext.client.widgets.form.NumberField;  
+ import com.gwtext.client.widgets.form.TextField;  
+ import com.gwtext.client.widgets.grid.*;  
+ import com.gwtext.client.widgets.grid.event.GridCellListenerAdapter;  */
 // TODO: Auto-generated Javadoc
 /**
  * The Class AppView.
@@ -96,17 +114,23 @@ public class AppView extends View {
     private void initUI() {
         this.viewport = new Viewport();
         this.viewport.setLayout(new BorderLayout());
-
+        //this.viewport.setAutoWidth(true);//<<-- ric add 20100216
+        //this.viewport.setAutoHeight(true);//<<-- ric add 20100216
+        //this.viewport.setMonitorWindowResize(true);//<<-- ric add 20100216
+        //this.viewport.setLayoutOnChange(true);//<<-- ric add 20100216
+        //this.viewport.setSize(width, height)
+        //this.viewport.setStyleAttribute(attr, value)
+        //this.viewport.setStyleAttribute("height", "100%");
         createNorth();
-        createEast();
+        //createEast();<<-- ric mod 20100217
         createSouth();
-        createCenter();
+        //createCenter();<<-- ric mod 20100217
 
         // registry serves as a global context
         Registry.register(ConfigurationMainUI.VIEWPORT.getValue(), viewport);
-        Registry.register(ConfigurationMainUI.EAST.getValue(), east);
+        //Registry.register(ConfigurationMainUI.EAST.getValue(), east);<<-- ric mod 20100217
         Registry.register(ConfigurationMainUI.SOUTH.getValue(), south);
-        Registry.register(ConfigurationMainUI.CENTER.getValue(), center);
+        //Registry.register(ConfigurationMainUI.CENTER.getValue(), center);<<-- ric mod 20100217
 
         RootPanel.get().add(viewport);
     }
@@ -117,9 +141,18 @@ public class AppView extends View {
     private void createNorth() {
         north = new ContentPanel();
         north.setHeaderVisible(false);
+		north.addListener(Events.Resize, new Listener<BaseEvent>() {
+		
+		    public void handleEvent(BaseEvent be) {
+		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+		    }
+		});
 
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH, 30);
         data.setMargins(new Margins(0, 5, 0, 5));
+        //data.setSplit(true);
+
         viewport.add(north, data);
     }
 
@@ -127,9 +160,13 @@ public class AppView extends View {
      * Creates the east.
      */
     private void createEast() {
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.EAST, 430, 430, 430);
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.EAST, 430);//, 430, 430
         data.setMargins(new Margins(5, 0, 5, 5));
-
+        data.setMinSize(430);//ric add 20100216
+        data.setMaxSize(1830);//ric add 20100216
+        data.setCollapsible(true);//ric add 20100216
+        //data.setFloatable(true);//ric add 20100216
+        data.setSplit(true);
         east = new ContentPanel();
         east.setBodyBorder(false);
         east.setLayout(new AccordionLayout());
@@ -143,9 +180,19 @@ public class AppView extends View {
 
             }
         });
-
+        east.addListener(Events.Move,  new Listener<BaseEvent>() {
+    		
+		    public void handleEvent(BaseEvent be) {
+		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+		    	System.out.println("mouse catturato");
+		    }
+		});
+//        east.setStyleAttribute("height", "auto");
+//        east.setStyleAttribute("width", "auto");
         //configureAccordionPanel();
-
+        east.setMonitorWindowResize(true);//<<-- ric add 20100216
+        east.setLayoutOnChange(true);//<<-- ric add 20100216
         viewport.add(east, data);
     }
 
@@ -153,9 +200,17 @@ public class AppView extends View {
      * Creates the south.
      */
     private void createSouth() {
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.SOUTH, 300, 300, 300);
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER, 300, 300, 300);////ric add 20100216
         data.setMargins(new Margins(5, 0, 5, 5));
-
+        //data.setMinSize(300);
+        //data.setMaxSize(1900);<<-- ric mod 20100217
+        
+        //data.setCollapsible(true);//ric add 20100216
+        //data.setFloatable(true);//ric add 20100216
+        //data.setSplit(true);
+        data.setHideCollapseTool(false);
+        
+        //data.setHideCollapseTool(false);//ric add 20100216
         south = new ContentPanel();
         south.setBodyBorder(false);
         south.setAnimCollapse(true);
@@ -164,17 +219,171 @@ public class AppView extends View {
         south.setLayoutOnChange(true);
         south.setScrollMode(Scroll.NONE);
         south.setHeaderVisible(false);
-
+        //south.setHeading(I18nProvider.getMessages().accordionLabel());
+        //south.setHeight("100%");
+		south.addListener(Events.Resize, new Listener<BaseEvent>() {
+		
+		    public void handleEvent(BaseEvent be) {
+		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+		    	System.out.println("resize event captured");
+		    }
+		});
+		south.addListener(Events.Move,  new Listener<BaseEvent>() {
+		
+		    public void handleEvent(BaseEvent be) {
+		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+		    	Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+		    	System.out.println("mouse catturato");
+		    }
+		});
+		//south.setStyleAttribute("height", "100%");
+        south.setMonitorWindowResize(true);//<<-- ric add 20100216
+        south.setLayoutOnChange(true);//<<-- ric add 20100216
         this.tabWidget = new TabWidget();
-
+        
         south.add(this.tabWidget);
+        //south.setStyleAttribute("height", "96%");
+        south.setHeight("96%");
         south.layout();
         
         Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, this.tabWidget);
-
+        //Dispatcher.forwardEvent(GeoRepoEvents.ATTACH.ATTACH_USER_WIDGET, this.center);
+        Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_TOOLBAR, this.north);
         viewport.add(south, data);
     }
 
+    private void createSouth2() {
+    	/*
+    	   Panel panel = new Panel();  
+  49.         panel.setBorder(false);  
+  50.         panel.setPaddings(15);  
+  51.   
+  52.         HttpProxy proxy = new HttpProxy("data/plants.xml", Connection.GET);  
+  53.   
+  54.         final RecordDef recordDef = new RecordDef(  
+  55.                 new FieldDef[]{  
+  56.                         new StringFieldDef("common"),  
+  57.                         new StringFieldDef("botanical"),  
+  58.                         new StringFieldDef("light"),  
+  59.                         new FloatFieldDef("price"),  
+  60.                         new DateFieldDef("availDate", "availability", "m/d/Y"),  
+  61.                         new BooleanFieldDef("indoor")  
+  62.                 }  
+  63.         );  
+  64.   
+  65.         XmlReader reader = new XmlReader("plant", recordDef);  
+  66.         final Store store = new Store(proxy, reader);  
+  67.         store.load();  
+  68.   
+  69.         SimpleStore cbStore = new SimpleStore("lightTypes", new String[]{  
+  70.                 "Shade",  
+  71.                 "Mostly Shady",  
+  72.                 "Sun or Shade",  
+  73.                 "Mostly Sunny",  
+  74.                 "Sunny"  
+  75.         });  
+  76.         cbStore.load();  
+  77.   
+  78.         final ComboBox cb = new ComboBox();  
+  79.         cb.setDisplayField("lightTypes");  
+  80.         cb.setStore(cbStore);  
+  81.   
+  82.         ColumnConfig commonCol = new ColumnConfig("Common Name", "common", 220, true, null, "common");  
+  83.         commonCol.setEditor(new GridEditor(new TextField()));  
+  84.   
+  85.         ColumnConfig lightCol = new ColumnConfig("Light", "light", 130);  
+  86.         lightCol.setEditor(new GridEditor(cb));  
+  87.   
+  88.   
+  89.         ColumnConfig priceCol = new ColumnConfig("Price", "price", 70, true);  
+  90.         priceCol.setAlign(TextAlign.RIGHT);  
+  91.         priceCol.setRenderer(new Renderer() {  
+  92.             public String render(Object value, CellMetadata cellMetadata, Record record,  
+  93.                                  int rowIndex, int colNum, Store store) {  
+  94.                 return "$" + value;  
+  95.             }  
+  96.         });  
+  97.         NumberField numberField = new NumberField();  
+  98.         numberField.setAllowBlank(false);  
+  99.         numberField.setAllowNegative(false);  
+ 100.         numberField.setMaxValue(1000);  
+ 101.         priceCol.setEditor(new GridEditor(numberField));  
+ 102.   
+ 103.         ColumnConfig availableCol = new ColumnConfig("Available", "availDate", 95, true);  
+ 104.   
+ 105.         DateField dateField = new DateField();  
+ 106.         dateField.setFormat("m/d/Y");  
+ 107.         dateField.setMinValue("01/01/06");  
+ 108.         dateField.setDisabledDays(new int[]{0, 6});  
+ 109.         dateField.setDisabledDaysText("Plants are not available on the weekend");  
+ 110.         availableCol.setEditor(new GridEditor(dateField));  
+ 111.   
+ 112.         ColumnConfig indoorCol = new ColumnConfig("Indoor?", "indoor", 55);  
+ 113.   
+ 114.         indoorCol.setRenderer(new Renderer() {  
+ 115.             public String render(Object value, CellMetadata cellMetadata, Record record,  
+ 116.                                  int rowIndex, int colNum, Store store) {  
+ 117.                 boolean checked = ((Boolean) value).booleanValue();  
+ 118.                 return "<img class=\"checkbox\" src=\"js/ext/resources/images/default/menu/" +  
+ 119.                             (checked ? "checked.gif" : "unchecked.gif") + "\"/>";  
+ 120.             }  
+ 121.         });  
+ 122.   
+ 123.         ColumnConfig[] columnConfigs = {  
+ 124.                 commonCol,  
+ 125.                 lightCol,  
+ 126.                 priceCol,  
+ 127.                 availableCol,  
+ 128.                 indoorCol  
+ 129.         };  
+ 130.   
+ 131.         ColumnModel columnModel = new ColumnModel(columnConfigs);  
+ 132.         columnModel.setDefaultSortable(true);  
+ 133.   
+ 134.         final EditorGridPanel grid = new EditorGridPanel();  
+ 135.   
+ 136.         Toolbar toolbar = new Toolbar();  
+ 137.         ToolbarButton button = new ToolbarButton("Add Plant", new ButtonListenerAdapter() {  
+ 138.             public void onClick(Button button, EventObject e) {  
+ 139.   
+ 140.                 Record plant = recordDef.createRecord(new Object[]{  
+ 141.                             "New Plant1", "Anguinaria Canadensis", "Mostly Shady",  
+ 142.                              new Float(5), "", Boolean.FALSE});  
+ 143.                 grid.stopEditing();  
+ 144.                 store.insert(0, plant);  
+ 145.                 grid.startEditing(0, 0);  
+ 146.             }  
+ 147.         });  
+ 148.         toolbar.addButton(button);  
+ 149.   
+ 150.         grid.setStore(store);  
+ 151.         grid.setColumnModel(columnModel);  
+ 152.         grid.setWidth(500);  
+ 153.         grid.setHeight(300);  
+ 154.         grid.setAutoExpandColumn("common");  
+ 155.         grid.setTitle("Editor Grid Example");  
+ 156.         grid.setFrame(true);  
+ 157.         grid.setClicksToEdit(1);  
+ 158.         grid.setTopToolbar(toolbar);  
+ 159.   
+ 160.         grid.addGridCellListener(new GridCellListenerAdapter() {  
+ 161.             public void onCellClick(GridPanel grid, int rowIndex, int colIndex, EventObject e) {  
+ 162.                 if (grid.getColumnModel().getDataIndex(colIndex).equals("indoor") &&  
+ 163.                         e.getTarget(".checkbox", 1) != null) {  
+ 164.                     Record record = grid.getStore().getAt(rowIndex);  
+ 165.                     record.set("indoor", !record.getAsBoolean("indoor"));  
+ 166.                 }  
+ 167.             }  
+ 168.         });  
+ 169.   
+ 170.         store.load(new UrlParam[]{new UrlParam("rnd", new Date().getTime() + "")});  
+ 171.         panel.add(grid);  
+ 172.   
+ 173.         RootPanel.get().add(panel);   
+    	 
+    	 */
+    }
     /**
      * Creates the center.
      */
@@ -182,9 +391,35 @@ public class AppView extends View {
         center = new ContentPanel();
         center.setLayout(new FitLayout());
         center.setHeaderVisible(false);
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
-        data.setMargins(new Margins(5, 5, 5, 5));
+        //center.setLayout(new AccordionLayout());
+        center.addListener(Events.Resize, new Listener<BaseEvent>() {
 
+            public void handleEvent(BaseEvent be) {
+                //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+                Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+            }
+        });
+        center.addListener(Events.Move,  new Listener<BaseEvent>() {
+    		
+		    public void handleEvent(BaseEvent be) {
+		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+		    	System.out.println("center mouse catturato");
+		    }
+		});
+//        center.setStyleAttribute("height", "auto");
+//        center.setStyleAttribute("width", "auto");
+        //center.setMonitorWindowResize(true);//<<-- ric add 20100216
+        //center.setLayoutOnChange(true);//<<-- ric add 20100216
+        
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
+        //data.setMinSize(500);
+        //data.setMaxSize(2800);
+        //data.setCollapsible(true);//ric add 20100216
+        //data.setFloatable(true);
+        //data.setSplit(true);
+        data.setMargins(new Margins(5, 5, 5, 5));
+        
         viewport.add(center, data);
 
         Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MAP_WIDGET, this.center);
@@ -209,7 +444,7 @@ public class AppView extends View {
             initUI();
         }
         if (event.getType() == GeoRepoEvents.ADMIN_MODE_CHANGE) {
-            onAdminModeChange(event);
+           // onAdminModeChange(event);<<-- ric mod 20100217
         }
     }
 

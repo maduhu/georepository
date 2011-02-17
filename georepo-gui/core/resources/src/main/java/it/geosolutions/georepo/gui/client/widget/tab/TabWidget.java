@@ -64,6 +64,7 @@ public class TabWidget extends TabPanel implements Listener {
     private void initTab() {
         setAutoWidth(true);
         setAutoHeight(true);
+        //setHeight("100%");//<<-- ric add 20100216
     }
 
     /**

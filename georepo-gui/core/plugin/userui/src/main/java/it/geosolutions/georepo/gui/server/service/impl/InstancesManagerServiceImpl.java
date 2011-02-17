@@ -116,6 +116,42 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
                 .intValue());
     }
 
+    /**
+     * 
+     * @param config
+     * @param name
+     * @return
+     */
+    public GSInstance getInstance(PagingLoadConfig config, long id){
+    	GSInstance inst = null;
+        List<it.geosolutions.georepo.core.model.GSInstance> instancesList = georepoRemoteService
+        .getInstanceAdminService().getAll();
+        if (instancesList == null) {
+            if (logger.isErrorEnabled())
+                logger.error("No server instace found on server");
+            throw new ApplicationException("No server instance found on server");
+        }
+
+        Iterator<it.geosolutions.georepo.core.model.GSInstance> it = instancesList.iterator();
+        boolean exit = false;
+        while (!exit && it.hasNext()) {
+            it.geosolutions.georepo.core.model.GSInstance remote_instance = it.next();
+            if(remote_instance.getId()== id){
+            	 GSInstance local_instance = new GSInstance();
+                 local_instance.setId(remote_instance.getId());
+                 local_instance.setName(remote_instance.getName());
+                 local_instance.setDescription(remote_instance.getDescription());
+                 local_instance.setDateCreation(remote_instance.getDateCreation());
+                 local_instance.setBaseURL(remote_instance.getBaseURL());
+                 local_instance.setUsername(remote_instance.getUsername());
+                 local_instance.setPassword(remote_instance.getPassword());
+                 inst = local_instance;
+                 exit = true;
+            }
+            
+        }
+        return inst;
+    }
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.server.service.IInstancesManagerService#deleteInstance(it.geosolutions.georepo.gui.client.model.Instance)
      */

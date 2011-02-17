@@ -79,6 +79,9 @@ public class GeoRepoEvents {
     /** The Constant UPDATE_MAP_SIZE. */
     public static final EventType UPDATE_MAP_SIZE = new EventType();
 
+    /** The Constant UPDATE_SOUTH_SIZE. */
+    public static final EventType UPDATE_SOUTH_SIZE = new EventType();
+    
     /** The Constant ATTACH_USER_WIDGET. */
     public static final EventType ATTACH_USER_WIDGET = new EventType();
 

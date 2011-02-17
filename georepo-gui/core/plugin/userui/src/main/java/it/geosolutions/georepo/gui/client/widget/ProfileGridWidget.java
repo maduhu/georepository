@@ -124,6 +124,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
 
         grid.setLoadMask(true);
         grid.setAutoWidth(true);
+        //grid.setHeight("100%");<<-- ric mod re 20100217
     }
 
     /*
@@ -236,9 +237,12 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
-
+        //this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add 20100216
+        //this.toolBar.setStyleAttribute("top", "96%");//<<-- ric add 20100217
+        //this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add 20100217
         // this.toolBar.disable();
-
+        //this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add 20100216
+        
         setUpLoadListener();
     }
 

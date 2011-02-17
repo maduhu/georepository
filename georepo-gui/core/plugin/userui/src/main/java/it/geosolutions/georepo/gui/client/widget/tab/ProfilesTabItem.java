@@ -72,7 +72,7 @@ public class ProfilesTabItem extends TabItem {
         add(getProfileManagementWidget());
 
         setScrollMode(Scroll.NONE);
-
+        //setHeight("100%");
         getProfileManagementWidget().getProfilesInfo().getLoader().load(0, 25);
 
     }

@@ -90,4 +90,11 @@ public interface IRulesManagerService {
      *            the custom props
      */
     public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps);
+
+    /**
+     * Save single rule
+     * 
+     * @param rule
+     */
+	public void saveRule(Rule rule);
 }

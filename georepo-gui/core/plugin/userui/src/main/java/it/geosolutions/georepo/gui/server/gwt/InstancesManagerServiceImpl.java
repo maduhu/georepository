@@ -82,7 +82,17 @@ InstancesManagerServiceRemote{
         return instancesManagerService.getInstances(config, full);
     }
     
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote#getInstances(com.extjs
+     * .gxt.ui.client.data.PagingLoadConfig)
+     */
+    public GSInstance getInstance(PagingLoadConfig config, long id)
+            throws ApplicationException {
+        return instancesManagerService.getInstance(config, id);
+    }
 
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote#deleteInstance(it.geosolutions.georepo.gui.client.model.Instance)

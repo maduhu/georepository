@@ -64,7 +64,7 @@ public class RuleManagementWidget extends ContentPanel {
             WorkspacesManagerServiceRemoteAsync workspacesService) {
         setHeaderVisible(false);
         setFrame(true);
-        setHeight(270);
+        //setHeight("100%");
         setLayout(new FitLayout());
 
         setRulesInfo(new RuleGridWidget(rulesService, gsUsersService, profilesService, instancesService, workspacesService));

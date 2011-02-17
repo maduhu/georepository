@@ -92,8 +92,7 @@ public class RulesController extends Controller {
             .getInstance();
 
     /** The rules manager service remote. */
-    private RulesManagerServiceRemoteAsync rulesManagerServiceRemote = RulesManagerServiceRemote.Util
-            .getInstance();
+    private RulesManagerServiceRemoteAsync rulesManagerServiceRemote = RulesManagerServiceRemote.Util.getInstance();
 
     /** The tab widget. */
     private TabWidget tabWidget;
@@ -218,22 +217,71 @@ public class RulesController extends Controller {
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
+            	///////////////////////////////////
+            	saveRule(event);
+            	///////////////////////////////////
                 Rule model = (Rule) tabData;
 
-                RulesTabItem rulesTabItem = (RulesTabItem) tabWidget
-                        .getItemByItemId(RULES_TAB_ITEM_ID);
-                final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
-                        .getRulesInfo();
+                RulesTabItem rulesTabItem = (RulesTabItem) tabWidget.getItemByItemId(RULES_TAB_ITEM_ID);
+                final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget().getRulesInfo();
                 final Grid<Rule> grid = rulesInfoWidget.getGrid();
                 grid.getStore().remove(model);
                 // TODO: details?
                 model.setId(-1);
                 grid.getStore().add(model);
-                grid.repaint();
+                //grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);//<<-- ric add 20100216
+                grid.repaint();//<<-- RIC MOD 20100216
+                
             }
         }
     }
 
+    private void saveRule(AppEvent event) {
+        if (tabWidget != null) {
+
+            RulesTabItem rulesTabItem = (RulesTabItem) tabWidget.getItemByItemId(RULES_TAB_ITEM_ID);
+            final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
+                    .getRulesInfo();
+            final Grid<Rule> grid = rulesInfoWidget.getGrid();
+
+            if (grid != null && grid.getStore() != null) {
+                ListStore<Rule> store = grid.getStore();
+
+                if (store != null && store.getModels() != null && store.getModels().size() > 0) {
+                    // TODO: details?
+                	Rule lRule = (Rule)event.getData();
+                    rulesManagerServiceRemote.saveRule(lRule,//store.getModels(),
+                            new AsyncCallback<PagingLoadResult<Rule>>() {
+
+                                public void onFailure(Throwable caught) {
+
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                            new String[] {
+                                                    I18nProvider.getMessages().ruleServiceName(),
+                                                    I18nProvider.getMessages()
+                                                            .ruleFetchFailureMessage() });
+                                }
+
+                                public void onSuccess(PagingLoadResult<Rule> result) {
+
+/*                                    grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(),
+                                            SortDir.ASC);
+                                    grid.getStore().getLoader().load();
+                                    grid.repaint();
+*/
+                                    Dispatcher.forwardEvent(
+                                            GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                            new String[] {
+                                                    I18nProvider.getMessages().ruleServiceName(),
+                                                    I18nProvider.getMessages()
+                                                            .ruleFetchSuccessMessage() });
+                                }
+                            });
+                }
+            }
+        }
+    }
     /**
      * On apply changes rules.
      * 

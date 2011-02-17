@@ -31,7 +31,8 @@
  *
  */
 package it.geosolutions.georepo.gui.client.service;
-
+import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
 
@@ -51,13 +52,15 @@ public interface WorkspacesManagerServiceRemoteAsync {
      * @param config
      *            the config
      * @param URL
-     *            the uRL
+     *            the URL
      * @param callback
      *            the callback
+     * @param gsInstance 
+     * 			  the nstance: this is passed for for workspace's authorization
      * @return the workspaces
      */
-    public void getWorkspaces(PagingLoadConfig config, String URL, AsyncCallback<PagingLoadResult<Workspace>> callback);
-
+    public void getWorkspaces(PagingLoadConfig config, String baseURL, GSInstance gsInstance, AsyncCallback<PagingLoadResult<Workspace>> callback) throws ApplicationException;
+   
     /**
      * Gets the layers.
      * 

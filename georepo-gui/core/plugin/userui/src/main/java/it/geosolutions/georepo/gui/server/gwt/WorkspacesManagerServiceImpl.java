@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.server.gwt;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
@@ -77,9 +78,9 @@ public class WorkspacesManagerServiceImpl extends RemoteServiceServlet implement
      * it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote#getWorkspaces(com.extjs
      * .gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String URL)
+    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String URL, GSInstance gsInstance)
             throws ApplicationException {
-        return workspaceManagerService.getWorkspaces(config, URL);
+        return workspaceManagerService.getWorkspaces(config, URL, gsInstance);
     }
 
     /* (non-Javadoc)
@@ -89,5 +90,6 @@ public class WorkspacesManagerServiceImpl extends RemoteServiceServlet implement
             String workspace) throws ApplicationException {
         return workspaceManagerService.getLayers(config, baseURL, workspace);
     }
+
 
 }

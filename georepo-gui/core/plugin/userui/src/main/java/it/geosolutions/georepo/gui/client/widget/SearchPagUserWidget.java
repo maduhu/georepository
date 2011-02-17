@@ -139,7 +139,8 @@ public class SearchPagUserWidget extends GeoRepoSearchWidget<User> {
         grid.setAutoExpandColumn(BeanKeyValue.USER_NAME.getValue());
 
         grid.setWidth(350);
-        grid.setHeight(270);
+        //grid.setHeight(270);
+        grid.setHeight("100%");//<<-- ric add 20100216
     }
 
     /*

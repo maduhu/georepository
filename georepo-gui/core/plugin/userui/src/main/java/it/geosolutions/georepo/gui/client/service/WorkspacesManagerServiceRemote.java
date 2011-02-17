@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
 
@@ -78,11 +79,14 @@ public interface WorkspacesManagerServiceRemote extends RemoteService {
      *            the config
      * @param baseURL
      *            the base url
+     * @param gsInstance
+     *            the instance: this is passed for for workspace's authorization
+     *            
      * @return the workspaces
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String baseURL) throws ApplicationException;
+    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String baseURL, GSInstance gsInstance) throws ApplicationException;
 
     
     /**

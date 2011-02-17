@@ -414,10 +414,10 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
             button.setIcon(Resources.ICONS.info());
             break;
         case GEOREPO_ZOOM_IN:
-            button.setIcon(Resources.ICONS.zoomIn());
+            //button.setIcon(Resources.ICONS.zoomIn());
             break;
         case GEOREPO_ZOOM_OUT:
-            button.setIcon(Resources.ICONS.zoomOut());
+            //button.setIcon(Resources.ICONS.zoomOut());
             break;
         case GEOREPO_DRAW:
             button.setIcon(Resources.ICONS.drawFeature());

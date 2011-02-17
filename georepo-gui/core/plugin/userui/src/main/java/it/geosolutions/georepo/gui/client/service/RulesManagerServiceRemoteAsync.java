@@ -62,6 +62,16 @@ public interface RulesManagerServiceRemoteAsync {
             AsyncCallback<PagingLoadResult<Rule>> callback);
 
     /**
+     * Save rule
+     * 
+     * @param rule
+     *            the rule
+     * @param callback
+     *            the callback
+     */
+    public void saveRule(Rule rules, AsyncCallback<PagingLoadResult<Rule>> callback);
+    
+    /**
      * Save all rules.
      * 
      * @param rules

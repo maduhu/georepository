@@ -35,7 +35,7 @@ package it.geosolutions.georepo.gui.server.service;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
-
+import it.geosolutions.georepo.gui.client.model.GSInstance;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
@@ -56,7 +56,7 @@ public interface IWorkspacesManagerService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String URL) throws ApplicationException;
+    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String URL, GSInstance gsInstance) throws ApplicationException;
 
     /**
      * Gets the layers.
