@@ -95,6 +95,11 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         return ruleDAO.shift(priorityStart, offset);
     }
 
+    @Override
+    public void swap(long id1, long id2) {
+        ruleDAO.swap(id1, id2);
+    }
+
     /**
      * <TT>service</TT> and <TT>request</TT> params are usually set by
      * the client, and by OGC specs they are not case sensitive, so we're going to

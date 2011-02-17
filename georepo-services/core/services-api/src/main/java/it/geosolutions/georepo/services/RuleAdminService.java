@@ -68,6 +68,12 @@ public interface RuleAdminService {
      */
     int shift(long priorityStart, long offset);
 
+    /**
+     * Swaps the priorities of two rules.
+     */
+    void swap(long id1, long id2);
+
+
     @DELETE
     @Path("/rules/{id}")
     boolean delete(@PathParam("id") long id) throws ResourceNotFoundFault;

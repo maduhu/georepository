@@ -432,5 +432,31 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         assertEquals(35, loaded.get(0).getPriority());
     }
 
+    @Test
+    public void testSwap() {
+        assertEquals(0, ruleAdminService.getCountAll());
+
+        Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+        Rule r2 = new Rule(20, null, null, null,      "s2", "r2", "w2", "l2", GrantType.ALLOW);
+        Rule r3 = new Rule(30, null, null, null,      "s3", "r3", "w3", "l3", GrantType.ALLOW);
+
+        ruleAdminService.insert(r1);
+        ruleAdminService.insert(r2);
+        ruleAdminService.insert(r3);
+
+        ruleAdminService.swap(r1.getId(), r2.getId());
+
+        RuleFilter f = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        List<ShortRule> loaded = ruleAdminService.getList(f, null, null);
+        assertEquals(3, loaded.size());
+        assertEquals(r2.getId(), loaded.get(0).getId());
+        assertEquals(r1.getId(), loaded.get(1).getId());
+        assertEquals(r3.getId(), loaded.get(2).getId());
+
+        assertEquals(10, loaded.get(0).getPriority());
+        assertEquals(20, loaded.get(1).getPriority());
+        assertEquals(30, loaded.get(2).getPriority());
+    }
+
 
 }
