@@ -198,6 +198,7 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
             	}
         }catch(Exception e){
         	logger.warn("no right for instance name "+gsInstance.getName());
+        	return null;
         }
         try {
         	
