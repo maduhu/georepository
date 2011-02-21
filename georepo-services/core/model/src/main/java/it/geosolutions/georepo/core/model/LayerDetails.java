@@ -22,6 +22,7 @@ package it.geosolutions.georepo.core.model;
 
 import com.vividsolutions.jts.geom.MultiPolygon;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
+import it.geosolutions.georepo.core.model.enums.LayerType;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -69,6 +72,10 @@ public class LayerDetails implements Serializable {
     @Column
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private LayerType type;
+    
     @Column
     private String defaultStyle;
 
@@ -193,10 +200,19 @@ public class LayerDetails implements Serializable {
         this.attributes = attributes;
     }
 
+    public LayerType getType() {
+        return type;
+    }
+
+    public void setType(LayerType type) {
+        this.type = type;
+    }    
+
     @Override
     public String toString() {
         return "LayerDetails{" 
                 + "id=" + id
+                + " type=" + type
                 + " defStyle=" + defaultStyle
                 + " cqlr=" + cqlFilterRead
                 + " cqlw=" + cqlFilterWrite
