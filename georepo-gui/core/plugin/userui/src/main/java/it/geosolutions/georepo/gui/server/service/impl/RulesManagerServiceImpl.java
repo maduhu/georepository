@@ -187,9 +187,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
      */
     public void saveRule(Rule rule) throws ApplicationException {
 
-
-        //for (Rule localRule : rules) {
-            it.geosolutions.georepo.core.model.Rule rule2 = new it.geosolutions.georepo.core.model.Rule(
+         it.geosolutions.georepo.core.model.Rule rule2 = new it.geosolutions.georepo.core.model.Rule(
                     rule.getPriority(), 
                     getUser(rule.getUser()),
                     getProfile(rule.getProfile()),
@@ -199,18 +197,27 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                     "*".equals(rule.getWorkspace())?null:rule.getWorkspace(),
                     "*".equals(rule.getLayer())?null:rule.getLayer(),
                     getAccessType(rule.getGrant()));
-            if(rule.getId()==-1)
+            rule2.setId(rule.getId());
+            if(rule.getId()==-1){
                   georepoRemoteService.getRuleAdminService().insert(rule2);
-            if(rule.getId()!=-1)
+            }else{
 				try {
 					georepoRemoteService.getRuleAdminService().update(rule2);
 				} catch (ResourceNotFoundFault e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+            }
             
-        }
-    //}
+    }
+    
+    /*
+     * 
+     */
+    public void updatePriorities(Rule rule, long shift){
+    	georepoRemoteService.getRuleAdminService().shift(rule.getPriority(), 1);
+    }
+    
     /*
      * (non-Javadoc)
      * 

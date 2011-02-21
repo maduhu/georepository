@@ -64,7 +64,6 @@ public class TabWidget extends TabPanel implements Listener {
     private void initTab() {
         setAutoWidth(true);
         setAutoHeight(true);
-        //setHeight("100%");//<<-- ric add 20100216
     }
 
     /**
@@ -85,9 +84,9 @@ public class TabWidget extends TabPanel implements Listener {
 //        if (e.getType() == GeoRepoEvents.ADMIN_MODE_CHANGE) {
 //            onAdminModeChange((AppEvent) e);
 //        }
-//        if (e.getType() == GeoRepoEvents.BIND_SELECTED_MEMBER) {
-//            onBindMember((AppEvent) e);
-//        }
+        if (e.getType() == GeoRepoEvents.BIND_SELECTED_MEMBER) {
+            onBindMember((AppEvent) e);
+        }
 //        if (e.getType() == GeoRepoEvents.GEOCONSTRAINT_DELETED) {
 //            onGeoConstraintDeleted((AppEvent) e);
 //        }

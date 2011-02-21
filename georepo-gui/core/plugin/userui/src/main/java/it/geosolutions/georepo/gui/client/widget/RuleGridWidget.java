@@ -208,7 +208,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ColumnConfig ruleInstanceColumn = new ColumnConfig();
         ruleInstanceColumn.setId(BeanKeyValue.INSTANCE.getValue());
         ruleInstanceColumn.setHeader("Instance");
-        ruleInstanceColumn.setWidth(260);
+        ruleInstanceColumn.setWidth(160);
         ruleInstanceColumn.setRenderer(this.createInstancesComboBox());
         ruleInstanceColumn.setMenuDisabled(true);
         ruleInstanceColumn.setSortable(false);
@@ -513,12 +513,12 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 instancesComboBox.setId("ruleInstancesCombo");
                 instancesComboBox.setName("ruleInstancesCombo");
                 instancesComboBox.setEmptyText("(No instances available)");
-                instancesComboBox.setDisplayField(BeanKeyValue.BASE_URL.getValue());
+                instancesComboBox.setDisplayField(BeanKeyValue.NAME.getValue());
                 instancesComboBox.setEditable(false);
                 instancesComboBox.setStore(getAvailableInstances());
                 instancesComboBox.setTypeAhead(true);
                 instancesComboBox.setTriggerAction(TriggerAction.ALL);
-                instancesComboBox.setWidth(250);
+                instancesComboBox.setWidth(150);
 
                 if (model.getInstance() != null) {
                     instancesComboBox.setValue(model.getInstance());
@@ -1452,6 +1452,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 new_rule.setId(-1);
                 new_rule.setPriority(-1);
                 Dispatcher.forwardEvent(GeoRepoEvents.RULE_ADD, new_rule);
+                
             }
         });
 /* ric mod 20100217
@@ -1481,6 +1482,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         // this.toolBar.disable();
         //this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add 20100216
         setUpLoadListener();
+
     }
 
     /**
@@ -1547,6 +1549,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
             }
 
         });
+        if(store!=null)store.sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
     }
 
 }

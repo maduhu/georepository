@@ -245,7 +245,7 @@ public class UsersController extends Controller {
      */
     @SuppressWarnings("unused")
     private void forwardToTabWidget(AppEvent event) {
-        // this.tabWidget.fireEvent(event.getType(), event);
+         this.tabWidget.fireEvent(event.getType(), event);
     }
 
 }
