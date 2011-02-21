@@ -73,7 +73,7 @@ public class LayerDetails implements Serializable {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true /*false*/)
     private LayerType type;
     
     @Column
