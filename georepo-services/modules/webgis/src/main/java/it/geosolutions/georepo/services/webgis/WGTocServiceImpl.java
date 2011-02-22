@@ -21,22 +21,34 @@
 package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.core.model.GSInstance;
+import it.geosolutions.georepo.core.model.LayerAttribute;
+import it.geosolutions.georepo.core.model.LayerDetails;
+import it.geosolutions.georepo.core.model.enums.AccessType;
+import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.InstanceAdminService;
 import it.geosolutions.georepo.services.RuleAdminService;
+import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
-import it.geosolutions.georepo.services.webgis.WebGisTOCService;
+import it.geosolutions.georepo.services.webgis.model.TOCAttrib;
 import it.geosolutions.georepo.services.webgis.model.TOCConfig;
 import it.geosolutions.georepo.services.webgis.model.TOCGroup;
 import it.geosolutions.georepo.services.webgis.model.TOCLayer;
-import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
+import it.geosolutions.georepo.services.webgis.utils.DenominatorStyleVisitor;
+import it.geosolutions.geoserver.rest.GeoServerRESTReader;
+import it.geosolutions.geoserver.rest.decoder.RESTLayer;
+import java.io.StringReader;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import org.apache.log4j.Logger;
+import org.geotools.factory.CommonFactoryFinder;
+import org.geotools.styling.SLDParser;
+import org.geotools.styling.StyledLayerDescriptor;
 
 /**
  *
@@ -61,32 +73,34 @@ public class WGTocServiceImpl implements WebGisTOCService {
         if(profile == null)
             throw new BadRequestWebEx("Missing Profile");
 
-        try {
-            WebGisProfile wgp = WebGisProfile.valueOf(profile);
-        } catch (IllegalArgumentException e) {
-            throw new NotFoundWebEx("Profile not found: " + profile);
-        }
-
         // groupTitle, Group
         Map<String, TOCGroup> tocGroups = new HashMap<String, TOCGroup>();
         Map<String, TOCGroup> bgGroups = new HashMap<String, TOCGroup>();
         Map<Long, GSInstance> instances = new HashMap<Long, GSInstance>();
+        Map<Long, GeoServerRESTReader> readers = new HashMap<Long, GeoServerRESTReader>();
 
-        List<ShortRule> rules = ruleAdminService.getList("*", profile, "*", "*", "*", "*", "*", null, null);
+        RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        ruleFilter.setProfile(profile);
+        
+        List<ShortRule> rules = ruleAdminService.getList(ruleFilter, null, null);
         for (ShortRule shortRule : rules) {
-            if(shortRule.getLayer() != null) {
+            if(shortRule.getLayer() != null && shortRule.getAccess()==GrantType.ALLOW) {
                 LOGGER.info("retrieving props for Rule " + shortRule);
                 Map<String, String> props = ruleAdminService.getDetailsProps(shortRule.getId());
 
-                String groupTitle = props.get(TOCLayer.TOCProps.groupName.name());
-                GSInstance gs = fetchInstance(instances, shortRule.getInstanceId());
+                GSInstance gs = fetchInstance(instances, readers, shortRule.getInstanceId());
+                GeoServerRESTReader reader = readers.get(shortRule.getInstanceId());
+
                 TOCGroup bg = fetchOrCreateGroup(bgGroups, props.get(TOCLayer.TOCProps.bgGroup.name()), gs);
+                String groupTitle = props.get(TOCLayer.TOCProps.groupName.name());
 
                 if( groupTitle==null && bg==null) // not in bg, and group not set: maybe been forgotten?
                     groupTitle = "UNGROUPED";
 
                 TOCGroup group = fetchOrCreateGroup(tocGroups, groupTitle, gs);
-                TOCLayer tocl = createLayer(gs, shortRule, props);
+                TOCLayer tocl = createLayer(gs, reader, shortRule, props);
+                if(tocl == null) // error condition, already logged
+                    continue;
 
                 if(group != null)
                     group.getLayerList().add(tocl);
@@ -106,13 +120,28 @@ public class WGTocServiceImpl implements WebGisTOCService {
         return tocCfg;
     }
 
-    private GSInstance fetchInstance(Map<Long, GSInstance> instances, Long instanceId) {
+    private GSInstance fetchInstance(Map<Long, GSInstance> instances, 
+                    Map<Long, GeoServerRESTReader> readers,
+                    Long instanceId) {
         try {
             if (instances.containsKey(instanceId)) {
                 return instances.get(instanceId);
             }
+
             GSInstance instance = instanceAdminService.get(instanceId);
             instances.put(instanceId, instance);
+
+            try {
+                GeoServerRESTReader gsreader = new GeoServerRESTReader(
+                        instance.getBaseURL(),
+                        instance.getUsername(),
+                        instance.getPassword());
+
+                readers.put(instanceId, gsreader);
+            } catch (MalformedURLException ex) {
+                LOGGER.error("Can't init a reader for " + instance, ex);
+            }
+
             return instance;
         } catch (ResourceNotFoundFault ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -139,24 +168,87 @@ public class WGTocServiceImpl implements WebGisTOCService {
     }
 
 
-    TOCLayer createLayer(GSInstance instance, ShortRule rule, Map<String,String> props) {
-        TOCLayer l = new TOCLayer();
-        l.setName(rule.getLayer());
-        l.setGeorepoId(rule.getId());
-        for (Map.Entry<String, String> entry : props.entrySet()) {
-            l.getProperties().put(entry.getKey(), entry.getValue());
+    TOCLayer createLayer(GSInstance instance, GeoServerRESTReader gsreader, ShortRule rule, Map<String, String> props) {
+        TOCLayer tocLayer = new TOCLayer();
+        tocLayer.setName(rule.getLayer());
+        tocLayer.setGeorepoId(rule.getId());
+
+        boolean dataIsSet = false;
+        String defaultStyle = null;
+
+        if (gsreader != null) {
+
+            try {
+                RESTLayer rl = gsreader.getLayer(rule.getLayer());
+                tocLayer.setTitle(rl.getTitle());
+                tocLayer.setAbs(rl.getAbstract());
+                tocLayer.setMinX(rl.getMinX());
+                tocLayer.setMaxX(rl.getMaxX());
+                tocLayer.setMinY(rl.getMinY());
+                tocLayer.setMaxY(rl.getMaxY());
+                tocLayer.setSrs(rl.getCRS());
+                dataIsSet = true;
+
+                // we'll use this one if we can't find any in LayerDetails
+                defaultStyle = rl.getDefaultStyle();
+
+            } catch (Exception ex) {
+                LOGGER.error("Error reading data from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage());
+            }
+
+            try {
+                LayerDetails details;
+                try {
+                    details = ruleAdminService.getDetails(rule.getId());
+                } catch (ResourceNotFoundFault ex) {
+                    LOGGER.error("Details not found for " + rule + ". Skipping layer");
+                    return null;
+                }
+
+                //=== extract min and max denominator
+                String forcedStyle = details.getDefaultStyle();
+                String sldBody = gsreader.getSLD(forcedStyle!=null? forcedStyle : defaultStyle);
+                DenominatorStyleVisitor dsv = new DenominatorStyleVisitor();
+
+                SLDParser sldparser = new SLDParser(CommonFactoryFinder.getStyleFactory(null), new StringReader(sldBody));
+                StyledLayerDescriptor sld = sldparser.parseSLD();
+                sld.accept(dsv);
+                props.put(TOCLayer.TOCProps.minScale.name(), ""+dsv.getMin());
+                props.put(TOCLayer.TOCProps.maxScale.name(), ""+dsv.getMax());
+
+                //=== add attribs
+                for (LayerAttribute attr : details.getAttributes()) {
+                    if(attr.getAccess() != AccessType.NONE) {
+                        TOCAttrib tocAttr = new TOCAttrib();
+                        tocAttr.setName(attr.getName());
+                        tocAttr.setDatatype(attr.getDatatype());
+                        tocAttr.setWritable(attr.getAccess() == AccessType.READWRITE);
+
+                        tocLayer.getAttributes().add(tocAttr);
+                    }
+                }
+
+            } catch (Exception ex) {
+                LOGGER.error("Error reading data from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage());
+            }
+
         }
 
-        // next info shall be read from the server's getCapa
-        l.setTitle("TITLE of " + rule.getLayer());
-        l.setAbs("ABS of " + rule.getLayer());
-        l.setMinX(-180);
-        l.setMaxX(180);
-        l.setMinY(-90);
-        l.setMaxY(90);
-        l.setSrs("EPSG:4326");
+        if (!dataIsSet) {
+            tocLayer.setTitle("TITLE of " + rule.getLayer());
+            tocLayer.setAbs("ABSTRACT of " + rule.getLayer());
+            tocLayer.setMinX(-180);
+            tocLayer.setMaxX(180);
+            tocLayer.setMinY(-90);
+            tocLayer.setMaxY(90);
+            tocLayer.setSrs("EPSG:4326");
+        }
 
-        return l;
+        for (Map.Entry<String, String> entry : props.entrySet()) {
+            tocLayer.getProperties().put(entry.getKey(), entry.getValue());
+        }
+
+        return tocLayer;
     }
 
     //==========================================================================

@@ -20,10 +20,14 @@
 
 package it.geosolutions.georepo.services.webgis.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.namespace.QName;
@@ -37,11 +41,11 @@ public class TOCLayer {
     public enum TOCProps {
         groupName("NOGROUP"),
         format("image/png"),
-        baseLayer("false"),
+        baseLayer("false"), // fisso
         visible("false"),
-        filtro1(""),
+        filtro1(""),        // fisso
         singleTile("false"),
-        isInternal("false"),
+        isInternal("false"),// fisso
         isQueryable("false"),
         infoPossible("false"),
         typeLayer("0"),
@@ -78,6 +82,8 @@ public class TOCLayer {
     private double minX, minY, maxX, maxY;
 
     private Map<String,String> properties = new HashMap<String, String>();
+
+    private List<TOCAttrib> attributes = new ArrayList<TOCAttrib>();
 
     public TOCLayer() {
         for (TOCProps tocProp : TOCProps.values()) {
@@ -185,5 +191,13 @@ public class TOCLayer {
         return any;
     }
 
-}
+    @XmlElementWrapper(name="attributes")
+    @XmlElement(name="attribute")
+    public List<TOCAttrib> getAttributes() {
+        return attributes;
+    }
 
+    public void setAttributes(List<TOCAttrib> attributes) {
+        this.attributes = attributes;
+    }
+ }
