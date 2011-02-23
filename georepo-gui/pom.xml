@@ -159,6 +159,12 @@
                 <version>${georepo-version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>it.geosolutions.georepository</groupId>
+                <artifactId>webgis</artifactId>
+                <version>${georepo-version}</version>
+            </dependency>
+
 	    <!-- =========================================================== -->
 	    <!--     Spring                                                  -->
 	    <!-- =========================================================== -->
