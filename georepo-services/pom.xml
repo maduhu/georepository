@@ -118,9 +118,9 @@
     <dependencyManagement>
         <dependencies>
 
-	    <!-- =========================================================== -->
-	    <!--     GeoRepo Core Modules                                    -->
-	    <!-- =========================================================== -->
+            <!-- =========================================================== -->
+            <!--     GeoRepo Core Modules                                    -->
+            <!-- =========================================================== -->
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
                 <artifactId>model</artifactId>
@@ -145,16 +145,14 @@
                 <version>${georepo-version}</version>
             </dependency>
 
-	<!-- =========================================================== -->
-    <!--     GeoRepo modules                                      -->
-	<!-- =========================================================== -->
-
+            <!-- =========================================================== -->
+            <!--     GeoRepo modules                                         -->
+            <!-- =========================================================== -->
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
                 <artifactId>generic-api</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
