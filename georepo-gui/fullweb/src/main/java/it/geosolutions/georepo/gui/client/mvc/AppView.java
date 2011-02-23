@@ -167,7 +167,6 @@ public class AppView extends View {
 		    public void handleEvent(BaseEvent be) {
 		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
 		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    	System.out.println("mouse catturato");
 		    }
 		});
 //        east.setStyleAttribute("height", "auto");
@@ -206,7 +205,6 @@ public class AppView extends View {
 		    public void handleEvent(BaseEvent be) {
 		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
 		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    	System.out.println("resize event captured");
 		    }
 		});
 		south.addListener(Events.Move,  new Listener<BaseEvent>() {
@@ -214,7 +212,6 @@ public class AppView extends View {
 		    public void handleEvent(BaseEvent be) {
 		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
 		    	Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    	System.out.println("mouse catturato");
 		    }
 		});
 		//south.setStyleAttribute("height", "100%");
@@ -223,13 +220,16 @@ public class AppView extends View {
         this.tabWidget = new TabWidget();
         
         south.add(this.tabWidget);
-        //south.setStyleAttribute("height", "96%");
+        south.setStyleAttribute("height", "96%");
         south.setHeight("96%");
+        //south.getBottomComponent().setStyleAttribute("top", "96%");
         south.layout();
-        
+        //south.setHeight(viewport.getHeight());???
         Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, this.tabWidget);
         //Dispatcher.forwardEvent(GeoRepoEvents.ATTACH.ATTACH_USER_WIDGET, this.center);
         Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_TOOLBAR, this.north);
+        south.setMonitorWindowResize(true);//<<-- ric add 20110223
+        south.setLayoutOnChange(true);//<<-- ric add 20110223
         viewport.add(south, data);
     }
 
@@ -253,7 +253,6 @@ public class AppView extends View {
 		    public void handleEvent(BaseEvent be) {
 		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
 		    	//Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    	System.out.println("center mouse catturato");
 		    }
 		});
 //        center.setStyleAttribute("height", "auto");
