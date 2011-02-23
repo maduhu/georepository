@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.client.view;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
@@ -44,6 +45,7 @@ import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsTab
 
 import java.util.Map;
 
+import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -100,7 +102,9 @@ public class RulesView extends View {
 
         if (event.getType() == GeoRepoEvents.RULE_CUSTOM_PROP_APPLY_CHANGES)
             onRuleCustomPropSave(event);
-
+        if (event.getType() == GeoRepoEvents.UPDATE_SOUTH_SIZE) {
+            //logger
+        }
     }
 
     /**
@@ -274,8 +278,10 @@ public class RulesView extends View {
             public void onSuccess(PagingLoadResult<LayerCustomProps> result) {
 
                 //grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
-                layerCustomPropsInfo.getStore().getLoader().load();
-                layerCustomPropsInfo.getGrid().repaint();
+            	layerCustomPropsInfo.getStore().getLoader().setSortDir(SortDir.ASC);
+            	layerCustomPropsInfo.getStore().getLoader().setSortField(BeanKeyValue.PRIORITY.getValue());
+            	layerCustomPropsInfo.getStore().getLoader().load();
+
 
                 Dispatcher.forwardEvent(GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {

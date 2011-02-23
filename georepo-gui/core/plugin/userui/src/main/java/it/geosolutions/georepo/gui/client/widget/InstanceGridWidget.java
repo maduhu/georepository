@@ -204,7 +204,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
      */
     @Override
     public void createStore() {
-        this.toolBar = new PagingToolBar(25);
+        this.toolBar = new PagingToolBar(it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
         // Loader fro service
         this.proxy = new RpcProxy<PagingLoadResult<GSInstance>>() {

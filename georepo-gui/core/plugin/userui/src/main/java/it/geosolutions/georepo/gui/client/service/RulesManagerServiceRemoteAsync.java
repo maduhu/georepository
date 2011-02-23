@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
+import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 
@@ -70,6 +71,39 @@ public interface RulesManagerServiceRemoteAsync {
      *            the callback
      */
     public void saveRule(Rule rules, AsyncCallback<PagingLoadResult<Rule>> callback);
+    
+    /**
+     * Delete rule
+     * 
+     * @param rule
+     *            the rule
+     * @param callback
+     *            the callback
+     */
+    public void deleteRule(Rule rules, AsyncCallback<PagingLoadResult<Rule>> callback) throws ApplicationException;
+    
+    /**
+     * Find rule
+     * 
+     * @param rule
+     *            the rule
+     * @param callback
+     *            the callback
+     */
+    public void findRule(Rule rules, AsyncCallback<PagingLoadResult<Rule>> callback) throws ApplicationException, Exception;
+    
+    /**
+     * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
+     * down by <TT>offset</TT>.
+     *
+     * @return the number of rules updated.
+     */
+    public void shift(long priorityStart, long offset, AsyncCallback<PagingLoadResult<Rule>> callback) throws ApplicationException;
+
+    /**
+     * Swaps the priorities of two rules.
+     */
+    public void swap(long id1, long id2, AsyncCallback<PagingLoadResult<Rule>> callback) throws ApplicationException;
     
     /**
      * Save all rules.
