@@ -37,8 +37,18 @@ import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.widget.AddGsUserWidget;
+import it.geosolutions.georepo.gui.client.widget.EditRuleWidget;
 import it.geosolutions.georepo.gui.client.widget.dialog.RuleDetailsEditDialog;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsGridWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsTabItem;
@@ -63,8 +73,26 @@ public class RulesView extends View {
     private RulesManagerServiceRemoteAsync rulesManagerServiceRemote = RulesManagerServiceRemote.Util
             .getInstance();
 
+    /** The rules manager service remote. */
+    private GsUsersManagerServiceRemoteAsync usersManagerServiceRemote = GsUsersManagerServiceRemote.Util
+            .getInstance();
+    
+    /** The rules manager service remote. */
+    private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote = InstancesManagerServiceRemote.Util
+            .getInstance();
+
+    /** The rules manager service remote. */
+    private WorkspacesManagerServiceRemoteAsync workspacesManagerServiceRemote = WorkspacesManagerServiceRemote.Util
+            .getInstance();
+    
+    /** The rules manager service remote. */
+    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
+            .getInstance();
+    
     /** The rule editor dialog. */
     private RuleDetailsEditDialog ruleEditorDialog;
+
+    private EditRuleWidget ruleRowEditor;
 
     /**
      * Instantiates a new rules view.
@@ -76,6 +104,13 @@ public class RulesView extends View {
         super(controller);
 
         this.ruleEditorDialog = new RuleDetailsEditDialog(rulesManagerServiceRemote);
+
+        this.ruleRowEditor = new EditRuleWidget(GeoRepoEvents.SAVE_USER, true, rulesManagerServiceRemote, null, null, null, null);
+        this.ruleRowEditor.setGsUserService(usersManagerServiceRemote);
+        this.ruleRowEditor.setRuleService(rulesManagerServiceRemote);
+        this.ruleRowEditor.setInstanceService(instancesManagerServiceRemote);
+        this.ruleRowEditor.setWorkspaceService(workspacesManagerServiceRemote);
+        this.ruleRowEditor.setProfileService(profilesManagerServiceRemote);
     }
 
     /*
@@ -87,7 +122,8 @@ public class RulesView extends View {
     protected void handleEvent(AppEvent event) {
         if (event.getType() == GeoRepoEvents.EDIT_RULE_DETAILS)
             onEditRuleDetails(event);
-
+        if (event.getType() == GeoRepoEvents.EDIT_RULE)
+            onEditRowRuleDetails(event);
         if (event.getType() == GeoRepoEvents.RULE_CUSTOM_PROP_ADD)
             onRuleCustomPropAdd(event);
 
@@ -125,6 +161,30 @@ public class RulesView extends View {
         }
     }
 
+    /**
+     * On edit rule details.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onEditRowRuleDetails(AppEvent event) {
+        if (event.getData() != null && event.getData() instanceof Rule) {
+            this.ruleRowEditor.reset();
+            this.ruleRowEditor.createStore();
+            this.ruleRowEditor.store.add((Rule)event.getData());
+            this.ruleRowEditor.initGrid();
+            this.ruleRowEditor.setModel((Rule) event.getData());
+            this.ruleRowEditor.initializeFormPanel();
+            this.ruleRowEditor.add(this.ruleRowEditor.formPanel);
+            this.ruleRowEditor.show();
+        } else {
+            // TODO: i18n!!
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                    "Rules Editor", "Could not found any associated rule!" });
+        }
+    }
+
+    
     /**
      * On rule custom prop add.
      * 

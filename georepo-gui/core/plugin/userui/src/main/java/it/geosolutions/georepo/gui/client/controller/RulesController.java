@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -118,8 +119,7 @@ public class RulesController extends Controller {
                 GeoRepoEvents.RULE_ADD, GeoRepoEvents.RULE_DEL, GeoRepoEvents.RULE_PRIORITY_UP,
                 GeoRepoEvents.RULE_PRIORITY_DOWN,
 
-                GeoRepoEvents.EDIT_RULE_DETAILS,
-
+                GeoRepoEvents.EDIT_RULE_DETAILS, GeoRepoEvents.EDIT_RULE,
                 GeoRepoEvents.RULE_CUSTOM_PROP_ADD, GeoRepoEvents.RULE_CUSTOM_PROP_DEL,
                 GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY,
                 GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE,
@@ -272,7 +272,9 @@ public class RulesController extends Controller {
             final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
                     .getRulesInfo();
             final Grid<Rule> grid = rulesInfoWidget.getGrid();
-            tabWidget.setShim(true);
+            // tabWidget.setShim(true);
+            GXT.hideLoadingPanel("loading");
+            // saveStatus.setBusy("Operation in progress");
             if (grid != null && grid.getStore() != null) {
                 ListStore<Rule> store = grid.getStore();
 
@@ -312,7 +314,7 @@ public class RulesController extends Controller {
                 }
                 return false;
             }
-            tabWidget.setShim(false);
+            // tabWidget.setShim(false);
             return false;
         } else {
             return false;
@@ -383,7 +385,8 @@ public class RulesController extends Controller {
      */
     private void onRemoveRule(AppEvent event) {
         if (tabWidget != null) {
-            tabWidget.setShim(true);
+            // tabWidget.setShim(true);
+            GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
@@ -436,7 +439,7 @@ public class RulesController extends Controller {
             }
 
         }
-        tabWidget.setShim(false);
+        // tabWidget.setShim(false);
     }
 
     /**
@@ -447,7 +450,8 @@ public class RulesController extends Controller {
      */
     private void onAddRule(AppEvent event) {
         if (tabWidget != null) {
-            tabWidget.setShim(true);
+            // tabWidget.setShim(true);
+            GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
@@ -508,14 +512,14 @@ public class RulesController extends Controller {
                                                 I18nProvider.getMessages().ruleServiceName(),
                                                 I18nProvider.getMessages()
                                                         .ruleFetchSuccessMessage() });
-                                tabWidget.setShim(false);
+                                // tabWidget.setShim(false);
                             }
 
                         });
 
                 rules.add(new_rule);
             }
-            tabWidget.setShim(false);
+            // tabWidget.setShim(false);
         }
     }
 
@@ -527,7 +531,8 @@ public class RulesController extends Controller {
      */
     private void onRulePriorityUp(AppEvent event) {
         if (tabWidget != null) {
-            tabWidget.setShim(true);
+            // tabWidget.setShim(true);
+            GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
