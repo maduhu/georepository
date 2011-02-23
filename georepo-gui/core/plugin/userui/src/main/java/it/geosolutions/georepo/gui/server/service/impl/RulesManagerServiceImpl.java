@@ -42,7 +42,9 @@ import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
+import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
+import it.geosolutions.georepo.services.dto.RuleFilter.SpecialFilterType;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
@@ -93,7 +95,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
         int page = start == 0 ? start : start / config.getLimit();
 
-        List<ShortRule> rulesList = georepoRemoteService.getRuleAdminService().getAll();
+        RuleFilter any = new RuleFilter(SpecialFilterType.ANY);
+        List<ShortRule> rulesList = georepoRemoteService.getRuleAdminService().getList(any, page, config.getLimit());
 
         if (rulesList == null) {
             if (logger.isErrorEnabled())

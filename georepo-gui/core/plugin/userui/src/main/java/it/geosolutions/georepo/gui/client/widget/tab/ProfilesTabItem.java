@@ -73,7 +73,7 @@ public class ProfilesTabItem extends TabItem {
 
         setScrollMode(Scroll.NONE);
         //setHeight("100%");
-        getProfileManagementWidget().getProfilesInfo().getLoader().load(0, 25);
+        getProfileManagementWidget().getProfilesInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 

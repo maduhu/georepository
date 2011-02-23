@@ -86,7 +86,7 @@ public class RulesTabItem extends TabItem {
         //setHeight("100%");
         getRuleManagementWidget().getRulesInfo().getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
         getRuleManagementWidget().getRulesInfo().getStore().setSortDir(SortDir.ASC);       
-        getRuleManagementWidget().getRulesInfo().getLoader().load(0, 25);
+        getRuleManagementWidget().getRulesInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 

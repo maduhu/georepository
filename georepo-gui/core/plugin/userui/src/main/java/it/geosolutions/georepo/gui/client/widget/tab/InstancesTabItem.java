@@ -73,7 +73,7 @@ public class InstancesTabItem extends TabItem {
 
         setScrollMode(Scroll.NONE);
         //setHeight("100%");
-        getInstanceManagementWidget().getInstancesInfo().getLoader().load(0, 25);
+        getInstanceManagementWidget().getInstancesInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 
