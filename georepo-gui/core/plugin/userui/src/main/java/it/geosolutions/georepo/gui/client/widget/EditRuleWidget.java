@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.RuleGridWidget,v. 0.1 10-feb-2011 13.21.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AddGsUserWidget,v. 0.1 10-feb-2011 12.01.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 10-feb-2011 13.21.50 $
+ * $ Date: 10-feb-2011 12.01.49 $
  *
  * ====================================================================
  *
@@ -34,6 +34,69 @@ package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.Grant;
+import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.Request;
+import it.geosolutions.georepo.gui.client.model.data.Service;
+import it.geosolutions.georepo.gui.client.model.data.Workspace;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import com.extjs.gxt.ui.client.Style.SortDir;
+import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
+import com.extjs.gxt.ui.client.data.BasePagingLoader;
+import com.extjs.gxt.ui.client.data.LoadEvent;
+import com.extjs.gxt.ui.client.data.ModelData;
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.extjs.gxt.ui.client.data.PagingLoader;
+import com.extjs.gxt.ui.client.data.RpcProxy;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.ComponentEvent;
+import com.extjs.gxt.ui.client.event.EventType;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.FieldEvent;
+import com.extjs.gxt.ui.client.event.GridEvent;
+import com.extjs.gxt.ui.client.event.KeyListener;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.LoadListener;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.store.Store;
+import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.FieldSet;
+import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
+import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.grid.ColumnData;
+import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
+import com.extjs.gxt.ui.client.widget.layout.FormLayout;
+import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
+import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
@@ -56,7 +119,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
@@ -93,19 +155,23 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
-import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-
 // TODO: Auto-generated Javadoc
 /**
- * The Class RuleGridWidget.
+ * The Class AddGsUserWidget.
  */
-public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
+public class EditRuleWidget extends GeoRepoEditGridWidget {
 
-	/** The rules service. */
+    /** The submit event. */
+    private EventType submitEvent;
+
+    /** The close on submit. */
+    private boolean closeOnSubmit;
+
+    /** The rules service. */
 	private RulesManagerServiceRemoteAsync rulesService;
 
 	/** The gs users service. */
@@ -173,75 +239,96 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 	
 	/** The column down rule details width. */
 	private static final int COLUMN_DOWN_RULE_WIDTH = 30;
-	
-	private EditRuleWidget editRuleWidget;
-	/**
-	 * Instantiates a new rule grid widget.
-	 * 
-	 * @param rulesService
-	 *            the rules service
-	 * @param gsUsersService
-	 *            the gs users service
-	 * @param profilesService
-	 *            the profiles service
-	 * @param instancesService
-	 *            the instances service
-	 * @param workspacesService
-	 *            the workspaces service
-	 */
-	public RuleGridWidget(RulesManagerServiceRemoteAsync rulesService,
-			GsUsersManagerServiceRemoteAsync gsUsersService,
-			ProfilesManagerServiceRemoteAsync profilesService,
-			InstancesManagerServiceRemoteAsync instancesService,
-			WorkspacesManagerServiceRemoteAsync workspacesService) {
-		super();
-		this.rulesService = rulesService;
-		this.gsUsersService = gsUsersService;
-		this.profilesService = profilesService;
-		this.instancesService = instancesService;
-		this.workspacesService = workspacesService;
-	}
 
-	/**
+    /** */
+    private RulesManagerServiceRemoteAsync rulesManagerServiceRemote;
+
+    /** The profile. */
+    protected Rule model = new Rule();
+
+    
+    /**
+     * Instantiates a new adds the gs profile widget.
+     * 
+     * @param submitEvent
+     *            the submit event
+     * @param closeOnSubmit
+     *            the close on submit
+     */
+    public EditRuleWidget(EventType submitEvent, boolean closeOnSubmit,
+        RulesManagerServiceRemoteAsync rulesService,
+		GsUsersManagerServiceRemoteAsync gsUsersService,
+		ProfilesManagerServiceRemoteAsync profilesService,
+		InstancesManagerServiceRemoteAsync instancesService,
+		WorkspacesManagerServiceRemoteAsync workspacesService) {
+	super();
+    this.submitEvent = submitEvent;
+    this.closeOnSubmit = closeOnSubmit;
+	this.rulesService = rulesService;
+	this.gsUsersService = gsUsersService;
+	this.profilesService = profilesService;
+	this.instancesService = instancesService;
+	this.workspacesService = workspacesService;
+    }
+
+    /**
 	 * Instantiates a new rule grid widget.
 	 * 
 	 * @param models
 	 *            the models
 	 */
-	public RuleGridWidget(List<Rule> models) {
+	public EditRuleWidget(List<Rule> models) {
 		super(models);
 	}
+    /**
+     * Gets the submit event.
+     * 
+     * @return the submit event
+     */
+    protected EventType getSubmitEvent() {
+        return this.submitEvent;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties
-	 * ()
-	 */
-	@Override
-	public void setGridProperties() {
-		// grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
-		// grid.addPlugin(emailEnable);
-		// grid.addPlugin(rssEnable);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.form.IForm#execute()
+     */
+    public void execute() {
+        this.saveStatus.setBusy("Operation in progress");
+/*        this.user.setId(-1);
+        this.user.setName(userName.getValue());
+        this.user.setPassword(password.getValue());
+        this.user.setFullName(fullName.getValue());
+        this.user.setEmailAddress(eMail.getValue());
+        this.user.setDateCreation(new Date());
+        this.user.setEnabled(true);
+        this.user.setProfile(profilesComboBox.getValue());
+*/
+        if (this.closeOnSubmit) {
+            cancel();
+        }
 
-		grid.setLoadMask(true);
-		grid.setAutoWidth(true);
-		if (grid.getStore() != null) {
-			grid.getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
-			grid.getStore().setSortDir(SortDir.ASC);
-		}
-		// grid.setHeight("100%");<<-- ric mod re 20100217
-	}
+        this.injectEvent();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#
-	 * prepareColumnModel()
-	 */
-	@Override
-	public ColumnModel prepareColumnModel() {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#addComponentToForm ()
+     */
+    @Override
+    public void addComponentToForm() {
+
+        //createProfilesComboBox();
+ /*       ColumnModel cm = prepareColumnModel();
+        this.formPanel.add(cm);
+*/
+    	this.formPanel.add(this.grid);
+        addOtherComponents();
+    }
+
+    public ColumnModel prepareColumnModel() {
 		List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
 		ColumnConfig rulePriorityColumn = new ColumnConfig();
@@ -255,7 +342,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 		ruleUserColumn.setId(BeanKeyValue.USER.getValue());
 		ruleUserColumn.setHeader("User");
 		ruleUserColumn.setWidth(COLUMN_USER_WIDTH);
-		ruleUserColumn.setRenderer(this.createUsersCustomField());// CustomField//createUsersComboBox
+		ruleUserColumn.setRenderer(this.createUsersComboBox());// CustomField//createUsersComboBox
 		ruleUserColumn.setMenuDisabled(true);
 		ruleUserColumn.setSortable(false);
 		configs.add(ruleUserColumn);
@@ -377,8 +464,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
 		return new ColumnModel(configs);
 	}
-
-	/**
+    
+    
+    /**
 	 * Creates the users combo box.
 	 * 
 	 * @return the grid cell renderer
@@ -445,7 +533,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 										new String[] {
 												"GeoServer Rules",
 												"Rule " + model.getPriority()
-														+ ": User changed" });
+														+ ": Rule changed" });
 
 								model.setUser((GSUser) be.getField().getValue());
 								Dispatcher.forwardEvent(
@@ -456,6 +544,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
 				return usersComboBox;
 			}
+			
 
 			/**
 			 * TODO: Call User Service here!!
@@ -486,124 +575,117 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 		return comboRendered;
 	}
 
-	/**
-	 * Creates the users combo box.
-	 * 
-	 * @return the grid cell renderer
-	 */
-	private GridCellRenderer<Rule> createUsersCustomField() {
-		GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
+    /**
+     * TODO: Call Rule Service here!!
+     * 
+     * @return
+     */
+    private ListStore<Rule> getAvailableRules() {
+        ListStore<Rule> availableRules = new ListStore<Rule>();
+        RpcProxy<PagingLoadResult<Rule>> ruleProxy = new RpcProxy<PagingLoadResult<Rule>>() {
 
-			private boolean init;
+            @Override
+            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<Rule>> callback) {
+                rulesManagerServiceRemote.getRules((PagingLoadConfig) loadConfig, false,
+                        callback);
+            }
 
-			public Object render(final Rule model, String property,
-					ColumnData config, int rowIndex, int colIndex,
-					ListStore<Rule> store, Grid<Rule> grid) {
+        };
+        BasePagingLoader<PagingLoadResult<ModelData>> profilesLoader = new BasePagingLoader<PagingLoadResult<ModelData>>(
+                ruleProxy);
+        profilesLoader.setRemoteSort(false);
+        availableRules = new ListStore<Rule>(profilesLoader);
 
-				if (!init) {
-					init = true;
-					grid.addListener(Events.ColumnResize,
-							new Listener<GridEvent<Rule>>() {
+        return availableRules;
+    }
 
-								public void handleEvent(GridEvent<Rule> be) {
-									for (int i = 0; i < be.getGrid().getStore()
-											.getCount(); i++) {
-										if (be.getGrid().getView()
-												.getWidget(i, be.getColIndex()) != null
-												&& be.getGrid()
-														.getView()
-														.getWidget(
-																i,
-																be.getColIndex()) instanceof BoxComponent) {
-											((BoxComponent) be
-													.getGrid()
-													.getView()
-													.getWidget(i,
-															be.getColIndex()))
-													.setWidth(be.getWidth() - 10);
-										}
-									}
-								}
-							});
-				}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#cancel()
+     */
+    @SuppressWarnings("deprecation")
+    @Override
+    public void cancel() {
+        resetComponents();
+        super.close();
 
-				// TODO: generalize this!
-				ArrayList list = new ArrayList();
-				
-				for(int i = 0;i<store.getCount();i++){
-					Rule rule = ((Rule)store.getAt(i));
-					list.add(rule);
-				}
+    }
 
-				LabelField usersCustomField = new LabelField();// (ListField) getAvailableUsers().getModels()
-				usersCustomField.setId("ruleUsersCombo");
-				usersCustomField.setName("ruleUsersCombo");
-				usersCustomField.setEmptyText("*");
-				usersCustomField.setFieldLabel(BeanKeyValue.FULL_NAME.getValue());// DisplayField
-				usersCustomField.setValue(BeanKeyValue.FULL_NAME.getValue());
-				String name = model.getUser()!=null?model.getUser().getFullName():"*";
-				usersCustomField.setValue(name);
-				usersCustomField.setReadOnly(true);
+    /**
+     * Reset components.
+     */
+    public void resetComponents() {
+    	/*
+        this.rulesComboBox.reset();
+        this.rulesComboBox.getStore().getLoader().load();
+        */
+        this.saveStatus.clearStatus("");
+        // Dispatcher.forwardEvent(DGWATCHEvents.DISABLE_DRAW_BUTTON);
+        // Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
+    }
 
-				List<GSUser> au = getAvailableUsers().getModels();
-				usersCustomField.setWidth(COLUMN_USER_WIDTH - 10);
-				usersCustomField.show();
-				
-				if (model.getUser() != null) {
-					String name2 = model.getUser().getFullName()!=null?model.getUser().getFullName():"*";
-					usersCustomField.setValue(name2);
-				}
-				
-				usersCustomField.addListener(Events.OnClick,
-						new Listener<FieldEvent>() {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
+     */
+    public void addOtherComponents() {
+        // wktArea = new TextArea();
+        // wktArea.setFieldLabel(I18nProvider.getMessages().wktAbbreviation());
+        // wktArea.setAllowBlank(false);
+        // fieldSet.add(wktArea);
+        //
+        // draw = new Button(I18nProvider.getMessages().drawAoiButton(),
+        // new SelectionListener<ButtonEvent>() {
+        //
+        // @Override
+        // public void componentSelected(ButtonEvent ce) {
+        // hide();
+        // Dispatcher
+        // .forwardEvent(DGWATCHEvents.ENABLE_DRAW_BUTTON, AddAOIWidget.this);
+        // }
+        // });
+        //
+        // draw.setIcon(Resources.ICONS.drawFeature());
+        //
+        // this.formPanel.addButton(draw);
 
-							public void handleEvent(FieldEvent be) {
-								( be.getComponent()).show();
-								Dispatcher.forwardEvent(
-										GeoRepoEvents.SEND_INFO_MESSAGE,
-										new String[] {
-												"GeoServer Rules",
-												"Rule " + model.getPriority()
-														+ ": User changed" });
+    }
 
-								model.setUser((GSUser) be.getField().getValue());
-								Dispatcher.forwardEvent(
-										GeoRepoEvents.RULE_UPDATE_GRID_COMBO,
-										model);
-							}
-						});
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#initSize()
+     */
+    @Override
+    public void initSize() {
+        setHeading(/* TODO: I18nProvider.getMessages().addAoiDialogTitle() */"Edit rule");
+        //setSize(420, 300);
+    }
 
-				return usersCustomField;
-			}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#initSizeFormPanel ()
+     */
+    @Override
+    public void initSizeFormPanel() {
+        formPanel.setHeaderVisible(false);
+        //formPanel.setSize(450, 350);
+    }
 
-			/**
-			 * TODO: Call User Service here!!
-			 * 
-			 * @return
-			 */
-			private ListStore<GSUser> getAvailableUsers() {
-				RpcProxy<PagingLoadResult<GSUser>> userProxy = new RpcProxy<PagingLoadResult<GSUser>>() {
+    @Override
+    public void injectEvent() {
+        Dispatcher.forwardEvent(getSubmitEvent(), this.model);
+    }
 
-					@Override
-					protected void load(Object loadConfig,
-							AsyncCallback<PagingLoadResult<GSUser>> callback) {
-						gsUsersService.getGsUsers(
-								(PagingLoadConfig) loadConfig, true, callback);
-					}
 
-				};
-				BasePagingLoader<PagingLoadResult<ModelData>> usersLoader = new BasePagingLoader<PagingLoadResult<ModelData>>(
-						userProxy);
-				usersLoader.setRemoteSort(false);
-				ListStore<GSUser> availableUsers = new ListStore<GSUser>(
-						usersLoader);
 
-				return availableUsers;
-			}
-		};
 
-		return comboRendered;
-	}
+    public void setRuleService(RulesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+        this.rulesManagerServiceRemote = profilesManagerServiceRemote;
+    }
 
 	/**
 	 * Creates the profiles combo box.
@@ -1650,25 +1732,10 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 								// "Please apply changes before editing details!"
 								// });
 								// } else {
-								editRuleWidget = new EditRuleWidget(be.getType(), init, rulesService, gsUsersService, profilesService, instancesService, workspacesService);
-								
+								Dispatcher.forwardEvent(
+										GeoRepoEvents.EDIT_RULE, model);
 								// }
-								editRuleWidget.setHeaderVisible(false);
-								editRuleWidget.setFrame(true);
-						        //setHeight("100%");
-								editRuleWidget.setLayout(new FitLayout());
 
-								//editRuleWidget.setRulesInfo(new RuleGridWidget(rulesService, gsUsersService, profilesService, instancesService, workspacesService));
-
-								//editRuleWidget.add(getRulesInfo().getGrid());
-
-								editRuleWidget.setMonitorWindowResize(true);
-
-								editRuleWidget.setScrollMode(Scroll.NONE);
-
-								//editRuleWidget.setBottomComponent(this.getRulesInfo().getToolBar());
-								
-								//Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
 							}
 						});
 
@@ -2155,5 +2222,43 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
 		});
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties
+	 * ()
+	 */
+	@Override
+	public void setGridProperties() {
+		// grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
+		// grid.addPlugin(emailEnable);
+		// grid.addPlugin(rssEnable);
+
+		grid.setLoadMask(true);
+		grid.setAutoWidth(true);
+		if (grid.getStore() != null) {
+			grid.getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
+			grid.getStore().setSortDir(SortDir.ASC);
+		}
+		// grid.setHeight("100%");<<-- ric mod re 20100217
+	}
 	
+	/**
+     * Sets the model.
+     * 
+     * @param model
+     *            the new model
+     */
+    public void setModel(Rule model) {
+        this.model = model;
+    }
+
+    /* (non-Javadoc)
+     * @see com.extjs.gxt.ui.client.widget.Component#getModel()
+     */
+    public Rule getModel() {
+        return model;
+    }
 }

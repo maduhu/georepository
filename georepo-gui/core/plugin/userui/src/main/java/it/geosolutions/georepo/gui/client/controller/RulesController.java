@@ -129,7 +129,7 @@ public class RulesController extends Controller {
                 GeoRepoEvents.RULE_PRIORITY_DOWN, 
                 
                 GeoRepoEvents.EDIT_RULE_DETAILS,
-                
+                GeoRepoEvents.EDIT_RULE,
                 GeoRepoEvents.RULE_CUSTOM_PROP_ADD,
                 GeoRepoEvents.RULE_CUSTOM_PROP_DEL,
                 GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY,
@@ -286,7 +286,9 @@ public class RulesController extends Controller {
             final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
                     .getRulesInfo();
             final Grid<Rule> grid = rulesInfoWidget.getGrid();
-            tabWidget.setShim(true);
+            //tabWidget.setShim(true);
+            GXT.hideLoadingPanel("loading");
+            //saveStatus.setBusy("Operation in progress");
             if (grid != null && grid.getStore() != null) {
                 ListStore<Rule> store = grid.getStore();
 
@@ -330,7 +332,7 @@ public class RulesController extends Controller {
                 }
                 return false;
             }
-            tabWidget.setShim(false);
+            //tabWidget.setShim(false);
             return false;
         }else{
         	return false;
@@ -398,7 +400,8 @@ public class RulesController extends Controller {
      */
     private void onRemoveRule(AppEvent event) {
         if (tabWidget != null) {
-        	 tabWidget.setShim(true);
+        	 //tabWidget.setShim(true);
+        	 GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
@@ -423,8 +426,7 @@ public class RulesController extends Controller {
                         }*/
                         rulesManagerServiceRemote.shift(model.getId(), -1, new AsyncCallback<PagingLoadResult<Rule>>(){
                           	 public void onFailure(Throwable caught) {
-                          		 System.out.println("ERROR: "+caught.getMessage());
-                                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                          		 Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
                                          new String[] {
                                                  I18nProvider.getMessages().ruleServiceName(),
                                                  I18nProvider.getMessages()
@@ -432,7 +434,7 @@ public class RulesController extends Controller {
                                }
 
                                public void onSuccess(PagingLoadResult<Rule> result) {
-                              	 System.out.println("SUCCESS: ");
+                              	 
                                }
                           });
                         rulesManagerServiceRemote.deleteRule(model,//store.getModels(),
@@ -473,7 +475,7 @@ public class RulesController extends Controller {
             }
 
         }
-        tabWidget.setShim(false);
+        //tabWidget.setShim(false);
     }
 
     /**
@@ -484,7 +486,8 @@ public class RulesController extends Controller {
      */
     private void onAddRule(AppEvent event) {
         if (tabWidget != null) {
-        	 tabWidget.setShim(true);
+        	 //tabWidget.setShim(true);
+        	 GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
@@ -530,15 +533,14 @@ public class RulesController extends Controller {
 				}catch(Exception e){}*/
                 rulesManagerServiceRemote.shift(0, 1, new AsyncCallback<PagingLoadResult<Rule>>(){
                	 public void onFailure(Throwable caught) {
-               		 System.out.println("ERROR: "+caught.getMessage());
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+               		   Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
                                 new String[] {
                                         I18nProvider.getMessages().ruleServiceName(),
                                         "There's just another rule with this setting!!" });
                     }
 
                     public void onSuccess(PagingLoadResult<Rule> result) {
-                   	 System.out.println("SUCCESS: ");
+                   	
                     }
                });
                 rulesManagerServiceRemote.saveRule(new_rule,//store.getModels(),
@@ -566,7 +568,7 @@ public class RulesController extends Controller {
                                                 I18nProvider.getMessages().ruleServiceName(),
                                                 I18nProvider.getMessages()
                                                         .ruleFetchSuccessMessage() });
-                                tabWidget.setShim(false);
+                                //tabWidget.setShim(false);
                             }
                             
                         });
@@ -578,7 +580,7 @@ public class RulesController extends Controller {
                 //grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
                 //grid.repaint();
             }
-            tabWidget.setShim(false);
+            //tabWidget.setShim(false);
         }
     }
 
@@ -590,7 +592,8 @@ public class RulesController extends Controller {
      */
     private void onRulePriorityUp(AppEvent event) {
         if (tabWidget != null) {
-        	 tabWidget.setShim(true);
+        	 //tabWidget.setShim(true);
+        	GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
@@ -663,7 +666,7 @@ public class RulesController extends Controller {
                     //grid.repaint();
                 }
             }
-         tabWidget.setShim(false);
+         //tabWidget.setShim(false);
         }
     }
     
@@ -675,7 +678,8 @@ public class RulesController extends Controller {
      */
     private void onRulePriorityDown(AppEvent event) {
         if (tabWidget != null) {
-        	tabWidget.setShim(true);
+        	//tabWidget.setShim(true);
+        	GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {

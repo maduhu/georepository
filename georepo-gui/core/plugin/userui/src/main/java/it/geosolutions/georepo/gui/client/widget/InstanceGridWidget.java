@@ -265,7 +265,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
         //this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add 20100216
-        //this.toolBar.setStyleAttribute("top", "96%");//<<-- ric add 20100217
+        this.toolBar.setStyleAttribute("top", "96%");//<<-- ric add 20100217
         //this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add 20100217
         // this.toolBar.disable();
         //this.toolBar.setStyleAttribute("float", "bottom");
