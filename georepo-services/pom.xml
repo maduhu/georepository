@@ -170,8 +170,14 @@
                 <groupId>it.geosolutions.georepository</groupId>
                 <artifactId>login-impl</artifactId>
                 <version>${georepo-version}</version>
-            </dependency>             
-            
+            </dependency>
+
+            <dependency>
+                <groupId>it.geosolutions.georepository</groupId>
+                <artifactId>webgis</artifactId>
+                <version>${georepo-version}</version>
+            </dependency>
+
 		    <!-- =========================================================== -->
 		    <!--     Quartz                                                  -->
 		    <!-- =========================================================== -->
