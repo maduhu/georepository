@@ -93,7 +93,7 @@ public class ChooseUserPagWidget extends GeoRepoChooserWidget<User> {
      */
     @Override
     public void createStore() {
-        toolBar = new PagingToolBar(25);
+        toolBar = new PagingToolBar(it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
         this.proxy = new RpcProxy<PagingLoadResult<User>>() {
 

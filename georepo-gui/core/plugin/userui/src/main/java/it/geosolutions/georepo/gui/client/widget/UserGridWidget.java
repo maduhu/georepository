@@ -231,7 +231,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
      */
     @Override
     public void createStore() {
-        this.toolBar = new PagingToolBar(25);
+        this.toolBar = new PagingToolBar(it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
         // Loader fro gsUsersService
         this.proxy = new RpcProxy<PagingLoadResult<GSUser>>() {

@@ -368,8 +368,11 @@ public class GeoRepoEvents {
     public static final EventType RULE_PRIORITY_DOWN = new EventType();
 
     /** **/
+    public static final EventType EDIT_RULE = new EventType();
+    
+    /** **/
     public static final EventType EDIT_RULE_DETAILS = new EventType();
-
+    
     /** **/
     public static final EventType RULE_CUSTOM_PROP_ADD = new EventType();
 

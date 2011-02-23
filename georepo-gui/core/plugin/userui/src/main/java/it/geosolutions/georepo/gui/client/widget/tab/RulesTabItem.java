@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client.widget.tab;
 
 import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
@@ -41,6 +42,7 @@ import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote
 import it.geosolutions.georepo.gui.client.widget.RuleManagementWidget;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
+import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
 // TODO: Auto-generated Javadoc
@@ -82,6 +84,8 @@ public class RulesTabItem extends TabItem {
 
         setScrollMode(Scroll.NONE);
         //setHeight("100%");
+        getRuleManagementWidget().getRulesInfo().getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
+        getRuleManagementWidget().getRulesInfo().getStore().setSortDir(SortDir.ASC);       
         getRuleManagementWidget().getRulesInfo().getLoader().load(0, 25);
 
     }
