@@ -324,7 +324,7 @@ public class EditRuleWidget extends GeoRepoEditGridWidget {
  /*       ColumnModel cm = prepareColumnModel();
         this.formPanel.add(cm);
 */
-    	this.formPanel.add(this.grid);
+    	//this.formPanel.add(this.grid);
         addOtherComponents();
     }
 
