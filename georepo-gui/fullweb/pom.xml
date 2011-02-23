@@ -60,7 +60,7 @@
 
 		<!-- =============================================================== -->
 		<!-- GeoRepo -->
-		<!-- =============================================================== -->
+		<!-- =============================================================== --> 
 		<dependency>
 			<groupId>it.geosolutions.georepository</groupId>
 			<artifactId>model</artifactId>
@@ -79,12 +79,16 @@
 		<dependency>
 			<groupId>it.geosolutions.georepository</groupId>
 			<artifactId>login-impl</artifactId>
-		</dependency>
+		</dependency>     
 
+        <dependency>
+            <groupId>it.geosolutions.georepository</groupId>
+            <artifactId>webgis</artifactId>
+        </dependency>   
+        
 		<!-- =============================================================== -->
 		<!-- 4J UTILS -->
 		<!-- =============================================================== -->
-
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -169,7 +173,7 @@
 			<groupId>com.extjs</groupId>
 			<artifactId>gxt</artifactId>
 		</dependency>
-
+               
 		<!--  Resources -->
 		<dependency>
 			<groupId>it.geosolutions.georepository</groupId>
