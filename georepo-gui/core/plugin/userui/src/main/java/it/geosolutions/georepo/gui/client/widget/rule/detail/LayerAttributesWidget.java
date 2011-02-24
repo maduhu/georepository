@@ -39,15 +39,16 @@ import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LayerAttributesWidget.
+ * 
+ * @author Tobia di Pisa, Alessio Fabiani.
  */
 public class LayerAttributesWidget extends ContentPanel {
     
     /** The layer attributes info. */
     private LayerAttributesGridWidget layerAttributesInfo;
-    private Rule model;
+    private Rule theRule;
 
     /**
      * Instantiates a new layer attributes widget.
@@ -56,21 +57,21 @@ public class LayerAttributesWidget extends ContentPanel {
      *            the rules service
      */
     public LayerAttributesWidget(Rule model, RulesManagerServiceRemoteAsync rulesService) {
-        this.model = model;
+        this.theRule = model;
         setHeaderVisible(false);
         setFrame(true);
-        setHeight(400);
+        setHeight(330);
         setLayout(new FitLayout());
 
-        setLayerAttributesInfo(new LayerAttributesGridWidget(model, rulesService));
+        setLayerAttributesInfo(new LayerAttributesGridWidget(this.theRule, rulesService));
 
-        //add(getLayerCustomPropsInfo().getGrid());
+        add(getLayerAttributesInfo().getGrid());
 
         super.setMonitorWindowResize(true);
 
         setScrollMode(Scroll.NONE);
-
-        //setBottomComponent(this.getRulesInfo().getToolBar());
+        
+        setBottomComponent(this.getLayerAttributesInfo().getToolBar());
     }
 
     /*
@@ -80,7 +81,6 @@ public class LayerAttributesWidget extends ContentPanel {
      */
     @Override
     protected void onWindowResize(int width, int height) {
-        // TODO Auto-generated method stub
         super.setWidth(width - 5);
         super.layout();
     }

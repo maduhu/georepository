@@ -103,8 +103,27 @@ public enum BeanKeyValue {
     
     PROP_KEY("prop_key"),
     
-    PROP_VALUE("prop_value");
+    PROP_VALUE("prop_value"),
 
+    ATTR_NAME("attr_name"),
+    
+    ATTR_TYPE("attr_type"),
+    
+    ATTR_ACCESS("attr_access"),
+    
+    STYLES_COMBO("styles_combo"),
+    
+    STYLE_ENABLED("style_enable"),
+    
+//    STYLE("layer_style"),
+    
+    ALLOWED_AREA("allowed_area"),
+    
+    CQL_READ("cql_read"),
+    
+    CQL_WRITE("cql_read");
+    
+    
     /** The value. */
     private String value;
 

@@ -32,22 +32,28 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
+import com.extjs.gxt.ui.client.event.BaseEvent;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RuleDetailsTabItem.
+ * 
+ * @author Tobia di Pisa.
  */
 public class RuleDetailsTabItem extends TabItem {
 
     /** The rule details widget. */
     private RuleDetailsWidget ruleDetailsWidget;
-    private Rule model;
+    private Rule theRule;
     
     /**
      * Instantiates a new rule details tab item.
@@ -58,7 +64,7 @@ public class RuleDetailsTabItem extends TabItem {
     private RuleDetailsTabItem(String tabItemId) {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
-        super("Rule Details");
+        super("Layer Details");
         setId(tabItemId);
         setIcon(Resources.ICONS.addAOI());
     }
@@ -72,15 +78,28 @@ public class RuleDetailsTabItem extends TabItem {
      * @param rulesService
      *            the rules service
      */
-    public RuleDetailsTabItem(String tabItemId, Rule model, RulesManagerServiceRemoteAsync rulesService) {
+    public RuleDetailsTabItem(String tabItemId, Rule model, WorkspacesManagerServiceRemoteAsync workspacesService) {
         this(tabItemId);
-        this.model = model;
-        // TODO: Enable this!
-        setEnabled(false);
-        setRuleDetailsWidget(new RuleDetailsWidget(model, rulesService));
+        this.theRule = model;
+
+        setRuleDetailsWidget(new RuleDetailsWidget(this.theRule, workspacesService));
         add(getRuleDetailsWidget());
 
         setScrollMode(Scroll.NONE);
+        
+		this.addListener(Events.Select, new Listener<BaseEvent>(){
+
+			public void handleEvent(BaseEvent be) {	
+				if(ruleDetailsWidget.getRuleDetailsInfo().getModel() == null){
+					Dispatcher.forwardEvent(GeoRepoEvents.LOAD_LAYER_DETAILS, theRule);
+				}	
+				
+				if(ruleDetailsWidget.getRuleDetailsGrid().getStore().getCount() < 1){
+					ruleDetailsWidget.getRuleDetailsGrid().getLoader().load();
+				}	
+			}
+			
+		});
 
         //getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 

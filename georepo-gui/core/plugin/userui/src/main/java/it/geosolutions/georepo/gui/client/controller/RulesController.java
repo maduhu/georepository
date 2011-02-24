@@ -124,8 +124,16 @@ public class RulesController extends Controller {
                 GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY,
                 GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE,
                 GeoRepoEvents.RULE_CUSTOM_PROP_APPLY_CHANGES,
+  
+                GeoRepoEvents.INJECT_WKT,
+        
+        		GeoRepoEvents.ATTRIBUTE_UPDATE_GRID_COMBO,
+        		
+        		GeoRepoEvents.SAVE_LAYER_DETAILS,
+        		GeoRepoEvents.LOAD_LAYER_DETAILS,
+        		
+        		GeoRepoEvents.AVAILABLE_STYLES_UPDATE_GRID);
 
-                GeoRepoEvents.INJECT_WKT);
     }
 
     /*
@@ -181,7 +189,7 @@ public class RulesController extends Controller {
         forwardToView(this.rulesView, event);
     }
 
-    /**
+	/**
      * On inject wkt.
      * 
      * @param event

@@ -34,7 +34,10 @@ package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
+import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 
 import java.util.List;
 
@@ -140,4 +143,34 @@ public interface RulesManagerServiceRemoteAsync {
      *            the callback
      */
     public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps, AsyncCallback<PagingLoadResult<LayerCustomProps>> callback);
+
+    /**
+     * Gets the layer attributes.
+     * 
+     * @param rule
+     *            the rule
+     * @param callback
+     *            the callback
+     */
+    public void getLayerAttributes(Rule rule, AsyncCallback<List<LayerAttribUI>> callback);
+    
+    /**
+     * @param ruleId
+     * @param layerAttributes
+     * @param callback
+     */
+    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes, AsyncCallback<List<LayerAttribUI>> callback);
+    
+    /**
+     * @param layerDetailsForm
+     * @param callback
+     */
+    public void saveLayerDetailsInfo(LayerDetailsInfo layerDetailsForm, List<LayerStyle> layerStyles, AsyncCallback<LayerDetailsInfo> callback);
+    
+    /**
+     * @param rule
+     * @param callback
+     */
+    public void getLayerDetailsInfo(Rule rule, AsyncCallback<LayerDetailsInfo> callback);
+    
 }

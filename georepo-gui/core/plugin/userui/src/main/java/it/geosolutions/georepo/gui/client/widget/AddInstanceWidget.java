@@ -34,7 +34,6 @@ package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
 
 import java.util.Date;
@@ -149,6 +148,7 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
         
         instancePassword = new TextField<String>();
         instancePassword.setAllowBlank(false);
+        instancePassword.setPassword(true);
         instancePassword.setFieldLabel("password");
         fieldSet.add(instancePassword);
         

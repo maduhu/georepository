@@ -1154,6 +1154,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 grantsCustomField.setWidth(COLUMN_GRANT_WIDTH - 10);
 
                 if (model.getGrant() != null) {
+                    grantsComboBox.setValue(new Grant(model.getGrant()));
+                    grantsComboBox.setSelection(Arrays.asList(new Grant(model.getGrant())));
                     grantsCustomField.setValue(model.getGrant());
                 }else{
                     grantsCustomField.setValue("ALLOW");
@@ -1370,8 +1372,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 // TODO: generalize this!
                 Button ruleDetailsButton = new Button("Details");
                 ruleDetailsButton.setIcon(Resources.ICONS.table());
-                // TODO: add correct tooltip text here!
-                // userDetailsButton.setToolTip("...");
+                ruleDetailsButton.setToolTip("Show Rule Details");
                 ruleDetailsButton.setEnabled(true);
 
                 ruleDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {

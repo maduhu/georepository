@@ -39,9 +39,10 @@ import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LayerAttributesTabItem.
+ * 
+ * @author Tobia di Pisa, Alessio Fabiani.
  */
 public class LayerAttributesTabItem extends TabItem {
 
@@ -75,12 +76,13 @@ public class LayerAttributesTabItem extends TabItem {
     public LayerAttributesTabItem(String tabItemId, Rule model, RulesManagerServiceRemoteAsync rulesService) {
         this(tabItemId);
         this.model = model;
-        // TODO: Enable this!
-        setEnabled(false);
+
         setLayerAttributesWidget(new LayerAttributesWidget(model, rulesService));
         add(getLayerAttributesWidget());
 
         setScrollMode(Scroll.NONE);
+
+        getLayerAttributesWidget().getLayerAttributesInfo().getLoader().load();
 
         //getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 

@@ -33,7 +33,6 @@
 package it.geosolutions.georepo.gui.client.controller;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
@@ -42,7 +41,6 @@ import it.geosolutions.georepo.gui.client.widget.InstanceGridWidget;
 import it.geosolutions.georepo.gui.client.widget.tab.InstancesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
-import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;

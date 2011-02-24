@@ -32,10 +32,15 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
+import java.util.List;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.Rule;
+
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
@@ -73,4 +78,11 @@ public interface IWorkspacesManagerService {
      */
     public PagingLoadResult<Layer> getLayers(PagingLoadConfig config, String baseURL,
             String workspace) throws ApplicationException;
+    
+    /**
+     * @param gsInstance
+     * @return List<LayerStyle>
+     * @throws ApplicationException
+     */
+    public List<LayerStyle> getStyles(Rule rule) throws ApplicationException;
 }

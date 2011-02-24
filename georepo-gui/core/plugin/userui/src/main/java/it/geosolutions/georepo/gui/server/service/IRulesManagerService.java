@@ -36,11 +36,17 @@ import java.util.List;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
+
+import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
+
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -92,6 +98,35 @@ public interface IRulesManagerService {
      */
     public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps);
 
+
+
+    /**
+     * Gets the layer attributes.
+     * 
+     * @param rule
+     *            the rule
+     * @return the layer attributes
+     */
+    public List<LayerAttribUI> getLayerAttributes(Rule rule);
+    
+    /**
+     * @param ruleId
+     * @param layerAttributes
+     */
+    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes);
+    
+    /**
+     * @param layerDetailsForm
+     * @return LayerDetailsForm
+     */
+    public LayerDetailsInfo saveLayerDetailsInfo(LayerDetailsInfo layerDetailsForm, List<LayerStyle> layerStyles);
+    
+    /**
+     * @param rule
+     * @return LayerDetailsForm
+     */
+    public LayerDetailsInfo getLayerDetailsInfo(Rule rule);
+    
     /**
      * Save single rule
      * 
@@ -127,6 +162,5 @@ public interface IRulesManagerService {
      * Swaps the priorities of two rules.
      */
     public void swap(long id1, long id2);
-    
-	
+
 }
