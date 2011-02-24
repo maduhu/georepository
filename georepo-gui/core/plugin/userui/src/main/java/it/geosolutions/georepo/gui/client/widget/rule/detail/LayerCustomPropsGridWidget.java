@@ -75,6 +75,7 @@ import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class LayerCustomPropsGridWidget.
  */
@@ -92,6 +93,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     /** The tool bar. */
     private PagingToolBar toolBar;
 
+    
     private Rule theRule;
     
     /**
@@ -344,7 +346,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
      */
     @Override
     public void createStore() {
-        this.toolBar = new PagingToolBar(25);
+        this.toolBar = new PagingToolBar(it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
         // Loader fro rulesService
         this.proxy = new RpcProxy<PagingLoadResult<LayerCustomProps>>() {

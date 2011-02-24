@@ -115,8 +115,11 @@ public class RuleDAOImpl extends BaseDAO<Rule, Long>
         if(offset <= 0)
             throw new IllegalArgumentException("Positive offset required");
 
-//        Search search = new Search(Rule.class);
-//        search.addFilterGreaterOrEqual("priority", priorityStart);
+        Search search = new Search(Rule.class);
+        search.addFilterGreaterOrEqual("priority", priorityStart);
+        search.addFilterLessThan("priority", priorityStart + offset);
+        if(super.count(search) == 0)
+            return -1;
 
         String hql = "UPDATE Rule SET priority=priority+ :offset WHERE priority >= :priorityStart";
 

@@ -33,8 +33,11 @@ public interface RuleDAO extends RestrictedGenericDAO<Rule> {
     /**
      * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
      * down by <TT>offset</TT>.
+     * <P/>
+     * The shift will not be performed if there are no Rules with priority: <BR/>
+     * <tt> startPriority &lt;= priority &lt; startPriority + offset </TT>
      *
-     * @return the number of rules updated.
+     * @return the number of rules updated, or -1 if no need to shift.
      */
     public int shift(long priorityStart, long offset);
 

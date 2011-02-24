@@ -100,6 +100,9 @@ public class RuleDetailsTabItem extends TabItem {
 			}
 			
 		});
+
+        //getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+
     }
 
     /**

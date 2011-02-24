@@ -20,45 +20,46 @@
 
 package it.geosolutions.georepo.services.webgis.model;
 
-import it.geosolutions.georepo.services.webgis.model.WebGisProfile;
-import java.io.Serializable;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
+@XmlRootElement(name="attribute")
+public class TOCAttrib {
 
-@XmlRootElement(name = "Property")
-public class WebGisProperty implements Serializable {
-    private static final long serialVersionUID = -2665068231821654507L;
-    
-    private WebGisProfile profile;
-    private String propertyName;
-    private String value;
+        private String name;
+        private String datatype;
+        private boolean writable;
 
-    public WebGisProfile getProfile() {
-        return profile;
+    @XmlAttribute
+    public String getDatatype() {
+        return datatype;
     }
 
-    public void setProfile(WebGisProfile profile) {
-        this.profile = profile;
+    public void setDatatype(String datatype) {
+        this.datatype = datatype;
     }
 
-    public String getPropertyName() {
-        return propertyName;
+    @XmlAttribute
+    public boolean isWritable() {
+        return writable;
     }
 
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
+    public void setWritable(boolean isWritable) {
+        this.writable = isWritable;
     }
 
-    public String getValue() {
-        return value;
+    @XmlAttribute
+    public String getName() {
+        return name;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setName(String name) {
+        this.name = name;
     }
-
+        
 }
+

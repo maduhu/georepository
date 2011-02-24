@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.RuleGridWidget,v. 0.1 10-feb-2011 13.21.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AddGsUserWidget,v. 0.1 10-feb-2011 12.01.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 10-feb-2011 13.21.50 $
+ * $ Date: 10-feb-2011 12.01.49 $
  *
  * ====================================================================
  *
@@ -34,6 +34,69 @@ package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.Grant;
+import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.Request;
+import it.geosolutions.georepo.gui.client.model.data.Service;
+import it.geosolutions.georepo.gui.client.model.data.Workspace;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import com.extjs.gxt.ui.client.Style.SelectionMode;
+import com.extjs.gxt.ui.client.Style.SortDir;
+import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
+import com.extjs.gxt.ui.client.data.BasePagingLoader;
+import com.extjs.gxt.ui.client.data.LoadEvent;
+import com.extjs.gxt.ui.client.data.ModelData;
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.extjs.gxt.ui.client.data.PagingLoader;
+import com.extjs.gxt.ui.client.data.RpcProxy;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.ComponentEvent;
+import com.extjs.gxt.ui.client.event.EventType;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.FieldEvent;
+import com.extjs.gxt.ui.client.event.GridEvent;
+import com.extjs.gxt.ui.client.event.KeyListener;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.LoadListener;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.store.Store;
+import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.FieldSet;
+import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
+import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.grid.ColumnData;
+import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
+import com.extjs.gxt.ui.client.widget.layout.FormLayout;
+import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
+import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
@@ -56,7 +119,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
@@ -93,16 +155,29 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
-import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Widget;
 
+import java.util.List;
+
+import com.extjs.gxt.ui.client.Style.SelectionMode;
+import com.extjs.gxt.ui.client.data.BaseModel;
+import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
 // TODO: Auto-generated Javadoc
 /**
- * The Class RuleGridWidget.
+ * The Class AddGsUserWidget.
  */
-public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
+public class EditRuleWidget extends GeoRepoFormWidget{//GeoRepoEditGridWidget {
+
+    /** The submit event. */
+    private EventType submitEvent;
+
+    /** The close on submit. */
+    private boolean closeOnSubmit;
 
     /** The rules service. */
     private RulesManagerServiceRemoteAsync rulesService;
@@ -126,7 +201,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     private PagingLoader<PagingLoadResult<ModelData>> loader;
 
     /** The tool bar. */
-    private PagingToolBar toolBar;
+    //private PagingToolBar toolBar;
 
     /** The column priority width. */
     private static final int COLUMN_PRIORITY_WIDTH = 30;
@@ -173,37 +248,63 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     /** The column down rule details width. */
     private static final int COLUMN_DOWN_RULE_WIDTH = 30;
 
-    private EditRuleWidget editRuleWidget;
-    
-    public RuleGridWidget parentEditRuleWidget;
+
+
+    /** The profile. */
+    protected Rule model = new Rule();
+
+    /** The store. */
+    public ListStore<Rule> store;
+
+    /** The grid. */
+    protected Grid<Rule> grid;
+
 
     /**
-     * Instantiates a new rule grid widget.
+     * Instantiates a new adds the gs profile widget.
      * 
-     * @param rulesService
-     *            the rules service
-     * @param gsUsersService
-     *            the gs users service
-     * @param profilesService
-     *            the profiles service
-     * @param instancesService
-     *            the instances service
-     * @param workspacesService
-     *            the workspaces service
+     * @param submitEvent
+     *            the submit event
+     * @param closeOnSubmit
+     *            the close on submit
      */
-    public RuleGridWidget(RulesManagerServiceRemoteAsync rulesService,
+    public EditRuleWidget(EventType submitEvent, boolean closeOnSubmit,
+            RulesManagerServiceRemoteAsync rulesService,
             GsUsersManagerServiceRemoteAsync gsUsersService,
             ProfilesManagerServiceRemoteAsync profilesService,
             InstancesManagerServiceRemoteAsync instancesService,
             WorkspacesManagerServiceRemoteAsync workspacesService) {
         super();
+        this.submitEvent = submitEvent;
+        this.closeOnSubmit = closeOnSubmit;
         this.rulesService = rulesService;
         this.gsUsersService = gsUsersService;
         this.profilesService = profilesService;
         this.instancesService = instancesService;
         this.workspacesService = workspacesService;
-        this.parentEditRuleWidget = this;
     }
+
+    /**
+     * Instantiates a new geo repo grid widget.
+     * 
+     * @param models
+     *            the models
+     */
+    public EditRuleWidget(List models) {
+        createStore();
+        this.store.add(models);
+        initGrid();
+    }
+
+
+    /**
+     * Instantiates a new geo repo grid widget.
+     */
+    public EditRuleWidget() {
+        createStore();
+        initGrid();
+    }
+
 
     /**
      * Instantiates a new rule grid widget.
@@ -211,37 +312,55 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * @param models
      *            the models
      */
-    public RuleGridWidget(List<Rule> models) {
+    /*public EditRuleWidget(List<Rule> models) {
         super(models);
-        if(this.parentEditRuleWidget==null)this.parentEditRuleWidget = this;
+    }*/
+
+    /**
+     * Gets the submit event.
+     * 
+     * @return the submit event
+     */
+    protected EventType getSubmitEvent() {
+        return this.submitEvent;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     * @see it.geosolutions.georepo.gui.client.form.IForm#execute()
      */
-    @Override
-    public void setGridProperties() {
-        // grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
-        // grid.addPlugin(emailEnable);
-        // grid.addPlugin(rssEnable);
-
-        grid.setLoadMask(true);
-        grid.setAutoWidth(true);
-        if (grid.getStore() != null) {
-            grid.getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
-            grid.getStore().setSortDir(SortDir.ASC);
+    public void execute() {
+        this.saveStatus.setBusy("Operation in progress");
+        /*
+         * this.user.setId(-1); this.user.setName(userName.getValue());
+         * this.user.setPassword(password.getValue()); this.user.setFullName(fullName.getValue());
+         * this.user.setEmailAddress(eMail.getValue()); this.user.setDateCreation(new Date());
+         * this.user.setEnabled(true); this.user.setProfile(profilesComboBox.getValue());
+         */
+        if (this.closeOnSubmit) {
+            cancel();
         }
-        // grid.setHeight("100%");<<-- ric mod re 20100217
+
+        this.injectEvent();
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#addComponentToForm ()
      */
     @Override
+    public void addComponentToForm() {
+
+        // createProfilesComboBox();
+        /*
+         * ColumnModel cm = prepareColumnModel(); this.formPanel.add(cm);
+         */
+        if(grid!=null)this.formPanel.add(grid);
+        addOtherComponents();
+    }
+
     public ColumnModel prepareColumnModel() {
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
@@ -256,7 +375,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ruleUserColumn.setId(BeanKeyValue.USER.getValue());
         ruleUserColumn.setHeader("User");
         ruleUserColumn.setWidth(COLUMN_USER_WIDTH);
-        ruleUserColumn.setRenderer(this.createUsersCustomField());// CustomField//createUsersComboBox
+        ruleUserColumn.setRenderer(this.createUsersComboBox());// CustomField//createUsersComboBox
         ruleUserColumn.setMenuDisabled(true);
         ruleUserColumn.setSortable(false);
         configs.add(ruleUserColumn);
@@ -265,7 +384,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ruleProfileColumn.setId(BeanKeyValue.PROFILE.getValue());
         ruleProfileColumn.setHeader("Profile");
         ruleProfileColumn.setWidth(COLUMN_PROFILE_WIDTH);
-        ruleProfileColumn.setRenderer(this.createProfilesCustomField());//createProfilesComboBox
+        ruleProfileColumn.setRenderer(this.createProfilesComboBox());
         ruleProfileColumn.setMenuDisabled(true);
         ruleProfileColumn.setSortable(false);
         configs.add(ruleProfileColumn);
@@ -274,7 +393,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ruleInstanceColumn.setId(BeanKeyValue.INSTANCE.getValue());
         ruleInstanceColumn.setHeader("Instance");
         ruleInstanceColumn.setWidth(COLUMN_INSTANCE_WIDTH);
-        ruleInstanceColumn.setRenderer(this.createInstancesCustomField());//createInstancesComboBox
+        ruleInstanceColumn.setRenderer(this.createInstancesComboBox());
         ruleInstanceColumn.setMenuDisabled(true);
         ruleInstanceColumn.setSortable(false);
         configs.add(ruleInstanceColumn);
@@ -283,7 +402,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ruleServiceColumn.setId(BeanKeyValue.SERVICE.getValue());
         ruleServiceColumn.setHeader("Service");
         ruleServiceColumn.setWidth(COLUMN_SERVICE_WIDTH);
-        ruleServiceColumn.setRenderer(this.createServicesCustomField());//createServicesComboBox
+        ruleServiceColumn.setRenderer(this.createServicesComboBox());
         ruleServiceColumn.setMenuDisabled(true);
         ruleServiceColumn.setSortable(false);
         configs.add(ruleServiceColumn);
@@ -292,7 +411,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ruleServiceRequestColumn.setId(BeanKeyValue.REQUEST.getValue());
         ruleServiceRequestColumn.setHeader("Request");
         ruleServiceRequestColumn.setWidth(COLUMN_REQUEST_WIDTH);
-        ruleServiceRequestColumn.setRenderer(this.createServicesRequestCustomField());//createServicesRequestComboBox
+        ruleServiceRequestColumn.setRenderer(this.createServicesRequestComboBox());
         ruleServiceRequestColumn.setMenuDisabled(true);
         ruleServiceRequestColumn.setSortable(false);
         configs.add(ruleServiceRequestColumn);
@@ -301,7 +420,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ruleServiceWorkspacesColumn.setId(BeanKeyValue.WORKSPACE.getValue());
         ruleServiceWorkspacesColumn.setHeader("Workspace");
         ruleServiceWorkspacesColumn.setWidth(COLUMN_WORKSPACE_WIDTH);
-        ruleServiceWorkspacesColumn.setRenderer(this.createServiceWorkspacesCustomField());
+        ruleServiceWorkspacesColumn.setRenderer(this.createServiceWorkspacesComboBox());
         ruleServiceWorkspacesColumn.setMenuDisabled(true);
         ruleServiceWorkspacesColumn.setSortable(false);
         configs.add(ruleServiceWorkspacesColumn);
@@ -310,7 +429,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ruleWorkspaceLayersColumn.setId(BeanKeyValue.LAYER.getValue());
         ruleWorkspaceLayersColumn.setHeader("Layer");
         ruleWorkspaceLayersColumn.setWidth(COLUMN_LAYER_WIDTH);
-        ruleWorkspaceLayersColumn.setRenderer(this.createWorkspacesLayersCustomField());
+        ruleWorkspaceLayersColumn.setRenderer(this.createWorkspacesLayersComboBox());
         ruleWorkspaceLayersColumn.setMenuDisabled(true);
         ruleWorkspaceLayersColumn.setSortable(false);
         configs.add(ruleWorkspaceLayersColumn);
@@ -319,11 +438,11 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         ruleGrantsColumn.setId(BeanKeyValue.GRANT.getValue());
         ruleGrantsColumn.setHeader("Grant");
         ruleGrantsColumn.setWidth(COLUMN_GRANT_WIDTH);
-        ruleGrantsColumn.setRenderer(this.createGrantsCustomField());
+        ruleGrantsColumn.setRenderer(this.createGrantsComboBox());
         ruleGrantsColumn.setMenuDisabled(true);
         ruleGrantsColumn.setSortable(false);
         configs.add(ruleGrantsColumn);
-
+        /*
         ColumnConfig editRuleColumn = new ColumnConfig();
         editRuleColumn.setId("ruleDetails");
         editRuleColumn.setWidth(COLUMN_EDIT_RULE_WIDTH);
@@ -371,17 +490,16 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         priorityDownActionColumn.setMenuDisabled(true);
         priorityDownActionColumn.setSortable(false);
         configs.add(priorityDownActionColumn);
-
+*/
         return new ColumnModel(configs);
     }
 
-
     /**
-     * Creates the users field.
+     * Creates the users combo box.
      * 
      * @return the grid cell renderer
      */
-    private GridCellRenderer<Rule> createUsersCustomField() {
+    private GridCellRenderer<Rule> createUsersComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
@@ -406,49 +524,34 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                ArrayList list = new ArrayList();
+                ComboBox<GSUser> usersComboBox = new ComboBox<GSUser>();
+                usersComboBox.setId("ruleUsersCombo");
+                usersComboBox.setName("ruleUsersCombo");
+                usersComboBox.setEmptyText("(No profile available)");
+                usersComboBox.setDisplayField(BeanKeyValue.NAME.getValue());
+                usersComboBox.setEditable(false);
+                usersComboBox.setStore(getAvailableUsers());
+                usersComboBox.setTypeAhead(true);
+                usersComboBox.setTriggerAction(TriggerAction.ALL);
+                usersComboBox.setWidth(120);
 
-                for (int i = 0; i < store.getCount(); i++) {
-                    Rule rule = ((Rule) store.getAt(i));
-                    list.add(rule);
+                if (model.getUser() != null) {
+                    usersComboBox.setValue(model.getUser());
                 }
 
-                LabelField usersCustomField = new LabelField();// (ListField)
-                                                               // getAvailableUsers().getModels()
-                usersCustomField.setId("ruleUsersCombo");
-                usersCustomField.setName("ruleUsersCombo");
-                usersCustomField.setEmptyText("*");
-                usersCustomField.setFieldLabel(BeanKeyValue.NAME.getValue());// DisplayField
-                usersCustomField.setValue(BeanKeyValue.NAME.getValue());
-                usersCustomField.setReadOnly(true);
-
-                //List<GSUser> au = getAvailableUsers().getModels();
-                usersCustomField.setWidth(COLUMN_USER_WIDTH - 10);
-                usersCustomField.show();
-
-                if (model.getUser() != null && model.getUser().getName()!=null) {
-                    String name2 = model.getUser().getName();
-                    usersCustomField.setValue(name2);
-                }else{
-                    usersCustomField.setValue("*");
-                }
-
-                usersCustomField.addListener(Events.OnClick, new Listener<FieldEvent>() {
+                usersComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
-                        /*(be.getComponent()).show();
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                 new String[] { "GeoServer Rules",
-                                        "Rule " + model.getPriority() + ": User changed" });
+                                        "Rule " + model.getPriority() + ": Rule changed" });
 
                         model.setUser((GSUser) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                        */
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
                     }
                 });
 
-                return usersCustomField;
+                return usersComboBox;
             }
 
             /**
@@ -479,11 +582,122 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the profiles field.
+     * TODO: Call Rule Service here!!
+     * 
+     * @return
+     */
+    private ListStore<Rule> getAvailableRules() {
+        ListStore<Rule> availableRules = new ListStore<Rule>();
+        RpcProxy<PagingLoadResult<Rule>> ruleProxy = new RpcProxy<PagingLoadResult<Rule>>() {
+
+            @Override
+            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<Rule>> callback) {
+                rulesService.getRules((PagingLoadConfig) loadConfig, false, callback);
+            }
+
+        };
+        BasePagingLoader<PagingLoadResult<ModelData>> profilesLoader = new BasePagingLoader<PagingLoadResult<ModelData>>(
+                ruleProxy);
+        profilesLoader.setRemoteSort(false);
+        availableRules = new ListStore<Rule>(profilesLoader);
+
+        return availableRules;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#cancel()
+     */
+    @SuppressWarnings("deprecation")
+    @Override
+    public void cancel() {
+        resetComponents();
+        super.close();
+
+    }
+
+    /**
+     * Reset components.
+     */
+    public void resetComponents() {
+        /*
+         * this.rulesComboBox.reset(); this.rulesComboBox.getStore().getLoader().load();
+         */
+        this.saveStatus.clearStatus("");
+        // Dispatcher.forwardEvent(DGWATCHEvents.DISABLE_DRAW_BUTTON);
+        // Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
+     */
+    public void addOtherComponents() {
+        // wktArea = new TextArea();
+        // wktArea.setFieldLabel(I18nProvider.getMessages().wktAbbreviation());
+        // wktArea.setAllowBlank(false);
+        // fieldSet.add(wktArea);
+        //
+        // draw = new Button(I18nProvider.getMessages().drawAoiButton(),
+        // new SelectionListener<ButtonEvent>() {
+        //
+        // @Override
+        // public void componentSelected(ButtonEvent ce) {
+        // hide();
+        // Dispatcher
+        // .forwardEvent(DGWATCHEvents.ENABLE_DRAW_BUTTON, AddAOIWidget.this);
+        // }
+        // });
+        //
+        // draw.setIcon(Resources.ICONS.drawFeature());
+        //
+        // this.formPanel.addButton(draw);
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#initSize()
+     */
+    @Override
+    public void initSize() {
+        setHeading(/* TODO: I18nProvider.getMessages().addAoiDialogTitle() */"Edit rule");
+        setSize(1210, 175);
+        //setAutoWidth(true);
+        //setHeight(150);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#initSizeFormPanel ()
+     */
+    @Override
+    public void initSizeFormPanel() {
+        formPanel.setHeaderVisible(false);
+        // formPanel.setSize(450, 350);
+    }
+
+    @Override
+    public void injectEvent() {
+        Dispatcher.forwardEvent(getSubmitEvent(), this.model);
+    }
+
+    public void setRuleService(RulesManagerServiceRemoteAsync rulesManagerServiceRemote) {
+        this.rulesService = rulesManagerServiceRemote;
+    }
+    public void setUserService(GsUsersManagerServiceRemoteAsync usersManagerServiceRemote) {
+        this.gsUsersService = usersManagerServiceRemote;
+    }
+    /**
+     * Creates the profiles combo box.
      * 
      * @return the grid cell renderer
      */
-    private GridCellRenderer<Rule> createProfilesCustomField() {
+    private GridCellRenderer<Rule> createProfilesComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
@@ -508,37 +722,35 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                LabelField profilesCustomField = new LabelField();
-                profilesCustomField.setId("ruleProfilesCombo");
-                profilesCustomField.setName("ruleProfilesCombo");
-                profilesCustomField.setEmptyText("(No profile available)");
-                profilesCustomField.setFieldLabel(BeanKeyValue.NAME.getValue());
-                profilesCustomField.setValue(BeanKeyValue.NAME.getValue());
-                profilesCustomField.setReadOnly(false);
-                profilesCustomField.setWidth(COLUMN_PROFILE_WIDTH -10);
+                ComboBox<Profile> profilesComboBox = new ComboBox<Profile>();
+                profilesComboBox.setId("ruleProfilesCombo");
+                profilesComboBox.setName("ruleProfilesCombo");
+                profilesComboBox.setEmptyText("(No profile available)");
+                profilesComboBox.setDisplayField(BeanKeyValue.NAME.getValue());
+                profilesComboBox.setEditable(false);
+                profilesComboBox.setStore(getAvailableProfiles());
+                profilesComboBox.setTypeAhead(true);
+                profilesComboBox.setTriggerAction(TriggerAction.ALL);
+                profilesComboBox.setWidth(150);
 
-                if (model.getProfile() != null && model.getProfile().getName() != null) {
-                    String name2 = model.getProfile().getName();
-                    profilesCustomField.setValue(name2);
-                }else{
-                    profilesCustomField.setValue("*");
+                if (model.getProfile() != null) {
+                    profilesComboBox.setValue(model.getProfile());
+                    profilesComboBox.setSelection(Arrays.asList(model.getProfile()));
                 }
 
-                profilesCustomField.addListener(Events.OnClick, new Listener<FieldEvent>() {
+                profilesComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
-                        /*Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Rules",
                                 "Rule " + model.getPriority() + ": Profile changed" });
 
                         model.setProfile((Profile) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                        */
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
                     }
                 });
 
-                return profilesCustomField;
+                return profilesComboBox;
             }
 
             /**
@@ -568,12 +780,13 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
         return comboRendered;
     }
+
     /**
      * Creates the instances combo box.
      * 
      * @return the grid cell renderer
      */
-    private GridCellRenderer<Rule> createInstancesCustomField() {
+    private GridCellRenderer<Rule> createInstancesComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
@@ -598,30 +811,33 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                LabelField instancesCustomField = new LabelField();
-                instancesCustomField.setId("ruleInstancesCombo");
-                instancesCustomField.setName("ruleInstancesCombo");
-                instancesCustomField.setEmptyText("(No instances available)");
-                instancesCustomField.setFieldLabel(BeanKeyValue.NAME.getValue());
-                instancesCustomField.setReadOnly(false);
-                instancesCustomField.setWidth(COLUMN_INSTANCE_WIDTH-10);
+                ComboBox<GSInstance> instancesComboBox = new ComboBox<GSInstance>();
+                instancesComboBox.setId("ruleInstancesCombo");
+                instancesComboBox.setName("ruleInstancesCombo");
+                instancesComboBox.setEmptyText("(No instances available)");
+                instancesComboBox.setDisplayField(BeanKeyValue.NAME.getValue());
+                instancesComboBox.setEditable(false);
+                instancesComboBox.setStore(getAvailableInstances());
+                instancesComboBox.setTypeAhead(true);
+                instancesComboBox.setTriggerAction(TriggerAction.ALL);
+                instancesComboBox.setWidth(150);
 
-                if (model.getInstance() != null && model.getInstance().getName() != null) {
-                    instancesCustomField.setValue(model.getInstance().getName());
+                if (model.getInstance() != null) {
+                    instancesComboBox.setValue(model.getInstance());
+                    instancesComboBox.setSelection(Arrays.asList(model.getInstance()));
                 } else {
-                    /*GSInstance all = new GSInstance();
+                    GSInstance all = new GSInstance();
                     all.setId(-1);
                     all.setName("*");
                     all.setBaseURL("*");
-                    instancesCustomField.setValue(all);
-                    instancesCustomField.setSelection(Arrays.asList(all));*/
-                    instancesCustomField.setValue("*");
+                    instancesComboBox.setValue(all);
+                    instancesComboBox.setSelection(Arrays.asList(all));
                 }
 
-                instancesCustomField.addListener(Events.OnClick, new Listener<FieldEvent>() {
+                instancesComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
-                        /*final GSInstance instance = (GSInstance) be.getField().getValue();
+                        final GSInstance instance = (GSInstance) be.getField().getValue();
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Rules",
                                 "Rule " + model.getPriority() + ": Instance changed" });
@@ -632,12 +848,10 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                         model.setWorkspace("*");
                         model.setLayer("*");
                         Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                        */
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
                     }
                 });
 
-                return instancesCustomField;
+                return instancesComboBox;
             }
 
             /**
@@ -674,7 +888,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * 
      * @return the grid cell renderer
      */
-    private GridCellRenderer<Rule> createServicesCustomField() {
+    private GridCellRenderer<Rule> createServicesComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
@@ -699,47 +913,47 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                final LabelField servicesCustomField = new LabelField();
-                servicesCustomField.setId("ruleServicesCombo");
-                servicesCustomField.setName("ruleServicesCombo");
-                servicesCustomField.setEmptyText("(No service available)");
-                servicesCustomField.setFieldLabel(BeanKeyValue.SERVICE.getValue());
-                servicesCustomField.setReadOnly(true);
-                servicesCustomField.setWidth(COLUMN_SERVICE_WIDTH-10);
-/*
+                final ComboBox<Service> servicesComboBox = new ComboBox<Service>();
+                servicesComboBox.setId("ruleServicesCombo");
+                servicesComboBox.setName("ruleServicesCombo");
+                servicesComboBox.setEmptyText("(No service available)");
+                servicesComboBox.setDisplayField(BeanKeyValue.SERVICE.getValue());
+                servicesComboBox.setStore(getAvailableServices(model.getInstance()));
+                servicesComboBox.setEditable(true);
+                servicesComboBox.setTypeAhead(true);
+                servicesComboBox.setTriggerAction(TriggerAction.ALL);
+                servicesComboBox.setWidth(90);
+
                 KeyListener keyListener = new KeyListener() {
 
                     @Override
                     public void componentKeyUp(ComponentEvent event) {
                         if (event.getKeyCode() == '\r') {
                             event.cancelBubble();
-                            
+
                             Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                     "GeoServer Rules",
                                     "Rule " + model.getPriority() + ": Service changed -> "
-                                            + servicesCustomField.getRawValue() });
+                                            + servicesComboBox.getRawValue() });
 
-                            model.setService(servicesCustomField.getRawValue());
+                            model.setService(servicesComboBox.getRawValue());
                             model.setRequest("*");
                             Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                            
-                            
                         }
                     }
                 };
 
-                servicesCustomField.addKeyListener(keyListener);
-*/
+                servicesComboBox.addKeyListener(keyListener);
+
                 if (model.getService() != null) {
-                    servicesCustomField.setValue(model.getService());
-                }else{
-                    servicesCustomField.setValue("*");
+                    servicesComboBox.setValue(new Service(model.getService()));
+                    servicesComboBox.setSelection(Arrays.asList(new Service(model.getService())));
                 }
 
-                servicesCustomField.addListener(Events.OnClick, new Listener<FieldEvent>() {
+                servicesComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
-                        /*final Service service = (Service) be.getField().getValue();
+                        final Service service = (Service) be.getField().getValue();
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                 new String[] {
                                         "GeoServer Rules",
@@ -749,13 +963,11 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                         model.setService(service.getService());
                         model.setRequest("*");
                         Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                        */
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
                     }
 
                 });
 
-                return servicesCustomField;
+                return servicesComboBox;
             }
 
             /**
@@ -798,7 +1010,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * 
      * @return the grid cell renderer
      */
-    private GridCellRenderer<Rule> createServicesRequestCustomField() {
+    private GridCellRenderer<Rule> createServicesRequestComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
@@ -823,14 +1035,18 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                final LabelField serviceRequestsCustomField = new LabelField();
-                serviceRequestsCustomField.setId("ruleServicesRequestCombo");
-                serviceRequestsCustomField.setName("ruleServicesRequestCombo");
-                serviceRequestsCustomField.setEmptyText("(No service request available)");
-                serviceRequestsCustomField.setFieldLabel(BeanKeyValue.REQUEST.getValue());
-                serviceRequestsCustomField.setReadOnly(true);
-                serviceRequestsCustomField.setWidth(COLUMN_SERVICE_WIDTH - 10);
-/*
+                final ComboBox<Request> serviceRequestsComboBox = new ComboBox<Request>();
+                serviceRequestsComboBox.setId("ruleServicesRequestCombo");
+                serviceRequestsComboBox.setName("ruleServicesRequestCombo");
+                serviceRequestsComboBox.setEmptyText("(No service request available)");
+                serviceRequestsComboBox.setDisplayField(BeanKeyValue.REQUEST.getValue());
+                serviceRequestsComboBox.setStore(getAvailableServicesRequest(model.getInstance(),
+                        model.getService()));
+                serviceRequestsComboBox.setEditable(true);
+                serviceRequestsComboBox.setTypeAhead(true);
+                serviceRequestsComboBox.setTriggerAction(TriggerAction.ALL);
+                serviceRequestsComboBox.setWidth(180);
+
                 KeyListener keyListener = new KeyListener() {
 
                     @Override
@@ -841,26 +1057,26 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                     "GeoServer Rules",
                                     "Rule " + model.getPriority() + ": Request changed -> "
-                                            + serviceRequestsCustomField.getRawValue() });
+                                            + serviceRequestsComboBox.getRawValue() });
 
-                            model.setRequest(serviceRequestsCustomField.getRawValue());
+                            model.setRequest(serviceRequestsComboBox.getRawValue());
                             Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
                         }
                     }
                 };
 
-                serviceRequestsCustomField.addKeyListener(keyListener);
-*/
+                serviceRequestsComboBox.addKeyListener(keyListener);
+
                 if (model.getService() != null) {
-                    serviceRequestsCustomField.setValue(model.getRequest());
-                }else{
-                    serviceRequestsCustomField.setValue("*");
+                    serviceRequestsComboBox.setValue(new Request(model.getRequest()));
+                    serviceRequestsComboBox.setSelection(Arrays.asList(new Request(model
+                            .getRequest())));
                 }
 
-                serviceRequestsCustomField.addListener(Events.OnClick, new Listener<FieldEvent>() {
+                serviceRequestsComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
-                        /*final Request request = (Request) be.getField().getValue();
+                        final Request request = (Request) be.getField().getValue();
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                 new String[] {
                                         "GeoServer Rules",
@@ -869,12 +1085,10 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
                         model.setRequest(request.getRequest());
                         Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                        */
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
                     }
                 });
 
-                return serviceRequestsCustomField;
+                return serviceRequestsComboBox;
             }
 
             /**
@@ -885,7 +1099,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
              * 
              * @return
              */
-            private ListStore<Request> getAvailableServicesRequest(GSInstance gsInstance, String service) {
+            private ListStore<Request> getAvailableServicesRequest(GSInstance gsInstance,
+                    String service) {
                 ListStore<Request> availableServicesRequests = new ListStore<Request>();
                 List<Request> requests = new ArrayList<Request>();
 
@@ -930,7 +1145,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * 
      * @return the grid cell renderer
      */
-    private GridCellRenderer<Rule> createServiceWorkspacesCustomField() {
+    private GridCellRenderer<Rule> createServiceWorkspacesComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
@@ -955,24 +1170,27 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                LabelField workspacesCustomField = new LabelField();
-                workspacesCustomField.setId("ruleWorkspacesCombo");
-                workspacesCustomField.setName("ruleWorkspacesCombo");
+                ComboBox<Workspace> workspacesComboBox = new ComboBox<Workspace>();
+                workspacesComboBox.setId("ruleWorkspacesCombo");
+                workspacesComboBox.setName("ruleWorkspacesCombo");
 
-                workspacesCustomField.setFieldLabel(BeanKeyValue.WORKSPACE.getValue());
-                workspacesCustomField.setReadOnly(false);
-                workspacesCustomField.setWidth(COLUMN_WORKSPACE_WIDTH - 10);
+                workspacesComboBox.setDisplayField(BeanKeyValue.WORKSPACE.getValue());
+                workspacesComboBox.setEditable(false);
+                workspacesComboBox.setStore(getAvailableWorkspaces(model.getInstance()));
+                workspacesComboBox.setTypeAhead(true);
+                workspacesComboBox.setTriggerAction(TriggerAction.ALL);
+                workspacesComboBox.setWidth(120);
 
                 if (model.getWorkspace() != null) {
-                    workspacesCustomField.setValue(model.getWorkspace());
-                }else{
-                    workspacesCustomField.setValue("*");
+                    workspacesComboBox.setValue(new Workspace(model.getWorkspace()));
+                    workspacesComboBox.setSelection(Arrays.asList(new Workspace(model
+                            .getWorkspace())));
                 }
-                workspacesCustomField.setEmptyText("(No workspace available)");
-                workspacesCustomField.addListener(Events.OnClick, new Listener<FieldEvent>() {
+                workspacesComboBox.setEmptyText("(No workspace available)");
+                workspacesComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
-                        /*final Workspace workspace = (Workspace) be.getField().getValue();
+                        final Workspace workspace = (Workspace) be.getField().getValue();
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Workspaces",
                                 "Rule " + model.getPriority() + ": Workspace changed" });
@@ -980,12 +1198,10 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                         model.setWorkspace(workspace.getWorkspace());
                         model.setLayer("*");
                         Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                        */
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
                     }
                 });
 
-                return workspacesCustomField;
+                return workspacesComboBox;
             }
 
             /**
@@ -1025,7 +1241,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * 
      * @return the grid cell renderer
      */
-    private GridCellRenderer<Rule> createWorkspacesLayersCustomField() {
+    private GridCellRenderer<Rule> createWorkspacesLayersComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
@@ -1050,36 +1266,38 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                LabelField workspaceLayersCustomField = new LabelField();
-                workspaceLayersCustomField.setId("ruleLayersCombo");
-                workspaceLayersCustomField.setName("ruleLayersCombo");
+                ComboBox<Layer> workspaceLayersComboBox = new ComboBox<Layer>();
+                workspaceLayersComboBox.setId("ruleLayersCombo");
+                workspaceLayersComboBox.setName("ruleLayersCombo");
 
-                workspaceLayersCustomField.setFieldLabel(BeanKeyValue.LAYER.getValue());
-                workspaceLayersCustomField.setReadOnly(false);
-                workspaceLayersCustomField.setWidth(COLUMN_LAYER_WIDTH - 10);
+                workspaceLayersComboBox.setDisplayField(BeanKeyValue.LAYER.getValue());
+                workspaceLayersComboBox.setEditable(false);
+                workspaceLayersComboBox.setStore(getAvailableLayers(model.getInstance(),
+                        model.getWorkspace()));
+                workspaceLayersComboBox.setTypeAhead(true);
+                workspaceLayersComboBox.setTriggerAction(TriggerAction.ALL);
+                workspaceLayersComboBox.setWidth(120);
 
                 if (model.getLayer() != null) {
-                    workspaceLayersCustomField.setValue(model.getLayer());
-                }else{
-                    workspaceLayersCustomField.setValue("*");
+                    workspaceLayersComboBox.setValue(new Layer(model.getLayer()));
+                    workspaceLayersComboBox
+                            .setSelection(Arrays.asList(new Layer(model.getLayer())));
                 }
-                workspaceLayersCustomField.setEmptyText("(No layer available)");
-                workspaceLayersCustomField.addListener(Events.OnClick, new Listener<FieldEvent>() {
+                workspaceLayersComboBox.setEmptyText("(No layer available)");
+                workspaceLayersComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
-                        /*final Layer layer = (Layer) be.getField().getValue();
+                        final Layer layer = (Layer) be.getField().getValue();
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Layers",
                                 "Rule " + model.getPriority() + ": Layers changed" });
 
                         model.setLayer(layer.getLayer());
                         Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                        */
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
                     }
                 });
 
-                return workspaceLayersCustomField;
+                return workspaceLayersComboBox;
             }
 
             /**
@@ -1120,7 +1338,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * 
      * @return the grid cell renderer
      */
-    private GridCellRenderer<Rule> createGrantsCustomField() {
+    private GridCellRenderer<Rule> createGrantsComboBox() {
         GridCellRenderer<Rule> comboRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
@@ -1145,38 +1363,36 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 // TODO: generalize this!
-                LabelField grantsCustomField = new LabelField();
-                grantsCustomField.setId("grantsCombo");
-                grantsCustomField.setName("grantsCombo");
+                ComboBox<Grant> grantsComboBox = new ComboBox<Grant>();
+                grantsComboBox.setId("grantsCombo");
+                grantsComboBox.setName("grantsCombo");
 
-                grantsCustomField.setFieldLabel(BeanKeyValue.GRANT.getValue());
-                grantsCustomField.setReadOnly(false);
-                grantsCustomField.setWidth(COLUMN_GRANT_WIDTH - 10);
+                grantsComboBox.setDisplayField(BeanKeyValue.GRANT.getValue());
+                grantsComboBox.setEditable(false);
+                grantsComboBox.setStore(getAvailableGrants());
+                grantsComboBox.setTypeAhead(true);
+                grantsComboBox.setTriggerAction(TriggerAction.ALL);
+                grantsComboBox.setWidth(80);
 
                 if (model.getGrant() != null) {
                     grantsComboBox.setValue(new Grant(model.getGrant()));
                     grantsComboBox.setSelection(Arrays.asList(new Grant(model.getGrant())));
-                    grantsCustomField.setValue(model.getGrant());
-                }else{
-                    grantsCustomField.setValue("ALLOW");
                 }
-                grantsCustomField.setEmptyText("(No grant types available)");
-                grantsCustomField.addListener(Events.OnClick, new Listener<FieldEvent>() {
+                grantsComboBox.setEmptyText("(No grant types available)");
+                grantsComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
-                        /*final Grant grant = (Grant) be.getField().getValue();
+                        final Grant grant = (Grant) be.getField().getValue();
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Rules",
                                 "Rule " + model.getPriority() + ": Grant changed" });
 
                         model.setGrant(grant.getGrant());
                         Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_GRID_COMBO, model);
-                        */
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
                     }
                 });
 
-                return grantsCustomField;
+                return grantsComboBox;
             }
 
             /**
@@ -1308,27 +1524,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                         // "Please apply changes before editing details!"
                         // });
                         // } else {
-                        /*
-                         * editRuleWidget = new EditRuleWidget(be.getType(), init, rulesService,
-                         * gsUsersService, profilesService, instancesService, workspacesService);
-                         * 
-                         * // } editRuleWidget.setHeaderVisible(false);
-                         * editRuleWidget.setFrame(true);
-                         * 
-                         * editRuleWidget.setLayout(new FitLayout());
-                         * 
-                         * //editRuleWidget.setRulesInfo(new RuleGridWidget(rulesService,
-                         * gsUsersService, profilesService, instancesService, workspacesService));
-                         * 
-                         * //editRuleWidget.add(getRulesInfo().getGrid());
-                         * 
-                         * editRuleWidget.setMonitorWindowResize(true);
-                         * 
-                         * editRuleWidget.setScrollMode(Scroll.NONE);
-                         */
-                        // editRuleWidget.setBottomComponent(this.getRulesInfo().getToolBar());
-
                         Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
+                        // }
+
                     }
                 });
 
@@ -1372,7 +1570,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 // TODO: generalize this!
                 Button ruleDetailsButton = new Button("Details");
                 ruleDetailsButton.setIcon(Resources.ICONS.table());
-                ruleDetailsButton.setToolTip("Show Rule Details");
+                // TODO: add correct tooltip text here!
+                // userDetailsButton.setToolTip("...");
                 ruleDetailsButton.setEnabled(true);
 
                 ruleDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
@@ -1569,11 +1768,11 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * 
      * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
      */
-    @Override
+    //@Override
     public void createStore() {
-        this.toolBar = new PagingToolBar(
+/*        this.toolBar = new PagingToolBar(
                 it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
-
+*/
         // Loader fro rulesService
         this.proxy = new RpcProxy<PagingLoadResult<Rule>>() {
 
@@ -1644,21 +1843,14 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
          * 
          * Dispatcher.forwardEvent(GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO); } });
          */
-        this.toolBar.bind(loader);
+        /*this.toolBar.bind(loader);
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(addRuleButton);
         // this.toolBar.add(saveRulesButton);<<-- ric mod 20100217
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
-        // this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add
-        // 20100216
-        // this.toolBar.setStyleAttribute("top", "95%");//<<-- ric add 20100217
-        // this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add
-        // 20100217
-        // this.toolBar.disable();
-        // this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add
-        // 20100216
+        */
         setUpLoadListener();
 
     }
@@ -1677,17 +1869,17 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * 
      * @return the tool bar
      */
-    public PagingToolBar getToolBar() {
+    /*public PagingToolBar getToolBar() {
         return toolBar;
-    }
+    }*/
 
     /**
      * Clear grid elements.
      */
     public void clearGridElements() {
         this.store.removeAll();
-        this.toolBar.clear();
-        this.toolBar.disable();
+        //this.toolBar.clear();
+        //this.toolBar.disable();
     }
 
     /**
@@ -1698,8 +1890,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
             @Override
             public void loaderBeforeLoad(LoadEvent le) {
-                if (!toolBar.isEnabled())
-                    toolBar.enable();
+                /*if (!toolBar.isEnabled())
+                    toolBar.enable();*/
             }
 
             @Override
@@ -1729,4 +1921,76 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         });
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     */
+    //@Override
+    public void setGridProperties() {
+        // grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
+        // grid.addPlugin(emailEnable);
+        // grid.addPlugin(rssEnable);
+
+        grid.setLoadMask(true);
+        grid.setAutoWidth(true);
+        if (grid.getStore() != null) {
+            grid.getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
+            grid.getStore().setSortDir(SortDir.ASC);
+        }
+        // grid.setHeight("100%");<<-- ric mod re 20100217
+    }
+
+    /**
+     * Inits the grid.
+     */
+  //@Override
+    public void initGrid() {
+        ColumnModel cm = prepareColumnModel();
+
+        grid = new Grid<Rule>(store, cm);
+        grid.setBorders(true);
+
+        grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        grid.setHeight("95%");//<<--  ric add 20100216
+        //grid.setAutoHeight(true);
+        //grid.set
+        grid.setLazyRowRender(0);//<<-- ric add 20100217
+        setGridProperties();
+    }
+    /**
+     * Sets the model.
+     * 
+     * @param model
+     *            the new model
+     */
+    public void setModel(Rule model) {
+        this.model = model;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.widget.Component#getModel()
+     */
+    public Rule getModel() {
+        return model;
+    }
+
+    public void setInstanceService(InstancesManagerServiceRemoteAsync instancesManagerServiceRemote) {
+        this.instancesService = instancesManagerServiceRemote;
+    }
+
+    public void setWorkspaceService(
+            WorkspacesManagerServiceRemoteAsync workspacesManagerServiceRemote) {
+        this.workspacesService = workspacesManagerServiceRemote;
+    }
+
+    public void setProfileService(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+        this.profilesService = profilesManagerServiceRemote;
+    }
+
+    public void setGsUserService(GsUsersManagerServiceRemoteAsync usersManagerServiceRemote) {
+        this.gsUsersService = usersManagerServiceRemote;
+    }
 }

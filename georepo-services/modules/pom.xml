@@ -36,6 +36,7 @@
     <modules>
         <module>login</module>
         <module>generic-api</module>
+        <module>webgis</module>
     </modules>
 
 </project>

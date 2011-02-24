@@ -38,8 +38,11 @@ import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
+
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
+
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -95,13 +98,8 @@ public interface IRulesManagerService {
      */
     public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps);
 
-    /**
-     * Save single rule
-     * 
-     * @param rule
-     */
-	public void saveRule(Rule rule);
-	
+
+
     /**
      * Gets the layer attributes.
      * 
@@ -129,4 +127,40 @@ public interface IRulesManagerService {
      */
     public LayerDetailsInfo getLayerDetailsInfo(Rule rule);
     
+    /**
+     * Save single rule
+     * 
+     * @param rule
+     */
+	public void saveRule(Rule rule) throws ApplicationException;
+	
+    /**
+     * Save single rule
+     * 
+     * @param rule
+     * @return 
+     * @throws ResourceNotFoundFault 
+     */
+	public void findRule(Rule rule) throws ApplicationException, Exception;
+	
+    /**
+     * Delete single rule
+     * 
+     * @param rule
+     */
+	public void deleteRule(Rule rule) throws ApplicationException;
+	
+    /**
+     * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
+     * down by <TT>offset</TT>.
+     *
+     * @return the number of rules updated.
+     */
+    public void shift(long priorityStart, long offset);
+
+    /**
+     * Swaps the priorities of two rules.
+     */
+    public void swap(long id1, long id2);
+
 }

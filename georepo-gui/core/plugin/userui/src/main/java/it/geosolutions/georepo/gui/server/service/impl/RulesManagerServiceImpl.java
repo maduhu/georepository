@@ -48,7 +48,9 @@ import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
+import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
+import it.geosolutions.georepo.services.dto.RuleFilter.SpecialFilterType;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader;
 import it.geosolutions.geoserver.rest.decoder.RESTFeatureType;
@@ -105,7 +107,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
         int page = start == 0 ? start : start / config.getLimit();
 
-        List<ShortRule> rulesList = georepoRemoteService.getRuleAdminService().getAll();
+        RuleFilter any = new RuleFilter(SpecialFilterType.ANY);
+        List<ShortRule> rulesList = georepoRemoteService.getRuleAdminService().getList(any, page, config.getLimit());
 
         if (rulesList == null) {
             if (logger.isErrorEnabled())
@@ -211,7 +214,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                     getAccessType(rule.getGrant()));
             rule2.setId(rule.getId());
             if(rule.getId()==-1){
-            	  rule2.setId(null);
+            	rule2.setId(null);
                   georepoRemoteService.getRuleAdminService().insert(rule2);
             }else{
 				try {
@@ -224,6 +227,24 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             
     }
     
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IRulesManagerService#saveAllRules(java.util.List)
+     */
+    public void deleteRule(Rule rule) throws ApplicationException {
+
+            if(rule.getId()!=-1){
+                  try {
+					georepoRemoteService.getRuleAdminService().delete(rule.getId());
+				} catch (ResourceNotFoundFault e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+            
+    }
     /*
      * 
      */
@@ -638,5 +659,23 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 		
 		return layerDetailsInfo;
     }
-    
+
+	public void shift(long priorityStart, long offset) {
+		if(priorityStart!=-1){
+            georepoRemoteService.getRuleAdminService().shift(priorityStart,offset);
+      }
+	}
+
+	public void swap(long id1, long id2) {
+		if(id1!=-1 && id2!=-1){
+            georepoRemoteService.getRuleAdminService().swap(id1,id2);
+      }
+		
+	}
+
+	public void findRule(Rule rule)  throws ApplicationException, Exception {
+		it.geosolutions.georepo.core.model.Rule ret = null;
+		ret = georepoRemoteService.getRuleAdminService().get(rule.getId());
+		//return ret;
+	}
 }

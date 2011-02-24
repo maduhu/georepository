@@ -55,7 +55,7 @@ import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 public abstract class GeoRepoFormWidget extends Window implements IForm {
 
     /** The form panel. */
-    protected FormPanel formPanel = new FormPanel();
+    public FormPanel formPanel = new FormPanel();
 
     /** The submit. */
     protected Button submit;
@@ -81,7 +81,7 @@ public abstract class GeoRepoFormWidget extends Window implements IForm {
     /**
      * Initialize form panel.
      */
-    private void initializeFormPanel() {
+    public void initializeFormPanel() {
         this.formPanel.setFrame(true);
         this.formPanel.setLayout(new FlowLayout());
 

@@ -76,7 +76,7 @@ public class GsUsersTabItem extends TabItem {
 
         setScrollMode(Scroll.NONE);
         //setHeight("100%");
-        getUserManagementWidget().getUsersInfo().getLoader().load(0, 25);
+        getUserManagementWidget().getUsersInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 

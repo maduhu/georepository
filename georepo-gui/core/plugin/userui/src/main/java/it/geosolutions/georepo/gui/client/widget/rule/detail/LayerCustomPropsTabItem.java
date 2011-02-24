@@ -80,7 +80,7 @@ public class LayerCustomPropsTabItem extends TabItem {
 
         setScrollMode(Scroll.NONE);
 
-        getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, 25);
+        getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 

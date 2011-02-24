@@ -44,7 +44,6 @@ import java.util.List;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
@@ -100,6 +99,42 @@ public interface RulesManagerServiceRemote extends RemoteService {
      *            the callback
      */
     public void saveRule(Rule rules) throws ApplicationException;
+    
+    /**
+     * Delete rule
+     * 
+     * @param rule
+     *            the rule
+     * @param callback
+     *            the callback
+     */
+    public void deleteRule(Rule rules) throws ApplicationException;
+    
+    /**
+     * Find rule
+     * 
+     * @param rule
+     *            the rule
+     * @param callback
+     *            the callback
+     * @return 
+     * @throws Exception 
+     * @throws ResourceNotFoundFault 
+     */
+    public void findRule(Rule rules) throws ApplicationException, Exception;
+    
+    /**
+     * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
+     * down by <TT>offset</TT>.
+     *
+     * @return the number of rules updated.
+     */
+    public void shift(long priorityStart, long offset) throws ApplicationException;
+
+    /**
+     * Swaps the priorities of two rules.
+     */
+    public void swap(long id1, long id2) throws ApplicationException;
     
     /**
      * Save all rules.

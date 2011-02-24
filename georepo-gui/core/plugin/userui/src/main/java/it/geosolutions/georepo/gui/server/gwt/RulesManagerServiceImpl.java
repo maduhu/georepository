@@ -41,6 +41,7 @@ import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.List;
 
@@ -82,7 +83,8 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
      * .gxt.ui.client.data.PagingLoadConfig)
      */
     public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException {
-        return rulesManagerService.getRules(config, full);
+    	PagingLoadResult<Rule> ret = rulesManagerService.getRules(config, full);
+        return ret;
     }
 
     /* (non-Javadoc)
@@ -90,6 +92,13 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
      */
     public void saveRule(Rule rule) throws ApplicationException {
         rulesManagerService.saveRule(rule);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
+     */
+    public void deleteRule(Rule rule) throws ApplicationException {
+        rulesManagerService.deleteRule(rule);
     }
     
     /* (non-Javadoc)
@@ -146,5 +155,18 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
             throws ApplicationException{
     	return rulesManagerService.getLayerDetailsInfo(rule);
     }
-        
+
+	public void shift(long priorityStart, long offset)
+			throws ApplicationException {
+		rulesManagerService.shift(priorityStart, offset);
+	}
+
+	public void swap(long id1, long id2) throws ApplicationException {
+		rulesManagerService.swap(id1, id2);	
+	}
+
+	public void findRule(Rule rule) throws ApplicationException, Exception {
+		rulesManagerService.findRule(rule);	
+	}
+	
 }

@@ -448,6 +448,10 @@ public class RuleDAOTest extends BaseDAOTest {
         List<Rule> loaded = ruleDAO.search(s);
         assertEquals(1, loaded.size());
         assertEquals(35, loaded.get(0).getPriority());
+
+        // perform another shift: since there are no rule in there, the shift sould be skipped
+        n = ruleDAO.shift(20, 5);
+        assertEquals(-1, n);
     }
 
     @Test

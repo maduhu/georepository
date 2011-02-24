@@ -83,6 +83,9 @@ public class LayerAttributesTabItem extends TabItem {
         setScrollMode(Scroll.NONE);
 
         getLayerAttributesWidget().getLayerAttributesInfo().getLoader().load();
+
+        //getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+
     }
 
     /**
