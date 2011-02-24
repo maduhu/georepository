@@ -218,10 +218,12 @@ public class AppView extends View {
         south.setMonitorWindowResize(true);//<<-- ric add 20100216
         south.setLayoutOnChange(true);//<<-- ric add 20100216
         this.tabWidget = new TabWidget();
+//        tabWidget.setStyleAttribute("height", "600px");
+//        tabWidget.setHeight("600px");
         
         south.add(this.tabWidget);
-        south.setStyleAttribute("height", "96%");
-        south.setHeight("96%");
+//        south.setStyleAttribute("height", "96%");
+//        south.setHeight("96%");
         //south.getBottomComponent().setStyleAttribute("top", "96%");
         south.layout();
         //south.setHeight(viewport.getHeight());???
