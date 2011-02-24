@@ -139,7 +139,6 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
 
         grid.setLoadMask(true);
         grid.setAutoWidth(true);
-        //grid.setHeight("100%");<<-- ric mod re 20100217
     }
 
     /*

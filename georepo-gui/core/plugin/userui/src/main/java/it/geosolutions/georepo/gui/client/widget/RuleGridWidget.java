@@ -1154,8 +1154,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 grantsCustomField.setWidth(COLUMN_GRANT_WIDTH - 10);
 
                 if (model.getGrant() != null) {
-                    grantsComboBox.setValue(new Grant(model.getGrant()));
-                    grantsComboBox.setSelection(Arrays.asList(new Grant(model.getGrant())));
+//                    grantsComboBox.setValue(new Grant(model.getGrant()));
+//                    grantsComboBox.setSelection(Arrays.asList(new Grant(model.getGrant())));
                     grantsCustomField.setValue(model.getGrant());
                 }else{
                     grantsCustomField.setValue("ALLOW");

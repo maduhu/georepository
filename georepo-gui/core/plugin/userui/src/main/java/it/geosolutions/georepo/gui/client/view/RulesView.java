@@ -97,7 +97,7 @@ public class RulesView extends View {
     /** The rules manager service remote. */
     private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote = InstancesManagerServiceRemote.Util
             .getInstance();
-    
+
     /** The rules manager service remote. */
     private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
             .getInstance();
