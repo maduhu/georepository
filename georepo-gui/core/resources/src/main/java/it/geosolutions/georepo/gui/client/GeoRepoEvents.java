@@ -411,4 +411,16 @@ public class GeoRepoEvents {
     
     /** **/
     public static final EventType UPDATE_INSTANCE = new EventType();
+    
+    /** **/
+    public static final EventType ATTRIBUTE_UPDATE_GRID_COMBO = new EventType();
+    
+    /** **/
+    public static final EventType SAVE_LAYER_DETAILS = new EventType();
+    
+    /** **/
+    public static final EventType LOAD_LAYER_DETAILS = new EventType();
+    
+    /** **/
+    public static final EventType AVAILABLE_STYLES_UPDATE_GRID = new EventType();
 }

@@ -51,10 +51,8 @@ import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.view.RulesView;
 import it.geosolutions.georepo.gui.client.widget.RuleGridWidget;
-import it.geosolutions.georepo.gui.client.widget.StatusWidget;
 import it.geosolutions.georepo.gui.client.widget.tab.RulesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
-import it.geosolutions.georepo.gui.server.gwt.RulesManagerServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +126,14 @@ public class RulesController extends Controller {
                 GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE,
                 GeoRepoEvents.RULE_CUSTOM_PROP_APPLY_CHANGES,
                 
-                GeoRepoEvents.INJECT_WKT);
+                GeoRepoEvents.INJECT_WKT,
+        
+        		GeoRepoEvents.ATTRIBUTE_UPDATE_GRID_COMBO,
+        		
+        		GeoRepoEvents.SAVE_LAYER_DETAILS,
+        		GeoRepoEvents.LOAD_LAYER_DETAILS,
+        		
+        		GeoRepoEvents.AVAILABLE_STYLES_UPDATE_GRID);
     }
 
     /*
@@ -183,7 +188,7 @@ public class RulesController extends Controller {
         forwardToView(this.rulesView, event);
     }
 
-    /**
+	/**
      * On inject wkt.
      * 
      * @param event

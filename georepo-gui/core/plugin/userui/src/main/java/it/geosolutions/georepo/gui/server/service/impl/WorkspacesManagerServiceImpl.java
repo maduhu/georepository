@@ -32,37 +32,40 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
+import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
-import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
-import it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService;
 import it.geosolutions.georepo.gui.server.service.IInstancesManagerService;
+import it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService;
+import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.geoserver.rest.GeoServerRESTReader;
+import it.geosolutions.geoserver.rest.decoder.RESTStyleList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NTCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
@@ -78,6 +81,10 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    
+    /** The georepo remote service. */
+    @Autowired
+    private GeoRepoRemoteService georepoRemoteService;
 
     /*
      * (non-Javadoc)
@@ -306,5 +313,55 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
         return res;
     }
 
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService#getStyles(it.geosolutions.georepo.gui.client.model.GSInstance)
+     */
+    public List<LayerStyle> getStyles(Rule rule) throws ApplicationException{
+    	
+    	List<LayerStyle> layerStyles = new ArrayList<LayerStyle>();
+    	
+    	try {
+    		LayerDetails layerDetails = georepoRemoteService.getRuleAdminService().get(rule.getId()).getLayerDetails();
+    		
+    		Set<String> allowedStyles = layerDetails.getAllowedStyles();
+    		int size = allowedStyles.size();
+    		
+			GeoServerRESTReader gsreader = new GeoServerRESTReader(
+					rule.getInstance().getBaseURL(), rule.getInstance().getUsername(), rule.getInstance().getPassword());
+			
+			RESTStyleList styles = gsreader.getStyles();			
+			List<String> names = styles.getNames();
+			Iterator<String> iterator = names.iterator();
+			
+			while(iterator.hasNext()){
+				String name = iterator.next();
+
+				LayerStyle layerStyle = new LayerStyle();
+				
+	    		if(size > 0){
+	    			Iterator<String> styleIterator = allowedStyles.iterator();
+	    			while(styleIterator.hasNext()){
+	    				String allowed = styleIterator.next();
+	    				
+	    				if(allowed.equalsIgnoreCase(name)){
+	    					layerStyle.setEnabled(true);
+	    				}	    				
+	    			}
+	    		}else	    		
+	    			layerStyle.setEnabled(false);
+	    		
+				layerStyle.setStyle(name);
+				
+				layerStyles.add(layerStyle);
+			}
+			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (ResourceNotFoundFault e) {
+			e.printStackTrace();
+		}
+    	
+    	return layerStyles;
+    }
 
 }

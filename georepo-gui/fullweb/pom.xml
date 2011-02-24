@@ -292,7 +292,7 @@
 					<warSourceDirectory>war</warSourceDirectory>
 					<disableCastChecking>true</disableCastChecking>
 					<disableClassMetadata>true</disableClassMetadata>
-					<extraJvmArgs>-Xmx512M -Xss1024k -Dgwt.nowarn.legacy.tools</extraJvmArgs>
+					<extraJvmArgs>-Xmx1024M -Xss1024k -Dgwt.nowarn.legacy.tools</extraJvmArgs>
 				</configuration>
 				<executions>
 					<execution>

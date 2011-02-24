@@ -201,7 +201,7 @@ public class AppView extends View {
      */
     private void createSouth() {
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER, 300, 300, 300);////ric add 20100216
-        data.setMargins(new Margins(5, 0, 5, 5));
+        data.setMargins(new Margins(5, 5, 5, 5));
         //data.setMinSize(300);
         //data.setMaxSize(1900);<<-- ric mod 20100217
         

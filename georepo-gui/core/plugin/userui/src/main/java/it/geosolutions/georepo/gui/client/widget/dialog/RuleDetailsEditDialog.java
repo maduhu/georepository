@@ -35,6 +35,7 @@ package it.geosolutions.georepo.gui.client.widget.dialog;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.SaveStaus;
 import it.geosolutions.georepo.gui.client.widget.SaveStaus.EnumSaveStatus;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesTabItem;
@@ -51,7 +52,7 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.google.gwt.user.client.ui.FormPanel;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class RuleDetailsEditDialog.
  */
@@ -86,6 +87,8 @@ public class RuleDetailsEditDialog extends Dialog {
 
     /** The rules manager service remote. */
     private RulesManagerServiceRemoteAsync rulesManagerServiceRemote;
+    
+    private WorkspacesManagerServiceRemoteAsync workspacesManagerServiceRemote;
 
     /** The tab widget. */
     private TabWidget tabWidget;
@@ -96,17 +99,18 @@ public class RuleDetailsEditDialog extends Dialog {
      * @param rulesManagerServiceRemote
      *            the rules manager service remote
      */
-    public RuleDetailsEditDialog(RulesManagerServiceRemoteAsync rulesManagerServiceRemote) {
+    public RuleDetailsEditDialog(RulesManagerServiceRemoteAsync rulesManagerServiceRemote,
+    		WorkspacesManagerServiceRemoteAsync workspacesManagerServiceRemote) {
         this.rulesManagerServiceRemote = rulesManagerServiceRemote;
+        this.workspacesManagerServiceRemote = workspacesManagerServiceRemote;
         setTabWidget(new TabWidget());
         
-        setHeading("Rule Details");
         setResizable(false);
         setButtons("");
         setClosable(true);
         setModal(true);
-        setWidth(680);
-        setHeight(400);
+        setWidth(700);
+        setHeight(427);
         
         add(this.getTabWidget());
 
@@ -151,11 +155,11 @@ public class RuleDetailsEditDialog extends Dialog {
             @Override
             public void componentSelected(ButtonEvent ce) {
                 hide();
-                Dispatcher.forwardEvent(GeoRepoEvents.INJECT_WKT, wkt);
+//                Dispatcher.forwardEvent(GeoRepoEvents.INJECT_WKT, wkt);
             }
         });
 
-        this.done.disable();
+//        this.done.disable();
         addButton(done);
     }
 
@@ -178,7 +182,7 @@ public class RuleDetailsEditDialog extends Dialog {
                 );
             } else {
                 setHeading("Editing Details for Rule #" + model.getPriority() );
-                this.tabWidget.add(new RuleDetailsTabItem(RULE_DETAILS_DIALOG_ID, model, rulesManagerServiceRemote));
+                this.tabWidget.add(new RuleDetailsTabItem(RULE_DETAILS_DIALOG_ID, model, workspacesManagerServiceRemote));
                 
                 if (model.getLayer() != null && !model.getLayer().equalsIgnoreCase("*")) {
                     TabItem layerAttributesItem = new LayerAttributesTabItem(RULE_LAYER_ATTRIBUTES_DIALOG_ID, model, rulesManagerServiceRemote);
@@ -197,7 +201,7 @@ public class RuleDetailsEditDialog extends Dialog {
      * Reset.
      */
     public void reset() {
-        this.done.disable();
+//        this.done.disable();
         this.tabWidget.removeAll();
         this.saveStatus.clearStatus("");
     }

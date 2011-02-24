@@ -39,7 +39,6 @@ import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LayerCustomPropsTabItem.
  */

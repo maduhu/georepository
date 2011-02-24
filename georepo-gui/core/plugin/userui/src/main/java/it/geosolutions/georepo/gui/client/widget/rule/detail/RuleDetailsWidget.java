@@ -32,47 +32,94 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
+import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RuleDetailsWidget.
+ * 
+ * @author Tobia di Pisa.
  */
 public class RuleDetailsWidget extends ContentPanel {
     
+	private Rule theRule;
+	
     /** The rule details info. */
-    private RuleDetailsGridWidget ruleDetailsInfo;
-    private Rule model;
+    private RuleDetailsInfoWidget ruleDetailsInfo;
+    
+    /** The rule details grid. */
+    private RuleDetailsGridWidget ruleDetailsGrid;	
+	
+    /** The tool bar. */
+    private ToolBar toolBar;
+    
+    /** The save button. */
+    private Button saveLayerDetailsButton;
 
-    /**
+	/**
      * Instantiates a new rule details widget.
-     * @param model 
      * 
+     * @param model 
      * @param rulesService
      *            the rules service
      */
-    public RuleDetailsWidget(Rule model, RulesManagerServiceRemoteAsync rulesService) {
-        this.model = model;
+    public RuleDetailsWidget(Rule model, WorkspacesManagerServiceRemoteAsync workspacesService) {
+        this.theRule = model;
         
         setHeaderVisible(false);
         setFrame(true);
-        setHeight(400);
+        setHeight(330);
+        setWidth(690);
         setLayout(new FitLayout());
 
-        setRuleDetailsInfo(new RuleDetailsGridWidget(model, rulesService));
-
-        //add(getRuleDetailsInfo().getGrid());
+        ruleDetailsInfo = new RuleDetailsInfoWidget(this.theRule, workspacesService, this);
+        add(ruleDetailsInfo.getFormPanel());
+        
+        ruleDetailsGrid = new RuleDetailsGridWidget(this.theRule, workspacesService, this);
+        add(ruleDetailsGrid.getGrid());
 
         super.setMonitorWindowResize(true);
 
-        setScrollMode(Scroll.NONE);
+        setScrollMode(Scroll.AUTOY);
+        
+        this.toolBar = new ToolBar();
+        
+        this.saveLayerDetailsButton = new Button("Apply Changes");
+        saveLayerDetailsButton.setIcon(Resources.ICONS.save());
+        saveLayerDetailsButton.disable();
 
-        //setBottomComponent(this.getRulesInfo().getToolBar());
+        saveLayerDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+
+        	public void handleEvent(ButtonEvent be) {
+
+        		disableSaveButton();
+        		
+        		LayerDetailsInfo detailsInfoModel = ruleDetailsInfo.getModelData();        	
+        		Dispatcher.forwardEvent(GeoRepoEvents.SAVE_LAYER_DETAILS, detailsInfoModel);
+
+        		Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+        				"GeoServer Rules: Layer Details", "Apply Changes" }); 
+
+        	}
+        });
+        
+        this.toolBar.add(new FillToolItem());
+        this.toolBar.add(saveLayerDetailsButton);        
+        setBottomComponent(this.toolBar);        
     }
 
     /*
@@ -82,8 +129,7 @@ public class RuleDetailsWidget extends ContentPanel {
      */
     @Override
     protected void onWindowResize(int width, int height) {
-        // TODO Auto-generated method stub
-        super.setWidth(width - 5);
+//        super.setWidth(width - 5);
         super.layout();
     }
     
@@ -93,7 +139,7 @@ public class RuleDetailsWidget extends ContentPanel {
      * @param layerCustomPropsInfo
      *            the new rule details info
      */
-    public void setRuleDetailsInfo(RuleDetailsGridWidget layerCustomPropsInfo) {
+    public void setRuleDetailsInfo(RuleDetailsInfoWidget layerCustomPropsInfo) {
         this.ruleDetailsInfo = layerCustomPropsInfo;
     }
 
@@ -102,8 +148,38 @@ public class RuleDetailsWidget extends ContentPanel {
      * 
      * @return the rule details info
      */
-    public RuleDetailsGridWidget getRuleDetailsInfo() {
+    public RuleDetailsInfoWidget getRuleDetailsInfo() {
         return ruleDetailsInfo;
     }
+    
+    /**
+	 * @return the ruleDetailsGrid
+	 */
+	public RuleDetailsGridWidget getRuleDetailsGrid() {
+		return ruleDetailsGrid;
+	}
+
+	/**
+	 * @param ruleDetailsGrid the ruleDetailsGrid to set
+	 */
+	public void setRuleDetailsGrid(RuleDetailsGridWidget ruleDetailsGrid) {
+		this.ruleDetailsGrid = ruleDetailsGrid;
+	}
+	
+    /**
+	 * 
+	 */
+	public void disableSaveButton() {
+		if(this.saveLayerDetailsButton.isEnabled())
+			this.saveLayerDetailsButton.disable();
+	}
+	
+    /**
+	 * @return 
+	 */
+	public void enableSaveButton() {
+		if(!this.saveLayerDetailsButton.isEnabled())
+			this.saveLayerDetailsButton.enable();
+	}
     
 }

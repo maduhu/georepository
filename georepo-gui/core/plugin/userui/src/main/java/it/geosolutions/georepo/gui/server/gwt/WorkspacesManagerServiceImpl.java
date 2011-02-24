@@ -32,9 +32,13 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
+import java.util.List;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
 import it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService;
@@ -91,5 +95,10 @@ public class WorkspacesManagerServiceImpl extends RemoteServiceServlet implement
         return workspaceManagerService.getLayers(config, baseURL, workspace);
     }
 
-
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote#getStyles(it.geosolutions.georepo.gui.client.model.GSInstance)
+     */
+    public List<LayerStyle> getStyles(Rule rule) throws ApplicationException{
+    	return workspaceManagerService.getStyles(rule);
+    }
 }
