@@ -99,10 +99,6 @@ public class RulesView extends View {
             .getInstance();
 
     /** The rules manager service remote. */
-    private WorkspacesManagerServiceRemoteAsync workspacesManagerServiceRemote = WorkspacesManagerServiceRemote.Util
-            .getInstance();
-    
-    /** The rules manager service remote. */
     private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
             .getInstance();
     
@@ -122,8 +118,6 @@ public class RulesView extends View {
 
         this.ruleEditorDialog = new RuleDetailsEditDialog(rulesManagerServiceRemote, workspacesManagerServiceRemote);
         ruleEditorDialog.setClosable(false);
-
-        this.ruleEditorDialog = new RuleDetailsEditDialog(rulesManagerServiceRemote);
 
         this.ruleRowEditor = new EditRuleWidget(GeoRepoEvents.SAVE_USER, true, rulesManagerServiceRemote, null, null, null, null);
         this.ruleRowEditor.setGsUserService(usersManagerServiceRemote);
