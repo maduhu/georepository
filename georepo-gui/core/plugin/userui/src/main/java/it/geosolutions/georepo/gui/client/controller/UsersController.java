@@ -34,7 +34,6 @@ package it.geosolutions.georepo.gui.client.controller;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
@@ -45,11 +44,11 @@ import it.geosolutions.georepo.gui.client.widget.UserGridWidget;
 import it.geosolutions.georepo.gui.client.widget.tab.GsUsersTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
-import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -138,8 +137,9 @@ public class UsersController extends Controller {
     private void onAttachTabWidgets(AppEvent event) {
         if (tabWidget == null) {
             tabWidget = (TabWidget) event.getData();
-            tabWidget.add(new GsUsersTabItem(USERS_TAB_ITEM_ID, gsManagerServiceRemote,
-                    profilesManagerServiceRemote));
+            TabItem usersTabItem = new GsUsersTabItem(USERS_TAB_ITEM_ID, gsManagerServiceRemote,
+                    profilesManagerServiceRemote);
+            tabWidget.add(usersTabItem);
         }
     }
 

@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
@@ -86,13 +87,8 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
 
     /** The gsUsersService. */
     private GsUsersManagerServiceRemoteAsync gsUsersService;
-    private ProfilesManagerServiceRemoteAsync profilesService;
 
-//    /** The email enable. */
-//    private CheckColumnConfig emailEnable;
-//
-//    /** The rss enable. */
-//    private CheckColumnConfig rssEnable;
+    private ProfilesManagerServiceRemoteAsync profilesService;
 
     /** The proxy. */
     private RpcProxy<PagingLoadResult<GSUser>> proxy;
@@ -133,12 +129,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
      */
     @Override
     public void setGridProperties() {
-        // grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
-        // grid.addPlugin(emailEnable);
-        // grid.addPlugin(rssEnable);
-
-        grid.setLoadMask(true);
-        grid.setAutoWidth(true);
+        grid.setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
     }
 
     /*
@@ -183,42 +174,13 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         userProfileColumn.setSortable(false);
         configs.add(userProfileColumn);
 
-//        ColumnConfig detailsActionColumn = new ColumnConfig();
-//        detailsActionColumn.setId("userDetails");
-//        // detailsActionColumn.setHeader("Details");
-//        detailsActionColumn.setWidth(80);
-//        detailsActionColumn.setRenderer(this.createUserDetailsButton());
-//        detailsActionColumn.setMenuDisabled(true);
-//        detailsActionColumn.setSortable(false);
-//        configs.add(detailsActionColumn);
-
         ColumnConfig removeActionColumn = new ColumnConfig();
         removeActionColumn.setId("removeUser");
-        // removeActionColumn.setHeader("Remove");
         removeActionColumn.setWidth(80);
         removeActionColumn.setRenderer(this.createUserDeleteButton());
         removeActionColumn.setMenuDisabled(true);
         removeActionColumn.setSortable(false);
         configs.add(removeActionColumn);
-
-        // ColumnConfig emailAddress = new ColumnConfig();
-        // emailAddress.setId(BeanKeyValue.EMAIL.getValue());
-        // emailAddress.setHeader("Email");
-        // emailAddress.setWidth(100);
-        // configs.add(emailAddress);
-        //
-        // // CellEditor checkBoxMailEditor = new CellEditor(new CheckBox());
-        //
-        // emailEnable = new CheckColumnConfig(BeanKeyValue.EMAIL_ENABLE.getValue(), "Mail", 60);
-        //
-        // // emailAddress.setEditor(checkBoxMailEditor);
-        // configs.add(emailEnable);
-        //
-        // // CellEditor checkBoxRSSEditor = new CellEditor(new CheckBox());
-        //
-        // rssEnable = new CheckColumnConfig(BeanKeyValue.RSS_ENABLE.getValue(), "RSS", 60);
-        // // rssEnable.setEditor(checkBoxRSSEditor);
-        // configs.add(rssEnable);
 
         return new ColumnModel(configs);
     }
@@ -230,7 +192,8 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
      */
     @Override
     public void createStore() {
-        this.toolBar = new PagingToolBar(it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+        this.toolBar = new PagingToolBar(
+                it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
         // Loader fro gsUsersService
         this.proxy = new RpcProxy<PagingLoadResult<GSUser>>() {
@@ -244,7 +207,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
         loader.setRemoteSort(false);
         store = new ListStore<GSUser>(loader);
-        //store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
+        // store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
 
         // Search tool
         SearchFilterField<GSUser> filter = new SearchFilterField<GSUser>() {
@@ -279,7 +242,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
             public void handleEvent(ButtonEvent be) {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "GeoServer Users", "Add User" });
-                
+
                 Dispatcher.forwardEvent(GeoRepoEvents.CREATE_NEW_USER);
             }
         });
@@ -290,12 +253,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
-        //this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add 20100216
-    //    this.toolBar.setStyleAttribute("top", "95%");//<<-- ric add 20100217
-    //    this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add 20100217
-        // this.toolBar.disable();
-        //this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add 20100216
-        
+
         setUpLoadListener();
     }
 
@@ -405,7 +363,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Users", "Enable check!" });
-                        
+
                         model.setEnabled((Boolean) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_USER, model);
                     }
@@ -491,12 +449,14 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 RpcProxy<PagingLoadResult<Profile>> profileProxy = new RpcProxy<PagingLoadResult<Profile>>() {
 
                     @Override
-                    protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<Profile>> callback) {
+                    protected void load(Object loadConfig,
+                            AsyncCallback<PagingLoadResult<Profile>> callback) {
                         profilesService.getProfiles((PagingLoadConfig) loadConfig, false, callback);
                     }
 
                 };
-                BasePagingLoader<PagingLoadResult<ModelData>> profilesLoader = new BasePagingLoader<PagingLoadResult<ModelData>>(profileProxy);
+                BasePagingLoader<PagingLoadResult<ModelData>> profilesLoader = new BasePagingLoader<PagingLoadResult<ModelData>>(
+                        profileProxy);
                 profilesLoader.setRemoteSort(false);
                 availableProfiles = new ListStore<Profile>(profilesLoader);
 
@@ -547,65 +507,12 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                     public void handleEvent(ButtonEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Users", "Remove User: " + model.getName() });
-                        
+
                         Dispatcher.forwardEvent(GeoRepoEvents.DELETE_USER, model);
                     }
                 });
 
                 return removeUserButton;
-            }
-
-        };
-
-        return buttonRendered;
-    }
-
-    /**
-     * Creates the profile details button.
-     * 
-     * @return the grid cell renderer
-     */
-    private GridCellRenderer<GSUser> createUserDetailsButton() {
-        GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
-
-            private boolean init;
-
-            public Object render(final GSUser model, String property, ColumnData config,
-                    int rowIndex, int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
-
-                if (!init) {
-                    init = true;
-                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
-
-                        public void handleEvent(GridEvent<GSUser> be) {
-                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
-                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
-                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
-                                            be.getColIndex())).setWidth(be.getWidth() - 10);
-                                }
-                            }
-                        }
-                    });
-                }
-
-                // TODO: generalize this!
-                Button userDetailsButton = new Button("Details");
-                userDetailsButton.setIcon(Resources.ICONS.table());
-                // TODO: add correct tooltip text here!
-                // userDetailsButton.setToolTip("...");
-                // TODO: Read only mode in this version.
-                userDetailsButton.setEnabled(false);
-
-                userDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
-
-                    public void handleEvent(ButtonEvent be) {
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Users", "Selected User: " + model.getName() });
-                    }
-                });
-
-                return userDetailsButton;
             }
 
         };

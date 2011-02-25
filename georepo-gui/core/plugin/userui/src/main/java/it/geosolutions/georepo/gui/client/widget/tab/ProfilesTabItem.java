@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget.tab;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.ProfileManagementWidget;
@@ -53,7 +54,7 @@ public class ProfilesTabItem extends TabItem {
      */
     public ProfilesTabItem(String tabItemId) {
         // TODO: add I18n message
-        //super(I18nProvider.getMessages().profiles());
+        // super(I18nProvider.getMessages().profiles());
         super("Profiles");
         setId(tabItemId);
         setIcon(Resources.ICONS.pageEdit());
@@ -61,19 +62,24 @@ public class ProfilesTabItem extends TabItem {
 
     /**
      * Instantiates a new profiles tab item.
-     * @param profilesTabItemId 
+     * 
+     * @param profilesTabItemId
      * 
      * @param profilesManagerServiceRemote
      *            the profiles manager service remote
      */
-    public ProfilesTabItem(String tabItemId, ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+    public ProfilesTabItem(String tabItemId,
+            ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
         this(tabItemId);
+        setScrollMode(Scroll.NONE);
+        setAutoWidth(true);
+        setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
+
         setProfileManagementWidget(new ProfileManagementWidget(profilesManagerServiceRemote));
         add(getProfileManagementWidget());
 
-        setScrollMode(Scroll.NONE);
-        //setHeight("100%");
-        getProfileManagementWidget().getProfilesInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+        getProfileManagementWidget().getProfilesInfo().getLoader().load(0,
+                it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 

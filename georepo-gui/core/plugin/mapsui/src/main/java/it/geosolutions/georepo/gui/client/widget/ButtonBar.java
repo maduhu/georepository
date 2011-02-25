@@ -370,13 +370,11 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
         button.addListener(Events.Select, action);
         button.setEnabled(action.isEnabled());
 
-        // TODO: don't hard-code the "fill space" to be after cleanDGWMenu - it should be more
-        // dynamic than this
         if (action.getId().equalsIgnoreCase("logout")) {
             this.toolBar.add(new FillToolItem());
         }
         this.toolBar.add(button);
-        
+
         REGISTRY_BUTTONS.put(button.getId(), button);
     }
 
@@ -414,10 +412,10 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
             button.setIcon(Resources.ICONS.info());
             break;
         case GEOREPO_ZOOM_IN:
-            //button.setIcon(Resources.ICONS.zoomIn());
+            button.setIcon(Resources.ICONS.zoomIn());
             break;
         case GEOREPO_ZOOM_OUT:
-            //button.setIcon(Resources.ICONS.zoomOut());
+            button.setIcon(Resources.ICONS.zoomOut());
             break;
         case GEOREPO_DRAW:
             button.setIcon(Resources.ICONS.drawFeature());
@@ -437,9 +435,6 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
         case DELETE_CONTENT:
             button.setIcon(Resources.ICONS.delete());
             break;
-//        case QUARTZ:
-//            button.setIconStyle("x-georepo-quartz");
-//            break;
         }
     }
 
@@ -452,11 +447,6 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
      *            the cat
      */
     private void setMenuIcon(MenuItem item, Category cat) {
-//        switch (cat) {
-//        case CLOCK:
-//            item.setIconStyle("x-georepo-clock");
-//            break;
-//        }
     }
 
     /**

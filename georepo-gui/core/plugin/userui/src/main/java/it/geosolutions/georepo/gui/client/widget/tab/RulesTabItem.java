@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget.tab;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
@@ -67,7 +68,8 @@ public class RulesTabItem extends TabItem {
 
     /**
      * Instantiates a new rules tab item.
-     * @param tabItemId 
+     * 
+     * @param tabItemId
      * 
      * @param rulesManagerServiceRemote
      *            the rules manager service remote
@@ -78,15 +80,19 @@ public class RulesTabItem extends TabItem {
             InstancesManagerServiceRemoteAsync instancesService,
             WorkspacesManagerServiceRemoteAsync workspacesService) {
         this(tabItemId);
+        setScrollMode(Scroll.NONE);
+        setAutoWidth(true);
+        setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
+        
         setRuleManagementWidget(new RuleManagementWidget(rulesService, gsUsersService,
                 profilesService, instancesService, workspacesService));
         add(getRuleManagementWidget());
 
-        setScrollMode(Scroll.NONE);
-        //setHeight("100%");
-        getRuleManagementWidget().getRulesInfo().getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
-        getRuleManagementWidget().getRulesInfo().getStore().setSortDir(SortDir.ASC);       
-        getRuleManagementWidget().getRulesInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+        getRuleManagementWidget().getRulesInfo().getStore().setSortField(
+                BeanKeyValue.PRIORITY.getValue());
+        getRuleManagementWidget().getRulesInfo().getStore().setSortDir(SortDir.ASC);
+        getRuleManagementWidget().getRulesInfo().getLoader().load(0,
+                it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 

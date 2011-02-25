@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
@@ -62,19 +63,16 @@ public class RuleManagementWidget extends ContentPanel {
             ProfilesManagerServiceRemoteAsync profilesService,
             InstancesManagerServiceRemoteAsync instancesService,
             WorkspacesManagerServiceRemoteAsync workspacesService) {
+        setMonitorWindowResize(true);
         setHeaderVisible(false);
         setFrame(true);
-        //setHeight("100%");
         setLayout(new FitLayout());
-
-        setRulesInfo(new RuleGridWidget(rulesService, gsUsersService, profilesService, instancesService, workspacesService));
-
-        add(getRulesInfo().getGrid());
-
-        super.setMonitorWindowResize(true);
-
         setScrollMode(Scroll.NONE);
-
+        setAutoWidth(true);
+        setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
+        
+        setRulesInfo(new RuleGridWidget(rulesService, gsUsersService, profilesService, instancesService, workspacesService));
+        add(getRulesInfo().getGrid());
         setBottomComponent(this.getRulesInfo().getToolBar());
     }
 
