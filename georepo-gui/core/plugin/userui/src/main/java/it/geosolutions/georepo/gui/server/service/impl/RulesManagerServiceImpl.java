@@ -96,7 +96,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         int page = start == 0 ? start : start / config.getLimit();
 
         RuleFilter any = new RuleFilter(SpecialFilterType.ANY);
-        List<ShortRule> rulesList = georepoRemoteService.getRuleAdminService().getList(any, page, config.getLimit());
+        List<ShortRule> rulesList = georepoRemoteService.getRuleAdminService().getList(any, page,
+                config.getLimit());
 
         if (rulesList == null) {
             if (logger.isErrorEnabled())
@@ -190,31 +191,29 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
      */
     public void saveRule(Rule rule) throws ApplicationException {
 
-         it.geosolutions.georepo.core.model.Rule rule2 = new it.geosolutions.georepo.core.model.Rule(
-                    rule.getPriority(), 
-                    getUser(rule.getUser()),
-                    getProfile(rule.getProfile()),
-                    getInstance(rule.getInstance()),
-                    "*".equals(rule.getService())?null:rule.getService(),
-                    "*".equals(rule.getRequest())?null:rule.getRequest(),
-                    "*".equals(rule.getWorkspace())?null:rule.getWorkspace(),
-                    "*".equals(rule.getLayer())?null:rule.getLayer(),
-                    getAccessType(rule.getGrant()));
-            rule2.setId(rule.getId());
-            if(rule.getId()==-1){
-            	rule2.setId(null);
-                  georepoRemoteService.getRuleAdminService().insert(rule2);
-            }else{
-				try {
-					georepoRemoteService.getRuleAdminService().update(rule2);
-				} catch (ResourceNotFoundFault e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+        it.geosolutions.georepo.core.model.Rule rule2 = new it.geosolutions.georepo.core.model.Rule(
+                rule.getPriority(), getUser(rule.getUser()), getProfile(rule.getProfile()),
+                getInstance(rule.getInstance()), "*".equals(rule.getService()) ? null
+                        : rule.getService(), "*".equals(rule.getRequest()) ? null
+                        : rule.getRequest(), "*".equals(rule.getWorkspace()) ? null
+                        : rule.getWorkspace(),
+                "*".equals(rule.getLayer()) ? null : rule.getLayer(),
+                getAccessType(rule.getGrant()));
+        rule2.setId(rule.getId());
+        if (rule.getId() == -1) {
+            rule2.setId(null);
+            georepoRemoteService.getRuleAdminService().insert(rule2);
+        } else {
+            try {
+                georepoRemoteService.getRuleAdminService().update(rule2);
+            } catch (ResourceNotFoundFault e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            
+        }
+
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -223,23 +222,24 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
      */
     public void deleteRule(Rule rule) throws ApplicationException {
 
-            if(rule.getId()!=-1){
-                  try {
-					georepoRemoteService.getRuleAdminService().delete(rule.getId());
-				} catch (ResourceNotFoundFault e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+        if (rule.getId() != -1) {
+            try {
+                georepoRemoteService.getRuleAdminService().delete(rule.getId());
+            } catch (ResourceNotFoundFault e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            
+        }
+
     }
+
     /*
      * 
      */
-    public void updatePriorities(Rule rule, long shift){
-    	georepoRemoteService.getRuleAdminService().shift(rule.getPriority(), 1);
+    public void updatePriorities(Rule rule, long shift) {
+        georepoRemoteService.getRuleAdminService().shift(rule.getPriority(), 1);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -258,14 +258,12 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
         for (Rule localRule : rules) {
             it.geosolutions.georepo.core.model.Rule rule = new it.geosolutions.georepo.core.model.Rule(
-                    localRule.getPriority(), 
-                    getUser(localRule.getUser()),
-                    getProfile(localRule.getProfile()),
-                    getInstance(localRule.getInstance()),
-                    "*".equals(localRule.getService())?null:localRule.getService(),
-                    "*".equals(localRule.getRequest())?null:localRule.getRequest(),
-                    "*".equals(localRule.getWorkspace())?null:localRule.getWorkspace(),
-                    "*".equals(localRule.getLayer())?null:localRule.getLayer(),
+                    localRule.getPriority(), getUser(localRule.getUser()),
+                    getProfile(localRule.getProfile()), getInstance(localRule.getInstance()),
+                    "*".equals(localRule.getService()) ? null : localRule.getService(),
+                    "*".equals(localRule.getRequest()) ? null : localRule.getRequest(),
+                    "*".equals(localRule.getWorkspace()) ? null : localRule.getWorkspace(),
+                    "*".equals(localRule.getLayer()) ? null : localRule.getLayer(),
                     getAccessType(localRule.getGrant()));
             georepoRemoteService.getRuleAdminService().insert(rule);
         }
@@ -295,8 +293,9 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.GSInstance getInstance(GSInstance instance) {
         it.geosolutions.georepo.core.model.GSInstance remote_instance = null;
         try {
-            if(instance != null && instance.getId() != -1)
-                remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId());
+            if (instance != null && instance.getId() != -1)
+                remote_instance = georepoRemoteService.getInstanceAdminService().get(
+                        instance.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
         }
@@ -314,7 +313,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.Profile getProfile(Profile profile) {
         it.geosolutions.georepo.core.model.Profile remote_profile = null;
         try {
-            if(profile != null && profile.getId() != -1 )
+            if (profile != null && profile.getId() != -1)
                 remote_profile = georepoRemoteService.getProfileAdminService().get(profile.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
@@ -333,7 +332,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.GSUser getUser(GSUser user) {
         it.geosolutions.georepo.core.model.GSUser remote_user = null;
         try {
-            if(user != null && user.getId() != -1)
+            if (user != null && user.getId() != -1)
                 remote_user = georepoRemoteService.getUserAdminService().get(user.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
@@ -383,8 +382,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             }
         }
 
-        return new BasePagingLoadResult<LayerCustomProps>(customPropsDTO, config.getOffset(), t
-                .intValue());
+        return new BasePagingLoadResult<LayerCustomProps>(customPropsDTO, config.getOffset(),
+                t.intValue());
     }
 
     /*
@@ -410,22 +409,22 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         georepoRemoteService.getRuleAdminService().setDetailsProps(ruleId, props);
     }
 
-	public void shift(long priorityStart, long offset) {
-		if(priorityStart!=-1){
-            georepoRemoteService.getRuleAdminService().shift(priorityStart,offset);
-      }
-	}
+    public void shift(long priorityStart, long offset) {
+        if (priorityStart != -1) {
+            georepoRemoteService.getRuleAdminService().shift(priorityStart, offset);
+        }
+    }
 
-	public void swap(long id1, long id2) {
-		if(id1!=-1 && id2!=-1){
-            georepoRemoteService.getRuleAdminService().swap(id1,id2);
-      }
-		
-	}
+    public void swap(long id1, long id2) {
+        if (id1 != -1 && id2 != -1) {
+            georepoRemoteService.getRuleAdminService().swap(id1, id2);
+        }
 
-	public void findRule(Rule rule)  throws ApplicationException, Exception {
-		it.geosolutions.georepo.core.model.Rule ret = null;
-		ret = georepoRemoteService.getRuleAdminService().get(rule.getId());
-		//return ret;
-	}
+    }
+
+    public void findRule(Rule rule) throws ApplicationException, Exception {
+        it.geosolutions.georepo.core.model.Rule ret = null;
+        ret = georepoRemoteService.getRuleAdminService().get(rule.getId());
+        // return ret;
+    }
 }

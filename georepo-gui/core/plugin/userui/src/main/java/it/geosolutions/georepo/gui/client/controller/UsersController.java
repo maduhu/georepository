@@ -140,6 +140,7 @@ public class UsersController extends Controller {
             tabWidget = (TabWidget) event.getData();
             tabWidget.add(new GsUsersTabItem(USERS_TAB_ITEM_ID, gsManagerServiceRemote,
                     profilesManagerServiceRemote));
+            //tabWidget.setHeight("95%");
         }
     }
 

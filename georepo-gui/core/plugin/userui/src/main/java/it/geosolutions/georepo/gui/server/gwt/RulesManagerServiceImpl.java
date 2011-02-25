@@ -80,58 +80,78 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
      * it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getRules(com.extjs
      * .gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException {
-    	PagingLoadResult<Rule> ret = rulesManagerService.getRules(config, full);
+    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full)
+            throws ApplicationException {
+        PagingLoadResult<Rule> ret = rulesManagerService.getRules(config, full);
         return ret;
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util
+     * .List)
      */
     public void saveRule(Rule rule) throws ApplicationException {
         rulesManagerService.saveRule(rule);
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util
+     * .List)
      */
     public void deleteRule(Rule rule) throws ApplicationException {
         rulesManagerService.deleteRule(rule);
     }
-    
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util
+     * .List)
      */
     public void saveAllRules(List<Rule> rules) throws ApplicationException {
         rulesManagerService.saveAllRules(rules);
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerCustomProps(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerCustomProps(
+     * com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
      */
     public PagingLoadResult<LayerCustomProps> getLayerCustomProps(PagingLoadConfig config, Rule rule)
             throws ApplicationException {
         return rulesManagerService.getLayerCustomProps(config, rule);
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setDetailsProps(java.lang.Long, it.geosolutions.georepo.gui.client.model.data.LayerCustomProps)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setDetailsProps(java
+     * .lang.Long, it.geosolutions.georepo.gui.client.model.data.LayerCustomProps)
      */
     public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps)
             throws ApplicationException {
         rulesManagerService.setDetailsProps(ruleId, customProps);
     }
+    
+    public void shift(long priorityStart, long offset) throws ApplicationException {
+        rulesManagerService.shift(priorityStart, offset);
+    }
 
-	public void shift(long priorityStart, long offset)
-			throws ApplicationException {
-		rulesManagerService.shift(priorityStart, offset);
-	}
+    public void swap(long id1, long id2) throws ApplicationException {
+        rulesManagerService.swap(id1, id2);
+    }
 
-	public void swap(long id1, long id2) throws ApplicationException {
-		rulesManagerService.swap(id1, id2);	
-	}
-
-	public void findRule(Rule rule) throws ApplicationException, Exception {
-		rulesManagerService.findRule(rule);	
-	}
+    public void findRule(Rule rule) throws ApplicationException, Exception {
+        rulesManagerService.findRule(rule);
+    }
 }

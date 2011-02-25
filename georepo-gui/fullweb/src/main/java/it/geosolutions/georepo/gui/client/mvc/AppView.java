@@ -42,6 +42,7 @@ import com.extjs.gxt.ui.client.event.BorderLayoutEvent;
 //import com.gwtext.client.widgets.event.PanelListenerAdapter;
 //import com.gwtext.client.widgets.event.ResizableListenerAdapter;
 
+import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;
@@ -104,15 +105,17 @@ public class AppView extends View {
         this.viewport = new Viewport();
         this.viewport.setLayout(new BorderLayout());
         createNorth();
-        //createEast();<<-- ric mod 20100217
+        // createEast();<<-- ric mod 20100217
         createSouth();
-        //createCenter();<<-- ric mod 20100217
-
+        /*
+         * if(GXT.isIE || GXT.isIE7 || GXT.isIE8){ //createCenter();//<<-- ric mod 20100217
+         * System.out.println("SONO NEL IE"); }
+         */
         // registry serves as a global context
         Registry.register(ConfigurationMainUI.VIEWPORT.getValue(), viewport);
-        //Registry.register(ConfigurationMainUI.EAST.getValue(), east);<<-- ric mod 20100217
+        // Registry.register(ConfigurationMainUI.EAST.getValue(), east);<<-- ric mod 20100217
         Registry.register(ConfigurationMainUI.SOUTH.getValue(), south);
-        //Registry.register(ConfigurationMainUI.CENTER.getValue(), center);<<-- ric mod 20100217
+        // Registry.register(ConfigurationMainUI.CENTER.getValue(), center);<<-- ric mod 20100217
 
         RootPanel.get().add(viewport);
     }
@@ -123,17 +126,17 @@ public class AppView extends View {
     private void createNorth() {
         north = new ContentPanel();
         north.setHeaderVisible(false);
-		north.addListener(Events.Resize, new Listener<BaseEvent>() {
-		
-		    public void handleEvent(BaseEvent be) {
-		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
-		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    }
-		});
+        north.addListener(Events.Resize, new Listener<BaseEvent>() {
+
+            public void handleEvent(BaseEvent be) {
+                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+                Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+            }
+        });
 
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH, 30);
         data.setMargins(new Margins(0, 5, 0, 5));
-        //data.setSplit(true);
+        // data.setSplit(true);
 
         viewport.add(north, data);
     }
@@ -142,12 +145,12 @@ public class AppView extends View {
      * Creates the east.
      */
     private void createEast() {
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.EAST, 430);//, 430, 430
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.EAST, 430);// , 430, 430
         data.setMargins(new Margins(5, 0, 5, 5));
-        data.setMinSize(430);//ric add 20100216
-        data.setMaxSize(1830);//ric add 20100216
-        data.setCollapsible(true);//ric add 20100216
-        //data.setFloatable(true);//ric add 20100216
+        data.setMinSize(430);// ric add 20100216
+        data.setMaxSize(1830);// ric add 20100216
+        data.setCollapsible(true);// ric add 20100216
+        // data.setFloatable(true);//ric add 20100216
         data.setSplit(true);
         east = new ContentPanel();
         east.setBodyBorder(false);
@@ -162,18 +165,18 @@ public class AppView extends View {
 
             }
         });
-        east.addListener(Events.Move,  new Listener<BaseEvent>() {
-    		
-		    public void handleEvent(BaseEvent be) {
-		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
-		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    }
-		});
-//        east.setStyleAttribute("height", "auto");
-//        east.setStyleAttribute("width", "auto");
-        //configureAccordionPanel();
-        east.setMonitorWindowResize(true);//<<-- ric add 20100216
-        east.setLayoutOnChange(true);//<<-- ric add 20100216
+        east.addListener(Events.Move, new Listener<BaseEvent>() {
+
+            public void handleEvent(BaseEvent be) {
+                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+                Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+            }
+        });
+        // east.setStyleAttribute("height", "auto");
+        // east.setStyleAttribute("width", "auto");
+        // configureAccordionPanel();
+        east.setMonitorWindowResize(true);// <<-- ric add 20100216
+        east.setLayoutOnChange(true);// <<-- ric add 20100216
         viewport.add(east, data);
     }
 
@@ -181,15 +184,17 @@ public class AppView extends View {
      * Creates the south.
      */
     private void createSouth() {
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER, 300, 300, 300);////ric add 20100216
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER, 300, 300, 300);// //ric
+                                                                                         // add
+                                                                                         // 20100216
         data.setMargins(new Margins(5, 0, 5, 5));
-        //data.setMinSize(300);
-        //data.setMaxSize(1900);<<-- ric mod 20100217
-        
-        //data.setSplit(true);
+        // data.setMinSize(300);
+        // data.setMaxSize(1900);<<-- ric mod 20100217
+
+        // data.setSplit(true);
         data.setHideCollapseTool(false);
-        
-        //data.setHideCollapseTool(false);//ric add 20100216
+
+        // data.setHideCollapseTool(false);//ric add 20100216
         south = new ContentPanel();
         south.setBodyBorder(false);
         south.setAnimCollapse(true);
@@ -198,38 +203,44 @@ public class AppView extends View {
         south.setLayoutOnChange(true);
         south.setScrollMode(Scroll.NONE);
         south.setHeaderVisible(false);
-        //south.setHeading(I18nProvider.getMessages().accordionLabel());
-        //south.setHeight("100%");
-		south.addListener(Events.Resize, new Listener<BaseEvent>() {
-		
-		    public void handleEvent(BaseEvent be) {
-		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
-		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    }
-		});
-		south.addListener(Events.Move,  new Listener<BaseEvent>() {
-		
-		    public void handleEvent(BaseEvent be) {
-		        //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
-		    	Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    }
-		});
-		//south.setStyleAttribute("height", "100%");
-        south.setMonitorWindowResize(true);//<<-- ric add 20100216
-        south.setLayoutOnChange(true);//<<-- ric add 20100216
+        // south.setHeading(I18nProvider.getMessages().accordionLabel());
+        // south.setHeight("100%");
+        south.addListener(Events.Resize, new Listener<BaseEvent>() {
+
+            public void handleEvent(BaseEvent be) {
+                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+                Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+            }
+        });
+        south.addListener(Events.Move, new Listener<BaseEvent>() {
+
+            public void handleEvent(BaseEvent be) {
+                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+                Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+            }
+        });
+        // south.setStyleAttribute("height", "100%");
+        south.setMonitorWindowResize(true);// <<-- ric add 20100216
+        south.setLayoutOnChange(true);// <<-- ric add 20100216
         this.tabWidget = new TabWidget();
-        
+
         south.add(this.tabWidget);
+        if(south.getParent()!=null){
+            System.out.println("south.getParent().getOffsetHeight()=="+south.getParent().getOffsetHeight());
+            System.out.println("south.getParent().getElement().getOffsetHeight()=="+south.getParent().getElement().getOffsetHeight());
+        }
         south.setStyleAttribute("height", "96%");
         south.setHeight("96%");
-        //south.getBottomComponent().setStyleAttribute("top", "96%");
+     // if(south.getParent()!=null)south.getParent().setHeight("96%");
+     // if(south.getParent()!=null && south.getParent().getParent()!=null)south.getParent().getParent().setHeight("96%");
+        // south.getBottomComponent().setStyleAttribute("top", "96%");
         south.layout();
-        //south.setHeight(viewport.getHeight());???
+        // south.setHeight(viewport.getHeight());???
         Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, this.tabWidget);
-        //Dispatcher.forwardEvent(GeoRepoEvents.ATTACH.ATTACH_USER_WIDGET, this.center);
+        // Dispatcher.forwardEvent(GeoRepoEvents.ATTACH.ATTACH_USER_WIDGET, this.center);
         Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_TOOLBAR, this.north);
-        south.setMonitorWindowResize(true);//<<-- ric add 20110223
-        south.setLayoutOnChange(true);//<<-- ric add 20110223
+        south.setMonitorWindowResize(true);// <<-- ric add 20110223
+        south.setLayoutOnChange(true);// <<-- ric add 20110223
         viewport.add(south, data);
     }
 
@@ -240,34 +251,34 @@ public class AppView extends View {
         center = new ContentPanel();
         center.setLayout(new FitLayout());
         center.setHeaderVisible(false);
-        //center.setLayout(new AccordionLayout());
+        // center.setLayout(new AccordionLayout());
         center.addListener(Events.Resize, new Listener<BaseEvent>() {
 
             public void handleEvent(BaseEvent be) {
                 Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
-                //Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
             }
         });
-        center.addListener(Events.Move,  new Listener<BaseEvent>() {
-    		
-		    public void handleEvent(BaseEvent be) {
-		        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
-		    	//Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-		    }
-		});
-//        center.setStyleAttribute("height", "auto");
-//        center.setStyleAttribute("width", "auto");
-        //center.setMonitorWindowResize(true);//<<-- ric add 20100216
-        //center.setLayoutOnChange(true);//<<-- ric add 20100216
-        
-        BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
-        //data.setMinSize(500);
-        //data.setMaxSize(2800);
-        //data.setCollapsible(true);//ric add 20100216
-        //data.setFloatable(true);
-        //data.setSplit(true);
+        center.addListener(Events.Move, new Listener<BaseEvent>() {
+
+            public void handleEvent(BaseEvent be) {
+                Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_MAP_SIZE);
+                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+            }
+        });
+        // center.setStyleAttribute("height", "auto");
+        // center.setStyleAttribute("width", "auto");
+        // center.setMonitorWindowResize(true);//<<-- ric add 20100216
+        // center.setLayoutOnChange(true);//<<-- ric add 20100216
+
+        BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER, 0);
+        // data.setMinSize(500);
+        // data.setMaxSize(2800);
+        // data.setCollapsible(true);//ric add 20100216
+        // data.setFloatable(true);
+        // data.setSplit(true);
         data.setMargins(new Margins(5, 5, 5, 5));
-        
+
         viewport.add(center, data);
 
         Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MAP_WIDGET, this.center);
@@ -292,7 +303,7 @@ public class AppView extends View {
             initUI();
         }
         if (event.getType() == GeoRepoEvents.ADMIN_MODE_CHANGE) {
-           // onAdminModeChange(event);
+            // onAdminModeChange(event);
         }
     }
 

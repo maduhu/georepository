@@ -67,7 +67,7 @@ public class UsersView extends View {
      */
     public UsersView(Controller controller) {
         super(controller);
-
+        
         this.addGsUser = new AddGsUserWidget(GeoRepoEvents.SAVE_USER, true);
         this.addGsUser.setGsUserService(gsManagerServiceRemote);
         this.addGsUser.setProfileService(profilesManagerServiceRemote);

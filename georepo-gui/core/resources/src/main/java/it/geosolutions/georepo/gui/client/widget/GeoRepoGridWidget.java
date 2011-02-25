@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.client.widget;
 
 import java.util.List;
 
+import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.data.BaseModel;
 import com.extjs.gxt.ui.client.store.ListStore;
@@ -85,7 +86,31 @@ public abstract class GeoRepoGridWidget<T extends BaseModel> {
         grid.setBorders(true);
 
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        //if(grid.getParent()!=null && grid.getParent().getParent()!=null && grid.getParent().getParent().getParent()!=null)grid.getParent().getParent().getParent().setHeight("95%");
+        //if(grid.getParent()!=null &&  grid.getParent().getParent()!=null)grid.getParent().getParent().setHeight("95%");
+        //if(grid.getParent()!=null)grid.getParent().setHeight("95%");
+        
+        int h1 = 0;
+        if(grid.getParent()!=null){
+            h1=grid.getParent().getOffsetHeight();
+            //grid.setHeight(h1);
+            
+        }
+        if(GXT.isIE || GXT.isIE7 || GXT.isIE8){
+            if(grid!=null){
+                System.out.println("grid.getParent().getOffsetHeight=="+grid.getOffsetHeight());
+                System.out.println("grid.getParent().getElement().getClientHeight()=="+grid.getElement().getClientHeight());
+            }
+        }
         grid.setHeight("95%");//<<--  ric add 20100216
+        grid.setStyleAttribute("height","95%");//<<--  ric add 20100216
+        if(GXT.isIE || GXT.isIE7 || GXT.isIE8){
+            if(grid!=null){
+                System.out.println("grid.getParent().getOffsetHeight=="+grid.getOffsetHeight());
+                System.out.println("grid.getParent().getElement().getClientHeight()=="+grid.getElement().getClientHeight());
+            }
+            grid.setHeight("550px");//x-auto-98
+        }
         //grid.setAutoHeight(true);
         //grid.set
         grid.setLazyRowRender(0);//<<-- ric add 20100217

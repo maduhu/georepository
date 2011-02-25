@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
@@ -115,13 +116,14 @@ public class RulesController extends Controller {
         registerEventTypes(GeoRepoEvents.INIT_MAPS_UI_MODULE,
                 GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS,
 
-                GeoRepoEvents.RULE_UPDATE_GRID_COMBO, GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO,
-                GeoRepoEvents.RULE_ADD, GeoRepoEvents.RULE_DEL, GeoRepoEvents.RULE_PRIORITY_UP,
-                GeoRepoEvents.RULE_PRIORITY_DOWN,
+                GeoRepoEvents.RULE_UPDATE_GRID_COMBO, GeoRepoEvents.RULE_UPDATE_EDIT_GRID_COMBO,
+                GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO, GeoRepoEvents.RULE_ADD,
+                GeoRepoEvents.RULE_DEL, GeoRepoEvents.RULE_PRIORITY_UP,
+                GeoRepoEvents.RULE_PRIORITY_DOWN, GeoRepoEvents.RULE_SAVE,
 
                 GeoRepoEvents.EDIT_RULE_DETAILS, GeoRepoEvents.EDIT_RULE,
-                GeoRepoEvents.RULE_CUSTOM_PROP_ADD, GeoRepoEvents.RULE_CUSTOM_PROP_DEL,
-                GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY,
+                GeoRepoEvents.EDIT_RULE_UPDATE, GeoRepoEvents.RULE_CUSTOM_PROP_ADD,
+                GeoRepoEvents.RULE_CUSTOM_PROP_DEL, GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY,
                 GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE,
                 GeoRepoEvents.RULE_CUSTOM_PROP_APPLY_CHANGES,
 
@@ -159,16 +161,16 @@ public class RulesController extends Controller {
 
         if (event.getType() == GeoRepoEvents.RULE_UPDATE_GRID_COMBO)
             onUpdateRuleRequestsCombo(event);
-
+        if (event.getType() == GeoRepoEvents.RULE_UPDATE_EDIT_GRID_COMBO)
+            onUpdateEditRuleRequestsCombo(event);
         if (event.getType() == GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO)
             onApplyChangesRules(event);
-
         if (event.getType() == GeoRepoEvents.RULE_ADD)
             onAddRule(event);
-
+        if (event.getType() == GeoRepoEvents.RULE_SAVE)
+            onSaveRule(event);
         if (event.getType() == GeoRepoEvents.RULE_DEL)
             onRemoveRule(event);
-
         if (event.getType() == GeoRepoEvents.RULE_PRIORITY_UP)
             onRulePriorityUp(event);
 
@@ -256,11 +258,94 @@ public class RulesController extends Controller {
                 }
                 // /////////////////////////////////
                 Rule model = (Rule) tabData;
-
                 if (res) {
                     grid.getStore().remove(model);
                     grid.getStore().add(model);
                 }
+
+            }
+        }
+    }
+
+    /**
+     * On update rule requests combo.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onSaveRule(AppEvent event) {
+        if (tabWidget != null) {
+            Object tabData = event.getData();
+
+            if (tabData instanceof Rule) {
+                // /////////////////////////////////
+                RulesTabItem rulesTabItem = (RulesTabItem) tabWidget
+                        .getItemByItemId(RULES_TAB_ITEM_ID);
+                final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
+                        .getRulesInfo();
+                final Grid<Rule> grid = rulesInfoWidget.getGrid();
+
+                boolean res;
+                try {
+                    res = saveRule(event);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    res = false;
+                }
+                // /////////////////////////////////
+                Rule model = (Rule) tabData;
+                if (res) {
+                    grid.getStore().remove(model);
+                    grid.getStore().add(model);
+                }
+
+            }
+        }
+    }
+
+    /**
+     * On update rule requests combo.
+     * 
+     * @param event
+     *            the event
+     */
+    private void onUpdateEditRuleRequestsCombo(AppEvent event) {
+        if (tabWidget != null) {
+            Object tabData = event.getData();
+
+            if (tabData instanceof Rule) {
+                // /////////////////////////////////
+                RulesTabItem rulesTabItem = (RulesTabItem) tabWidget
+                        .getItemByItemId(RULES_TAB_ITEM_ID);
+                final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
+                        .getRulesInfo();
+                final Grid<Rule> grid = rulesInfoWidget.getGrid();
+
+                Rule model = (Rule) tabData;
+                // if(res)
+                this.rulesView.ruleRowEditor.grid.getStore().remove(model);
+                // TODO: details?
+                // model.setId(-1);
+                // if(res)
+                this.rulesView.ruleRowEditor.grid.getStore().add(model);
+                // this.rulesView.ruleRowEditor.repaint();
+                this.rulesView.ruleRowEditor.setModel(model);
+                /*
+                 * List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels()); if
+                 * (checkUniqueRule(rules, (Rule) tabData)) {
+                 * Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                 * I18nProvider.getMessages().ruleServiceName(),
+                 * "There's just another rule with this setting!!" });
+                 * grid.getStore().getLoader().setSortDir(SortDir.ASC);
+                 * grid.getStore().getLoader().setSortField(BeanKeyValue.PRIORITY.getValue());
+                 * grid.getStore().getLoader().load();
+                 * 
+                 * return; } ; boolean res; try { res = saveRule(event); } catch (Exception e) { //
+                 * TODO Auto-generated catch block e.printStackTrace(); res = false; } //
+                 * ///////////////////////////////// Rule model = (Rule) tabData; boolean res =
+                 * true; if (res) { grid.getStore().remove(model); grid.getStore().add(model); }
+                 */
             }
         }
     }
@@ -293,9 +378,10 @@ public class RulesController extends Controller {
                                                             .ruleFetchFailureMessage() });
 
                                     grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                                    grid.getStore().getLoader().setSortField(
-                                            BeanKeyValue.PRIORITY.getValue());
+                                    grid.getStore().getLoader()
+                                            .setSortField(BeanKeyValue.PRIORITY.getValue());
                                     grid.getStore().getLoader().load();
+                                    // GXT.g.hideLoadingPanel("loading");
                                 }
 
                                 public void onSuccess(PagingLoadResult<Rule> result) {
@@ -351,16 +437,16 @@ public class RulesController extends Controller {
                                                     I18nProvider.getMessages()
                                                             .ruleFetchFailureMessage() });
                                     grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                                    grid.getStore().getLoader().setSortField(
-                                            BeanKeyValue.PRIORITY.getValue());
+                                    grid.getStore().getLoader()
+                                            .setSortField(BeanKeyValue.PRIORITY.getValue());
                                     grid.getStore().getLoader().load();
                                     grid.repaint();
                                 }
 
                                 public void onSuccess(PagingLoadResult<Rule> result) {
                                     grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                                    grid.getStore().getLoader().setSortField(
-                                            BeanKeyValue.PRIORITY.getValue());
+                                    grid.getStore().getLoader()
+                                            .setSortField(BeanKeyValue.PRIORITY.getValue());
                                     grid.getStore().getLoader().load();
 
                                     Dispatcher.forwardEvent(
@@ -417,8 +503,8 @@ public class RulesController extends Controller {
 
                                     public void onSuccess(PagingLoadResult<Rule> result) {
                                         grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                                        grid.getStore().getLoader().setSortField(
-                                                BeanKeyValue.PRIORITY.getValue());
+                                        grid.getStore().getLoader()
+                                                .setSortField(BeanKeyValue.PRIORITY.getValue());
                                         grid.getStore().getLoader().load();
                                         // grid.repaint();
 
@@ -464,14 +550,13 @@ public class RulesController extends Controller {
                 final Grid<Rule> grid = rulesInfoWidget.getGrid();
 
                 List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels());
-                Rule new_rule = createNewRule(model);
-                if (checkUniqueRule(rules, new_rule)) {
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                            I18nProvider.getMessages().ruleServiceName(),
-                            "There's just another rule with this setting!!" });
-                    return;
-                }
-
+                Rule new_rule = model;// Constants.getInstance().createNewRule(model);
+                /*
+                 * if (checkUniqueRule(rules, new_rule)) {
+                 * Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                 * I18nProvider.getMessages().ruleServiceName(),
+                 * "There's just another rule with this setting!!" }); return; }
+                 */
                 rulesManagerServiceRemote.shift(new_rule.getPriority(), 1,
                         new AsyncCallback<PagingLoadResult<Rule>>() {
                             public void onFailure(Throwable caught) {
@@ -501,8 +586,8 @@ public class RulesController extends Controller {
 
                             public void onSuccess(PagingLoadResult<Rule> result) {
                                 grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                                grid.getStore().getLoader().setSortField(
-                                        BeanKeyValue.PRIORITY.getValue());
+                                grid.getStore().getLoader()
+                                        .setSortField(BeanKeyValue.PRIORITY.getValue());
                                 grid.getStore().getLoader().load();
 
                                 Dispatcher.forwardEvent(
@@ -570,8 +655,8 @@ public class RulesController extends Controller {
 
                                     public void onSuccess(PagingLoadResult<Rule> result) {
                                         grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                                        grid.getStore().getLoader().setSortField(
-                                                BeanKeyValue.PRIORITY.getValue());
+                                        grid.getStore().getLoader()
+                                                .setSortField(BeanKeyValue.PRIORITY.getValue());
                                         grid.getStore().getLoader().load();
 
                                         Dispatcher.forwardEvent(
@@ -641,8 +726,8 @@ public class RulesController extends Controller {
 
                                     public void onSuccess(PagingLoadResult<Rule> result) {
                                         grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                                        grid.getStore().getLoader().setSortField(
-                                                BeanKeyValue.PRIORITY.getValue());
+                                        grid.getStore().getLoader()
+                                                .setSortField(BeanKeyValue.PRIORITY.getValue());
                                         grid.getStore().getLoader().load();
 
                                         Dispatcher.forwardEvent(
@@ -705,7 +790,7 @@ public class RulesController extends Controller {
      * @param rule
      * @return
      */
-    private boolean checkUniqueRule(List<Rule> list, Rule rule) {
+    public boolean checkUniqueRule(List<Rule> list, Rule rule) {
         boolean res = false;
         if (list.size() > 0) {
             Iterator itr = list.iterator();

@@ -61,7 +61,9 @@ public class UserManagementWidget extends ContentPanel {
         setFrame(true);
         //setHeight("100%");
         setLayout(new FitLayout());
-
+        if(this.getParent()!=null){
+            System.out.println("parent height: "+getParent().getOffsetHeight());
+        }
         setUsersInfo(new UserGridWidget(gsManagerServiceRemote, profilesManagerServiceRemote));
 
         add(getUsersInfo().getGrid());

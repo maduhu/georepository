@@ -352,6 +352,9 @@ public class GeoRepoEvents {
     /** The Constant RULE_UPDATE_GRID_COMBO. */
     public static final EventType RULE_UPDATE_GRID_COMBO = new EventType();
 
+    /** The Constant RULE_UPDATE_EDIT_GRID_COMBO. */
+    public static final EventType RULE_UPDATE_EDIT_GRID_COMBO = new EventType();
+    
     /** The Constant RULE_APPLY_CHANGES_GRID_COMBO. */
     public static final EventType RULE_APPLY_CHANGES_GRID_COMBO = new EventType();
 
@@ -361,6 +364,8 @@ public class GeoRepoEvents {
     /** The Constant RULE_ADD. */
     public static final EventType RULE_ADD = new EventType();
 
+    /** The Constant RULE_SAVE. */
+    public static final EventType RULE_SAVE = new EventType();
     /** The Constant RULE_PRIORITY_UP. */
     public static final EventType RULE_PRIORITY_UP = new EventType();
 
@@ -369,6 +374,9 @@ public class GeoRepoEvents {
 
     /** **/
     public static final EventType EDIT_RULE = new EventType();
+    
+    /** **/
+    public static final EventType EDIT_RULE_UPDATE = new EventType();
     
     /** **/
     public static final EventType EDIT_RULE_DETAILS = new EventType();
