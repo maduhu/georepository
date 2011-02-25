@@ -34,9 +34,12 @@ package it.geosolutions.georepo.gui.server.gwt;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
 import it.geosolutions.georepo.gui.server.service.IProfilesManagerService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
+
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +91,22 @@ public class ProfilesManagerServiceImpl extends RemoteServiceServlet implements
      */
     public void saveProfile(Profile profile) throws ApplicationException {
         profilesManagerService.saveProfile(profile);
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getProfileCustomProps(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+     */
+    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(PagingLoadConfig config, 
+            Profile profile) throws ApplicationException{
+        return profilesManagerService.getProfileCustomProps(config, profile);
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#setProfileProps(java.lang.Long, java.util.List)
+     */
+    public void setProfileProps(Long profileId, List<ProfileCustomProps> customProps) 
+        throws ApplicationException{        
+        profilesManagerService.setProfileProps(profileId, customProps);
     }
     
 }

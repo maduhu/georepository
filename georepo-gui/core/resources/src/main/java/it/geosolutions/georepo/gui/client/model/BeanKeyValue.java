@@ -115,13 +115,15 @@ public enum BeanKeyValue {
     
     STYLE_ENABLED("style_enable"),
     
-//    STYLE("layer_style"),
-    
     ALLOWED_AREA("allowed_area"),
     
     CQL_READ("cql_read"),
     
-    CQL_WRITE("cql_read");
+    CQL_WRITE("cql_read"),
+    
+    PROFILE_PROP_VALUE("profile_value"),
+    
+    PROFILE_PROP_KEY("profile_key");
     
     
     /** The value. */

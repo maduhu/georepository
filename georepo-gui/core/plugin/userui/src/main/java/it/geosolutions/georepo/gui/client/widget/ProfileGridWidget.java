@@ -153,15 +153,22 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
         profileEnabledColumn.setSortable(false);
         configs.add(profileEnabledColumn);
 
+        ColumnConfig detailsActionColumn = new ColumnConfig();
+        detailsActionColumn.setId("detailsProfile");
+        detailsActionColumn.setWidth(80);
+        detailsActionColumn.setRenderer(this.createProfileDetailsButton());
+        detailsActionColumn.setMenuDisabled(true);
+        detailsActionColumn.setSortable(false);
+        configs.add(detailsActionColumn);
+        
         ColumnConfig removeActionColumn = new ColumnConfig();
         removeActionColumn.setId("removeProfile");
-        // removeActionColumn.setHeader("Remove");
         removeActionColumn.setWidth(80);
         removeActionColumn.setRenderer(this.createProfileDeleteButton());
         removeActionColumn.setMenuDisabled(true);
         removeActionColumn.setSortable(false);
         configs.add(removeActionColumn);
-
+        
         return new ColumnModel(configs);
     }
 
@@ -460,6 +467,56 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                 });
 
                 return removeProfileButton;
+            }
+
+        };
+
+        return buttonRendered;
+    }
+    
+    /**
+     * Creates the profile details button.
+     * 
+     * @return the grid cell renderer
+     */
+    private GridCellRenderer<Profile> createProfileDetailsButton() {
+        GridCellRenderer<Profile> buttonRendered = new GridCellRenderer<Profile>() {
+
+            private boolean init;
+
+            public Object render(final Profile model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<Profile> store, Grid<Profile> grid) {
+
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<Profile>>() {
+
+                        public void handleEvent(GridEvent<Profile> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                Button detailsProfileButton = new Button("Details");
+                detailsProfileButton.setIcon(Resources.ICONS.table());
+
+                detailsProfileButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+
+                    public void handleEvent(ButtonEvent be) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                "GeoServer Profile", "Profile Details: " + model.getName() });
+
+                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_PROFILE_DETAILS, model);
+                    }
+                });
+
+                return detailsProfileButton;
             }
 
         };

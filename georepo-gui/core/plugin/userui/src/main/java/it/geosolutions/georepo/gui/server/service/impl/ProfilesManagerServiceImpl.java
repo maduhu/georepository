@@ -34,14 +34,17 @@ package it.geosolutions.georepo.gui.server.service.impl;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 import it.geosolutions.georepo.gui.server.service.IProfilesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 import it.geosolutions.georepo.services.dto.ShortProfile;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -179,5 +182,67 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
                 throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
             } 
         }
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IProfilesManagerService#getProfileCustomProps(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+     */
+    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(PagingLoadConfig config, Profile profile){
+        int start = config.getOffset();
+        Long t = new Long(0);
+
+        List<ProfileCustomProps> customPropsDTO = new ArrayList<ProfileCustomProps>();
+
+        if (profile != null && profile.getId() >= 0) {
+            try {
+                Map<String, String> customProperties = georepoRemoteService.getProfileAdminService()
+                        .getCustomProps(profile.getId());
+
+                if (customProperties == null) {
+                    if (logger.isErrorEnabled())
+                        logger.error("No property found on server");
+                    throw new ApplicationException("No rule found on server");
+                }
+
+                long rulesCount = customProperties.size();
+
+                t = new Long(rulesCount);
+
+                int page = start == 0 ? start : start / config.getLimit();
+
+                for (String key : customProperties.keySet()) {
+                    ProfileCustomProps property = new ProfileCustomProps();
+                    property.setPropKey(key);
+                    property.setPropValue(customProperties.get(key));
+                    customPropsDTO.add(property);
+                }
+            } catch (Exception e) {
+                // do nothing!
+            }
+        }
+
+        return new BasePagingLoadResult<ProfileCustomProps>(customPropsDTO, config.getOffset(), t
+                .intValue());
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IProfilesManagerService#setProfileProps(java.lang.Long, java.util.List)
+     */
+    public void setProfileProps(Long profileId, List<ProfileCustomProps> customProps){
+        Map<String, String> props = new HashMap<String, String>();
+
+        for (ProfileCustomProps prop : customProps) {
+            props.put(prop.getPropKey(), prop.getPropValue());
+        }
+        
+//        LayerDetails details = null;
+//        try {
+//            details = georepoRemoteService.getRuleAdminService().getDetails(ruleId);
+//        } catch (Exception e) {
+//            details = new LayerDetails();
+//            georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
+//        }
+        
+        georepoRemoteService.getProfileAdminService().setCustomProps(profileId, props);
     }
 }

@@ -34,6 +34,9 @@ package it.geosolutions.georepo.gui.server.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
+
+import java.util.List;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -73,4 +76,17 @@ public interface IProfilesManagerService {
      *            the profile
      */
     public void saveProfile(Profile profile);
+    
+    /**
+     * @param config
+     * @param rule
+     * @return
+     */
+    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(PagingLoadConfig config, Profile profile);
+    
+    /**
+     * @param ruleId
+     * @param customProps
+     */
+    public void setProfileProps(Long profileId, List<ProfileCustomProps> customProps); 
 }

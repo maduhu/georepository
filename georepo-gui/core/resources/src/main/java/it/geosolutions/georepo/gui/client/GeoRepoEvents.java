@@ -434,4 +434,22 @@ public class GeoRepoEvents {
     
     /** **/
     public static final EventType AVAILABLE_STYLES_UPDATE_GRID = new EventType();
+    
+    /** **/
+    public static final EventType RULE_PROFILE_CUSTOM_PROP_UPDATE_KEY = new EventType();
+    
+    /** **/
+    public static final EventType RULE_PROFILE_CUSTOM_PROP_UPDATE_VALUE = new EventType();
+    
+    /** **/
+    public static final EventType RULE_PROFILE_CUSTOM_PROP_DEL = new EventType();
+    
+    /** **/
+    public static final EventType RULE_PROFILE_CUSTOM_PROP_ADD = new EventType();
+    
+    /** **/
+    public static final EventType RULE_PROFILE_CUSTOM_PROP_APPLY_CHANGES = new EventType();
+    
+    /** **/
+    public static final EventType EDIT_PROFILE_DETAILS = new EventType();
 }

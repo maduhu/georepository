@@ -35,10 +35,12 @@ package it.geosolutions.georepo.gui.client.view;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
@@ -51,11 +53,14 @@ import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.EditRuleWidget;
 import it.geosolutions.georepo.gui.client.widget.GridStatus;
+import it.geosolutions.georepo.gui.client.widget.dialog.ProfileDetailsEditDialog;
 import it.geosolutions.georepo.gui.client.widget.dialog.RuleDetailsEditDialog;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesGridWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesTabItem;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsGridWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsTabItem;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.ProfileDetailsGridWidget;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.ProfileDetailsTabItem;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsGridWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsInfoWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsTabItem;
@@ -100,6 +105,9 @@ public class RulesView extends View {
 
     /** The rule editor dialog. */
     private RuleDetailsEditDialog ruleEditorDialog;
+    
+    /** The profile editor dialog. */
+    private ProfileDetailsEditDialog profileEditorDialog;
 
     public EditRuleWidget ruleRowEditor;
 
@@ -115,6 +123,9 @@ public class RulesView extends View {
         this.ruleEditorDialog = new RuleDetailsEditDialog(rulesManagerServiceRemote,
                 workspacesManagerServiceRemote);
         ruleEditorDialog.setClosable(false);
+        
+        this.profileEditorDialog = new ProfileDetailsEditDialog(profilesManagerServiceRemote);
+        profileEditorDialog.setClosable(false);
 
         this.ruleRowEditor = new EditRuleWidget(GeoRepoEvents.SAVE_USER, true,
                 rulesManagerServiceRemote, null, null, null, null);
@@ -166,7 +177,201 @@ public class RulesView extends View {
         if (event.getType() == GeoRepoEvents.UPDATE_SOUTH_SIZE) {
             // logger
         }
+        
+        if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_KEY)
+            onRuleProfileCustomPropUpdateKey(event);
+        
+        if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_VALUE)
+            onRuleProfileCustomPropUpdateValue(event);
+        
+        if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_DEL)
+            onRuleProfileCustomPropRemove(event);
+        
+        if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_ADD)
+            onRuleProfileCustomPropAdd(event);
+        
+        if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_APPLY_CHANGES)
+            onRuleProfileCustomPropSave(event);
 
+        if (event.getType() == GeoRepoEvents.EDIT_PROFILE_DETAILS)
+            onEditProfileDetails(event);
+    }
+
+    /**
+     * @param event
+     */
+    private void onEditProfileDetails(AppEvent event) {
+        if (event.getData() != null && event.getData() instanceof Profile) {
+            this.profileEditorDialog.reset();
+            this.profileEditorDialog.setModel((Profile) event.getData());
+            this.profileEditorDialog.show();
+        } else {
+            // TODO: i18n!!
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                    "Rules Editor", "Could not found any associated rule!" });
+        }
+    }
+
+    /**
+     * @param event
+     */
+    private void onRuleProfileCustomPropSave(AppEvent event) {
+
+        Long profileId = event.getData();
+
+        ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
+                .getTabWidget().getItemByItemId(ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+
+        final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
+                .getProfileDetailsWidget().getProfileDetailsInfo();
+
+        profilesManagerServiceRemote.setProfileProps(profileId, profileCustomPropsInfo.getStore()
+                .getModels(), new AsyncCallback<PagingLoadResult<ProfileCustomProps>>() {
+
+            public void onFailure(Throwable caught) {
+
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                        I18nProvider.getMessages().ruleServiceName(),
+                        "Error occurred while saving Rule Custom Properties!" });
+            }
+
+            public void onSuccess(PagingLoadResult<ProfileCustomProps> result) {
+
+                profileCustomPropsInfo.getStore().getLoader().setSortDir(SortDir.ASC);
+                profileCustomPropsInfo.getStore().getLoader().load();
+
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                        I18nProvider.getMessages().ruleServiceName(),
+                        I18nProvider.getMessages().ruleFetchSuccessMessage() });
+            }
+        });
+    }
+
+    /**
+     * @param event
+     */
+    private void onRuleProfileCustomPropAdd(AppEvent event) {
+
+        if (event.getData() != null) {
+
+            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
+                    .getTabWidget().getItemByItemId(
+                            ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+
+            final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
+                    .getProfileDetailsWidget().getProfileDetailsInfo();
+
+            ProfileCustomProps model = new ProfileCustomProps();
+            model.setPropKey("_new");
+            profileCustomPropsInfo.getStore().add(model);
+
+            profileCustomPropsInfo.getGrid().repaint();
+
+        } else {
+            // TODO: i18n!!
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                    "Rules Details Editor", "Could not found any associated rule!" });
+        }
+    }
+
+    /**
+     * @param event
+     */
+    private void onRuleProfileCustomPropRemove(AppEvent event) {
+        if (event.getData() != null) {
+            Map<Long, ProfileCustomProps> updateDTO = event.getData();
+
+            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
+                    .getTabWidget().getItemByItemId(
+                            ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+
+            final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
+                    .getProfileDetailsWidget().getProfileDetailsInfo();
+
+            for (Long ruleId : updateDTO.keySet()) {
+                ProfileCustomProps dto = updateDTO.get(ruleId);
+
+                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels()) {
+                    if (prop.getPropKey().equals(dto.getPropKey()))
+                        profileCustomPropsInfo.getStore().remove(prop);
+                }
+            }
+
+            profileCustomPropsInfo.getGrid().repaint();
+
+        } else {
+            // TODO: i18n!!
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                    "Rules Details Editor", "Could not found any associated rule!" });
+        }
+    }
+
+    /**
+     * @param event
+     */
+    private void onRuleProfileCustomPropUpdateValue(AppEvent event) {
+        
+        if (event.getData() != null) {
+            
+            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
+                    .getTabWidget().getItemByItemId(
+                            ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+
+            final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
+                    .getProfileDetailsWidget().getProfileDetailsInfo();
+
+            Map<String, ProfileCustomProps> updateDTO = event.getData();
+
+            for (String key : updateDTO.keySet()) {
+                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels()) {
+                    if (prop.getPropKey().equals(key)) {
+                        profileCustomPropsInfo.getStore().remove(prop);
+                        ProfileCustomProps newModel = updateDTO.get(key);
+                        profileCustomPropsInfo.getStore().add(newModel);
+                    }
+                }
+            }
+
+            profileCustomPropsInfo.getGrid().repaint();
+            
+        } else {
+            // TODO: i18n!!
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                    "Profile Details Editor", "Could not found any associated rule!" });
+        }
+    }
+
+    /**
+     * @param event
+     */
+    private void onRuleProfileCustomPropUpdateKey(AppEvent event) {
+        
+        if (event.getData() != null) {
+            
+            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
+                    .getTabWidget().getItemByItemId(ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+            
+            final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
+                    .getProfileDetailsWidget().getProfileDetailsInfo();
+
+            Map<String, ProfileCustomProps> updateDTO = event.getData();
+
+            for (String key : updateDTO.keySet()) {
+                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels()) {
+                    if (prop.getPropKey().equals(key)) {
+                        profileCustomPropsInfo.getStore().remove(prop);
+                        ProfileCustomProps newModel = updateDTO.get(key);
+                        profileCustomPropsInfo.getStore().add(newModel);
+                    }
+                }
+            }
+
+            profileCustomPropsInfo.getGrid().repaint();
+        } else {
+            // TODO: i18n!!
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                    "Profile Details Editor", "Could not found any associated rule!" });
+        }
     }
 
     /**

@@ -33,6 +33,9 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
+
+import java.util.List;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -77,4 +80,18 @@ public interface ProfilesManagerServiceRemoteAsync {
      */
     public void deleteProfile(Profile profile, AsyncCallback<PagingLoadResult<Profile>> asyncCallback);
 
+    
+    /**
+     * @param ruleId
+     * @param customProps
+     * @param callback
+     */
+    public void getProfileCustomProps(PagingLoadConfig config, Profile profile, AsyncCallback<PagingLoadResult<ProfileCustomProps>> callback);
+    
+    /**
+     * @param ruleId
+     * @param customProps
+     * @param callback
+     */
+    public void setProfileProps(Long profileId, List<ProfileCustomProps> customProps, AsyncCallback<PagingLoadResult<ProfileCustomProps>> callback);
 }

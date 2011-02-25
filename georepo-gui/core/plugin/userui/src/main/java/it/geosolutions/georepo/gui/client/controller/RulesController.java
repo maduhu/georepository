@@ -32,7 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
-import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
@@ -128,7 +127,15 @@ public class RulesController extends Controller {
 
                 GeoRepoEvents.SAVE_LAYER_DETAILS, GeoRepoEvents.LOAD_LAYER_DETAILS,
 
-                GeoRepoEvents.AVAILABLE_STYLES_UPDATE_GRID);
+                GeoRepoEvents.AVAILABLE_STYLES_UPDATE_GRID,
+                
+                GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_KEY,
+                GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_VALUE,
+                GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_DEL,
+                GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_ADD,
+                GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_APPLY_CHANGES,
+                
+                GeoRepoEvents.EDIT_PROFILE_DETAILS);
 
     }
 
