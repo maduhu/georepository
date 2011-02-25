@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget.tab;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.InstanceManagementWidget;
@@ -68,11 +69,13 @@ public class InstancesTabItem extends TabItem {
      */
     public InstancesTabItem(String tabItemId, InstancesManagerServiceRemoteAsync instancesManagerServiceRemote) {
         this(tabItemId);
+        setScrollMode(Scroll.NONE);
+        setAutoWidth(true);
+        setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
+        
         setInstanceManagementWidget(new InstanceManagementWidget(instancesManagerServiceRemote));
         add(getInstanceManagementWidget());
 
-        setScrollMode(Scroll.NONE);
-        //setHeight("100%");
         getInstanceManagementWidget().getInstancesInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }

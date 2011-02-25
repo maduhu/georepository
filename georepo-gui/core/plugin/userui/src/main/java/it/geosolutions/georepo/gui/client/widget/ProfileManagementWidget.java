@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
@@ -54,19 +55,16 @@ public class ProfileManagementWidget extends ContentPanel {
      *            the profiles manager service remote
      */
     public ProfileManagementWidget(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+        setMonitorWindowResize(true);
         setHeaderVisible(false);
         setFrame(true);
-        //setHeight("100%");
         setLayout(new FitLayout());
+        setScrollMode(Scroll.NONE);
+        setAutoWidth(true);
+        setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
 
         setProfilesInfo(new ProfileGridWidget(profilesManagerServiceRemote));
-
         add(getProfilesInfo().getGrid());
-
-        super.setMonitorWindowResize(true);
-
-        setScrollMode(Scroll.NONE);
-
         setBottomComponent(this.getProfilesInfo().getToolBar());
     }
 

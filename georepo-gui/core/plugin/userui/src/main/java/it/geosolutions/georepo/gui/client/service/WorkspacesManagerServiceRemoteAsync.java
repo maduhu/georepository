@@ -33,8 +33,12 @@
 package it.geosolutions.georepo.gui.client.service;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
+
+import java.util.List;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -76,4 +80,10 @@ public interface WorkspacesManagerServiceRemoteAsync {
      */
     public void getLayers(PagingLoadConfig loadConfig, String baseURL, String workspace, AsyncCallback<PagingLoadResult<Layer>> callback);
 
+    /**
+     * @param gsInstance
+     * @param callback
+     */
+    public void getStyles(Rule rule, AsyncCallback<List<LayerStyle>> callback);
+    
 }

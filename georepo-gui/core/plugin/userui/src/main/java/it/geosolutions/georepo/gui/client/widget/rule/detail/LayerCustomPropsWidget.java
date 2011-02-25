@@ -61,7 +61,7 @@ public class LayerCustomPropsWidget extends ContentPanel {
         
         setHeaderVisible(false);
         setFrame(true);
-        setHeight(300);
+        setHeight(330);
         setLayout(new FitLayout());
 
         setLayerCustomPropsInfo(new LayerCustomPropsGridWidget(model, rulesService));
@@ -82,7 +82,6 @@ public class LayerCustomPropsWidget extends ContentPanel {
      */
     @Override
     protected void onWindowResize(int width, int height) {
-        // TODO Auto-generated method stub
         super.setWidth(width - 5);
         super.layout();
     }

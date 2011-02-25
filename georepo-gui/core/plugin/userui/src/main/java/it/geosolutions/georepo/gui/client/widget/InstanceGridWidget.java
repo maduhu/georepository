@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
@@ -117,13 +118,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
      */
     @Override
     public void setGridProperties() {
-        // grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
-        // grid.addPlugin(emailEnable);
-        // grid.addPlugin(rssEnable);
-
-        grid.setLoadMask(true);
-        grid.setAutoWidth(true);
-        //grid.setHeight("100%");<<-- ric mod re 20100217
+        grid.setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
     }
 
     /*
@@ -165,7 +160,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         instanceBaseUrl.setMenuDisabled(true);
         instanceBaseUrl.setSortable(false);
         configs.add(instanceBaseUrl);
-        
+
         ColumnConfig instanceUsername = new ColumnConfig();
         instanceUsername.setId(BeanKeyValue.USER_NAME.getValue());
         instanceUsername.setHeader("Username");
@@ -174,8 +169,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         instanceUsername.setMenuDisabled(true);
         instanceUsername.setSortable(false);
         configs.add(instanceUsername);
-        
-        
+
         ColumnConfig instancePassword = new ColumnConfig();
         instancePassword.setId(BeanKeyValue.PASSWORD.getValue());
         instancePassword.setHeader("Password");
@@ -184,10 +178,9 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         instancePassword.setMenuDisabled(true);
         instancePassword.setSortable(false);
         configs.add(instancePassword);
-        
+
         ColumnConfig removeActionColumn = new ColumnConfig();
         removeActionColumn.setId("removeInstance");
-        // removeActionColumn.setHeader("Remove");
         removeActionColumn.setWidth(80);
         removeActionColumn.setRenderer(this.createInstanceDeleteButton());
         removeActionColumn.setMenuDisabled(true);
@@ -204,13 +197,15 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
      */
     @Override
     public void createStore() {
-        this.toolBar = new PagingToolBar(it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+        this.toolBar = new PagingToolBar(
+                it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
         // Loader fro service
         this.proxy = new RpcProxy<PagingLoadResult<GSInstance>>() {
 
             @Override
-            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<GSInstance>> callback) {
+            protected void load(Object loadConfig,
+                    AsyncCallback<PagingLoadResult<GSInstance>> callback) {
                 service.getInstances((PagingLoadConfig) loadConfig, false, callback);
             }
 
@@ -218,14 +213,14 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
         loader.setRemoteSort(false);
         store = new ListStore<GSInstance>(loader);
-        //store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
+        // store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
 
         // Search tool
         SearchFilterField<GSInstance> filter = new SearchFilterField<GSInstance>() {
 
             @Override
-            protected boolean doSelect(Store<GSInstance> store, GSInstance parent, GSInstance record,
-                    String property, String filter) {
+            protected boolean doSelect(Store<GSInstance> store, GSInstance parent,
+                    GSInstance record, String property, String filter) {
 
                 String name = parent.get(BeanKeyValue.NAME.getValue());
                 name = name.toLowerCase();
@@ -253,7 +248,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
             public void handleEvent(ButtonEvent be) {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "GeoServer Instance", "Add Instance" });
-                
+
                 Dispatcher.forwardEvent(GeoRepoEvents.CREATE_NEW_INSTANCE);
             }
         });
@@ -264,11 +259,6 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
-        //this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add 20100216
-        //this.toolBar.setStyleAttribute("top", "96%");//<<-- ric add 20100217
-        //this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add 20100217
-        // this.toolBar.disable();
-        //this.toolBar.setStyleAttribute("float", "bottom");
         setUpLoadListener();
     }
 
@@ -369,16 +359,17 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
                 TextField<String> instanceNameTextBox = new TextField<String>();
                 instanceNameTextBox.setWidth(150);
                 // TODO: add correct tooltip text here!
-                //instanceNameTextBox("Test");
-                
+                // instanceNameTextBox("Test");
+
                 instanceNameTextBox.setValue(model.getName());
 
                 instanceNameTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Instance", "Instance name changed to -> " + be.getField().getValue() });
-                        
+                                "GeoServer Instance",
+                                "Instance name changed to -> " + be.getField().getValue() });
+
                         model.setName((String) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_INSTANCE, model);
                     }
@@ -390,7 +381,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
 
         return buttonRendered;
     }
-    
+
     /**
      * Creates the description.
      * 
@@ -423,16 +414,17 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
                 TextField<String> instanceDescriptionTextBox = new TextField<String>();
                 instanceDescriptionTextBox.setWidth(150);
                 // TODO: add correct tooltip text here!
-                //instanceNameTextBox("Test");
-                
+                // instanceNameTextBox("Test");
+
                 instanceDescriptionTextBox.setValue(model.getDescription());
 
                 instanceDescriptionTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Instance", "Instance description changed to -> " + be.getField().getValue() });
-                        
+                                "GeoServer Instance",
+                                "Instance description changed to -> " + be.getField().getValue() });
+
                         model.setDescription((String) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_INSTANCE, model);
                     }
@@ -444,7 +436,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
 
         return buttonRendered;
     }
-    
+
     /**
      * Creates the base url.
      * 
@@ -477,16 +469,17 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
                 TextField<String> instanceBaseUrlTextBox = new TextField<String>();
                 instanceBaseUrlTextBox.setWidth(150);
                 // TODO: add correct tooltip text here!
-                //instanceNameTextBox("Test");
-                
+                // instanceNameTextBox("Test");
+
                 instanceBaseUrlTextBox.setValue(model.getBaseURL());
 
                 instanceBaseUrlTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Instance", "Instance baseurl changed to -> " + be.getField().getValue() });
-                        
+                                "GeoServer Instance",
+                                "Instance baseurl changed to -> " + be.getField().getValue() });
+
                         model.setBaseURL((String) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_INSTANCE, model);
                     }
@@ -498,7 +491,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
 
         return buttonRendered;
     }
-    
+
     /**
      * Creates the username.
      * 
@@ -531,16 +524,17 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
                 TextField<String> instanceUsernameTextBox = new TextField<String>();
                 instanceUsernameTextBox.setWidth(150);
                 // TODO: add correct tooltip text here!
-                //instanceNameTextBox("Test");
-                
+                // instanceNameTextBox("Test");
+
                 instanceUsernameTextBox.setValue(model.getUsername());
 
                 instanceUsernameTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Instance", "Instance username changed to -> " + be.getField().getValue() });
-                        
+                                "GeoServer Instance",
+                                "Instance username changed to -> " + be.getField().getValue() });
+
                         model.setUsername((String) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_INSTANCE, model);
                     }
@@ -552,7 +546,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
 
         return buttonRendered;
     }
-    
+
     /**
      * Creates the username.
      * 
@@ -585,16 +579,17 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
                 TextField<String> instancePasswordTextBox = new TextField<String>();
                 instancePasswordTextBox.setWidth(150);
                 // TODO: add correct tooltip text here!
-                //instanceNameTextBox("Test");
-                
+                // instanceNameTextBox("Test");
+
                 instancePasswordTextBox.setValue(model.getPassword());
 
                 instancePasswordTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Instance", "Instance password changed to -> " + be.getField().getValue() });
-                        
+                                "GeoServer Instance",
+                                "Instance password changed to -> " + be.getField().getValue() });
+
                         model.setPassword((String) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_INSTANCE, model);
                     }
@@ -606,7 +601,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
 
         return buttonRendered;
     }
-    
+
     /**
      * Creates the instance delete button.
      * 
@@ -645,7 +640,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
                     public void handleEvent(ButtonEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Instance", "Remove Instance: " + model.getName() });
-                        
+
                         Dispatcher.forwardEvent(GeoRepoEvents.DELETE_INSTANCE, model);
                     }
                 });

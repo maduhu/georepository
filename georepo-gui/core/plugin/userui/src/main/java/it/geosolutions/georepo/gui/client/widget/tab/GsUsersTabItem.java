@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget.tab;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
@@ -70,14 +71,15 @@ public class GsUsersTabItem extends TabItem {
     public GsUsersTabItem(String tabItemId, GsUsersManagerServiceRemoteAsync gsManagerServiceRemote,
             ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
         this(tabItemId);
+        setScrollMode(Scroll.NONE);
+        setAutoWidth(true);
+        setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
+        
         setUserManagementWidget(new UserManagementWidget(gsManagerServiceRemote,
                 profilesManagerServiceRemote));
         add(getUserManagementWidget());
 
-        setScrollMode(Scroll.NONE);
-        //setHeight("100%");
         getUserManagementWidget().getUsersInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
-
     }
 
     /**

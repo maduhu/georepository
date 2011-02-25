@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
@@ -118,13 +119,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
      */
     @Override
     public void setGridProperties() {
-        // grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
-        // grid.addPlugin(emailEnable);
-        // grid.addPlugin(rssEnable);
-
-        grid.setLoadMask(true);
-        grid.setAutoWidth(true);
-        //grid.setHeight("100%");<<-- ric mod re 20100217
+        grid.setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
     }
 
     /*
@@ -177,7 +172,8 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
      */
     @Override
     public void createStore() {
-        this.toolBar = new PagingToolBar(it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+        this.toolBar = new PagingToolBar(
+                it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
         // Loader fro service
         this.proxy = new RpcProxy<PagingLoadResult<Profile>>() {
@@ -191,7 +187,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
         loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
         loader.setRemoteSort(false);
         store = new ListStore<Profile>(loader);
-        //store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
+        // store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
 
         // Search tool
         SearchFilterField<Profile> filter = new SearchFilterField<Profile>() {
@@ -226,7 +222,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
             public void handleEvent(ButtonEvent be) {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         "GeoServer Profile", "Add Profile" });
-                
+
                 Dispatcher.forwardEvent(GeoRepoEvents.CREATE_NEW_PROFILE);
             }
         });
@@ -237,12 +233,12 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
-        //this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add 20100216
-        //this.toolBar.setStyleAttribute("top", "96%");//<<-- ric add 20100217
-        //this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add 20100217
+        // this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add 20100216
+        // this.toolBar.setStyleAttribute("top", "96%");//<<-- ric add 20100217
+        // this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add 20100217
         // this.toolBar.disable();
-        //this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add 20100216
-        
+        // this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add 20100216
+
         setUpLoadListener();
     }
 
@@ -343,16 +339,17 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                 TextField<String> profileNameTextBox = new TextField<String>();
                 profileNameTextBox.setWidth(150);
                 // TODO: add correct tooltip text here!
-                //profileNameTextBox("Test");
-                
+                // profileNameTextBox("Test");
+
                 profileNameTextBox.setValue(model.getName());
 
                 profileNameTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
 
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Profile", "Profile name changed to -> " + be.getField().getValue() });
-                        
+                                "GeoServer Profile",
+                                "Profile name changed to -> " + be.getField().getValue() });
+
                         model.setName((String) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_PROFILE, model);
                     }
@@ -364,7 +361,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
 
         return buttonRendered;
     }
-    
+
     /**
      * Creates the enable check box.
      * 
@@ -397,8 +394,8 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
 
                 CheckBox profileEnabledButton = new CheckBox();
                 // TODO: add correct tooltip text here!
-                //profileEnabledButton.setToolTip("Test");
-                
+                // profileEnabledButton.setToolTip("Test");
+
                 profileEnabledButton.setValue(model.isEnabled());
 
                 profileEnabledButton.addListener(Events.OnClick, new Listener<FieldEvent>() {
@@ -406,7 +403,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                     public void handleEvent(FieldEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Profile", "Enable check!" });
-                        
+
                         model.setEnabled((Boolean) be.getField().getValue());
                         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_PROFILE, model);
                     }
@@ -457,7 +454,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
                     public void handleEvent(ButtonEvent be) {
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                                 "GeoServer Profile", "Remove Profile: " + model.getName() });
-                        
+
                         Dispatcher.forwardEvent(GeoRepoEvents.DELETE_PROFILE, model);
                     }
                 });

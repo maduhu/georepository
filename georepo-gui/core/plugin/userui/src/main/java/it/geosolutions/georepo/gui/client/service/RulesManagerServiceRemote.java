@@ -34,7 +34,10 @@ package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
+import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 
 import java.util.List;
 
@@ -167,4 +170,38 @@ public interface RulesManagerServiceRemote extends RemoteService {
      *             the application exception
      */
     public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps) throws ApplicationException;
+    
+    /**
+     * Gets the layer attributes.
+     * 
+     * @param rule
+     *            the rule
+     * @return the layer attributes
+     * @throws ApplicationException
+     *             the application exception
+     */
+    public List<LayerAttribUI> getLayerAttributes(Rule rule) throws ApplicationException;
+    
+    /**
+     * @param ruleId
+     * @param layerAttributes
+     * @throws ApplicationException
+     */
+    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes) throws ApplicationException;
+    
+    /**
+     * @param layerDetailsForm
+     * @return
+     * @throws ApplicationException
+     */
+    public LayerDetailsInfo saveLayerDetailsInfo(LayerDetailsInfo layerDetailsForm, List<LayerStyle> layerStyles) throws ApplicationException;
+    
+    /**
+     * @param rule
+     * @param callback
+     * @return LayerDetailsForm
+     * @throws ApplicationException
+     */
+    public LayerDetailsInfo getLayerDetailsInfo(Rule rule) throws ApplicationException;
+   
 }

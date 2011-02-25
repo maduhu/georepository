@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
 
 import com.extjs.gxt.ui.client.Style.Scroll;
@@ -54,19 +55,16 @@ public class InstanceManagementWidget extends ContentPanel {
      *            the instances manager service remote
      */
     public InstanceManagementWidget(InstancesManagerServiceRemoteAsync instancesManagerServiceRemote) {
+        setMonitorWindowResize(true);
         setHeaderVisible(false);
         setFrame(true);
-        //setHeight("100%");
         setLayout(new FitLayout());
+        setScrollMode(Scroll.NONE);
+        setAutoWidth(true);
+        setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
 
         setInstancesInfo(new InstanceGridWidget(instancesManagerServiceRemote));
-
         add(getInstancesInfo().getGrid());
-
-        super.setMonitorWindowResize(true);
-
-        setScrollMode(Scroll.NONE);
-
         setBottomComponent(this.getInstancesInfo().getToolBar());
     }
 

@@ -53,11 +53,8 @@ import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
-import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
@@ -68,33 +65,22 @@ import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoader;
 import com.extjs.gxt.ui.client.data.RpcProxy;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.GridEvent;
-import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.LoadListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.store.Store;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
-import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.Field;
-import com.extjs.gxt.ui.client.widget.form.Field.FieldMessages;
 import com.extjs.gxt.ui.client.widget.form.LabelField;
-import com.extjs.gxt.ui.client.widget.form.ListField;
-import com.extjs.gxt.ui.client.widget.form.TextArea;
-import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
-import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -227,17 +213,12 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      */
     @Override
     public void setGridProperties() {
-        // grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
-        // grid.addPlugin(emailEnable);
-        // grid.addPlugin(rssEnable);
+        grid.setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
 
-        grid.setLoadMask(true);
-        grid.setAutoWidth(true);
         if (grid.getStore() != null) {
             grid.getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
             grid.getStore().setSortDir(SortDir.ASC);
         }
-        // grid.setHeight("100%");<<-- ric mod re 20100217
     }
 
     /*
@@ -400,8 +381,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -417,7 +398,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 }
 
                 LabelField usersCustomField = new LabelField();// (ListField)
-                                                               // getAvailableUsers().getModels()
+                // getAvailableUsers().getModels()
                 usersCustomField.setId("ruleUsersCombo");
                 usersCustomField.setName("ruleUsersCombo");
                 usersCustomField.setEmptyText("*");
@@ -502,8 +483,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -594,8 +575,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -692,8 +673,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -808,8 +789,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -934,8 +915,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -1029,8 +1010,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -1125,8 +1106,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -1143,6 +1124,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 grantsCustomField.setWidth(COLUMN_GRANT_WIDTH - 10);
 
                 if (model.getGrant() != null) {
+                    // grantsComboBox.setValue(new Grant(model.getGrant()));
+                    // grantsComboBox.setSelection(Arrays.asList(new Grant(model.getGrant())));
                     grantsCustomField.setValue(model.getGrant());
                 } else {
                     grantsCustomField.setValue("ALLOW");
@@ -1216,8 +1199,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -1271,8 +1254,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -1349,8 +1332,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -1360,8 +1343,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 // TODO: generalize this!
                 Button ruleDetailsButton = new Button("Details");
                 ruleDetailsButton.setIcon(Resources.ICONS.table());
-                // TODO: add correct tooltip text here!
-                // userDetailsButton.setToolTip("...");
+                ruleDetailsButton.setToolTip("Show Rule Details");
                 ruleDetailsButton.setEnabled(true);
 
                 ruleDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
@@ -1409,8 +1391,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -1504,8 +1486,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }
@@ -1559,8 +1541,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
                                 if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
                                         && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView()
-                                            .getWidget(i, be.getColIndex())).setWidth(be.getWidth() - 10);
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
                                 }
                             }
                         }

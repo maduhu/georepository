@@ -59,7 +59,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -99,10 +98,6 @@ public class RulesController extends Controller {
     private RulesManagerServiceRemoteAsync rulesManagerServiceRemote = RulesManagerServiceRemote.Util
             .getInstance();
 
-    /** The rules manager service. */
-    // private RulesManagerServiceImpl rulesManagerService = (RulesManagerServiceImpl)
-    // RulesManagerServiceImpl.Util.getInstance();
-
     /** The tab widget. */
     private TabWidget tabWidget;
 
@@ -127,7 +122,14 @@ public class RulesController extends Controller {
                 GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE,
                 GeoRepoEvents.RULE_CUSTOM_PROP_APPLY_CHANGES,
 
-                GeoRepoEvents.INJECT_WKT);
+                GeoRepoEvents.INJECT_WKT,
+
+                GeoRepoEvents.ATTRIBUTE_UPDATE_GRID_COMBO,
+
+                GeoRepoEvents.SAVE_LAYER_DETAILS, GeoRepoEvents.LOAD_LAYER_DETAILS,
+
+                GeoRepoEvents.AVAILABLE_STYLES_UPDATE_GRID);
+
     }
 
     /*
@@ -189,8 +191,6 @@ public class RulesController extends Controller {
      * @param event
      *            the event
      */
-    // Dispatcher.forwardEvent(GeoRepoEvents.ERASE_AOI_FEATURES);
-    // Dispatcher.forwardEvent(GeoRepoEvents.ENABLE_DRAW_BUTTON);
     private void onInjectWKT(AppEvent event) {
         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "WKT",
                 (String) event.getData() });
@@ -357,16 +357,13 @@ public class RulesController extends Controller {
             final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
                     .getRulesInfo();
             final Grid<Rule> grid = rulesInfoWidget.getGrid();
-            // tabWidget.setShim(true);
-            GXT.hideLoadingPanel("loading");
-            // saveStatus.setBusy("Operation in progress");
             if (grid != null && grid.getStore() != null) {
                 ListStore<Rule> store = grid.getStore();
 
                 if (store != null && store.getModels() != null && store.getModels().size() > 0) {
                     // TODO: details?
                     Rule lRule = (Rule) event.getData();
-                    rulesManagerServiceRemote.saveRule(lRule,// store.getModels(),
+                    rulesManagerServiceRemote.saveRule(lRule,
                             new AsyncCallback<PagingLoadResult<Rule>>() {
 
                                 public void onFailure(Throwable caught) {
@@ -471,8 +468,6 @@ public class RulesController extends Controller {
      */
     private void onRemoveRule(AppEvent event) {
         if (tabWidget != null) {
-            // tabWidget.setShim(true);
-            GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
@@ -487,8 +482,7 @@ public class RulesController extends Controller {
                     ListStore<Rule> store = grid.getStore();
 
                     if (store != null && store.getModels() != null && store.getModels().size() > 0) {
-                        List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels());
-                        rulesManagerServiceRemote.deleteRule(model,// store.getModels(),
+                        rulesManagerServiceRemote.deleteRule(model,
                                 new AsyncCallback<PagingLoadResult<Rule>>() {
 
                                     public void onFailure(Throwable caught) {
@@ -525,7 +519,6 @@ public class RulesController extends Controller {
             }
 
         }
-        // tabWidget.setShim(false);
     }
 
     /**
@@ -536,8 +529,6 @@ public class RulesController extends Controller {
      */
     private void onAddRule(AppEvent event) {
         if (tabWidget != null) {
-            // tabWidget.setShim(true);
-            GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
@@ -597,14 +588,12 @@ public class RulesController extends Controller {
                                                 I18nProvider.getMessages().ruleServiceName(),
                                                 I18nProvider.getMessages()
                                                         .ruleFetchSuccessMessage() });
-                                // tabWidget.setShim(false);
                             }
 
                         });
 
                 rules.add(new_rule);
             }
-            // tabWidget.setShim(false);
         }
     }
 
@@ -616,8 +605,6 @@ public class RulesController extends Controller {
      */
     private void onRulePriorityUp(AppEvent event) {
         if (tabWidget != null) {
-            // tabWidget.setShim(true);
-            GXT.hideLoadingPanel("loading");
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
@@ -676,7 +663,6 @@ public class RulesController extends Controller {
 
                 }
             }
-            tabWidget.setShim(false);
         }
     }
 
@@ -747,7 +733,6 @@ public class RulesController extends Controller {
 
                 }
             }
-            tabWidget.setShim(false);
         }
     }
 
@@ -793,7 +778,7 @@ public class RulesController extends Controller {
     public boolean checkUniqueRule(List<Rule> list, Rule rule) {
         boolean res = false;
         if (list.size() > 0) {
-            Iterator itr = list.iterator();
+            Iterator<Rule> itr = list.iterator();
             while (itr.hasNext() && !res) {
                 Rule r = (Rule) itr.next();
                 if (r.getId() != rule.getId()
@@ -817,13 +802,7 @@ public class RulesController extends Controller {
                                 .getWorkspace() == null && rule.getWorkspace() == null))
                         && (r.getLayer() != null && rule.getLayer() != null
                                 && r.getLayer().equals(rule.getLayer()) || (r.getLayer() == null && rule
-                                .getLayer() == null))/*
-                                                      * && (r.getPriority()!=-1 &&
-                                                      * rule.getPriority()!=-1 &&
-                                                      * r.getPriority()==rule.getPriority()
-                                                      * ||(r.getPriority()==-1 && rule.getPriority()
-                                                      * ==-1))
-                                                      */) {
+                                .getLayer() == null))) {
                     res = true;
                 }
             }

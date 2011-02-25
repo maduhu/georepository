@@ -32,6 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 
@@ -57,22 +58,17 @@ public class UserManagementWidget extends ContentPanel {
      */
     public UserManagementWidget(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote,
             ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+        setMonitorWindowResize(true);
         setHeaderVisible(false);
         setFrame(true);
-        //setHeight("100%");
         setLayout(new FitLayout());
-        if(this.getParent()!=null){
-            System.out.println("parent height: "+getParent().getOffsetHeight());
-        }
-        setUsersInfo(new UserGridWidget(gsManagerServiceRemote, profilesManagerServiceRemote));
-
-        add(getUsersInfo().getGrid());
-
-        super.setMonitorWindowResize(true);
-
         setScrollMode(Scroll.NONE);
-       
+        setAutoWidth(true);
+        setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
+        
+        setUsersInfo(new UserGridWidget(gsManagerServiceRemote, profilesManagerServiceRemote));
         setBottomComponent(this.getUsersInfo().getToolBar());
+        add(getUsersInfo().getGrid());
     }
 
     /*
