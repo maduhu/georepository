@@ -39,7 +39,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.gwtopenmaps.openlayers.client.Bounds;
-import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapUnits;
@@ -48,8 +47,8 @@ import org.gwtopenmaps.openlayers.client.OpenLayers;
 import org.gwtopenmaps.openlayers.client.Projection;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.DrawFeature;
-import org.gwtopenmaps.openlayers.client.control.DrawFeature.FeatureAddedListener;
 import org.gwtopenmaps.openlayers.client.control.DrawFeatureOptions;
+import org.gwtopenmaps.openlayers.client.control.DrawFeature.FeatureAddedListener;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.Geometry;
 import org.gwtopenmaps.openlayers.client.geometry.MultiPolygon;
@@ -253,7 +252,7 @@ public class MapLayoutWidget extends LayoutContainer {
         center.add(mapWidget);
         center.layout();
 
-        this.map.setCenter(new LonLat(0, 0), 3);
+        this.map.zoomToMaxExtent();
     }
 
     /**

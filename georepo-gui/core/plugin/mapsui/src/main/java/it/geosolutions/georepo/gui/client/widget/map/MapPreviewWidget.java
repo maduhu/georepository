@@ -160,7 +160,7 @@ public class MapPreviewWidget {
         VectorOptions vectorOption = new VectorOptions();
         vectorOption.setStyle(this.createStyle());
         vectorOption.setDisplayInLayerSwitcher(false);
-        this.vector = new Vector("GEOREPOSITORY PREVIEW Vector Layer", vectorOption);
+        this.vector = new Vector("DGWATCH PREVIEW Vector Layer", vectorOption);
         this.map.addLayer(vector);
     }
 

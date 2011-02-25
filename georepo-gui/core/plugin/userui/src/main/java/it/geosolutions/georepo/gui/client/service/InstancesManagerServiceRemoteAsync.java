@@ -83,5 +83,8 @@ public interface InstancesManagerServiceRemoteAsync {
      *            the async callback
      */
     public void deleteInstance(GSInstance instance, AsyncCallback<PagingLoadResult<GSInstance>> asyncCallback);
-
+    /*public void deleteInstance(GSInstance instance,AsyncCallback<java.lang.Void> arg2);
+    public void getInstance(PagingLoadConfig config, String name, AsyncCallback<GSInstance> arg3);
+    public void getInstances(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSInstance>> arg3);
+    public void saveInstance(GSInstance instance, AsyncCallback<java.lang.Void> arg2);*/
 }

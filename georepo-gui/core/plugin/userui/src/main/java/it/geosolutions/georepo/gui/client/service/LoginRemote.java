@@ -81,9 +81,85 @@ public interface LoginRemote extends RemoteService {
      */
     public User authenticate(String userName, String password) throws ApplicationException;
 
+    // /**
+    // *
+    // * @param config
+    // * @return PagingLoadResult<User
+    // * @throws ApplicationException
+    // *
+    // * Serach Users filtering by Username
+    // *
+    // */
+    // public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
+    // String serchText) throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param config
+    // * @return PagingLoadResult<User>
+    // * @throws ApplicationException
+    // */
+    // // public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
+    // // throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param profile
+    // * @return
+    // * @throws ApplicationException
+    // */
+    // public User saveUser(User profile) throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @throws ApplicationException
+    // */
+    // public void deleteUser(Long userId) throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param profile
+    // * @return
+    // */
+    // public User updateUser(User profile);
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @return
+    // * @throws ApplicationException
+    // */
+    // public User getUserDetail(User profile) throws ApplicationException;
+    //
+    // /**
+    // * @return a List<String> that represented the couple Key - UserName
+    // */
+    // public List<RegUser> findUserNames() throws ApplicationException;
+
     /**
      * Logout.
      */
     public void logout();
+
+    // /**
+    // *
+    // * @param config
+    // * @param aoiId
+    // * @return PagingLoadResult<User>
+    // *
+    // * @throws ApplicationException
+    // *
+    // * Search Users that have UserPref on the AOI
+    // */
+    // public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
+    // long aoiID) throws ApplicationException;
+    //
+    // /**
+    // *
+    // * @param aoiId
+    // * @return
+    // */
+    // public int getRelatedUsersCount(long aoiId);
 
 }

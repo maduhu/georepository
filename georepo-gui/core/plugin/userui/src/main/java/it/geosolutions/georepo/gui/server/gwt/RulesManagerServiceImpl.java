@@ -145,18 +145,6 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
         rulesManagerService.setDetailsProps(ruleId, customProps);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setLayerAttributes(java
-     * .lang.Long, java.util.List)
-     */
-    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes)
-            throws ApplicationException {
-        rulesManagerService.setLayerAttributes(ruleId, layerAttributes);
-    }
-
     public void shift(long priorityStart, long offset) throws ApplicationException {
         rulesManagerService.shift(priorityStart, offset);
     }
@@ -169,6 +157,17 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
         rulesManagerService.findRule(rule);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setLayerAttributes(java
+     * .lang.Long, java.util.List)
+     */
+    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes)
+            throws ApplicationException {
+        rulesManagerService.setLayerAttributes(ruleId, layerAttributes);
+    }
 
     /*
      * (non-Javadoc)

@@ -551,7 +551,7 @@ public class RulesController extends Controller {
                                 System.out.println("SUCCESS: ");
                             }
                         });
-                rulesManagerServiceRemote.saveRule(new_rule,
+                rulesManagerServiceRemote.saveRule(new_rule,// store.getModels(),
                         new AsyncCallback<PagingLoadResult<Rule>>() {
 
                             public void onFailure(Throwable caught) {

@@ -242,9 +242,6 @@ public class AppView extends View {
         center.setLayoutOnChange(true);
 
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
-        data.setMinSize(0);
-        data.setMaxSize(0);
-        data.setSize(0);
         data.setCollapsible(true);
         data.setFloatable(true);
         data.setSplit(true);

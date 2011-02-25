@@ -172,9 +172,13 @@ public class UsersController extends Controller {
                     }
 
                     public void onSuccess(PagingLoadResult<GSUser> result) {
+
+                        //grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(),SortDir.ASC);<<-- ric mod 20100215
                         grid.getStore().getLoader().load();
                         grid.repaint();
 
+                        Dispatcher.forwardEvent(
+                                GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                 new String[] {
                                         /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "User Service" ,
@@ -215,9 +219,13 @@ public class UsersController extends Controller {
                     }
 
                     public void onSuccess(PagingLoadResult<GSUser> result) {
+
+                        //grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(),SortDir.ASC);//<<-- ric mod 20100215
                         grid.getStore().getLoader().load();
                         grid.repaint();
 
+                        Dispatcher.forwardEvent(
+                                GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                 new String[] {
                                         /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "User Service" ,

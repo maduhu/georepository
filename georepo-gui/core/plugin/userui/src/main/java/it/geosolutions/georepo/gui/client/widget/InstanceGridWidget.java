@@ -133,7 +133,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         ColumnConfig instanceNameColumn = new ColumnConfig();
         instanceNameColumn.setId(BeanKeyValue.NAME.getValue());
         instanceNameColumn.setHeader("Instance Name");
-        instanceNameColumn.setWidth(180);
+        instanceNameColumn.setWidth(160);
         instanceNameColumn.setRenderer(this.createInstanceNameTextBox());
         configs.add(instanceNameColumn);
 
@@ -146,7 +146,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         ColumnConfig instanceDescription = new ColumnConfig();
         instanceDescription.setId(BeanKeyValue.DESCRIPTION.getValue());
         instanceDescription.setHeader("Description");
-        instanceDescription.setWidth(180);
+        instanceDescription.setWidth(80);
         instanceDescription.setRenderer(this.createInstanceDescriptionTextBox());
         instanceDescription.setMenuDisabled(true);
         instanceDescription.setSortable(false);
@@ -155,7 +155,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         ColumnConfig instanceBaseUrl = new ColumnConfig();
         instanceBaseUrl.setId(BeanKeyValue.BASE_URL.getValue());
         instanceBaseUrl.setHeader("Base Url");
-        instanceBaseUrl.setWidth(180);
+        instanceBaseUrl.setWidth(150);
         instanceBaseUrl.setRenderer(this.createInstanceBaseurlTextBox());
         instanceBaseUrl.setMenuDisabled(true);
         instanceBaseUrl.setSortable(false);
@@ -164,7 +164,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         ColumnConfig instanceUsername = new ColumnConfig();
         instanceUsername.setId(BeanKeyValue.USER_NAME.getValue());
         instanceUsername.setHeader("Username");
-        instanceUsername.setWidth(180);
+        instanceUsername.setWidth(150);
         instanceUsername.setRenderer(this.createInstanceUsernameTextBox());
         instanceUsername.setMenuDisabled(true);
         instanceUsername.setSortable(false);
@@ -173,7 +173,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
         ColumnConfig instancePassword = new ColumnConfig();
         instancePassword.setId(BeanKeyValue.PASSWORD.getValue());
         instancePassword.setHeader("Password");
-        instancePassword.setWidth(180);
+        instancePassword.setWidth(150);
         instancePassword.setRenderer(this.createInstancePasswordTextBox());
         instancePassword.setMenuDisabled(true);
         instancePassword.setSortable(false);
@@ -578,7 +578,6 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
 
                 TextField<String> instancePasswordTextBox = new TextField<String>();
                 instancePasswordTextBox.setWidth(150);
-                instancePasswordTextBox.setPassword(true);
                 // TODO: add correct tooltip text here!
                 // instanceNameTextBox("Test");
 

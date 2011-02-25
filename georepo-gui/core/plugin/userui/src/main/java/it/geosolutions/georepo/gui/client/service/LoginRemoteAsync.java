@@ -54,6 +54,56 @@ public interface LoginRemoteAsync {
      */
     public void authenticate(String userName, String password, AsyncCallback<User> calback);
 
+    // /**
+    // *
+    // * @param config
+    // * @param callback
+    // */
+    // public void loadUsers(PagingLoadConfig config, String searchText,
+    // AsyncCallback<PagingLoadResult<User>> callback);
+    //
+    // /**
+    // *
+    // * @param config
+    // * @param callback
+    // */
+    // // public void loadAllUsers(PagingLoadConfig config,
+    // // AsyncCallback<PagingLoadResult<User>> callback);
+    //
+    // /**
+    // *
+    // * @param profile
+    // * @param callback
+    // */
+    // public void saveUser(User profile, AsyncCallback<User> callback);
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @param callback
+    // */
+    // public void deleteUser(Long userId, AsyncCallback<?> callback);
+    //
+    // /**
+    // *
+    // * @param profile
+    // * @param callback
+    // */
+    // public void updateUser(User profile, AsyncCallback<User> callback);
+    //
+    // /**
+    // *
+    // * @param userId
+    // * @param callback
+    // */
+    // public void getUserDetail(User profile, AsyncCallback<User> callback);
+    //
+    // /**
+    // *
+    // * @param callback
+    // */
+    // public void findUserNames(AsyncCallback<List<RegUser>> callback);
+    //
     /**
      * Logout.
      * 
@@ -61,5 +111,22 @@ public interface LoginRemoteAsync {
      *            the callback
      */
     public void logout(AsyncCallback<?> callback);
+
+    // /**
+    // *
+    // * @param config
+    // * @param searchText
+    // * @param callback
+    // */
+    // public void getRelatedUsers(PagingLoadConfig config, long aoiID,
+    // AsyncCallback<PagingLoadResult<User>> callback);
+    //
+    // /**
+    // *
+    // * @param aoiId
+    // * @param callback
+    // * @return
+    // */
+    // public void getRelatedUsersCount(long aoiId, AsyncCallback<Integer> callback);
 
 }
