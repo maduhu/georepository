@@ -1640,37 +1640,17 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 new_rule.setId(-1);
                 new_rule.setPriority(-1);
                 new_rule = Constants.getInstance().createNewRule(new_rule);
-                Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new GridStatus(grid,new_rule));
+                Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new GridStatus(grid, new_rule));
 
             }
         });
-        /*
-         * ric mod 20100217 Button saveRulesButton = new Button("Apply Changes");
-         * saveRulesButton.setIcon(Resources.ICONS.save());
-         * 
-         * saveRulesButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
-         * 
-         * public void handleEvent(ButtonEvent be) {
-         * Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-         * "GeoServer Rules", "Apply Changes" });
-         * 
-         * Dispatcher.forwardEvent(GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO); } });
-         */
+        
         this.toolBar.bind(loader);
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(addRuleButton);
-        // this.toolBar.add(saveRulesButton);<<-- ric mod 20100217
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
-        // this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add
-        // 20100216
-        // this.toolBar.setStyleAttribute("top", "95%");//<<-- ric add 20100217
-        // this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add
-        // 20100217
-        // this.toolBar.disable();
-        // this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add
-        // 20100216
         setUpLoadListener();
 
     }
