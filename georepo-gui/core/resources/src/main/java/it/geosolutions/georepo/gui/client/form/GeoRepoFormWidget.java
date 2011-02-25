@@ -114,7 +114,7 @@ public abstract class GeoRepoFormWidget extends Window implements IForm {
     /**
      * Adds the buttons.
      */
-    private void addButtons() {
+    public void addButtons() {
         formPanel.setButtonAlign(HorizontalAlignment.LEFT);
 
         this.saveStatus = new SaveStaus();

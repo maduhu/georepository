@@ -35,6 +35,7 @@ package it.geosolutions.georepo.gui.client.widget.tab;
 //import it.geosolutions.georepo.gui.client.AdministrationMode;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 
+import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
@@ -63,7 +64,15 @@ public class TabWidget extends TabPanel implements Listener {
      */
     private void initTab() {
         setAutoWidth(true);
+        //System.out.println(super.getHeight());
+        if(this.height!=null)System.out.println("height: "+height);
+        if(this.getParent()!=null)System.out.println("getParent().getOffsetHeight(): "+this.getParent().getOffsetHeight());
+        if(GXT.isIE || GXT.isIE7 || GXT.isIE8){
+                System.out.println("this.getOffsetHeight=="+this.getOffsetHeight());
+                System.out.println("this.getElement().getClientHeight()=="+this.getElement().getClientHeight());
+        }
         setAutoHeight(true);
+        setHeight("95%");
     }
 
     /**

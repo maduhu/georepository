@@ -202,29 +202,27 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
      */
     public void saveRule(Rule rule) throws ApplicationException {
 
-         it.geosolutions.georepo.core.model.Rule rule2 = new it.geosolutions.georepo.core.model.Rule(
-                    rule.getPriority(), 
-                    getUser(rule.getUser()),
-                    getProfile(rule.getProfile()),
-                    getInstance(rule.getInstance()),
-                    "*".equals(rule.getService())?null:rule.getService(),
-                    "*".equals(rule.getRequest())?null:rule.getRequest(),
-                    "*".equals(rule.getWorkspace())?null:rule.getWorkspace(),
-                    "*".equals(rule.getLayer())?null:rule.getLayer(),
-                    getAccessType(rule.getGrant()));
-            rule2.setId(rule.getId());
-            if(rule.getId()==-1){
-            	rule2.setId(null);
-                  georepoRemoteService.getRuleAdminService().insert(rule2);
-            }else{
-				try {
-					georepoRemoteService.getRuleAdminService().update(rule2);
-				} catch (ResourceNotFoundFault e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+        it.geosolutions.georepo.core.model.Rule rule2 = new it.geosolutions.georepo.core.model.Rule(
+                rule.getPriority(), getUser(rule.getUser()), getProfile(rule.getProfile()),
+                getInstance(rule.getInstance()), "*".equals(rule.getService()) ? null
+                        : rule.getService(), "*".equals(rule.getRequest()) ? null
+                        : rule.getRequest(), "*".equals(rule.getWorkspace()) ? null
+                        : rule.getWorkspace(),
+                "*".equals(rule.getLayer()) ? null : rule.getLayer(),
+                getAccessType(rule.getGrant()));
+        rule2.setId(rule.getId());
+        if (rule.getId() == -1) {
+            rule2.setId(null);
+            georepoRemoteService.getRuleAdminService().insert(rule2);
+        } else {
+            try {
+                georepoRemoteService.getRuleAdminService().update(rule2);
+            } catch (ResourceNotFoundFault e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            
+        }
+
     }
     
     /*
@@ -270,14 +268,12 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
         for (Rule localRule : rules) {
             it.geosolutions.georepo.core.model.Rule rule = new it.geosolutions.georepo.core.model.Rule(
-                    localRule.getPriority(), 
-                    getUser(localRule.getUser()),
-                    getProfile(localRule.getProfile()),
-                    getInstance(localRule.getInstance()),
-                    "*".equals(localRule.getService())?null:localRule.getService(),
-                    "*".equals(localRule.getRequest())?null:localRule.getRequest(),
-                    "*".equals(localRule.getWorkspace())?null:localRule.getWorkspace(),
-                    "*".equals(localRule.getLayer())?null:localRule.getLayer(),
+                    localRule.getPriority(), getUser(localRule.getUser()),
+                    getProfile(localRule.getProfile()), getInstance(localRule.getInstance()),
+                    "*".equals(localRule.getService()) ? null : localRule.getService(),
+                    "*".equals(localRule.getRequest()) ? null : localRule.getRequest(),
+                    "*".equals(localRule.getWorkspace()) ? null : localRule.getWorkspace(),
+                    "*".equals(localRule.getLayer()) ? null : localRule.getLayer(),
                     getAccessType(localRule.getGrant()));
             georepoRemoteService.getRuleAdminService().insert(rule);
         }

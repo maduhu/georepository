@@ -164,6 +164,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
     public RuleGridWidget parentEditRuleWidget;
 
+    private GridCellRenderer<Rule> buttonRendered;
+
     /**
      * Instantiates a new rule grid widget.
      * 
@@ -308,7 +310,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         configs.add(ruleGrantsColumn);
 
         ColumnConfig editRuleColumn = new ColumnConfig();
-        editRuleColumn.setId("ruleDetails");
+        editRuleColumn.setId("editRuleDetails");
         editRuleColumn.setWidth(COLUMN_EDIT_RULE_WIDTH);
         editRuleColumn.setRenderer(this.editRuleButton());
         editRuleColumn.setMenuDisabled(true);
@@ -1236,12 +1238,13 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
      * @return the grid cell renderer
      */
     private GridCellRenderer<Rule> editRuleButton() {
-        GridCellRenderer<Rule> buttonRendered = new GridCellRenderer<Rule>() {
+        // GridCellRenderer<Rule>
+        buttonRendered = new GridCellRenderer<Rule>() {
 
             private boolean init;
 
             public Object render(final Rule model, String property, ColumnData config,
-                    int rowIndex, int colIndex, ListStore<Rule> store, Grid<Rule> grid) {
+                    int rowIndex, int colIndex, ListStore<Rule> store, final Grid<Rule> grid) {
 
                 if (!init) {
                     init = true;
@@ -1296,7 +1299,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                          */
                         // editRuleWidget.setBottomComponent(this.getRulesInfo().getToolBar());
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, model);
+                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE_UPDATE, new GridStatus(grid,model));
                     }
                 });
 
@@ -1378,7 +1381,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
             private boolean init;
 
             public Object render(final Rule model, String property, ColumnData config,
-                    int rowIndex, int colIndex, ListStore<Rule> store, Grid<Rule> grid) {
+                    int rowIndex, int colIndex, ListStore<Rule> store, final Grid<Rule> grid) {
 
                 if (!init) {
                     init = true;
@@ -1407,10 +1410,13 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 ruleAddButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Rules", "Selected Rule #" + model.getPriority() });
-
-                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_ADD, model);
+                        /*
+                         * Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                         * "GeoServer Rules", "Selected Rule #" + model.getPriority() });
+                         */
+                        Rule new_rule = Constants.getInstance().createNewRule(model);
+                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new GridStatus(grid,new_rule));
+                        //Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new_rule);// RULE_ADD
                     }
                 });
 
@@ -1420,6 +1426,43 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         };
 
         return buttonRendered;
+    }
+
+    /**
+     * Creates the new rule.
+     * 
+     * @param model
+     *            the model
+     * @return the rule
+     */
+    private Rule createNewRule(Rule model) {
+        Rule new_rule = new Rule();
+        new_rule.setId(-1);
+        if (model == null) {
+            new_rule.setPriority(0);
+        } else {
+            new_rule.setPriority(model.getPriority() + 1);
+        }
+
+        GSUser all_user = new GSUser();
+        all_user.setId(-1);
+        all_user.setName("*");
+        new_rule.setUser(all_user);
+        Profile all_profile = new Profile();
+        all_profile.setId(-1);
+        all_profile.setName("*");
+        new_rule.setProfile(all_profile);
+        GSInstance all_instance = new GSInstance();
+        all_instance.setId(-1);
+        all_instance.setName("*");
+        all_instance.setBaseURL("*");
+        // new_rule.setInstance(all_instance);
+        new_rule.setGrant("ALLOW");
+        new_rule.setService("*");
+        new_rule.setLayer("*");
+        new_rule.setRequest("*");
+        new_rule.setWorkspace("*");
+        return new_rule;
     }
 
     /**
@@ -1596,7 +1639,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 Rule new_rule = new Rule();
                 new_rule.setId(-1);
                 new_rule.setPriority(-1);
-                Dispatcher.forwardEvent(GeoRepoEvents.RULE_ADD, new_rule);
+                new_rule = Constants.getInstance().createNewRule(new_rule);
+                Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new GridStatus(grid,new_rule));
 
             }
         });
