@@ -33,7 +33,6 @@
 package it.geosolutions.georepo.gui.client.controller;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
@@ -42,7 +41,6 @@ import it.geosolutions.georepo.gui.client.widget.ProfileGridWidget;
 import it.geosolutions.georepo.gui.client.widget.tab.ProfilesTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
-import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;

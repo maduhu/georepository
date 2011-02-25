@@ -85,10 +85,12 @@ public abstract class GeoRepoGridWidget<T extends BaseModel> {
         grid.setBorders(true);
 
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        grid.setHeight("95%");//<<--  ric add 20100216
-        //grid.setAutoHeight(true);
-        //grid.set
-        grid.setLazyRowRender(0);//<<-- ric add 20100217
+        grid.setAutoWidth(true);
+
+        grid.setLoadMask(true);
+
+        grid.setLazyRowRender(0);
+
         setGridProperties();
     }
 
