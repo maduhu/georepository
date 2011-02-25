@@ -313,55 +313,68 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
         return res;
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService#getStyles(it.geosolutions.georepo.gui.client.model.GSInstance)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService#getStyles(it.geosolutions
+     * .georepo.gui.client.model.GSInstance)
      */
-    public List<LayerStyle> getStyles(Rule rule) throws ApplicationException{
-    	
-    	List<LayerStyle> layerStyles = new ArrayList<LayerStyle>();
-    	
-    	try {
-    		LayerDetails layerDetails = georepoRemoteService.getRuleAdminService().get(rule.getId()).getLayerDetails();
-    		
-    		Set<String> allowedStyles = layerDetails.getAllowedStyles();
-    		int size = allowedStyles.size();
-    		
-			GeoServerRESTReader gsreader = new GeoServerRESTReader(
-					rule.getInstance().getBaseURL(), rule.getInstance().getUsername(), rule.getInstance().getPassword());
-			
-			RESTStyleList styles = gsreader.getStyles();			
-			List<String> names = styles.getNames();
-			Iterator<String> iterator = names.iterator();
-			
-			while(iterator.hasNext()){
-				String name = iterator.next();
+    public List<LayerStyle> getStyles(Rule rule) throws ApplicationException {
 
-				LayerStyle layerStyle = new LayerStyle();
-				
-	    		if(size > 0){
-	    			Iterator<String> styleIterator = allowedStyles.iterator();
-	    			while(styleIterator.hasNext()){
-	    				String allowed = styleIterator.next();
-	    				
-	    				if(allowed.equalsIgnoreCase(name)){
-	    					layerStyle.setEnabled(true);
-	    				}	    				
-	    			}
-	    		}else	    		
-	    			layerStyle.setEnabled(false);
-	    		
-				layerStyle.setStyle(name);
-				
-				layerStyles.add(layerStyle);
-			}
-			
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (ResourceNotFoundFault e) {
-			e.printStackTrace();
-		}
-    	
-    	return layerStyles;
+        List<LayerStyle> layerStyles = new ArrayList<LayerStyle>();
+
+        Set<String> allowedStyles = null;
+        int size = 0;
+
+        try {
+            LayerDetails layerDetails = georepoRemoteService.getRuleAdminService()
+                    .get(rule.getId()).getLayerDetails();
+
+            if(layerDetails != null){
+                allowedStyles = layerDetails.getAllowedStyles();
+                
+                if(allowedStyles != null){
+                    size = allowedStyles.size();
+                }                
+            }
+
+            GeoServerRESTReader gsreader = new GeoServerRESTReader(rule.getInstance().getBaseURL(),
+                    rule.getInstance().getUsername(), rule.getInstance().getPassword());
+
+            RESTStyleList styles = gsreader.getStyles();
+            List<String> names = styles.getNames();
+            Iterator<String> iterator = names.iterator();
+
+            while (iterator.hasNext()) {
+                String name = iterator.next();
+
+                LayerStyle layerStyle = new LayerStyle();
+
+                if (size > 0) {
+                    Iterator<String> styleIterator = allowedStyles.iterator();
+                    while (styleIterator.hasNext()) {
+                        String allowed = styleIterator.next();
+
+                        if (allowed.equalsIgnoreCase(name)) {
+                            layerStyle.setEnabled(true);
+                        }
+                    }
+                } else
+                    layerStyle.setEnabled(false);
+
+                layerStyle.setStyle(name);
+
+                layerStyles.add(layerStyle);
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ResourceNotFoundFault e) {
+            e.printStackTrace();
+        }
+
+        return layerStyles;
     }
 
 }
