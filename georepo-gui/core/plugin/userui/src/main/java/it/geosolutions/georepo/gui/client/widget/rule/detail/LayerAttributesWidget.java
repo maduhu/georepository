@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesWidget,v. 0.1 8-feb-2011 15.06.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesWidget,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 8-feb-2011 15.06.43 $
+ * $ Date: 25-feb-2011 16.30.38 $
  *
  * ====================================================================
  *
@@ -39,20 +39,23 @@ import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class LayerAttributesWidget.
- * 
- * @author Tobia di Pisa, Alessio Fabiani.
  */
 public class LayerAttributesWidget extends ContentPanel {
     
     /** The layer attributes info. */
     private LayerAttributesGridWidget layerAttributesInfo;
+    
+    /** The rule. */
     private Rule theRule;
 
     /**
      * Instantiates a new layer attributes widget.
      * 
+     * @param model
+     *            the model
      * @param rulesService
      *            the rules service
      */

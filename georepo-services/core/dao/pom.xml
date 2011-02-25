@@ -53,7 +53,7 @@
         </dependency>
 
 
-    <!-- DGWatch -->
+    <!-- GeoRepository -->
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
             <artifactId>model</artifactId>

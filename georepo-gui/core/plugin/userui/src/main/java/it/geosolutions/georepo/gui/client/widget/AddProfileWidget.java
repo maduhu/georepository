@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.AddGsUserWidget,v. 0.1 10-feb-2011 12.01.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AddProfileWidget,v. 0.1 25-feb-2011 16.31.40 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 10-feb-2011 12.01.49 $
+ * $ Date: 25-feb-2011 16.31.40 $
  *
  * ====================================================================
  *
@@ -47,7 +47,7 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class AddGsUserWidget.
+ * The Class AddProfileWidget.
  */
 public class AddProfileWidget extends GeoRepoFormWidget {
 
@@ -60,14 +60,17 @@ public class AddProfileWidget extends GeoRepoFormWidget {
     /** The profile. */
     protected Profile profile = new Profile();
 
+    /** The gs manager service remote. */
     private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote;
 
+    /** The profiles manager service remote. */
     private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote;
 
+    /** The profile name. */
     private TextField<String> profileName;
 
     /**
-     * Instantiates a new adds the gs profile widget.
+     * Instantiates a new adds the profile widget.
      * 
      * @param submitEvent
      *            the submit event
@@ -110,7 +113,7 @@ public class AddProfileWidget extends GeoRepoFormWidget {
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#addComponentToForm ()
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#addComponentToForm ()
      */
     @Override
     public void addComponentToForm() {
@@ -133,7 +136,7 @@ public class AddProfileWidget extends GeoRepoFormWidget {
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#cancel()
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#cancel()
      */
     @SuppressWarnings("deprecation")
     @Override
@@ -149,42 +152,23 @@ public class AddProfileWidget extends GeoRepoFormWidget {
     public void resetComponents() {
         this.profileName.reset();
         this.saveStatus.clearStatus("");
-        // Dispatcher.forwardEvent(DGWATCHEvents.DISABLE_DRAW_BUTTON);
-        // Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
+     * @see it.geosolutions.georepo.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
+     */
+    /**
+     * Adds the other components.
      */
     public void addOtherComponents() {
-        // wktArea = new TextArea();
-        // wktArea.setFieldLabel(I18nProvider.getMessages().wktAbbreviation());
-        // wktArea.setAllowBlank(false);
-        // fieldSet.add(wktArea);
-        //
-        // draw = new Button(I18nProvider.getMessages().drawAoiButton(),
-        // new SelectionListener<ButtonEvent>() {
-        //
-        // @Override
-        // public void componentSelected(ButtonEvent ce) {
-        // hide();
-        // Dispatcher
-        // .forwardEvent(DGWATCHEvents.ENABLE_DRAW_BUTTON, AddAOIWidget.this);
-        // }
-        // });
-        //
-        // draw.setIcon(Resources.ICONS.drawFeature());
-        //
-        // this.formPanel.addButton(draw);
-
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#initSize()
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#initSize()
      */
     @Override
     public void initSize() {
@@ -195,7 +179,7 @@ public class AddProfileWidget extends GeoRepoFormWidget {
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#initSizeFormPanel ()
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#initSizeFormPanel ()
      */
     @Override
     public void initSizeFormPanel() {
@@ -203,6 +187,9 @@ public class AddProfileWidget extends GeoRepoFormWidget {
         formPanel.setSize(450, 350);
     }
 
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#injectEvent()
+     */
     @Override
     public void injectEvent() {
         Dispatcher.forwardEvent(getSubmitEvent(), this.profile);
@@ -217,10 +204,22 @@ public class AddProfileWidget extends GeoRepoFormWidget {
         return profile;
     }
 
+    /**
+     * Sets the gs user service.
+     * 
+     * @param gsManagerServiceRemote
+     *            the new gs user service
+     */
     public void setGsUserService(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
         this.gsManagerServiceRemote = gsManagerServiceRemote;
     }
 
+    /**
+     * Sets the profile service.
+     * 
+     * @param profilesManagerServiceRemote
+     *            the new profile service
+     */
     public void setProfileService(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
         this.profilesManagerServiceRemote = profilesManagerServiceRemote;
     }

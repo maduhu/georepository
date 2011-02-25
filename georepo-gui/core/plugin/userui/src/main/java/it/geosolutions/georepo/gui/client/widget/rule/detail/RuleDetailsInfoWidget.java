@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsGridWidget,v. 0.1 8-feb-2011 15.06.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsInfoWidget,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 8-feb-2011 15.06.43 $
+ * $ Date: 25-feb-2011 16.30.38 $
  *
  * ====================================================================
  *
@@ -57,31 +57,42 @@ import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class RuleDetailsGridWidget.
- * 
- * @author Tobia di Pisa.
+ * The Class RuleDetailsInfoWidget.
  */
 public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetailsInfo> {
 
+	/** The rule. */
 	private Rule theRule;
     
     /** The workspaces service. */
     private WorkspacesManagerServiceRemoteAsync workspacesService;
     
+    /** The rule details widget. */
     private RuleDetailsWidget ruleDetailsWidget;
     
+    /** The combo styles. */
     private ComboBox<LayerStyle> comboStyles;      
+    
+    /** The cql filter read. */
     private TextArea cqlFilterRead;
+    
+    /** The cql filter write. */
     private TextArea cqlFilterWrite;
+    
+    /** The allowed area. */
     private TextArea allowedArea;
 
     /**
-     * Instantiates a new rule details grid widget.
+     * Instantiates a new rule details info widget.
      * 
-     * @param model 
-     * @param rulesService
-     *            the rules service
+     * @param model
+     *            the model
+     * @param workspacesService
+     *            the workspaces service
+     * @param ruleDetailsWidget
+     *            the rule details widget
      */
     public RuleDetailsInfoWidget(Rule model, WorkspacesManagerServiceRemoteAsync workspacesService,
     		RuleDetailsWidget ruleDetailsWidget) {
@@ -93,6 +104,9 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
         formPanel = createFormPanel();
     }
 
+	/* (non-Javadoc)
+	 * @see it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget#createFormPanel()
+	 */
 	@Override
 	public FormPanel createFormPanel() {
         FormPanel fp = new FormPanel();
@@ -179,7 +193,9 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
 	}
 	
     /**
-     * @return LayerDetailsForm
+     * Gets the model data.
+     * 
+     * @return the model data
      */
     public LayerDetailsInfo getModelData() {
     	LayerDetailsInfo layerDetailsForm = new LayerDetailsInfo();
@@ -193,6 +209,12 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
         return layerDetailsForm;
     }
     
+    /**
+     * Bind model data.
+     * 
+     * @param layerDetailsInfo
+     *            the layer details info
+     */
     public void bindModelData(LayerDetailsInfo layerDetailsInfo){
     	this.bindModel(layerDetailsInfo);
     	
@@ -220,10 +242,11 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
     }
 	
     /**
-     * TODO: Call User Service here!!
+     * Gets the available styles.
      * 
-     * @param rule 
-     * @return ListStore<LayerStyle>
+     * @param rule
+     *            the rule
+     * @return the available styles
      */
     private ListStore<LayerStyle> getAvailableStyles(final Rule rule) {
         RpcProxy<List<LayerStyle>> workspacesProxy = new RpcProxy<List<LayerStyle>>() {
@@ -245,16 +268,16 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
     }
 
 	/**
-	 * 
-	 */
+     * Disable cql filter buttons.
+     */
 	public void disableCQLFilterButtons() {
 		this.cqlFilterRead.disable();
 		this.cqlFilterWrite.disable();		
 	}
 
 	/**
-	 * 
-	 */
+     * Enable cql filter buttons.
+     */
 	public void enableCQLFilterButtons() {
 		this.cqlFilterRead.enable();
 		this.cqlFilterWrite.enable();	

@@ -46,12 +46,12 @@ public class AOIServiceTest extends TestCase
     // private final Logger logger = Logger.getLogger(this.getClass());
     //
     // @Autowired
-    // private DGWATCHRemoteService dgwatchRemoteService;
+    // private GEOREPORemoteService georepoRemoteService;
     //
     // public void testService() {
-    // assertNotNull(dgwatchRemoteService);
+    // assertNotNull(georepoRemoteService);
     //
-    // UserList aoiList = dgwatchRemoteService.getClient().getUsers();
+    // UserList aoiList = georepoRemoteService.getClient().getUsers();
     //
     // if (aoiList.getList() != null)
     // logger.info("******************* TOTAL Users  ***********************"
@@ -64,7 +64,7 @@ public class AOIServiceTest extends TestCase
     //
     // SearchRequest srq = new SearchRequest(username1);
     //
-    // long userCount = dgwatchRemoteService.getClient().getUsersCount(srq);
+    // long userCount = georepoRemoteService.getClient().getUsersCount(srq);
     //
     // logger.info("USER COUNT FOR %USE% ****************************** "
     // + userCount);
@@ -72,7 +72,7 @@ public class AOIServiceTest extends TestCase
     // PaginatedSearchRequest psr = new PaginatedSearchRequest(username1, 25,
     // 0);
     //
-    // UserList ul = dgwatchRemoteService.getClient().searchUsers(psr);
+    // UserList ul = georepoRemoteService.getClient().searchUsers(psr);
     //
     // if (ul.getList() != null)
     // logger.info("FOUND ELEMENTS FOR PAGINATION ************** "
@@ -81,7 +81,7 @@ public class AOIServiceTest extends TestCase
     // }
     //
     // public void testAOISearch() {
-    // AOIList aois = dgwatchRemoteService.getClient().getAois();
+    // AOIList aois = georepoRemoteService.getClient().getAois();
     //
     // if (aois.getList() != null)
     // logger.info("NUMBER OF AOI :***************************** "
@@ -89,7 +89,7 @@ public class AOIServiceTest extends TestCase
     // }
 
     // public void testInternalService() {
-    // List<RegisteredUser> usersRegistered = dgwatchRemoteService
+    // List<RegisteredUser> usersRegistered = georepoRemoteService
     // .getInternalService().getUsers();
     //
     // for (RegisteredUser regUser : usersRegistered) {

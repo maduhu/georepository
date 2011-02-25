@@ -60,7 +60,7 @@ public class MAPSController extends Controller {
  */
     public MAPSController() {
         registerEventTypes(
-                GeoRepoEvents.INIT_MAPS_UI_MODULE,// GeoRepoEvents.INIT_DGWATCH_WIDGET,
+                GeoRepoEvents.INIT_MAPS_UI_MODULE,
                 GeoRepoEvents.SHOW_UPLOAD_WIDGET, GeoRepoEvents.ATTACH_AOI_WIDGET,
                 GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS, GeoRepoEvents.AOI_MANAGEMENT_BIND,
                 GeoRepoEvents.AOI_MANAGEMENT_UNBIND, GeoRepoEvents.SHOW_ADD_AOI,

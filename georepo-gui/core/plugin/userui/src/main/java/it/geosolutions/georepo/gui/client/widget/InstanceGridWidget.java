@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.InstanceGridWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.InstanceGridWidget,v. 0.1 25-feb-2011 16.31.40 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 25-feb-2011 16.31.40 $
  *
  * ====================================================================
  *
@@ -114,7 +114,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
      */
     @Override
     public void setGridProperties() {
@@ -124,7 +124,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget# prepareColumnModel()
      */
     @Override
     public ColumnModel prepareColumnModel() {
@@ -193,7 +193,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
      */
     @Override
     public void createStore() {
@@ -329,8 +329,9 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
     }
 
     /**
+     * Creates the instance name text box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<GSInstance> createInstanceNameTextBox() {
         GridCellRenderer<GSInstance> buttonRendered = new GridCellRenderer<GSInstance>() {
@@ -383,7 +384,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
     }
 
     /**
-     * Creates the description.
+     * Creates the instance description text box.
      * 
      * @return the grid cell renderer
      */
@@ -438,7 +439,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
     }
 
     /**
-     * Creates the base url.
+     * Creates the instance baseurl text box.
      * 
      * @return the grid cell renderer
      */
@@ -493,7 +494,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
     }
 
     /**
-     * Creates the username.
+     * Creates the instance username text box.
      * 
      * @return the grid cell renderer
      */
@@ -548,7 +549,7 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
     }
 
     /**
-     * Creates the username.
+     * Creates the instance password text box.
      * 
      * @return the grid cell renderer
      */

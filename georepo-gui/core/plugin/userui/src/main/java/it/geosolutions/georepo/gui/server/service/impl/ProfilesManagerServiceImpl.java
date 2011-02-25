@@ -70,7 +70,7 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
      * (non-Javadoc)
      * 
      * @see
-     * com.digitalglobe.dgwatch.gui.server.service.IFeatureService#loadFeature(com.extjs.gxt.ui.
+     * it.geosolutions.georepo.gui.server.service.IFeatureService#loadFeature(com.extjs.gxt.ui.
      * client.data.PagingLoadConfig, java.lang.String)
      */
     public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full)

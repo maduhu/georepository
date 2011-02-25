@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.SearchPagUserWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.SearchPagUserWidget,v. 0.1 25-feb-2011 16.31.41 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 25-feb-2011 16.31.41 $
  *
  * ====================================================================
  *
@@ -67,7 +67,7 @@ public class SearchPagUserWidget extends GeoRepoSearchWidget<User> {
     private LoginRemoteAsync service;
 
     /**
-     * Instantiates a new search pag profile widget.
+     * Instantiates a new search pag user widget.
      * 
      * @param service
      *            the service
@@ -80,7 +80,7 @@ public class SearchPagUserWidget extends GeoRepoSearchWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget#setWindowProperties()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOSearchWidget#setWindowProperties()
      */
     @Override
     public void setWindowProperties() {
@@ -101,7 +101,7 @@ public class SearchPagUserWidget extends GeoRepoSearchWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget#createStore()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOSearchWidget#createStore()
      */
     @Override
     public void createStore() {
@@ -132,21 +132,20 @@ public class SearchPagUserWidget extends GeoRepoSearchWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget#setGridProperties()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOSearchWidget#setGridProperties()
      */
     @Override
     public void setGridProperties() {
         grid.setAutoExpandColumn(BeanKeyValue.USER_NAME.getValue());
 
         grid.setWidth(350);
-        //grid.setHeight(270);
-        grid.setHeight("100%");//<<-- ric add 20100216
+        grid.setHeight("100%");
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget#prepareColumnModel()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOSearchWidget#prepareColumnModel()
      */
     @Override
     public ColumnModel prepareColumnModel() {
@@ -170,7 +169,7 @@ public class SearchPagUserWidget extends GeoRepoSearchWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHSearchWidget#select()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOSearchWidget#select()
      */
     @Override
     public void select() {

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.AddGsUserWidget,v. 0.1 10-feb-2011 12.01.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.AddInstanceWidget,v. 0.1 25-feb-2011 16.31.41 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 10-feb-2011 12.01.49 $
+ * $ Date: 25-feb-2011 16.31.41 $
  *
  * ====================================================================
  *
@@ -46,7 +46,7 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class AddGsInstanceWidget.
+ * The Class AddInstanceWidget.
  */
 public class AddInstanceWidget extends GeoRepoFormWidget {
 
@@ -59,19 +59,26 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
     /** The instance. */
     protected GSInstance instance = new GSInstance();
 
+    /** The instances manager service remote. */
     private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote;
 
+    /** The instance name. */
     private TextField<String> instanceName;
     
+    /** The instance description. */
     private TextField<String> instanceDescription;
     
+    /** The instance base url. */
     private TextField<String> instanceBaseURL;
 
+    /** The instance username. */
     private TextField<String> instanceUsername;
     
+    /** The instance password. */
     private TextField<String> instancePassword;
+    
     /**
-     * Instantiates a new adds the gs instance widget.
+     * Instantiates a new adds the instance widget.
      * 
      * @param submitEvent
      *            the submit event
@@ -116,7 +123,7 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#addComponentToForm ()
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#addComponentToForm ()
      */
     @Override
     public void addComponentToForm() {
@@ -160,7 +167,7 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#cancel()
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#cancel()
      */
     @SuppressWarnings("deprecation")
     @Override
@@ -180,42 +187,23 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
         this.instanceUsername.reset();
         this.instancePassword.reset();
         this.saveStatus.clearStatus("");
-        // Dispatcher.forwardEvent(DGWATCHEvents.DISABLE_DRAW_BUTTON);
-        // Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
+     * @see it.geosolutions.georepo.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
+     */
+    /**
+     * Adds the other components.
      */
     public void addOtherComponents() {
-        // wktArea = new TextArea();
-        // wktArea.setFieldLabel(I18nProvider.getMessages().wktAbbreviation());
-        // wktArea.setAllowBlank(false);
-        // fieldSet.add(wktArea);
-        //
-        // draw = new Button(I18nProvider.getMessages().drawAoiButton(),
-        // new SelectionListener<ButtonEvent>() {
-        //
-        // @Override
-        // public void componentSelected(ButtonEvent ce) {
-        // hide();
-        // Dispatcher
-        // .forwardEvent(DGWATCHEvents.ENABLE_DRAW_BUTTON, AddAOIWidget.this);
-        // }
-        // });
-        //
-        // draw.setIcon(Resources.ICONS.drawFeature());
-        //
-        // this.formPanel.addButton(draw);
-
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#initSize()
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#initSize()
      */
     @Override
     public void initSize() {
@@ -226,7 +214,7 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
     /*
      * (non-Javadoc)
      * 
-     * @see com.digitalglobe.dgwatch.gui.client.form.DGWATCHFormWidget#initSizeFormPanel ()
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#initSizeFormPanel ()
      */
     @Override
     public void initSizeFormPanel() {
@@ -234,6 +222,9 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
         formPanel.setSize(450, 350);
     }
 
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#injectEvent()
+     */
     @Override
     public void injectEvent() {
         Dispatcher.forwardEvent(getSubmitEvent(), this.instance);
@@ -252,6 +243,12 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
         this.gsManagerServiceRemote = gsManagerServiceRemote;
     }*/
 
+    /**
+     * Sets the instance service.
+     * 
+     * @param instancesManagerServiceRemote
+     *            the new instance service
+     */
     public void setInstanceService(InstancesManagerServiceRemoteAsync instancesManagerServiceRemote) {
         this.instancesManagerServiceRemote = instancesManagerServiceRemote;
     }

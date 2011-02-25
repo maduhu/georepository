@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.UpdateUserWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UpdateUserWidget,v. 0.1 25-feb-2011 16.31.40 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 25-feb-2011 16.31.40 $
  *
  * ====================================================================
  *
@@ -71,7 +71,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
         private String value;
 
         /**
-         * Instantiates a new update profile key.
+         * Instantiates a new update user key.
          * 
          * @param value
          *            the value
@@ -90,7 +90,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
         }
     }
 
-    /** The profile name. */
+    /** The user name. */
     private TextField<String> userName;
 
     /** The email. */
@@ -115,7 +115,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
      * (non-Javadoc)
      * 
      * @see
-     * it.geosolutions.georepo.gui.client.widget.DGWATCHUpdateWidget#bind(com.extjs.gxt.ui.client
+     * it.geosolutions.georepo.gui.client.widget.GEOREPOUpdateWidget#bind(com.extjs.gxt.ui.client
      * .data.BaseModel)
      */
     @Override
@@ -147,7 +147,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#addComponentToForm()
+     * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#addComponentToForm()
      */
     @Override
     public void addComponentToForm() {
@@ -241,7 +241,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#initSize()
+     * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#initSize()
      */
     @Override
     public void initSize() {
@@ -253,7 +253,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#initSizeFormPanel()
+     * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#initSizeFormPanel()
      */
     @Override
     public void initSizeFormPanel() {
@@ -265,7 +265,7 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#cancel()
+     * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#cancel()
      */
     @SuppressWarnings("deprecation")
     @Override

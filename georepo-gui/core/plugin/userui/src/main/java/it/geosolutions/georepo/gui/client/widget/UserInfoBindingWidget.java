@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.UserInfoBindingWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserInfoBindingWidget,v. 0.1 25-feb-2011 16.31.40 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 25-feb-2011 16.31.40 $
  *
  * ====================================================================
  *
@@ -63,7 +63,7 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /** The form data. */
     private FormData formData;
 
-    /** The profile name. */
+    /** The user name. */
     private LabelField userName;
 
     /** The email. */
@@ -78,16 +78,16 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /** The reduced content. */
     private CheckBox reducedContent;
 
-    /** The profile enabled. */
+    /** The user enabled. */
     private CheckBox userEnabled;
 
-    /** The new profile. */
+    /** The new user. */
     private Button newUser;
 
-    /** The update profile. */
+    /** The update user. */
     private Button updateUser;
 
-    /** The delete profile. */
+    /** The delete user. */
     private Button deleteUser;
 
     /** The search. */
@@ -100,7 +100,7 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     private Button getFeatures;
 
     /**
-     * Instantiates a new profile info binding widget.
+     * Instantiates a new user info binding widget.
      */
     public UserInfoBindingWidget() {
         this.init();
@@ -118,7 +118,7 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget# createFormPanel()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOBindingWidget# createFormPanel()
      */
     @Override
     public FormPanel createFormPanel() {
@@ -332,7 +332,7 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHBindingWidget#unBindModel()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOBindingWidget#unBindModel()
      */
     @Override
     public void unBindModel() {

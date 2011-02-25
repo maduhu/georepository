@@ -302,21 +302,21 @@ public interface ApplicationMessages extends Messages {
      * 
      * @return the string
      */
-    public String cleanDGWatchDialogMessage();
+    public String cleanGeoRepoDialogMessage();
 
     /**
      * Clean dg watch dialog title.
      * 
      * @return the string
      */
-    public String cleanDGWatchDialogTitle();
+    public String cleanGeoRepoDialogTitle();
 
     /**
      * Clean dg watch menu tool tip.
      * 
      * @return the string
      */
-    public String cleanDGWatchMenuToolTip();
+    public String cleanGeoRepoMenuToolTip();
 
     /**
      * Delete button label.

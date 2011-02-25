@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.UserGridWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserGridWidget,v. 0.1 25-feb-2011 16.31.41 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 25-feb-2011 16.31.41 $
  *
  * ====================================================================
  *
@@ -85,9 +85,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
 
-    /** The gsUsersService. */
+    /** The gs users service. */
     private GsUsersManagerServiceRemoteAsync gsUsersService;
 
+    /** The profiles service. */
     private ProfilesManagerServiceRemoteAsync profilesService;
 
     /** The proxy. */
@@ -100,10 +101,12 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     private PagingToolBar toolBar;
 
     /**
-     * Instantiates a new profile grid widget.
+     * Instantiates a new user grid widget.
      * 
-     * @param gsUsersService
-     *            the gsUsersService
+     * @param service
+     *            the service
+     * @param profilesService
+     *            the profiles service
      */
     public UserGridWidget(GsUsersManagerServiceRemoteAsync service,
             ProfilesManagerServiceRemoteAsync profilesService) {
@@ -113,7 +116,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     }
 
     /**
-     * Instantiates a new profile grid widget.
+     * Instantiates a new user grid widget.
      * 
      * @param models
      *            the models
@@ -125,7 +128,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
      */
     @Override
     public void setGridProperties() {
@@ -135,7 +138,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget# prepareColumnModel()
      */
     @Override
     public ColumnModel prepareColumnModel() {
@@ -188,7 +191,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
      */
     @Override
     public void createStore() {
@@ -468,7 +471,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
     }
 
     /**
-     * Creates the profile delete button.
+     * Creates the user delete button.
      * 
      * @return the grid cell renderer
      */

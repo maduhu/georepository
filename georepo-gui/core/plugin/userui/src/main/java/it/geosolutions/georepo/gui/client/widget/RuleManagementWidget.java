@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.RuleManagementWidget,v. 0.1 25-gen-2011 12.18.52 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.RuleManagementWidget,v. 0.1 25-feb-2011 16.31.41 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 12.18.52 $
+ * $ Date: 25-feb-2011 16.31.41 $
  *
  * ====================================================================
  *
@@ -55,8 +55,16 @@ public class RuleManagementWidget extends ContentPanel {
     /**
      * Instantiates a new rule management widget.
      * 
-     * @param rulesManagerServiceRemote
-     *            the rules manager service remote
+     * @param rulesService
+     *            the rules service
+     * @param gsUsersService
+     *            the gs users service
+     * @param profilesService
+     *            the profiles service
+     * @param instancesService
+     *            the instances service
+     * @param workspacesService
+     *            the workspaces service
      */
     public RuleManagementWidget(RulesManagerServiceRemoteAsync rulesService,
             GsUsersManagerServiceRemoteAsync gsUsersService,
@@ -89,19 +97,19 @@ public class RuleManagementWidget extends ContentPanel {
     }
 
     /**
-     * Sets the profiles info.
+     * Sets the rules info.
      * 
      * @param rulesInfo
-     *            the new profiles info
+     *            the new rules info
      */
     public void setRulesInfo(RuleGridWidget rulesInfo) {
         this.rulesInfo = rulesInfo;
     }
 
     /**
-     * Gets the profiles info.
+     * Gets the rules info.
      * 
-     * @return the profiles info
+     * @return the rules info
      */
     public RuleGridWidget getRulesInfo() {
         return rulesInfo;

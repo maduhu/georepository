@@ -427,7 +427,7 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
             button.setIcon(Resources.ICONS.logout());
             break;
         case GEOREPO_CLEAN:
-            button.setIcon(Resources.ICONS.cleanDgWatchMenu());
+            button.setIcon(Resources.ICONS.cleanGeoRepoMenu());
             break;
         case SAVE:
             button.setIcon(Resources.ICONS.save());

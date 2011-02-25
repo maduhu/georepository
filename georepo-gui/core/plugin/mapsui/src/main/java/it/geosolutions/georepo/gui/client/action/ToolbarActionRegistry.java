@@ -54,7 +54,7 @@ public final class ToolbarActionRegistry {
     static {
         REGISTRY = new HashMap<String, ToolActionCreator>();
 
-        REGISTRY.put("dgwatchInfoApp", new ToolActionCreator() {
+        REGISTRY.put("georepoInfoApp", new ToolActionCreator() {
 
             public ToolbarAction createActionTool(MapWidget mapWidget) {
                 return new GeoRepoInfoAppAction();
@@ -96,40 +96,6 @@ public final class ToolbarActionRegistry {
             }
         });
 
-//        REGISTRY.put("cleanDGWMenu", new ToolActionCreator() {
-//
-//            public ToolbarAction createActionTool(MapWidget mapWidget) {
-//                return new CleanDgWatchMenu();
-//            }
-//        });
-//
-//        REGISTRY.put("quartzMonitoring", new ToolActionCreator() {
-//
-//            public ToolbarAction createActionTool(MapWidget mapWidget) {
-//                return new QuartzMonitoringAction();
-//            }
-//        });
-//
-//        REGISTRY.put("save", new ToolActionCreator() {
-//
-//            public ToolbarAction createActionTool(MapWidget mapWidget) {
-//                return new SaveAction();
-//            }
-//        });
-//
-//        REGISTRY.put("deleteContent", new ToolActionCreator() {
-//
-//            public ToolbarAction createActionTool(MapWidget mapWidget) {
-//                return new DeleteContentAction();
-//            }
-//        });
-//
-//        REGISTRY.put("administrationMode", new ToolActionCreator() {
-//
-//            public ToolbarAction createActionTool(MapWidget mapWidget) {
-//                return new AdministrationModeAction();
-//            }
-//        });
     }
 
     /**

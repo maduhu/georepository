@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.RuleGridWidget,v. 0.1 10-feb-2011 13.21.50 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.RuleGridWidget,v. 0.1 25-feb-2011 16.31.40 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 10-feb-2011 13.21.50 $
+ * $ Date: 25-feb-2011 16.31.40 $
  *
  * ====================================================================
  *
@@ -115,55 +115,58 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     /** The tool bar. */
     private PagingToolBar toolBar;
 
-    /** The column priority width. */
+    /** The Constant COLUMN_PRIORITY_WIDTH. */
     private static final int COLUMN_PRIORITY_WIDTH = 30;
 
-    /** The column user width. */
+    /** The Constant COLUMN_USER_WIDTH. */
     private static final int COLUMN_USER_WIDTH = 130;
 
-    /** The column profile width. */
+    /** The Constant COLUMN_PROFILE_WIDTH. */
     private static final int COLUMN_PROFILE_WIDTH = 160;
 
-    /** The column instance width. */
+    /** The Constant COLUMN_INSTANCE_WIDTH. */
     private static final int COLUMN_INSTANCE_WIDTH = 160;
 
-    /** The column service width. */
+    /** The Constant COLUMN_SERVICE_WIDTH. */
     private static final int COLUMN_SERVICE_WIDTH = 100;
 
-    /** The column request width. */
+    /** The Constant COLUMN_REQUEST_WIDTH. */
     private static final int COLUMN_REQUEST_WIDTH = 190;
 
-    /** The column workspace width. */
+    /** The Constant COLUMN_WORKSPACE_WIDTH. */
     private static final int COLUMN_WORKSPACE_WIDTH = 130;
 
-    /** The column layer width. */
+    /** The Constant COLUMN_LAYER_WIDTH. */
     private static final int COLUMN_LAYER_WIDTH = 130;
 
-    /** The column grant width. */
+    /** The Constant COLUMN_GRANT_WIDTH. */
     private static final int COLUMN_GRANT_WIDTH = 100;
 
-    /** The column edit rule width. */
+    /** The Constant COLUMN_EDIT_RULE_WIDTH. */
     private static final int COLUMN_EDIT_RULE_WIDTH = 80;
 
-    /** The column rule details width. */
+    /** The Constant COLUMN_RULE_DETAILS_WIDTH. */
     private static final int COLUMN_RULE_DETAILS_WIDTH = 80;
 
-    /** The column remove rule details width. */
+    /** The Constant COLUMN_REMOVE_RULE_WIDTH. */
     private static final int COLUMN_REMOVE_RULE_WIDTH = 80;
 
-    /** The column add rule details width. */
+    /** The Constant COLUMN_ADD_RULE_WIDTH. */
     private static final int COLUMN_ADD_RULE_WIDTH = 30;
 
-    /** The column up rule details width. */
+    /** The Constant COLUMN_UP_RULE_WIDTH. */
     private static final int COLUMN_UP_RULE_WIDTH = 30;
 
-    /** The column down rule details width. */
+    /** The Constant COLUMN_DOWN_RULE_WIDTH. */
     private static final int COLUMN_DOWN_RULE_WIDTH = 30;
 
+    /** The edit rule widget. */
     private EditRuleWidget editRuleWidget;
 
+    /** The parent edit rule widget. */
     public RuleGridWidget parentEditRuleWidget;
 
+    /** The button rendered. */
     private GridCellRenderer<Rule> buttonRendered;
 
     /**
@@ -209,7 +212,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
      */
     @Override
     public void setGridProperties() {
@@ -224,7 +227,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget# prepareColumnModel()
      */
     @Override
     public ColumnModel prepareColumnModel() {
@@ -361,7 +364,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the users field.
+     * Creates the users custom field.
      * 
      * @return the grid cell renderer
      */
@@ -463,7 +466,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the profiles field.
+     * Creates the profiles custom field.
      * 
      * @return the grid cell renderer
      */
@@ -555,7 +558,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the instances combo box.
+     * Creates the instances custom field.
      * 
      * @return the grid cell renderer
      */
@@ -653,7 +656,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the services combo box.
+     * Creates the services custom field.
      * 
      * @return the grid cell renderer
      */
@@ -769,7 +772,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the services request combo box.
+     * Creates the services request custom field.
      * 
      * @return the grid cell renderer
      */
@@ -895,7 +898,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the service workspaces combo box.
+     * Creates the service workspaces custom field.
      * 
      * @return the grid cell renderer
      */
@@ -990,7 +993,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the workspaces layers combo box.
+     * Creates the workspaces layers custom field.
      * 
      * @return the grid cell renderer
      */
@@ -1086,7 +1089,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the grants combo box.
+     * Creates the grants custom field.
      * 
      * @return the grid cell renderer
      */
@@ -1233,7 +1236,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     }
 
     /**
-     * Creates the rule details button.
+     * Edits the rule button.
      * 
      * @return the grid cell renderer
      */
@@ -1578,7 +1581,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
      */
     @Override
     public void createStore() {
