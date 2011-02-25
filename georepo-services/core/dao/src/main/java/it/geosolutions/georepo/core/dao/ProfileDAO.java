@@ -21,6 +21,7 @@
 package it.geosolutions.georepo.core.dao;
 
 import it.geosolutions.georepo.core.model.Profile;
+import java.util.List;
 
 /**
  * Public interface to define operations on Profiles
@@ -31,4 +32,6 @@ import it.geosolutions.georepo.core.model.Profile;
 public interface ProfileDAO 
         extends RestrictedGenericDAO<Profile>,
                 CustomPropsProvider {
+
+    public List<Profile> searchByCustomProp(String key, String value);
 }

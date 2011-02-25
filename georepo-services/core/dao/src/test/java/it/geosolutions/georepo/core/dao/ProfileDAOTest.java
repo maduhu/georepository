@@ -20,8 +20,13 @@
 
 package it.geosolutions.georepo.core.dao;
 
+import com.trg.search.Filter;
+import com.trg.search.Search;
+import it.geosolutions.georepo.core.dao.impl.ProfileDAOImpl;
 import it.geosolutions.georepo.core.model.Profile;
+import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Priority;
 
 import org.junit.Test;
 
@@ -144,6 +149,65 @@ public class ProfileDAOTest extends BaseDAOTest {
 
         profileDAO.removeById(id);
         assertNull("User not deleted", profileDAO.find(id));
+    }
+
+
+    @Test
+    public void testSearchByProp() throws Exception {
+
+        final long id1;
+        {
+            Profile profile = createProfile("p1");
+            profile.getCustomProps().put("xid", "one");
+            profileDAO.merge(profile);
+            id1 = profile.getId();
+        }
+
+        {
+            Profile profile = createProfile("p2");
+            profile.getCustomProps().put("xid", "two");
+            profileDAO.merge(profile);
+        }
+        {
+            Profile profile = createProfile("p3");
+            profile.getCustomProps().put("xid", "two");
+            profileDAO.merge(profile);
+        }
+
+        {
+            // make sure props are in there
+            Map<String, String> customProps = profileDAO.getCustomProps(id1);
+            assertEquals("one", customProps.get("xid"));
+        }
+
+        // none of these will work
+//        Search search = new Search(Profile.class);
+//        search.addFilterEqual("customProps.xid", "one");
+//        search.addFilterEqual("customProps.key", "xid");
+//        search.addFilterEqual("customProps.index", "xid");
+//        search.addFilterEqual("customProps.propkey", "xid");
+//        search.addFilterSome("customProps", Filter.equal("index", "xid"));
+//        search.addFilterSome("customProps", Filter.equal("key", "xid"));
+//        search.addFilterSome("customProps", Filter.equal("propkey", "xid"));
+//        search.addFilterEqual("propvalue", "xid");  // Could not find property 'propvalue' on class class it.geosolutions.georepo.core.model.Profile
+//        search.addFilterSome("customProps", Filter.equal("xid", "one"));
+//        search.addFilterEqual("index(customProps)", "xid");
+
+        {
+            List<Profile> f1 = profileDAO.searchByCustomProp("xid", "one");
+            assertEquals(1, f1.size());
+            assertEquals("p1", f1.get(0).getName());
+        }
+
+        {
+            List<Profile> f1 = profileDAO.searchByCustomProp("xid", "two");
+            assertEquals(2, f1.size());
+        }
+
+//        List found = profileDAO.search(search);
+//        LOGGER.info("Found " + found);
+//        assertEquals(1, found.size());
+
     }
 
 }
