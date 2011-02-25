@@ -34,7 +34,6 @@ package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
 
 import java.util.Date;
 
@@ -58,8 +57,6 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
 
     /** The instance. */
     protected GSInstance instance = new GSInstance();
-
-    private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote;
 
     private TextField<String> instanceName;
     
@@ -154,7 +151,6 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
         
         this.formPanel.add(fieldSet);
         
-        addOtherComponents();
     }
 
     /*
@@ -180,36 +176,6 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
         this.instanceUsername.reset();
         this.instancePassword.reset();
         this.saveStatus.clearStatus("");
-        // Dispatcher.forwardEvent(DGWATCHEvents.DISABLE_DRAW_BUTTON);
-        // Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.digitalglobe.dgwatch.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
-     */
-    public void addOtherComponents() {
-        // wktArea = new TextArea();
-        // wktArea.setFieldLabel(I18nProvider.getMessages().wktAbbreviation());
-        // wktArea.setAllowBlank(false);
-        // fieldSet.add(wktArea);
-        //
-        // draw = new Button(I18nProvider.getMessages().drawAoiButton(),
-        // new SelectionListener<ButtonEvent>() {
-        //
-        // @Override
-        // public void componentSelected(ButtonEvent ce) {
-        // hide();
-        // Dispatcher
-        // .forwardEvent(DGWATCHEvents.ENABLE_DRAW_BUTTON, AddAOIWidget.this);
-        // }
-        // });
-        //
-        // draw.setIcon(Resources.ICONS.drawFeature());
-        //
-        // this.formPanel.addButton(draw);
-
     }
 
     /*
@@ -248,12 +214,4 @@ public class AddInstanceWidget extends GeoRepoFormWidget {
         return instance;
     }
 
-    /*public void setGsUserService(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
-        this.gsManagerServiceRemote = gsManagerServiceRemote;
-    }*/
-
-    public void setInstanceService(InstancesManagerServiceRemoteAsync instancesManagerServiceRemote) {
-        this.instancesManagerServiceRemote = instancesManagerServiceRemote;
-    }
-    
 }

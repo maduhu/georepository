@@ -73,13 +73,10 @@ public class ProfilesController extends Controller {
     public ProfilesController() {
         registerEventTypes(
                 GeoRepoEvents.INIT_MAPS_UI_MODULE,
-                
                 GeoRepoEvents.UPDATE_PROFILE,
                 GeoRepoEvents.DELETE_PROFILE,
                 GeoRepoEvents.SAVE_PROFILE,
-                
                 GeoRepoEvents.CREATE_NEW_PROFILE,
-                
                 GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
     }
 
@@ -160,13 +157,9 @@ public class ProfilesController extends Controller {
                     }
 
                     public void onSuccess(PagingLoadResult<Profile> result) {
-
-                        //grid.getStore().sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
                         grid.getStore().getLoader().load();
                         grid.repaint();
 
-                        Dispatcher.forwardEvent(
-                                GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                 new String[] {
                                         /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "Profile Service" ,
@@ -204,13 +197,9 @@ public class ProfilesController extends Controller {
                     }
 
                     public void onSuccess(PagingLoadResult<Profile> result) {
-
-                        //grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
                         grid.getStore().getLoader().load();
                         grid.repaint();
 
-                        Dispatcher.forwardEvent(
-                                GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                 new String[] {
                                         /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "Profile Service" ,

@@ -36,7 +36,6 @@ import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 
 import java.util.Date;
@@ -53,9 +52,9 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -83,8 +82,6 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
     private TextField<String> eMail;
 
     private ComboBox<Profile> profilesComboBox;
-
-    private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote;
 
     private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote;
 
@@ -170,8 +167,6 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
         createProfilesComboBox();
         
         this.formPanel.add(fieldSet);
-
-        addOtherComponents();
     }
 
     /**
@@ -188,7 +183,6 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
         profilesComboBox.setTriggerAction(TriggerAction.ALL);
         profilesComboBox.setAllowBlank(false);
         profilesComboBox.setLazyRender(false);
-        // profilesComboBox.setWidth(150);
         
         profilesComboBox.addListener(Events.TriggerClick, new Listener<FieldEvent>() {
 
@@ -203,7 +197,7 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
     /**
      * TODO: Call Profile Service here!!
      * 
-     * @return
+     * @return ListStore<Profile>
      */
     private ListStore<Profile> getAvailableProfiles() {
         ListStore<Profile> availableProfiles = new ListStore<Profile>();
@@ -234,7 +228,6 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
     public void cancel() {
         resetComponents();
         super.close();
-
     }
 
     /**
@@ -248,36 +241,6 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
         this.profilesComboBox.reset();
         this.profilesComboBox.getStore().getLoader().load();
         this.saveStatus.clearStatus("");
-        // Dispatcher.forwardEvent(DGWATCHEvents.DISABLE_DRAW_BUTTON);
-        // Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.digitalglobe.dgwatch.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
-     */
-    public void addOtherComponents() {
-        // wktArea = new TextArea();
-        // wktArea.setFieldLabel(I18nProvider.getMessages().wktAbbreviation());
-        // wktArea.setAllowBlank(false);
-        // fieldSet.add(wktArea);
-        //
-        // draw = new Button(I18nProvider.getMessages().drawAoiButton(),
-        // new SelectionListener<ButtonEvent>() {
-        //
-        // @Override
-        // public void componentSelected(ButtonEvent ce) {
-        // hide();
-        // Dispatcher
-        // .forwardEvent(DGWATCHEvents.ENABLE_DRAW_BUTTON, AddAOIWidget.this);
-        // }
-        // });
-        //
-        // draw.setIcon(Resources.ICONS.drawFeature());
-        //
-        // this.formPanel.addButton(draw);
-
     }
 
     /*
@@ -316,10 +279,9 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
         return user;
     }
 
-    public void setGsUserService(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
-        this.gsManagerServiceRemote = gsManagerServiceRemote;
-    }
-
+    /**
+     * @param profilesManagerServiceRemote
+     */
     public void setProfileService(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
         this.profilesManagerServiceRemote = profilesManagerServiceRemote;
     }

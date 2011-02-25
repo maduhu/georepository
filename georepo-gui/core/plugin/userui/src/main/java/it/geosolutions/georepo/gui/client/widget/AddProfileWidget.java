@@ -34,8 +34,6 @@ package it.geosolutions.georepo.gui.client.widget;
 
 import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
 import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 
 import java.util.Date;
 
@@ -59,10 +57,6 @@ public class AddProfileWidget extends GeoRepoFormWidget {
 
     /** The profile. */
     protected Profile profile = new Profile();
-
-    private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote;
-
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote;
 
     private TextField<String> profileName;
 
@@ -126,8 +120,6 @@ public class AddProfileWidget extends GeoRepoFormWidget {
         fieldSet.add(profileName);
 
         this.formPanel.add(fieldSet);
-
-        addOtherComponents();
     }
 
     /*
@@ -149,36 +141,6 @@ public class AddProfileWidget extends GeoRepoFormWidget {
     public void resetComponents() {
         this.profileName.reset();
         this.saveStatus.clearStatus("");
-        // Dispatcher.forwardEvent(DGWATCHEvents.DISABLE_DRAW_BUTTON);
-        // Dispatcher.forwardEvent(DGWATCHEvents.ERASE_AOI_FEATURES);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.digitalglobe.dgwatch.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
-     */
-    public void addOtherComponents() {
-        // wktArea = new TextArea();
-        // wktArea.setFieldLabel(I18nProvider.getMessages().wktAbbreviation());
-        // wktArea.setAllowBlank(false);
-        // fieldSet.add(wktArea);
-        //
-        // draw = new Button(I18nProvider.getMessages().drawAoiButton(),
-        // new SelectionListener<ButtonEvent>() {
-        //
-        // @Override
-        // public void componentSelected(ButtonEvent ce) {
-        // hide();
-        // Dispatcher
-        // .forwardEvent(DGWATCHEvents.ENABLE_DRAW_BUTTON, AddAOIWidget.this);
-        // }
-        // });
-        //
-        // draw.setIcon(Resources.ICONS.drawFeature());
-        //
-        // this.formPanel.addButton(draw);
-
     }
 
     /*
@@ -215,14 +177,6 @@ public class AddProfileWidget extends GeoRepoFormWidget {
      */
     public Profile getProfile() {
         return profile;
-    }
-
-    public void setGsUserService(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
-        this.gsManagerServiceRemote = gsManagerServiceRemote;
-    }
-
-    public void setProfileService(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
-        this.profilesManagerServiceRemote = profilesManagerServiceRemote;
     }
     
 }

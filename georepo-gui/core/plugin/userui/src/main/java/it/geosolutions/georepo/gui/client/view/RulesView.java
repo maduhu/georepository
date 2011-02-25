@@ -38,24 +38,18 @@ import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
-
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
-
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
-
-import it.geosolutions.georepo.gui.client.widget.AddGsUserWidget;
 import it.geosolutions.georepo.gui.client.widget.EditRuleWidget;
-
 import it.geosolutions.georepo.gui.client.widget.dialog.RuleDetailsEditDialog;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesGridWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesTabItem;
@@ -162,10 +156,6 @@ public class RulesView extends View {
         if (event.getType() == GeoRepoEvents.LOAD_LAYER_DETAILS)
             onLoadLayerDetailsInfo(event);
         
-        if (event.getType() == GeoRepoEvents.UPDATE_SOUTH_SIZE) {
-            //logger
-        }
-        
     }
 
 	/**
@@ -207,20 +197,20 @@ public class RulesView extends View {
 
     }
 
-	/**
-	 * @param event
-	 */
-	private void onSaveLayerDetailsInfo(AppEvent event) {        
-		LayerDetailsInfo layerDetailsInfo = event.getData();
-		
-		RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog
-					.getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
+    /**
+     * @param event
+     */
+    private void onSaveLayerDetailsInfo(AppEvent event) {
+        LayerDetailsInfo layerDetailsInfo = event.getData();
 
-		final RuleDetailsGridWidget ruleDetailsGridWidget = ruleDetailsTabItem
-					.getRuleDetailsWidget().getRuleDetailsGrid();
+        RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog
+                .getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
 
-        this.rulesManagerServiceRemote.saveLayerDetailsInfo(layerDetailsInfo, ruleDetailsGridWidget.getStore()
-                .getModels(), new AsyncCallback<LayerDetailsInfo>() {
+        final RuleDetailsGridWidget ruleDetailsGridWidget = ruleDetailsTabItem
+                .getRuleDetailsWidget().getRuleDetailsGrid();
+
+        this.rulesManagerServiceRemote.saveLayerDetailsInfo(layerDetailsInfo, ruleDetailsGridWidget
+                .getStore().getModels(), new AsyncCallback<LayerDetailsInfo>() {
 
             public void onFailure(Throwable caught) {
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
@@ -229,22 +219,23 @@ public class RulesView extends View {
             }
 
             public void onSuccess(LayerDetailsInfo result) {
-            	RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog
-                        .getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
-                
-            	RuleDetailsInfoWidget ruleDetailsWidget = ruleDetailsTabItem
-            	        .getRuleDetailsWidget().getRuleDetailsInfo();
-            	ruleDetailsWidget.bindModelData(result);  
-            	
-            	ruleDetailsGridWidget.clearGridElements();
-            	ruleDetailsGridWidget.getStore().getLoader().load();
-            	
+                RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog
+                        .getTabWidget().getItemByItemId(
+                                RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
+
+                RuleDetailsInfoWidget ruleDetailsWidget = ruleDetailsTabItem.getRuleDetailsWidget()
+                        .getRuleDetailsInfo();
+                ruleDetailsWidget.bindModelData(result);
+
+                ruleDetailsGridWidget.clearGridElements();
+                ruleDetailsGridWidget.getStore().getLoader().load();
+
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         I18nProvider.getMessages().ruleServiceName(),
                         I18nProvider.getMessages().ruleFetchSuccessMessage() });
             }
-        });		
-	}
+        });
+    }
     
     /**
      * On edit rule details.
@@ -440,11 +431,11 @@ public class RulesView extends View {
 
             public void onSuccess(PagingLoadResult<LayerCustomProps> result) {
 
-                //grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
-            	layerCustomPropsInfo.getStore().getLoader().setSortDir(SortDir.ASC);
-            	layerCustomPropsInfo.getStore().getLoader().setSortField(BeanKeyValue.PRIORITY.getValue());
-            	layerCustomPropsInfo.getStore().getLoader().load();
-
+                // grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
+                layerCustomPropsInfo.getStore().getLoader().setSortDir(SortDir.ASC);
+                layerCustomPropsInfo.getStore().getLoader()
+                        .setSortField(BeanKeyValue.PRIORITY.getValue());
+                layerCustomPropsInfo.getStore().getLoader().load();
 
                 Dispatcher.forwardEvent(GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
@@ -464,7 +455,7 @@ public class RulesView extends View {
         LayerAttributesTabItem layerAttributesTabItem = (LayerAttributesTabItem) this.ruleEditorDialog
                 .getTabWidget().getItemByItemId(
                         RuleDetailsEditDialog.RULE_LAYER_ATTRIBUTES_DIALOG_ID);
-        
+
         final LayerAttributesGridWidget layerAttributesInfo = layerAttributesTabItem
                 .getLayerAttributesWidget().getLayerAttributesInfo();
 
@@ -478,11 +469,10 @@ public class RulesView extends View {
                         "Error occurred while saving Rule Layer Attributes!" });
             }
 
-            public void onSuccess(List<LayerAttribUI> result) {            	
-            	
-            	layerAttributesInfo.clearGridElements();
-            	layerAttributesInfo.getStore().getLoader().load();
-//            	layerAttributesInfo.getGrid().repaint();
+            public void onSuccess(List<LayerAttribUI> result) {
+
+                layerAttributesInfo.clearGridElements();
+                layerAttributesInfo.getStore().getLoader().load();
 
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         I18nProvider.getMessages().ruleServiceName(),

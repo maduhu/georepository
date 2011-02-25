@@ -296,9 +296,6 @@ public class RulesController extends Controller {
                                 }
 
                                 public void onSuccess(PagingLoadResult<Rule> result) {
-
-                                    Dispatcher.forwardEvent(
-                                            GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                                     Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                             new String[] {
                                                     I18nProvider.getMessages().ruleServiceName(),
@@ -311,7 +308,6 @@ public class RulesController extends Controller {
                 }
                 return false;
             }
-            // tabWidget.setShim(false);
             return false;
         } else {
             return false;
@@ -360,8 +356,6 @@ public class RulesController extends Controller {
                                             BeanKeyValue.PRIORITY.getValue());
                                     grid.getStore().getLoader().load();
 
-                                    Dispatcher.forwardEvent(
-                                            GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                                     Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                             new String[] {
                                                     I18nProvider.getMessages().ruleServiceName(),
@@ -414,11 +408,7 @@ public class RulesController extends Controller {
                                         grid.getStore().getLoader().setSortField(
                                                 BeanKeyValue.PRIORITY.getValue());
                                         grid.getStore().getLoader().load();
-                                        // grid.repaint();
 
-                                        Dispatcher.forwardEvent(
-                                                GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES,
-                                                result);
                                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                                 new String[] {
                                                         I18nProvider.getMessages()
@@ -477,7 +467,7 @@ public class RulesController extends Controller {
                                 System.out.println("SUCCESS: ");
                             }
                         });
-                rulesManagerServiceRemote.saveRule(new_rule,// store.getModels(),
+                rulesManagerServiceRemote.saveRule(new_rule,
                         new AsyncCallback<PagingLoadResult<Rule>>() {
 
                             public void onFailure(Throwable caught) {
@@ -496,8 +486,6 @@ public class RulesController extends Controller {
                                         BeanKeyValue.PRIORITY.getValue());
                                 grid.getStore().getLoader().load();
 
-                                Dispatcher.forwardEvent(
-                                        GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
                                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                         new String[] {
                                                 I18nProvider.getMessages().ruleServiceName(),
@@ -561,9 +549,6 @@ public class RulesController extends Controller {
                                                 BeanKeyValue.PRIORITY.getValue());
                                         grid.getStore().getLoader().load();
 
-                                        Dispatcher.forwardEvent(
-                                                GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES,
-                                                result);
                                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                                 new String[] {
                                                         I18nProvider.getMessages()
@@ -631,9 +616,6 @@ public class RulesController extends Controller {
                                                 BeanKeyValue.PRIORITY.getValue());
                                         grid.getStore().getLoader().load();
 
-                                        Dispatcher.forwardEvent(
-                                                GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES,
-                                                result);
                                         Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                                 new String[] {
                                                         I18nProvider.getMessages()

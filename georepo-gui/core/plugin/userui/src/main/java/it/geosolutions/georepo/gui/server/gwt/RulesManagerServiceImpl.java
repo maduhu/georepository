@@ -82,91 +82,125 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
      * it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getRules(com.extjs
      * .gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException {
-    	PagingLoadResult<Rule> ret = rulesManagerService.getRules(config, full);
+    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full)
+            throws ApplicationException {
+        PagingLoadResult<Rule> ret = rulesManagerService.getRules(config, full);
         return ret;
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util
+     * .List)
      */
     public void saveRule(Rule rule) throws ApplicationException {
         rulesManagerService.saveRule(rule);
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util
+     * .List)
      */
     public void deleteRule(Rule rule) throws ApplicationException {
         rulesManagerService.deleteRule(rule);
     }
-    
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util.List)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveAllRules(java.util
+     * .List)
      */
     public void saveAllRules(List<Rule> rules) throws ApplicationException {
         rulesManagerService.saveAllRules(rules);
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerCustomProps(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerCustomProps(
+     * com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
      */
     public PagingLoadResult<LayerCustomProps> getLayerCustomProps(PagingLoadConfig config, Rule rule)
             throws ApplicationException {
         return rulesManagerService.getLayerCustomProps(config, rule);
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setDetailsProps(java.lang.Long, it.geosolutions.georepo.gui.client.model.data.LayerCustomProps)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setDetailsProps(java
+     * .lang.Long, it.geosolutions.georepo.gui.client.model.data.LayerCustomProps)
      */
     public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps)
             throws ApplicationException {
         rulesManagerService.setDetailsProps(ruleId, customProps);
     }
-        
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerAttributes(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerAttributes(com
+     * .extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
      */
-    public List<LayerAttribUI> getLayerAttributes(Rule rule) 
-    		throws ApplicationException{
-    	return rulesManagerService.getLayerAttributes(rule);
-    }
-    
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setLayerAttributes(java.lang.Long, java.util.List)
-     */
-    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes) 
-            throws ApplicationException{
-    	rulesManagerService.setLayerAttributes(ruleId, layerAttributes);
-    }
-    
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveLayerDetails(it.geosolutions.georepo.gui.client.model.data.LayerDetailsForm)
-     */
-    public LayerDetailsInfo saveLayerDetailsInfo(LayerDetailsInfo layerDetailsForm, List<LayerStyle> layerStyles) 
-            throws ApplicationException{
-    	return rulesManagerService.saveLayerDetailsInfo(layerDetailsForm, layerStyles);
-    }
-    
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerDetailsInfo(it.geosolutions.georepo.gui.client.model.Rule)
-     */
-    public LayerDetailsInfo getLayerDetailsInfo(Rule rule) 
-            throws ApplicationException{
-    	return rulesManagerService.getLayerDetailsInfo(rule);
+    public List<LayerAttribUI> getLayerAttributes(Rule rule) throws ApplicationException {
+        return rulesManagerService.getLayerAttributes(rule);
     }
 
-	public void shift(long priorityStart, long offset)
-			throws ApplicationException {
-		rulesManagerService.shift(priorityStart, offset);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#setLayerAttributes(java
+     * .lang.Long, java.util.List)
+     */
+    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes)
+            throws ApplicationException {
+        rulesManagerService.setLayerAttributes(ruleId, layerAttributes);
+    }
 
-	public void swap(long id1, long id2) throws ApplicationException {
-		rulesManagerService.swap(id1, id2);	
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveLayerDetails(it.
+     * geosolutions.georepo.gui.client.model.data.LayerDetailsForm)
+     */
+    public LayerDetailsInfo saveLayerDetailsInfo(LayerDetailsInfo layerDetailsForm,
+            List<LayerStyle> layerStyles) throws ApplicationException {
+        return rulesManagerService.saveLayerDetailsInfo(layerDetailsForm, layerStyles);
+    }
 
-	public void findRule(Rule rule) throws ApplicationException, Exception {
-		rulesManagerService.findRule(rule);	
-	}
-	
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerDetailsInfo(
+     * it.geosolutions.georepo.gui.client.model.Rule)
+     */
+    public LayerDetailsInfo getLayerDetailsInfo(Rule rule) throws ApplicationException {
+        return rulesManagerService.getLayerDetailsInfo(rule);
+    }
+
+    public void shift(long priorityStart, long offset) throws ApplicationException {
+        rulesManagerService.shift(priorityStart, offset);
+    }
+
+    public void swap(long id1, long id2) throws ApplicationException {
+        rulesManagerService.swap(id1, id2);
+    }
+
+    public void findRule(Rule rule) throws ApplicationException, Exception {
+        rulesManagerService.findRule(rule);
+    }
+
 }
