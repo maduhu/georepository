@@ -20,7 +20,9 @@
 
 package it.geosolutions.georepo.services.webgis.model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,35 +30,24 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ETj (etj at geo-solutions.it)
  */
 
-@XmlRootElement(name = "Property")
-public class WebGisProperty implements Serializable {
-    private static final long serialVersionUID = -2665068231821654507L;
-    
-    private String propertyName;
-    private String value;
+@XmlRootElement(name="SGUUserList")
+public class SGUUserList {
 
-    public WebGisProperty() {
+    private List<SGUUser> userList = new ArrayList<SGUUser>();
+
+    @XmlElement(name="SGUUser")
+    public List<SGUUser> getUserList() {
+        return userList;
     }
 
-    public WebGisProperty(String propertyName, String value) {
-        this.propertyName = propertyName;
-        this.value = value;
+    public void setUserList(List<SGUUser> userList) {
+        this.userList = userList;
     }
 
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() +"[" + userList.size() + " users]";
     }
 
 }
+

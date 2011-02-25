@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>it.geosolutions.georepository</groupId>
-        <artifactId>core</artifactId>
+        <artifactId>modules</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
@@ -12,7 +12,7 @@
 	<artifactId>webgisstub</artifactId>
 	<packaging>war</packaging>
 
-	<name>GeoRepo - Core - WebGis Stub Module</name>
+	<name>GeoRepo - Module - WebGis Web test</name>
 
 	<developers>
 		<developer>
@@ -38,6 +38,11 @@
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
             <artifactId>services-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>it.geosolutions.georepository</groupId>
+            <artifactId>webgis</artifactId>
         </dependency>
 
         <!-- =============================================================== -->

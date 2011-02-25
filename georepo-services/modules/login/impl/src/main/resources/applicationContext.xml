@@ -21,7 +21,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:bean="http://servicemix.apache.org/bean/1.0"
-	xmlns:dgwatch="http://services.dgwatch.digitalglobe.com/"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
         http://servicemix.apache.org/bean/1.0  http://servicemix.apache.org/schema/servicemix-bean-2009.02-20090404.052411-9.xsd">

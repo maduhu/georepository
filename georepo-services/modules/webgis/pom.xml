@@ -45,14 +45,19 @@
             <artifactId>model</artifactId>
         </dependency>
 
-<!--        <dependency>
+        <dependency>
             <groupId>it.geosolutions.georepository</groupId>
             <artifactId>dao</artifactId>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
             <artifactId>services-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>it.geosolutions.georepository</groupId>
+            <artifactId>services-impl</artifactId>
         </dependency>
 
         <!-- ================================================================-->
@@ -70,6 +75,12 @@
         <!-- ================================================================-->
 
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+<!--            <scope>test</scope>-->
+        </dependency>
+
+        <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <scope>runtime</scope>
@@ -78,12 +89,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.codehaus.jra</groupId>
             <artifactId>jra</artifactId>
             <version>1.0-alpha-4</version>
             <type>jar</type>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-api</artifactId>

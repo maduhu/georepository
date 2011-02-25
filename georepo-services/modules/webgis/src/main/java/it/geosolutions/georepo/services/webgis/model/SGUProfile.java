@@ -20,43 +20,38 @@
 
 package it.geosolutions.georepo.services.webgis.model;
 
-import java.io.Serializable;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
+@XmlRootElement(name="SGUProfile")
+public class SGUProfile {
 
-@XmlRootElement(name = "Property")
-public class WebGisProperty implements Serializable {
-    private static final long serialVersionUID = -2665068231821654507L;
-    
-    private String propertyName;
-    private String value;
+    private String sguId;
+    private String name;
 
-    public WebGisProperty() {
+    public String getName() {
+        return name;
     }
 
-    public WebGisProperty(String propertyName, String value) {
-        this.propertyName = propertyName;
-        this.value = value;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPropertyName() {
-        return propertyName;
+    @XmlAttribute(name="id", required=true)
+    public String getSguId() {
+        return sguId;
     }
 
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
+    public void setSguId(String sguId) {
+        this.sguId = sguId;
     }
 
-    public String getValue() {
-        return value;
+    @Override
+    public String toString() {
+        return getClass().getSimpleName()+"[id:" + sguId + " name:" + name + ']';
     }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
 }

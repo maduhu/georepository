@@ -19,36 +19,47 @@
  */
 package it.geosolutions.georepo.services.webgis;
 
-import it.geosolutions.georepo.services.webgis.model.WebGisProperty;
-import it.geosolutions.georepo.services.exception.IllegalParameterFault;
-import java.util.List;
+import it.geosolutions.georepo.services.webgis.model.SGUProfileList;
+import it.geosolutions.georepo.services.webgis.model.SGUUserList;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 /**
  * 
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@Path("/func/")
-public interface WebGisFuncService {
 
+@Path("/sgu/")
+public interface SGUService {
+
+    /**
+     * @return a sample profile list
+     * */
     @GET
-    @Path("/properties/{profile}")
+    @Path("/profiles")
     @Produces(MediaType.APPLICATION_XML)
-    List<WebGisProperty> getProfileProperties(
-                @PathParam("profile") String profile
-            ) throws IllegalParameterFault;
+    SGUProfileList getProfiles();
 
+    /**
+     * @return a sample user list
+     * */
     @GET
-    @Path("/properties/{profile}/{property}")
-    @Produces(MediaType.TEXT_PLAIN)
-    String getProperty (
-                @PathParam("profile") String profile,
-                @PathParam("property") String property
-            ) throws IllegalParameterFault ;
+    @Path("/users")
+    @Produces(MediaType.APPLICATION_XML)
+    SGUUserList getUsers();
 
+    @PUT
+    @Path("/profiles")
+    @Produces(MediaType.TEXT_PLAIN)
+    String setProfiles(@Multipart("list")SGUProfileList list);
+
+    @PUT
+    @Path("/users")
+    @Produces(MediaType.TEXT_PLAIN)
+    String setUsers(@Multipart("list")SGUUserList list);
 }

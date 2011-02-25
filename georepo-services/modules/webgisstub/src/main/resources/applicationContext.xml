@@ -24,28 +24,27 @@
 <!--    <bean name="testService" class="it.geosolutions.georepo.gui.servicetest.MainTest" lazy-init="false">
     </bean>-->
 
-    <bean id="webgisService" class="it.geosolutions.georepo.services.WGFuncServiceImpl">
+<!--    <bean id="webgisService" class="it.geosolutions.georepo.services.WGFuncServiceImpl">
     </bean>
-
     <bean id="tocService" class="it.geosolutions.georepo.services.WGTocServiceImpl">
-    </bean>
+    </bean>-->
 
    <!-- === CXF ======================================================== -->
    
 	<!-- Load CXF modules from cxf.jar -->
-    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+<!--    <import resource="classpath:META-INF/cxf/cxf.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
-    <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />-->
 
     <!-- ====================================================================-->
     <!-- === REST Services ==================================================-->
     <!-- ====================================================================-->
 
-    <jaxrs:server id="webgisREST" address="/webgis">
+<!--    <jaxrs:server id="webgisREST" address="/webgis">
         <jaxrs:serviceBeans>
           <ref bean="webgisService"/>
           <ref bean="tocService"/>
-        </jaxrs:serviceBeans>
+        </jaxrs:serviceBeans>-->
 
 <!--        <jaxrs:providers>
           <ref bean="isProvider" />
@@ -54,11 +53,11 @@
 <!--        <bean id="isProvider" class="com.bar.providers.InputStreamProvider"/>
         <bean id="longProvider" class="com.bar.providers.LongProvider"/>-->
 
-        <jaxrs:features>
+<!--        <jaxrs:features>
              <cxf:logging/>
         </jaxrs:features>
 
-    </jaxrs:server>
+    </jaxrs:server>-->
 
 
 </beans>
