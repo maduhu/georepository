@@ -129,7 +129,7 @@ public class AppView extends View {
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH,
                 Constants.NORTH_PANEL_DIMENSION);
         data.setMargins(new Margins(0, 5, 0, 5));
-        // data.setSplit(true);
+        data.setSplit(true);
 
         viewport.add(north, data);
     }

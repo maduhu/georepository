@@ -78,11 +78,11 @@ public class MapView extends View {
     @Override
     protected void handleEvent(AppEvent event) {
         if (event.getType() == GeoRepoEvents.ATTACH_MAP_WIDGET) {
-            //this.mapLayout.onAddToCenterPanel((ContentPanel) event.getData());
+            this.mapLayout.onAddToCenterPanel((ContentPanel) event.getData());
         }
 
         if (event.getType() == GeoRepoEvents.UPDATE_MAP_SIZE) {
-           // this.mapLayout.updateMapSize();
+            this.mapLayout.updateMapSize();
         }
 
         if (event.getType() == GeoRepoEvents.ATTACH_TOOLBAR) {
