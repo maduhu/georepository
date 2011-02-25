@@ -165,8 +165,8 @@ public class UploadServlet extends HttpServlet {
         Polygon[] geomArray = null;
         File shpDir = null;
         try {
-            shpDir = IoUtility.decompress("DGWATCH", file, File.createTempFile(
-                    "dgwatch-temp", ".tmp"));
+            shpDir = IoUtility.decompress("GEOREPO", file, File.createTempFile(
+                    "georepo-temp", ".tmp"));
 
             if (shpDir == null)
                 return "Error : File zip doesn't contains file shp.";

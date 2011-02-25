@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesTabItem,v. 0.1 8-feb-2011 15.06.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesTabItem,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 8-feb-2011 15.06.43 $
+ * $ Date: 25-feb-2011 16.30.38 $
  *
  * ====================================================================
  *
@@ -39,15 +39,16 @@ import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class LayerAttributesTabItem.
- * 
- * @author Tobia di Pisa, Alessio Fabiani.
  */
 public class LayerAttributesTabItem extends TabItem {
 
     /** The layer attributes widget. */
     private LayerAttributesWidget layerAttributesWidget;
+    
+    /** The model. */
     private Rule model;
     
     /**
@@ -69,7 +70,8 @@ public class LayerAttributesTabItem extends TabItem {
      * 
      * @param tabItemId
      *            the tab item id
-     * @param model 
+     * @param model
+     *            the model
      * @param rulesService
      *            the rules service
      */

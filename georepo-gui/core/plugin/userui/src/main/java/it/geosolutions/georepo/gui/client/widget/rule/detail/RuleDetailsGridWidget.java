@@ -1,3 +1,35 @@
+/*
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsGridWidget,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 25-feb-2011 16.30.38 $
+ *
+ * ====================================================================
+ *
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
+ *
+ * GPLv3 + Classpath exception
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. 
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by developers
+ * of GeoSolutions.  For more information on GeoSolutions, please see
+ * <http://www.geo-solutions.it/>.
+ *
+ */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
@@ -36,18 +68,19 @@ import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RuleDetailsGridWidget.
- * 
- * @author Tobia di Pisa.
  */
 public class RuleDetailsGridWidget extends GeoRepoGridWidget<LayerStyle> {
 
+	/** The rule. */
 	private Rule theRule;
 	
-    /** The rules service. */
+    /** The workspaces service. */
     private WorkspacesManagerServiceRemoteAsync workspacesService;
 
+    /** The rule details widget. */
     private RuleDetailsWidget ruleDetailsWidget;
     
     /** The proxy. */
@@ -58,10 +91,14 @@ public class RuleDetailsGridWidget extends GeoRepoGridWidget<LayerStyle> {
     
     
     /**
-     * Instantiates a new layer attributes grid widget.
+     * Instantiates a new rule details grid widget.
      * 
-     * @param model 
-     * @param rulesService the rules service
+     * @param model
+     *            the model
+     * @param workspacesService
+     *            the workspaces service
+     * @param ruleDetailsWidget
+     *            the rule details widget
      */
     public RuleDetailsGridWidget(Rule model, WorkspacesManagerServiceRemoteAsync workspacesService,
     		RuleDetailsWidget ruleDetailsWidget) {
@@ -73,7 +110,7 @@ public class RuleDetailsGridWidget extends GeoRepoGridWidget<LayerStyle> {
     
     /*
      * (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
      */
     @Override
     public void setGridProperties() {
@@ -93,7 +130,7 @@ public class RuleDetailsGridWidget extends GeoRepoGridWidget<LayerStyle> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
      */
     @Override
     public void createStore() {
@@ -180,8 +217,9 @@ public class RuleDetailsGridWidget extends GeoRepoGridWidget<LayerStyle> {
     }
     
     /**
+     * Creates the style text box.
      * 
-     * @return GridCellRenderer<LayerCustomProps> the grid cell renderer.
+     * @return the grid cell renderer
      */
     private GridCellRenderer<LayerStyle> createStyleTextBox() {
 
@@ -221,8 +259,9 @@ public class RuleDetailsGridWidget extends GeoRepoGridWidget<LayerStyle> {
     }
     
     /**
+     * Creates the enable check box.
      * 
-     * @return GridCellRenderer<LayerCustomProps> the grid cell renderer.
+     * @return the grid cell renderer
      */
     private GridCellRenderer<LayerStyle> createEnableCheckBox() {
 

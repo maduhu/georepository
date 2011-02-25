@@ -45,7 +45,7 @@
             <artifactId>commons-collections</artifactId>
         </dependency>
     
-    <!-- DGWatch -->
+    <!-- GeoRepo -->
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
             <artifactId>model</artifactId>

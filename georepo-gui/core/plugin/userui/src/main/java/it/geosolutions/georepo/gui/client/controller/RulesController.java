@@ -330,33 +330,19 @@ public class RulesController extends Controller {
                 final Grid<Rule> grid = rulesInfoWidget.getGrid();
 
                 Rule model = (Rule) tabData;
-                // if(res)
                 this.rulesView.ruleRowEditor.grid.getStore().remove(model);
-                // TODO: details?
-                // model.setId(-1);
-                // if(res)
                 this.rulesView.ruleRowEditor.grid.getStore().add(model);
-                // this.rulesView.ruleRowEditor.repaint();
                 this.rulesView.ruleRowEditor.setModel(model);
-                /*
-                 * List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels()); if
-                 * (checkUniqueRule(rules, (Rule) tabData)) {
-                 * Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                 * I18nProvider.getMessages().ruleServiceName(),
-                 * "There's just another rule with this setting!!" });
-                 * grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                 * grid.getStore().getLoader().setSortField(BeanKeyValue.PRIORITY.getValue());
-                 * grid.getStore().getLoader().load();
-                 * 
-                 * return; } ; boolean res; try { res = saveRule(event); } catch (Exception e) { //
-                 * TODO Auto-generated catch block e.printStackTrace(); res = false; } //
-                 * ///////////////////////////////// Rule model = (Rule) tabData; boolean res =
-                 * true; if (res) { grid.getStore().remove(model); grid.getStore().add(model); }
-                 */
             }
         }
     }
 
+    /**
+     * 
+     * @param event
+     * @return
+     * @throws Exception
+     */
     private boolean saveRule(AppEvent event) throws Exception {
         if (tabWidget != null) {
 
@@ -370,6 +356,21 @@ public class RulesController extends Controller {
                 if (store != null && store.getModels() != null && store.getModels().size() > 0) {
                     // TODO: details?
                     Rule lRule = (Rule) event.getData();
+                    
+                    rulesManagerServiceRemote.shift(lRule.getPriority(), 1,
+                            new AsyncCallback<PagingLoadResult<Rule>>() {
+                                public void onFailure(Throwable caught) {
+                                    System.out.println("ERROR: " + caught.getMessage());
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                            new String[] {
+                                                    I18nProvider.getMessages().ruleServiceName(),
+                                                    "There's just another rule with this setting!!" });
+                                }
+
+                                public void onSuccess(PagingLoadResult<Rule> result) {
+                                }
+                            });
+                    
                     rulesManagerServiceRemote.saveRule(lRule,
                             new AsyncCallback<PagingLoadResult<Rule>>() {
 
@@ -380,11 +381,6 @@ public class RulesController extends Controller {
                                                     I18nProvider.getMessages().ruleServiceName(),
                                                     I18nProvider.getMessages()
                                                             .ruleFetchFailureMessage() });
-
-                                    grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                                    grid.getStore().getLoader().setSortField(
-                                            BeanKeyValue.PRIORITY.getValue());
-                                    grid.getStore().getLoader().load();
                                 }
 
                                 public void onSuccess(PagingLoadResult<Rule> result) {
@@ -396,6 +392,12 @@ public class RulesController extends Controller {
                                 }
 
                             });
+                    
+                    grid.getStore().getLoader().setSortDir(SortDir.ASC);
+                    grid.getStore().getLoader().setSortField(
+                            BeanKeyValue.PRIORITY.getValue());
+                    grid.getStore().getLoader().load();
+                    
                     return true;
                 }
                 return false;
@@ -537,13 +539,7 @@ public class RulesController extends Controller {
                 final Grid<Rule> grid = rulesInfoWidget.getGrid();
 
                 List<Rule> rules = new ArrayList<Rule>(grid.getStore().getModels());
-                Rule new_rule = model;// Constants.getInstance().createNewRule(model);
-                /*
-                 * if (checkUniqueRule(rules, new_rule)) {
-                 * Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                 * I18nProvider.getMessages().ruleServiceName(),
-                 * "There's just another rule with this setting!!" }); return; }
-                 */
+                Rule new_rule = model;
                 rulesManagerServiceRemote.shift(new_rule.getPriority(), 1,
                         new AsyncCallback<PagingLoadResult<Rule>>() {
                             public void onFailure(Throwable caught) {

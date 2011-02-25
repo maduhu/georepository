@@ -74,7 +74,7 @@ public abstract class GeoRepoUpdateWidget<T extends BaseModel> extends GeoRepoFo
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.form.DGWATCHFormWidget#reset()
+     * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#reset()
      */
     @Override
     public void reset() {

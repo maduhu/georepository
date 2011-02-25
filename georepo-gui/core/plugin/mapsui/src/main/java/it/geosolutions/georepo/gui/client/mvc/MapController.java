@@ -51,7 +51,7 @@ public class MapController extends Controller {
      */
     public MapController() {
         registerEventTypes(
-                GeoRepoEvents.INIT_MAPS_UI_MODULE,// DGWATCHEvents.INIT_DGWATCH_MAIN_UI,
+                GeoRepoEvents.INIT_MAPS_UI_MODULE,
                 GeoRepoEvents.ATTACH_MAP_WIDGET, GeoRepoEvents.UPDATE_MAP_SIZE,
                 GeoRepoEvents.ATTACH_TOOLBAR, GeoRepoEvents.ACTIVATE_DRAW_FEATURES,
                 GeoRepoEvents.DEACTIVATE_DRAW_FEATURES, GeoRepoEvents.ERASE_AOI_FEATURES,

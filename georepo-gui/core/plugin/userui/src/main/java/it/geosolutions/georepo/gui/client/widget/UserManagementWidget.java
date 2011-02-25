@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.UserManagementWidget,v. 0.1 25-gen-2011 11.23.49 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.UserManagementWidget,v. 0.1 25-feb-2011 16.31.40 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.49 $
+ * $ Date: 25-feb-2011 16.31.40 $
  *
  * ====================================================================
  *
@@ -50,11 +50,12 @@ public class UserManagementWidget extends ContentPanel {
     private UserGridWidget usersInfo;
 
     /**
-     * Instantiates a new profile management widget.
+     * Instantiates a new user management widget.
      * 
      * @param gsManagerServiceRemote
      *            the gs manager service remote
      * @param profilesManagerServiceRemote
+     *            the profiles manager service remote
      */
     public UserManagementWidget(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote,
             ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
@@ -84,19 +85,19 @@ public class UserManagementWidget extends ContentPanel {
     }
 
     /**
-     * Sets the profile info.
+     * Sets the users info.
      * 
      * @param usersInfo
-     *            the new profile info
+     *            the new users info
      */
     public void setUsersInfo(UserGridWidget usersInfo) {
         this.usersInfo = usersInfo;
     }
 
     /**
-     * Gets the profile info.
+     * Gets the users info.
      * 
-     * @return the profile info
+     * @return the users info
      */
     public UserGridWidget getUsersInfo() {
         return usersInfo;

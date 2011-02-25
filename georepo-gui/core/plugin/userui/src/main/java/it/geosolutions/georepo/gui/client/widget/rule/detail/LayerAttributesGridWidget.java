@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesGridWidget,v. 0.1 8-feb-2011 15.06.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesGridWidget,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 8-feb-2011 15.06.43 $
+ * $ Date: 25-feb-2011 16.30.38 $
  *
  * ====================================================================
  *
@@ -76,13 +76,13 @@ import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class LayerAttributesGridWidget.
- * 
- * @author Tobia di Pisa, Alessio Fabiani.
  */
 public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> {
 
+	/** The rule. */
 	private Rule theRule;
 	
     /** The rules service. */
@@ -97,13 +97,16 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
     /** The tool bar. */
     private ToolBar toolBar;
     
+    /** The save rule attributes button. */
     private Button saveRuleAttributesButton;
     
     /**
      * Instantiates a new layer attributes grid widget.
      * 
-     * @param model 
-     * @param rulesService the rules service
+     * @param model
+     *            the model
+     * @param rulesService
+     *            the rules service
      */
     public LayerAttributesGridWidget(Rule model, RulesManagerServiceRemoteAsync rulesService) {
         super();
@@ -113,7 +116,7 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
     
     /*
      * (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
      */
     @Override
     public void setGridProperties() {
@@ -132,7 +135,7 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
      */
     @Override
     public void createStore() {
@@ -262,8 +265,9 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
     }
     
     /**
+     * Creates the name text box.
      * 
-     * @return GridCellRenderer<LayerCustomProps> the grid cell renderer.
+     * @return the grid cell renderer
      */
     private GridCellRenderer<LayerAttribUI> createNameTextBox() {
 
@@ -303,8 +307,9 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
     }
     
     /**
+     * Creates the type text box.
      * 
-     * @return GridCellRenderer<LayerCustomProps> the grid cell renderer.
+     * @return the grid cell renderer
      */
     private GridCellRenderer<LayerAttribUI> createTypeTextBox() {
 
@@ -343,8 +348,10 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
         return textRendered;
     }
     
-    /** 
-     * @return GridCellRenderer<LayerCustomProps> the grid cell renderer.
+    /**
+     * Creates the access type combo box.
+     * 
+     * @return the grid cell renderer
      */
     private GridCellRenderer<LayerAttribUI> createAccessTypeComboBox() {
     	

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.InstanceManagementWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.InstanceManagementWidget,v. 0.1 25-feb-2011 16.31.41 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 25-feb-2011 16.31.41 $
  *
  * ====================================================================
  *
@@ -81,19 +81,19 @@ public class InstanceManagementWidget extends ContentPanel {
     }
 
     /**
-     * Sets the instance info.
+     * Sets the instances info.
      * 
      * @param instancesInfo
-     *            the new instance info
+     *            the new instances info
      */
     public void setInstancesInfo(InstanceGridWidget instancesInfo) {
         this.instancesInfo = instancesInfo;
     }
 
     /**
-     * Gets the instance info.
+     * Gets the instances info.
      * 
-     * @return the instance info
+     * @return the instances info
      */
     public InstanceGridWidget getInstancesInfo() {
         return instancesInfo;

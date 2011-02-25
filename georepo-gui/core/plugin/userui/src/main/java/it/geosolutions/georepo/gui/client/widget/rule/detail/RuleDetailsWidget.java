@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsWidget,v. 0.1 8-feb-2011 15.06.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsWidget,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 8-feb-2011 15.06.43 $
+ * $ Date: 25-feb-2011 16.30.38 $
  *
  * ====================================================================
  *
@@ -49,13 +49,13 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RuleDetailsWidget.
- * 
- * @author Tobia di Pisa.
  */
 public class RuleDetailsWidget extends ContentPanel {
     
+	/** The rule. */
 	private Rule theRule;
 	
     /** The rule details info. */
@@ -67,15 +67,16 @@ public class RuleDetailsWidget extends ContentPanel {
     /** The tool bar. */
     private ToolBar toolBar;
     
-    /** The save button. */
+    /** The save layer details button. */
     private Button saveLayerDetailsButton;
 
 	/**
      * Instantiates a new rule details widget.
      * 
-     * @param model 
-     * @param rulesService
-     *            the rules service
+     * @param model
+     *            the model
+     * @param workspacesService
+     *            the workspaces service
      */
     public RuleDetailsWidget(Rule model, WorkspacesManagerServiceRemoteAsync workspacesService) {
         this.theRule = model;
@@ -153,30 +154,35 @@ public class RuleDetailsWidget extends ContentPanel {
     }
     
     /**
-	 * @return the ruleDetailsGrid
-	 */
+     * Gets the rule details grid.
+     * 
+     * @return the rule details grid
+     */
 	public RuleDetailsGridWidget getRuleDetailsGrid() {
 		return ruleDetailsGrid;
 	}
 
 	/**
-	 * @param ruleDetailsGrid the ruleDetailsGrid to set
-	 */
+     * Sets the rule details grid.
+     * 
+     * @param ruleDetailsGrid
+     *            the new rule details grid
+     */
 	public void setRuleDetailsGrid(RuleDetailsGridWidget ruleDetailsGrid) {
 		this.ruleDetailsGrid = ruleDetailsGrid;
 	}
 	
     /**
-	 * 
-	 */
+     * Disable save button.
+     */
 	public void disableSaveButton() {
 		if(this.saveLayerDetailsButton.isEnabled())
 			this.saveLayerDetailsButton.disable();
 	}
 	
     /**
-	 * @return 
-	 */
+     * Enable save button.
+     */
 	public void enableSaveButton() {
 		if(!this.saveLayerDetailsButton.isEnabled())
 			this.saveLayerDetailsButton.enable();

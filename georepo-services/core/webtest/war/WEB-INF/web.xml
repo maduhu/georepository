@@ -30,7 +30,7 @@
 
 <!--	<servlet>
 		<servlet-name>ConfigurationRemote</servlet-name>
-		<servlet-class>com.digitalglobe.dgwatch.gui.server.gwt.ConfigurationRemoteImpl</servlet-class>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.ConfigurationRemoteImpl</servlet-class>
         <load-on-startup>1</load-on-startup>
 	</servlet>-->
 
@@ -42,7 +42,7 @@
 
 <!--	<servlet>
 		<servlet-name>LoginRemote</servlet-name>
-		<servlet-class>com.digitalglobe.dgwatch.gui.server.gwt.LoginRemoteImpl</servlet-class>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.LoginRemoteImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LoginRemote</servlet-name>
@@ -51,7 +51,7 @@
 
 <!--	<servlet>
 		<servlet-name>QuartzRemote</servlet-name>
-		<servlet-class>com.digitalglobe.dgwatch.gui.server.gwt.QuartzRemoteImpl</servlet-class>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.QuartzRemoteImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>QuartzRemote</servlet-name>
@@ -60,7 +60,7 @@
 
 <!--	<servlet>
 		<servlet-name>MembersRemote</servlet-name>
-		<servlet-class>com.digitalglobe.dgwatch.gui.server.gwt.MembersRemoteImpl</servlet-class>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.MembersRemoteImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MembersRemote</servlet-name>
@@ -69,7 +69,7 @@
 	
 <!--	<servlet>
 		<servlet-name>AOIServiceRemote</servlet-name>
-		<servlet-class>com.digitalglobe.dgwatch.gui.server.gwt.AOIRemoteImpl</servlet-class>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.AOIRemoteImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AOIServiceRemote</servlet-name>
@@ -78,7 +78,7 @@
 
 <!--	<servlet>
 		<servlet-name>FilterServiceRemote</servlet-name>
-		<servlet-class>com.digitalglobe.dgwatch.gui.server.gwt.FilterRemoteImpl</servlet-class>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.FilterRemoteImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>FilterServiceRemote</servlet-name>
@@ -87,7 +87,7 @@
 
 <!--	<servlet>
 		<servlet-name>FeatureServiceRemote</servlet-name>
-		<servlet-class>com.digitalglobe.dgwatch.gui.server.gwt.FeatureServiceRemoteImpl</servlet-class>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.FeatureServiceRemoteImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>FeatureServiceRemote</servlet-name>
@@ -96,7 +96,7 @@
 
 <!--	<servlet>
 		<servlet-name>uploadServlet</servlet-name>
-		<servlet-class>com.digitalglobe.dgwatch.gui.server.UploadServlet</servlet-class>
+		<servlet-class>it.geosolutions.georepo.gui.server.UploadServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>uploadServlet</servlet-name>

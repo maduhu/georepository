@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.ProfileGridWidget,v. 0.1 25-gen-2011 11.23.48 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.ProfileGridWidget,v. 0.1 25-feb-2011 16.31.41 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 25-gen-2011 11.23.48 $
+ * $ Date: 25-feb-2011 16.31.41 $
  *
  * ====================================================================
  *
@@ -115,7 +115,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
      */
     @Override
     public void setGridProperties() {
@@ -125,7 +125,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget# prepareColumnModel()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget# prepareColumnModel()
      */
     @Override
     public ColumnModel prepareColumnModel() {
@@ -175,7 +175,7 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
      */
     @Override
     public void createStore() {
@@ -240,11 +240,6 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(filter);
         this.toolBar.add(new SeparatorToolItem());
-        // this.toolBar.setStyleAttribute("height", "100%");//<<-- ric add 20100216
-        // this.toolBar.setStyleAttribute("top", "96%");//<<-- ric add 20100217
-        // this.toolBar.setStyleAttribute("position", "absolute");//<<-- ric add 20100217
-        // this.toolBar.disable();
-        // this.toolBar.setStyleAttribute("vertical-align", "bottom");//ric add 20100216
 
         setUpLoadListener();
     }
@@ -316,8 +311,9 @@ public class ProfileGridWidget extends GeoRepoGridWidget<Profile> {
     }
 
     /**
+     * Creates the profile name text box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<Profile> createProfileNameTextBox() {
         GridCellRenderer<Profile> buttonRendered = new GridCellRenderer<Profile>() {

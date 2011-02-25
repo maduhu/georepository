@@ -87,14 +87,9 @@ public abstract class GeoRepoEditGridWidget<T extends BaseModel>  extends GeoRep
         grid.setBorders(true);
 
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        //if(grid.getParent()!=null && grid.getParent().getParent()!=null && grid.getParent().getParent().getParent()!=null)grid.getParent().getParent().getParent().setHeight("95%");
-        //if(grid.getParent()!=null &&  grid.getParent().getParent()!=null)grid.getParent().getParent().setHeight("95%");
-        //if(grid.getParent()!=null)grid.getParent().setHeight("95%");
       
-        grid.setHeight("95%");//<<--  ric add 20100216
-        //grid.setAutoHeight(true);
-        //grid.set
-        grid.setLazyRowRender(0);//<<-- ric add 20100217
+        grid.setHeight("95%");
+        grid.setLazyRowRender(0);
         setGridProperties();
     }
 

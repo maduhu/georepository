@@ -67,7 +67,7 @@ public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration {
      * (non-Javadoc)
      * 
      * @see
-     * it.geosolutions.georepo.gui.client.configuration.IDGWATCHConfiguration#getToolbarItemManager
+     * it.geosolutions.georepo.gui.client.configuration.GeoRepoConfiguration#getToolbarItemManager
      * ()
      */
     public IToolbarItemManager getToolbarItemManager() {

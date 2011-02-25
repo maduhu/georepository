@@ -143,7 +143,7 @@ public interface GeoRepoIcons extends ImageBundle {
      * 
      * @return the abstract image prototype
      */
-    @Resource("dgwatch-about.png")
+    @Resource("georepo-about.png")
     AbstractImagePrototype info();
 
     /**
@@ -168,7 +168,7 @@ public interface GeoRepoIcons extends ImageBundle {
      * @return the abstract image prototype
      */
     @Resource("eraser_minus.png")
-    AbstractImagePrototype cleanDgWatchMenu();
+    AbstractImagePrototype cleanGeoRepoMenu();
 
     /**
      * Logout.

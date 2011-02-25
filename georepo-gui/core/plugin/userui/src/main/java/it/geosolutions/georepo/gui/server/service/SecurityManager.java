@@ -35,11 +35,6 @@ package it.geosolutions.georepo.gui.server.service;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-//import com.digitalglobe.dgp.member.domain.Role;
-//import com.digitalglobe.dgp.member.dto.CredentialDto;
-//import com.digitalglobe.dgp.member.dto.MemberDto;
-//import com.digitalglobe.dgp.member.service.MemberServiceInternal;
-
 /**
  * The Class SecurityManager.
  */

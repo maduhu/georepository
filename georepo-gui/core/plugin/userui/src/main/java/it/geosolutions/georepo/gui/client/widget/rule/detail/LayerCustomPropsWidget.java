@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsWidget,v. 0.1 8-feb-2011 15.06.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsWidget,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 8-feb-2011 15.06.43 $
+ * $ Date: 25-feb-2011 16.30.38 $
  *
  * ====================================================================
  *
@@ -47,12 +47,15 @@ public class LayerCustomPropsWidget extends ContentPanel {
     
     /** The layer custom props info. */
     private LayerCustomPropsGridWidget layerCustomPropsInfo;
+    
+    /** The model. */
     private Rule model;
 
     /**
      * Instantiates a new layer custom props widget.
-     * @param model 
      * 
+     * @param model
+     *            the model
      * @param rulesService
      *            the rules service
      */

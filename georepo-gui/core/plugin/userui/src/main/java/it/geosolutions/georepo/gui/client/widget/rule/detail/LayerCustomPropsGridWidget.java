@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsGridWidget,v. 0.1 8-feb-2011 15.06.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsGridWidget,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 8-feb-2011 15.06.43 $
+ * $ Date: 25-feb-2011 16.30.38 $
  *
  * ====================================================================
  *
@@ -94,12 +94,14 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     private PagingToolBar toolBar;
 
     
+    /** The rule. */
     private Rule theRule;
     
     /**
      * Instantiates a new layer custom props grid widget.
-     * @param theRule 
      * 
+     * @param model
+     *            the model
      * @param rulesService
      *            the rules service
      */
@@ -112,7 +114,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#setGridProperties ()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
      */
     @Override
     public void setGridProperties() {
@@ -161,8 +163,9 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     }
     
     /**
+     * Creates the prop key text box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<LayerCustomProps> createPropKeyTextBox() {
 
@@ -222,8 +225,9 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     }
     
     /**
+     * Creates the prop value text box.
      * 
-     * @return
+     * @return the grid cell renderer
      */
     private GridCellRenderer<LayerCustomProps> createPropValueTextBox() {
 
@@ -283,7 +287,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     }
     
     /**
-     * Creates the profile delete button.
+     * Creates the delete button.
      * 
      * @return the grid cell renderer
      */
@@ -342,7 +346,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     /*
      * (non-Javadoc)
      * 
-     * @see it.geosolutions.georepo.gui.client.widget.DGWATCHGridWidget#createStore()
+     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
      */
     @Override
     public void createStore() {

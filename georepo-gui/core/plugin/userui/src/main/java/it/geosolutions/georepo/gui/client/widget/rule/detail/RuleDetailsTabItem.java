@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsTabItem,v. 0.1 8-feb-2011 15.06.43 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsTabItem,v. 0.1 25-feb-2011 16.30.38 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 8-feb-2011 15.06.43 $
+ * $ Date: 25-feb-2011 16.30.38 $
  *
  * ====================================================================
  *
@@ -44,15 +44,16 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RuleDetailsTabItem.
- * 
- * @author Tobia di Pisa.
  */
 public class RuleDetailsTabItem extends TabItem {
 
     /** The rule details widget. */
     private RuleDetailsWidget ruleDetailsWidget;
+    
+    /** The rule. */
     private Rule theRule;
     
     /**
@@ -74,9 +75,10 @@ public class RuleDetailsTabItem extends TabItem {
      * 
      * @param tabItemId
      *            the tab item id
-     * @param model 
-     * @param rulesService
-     *            the rules service
+     * @param model
+     *            the model
+     * @param workspacesService
+     *            the workspaces service
      */
     public RuleDetailsTabItem(String tabItemId, Rule model, WorkspacesManagerServiceRemoteAsync workspacesService) {
         this(tabItemId);
