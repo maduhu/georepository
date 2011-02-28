@@ -48,6 +48,7 @@ import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
+import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.RuleFilter.SpecialFilterType;
 import it.geosolutions.georepo.services.dto.ShortRule;
@@ -410,7 +411,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         }
         LayerDetails details = null;
         try {
-            details = georepoRemoteService.getRuleAdminService().getDetails(ruleId);
+        	details = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
         } catch (Exception e) {
             details = new LayerDetails();
             georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
