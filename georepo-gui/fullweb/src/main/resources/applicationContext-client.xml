@@ -61,6 +61,7 @@
     <!-- ====================================================================-->
     <!-- WebGIS Services -->
 
+<!--
     <bean id="webgisService" class="it.geosolutions.georepo.services.webgis.WGFuncServiceImpl">
     </bean>
 
@@ -73,26 +74,19 @@
           <ref bean="tocService"/>
         </jaxrs:serviceBeans>
 
-<!--        <jaxrs:providers>
-          <ref bean="isProvider" />
-          <ref bean="longProvider" />
-        </jaxrs:providers>-->
-<!--        <bean id="isProvider" class="com.bar.providers.InputStreamProvider"/>
-        <bean id="longProvider" class="com.bar.providers.LongProvider"/>-->
-
         <jaxrs:features>
              <cxf:logging/>
         </jaxrs:features>
 
     </jaxrs:server>
-
+-->
     <!-- ====================================================================-->
     <!-- Enable message logging using the CXF logging feature -->
 
-    <cxf:bus>
+<!--    <cxf:bus>
     	<cxf:features>
     		<cxf:logging/>
 	    </cxf:features>
-	</cxf:bus>
+	</cxf:bus>-->
 
 </beans>
