@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.trg.search.ISearch;
 import it.geosolutions.georepo.core.dao.ProfileDAO;
 import it.geosolutions.georepo.core.model.Profile;
+import javax.persistence.Query;
 import org.hibernate.Hibernate;
 
 /**
@@ -70,6 +71,14 @@ public class ProfileDAOImpl extends BaseDAO<Profile, Long>
     @Override
     public boolean removeById(Long id) {
         return super.removeById(id);
+    }
+
+    @Override
+    public List<Profile> searchByCustomProp(String key, String value) {
+        Query q = em().createQuery("FROM Profile p WHERE p.customProps[:key] = :value");
+        q.setParameter("key", key);
+        q.setParameter("value", value);
+        return q.getResultList();
     }
 
     //==========================================================================

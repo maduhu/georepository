@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -27,7 +27,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.xml.bind.annotation.XmlElementWrapper;
 
 /**
  * 
@@ -42,7 +41,7 @@ public interface WebGisTOCService {
 
     @GET
     @Path("/profile/{profile}/toc")
-    @XmlElementWrapper(name="pippo")
+    @Produces("application/xml")
     TOCConfig getTOC(
             @PathParam("profile") String profile
             ) throws IllegalParameterFault;

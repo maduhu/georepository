@@ -218,10 +218,10 @@ public class FakeServices {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
-        @Override
-        public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+//        @Override
+//        public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
+//            throw new UnsupportedOperationException("Not supported yet.");
+//        }
 
         @Override
         public List<ShortRule> getList(RuleFilter filter, Integer page, Integer entries) {

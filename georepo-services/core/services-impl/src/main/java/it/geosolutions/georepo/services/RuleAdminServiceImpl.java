@@ -331,10 +331,10 @@ public class RuleAdminServiceImpl implements RuleAdminService {
     // Details
     // =========================================================================
 
-    @Override
-    public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+//    @Override
+//    public LayerDetails getDetails(long id) throws ResourceNotFoundFault {
+//        throw new UnsupportedOperationException("Not supported yet.");
+//    }
 
 
     @Override

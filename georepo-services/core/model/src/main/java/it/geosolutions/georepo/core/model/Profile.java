@@ -1,9 +1,4 @@
-/*
- * $ Header: it.geosolutions.georepo.core.model.Profile,v. 0.1 4-gen-2011 16.36.14 created by afabiani <alessio.fabiani at geo-solutions.it> $
- * $ Revision: 0.1 $
- * $ Date: 4-gen-2011 16.36.14 $
- *
- * ====================================================================
+/* ====================================================================
  *
  * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  * http://www.geo-solutions.it
@@ -71,6 +66,12 @@ public class Profile implements Serializable {
     @Column
     private long id;
 
+    /** External Id. An ID used in an external systems.
+     * This field should simplify GeoRepository integration in complex systems.
+     */
+    @Column(nullable=true, updatable=false, unique=true)
+    private String extId;
+
     /** The name. */
     @Column(nullable=false, updatable=true, unique=true)
     private String name;
@@ -118,6 +119,14 @@ public class Profile implements Serializable {
      */
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getExtId() {
+        return extId;
+    }
+
+    public void setExtId(String extId) {
+        this.extId = extId;
     }
 
     /**

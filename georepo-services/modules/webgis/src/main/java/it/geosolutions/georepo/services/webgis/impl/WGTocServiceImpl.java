@@ -18,11 +18,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.geosolutions.georepo.services.webgis;
+package it.geosolutions.georepo.services.webgis.impl;
 
+import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.LayerDetails;
+import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.InstanceAdminService;
@@ -32,6 +34,7 @@ import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.webgis.WebGisTOCService;
 import it.geosolutions.georepo.services.webgis.model.TOCAttrib;
 import it.geosolutions.georepo.services.webgis.model.TOCConfig;
 import it.geosolutions.georepo.services.webgis.model.TOCGroup;
@@ -39,11 +42,13 @@ import it.geosolutions.georepo.services.webgis.model.TOCLayer;
 import it.geosolutions.georepo.services.webgis.utils.DenominatorStyleVisitor;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader;
 import it.geosolutions.geoserver.rest.decoder.RESTLayer;
+import it.geosolutions.geoserver.rest.decoder.RESTResource;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import org.apache.log4j.Logger;
 import org.geotools.factory.CommonFactoryFinder;
@@ -58,16 +63,12 @@ public class WGTocServiceImpl implements WebGisTOCService {
     private final static Logger LOGGER = Logger.getLogger(WGTocServiceImpl.class);
 
     private RuleAdminService ruleAdminService;
-    private InstanceAdminService instanceAdminService;
 
     public WGTocServiceImpl() {
-        FakeServices fakeServices = new FakeServices();
-        ruleAdminService = fakeServices.getRuleAdminService();
-        instanceAdminService = fakeServices.getInstanceAdminService();
+
     }
 
     @Override
-    @XmlElementWrapper(name="pippo")
     public TOCConfig getTOC(String profile) {
 
         if(profile == null)
@@ -76,7 +77,6 @@ public class WGTocServiceImpl implements WebGisTOCService {
         // groupTitle, Group
         Map<String, TOCGroup> tocGroups = new HashMap<String, TOCGroup>();
         Map<String, TOCGroup> bgGroups = new HashMap<String, TOCGroup>();
-        Map<Long, GSInstance> instances = new HashMap<Long, GSInstance>();
         Map<Long, GeoServerRESTReader> readers = new HashMap<Long, GeoServerRESTReader>();
 
         RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
@@ -85,27 +85,31 @@ public class WGTocServiceImpl implements WebGisTOCService {
         List<ShortRule> rules = ruleAdminService.getList(ruleFilter, null, null);
         for (ShortRule shortRule : rules) {
             if(shortRule.getLayer() != null && shortRule.getAccess()==GrantType.ALLOW) {
-                LOGGER.info("retrieving props for Rule " + shortRule);
-                Map<String, String> props = ruleAdminService.getDetailsProps(shortRule.getId());
-
-                GSInstance gs = fetchInstance(instances, readers, shortRule.getInstanceId());
-                GeoServerRESTReader reader = readers.get(shortRule.getInstanceId());
-
-                TOCGroup bg = fetchOrCreateGroup(bgGroups, props.get(TOCLayer.TOCProps.bgGroup.name()), gs);
-                String groupTitle = props.get(TOCLayer.TOCProps.groupName.name());
-
-                if( groupTitle==null && bg==null) // not in bg, and group not set: maybe been forgotten?
-                    groupTitle = "UNGROUPED";
-
-                TOCGroup group = fetchOrCreateGroup(tocGroups, groupTitle, gs);
-                TOCLayer tocl = createLayer(gs, reader, shortRule, props);
-                if(tocl == null) // error condition, already logged
-                    continue;
-
-                if(group != null)
-                    group.getLayerList().add(tocl);
-                if(bg != null)
-                    bg.getLayerList().add(tocl);
+                try {
+                    LOGGER.info("retrieving props for Rule " + shortRule);
+                    Map<String, String> props = ruleAdminService.getDetailsProps(shortRule.getId());
+                    Rule rule = ruleAdminService.get(shortRule.getId());
+                    GSInstance gs = rule.getInstance();
+                    GeoServerRESTReader reader = cacheReader(gs, readers);
+                    TOCGroup bg = fetchOrCreateGroup(bgGroups, props.get(TOCLayer.TOCProps.bgGroup.name()), gs);
+                    String groupTitle = props.get(TOCLayer.TOCProps.groupName.name());
+                    if (groupTitle == null && bg == null) {
+                        groupTitle = "UNGROUPED";
+                    }
+                    TOCGroup group = fetchOrCreateGroup(tocGroups, groupTitle, gs);
+                    TOCLayer tocl = createLayer(gs, reader, rule, props);
+                    if (tocl == null) {
+                        continue;
+                    }
+                    if (group != null) {
+                        group.getLayerList().add(tocl);
+                    }
+                    if (bg != null) {
+                        bg.getLayerList().add(tocl);
+                    }
+                } catch (ResourceNotFoundFault ex) {
+                    java.util.logging.Logger.getLogger(WGTocServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
@@ -120,31 +124,22 @@ public class WGTocServiceImpl implements WebGisTOCService {
         return tocCfg;
     }
 
-    private GSInstance fetchInstance(Map<Long, GSInstance> instances, 
-                    Map<Long, GeoServerRESTReader> readers,
-                    Long instanceId) {
+    private GeoServerRESTReader cacheReader(GSInstance instance,
+                    Map<Long, GeoServerRESTReader> readers) {
+
+        if(readers.containsKey(instance.getId()))
+            return readers.get(instance.getId());
+
         try {
-            if (instances.containsKey(instanceId)) {
-                return instances.get(instanceId);
-            }
+            GeoServerRESTReader gsreader = new GeoServerRESTReader(
+                    instance.getBaseURL(),
+                    instance.getUsername(),
+                    instance.getPassword());
 
-            GSInstance instance = instanceAdminService.get(instanceId);
-            instances.put(instanceId, instance);
-
-            try {
-                GeoServerRESTReader gsreader = new GeoServerRESTReader(
-                        instance.getBaseURL(),
-                        instance.getUsername(),
-                        instance.getPassword());
-
-                readers.put(instanceId, gsreader);
-            } catch (MalformedURLException ex) {
-                LOGGER.error("Can't init a reader for " + instance, ex);
-            }
-
-            return instance;
-        } catch (ResourceNotFoundFault ex) {
-            LOGGER.error(ex.getMessage(), ex);
+            readers.put(instance.getId(), gsreader);
+            return gsreader;
+        } catch (MalformedURLException ex) {
+            LOGGER.error("Can't init a reader for " + instance, ex);
             return null;
         }
     }
@@ -168,7 +163,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
     }
 
 
-    TOCLayer createLayer(GSInstance instance, GeoServerRESTReader gsreader, ShortRule rule, Map<String, String> props) {
+    TOCLayer createLayer(GSInstance instance, GeoServerRESTReader gsreader, Rule rule, Map<String, String> props) {
         TOCLayer tocLayer = new TOCLayer();
         tocLayer.setName(rule.getLayer());
         tocLayer.setGeorepoId(rule.getId());
@@ -180,27 +175,27 @@ public class WGTocServiceImpl implements WebGisTOCService {
 
             try {
                 RESTLayer rl = gsreader.getLayer(rule.getLayer());
-                tocLayer.setTitle(rl.getTitle());
-                tocLayer.setAbs(rl.getAbstract());
-                tocLayer.setMinX(rl.getMinX());
-                tocLayer.setMaxX(rl.getMaxX());
-                tocLayer.setMinY(rl.getMinY());
-                tocLayer.setMaxY(rl.getMaxY());
-                tocLayer.setSrs(rl.getCRS());
+                RESTResource res = gsreader.getResource(rl);
+
+                tocLayer.setTitle(res.getTitle());
+                tocLayer.setAbs(res.getAbstract());
+                tocLayer.setMinX(res.getMinX());
+                tocLayer.setMaxX(res.getMaxX());
+                tocLayer.setMinY(res.getMinY());
+                tocLayer.setMaxY(res.getMaxY());
+                tocLayer.setSrs(res.getCRS());
                 dataIsSet = true;
 
                 // we'll use this one if we can't find any in LayerDetails
                 defaultStyle = rl.getDefaultStyle();
 
             } catch (Exception ex) {
-                LOGGER.error("Error reading data from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage());
+                LOGGER.error("Error reading data from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage(), ex);
             }
 
             try {
-                LayerDetails details;
-                try {
-                    details = ruleAdminService.getDetails(rule.getId());
-                } catch (ResourceNotFoundFault ex) {
+                LayerDetails details = rule.getLayerDetails();
+                if(details == null) {
                     LOGGER.error("Details not found for " + rule + ". Skipping layer");
                     return null;
                 }
@@ -229,7 +224,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
                 }
 
             } catch (Exception ex) {
-                LOGGER.error("Error reading data from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage());
+                LOGGER.error("Error reading data from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage(), ex);
             }
 
         }
@@ -272,7 +267,6 @@ public class WGTocServiceImpl implements WebGisTOCService {
     @Override
     public String getProperty(long layerId, String propertyName) throws NotFoundWebEx {
         Map<String, String> props = ruleAdminService.getDetailsProps(layerId); // throws notfoundex
-
         LOGGER.info("Getting property " +propertyName );
         return props.get(propertyName);
     }
@@ -282,10 +276,5 @@ public class WGTocServiceImpl implements WebGisTOCService {
     public void setRuleAdminService(RuleAdminService ruleAdminService) {
         this.ruleAdminService = ruleAdminService;
     }
-
-    public void setInstanceAdminService(InstanceAdminService instanceAdminService) {
-        this.instanceAdminService = instanceAdminService;
-    }
-
 
 }

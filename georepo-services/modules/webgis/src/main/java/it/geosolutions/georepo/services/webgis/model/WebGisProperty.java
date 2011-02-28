@@ -32,16 +32,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class WebGisProperty implements Serializable {
     private static final long serialVersionUID = -2665068231821654507L;
     
-    private WebGisProfile profile;
     private String propertyName;
     private String value;
 
-    public WebGisProfile getProfile() {
-        return profile;
+    public WebGisProperty() {
     }
 
-    public void setProfile(WebGisProfile profile) {
-        this.profile = profile;
+    public WebGisProperty(String propertyName, String value) {
+        this.propertyName = propertyName;
+        this.value = value;
     }
 
     public String getPropertyName() {
