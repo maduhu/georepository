@@ -1277,8 +1277,8 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                     protected void load(Object loadConfig,
                             AsyncCallback<PagingLoadResult<Layer>> callback) {
                         workspacesService.getLayers((PagingLoadConfig) loadConfig,
-                                gsInstance != null ? gsInstance.getBaseURL() : null, workspace,
-                                callback);
+                                gsInstance != null ? gsInstance.getBaseURL() : null, gsInstance,
+                                workspace, callback);
                     }
 
                 };

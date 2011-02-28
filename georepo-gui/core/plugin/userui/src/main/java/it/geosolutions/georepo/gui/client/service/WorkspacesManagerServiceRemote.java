@@ -32,8 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.Rule;
@@ -41,10 +39,11 @@ import it.geosolutions.georepo.gui.client.model.data.Layer;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
 
+import java.util.List;
+
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
@@ -69,9 +68,11 @@ public interface WorkspacesManagerServiceRemote extends RemoteService {
          */
         public static WorkspacesManagerServiceRemoteAsync getInstance() {
             if (instance == null) {
-                instance = (WorkspacesManagerServiceRemoteAsync) GWT.create(WorkspacesManagerServiceRemote.class);
+                instance = (WorkspacesManagerServiceRemoteAsync) GWT
+                        .create(WorkspacesManagerServiceRemote.class);
                 ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "WorkspacesManagerServiceRemote");
+                target.setServiceEntryPoint(GWT.getModuleBaseURL()
+                        + "WorkspacesManagerServiceRemote");
             }
             return instance;
         }
@@ -86,14 +87,14 @@ public interface WorkspacesManagerServiceRemote extends RemoteService {
      *            the base url
      * @param gsInstance
      *            the instance: this is passed for for workspace's authorization
-     *            
+     * 
      * @return the workspaces
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String baseURL, GSInstance gsInstance) throws ApplicationException;
+    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String baseURL,
+            GSInstance gsInstance) throws ApplicationException;
 
-    
     /**
      * Gets the layers.
      * 
@@ -107,8 +108,9 @@ public interface WorkspacesManagerServiceRemote extends RemoteService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Layer> getLayers(PagingLoadConfig loadConfig, String baseURL, String workspace) throws ApplicationException;
-    
+    public PagingLoadResult<Layer> getLayers(PagingLoadConfig loadConfig, String baseURL,
+            GSInstance gsInstance, String workspace) throws ApplicationException;
+
     /**
      * @param gsInstance
      * @return List<LayerStyle>

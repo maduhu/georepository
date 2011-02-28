@@ -1071,8 +1071,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                     protected void load(Object loadConfig,
                             AsyncCallback<PagingLoadResult<Layer>> callback) {
                         workspacesService.getLayers((PagingLoadConfig) loadConfig,
-                                gsInstance != null ? gsInstance.getBaseURL() : null, workspace,
-                                callback);
+                                gsInstance != null ? gsInstance.getBaseURL() : null, gsInstance,
+                                workspace, callback);
                     }
 
                 };
@@ -1302,7 +1302,8 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                          */
                         // editRuleWidget.setBottomComponent(this.getRulesInfo().getToolBar());
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE_UPDATE, new GridStatus(grid,model));
+                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE_UPDATE, new GridStatus(
+                                grid, model));
                     }
                 });
 
@@ -1418,8 +1419,9 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                          * "GeoServer Rules", "Selected Rule #" + model.getPriority() });
                          */
                         Rule new_rule = Constants.getInstance().createNewRule(model);
-                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new GridStatus(grid,new_rule));
-                        //Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new_rule);// RULE_ADD
+                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new GridStatus(grid,
+                                new_rule));
+                        // Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE, new_rule);// RULE_ADD
                     }
                 });
 
@@ -1647,7 +1649,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
 
             }
         });
-        
+
         this.toolBar.bind(loader);
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(addRuleButton);

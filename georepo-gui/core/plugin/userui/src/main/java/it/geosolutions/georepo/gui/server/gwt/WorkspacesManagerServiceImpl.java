@@ -32,8 +32,6 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.Rule;
@@ -43,6 +41,8 @@ import it.geosolutions.georepo.gui.client.model.data.Workspace;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
 import it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
+
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,34 +71,41 @@ public class WorkspacesManagerServiceImpl extends RemoteServiceServlet implement
      * Instantiates a new workspaces manager service impl.
      */
     public WorkspacesManagerServiceImpl() {
-        this.workspaceManagerService = (IWorkspacesManagerService) ApplicationContextUtil.getInstance()
-                .getBean("workspacesManagerServiceGWT");
+        this.workspaceManagerService = (IWorkspacesManagerService) ApplicationContextUtil
+                .getInstance().getBean("workspacesManagerServiceGWT");
     }
 
     /*
      * (non-Javadoc)
      * 
      * @see
-     * it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote#getWorkspaces(com.extjs
-     * .gxt.ui.client.data.PagingLoadConfig)
+     * it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote#getWorkspaces(com
+     * .extjs .gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String URL, GSInstance gsInstance)
-            throws ApplicationException {
+    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String URL,
+            GSInstance gsInstance) throws ApplicationException {
         return workspaceManagerService.getWorkspaces(config, URL, gsInstance);
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote#getLayers(com.extjs.gxt.ui.client.data.PagingLoadConfig, java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote#getLayers(com.extjs
+     * .gxt.ui.client.data.PagingLoadConfig, java.lang.String, java.lang.String)
      */
     public PagingLoadResult<Layer> getLayers(PagingLoadConfig config, String baseURL,
-            String workspace) throws ApplicationException {
-        return workspaceManagerService.getLayers(config, baseURL, workspace);
+            GSInstance gsInstance, String workspace) throws ApplicationException {
+        return workspaceManagerService.getLayers(config, baseURL, gsInstance, workspace);
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote#getStyles(it.geosolutions.georepo.gui.client.model.GSInstance)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seeit.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote#getStyles(it.
+     * geosolutions.georepo.gui.client.model.GSInstance)
      */
-    public List<LayerStyle> getStyles(Rule rule) throws ApplicationException{
-    	return workspaceManagerService.getStyles(rule);
+    public List<LayerStyle> getStyles(Rule rule) throws ApplicationException {
+        return workspaceManagerService.getStyles(rule);
     }
 }

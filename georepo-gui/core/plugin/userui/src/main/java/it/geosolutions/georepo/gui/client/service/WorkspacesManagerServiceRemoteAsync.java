@@ -31,6 +31,7 @@
  *
  */
 package it.geosolutions.georepo.gui.client.service;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.Rule;
@@ -59,12 +60,13 @@ public interface WorkspacesManagerServiceRemoteAsync {
      *            the URL
      * @param callback
      *            the callback
-     * @param gsInstance 
-     * 			  the nstance: this is passed for for workspace's authorization
+     * @param gsInstance
+     *            the nstance: this is passed for for workspace's authorization
      * @return the workspaces
      */
-    public void getWorkspaces(PagingLoadConfig config, String baseURL, GSInstance gsInstance, AsyncCallback<PagingLoadResult<Workspace>> callback) throws ApplicationException;
-   
+    public void getWorkspaces(PagingLoadConfig config, String baseURL, GSInstance gsInstance,
+            AsyncCallback<PagingLoadResult<Workspace>> callback) throws ApplicationException;
+
     /**
      * Gets the layers.
      * 
@@ -78,12 +80,13 @@ public interface WorkspacesManagerServiceRemoteAsync {
      *            the callback
      * @return the layers
      */
-    public void getLayers(PagingLoadConfig loadConfig, String baseURL, String workspace, AsyncCallback<PagingLoadResult<Layer>> callback);
+    public void getLayers(PagingLoadConfig loadConfig, String baseURL, GSInstance gsInstance,
+            String workspace, AsyncCallback<PagingLoadResult<Layer>> callback);
 
     /**
      * @param gsInstance
      * @param callback
      */
     public void getStyles(Rule rule, AsyncCallback<List<LayerStyle>> callback);
-    
+
 }

@@ -48,10 +48,9 @@ import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
-import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.dto.RuleFilter;
-import it.geosolutions.georepo.services.dto.RuleFilter.SpecialFilterType;
 import it.geosolutions.georepo.services.dto.ShortRule;
+import it.geosolutions.georepo.services.dto.RuleFilter.SpecialFilterType;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader;
 import it.geosolutions.geoserver.rest.decoder.RESTFeatureType;
@@ -92,8 +91,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * it.geosolutions.georepo.gui.server.service.IFeatureService#loadFeature(com.extjs.gxt.ui.
+     * @see it.geosolutions.georepo.gui.server.service.IFeatureService#loadFeature(com.extjs.gxt.ui.
      * client.data.PagingLoadConfig, java.lang.String)
      */
     public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full)
@@ -109,7 +107,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         int page = start == 0 ? start : start / config.getLimit();
 
         RuleFilter any = new RuleFilter(SpecialFilterType.ANY);
-        List<ShortRule> rulesList = georepoRemoteService.getRuleAdminService().getList(any, page, config.getLimit());
+        List<ShortRule> rulesList = georepoRemoteService.getRuleAdminService().getList(any, page,
+                config.getLimit());
 
         if (rulesList == null) {
             if (logger.isErrorEnabled())
@@ -176,6 +175,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 local_instance.setId(remote_instance.getId());
                 local_instance.setName(remote_instance.getName());
                 local_instance.setBaseURL(remote_instance.getBaseURL());
+                local_instance.setUsername(remote_instance.getUsername());
+                local_instance.setPassword(remote_instance.getPassword());
                 local_rule.setInstance(local_instance);
             }
 
@@ -205,12 +206,10 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
         it.geosolutions.georepo.core.model.Rule rule2 = new it.geosolutions.georepo.core.model.Rule(
                 rule.getPriority(), getUser(rule.getUser()), getProfile(rule.getProfile()),
-                getInstance(rule.getInstance()), "*".equals(rule.getService()) ? null
-                        : rule.getService(), "*".equals(rule.getRequest()) ? null
-                        : rule.getRequest(), "*".equals(rule.getWorkspace()) ? null
-                        : rule.getWorkspace(),
-                "*".equals(rule.getLayer()) ? null : rule.getLayer(),
-                getAccessType(rule.getGrant()));
+                getInstance(rule.getInstance()), "*".equals(rule.getService()) ? null : rule
+                        .getService(), "*".equals(rule.getRequest()) ? null : rule.getRequest(),
+                "*".equals(rule.getWorkspace()) ? null : rule.getWorkspace(), "*".equals(rule
+                        .getLayer()) ? null : rule.getLayer(), getAccessType(rule.getGrant()));
         rule2.setId(rule.getId());
         if (rule.getId() == -1) {
             rule2.setId(null);
@@ -225,7 +224,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         }
 
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -234,23 +233,24 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
      */
     public void deleteRule(Rule rule) throws ApplicationException {
 
-            if(rule.getId()!=-1){
-                  try {
-					georepoRemoteService.getRuleAdminService().delete(rule.getId());
-				} catch (ResourceNotFoundFault e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+        if (rule.getId() != -1) {
+            try {
+                georepoRemoteService.getRuleAdminService().delete(rule.getId());
+            } catch (ResourceNotFoundFault e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            
+        }
+
     }
+
     /*
      * 
      */
-    public void updatePriorities(Rule rule, long shift){
-    	georepoRemoteService.getRuleAdminService().shift(rule.getPriority(), 1);
+    public void updatePriorities(Rule rule, long shift) {
+        georepoRemoteService.getRuleAdminService().shift(rule.getPriority(), 1);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -269,11 +269,11 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
         for (Rule localRule : rules) {
             it.geosolutions.georepo.core.model.Rule rule = new it.geosolutions.georepo.core.model.Rule(
-                    localRule.getPriority(), getUser(localRule.getUser()),
-                    getProfile(localRule.getProfile()), getInstance(localRule.getInstance()),
-                    "*".equals(localRule.getService()) ? null : localRule.getService(),
-                    "*".equals(localRule.getRequest()) ? null : localRule.getRequest(),
-                    "*".equals(localRule.getWorkspace()) ? null : localRule.getWorkspace(),
+                    localRule.getPriority(), getUser(localRule.getUser()), getProfile(localRule
+                            .getProfile()), getInstance(localRule.getInstance()), "*"
+                            .equals(localRule.getService()) ? null : localRule.getService(), "*"
+                            .equals(localRule.getRequest()) ? null : localRule.getRequest(), "*"
+                            .equals(localRule.getWorkspace()) ? null : localRule.getWorkspace(),
                     "*".equals(localRule.getLayer()) ? null : localRule.getLayer(),
                     getAccessType(localRule.getGrant()));
             georepoRemoteService.getRuleAdminService().insert(rule);
@@ -304,8 +304,9 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.GSInstance getInstance(GSInstance instance) {
         it.geosolutions.georepo.core.model.GSInstance remote_instance = null;
         try {
-            if(instance != null && instance.getId() != -1)
-                remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId());
+            if (instance != null && instance.getId() != -1)
+                remote_instance = georepoRemoteService.getInstanceAdminService().get(
+                        instance.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
         }
@@ -323,7 +324,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.Profile getProfile(Profile profile) {
         it.geosolutions.georepo.core.model.Profile remote_profile = null;
         try {
-            if(profile != null && profile.getId() != -1 )
+            if (profile != null && profile.getId() != -1)
                 remote_profile = georepoRemoteService.getProfileAdminService().get(profile.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
@@ -342,7 +343,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private it.geosolutions.georepo.core.model.GSUser getUser(GSUser user) {
         it.geosolutions.georepo.core.model.GSUser remote_user = null;
         try {
-            if(user != null && user.getId() != -1)
+            if (user != null && user.getId() != -1)
                 remote_user = georepoRemoteService.getUserAdminService().get(user.getId());
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
@@ -411,268 +412,288 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         }
         LayerDetails details = null;
         try {
-        	details = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
+            details = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
         } catch (Exception e) {
             details = new LayerDetails();
             georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
         }
         georepoRemoteService.getRuleAdminService().setDetailsProps(ruleId, props);
     }
-    
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.server.service.IRulesManagerService#getLayerAttributes(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IRulesManagerService#getLayerAttributes(com.extjs
+     * .gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
      */
-    public List<LayerAttribUI> getLayerAttributes(Rule rule){
+    public List<LayerAttribUI> getLayerAttributes(Rule rule) {
 
-    	LayerDetails layerDetails = null;
-    	List<LayerAttribUI> layerAttributesDTO = new ArrayList<LayerAttribUI>(); 
-    	
-    	try {
-    	    
-			layerDetails = georepoRemoteService.getRuleAdminService().get(rule.getId()).getLayerDetails();
-			Set<LayerAttribute> layerAttributes = null;
-			
-			if(layerDetails == null){
-				layerDetails = new LayerDetails();
-			
-				layerDetails.setRule(georepoRemoteService.getRuleAdminService().get(rule.getId()));
+        LayerDetails layerDetails = null;
+        List<LayerAttribUI> layerAttributesDTO = new ArrayList<LayerAttribUI>();
 
-				GSInstance gsInstance = rule.getInstance();				
-		    	GeoServerRESTReader gsreader = new GeoServerRESTReader(
-						gsInstance.getBaseURL(), gsInstance.getUsername(), gsInstance.getPassword());
-				RESTLayer layer = gsreader.getLayer(rule.getLayer());
-				
-				if(layer.getType().equals(RESTLayer.TYPE.VECTOR)){
-					layerAttributes = new HashSet<LayerAttribute>();
-					
-					// ///////////////////////
-					// Vector Layer
-					// ///////////////////////
-					
-					RESTFeatureType featureType = gsreader.getFeatureType(layer);
-			        
-			    	for (RESTFeatureType.Attribute attribute : featureType.getAttributes()  ) {    	
-			    		LayerAttribute attr = new LayerAttribute();
-			    		attr.setName(attribute.getName());
-			    		attr.setDatatype(attribute.getBinding());
-			    		attr.setAccess(AccessType.NONE);
-			    		
-			    		layerAttributes.add(attr);
-			    	}				
-			    	
-			    	layerDetails.setAttributes(layerAttributes);
-			    	layerDetails.setType(LayerType.VECTOR);
-			    	
-			    	georepoRemoteService.getRuleAdminService().setDetails(rule.getId(), layerDetails);
-			    	
-			    	layerAttributesDTO = new ArrayList<LayerAttribUI>(); 
-			    	Iterator<LayerAttribute> iterator = layerAttributes.iterator();
-			    	
-			    	while(iterator.hasNext()){
-			    		LayerAttribute layerAttribute = iterator.next();
-			    				    		
-			    		LayerAttribUI layAttrUI = new LayerAttribUI();
-			    		layAttrUI.setName(layerAttribute.getName());
-			    		layAttrUI.setDataType(layerAttribute.getDatatype());
-			    		layAttrUI.setAccessType(layerAttribute.getAccess().toString());
-			    		
-			    		layerAttributesDTO.add(layAttrUI);
-			    	}
-				}else{
-					// ///////////////////////
-					// Raster Layer
-					// ///////////////////////
-				
-					layerDetails.setType(LayerType.RASTER);
-					georepoRemoteService.getRuleAdminService().setDetails(rule.getId(), layerDetails);
-					layerAttributesDTO = null;
-				}
-		    	
-			}else{
-				layerAttributes = layerDetails.getAttributes();
-				
-				if(layerDetails.getType().equals(LayerType.VECTOR)){
-					// ///////////////////////
-					// Vector Layer
-					// ///////////////////////
-					
-			    	layerAttributesDTO = new ArrayList<LayerAttribUI>(); 
-			    	Iterator<LayerAttribute> iterator = layerAttributes.iterator();
-			    	
-			    	while(iterator.hasNext()){
-			    		LayerAttribute layerAttribute = iterator.next();
-			    				    		
-			    		LayerAttribUI layAttrUI = new LayerAttribUI();
-			    		layAttrUI.setName(layerAttribute.getName());
-			    		layAttrUI.setDataType(layerAttribute.getDatatype());
-			    		layAttrUI.setAccessType(layerAttribute.getAccess().toString());
-			    		
-			    		layerAttributesDTO.add(layAttrUI);
-			    	}
+        try {
 
-				}else{
-					// ///////////////////////
-					// Raster Layer
-					// ///////////////////////
-				
-					layerAttributesDTO = null;
-				}
-			}
-			
-		} catch (ResourceNotFoundFault e1) {
-			e1.printStackTrace();
-		} catch (MalformedURLException e2) {
-			e2.printStackTrace();
-		}
-		
-		return layerAttributesDTO;
-    }
-    
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.server.service.IRulesManagerService#setLayerAttributes(java.lang.Long, java.util.List)
-     */
-    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes){
-    	   	
-    	LayerDetails details = null;
-    	
-    	try {
-			details = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
-			
-			Set<LayerAttribute> layerAttribs = new HashSet<LayerAttribute>();
-			
-			Iterator<LayerAttribUI> iterator = layerAttributes.iterator();
-			while(iterator.hasNext()){
-				LayerAttribUI layerAttribUI = iterator.next();
-				LayerAttribute attr = new LayerAttribute();
-				
-				attr.setName(layerAttribUI.getName());
-				attr.setDatatype(layerAttribUI.getDataType());
-				
-				String accessType = layerAttribUI.getAccessType();
-				
-				if(accessType.equalsIgnoreCase("NONE")){
-					attr.setAccess(AccessType.NONE);
-				}else if(accessType.equalsIgnoreCase("READONLY")){
-					attr.setAccess(AccessType.READONLY);
-				}else{
-					attr.setAccess(AccessType.READWRITE);
-				}	
-				
-				layerAttribs.add(attr);
-			}
-			
-			details.setAttributes(layerAttribs);
-			
-			georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
-			
-		} catch (ResourceNotFoundFault e) {
-			e.printStackTrace();
-		}    	
-    }
-    
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.server.service.IRulesManagerService#saveLayerDetails(it.geosolutions.georepo.gui.client.model.data.LayerDetailsForm)
-     */
-    public LayerDetailsInfo saveLayerDetailsInfo(LayerDetailsInfo layerDetailsInfo, List<LayerStyle> layerStyles){
+            layerDetails = georepoRemoteService.getRuleAdminService().get(rule.getId())
+                    .getLayerDetails();
+            Set<LayerAttribute> layerAttributes = null;
 
-    	Long ruleId = layerDetailsInfo.getRuleId();
-    	LayerDetails layerDetails = null;
-    	
-    	try {
-			layerDetails = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
-			
-			if(layerDetails == null)
-				layerDetails = new LayerDetails();
+            if (layerDetails == null) {
+                layerDetails = new LayerDetails();
 
-			// ///////////////////////////////////
-			// Saving the layer details info
-			// ///////////////////////////////////
-			
-			layerDetails.setDefaultStyle(layerDetailsInfo.getDefaultStyle());
-			layerDetails.setCqlFilterRead(layerDetailsInfo.getCqlFilterRead());
-			layerDetails.setCqlFilterWrite(layerDetailsInfo.getCqlFilterWrite());
-			// ///////////////////
-			// TODO: FILL THIS
-			// ///////////////////
-			layerDetails.setArea(layerDetailsInfo.getAllowedArea() != null ? null : null);
-			
-			// ///////////////////////////////////
-			// Saving the available styles if any
-			// ///////////////////////////////////
-			
-    		Set<String> allowedStyles = new HashSet<String>();	
-    		
-			Iterator<LayerStyle> iterator = layerStyles.iterator();
-			
-			while(iterator.hasNext()){
-				LayerStyle style = iterator.next();
-				
-				if(style.isEnabled()){
-					allowedStyles.add(style.getStyle());
-				}
-			}
-			
-			if(allowedStyles.size() > 0)
-				layerDetails.setAllowedStyles(allowedStyles);			
-			
-			georepoRemoteService.getRuleAdminService().setDetails(ruleId, layerDetails);
-			
-		} catch (ResourceNotFoundFault e) {
-			e.printStackTrace();
-		}
-    	
-    	return layerDetailsInfo;
+                layerDetails.setRule(georepoRemoteService.getRuleAdminService().get(rule.getId()));
+
+                GSInstance gsInstance = rule.getInstance();
+                GeoServerRESTReader gsreader = new GeoServerRESTReader(gsInstance.getBaseURL(),
+                        gsInstance.getUsername(), gsInstance.getPassword());
+                RESTLayer layer = gsreader.getLayer(rule.getLayer());
+
+                if (layer.getType().equals(RESTLayer.TYPE.VECTOR)) {
+                    layerAttributes = new HashSet<LayerAttribute>();
+
+                    // ///////////////////////
+                    // Vector Layer
+                    // ///////////////////////
+
+                    RESTFeatureType featureType = gsreader.getFeatureType(layer);
+
+                    for (RESTFeatureType.Attribute attribute : featureType.getAttributes()) {
+                        LayerAttribute attr = new LayerAttribute();
+                        attr.setName(attribute.getName());
+                        attr.setDatatype(attribute.getBinding());
+                        attr.setAccess(AccessType.NONE);
+
+                        layerAttributes.add(attr);
+                    }
+
+                    layerDetails.setAttributes(layerAttributes);
+                    layerDetails.setType(LayerType.VECTOR);
+
+                    georepoRemoteService.getRuleAdminService().setDetails(rule.getId(),
+                            layerDetails);
+
+                    layerAttributesDTO = new ArrayList<LayerAttribUI>();
+                    Iterator<LayerAttribute> iterator = layerAttributes.iterator();
+
+                    while (iterator.hasNext()) {
+                        LayerAttribute layerAttribute = iterator.next();
+
+                        LayerAttribUI layAttrUI = new LayerAttribUI();
+                        layAttrUI.setName(layerAttribute.getName());
+                        layAttrUI.setDataType(layerAttribute.getDatatype());
+                        layAttrUI.setAccessType(layerAttribute.getAccess().toString());
+
+                        layerAttributesDTO.add(layAttrUI);
+                    }
+                } else {
+                    // ///////////////////////
+                    // Raster Layer
+                    // ///////////////////////
+
+                    layerDetails.setType(LayerType.RASTER);
+                    georepoRemoteService.getRuleAdminService().setDetails(rule.getId(),
+                            layerDetails);
+                    layerAttributesDTO = null;
+                }
+
+            } else {
+                layerAttributes = layerDetails.getAttributes();
+
+                if (layerDetails.getType().equals(LayerType.VECTOR)) {
+                    // ///////////////////////
+                    // Vector Layer
+                    // ///////////////////////
+
+                    layerAttributesDTO = new ArrayList<LayerAttribUI>();
+                    Iterator<LayerAttribute> iterator = layerAttributes.iterator();
+
+                    while (iterator.hasNext()) {
+                        LayerAttribute layerAttribute = iterator.next();
+
+                        LayerAttribUI layAttrUI = new LayerAttribUI();
+                        layAttrUI.setName(layerAttribute.getName());
+                        layAttrUI.setDataType(layerAttribute.getDatatype());
+                        layAttrUI.setAccessType(layerAttribute.getAccess().toString());
+
+                        layerAttributesDTO.add(layAttrUI);
+                    }
+
+                } else {
+                    // ///////////////////////
+                    // Raster Layer
+                    // ///////////////////////
+
+                    layerAttributesDTO = null;
+                }
+            }
+
+        } catch (ResourceNotFoundFault e1) {
+            e1.printStackTrace();
+        } catch (MalformedURLException e2) {
+            e2.printStackTrace();
+        }
+
+        return layerAttributesDTO;
     }
 
-    /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.server.service.IRulesManagerService#getLayerDetailsInfo(it.geosolutions.georepo.gui.client.model.Rule)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IRulesManagerService#setLayerAttributes(java.lang
+     * .Long, java.util.List)
      */
-    public LayerDetailsInfo getLayerDetailsInfo(Rule rule){
-    	Long ruleId = rule.getId();
-    	LayerDetails layerDetails = null;
-    	LayerDetailsInfo layerDetailsInfo = null;
-    	
-		try {
-			layerDetails = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
-			
-			if(layerDetails != null){
-				layerDetailsInfo = new LayerDetailsInfo();
-				layerDetailsInfo.setRuleId(ruleId);
-				layerDetailsInfo.setCqlFilterRead(layerDetails.getCqlFilterRead());
-				layerDetailsInfo.setCqlFilterWrite(layerDetails.getCqlFilterWrite());
-				layerDetailsInfo.setDefaultStyle(layerDetails.getDefaultStyle());
-				layerDetailsInfo.setAllowedArea(layerDetails.getArea() != null ? layerDetails.getArea().toText() : null);
-				
-				if(layerDetails.getType().equals(LayerType.RASTER))
-					layerDetailsInfo.setType("raster");
-				else
-					layerDetailsInfo.setType("vector");
-				
-			}
-			
-		} catch (ResourceNotFoundFault e) {
-			e.printStackTrace();
-		}
-		
-		return layerDetailsInfo;
+    public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes) {
+
+        LayerDetails details = null;
+
+        try {
+            details = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
+
+            Set<LayerAttribute> layerAttribs = new HashSet<LayerAttribute>();
+
+            Iterator<LayerAttribUI> iterator = layerAttributes.iterator();
+            while (iterator.hasNext()) {
+                LayerAttribUI layerAttribUI = iterator.next();
+                LayerAttribute attr = new LayerAttribute();
+
+                attr.setName(layerAttribUI.getName());
+                attr.setDatatype(layerAttribUI.getDataType());
+
+                String accessType = layerAttribUI.getAccessType();
+
+                if (accessType.equalsIgnoreCase("NONE")) {
+                    attr.setAccess(AccessType.NONE);
+                } else if (accessType.equalsIgnoreCase("READONLY")) {
+                    attr.setAccess(AccessType.READONLY);
+                } else {
+                    attr.setAccess(AccessType.READWRITE);
+                }
+
+                layerAttribs.add(attr);
+            }
+
+            details.setAttributes(layerAttribs);
+
+            georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
+
+        } catch (ResourceNotFoundFault e) {
+            e.printStackTrace();
+        }
     }
 
-	public void shift(long priorityStart, long offset) {
-		if(priorityStart!=-1){
-            georepoRemoteService.getRuleAdminService().shift(priorityStart,offset);
-      }
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.geosolutions.georepo.gui.server.service.IRulesManagerService#saveLayerDetails(it.geosolutions
+     * .georepo.gui.client.model.data.LayerDetailsForm)
+     */
+    public LayerDetailsInfo saveLayerDetailsInfo(LayerDetailsInfo layerDetailsInfo,
+            List<LayerStyle> layerStyles) {
 
-	public void swap(long id1, long id2) {
-		if(id1!=-1 && id2!=-1){
-            georepoRemoteService.getRuleAdminService().swap(id1,id2);
-      }
-		
-	}
+        Long ruleId = layerDetailsInfo.getRuleId();
+        LayerDetails layerDetails = null;
 
-	public void findRule(Rule rule)  throws ApplicationException, Exception {
-		it.geosolutions.georepo.core.model.Rule ret = null;
-		ret = georepoRemoteService.getRuleAdminService().get(rule.getId());
-		//return ret;
-	}
+        try {
+            layerDetails = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
+
+            if (layerDetails == null)
+                layerDetails = new LayerDetails();
+
+            // ///////////////////////////////////
+            // Saving the layer details info
+            // ///////////////////////////////////
+
+            layerDetails.setDefaultStyle(layerDetailsInfo.getDefaultStyle());
+            layerDetails.setCqlFilterRead(layerDetailsInfo.getCqlFilterRead());
+            layerDetails.setCqlFilterWrite(layerDetailsInfo.getCqlFilterWrite());
+            // ///////////////////
+            // TODO: FILL THIS
+            // ///////////////////
+            layerDetails.setArea(layerDetailsInfo.getAllowedArea() != null ? null : null);
+
+            // ///////////////////////////////////
+            // Saving the available styles if any
+            // ///////////////////////////////////
+
+            Set<String> allowedStyles = new HashSet<String>();
+
+            Iterator<LayerStyle> iterator = layerStyles.iterator();
+
+            while (iterator.hasNext()) {
+                LayerStyle style = iterator.next();
+
+                if (style.isEnabled()) {
+                    allowedStyles.add(style.getStyle());
+                }
+            }
+
+            if (allowedStyles.size() > 0)
+                layerDetails.setAllowedStyles(allowedStyles);
+
+            georepoRemoteService.getRuleAdminService().setDetails(ruleId, layerDetails);
+
+        } catch (ResourceNotFoundFault e) {
+            e.printStackTrace();
+        }
+
+        return layerDetailsInfo;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seeit.geosolutions.georepo.gui.server.service.IRulesManagerService#getLayerDetailsInfo(it.
+     * geosolutions.georepo.gui.client.model.Rule)
+     */
+    public LayerDetailsInfo getLayerDetailsInfo(Rule rule) {
+        Long ruleId = rule.getId();
+        LayerDetails layerDetails = null;
+        LayerDetailsInfo layerDetailsInfo = null;
+
+        try {
+            layerDetails = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
+
+            if (layerDetails != null) {
+                layerDetailsInfo = new LayerDetailsInfo();
+                layerDetailsInfo.setRuleId(ruleId);
+                layerDetailsInfo.setCqlFilterRead(layerDetails.getCqlFilterRead());
+                layerDetailsInfo.setCqlFilterWrite(layerDetails.getCqlFilterWrite());
+                layerDetailsInfo.setDefaultStyle(layerDetails.getDefaultStyle());
+                layerDetailsInfo.setAllowedArea(layerDetails.getArea() != null ? layerDetails
+                        .getArea().toText() : null);
+
+                if (layerDetails.getType().equals(LayerType.RASTER))
+                    layerDetailsInfo.setType("raster");
+                else
+                    layerDetailsInfo.setType("vector");
+
+            }
+
+        } catch (ResourceNotFoundFault e) {
+            e.printStackTrace();
+        }
+
+        return layerDetailsInfo;
+    }
+
+    public void shift(long priorityStart, long offset) {
+        if (priorityStart != -1) {
+            georepoRemoteService.getRuleAdminService().shift(priorityStart, offset);
+        }
+    }
+
+    public void swap(long id1, long id2) {
+        if (id1 != -1 && id2 != -1) {
+            georepoRemoteService.getRuleAdminService().swap(id1, id2);
+        }
+
+    }
+
+    public void findRule(Rule rule) throws ApplicationException, Exception {
+        it.geosolutions.georepo.core.model.Rule ret = null;
+        ret = georepoRemoteService.getRuleAdminService().get(rule.getId());
+        // return ret;
+    }
 }

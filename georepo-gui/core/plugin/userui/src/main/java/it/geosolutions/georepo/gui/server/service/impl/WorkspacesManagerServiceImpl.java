@@ -39,31 +39,22 @@ import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
-import it.geosolutions.georepo.gui.server.service.IInstancesManagerService;
 import it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
-import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader;
+import it.geosolutions.geoserver.rest.decoder.RESTLayer;
+import it.geosolutions.geoserver.rest.decoder.RESTLayerList;
 import it.geosolutions.geoserver.rest.decoder.RESTStyleList;
 import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList;
 import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList.RESTShortWorkspace;
+import it.geosolutions.geoserver.rest.decoder.utils.NameLinkElem;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,127 +123,36 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
      * gxt.ui.client.data.PagingLoadConfig, java.lang.String, java.lang.String)
      */
     public PagingLoadResult<Layer> getLayers(PagingLoadConfig config, String baseURL,
-            String workspace) throws ApplicationException {
+            GSInstance gsInstance, String workspace) throws ApplicationException {
 
         List<Layer> layersListDTO = new ArrayList<Layer>();
         layersListDTO.add(new Layer("*"));
 
         if (baseURL != null && !baseURL.equals("*") && !baseURL.contains("?") && workspace != null
                 && !workspace.equals("*") && workspace.length() > 0) {
-            String remoteURL = baseURL + (!baseURL.endsWith("/") ? "/" : "") + "rest/layers.json";
-            String jsonTxt = getRemoteJsonString(remoteURL, null);
+            try {
+                GeoServerRESTReader gsreader = new GeoServerRESTReader(baseURL, gsInstance
+                        .getUsername(), gsInstance.getPassword());
 
-            if (jsonTxt != null && jsonTxt.length() > 0) {
-                JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
-                JSONObject layersRoot = json.getJSONObject("layers");
+                RESTLayerList layers = gsreader.getLayers();
+                if (layers != null && !layers.isEmpty()) {
+                    Iterator<NameLinkElem> lrIT = layers.iterator();
+                    while (lrIT.hasNext()) {
+                        NameLinkElem layerLink = lrIT.next();
+                        RESTLayer layer = gsreader.getLayer(layerLink.getName());
 
-                if (layersRoot != null) {
-                    JSONArray layers = layersRoot.getJSONArray("layer");
-
-                    if (layers != null && layers.isArray() && !layers.isEmpty()) {
-                        for (int i = 0; i < layers.size(); i++) {
-                            JSONObject layer = layers.getJSONObject(i);
-
-                            String layerName = layer.getString("name");
-
-                            if (checkLayerIsInWorkspace(baseURL, workspace, layerName)) {
-                                layersListDTO.add(new Layer(layerName));
-                            }
+                        if (checkLayerIsInWorkspace(layer.getResourceUrl(), workspace)) {
+                            layersListDTO.add(new Layer(layer.getName()));
                         }
                     }
                 }
+            } catch (MalformedURLException e) {
+                logger.error(e.getLocalizedMessage(), e);
+                throw new ApplicationException(e.getLocalizedMessage(), e);
             }
         }
 
         return new BasePagingLoadResult<Layer>(layersListDTO, 0, layersListDTO.size());
-    }
-
-    /**
-     * Gets the remote json string.
-     * 
-     * @param remoteURL
-     *            the remote url
-     * @param gsInstance
-     * @return the remote json string
-     */
-    private String getRemoteJsonString(String remoteURL, GSInstance gsInstance) {
-
-        BufferedReader in = null;
-        IInstancesManagerService instancesManagerService2 = (IInstancesManagerService) ApplicationContextUtil
-                .getInstance().getBean("instancesManagerServiceGWT");
-        try {
-            if (gsInstance != null
-                    && !checkLogin(gsInstance.getBaseURL(), gsInstance.getUsername(), gsInstance
-                            .getPassword())) {// remoteURL
-                return null;
-            }
-        } catch (Exception e) {
-            logger.warn("no right for instance name " + gsInstance.getName());
-            return null;
-        }
-        try {
-
-            URL url = new URL(remoteURL);
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            String jsonText = "";
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                jsonText += line;
-            }
-
-            return jsonText;
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            throw new ApplicationException(e);
-        } finally {
-            if (in != null)
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    logger.error(e.getMessage(), e);
-                }
-        }
-    }
-
-    /**
-     * 
-     * @param remoteURL
-     * @param username
-     * @param password
-     * @return
-     */
-    public boolean checkLogin(String remoteURL, String username, String password) {
-        URL url;
-        try {
-            url = new URL(remoteURL);
-        } catch (MalformedURLException e1) {
-            // TODO Auto-generated catch block
-            logger.error(e1.getMessage(), e1);
-            return false;
-        }
-        try {
-            // String userPassword = "pippo" + ":" + "pippo";
-            String userPassword = username + ":" + password;
-            String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
-            URLConnection uc = url.openConnection();
-            uc.setRequestProperty("Authorization", "Basic " + encoding);
-            InputStream content = (InputStream) uc.getInputStream();
-            BufferedReader in0 = new BufferedReader(new InputStreamReader(content));
-            String line;
-            while ((line = in0.readLine()) != null) {
-                // pw.println (line);
-                logger.debug(line);
-            }
-        } catch (MalformedURLException e) {
-            logger.error(e.getMessage(), e);
-            return false;
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -266,32 +166,11 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
      *            the layer name
      * @return true, if successful
      */
-    private boolean checkLayerIsInWorkspace(String baseURL, String workspace, String layerName) {
+    private boolean checkLayerIsInWorkspace(String resourceHref, String workspace) {
         boolean res = false;
 
-        try {
-            String remoteURL = baseURL + (!baseURL.endsWith("/") ? "/" : "") + "rest/layers/"
-                    + layerName + ".json";
-            String jsonTxt = getRemoteJsonString(remoteURL, null);
-
-            if (jsonTxt != null && jsonTxt.length() > 0) {
-                JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
-                JSONObject layersRoot = json.getJSONObject("layer");
-
-                if (layersRoot != null) {
-                    JSONObject resource = layersRoot.getJSONObject("resource");
-
-                    if (resource != null) {
-                        String href = resource.getString("href");
-
-                        if (href.contains("workspaces/" + workspace + "/")) {
-                            res = true;
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            res = false;
+        if (resourceHref.contains("workspaces/" + workspace + "/")) {
+            res = true;
         }
 
         return res;
