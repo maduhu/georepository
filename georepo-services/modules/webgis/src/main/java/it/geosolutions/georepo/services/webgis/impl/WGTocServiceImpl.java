@@ -108,10 +108,14 @@ public class WGTocServiceImpl implements WebGisTOCService {
                         bg.getLayerList().add(tocl);
                     }
                 } catch (ResourceNotFoundFault ex) {
-                    java.util.logging.Logger.getLogger(WGTocServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.error("Rule not found: " + shortRule + ": " + ex.getMessage());
+                } catch (NotFoundWebEx ex) {
+                    LOGGER.info("Props not found for rule " + shortRule + ": " + ex.getMessage());
                 }
             }
         }
+
+        LOGGER.info("TOC: " + tocGroups.size() + " groups, " + bgGroups.size() + " bg groups");
 
         TOCConfig tocCfg = new TOCConfig();
         for (TOCGroup group : tocGroups.values()) {

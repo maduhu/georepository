@@ -143,7 +143,8 @@ public class RuleReaderServiceImpl implements RuleReaderService {
             accessInfo.setDefaultStyle(details.getDefaultStyle());
             accessInfo.setAllowedStyles(details.getAllowedStyles());
 
-            accessInfo.setCustomProps(details.getCustomProps()); // uhm, gotta use dao?
+            accessInfo.setCustomProps(detailsDAO.getCustomProps(rule.getId()));
+
         }
 
         accessInfo.setArea(area);
