@@ -136,11 +136,19 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
             ruleFilter.setUser(username);
         }
         ruleFilter.setInstance(instanceName);
+        
         if(service != null) {
-            ruleFilter.setService(service);
+            if( "*".equals(service))
+                ruleFilter.setService(RuleFilter.SpecialFilterType.ANY);
+            else
+                ruleFilter.setService(service);
         }
+        
         if(request != null) {
-            ruleFilter.setRequest(request);
+            if( "*".equals(request))
+                ruleFilter.setRequest(RuleFilter.SpecialFilterType.ANY);
+            else
+                ruleFilter.setRequest(request);
         }
         ruleFilter.setWorkspace(workspace.getName());
         AccessInfo rule = rules.getAccessInfo(ruleFilter);
@@ -211,10 +219,17 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
             ruleFilter.setUser(username);
         ruleFilter.setInstance(instanceName);
         if(service != null) {
-            ruleFilter.setService(service);
+            if( "*".equals(service))
+                ruleFilter.setService(RuleFilter.SpecialFilterType.ANY);
+            else
+                ruleFilter.setService(service);
         }
+
         if(request != null) {
-            ruleFilter.setRequest(request);
+            if( "*".equals(request))
+                ruleFilter.setRequest(RuleFilter.SpecialFilterType.ANY);
+            else
+                ruleFilter.setRequest(request);
         }
         ruleFilter.setWorkspace(workspace);
         ruleFilter.setLayer(layer);
