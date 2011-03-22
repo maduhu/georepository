@@ -15,6 +15,7 @@
 				<ref bean="toolbarSeparator" />
 				<ref bean="zoomIn" />
 				<ref bean="zoomOut" />
+				<ref bean="updateUsers"/>
 				<!-- ref bean="drawFeature" / -->
 				<ref bean="logout" />
                 <!-- ref bean="save" / -->
@@ -44,12 +45,20 @@
 		<property name="order" value="30" />
 	</bean>
 	
+	<bean name="updateUsers"
+        class="it.geosolutions.georepo.gui.client.configuration.ActionClientTool">
+        <property name="id" value="updateUsers" />
+        <property name="type" value="button" />
+        <property name="enabled" value="true" />
+        <property name="order" value="40" />
+    </bean>	
+	
 	<bean name="drawFeature"
 		class="it.geosolutions.georepo.gui.client.configuration.ActionClientTool">
 		<property name="id" value="drawFeature" />
 		<property name="type" value="toggle" />
 		<property name="enabled" value="false" />
-		<property name="order" value="40" />
+		<property name="order" value="50" />
 	</bean>
 	
     <bean name="save"

@@ -37,6 +37,7 @@ import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 
 import java.util.List;
@@ -172,5 +173,17 @@ public interface RulesManagerServiceRemoteAsync {
      * @param callback
      */
     public void getLayerDetailsInfo(Rule rule, AsyncCallback<LayerDetailsInfo> callback);
+    
+    /**
+     * @param layerLimitsForm
+     * @param callback
+     */
+    public void saveLayerLimitsInfo(LayerLimitsInfo layerLimitsForm, AsyncCallback<LayerLimitsInfo> callback);
+
+    /**
+     * @param rule
+     * @param callback
+     */
+    public void getLayerLimitsInfo(Rule rule, AsyncCallback<LayerLimitsInfo> callback);
     
 }

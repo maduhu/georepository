@@ -135,7 +135,10 @@ public class RulesController extends Controller {
                 GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_ADD,
                 GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_APPLY_CHANGES,
                 
-                GeoRepoEvents.EDIT_PROFILE_DETAILS);
+                GeoRepoEvents.EDIT_PROFILE_DETAILS,
+                
+                GeoRepoEvents.SAVE_LAYER_LIMITS,
+                GeoRepoEvents.LOAD_LAYER_LIMITS);
 
     }
 
@@ -375,12 +378,18 @@ public class RulesController extends Controller {
                             new AsyncCallback<PagingLoadResult<Rule>>() {
 
                                 public void onFailure(Throwable caught) {
-
-                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                            new String[] {
-                                                    I18nProvider.getMessages().ruleServiceName(),
-                                                    I18nProvider.getMessages()
-                                                            .ruleFetchFailureMessage() });
+                                    String message = caught.getMessage();
+                                    if(message != null){
+                                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                                new String[] {
+                                                        I18nProvider.getMessages().ruleServiceName(),
+                                                        caught.getMessage() });
+                                    }else{
+                                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                                new String[] {
+                                                        I18nProvider.getMessages().ruleServiceName(),
+                                                        I18nProvider.getMessages().ruleFetchFailureMessage() });
+                                    }
                                 }
 
                                 public void onSuccess(PagingLoadResult<Rule> result) {
@@ -557,14 +566,19 @@ public class RulesController extends Controller {
                 rulesManagerServiceRemote.saveRule(new_rule,// store.getModels(),
                         new AsyncCallback<PagingLoadResult<Rule>>() {
 
-                            public void onFailure(Throwable caught) {
-
-                                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                        new String[] {
-                                                I18nProvider.getMessages().ruleServiceName(),
-                                                I18nProvider.getMessages()
-                                                        .ruleFetchFailureMessage() });
-                                // return;
+                            public void onFailure(Throwable caught) {                                
+                                String message = caught.getMessage();
+                                if(message != null){
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                            new String[] {
+                                                    I18nProvider.getMessages().ruleServiceName(),
+                                                    caught.getMessage() });
+                                }else{
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                            new String[] {
+                                                    I18nProvider.getMessages().ruleServiceName(),
+                                                    I18nProvider.getMessages().ruleFetchFailureMessage() });
+                                }
                             }
 
                             public void onSuccess(PagingLoadResult<Rule> result) {

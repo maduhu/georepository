@@ -156,6 +156,7 @@ public class GSUser extends BeanModel {
      */
     public void setPassword(String password) {
         this.password = password;
+        set(BeanKeyValue.PASSWORD.getValue(), password);
     }
 
     /**

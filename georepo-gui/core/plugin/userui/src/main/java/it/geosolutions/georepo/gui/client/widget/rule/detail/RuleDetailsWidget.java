@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
@@ -43,6 +44,7 @@ import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.widget.ComponentManager;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
@@ -69,6 +71,8 @@ public class RuleDetailsWidget extends ContentPanel {
     
     /** The save layer details button. */
     private Button saveLayerDetailsButton;
+
+    private Button cancelButton;
 
 	/**
      * Instantiates a new rule details widget.
@@ -99,7 +103,7 @@ public class RuleDetailsWidget extends ContentPanel {
         
         this.toolBar = new ToolBar();
         
-        this.saveLayerDetailsButton = new Button("Apply Changes");
+        this.saveLayerDetailsButton = new Button("Save");
         saveLayerDetailsButton.setIcon(Resources.ICONS.save());
         saveLayerDetailsButton.disable();
 
@@ -118,8 +122,19 @@ public class RuleDetailsWidget extends ContentPanel {
         	}
         });
         
+        cancelButton = new Button("Cancel");
+        cancelButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+            public void handleEvent(ButtonEvent be) {
+                // /////////////////////////////////////////////////////////
+                // Getting the Rule details edit dialogs and hiding this
+                // /////////////////////////////////////////////////////////
+                ComponentManager.get().get(I18nProvider.getMessages().ruleDialogId()).hide();
+            }
+        }); 
+        
         this.toolBar.add(new FillToolItem());
         this.toolBar.add(saveLayerDetailsButton);        
+        this.toolBar.add(cancelButton);  
         setBottomComponent(this.toolBar);        
     }
 

@@ -172,7 +172,7 @@ public class AddProfileWidget extends GeoRepoFormWidget {
      */
     @Override
     public void initSize() {
-        setHeading(/* TODO: I18nProvider.getMessages().addAoiDialogTitle() */"Create new User");
+        setHeading(/* TODO: I18nProvider.getMessages().addAoiDialogTitle() */"Create new Profile");
         setSize(420, 300);
     }
 

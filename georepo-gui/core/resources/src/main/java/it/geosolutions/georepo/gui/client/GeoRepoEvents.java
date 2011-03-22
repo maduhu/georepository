@@ -452,4 +452,10 @@ public class GeoRepoEvents {
     
     /** **/
     public static final EventType EDIT_PROFILE_DETAILS = new EventType();
+    
+    /** **/
+    public static final EventType SAVE_LAYER_LIMITS = new EventType();
+    
+    /** **/
+    public static final EventType LOAD_LAYER_LIMITS = new EventType();
 }

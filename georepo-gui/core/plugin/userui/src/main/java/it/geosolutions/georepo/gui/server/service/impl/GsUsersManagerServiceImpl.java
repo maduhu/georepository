@@ -121,6 +121,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             local_user.setEnabled(remote_user.getEnabled());
             local_user.setEmailAddress(remote_user.getEmailAddress());
             local_user.setDateCreation(remote_user.getDateCreation());
+            local_user.setPassword(remote_user.getPassword());
 
             it.geosolutions.georepo.core.model.Profile remote_profile = remote_user.getProfile();
 

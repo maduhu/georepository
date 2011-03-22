@@ -59,6 +59,7 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.VerticalPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.button.ToggleButton;
@@ -369,10 +370,13 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
         setIcon(button, action.getCategory());
         button.addListener(Events.Select, action);
         button.setEnabled(action.isEnabled());
-
+        
         if (action.getId().equalsIgnoreCase("logout")) {
             this.toolBar.add(new FillToolItem());
+        }else if (action.getId().equalsIgnoreCase("updateUsers")){
+            button.setWidth(100);
         }
+        
         this.toolBar.add(button);
 
         REGISTRY_BUTTONS.put(button.getId(), button);
@@ -434,6 +438,9 @@ public class ButtonBar extends LayoutContainer implements Listener<AppEvent> {
             break;
         case DELETE_CONTENT:
             button.setIcon(Resources.ICONS.delete());
+            break;
+        case SYNC:
+            button.setIcon(Resources.ICONS.user());
             break;
         }
     }

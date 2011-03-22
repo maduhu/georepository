@@ -448,7 +448,7 @@ public class ProfileDetailsGridWidget extends GeoRepoGridWidget<ProfileCustomPro
                             I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
                                     + " " + message });
                 } else {
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                             I18nProvider.getMessages().remoteServiceName(),
                             I18nProvider.getMessages().recordNotFoundMessage() });
                 }

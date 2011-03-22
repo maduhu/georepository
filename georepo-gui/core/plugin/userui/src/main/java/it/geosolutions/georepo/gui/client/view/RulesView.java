@@ -34,12 +34,12 @@ package it.geosolutions.georepo.gui.client.view;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
@@ -64,6 +64,8 @@ import it.geosolutions.georepo.gui.client.widget.rule.detail.ProfileDetailsTabIt
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsGridWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsInfoWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsTabItem;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleLimitsInfoWidget;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleLimitsTabItem;
 
 import java.util.List;
 import java.util.Map;
@@ -195,6 +197,77 @@ public class RulesView extends View {
 
         if (event.getType() == GeoRepoEvents.EDIT_PROFILE_DETAILS)
             onEditProfileDetails(event);
+        
+        if (event.getType() == GeoRepoEvents.SAVE_LAYER_LIMITS)
+            onSaveLayerLimits(event);
+        
+        if (event.getType() == GeoRepoEvents.LOAD_LAYER_LIMITS)
+            onLoadLayerLimits(event);        
+
+    }
+
+    /**
+     * @param event
+     */
+    private void onLoadLayerLimits(AppEvent event) {
+        Rule rule = event.getData();
+
+        this.rulesManagerServiceRemote.getLayerLimitsInfo(rule,
+                new AsyncCallback<LayerLimitsInfo>() {
+
+                    public void onFailure(Throwable caught) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                                I18nProvider.getMessages().ruleServiceName(),
+                                "Error occurred while getting Rule Layer Details!" });
+                    }
+
+                    public void onSuccess(LayerLimitsInfo result) {
+                        if (result != null) {
+                            RuleLimitsTabItem ruleLimitsTabItem = (RuleLimitsTabItem) ruleEditorDialog
+                                    .getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_LIMITS_DIALOG_ID);
+
+                            RuleLimitsInfoWidget ruleDetailsWidget = ruleLimitsTabItem
+                                    .getRuleLimitsWidget().getRuleLimitsInfo();
+
+                            ruleDetailsWidget.bindModelData(result);
+
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                    I18nProvider.getMessages().ruleServiceName(),
+                                    I18nProvider.getMessages().ruleFetchSuccessMessage() });
+                        }
+                    }
+                });
+    }
+
+    /**
+     * @param event
+     */
+    private void onSaveLayerLimits(AppEvent event) {
+        LayerLimitsInfo layerLimitsInfo = event.getData();
+        
+        this.rulesManagerServiceRemote.saveLayerLimitsInfo(layerLimitsInfo, 
+                new AsyncCallback<LayerLimitsInfo>() {
+
+            public void onFailure(Throwable caught) {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                        I18nProvider.getMessages().ruleServiceName(),
+                        "Error occurred while saving Rule Layer Limits!" });
+            }
+
+            public void onSuccess(LayerLimitsInfo result) {
+                RuleLimitsTabItem ruleLimitsTabItem = (RuleLimitsTabItem) ruleEditorDialog
+                        .getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_LIMITS_DIALOG_ID);
+
+                RuleLimitsInfoWidget ruleLimitsWidget = ruleLimitsTabItem.getRuleLimitsWidget()
+                        .getRuleLimitsInfo();
+                ruleLimitsWidget.bindModelData(result);
+
+
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                        I18nProvider.getMessages().ruleServiceName(),
+                        I18nProvider.getMessages().ruleFetchSuccessMessage() });
+            }
+        });
     }
 
     /**
@@ -265,7 +338,10 @@ public class RulesView extends View {
             model.setPropKey("_new");
             profileCustomPropsInfo.getStore().add(model);
 
-            profileCustomPropsInfo.getGrid().repaint();
+//            profileCustomPropsInfo.getGrid().repaint();
+            
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                    "GeoServer Rules: Layer Custom Properties", "Add Property" });
 
         } else {
             // TODO: i18n!!
@@ -737,10 +813,9 @@ public class RulesView extends View {
 
             public void onSuccess(PagingLoadResult<LayerCustomProps> result) {
 
-                // grid.getStore().sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
-                layerCustomPropsInfo.getStore().getLoader().setSortDir(SortDir.ASC);
-                layerCustomPropsInfo.getStore().getLoader().setSortField(
-                        BeanKeyValue.PRIORITY.getValue());
+//                layerCustomPropsInfo.getStore().getLoader().setSortDir(SortDir.ASC);
+//                layerCustomPropsInfo.getStore().getLoader().setSortField(
+//                        BeanKeyValue.PRIORITY.getValue());
                 layerCustomPropsInfo.getStore().getLoader().load();
 
                 Dispatcher.forwardEvent(GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);

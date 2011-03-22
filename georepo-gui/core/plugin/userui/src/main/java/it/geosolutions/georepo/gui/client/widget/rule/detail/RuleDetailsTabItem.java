@@ -89,19 +89,19 @@ public class RuleDetailsTabItem extends TabItem {
 
         setScrollMode(Scroll.NONE);
         
-		this.addListener(Events.Select, new Listener<BaseEvent>(){
+        this.addListener(Events.Select, new Listener<BaseEvent>(){
 
-			public void handleEvent(BaseEvent be) {	
-				if(ruleDetailsWidget.getRuleDetailsInfo().getModel() == null){
-					Dispatcher.forwardEvent(GeoRepoEvents.LOAD_LAYER_DETAILS, theRule);
-				}	
-				
-				if(ruleDetailsWidget.getRuleDetailsGrid().getStore().getCount() < 1){
-					ruleDetailsWidget.getRuleDetailsGrid().getLoader().load();
-				}	
-			}
-			
-		});
+            public void handleEvent(BaseEvent be) {	
+                if(ruleDetailsWidget.getRuleDetailsInfo().getModel() == null){
+                    Dispatcher.forwardEvent(GeoRepoEvents.LOAD_LAYER_DETAILS, theRule);
+                }	
+
+                if(ruleDetailsWidget.getRuleDetailsGrid().getStore().getCount() < 1){
+                    ruleDetailsWidget.getRuleDetailsGrid().getLoader().load();
+                }	
+            }
+
+        });
 
         //getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 

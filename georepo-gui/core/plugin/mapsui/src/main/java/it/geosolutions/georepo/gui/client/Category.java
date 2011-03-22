@@ -64,5 +64,7 @@ public enum Category {
     
     /** The SAVE. */
     SAVE,
+    
+    SYNC
 
 }

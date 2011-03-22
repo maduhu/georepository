@@ -104,17 +104,17 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
         formPanel = createFormPanel();
     }
 
-	/* (non-Javadoc)
-	 * @see it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget#createFormPanel()
-	 */
-	@Override
-	public FormPanel createFormPanel() {
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget#createFormPanel()
+     */
+    @Override
+    public FormPanel createFormPanel() {
         FormPanel fp = new FormPanel();
         fp.setFrame(true);
         fp.setHeaderVisible(false);
         fp.setHeight(400);
         fp.setWidth(650);
-        
+
         FieldSet fieldSet = new FieldSet();
         fieldSet.setHeading("Layer Details");
         fieldSet.setCheckboxToggle(false);
@@ -137,60 +137,60 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
         comboStyles.setTriggerAction(TriggerAction.ALL);
         comboStyles.addListener(Events.Select, new Listener<FieldEvent>() {
 
-        	public void handleEvent(FieldEvent be) {
-        		ruleDetailsWidget.enableSaveButton();
-        	}
-        	
+            public void handleEvent(FieldEvent be) {
+                ruleDetailsWidget.enableSaveButton();
+            }
+
         });        
-        
+
         fieldSet.add(comboStyles);
-        
+
         cqlFilterRead = new TextArea();
         cqlFilterRead.setFieldLabel("CQL Read");
         cqlFilterRead.setWidth(200);
         cqlFilterRead.setPreventScrollbars(true);
         cqlFilterRead.addListener(Events.Change, new Listener<FieldEvent>() {
 
-        	public void handleEvent(FieldEvent be) {
-        		ruleDetailsWidget.enableSaveButton();
-        	}
-        	
+            public void handleEvent(FieldEvent be) {
+                ruleDetailsWidget.enableSaveButton();
+            }
+
         }); 
-        
+
         fieldSet.add(cqlFilterRead);
-        
+
         cqlFilterWrite = new TextArea();
         cqlFilterWrite.setFieldLabel("CQL Write");
         cqlFilterWrite.setWidth(200);
         cqlFilterWrite.setPreventScrollbars(true);
         cqlFilterWrite.addListener(Events.Change, new Listener<FieldEvent>() {
 
-        	public void handleEvent(FieldEvent be) {
-        		ruleDetailsWidget.enableSaveButton();
-        	}
-        	
+            public void handleEvent(FieldEvent be) {
+                ruleDetailsWidget.enableSaveButton();
+            }
+
         }); 
-        
+
         fieldSet.add(cqlFilterWrite);
-        
+
         allowedArea = new TextArea();
         allowedArea.setFieldLabel("Allowed Area");
         allowedArea.setWidth(200);
         allowedArea.setPreventScrollbars(true);
         allowedArea.addListener(Events.Change, new Listener<FieldEvent>() {
 
-        	public void handleEvent(FieldEvent be) {
-        		ruleDetailsWidget.enableSaveButton();
-        	}
-        	
+            public void handleEvent(FieldEvent be) {
+                ruleDetailsWidget.enableSaveButton();
+            }
+
         }); 
-        
+
         fieldSet.add(allowedArea);
 
         fp.add(fieldSet);
-        
-		return fp;
-	}
+
+        return fp;
+    }
 	
     /**
      * Gets the model data.

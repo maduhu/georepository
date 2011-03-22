@@ -37,6 +37,7 @@ import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
@@ -167,6 +168,24 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         userEnabledColumn.setMenuDisabled(true);
         userEnabledColumn.setSortable(false);
         configs.add(userEnabledColumn);
+        
+        ColumnConfig emailColumn = new ColumnConfig();
+        emailColumn.setId(BeanKeyValue.EMAIL.getValue());
+        emailColumn.setHeader("E-mail");
+        emailColumn.setWidth(180);
+        emailColumn.setRenderer(this.createEMailTextBox());
+        emailColumn.setMenuDisabled(true);
+        emailColumn.setSortable(false);
+        configs.add(emailColumn);
+        
+        ColumnConfig passwordColumn = new ColumnConfig();
+        passwordColumn.setId(BeanKeyValue.PASSWORD.getValue());
+        passwordColumn.setHeader("Password");
+        passwordColumn.setWidth(180);
+        passwordColumn.setRenderer(this.createPasswordTextBox());
+        passwordColumn.setMenuDisabled(true);
+        passwordColumn.setSortable(false);
+        configs.add(passwordColumn);
 
         ColumnConfig userProfileColumn = new ColumnConfig();
         userProfileColumn.setId(BeanKeyValue.PROFILE.getValue());
@@ -317,7 +336,7 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                             I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
                                     + " " + message });
                 } else {
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                             I18nProvider.getMessages().remoteServiceName(),
                             I18nProvider.getMessages().recordNotFoundMessage() });
                 }
@@ -373,6 +392,111 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 });
 
                 return userEnabledButton;
+            }
+        };
+
+        return buttonRendered;
+    }
+    
+    /**
+     * Creates the user password text box.
+     * 
+     * @return the grid cell renderer
+     */
+    private GridCellRenderer<GSUser> createPasswordTextBox() {
+        GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
+
+            private boolean init;
+
+            public Object render(final GSUser model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
+
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
+
+                        public void handleEvent(GridEvent<GSUser> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                TextField<String> userPasswordTextBox = new TextField<String>();
+                userPasswordTextBox.setWidth(150);
+                userPasswordTextBox.setPassword(true);
+                userPasswordTextBox.setValue(model.getPassword());
+
+                userPasswordTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
+
+                    public void handleEvent(FieldEvent be) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                "GeoServer User",
+                                "User password changed to -> " + be.getField().getValue() });
+
+                        model.setPassword((String) be.getField().getValue());
+                        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_USER, model);
+                    }
+                });
+
+                return userPasswordTextBox;
+            }
+        };
+
+        return buttonRendered;
+    }
+    
+    /**
+     * Creates the user password text box.
+     * 
+     * @return the grid cell renderer
+     */
+    private GridCellRenderer<GSUser> createEMailTextBox() {
+        GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
+
+            private boolean init;
+
+            public Object render(final GSUser model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
+
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
+
+                        public void handleEvent(GridEvent<GSUser> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                TextField<String> emailTextBox = new TextField<String>();
+                emailTextBox.setWidth(150);
+                emailTextBox.setValue(model.getEmailAddress());
+
+                emailTextBox.addListener(Events.Change, new Listener<FieldEvent>() {
+
+                    public void handleEvent(FieldEvent be) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                "GeoServer User",
+                                "User e-mail changed to -> " + be.getField().getValue() });
+
+                        model.setEmailAddress((String) be.getField().getValue());
+                        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_USER, model);
+                    }
+                });
+
+                return emailTextBox;
             }
         };
 

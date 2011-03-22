@@ -62,11 +62,11 @@ import com.extjs.gxt.ui.client.event.LoadListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.ComponentManager;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.LabelField;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
-import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.form.LabelField;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -76,14 +76,13 @@ import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LayerAttributesGridWidget.
  */
 public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> {
-
-	/** The rule. */
-	private Rule theRule;
+    
+    /** The rule. */
+    private Rule theRule;
 	
     /** The rules service. */
     private RulesManagerServiceRemoteAsync rulesService;
@@ -99,6 +98,9 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
     
     /** The save rule attributes button. */
     private Button saveRuleAttributesButton;
+    
+    /** The cancel rule attributes button. */
+    private Button cancelButton;
     
     /**
      * Instantiates a new layer attributes grid widget.
@@ -157,7 +159,7 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
         store = new ListStore<LayerAttribUI>(loader);
         store.sort(BeanKeyValue.ATTR_NAME.getValue(), SortDir.ASC);
         
-        this.saveRuleAttributesButton = new Button("Apply Changes");
+        this.saveRuleAttributesButton = new Button("Save");
         saveRuleAttributesButton.setIcon(Resources.ICONS.save());
         saveRuleAttributesButton.disable();
 
@@ -183,8 +185,20 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
             }
         });
         
+        cancelButton = new Button("Cancel");
+        cancelButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+            public void handleEvent(ButtonEvent be) {
+                // /////////////////////////////////////////////////////////
+                // Getting the Rule details edit dialogs and hiding this
+                // /////////////////////////////////////////////////////////
+                ComponentManager.get().get(I18nProvider.getMessages().ruleDialogId()).hide();
+            }
+        });        
+        
         this.toolBar.add(new FillToolItem());
         this.toolBar.add(saveRuleAttributesButton);
+        this.toolBar.add(cancelButton);
+        
         setUpLoadListener();
     }
     
@@ -217,7 +231,7 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
                             I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
                                     + " " + message });
                 } else {
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                             I18nProvider.getMessages().remoteServiceName(),
                             I18nProvider.getMessages().recordNotFoundMessage() });
                 }

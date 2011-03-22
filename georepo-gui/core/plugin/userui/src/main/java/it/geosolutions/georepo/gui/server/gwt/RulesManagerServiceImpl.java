@@ -37,6 +37,7 @@ import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
 import it.geosolutions.georepo.gui.server.service.IRulesManagerService;
@@ -201,5 +202,19 @@ public class RulesManagerServiceImpl extends RemoteServiceServlet implements
      */
     public List<LayerAttribUI> getLayerAttributes(Rule rule) throws ApplicationException {
         return rulesManagerService.getLayerAttributes(rule);
+    }    
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#saveLayerLimitsInfo(it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo)
+     */
+    public LayerLimitsInfo saveLayerLimitsInfo(LayerLimitsInfo layerLimitsForm) throws ApplicationException{
+        return rulesManagerService.saveLayerLimitsInfo(layerLimitsForm);
+    }
+
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote#getLayerLimitsInfo(it.geosolutions.georepo.gui.client.model.Rule)
+     */
+    public LayerLimitsInfo getLayerLimitsInfo(Rule rule) throws ApplicationException{
+        return rulesManagerService.getLayerLimitsInfo(rule);
     }
 }

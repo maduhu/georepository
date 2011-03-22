@@ -77,14 +77,17 @@ import com.extjs.gxt.ui.client.event.GridEvent;
 import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.LoadListener;
+import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.store.Store;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.Info;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
+import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -1324,7 +1327,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 }
 
                 // TODO: generalize this!
-                ComboBox<Grant> grantsComboBox = new ComboBox<Grant>();
+                final ComboBox<Grant> grantsComboBox = new ComboBox<Grant>();
                 grantsComboBox.setId("grantsCombo");
                 grantsComboBox.setName("grantsCombo");
 
@@ -1345,8 +1348,28 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                     public void handleEvent(FieldEvent be) {
                         final Grant grant = (Grant) be.getField().getValue();
 
-                        model.setGrant(grant.getGrant());
-                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_EDIT_GRID_COMBO, model);
+                        final Listener<MessageBoxEvent> l = new Listener<MessageBoxEvent>() {  
+                            public void handleEvent(MessageBoxEvent ce) {  
+                                Button btn = ce.getButtonClicked();  
+
+                                if(btn.getText().equalsIgnoreCase("Yes")){
+                                    model.setGrant(grant.getGrant());
+                                    Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_EDIT_GRID_COMBO, model);
+                                    
+                                    Info.display("MessageBox", "Rule Grant changed", btn.getText());  
+                                }else{
+                                    grantsComboBox.setValue(new Grant(model.getGrant()));
+                                }
+                            }  
+                        };  
+
+                        if(!grant.getGrant().equalsIgnoreCase(model.getGrant()) && model.getId() != -1){
+                            MessageBox.confirm("Confirm", "Grant is changed. Saving the rule the details or rule limits will be deleted. Are you sure you want to do that?", l);
+                        }else{
+                            model.setGrant(grant.getGrant());
+                            Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_EDIT_GRID_COMBO, model);
+                        }
+                            
                     }
                 });
 

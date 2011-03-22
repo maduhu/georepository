@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client.widget.dialog;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
@@ -41,10 +42,9 @@ import it.geosolutions.georepo.gui.client.widget.SaveStaus.EnumSaveStatus;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesTabItem;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsTabItem;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsTabItem;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleLimitsTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
-import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.TabItem;
@@ -66,6 +66,9 @@ public class RuleDetailsEditDialog extends Dialog {
 
     /** The Constant RULE_LAYER_CUSTOM_PROPS_DIALOG_ID. */
     public static final String RULE_LAYER_CUSTOM_PROPS_DIALOG_ID = "ruleLayerCustomPropsDialog";
+    
+    /** The Constant RULE_LIMITS_DIALOG_ID. */
+    public static final String RULE_LIMITS_DIALOG_ID = "ruleLimitsDialog";
 
     /** The form panel. */
     private FormPanel formPanel;
@@ -111,6 +114,7 @@ public class RuleDetailsEditDialog extends Dialog {
         setModal(true);
         setWidth(700);
         setHeight(427);
+        setId(I18nProvider.getMessages().ruleDialogId());
         
         add(this.getTabWidget());
 
@@ -150,17 +154,14 @@ public class RuleDetailsEditDialog extends Dialog {
 
         getButtonBar().add(new FillToolItem());
 
-        this.done = new Button("Done", new SelectionListener<ButtonEvent>() {
-
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                hide();
-//                Dispatcher.forwardEvent(GeoRepoEvents.INJECT_WKT, wkt);
-            }
-        });
-
-//        this.done.disable();
-        addButton(done);
+//        this.done = new Button("Done", new SelectionListener<ButtonEvent>() {
+//            @Override
+//            public void componentSelected(ButtonEvent ce) {
+//                hide();
+//            }
+//        });
+//
+//        addButton(done);
     }
 
     /* (non-Javadoc)
@@ -172,17 +173,13 @@ public class RuleDetailsEditDialog extends Dialog {
         
         if (getModel() != null) {
             
-            // TODO: Temporary. To be removed as soon as the rule editor will be completed!
-            if (model.getLayer() == null || model.getLayer().equalsIgnoreCase("*")) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, 
-                        new String[] {
-                            "Rule Properties Editor",
-                            "Rule details editor actually enabled only for Rules which specifies a Layer on the filter."
-                        }
-                );
-            } else {
+            String layer = model.getLayer();
+            String grant = model.getGrant();
+            
+            if(layer != null && !layer.equalsIgnoreCase("*") && grant.equalsIgnoreCase("ALLOW")){
                 setHeading("Editing Details for Rule #" + model.getPriority() );
-                this.tabWidget.add(new RuleDetailsTabItem(RULE_DETAILS_DIALOG_ID, model, workspacesManagerServiceRemote));
+                TabItem ruleDetailsTabItem = new RuleDetailsTabItem(RULE_DETAILS_DIALOG_ID, model, workspacesManagerServiceRemote);
+                this.tabWidget.add(ruleDetailsTabItem);
                 
                 if (model.getLayer() != null && !model.getLayer().equalsIgnoreCase("*")) {
                     TabItem layerAttributesItem = new LayerAttributesTabItem(RULE_LAYER_ATTRIBUTES_DIALOG_ID, model, rulesManagerServiceRemote);
@@ -191,9 +188,44 @@ public class RuleDetailsEditDialog extends Dialog {
                     this.tabWidget.add(layerAttributesItem);
                     this.tabWidget.add(layersCustomPropsItem);
                     
-                    this.tabWidget.setSelection(layersCustomPropsItem);
+                    this.tabWidget.setSelection(ruleDetailsTabItem);
                 }
-            }
+            }else if(grant.equalsIgnoreCase("LIMIT")){
+                setHeading("Editing Limits for Rule #" + model.getPriority() );
+                TabItem ruleLimitsTabItem = new RuleLimitsTabItem(RULE_LIMITS_DIALOG_ID, model, rulesManagerServiceRemote);
+                this.tabWidget.add(ruleLimitsTabItem);
+            }else{
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, 
+                        new String[] {
+                            "Rule Properties Editor",
+                            "Rule details editor actually enabled only for Rules which specifies a Layer on the filter."
+                        }
+                );
+            }  
+            
+//            // TODO: Temporary. To be removed as soon as the rule editor will be completed!
+//            if (layer == null || layer.equalsIgnoreCase("*")) {
+//                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, 
+//                        new String[] {
+//                            "Rule Properties Editor",
+//                            "Rule details editor actually enabled only for Rules which specifies a Layer on the filter."
+//                        }
+//                );
+//            } else {
+//                setHeading("Editing Details for Rule #" + model.getPriority() );
+//                TabItem ruleDetailsTabItem = new RuleDetailsTabItem(RULE_DETAILS_DIALOG_ID, model, workspacesManagerServiceRemote);
+//                this.tabWidget.add(ruleDetailsTabItem);
+//                
+//                if (model.getLayer() != null && !model.getLayer().equalsIgnoreCase("*")) {
+//                    TabItem layerAttributesItem = new LayerAttributesTabItem(RULE_LAYER_ATTRIBUTES_DIALOG_ID, model, rulesManagerServiceRemote);
+//                    TabItem layersCustomPropsItem = new LayerCustomPropsTabItem(RULE_LAYER_CUSTOM_PROPS_DIALOG_ID, model, rulesManagerServiceRemote);
+//
+//                    this.tabWidget.add(layerAttributesItem);
+//                    this.tabWidget.add(layersCustomPropsItem);
+//                    
+//                    this.tabWidget.setSelection(ruleDetailsTabItem);
+//                }
+//            }
         }
     }
 

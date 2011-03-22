@@ -785,6 +785,13 @@ public interface ApplicationMessages extends Messages {
     public String searchMemberPressed();
 
     /**
+     * Synchronize users.
+     * 
+     * @return the string
+     */
+    public String syncUsers();
+    
+    /**
      * Upload aoi shape dialog title.
      * 
      * @return the string
@@ -1091,6 +1098,13 @@ public interface ApplicationMessages extends Messages {
      * @return the string
      */
     public String watchNotFoundMessage();
+    
+    /**
+     * The Rule Details Edit Dialog ID
+     * 
+     * @return String
+     */
+    public String ruleDialogId();
 
     // ///////////////////////////
     // PLEASE KEEP THIS FILE SORTED ALPHABETICALLY! Thank you.

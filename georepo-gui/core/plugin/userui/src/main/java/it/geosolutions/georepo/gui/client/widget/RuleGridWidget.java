@@ -222,6 +222,14 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
             grid.getStore().setSortField(BeanKeyValue.PRIORITY.getValue());
             grid.getStore().setSortDir(SortDir.ASC);
         }
+        
+        grid.addListener(Events.RowDoubleClick, new Listener<GridEvent<Rule>>() {
+            public void handleEvent(GridEvent<Rule> be) {                
+                Rule ruleModel = be.getModel();            
+                Dispatcher.forwardEvent(GeoRepoEvents.EDIT_RULE_UPDATE, new GridStatus(
+                        grid, ruleModel));
+            }            
+        });
     }
 
     /*
@@ -1348,7 +1356,15 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                 Button ruleDetailsButton = new Button("Details");
                 ruleDetailsButton.setIcon(Resources.ICONS.table());
                 ruleDetailsButton.setToolTip("Show Rule Details");
-                ruleDetailsButton.setEnabled(true);
+                
+                if(!model.getLayer().equalsIgnoreCase("*") &&
+                        model.getGrant().equalsIgnoreCase("ALLOW"))
+                    ruleDetailsButton.setEnabled(true);
+                else if(model.getGrant().equalsIgnoreCase("LIMIT"))
+                    ruleDetailsButton.setEnabled(true);
+                else
+                    ruleDetailsButton.setEnabled(false);
+               
 
                 ruleDetailsButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
@@ -1433,42 +1449,42 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         return buttonRendered;
     }
 
-    /**
-     * Creates the new rule.
-     * 
-     * @param model
-     *            the model
-     * @return the rule
-     */
-    private Rule createNewRule(Rule model) {
-        Rule new_rule = new Rule();
-        new_rule.setId(-1);
-        if (model == null) {
-            new_rule.setPriority(0);
-        } else {
-            new_rule.setPriority(model.getPriority() + 1);
-        }
-
-        GSUser all_user = new GSUser();
-        all_user.setId(-1);
-        all_user.setName("*");
-        new_rule.setUser(all_user);
-        Profile all_profile = new Profile();
-        all_profile.setId(-1);
-        all_profile.setName("*");
-        new_rule.setProfile(all_profile);
-        GSInstance all_instance = new GSInstance();
-        all_instance.setId(-1);
-        all_instance.setName("*");
-        all_instance.setBaseURL("*");
-        // new_rule.setInstance(all_instance);
-        new_rule.setGrant("ALLOW");
-        new_rule.setService("*");
-        new_rule.setLayer("*");
-        new_rule.setRequest("*");
-        new_rule.setWorkspace("*");
-        return new_rule;
-    }
+//    /**
+//     * Creates the new rule.
+//     * 
+//     * @param model
+//     *            the model
+//     * @return the rule
+//     */
+//    private Rule createNewRule(Rule model) {
+//        Rule new_rule = new Rule();
+//        new_rule.setId(-1);
+//        if (model == null) {
+//            new_rule.setPriority(0);
+//        } else {
+//            new_rule.setPriority(model.getPriority() + 1);
+//        }
+//
+//        GSUser all_user = new GSUser();
+//        all_user.setId(-1);
+//        all_user.setName("*");
+//        new_rule.setUser(all_user);
+//        Profile all_profile = new Profile();
+//        all_profile.setId(-1);
+//        all_profile.setName("*");
+//        new_rule.setProfile(all_profile);
+//        GSInstance all_instance = new GSInstance();
+//        all_instance.setId(-1);
+//        all_instance.setName("*");
+//        all_instance.setBaseURL("*");
+//        // new_rule.setInstance(all_instance);
+//        new_rule.setGrant("ALLOW");
+//        new_rule.setService("*");
+//        new_rule.setLayer("*");
+//        new_rule.setRequest("*");
+//        new_rule.setWorkspace("*");
+//        return new_rule;
+//    }
 
     /**
      * Creates the rule priority up button.
@@ -1717,7 +1733,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
                             I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
                                     + " " + message });
                 } else {
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, new String[] {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                             I18nProvider.getMessages().remoteServiceName(),
                             I18nProvider.getMessages().recordNotFoundMessage() });
                 }

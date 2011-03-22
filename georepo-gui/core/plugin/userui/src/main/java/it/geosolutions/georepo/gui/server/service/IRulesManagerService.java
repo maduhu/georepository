@@ -32,21 +32,19 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
-import java.util.List;
-
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
-
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
-
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+
+import java.util.List;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -162,5 +160,17 @@ public interface IRulesManagerService {
      * Swaps the priorities of two rules.
      */
     public void swap(long id1, long id2);
+    
+    /**
+     * @param layerLimitsForm
+     * @return LayerLimitsInfo
+     */
+    public LayerLimitsInfo saveLayerLimitsInfo(LayerLimitsInfo layerLimitsForm);
+
+    /**
+     * @param rule
+     * @return LayerLimitsInfo
+     */
+    public LayerLimitsInfo getLayerLimitsInfo(Rule rule);
 
 }

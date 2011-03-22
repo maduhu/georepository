@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.client.action;
 
 import it.geosolutions.georepo.gui.client.action.application.GeoRepoInfoAppAction;
 import it.geosolutions.georepo.gui.client.action.application.LogoutAction;
+import it.geosolutions.georepo.gui.client.action.toolbar.UpdateUsersAction;
 import it.geosolutions.georepo.gui.client.action.toolbar.ZoomInAction;
 import it.geosolutions.georepo.gui.client.action.toolbar.ZoomOutAction;
 
@@ -72,6 +73,13 @@ public final class ToolbarActionRegistry {
 
             public ToolbarAction createActionTool(MapWidget mapWidget) {
                 return new ZoomOutAction(mapWidget);
+            }
+        });
+        
+        REGISTRY.put("updateUsers", new ToolActionCreator() {
+
+            public ToolbarAction createActionTool(MapWidget mapWidget) {
+                return new UpdateUsersAction();
             }
         });
 
