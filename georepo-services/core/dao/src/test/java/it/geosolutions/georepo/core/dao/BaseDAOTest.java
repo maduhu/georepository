@@ -62,11 +62,11 @@ public abstract class BaseDAOTest extends TestCase {
                 };
                 ctx = new ClassPathXmlApplicationContext(paths);
 
-                userDAO = (GSUserDAO)ctx.getBean("gsuserDAO");
+                userDAO = (GSUserDAO)ctx.getBean("gsUserDAO");
                 profileDAO = (ProfileDAO)ctx.getBean("profileDAO");
                 ruleDAO = (RuleDAO)ctx.getBean("ruleDAO");
-                detailsDAO = (LayerDetailsDAO)ctx.getBean("layerdetailsDAO");
-                limitsDAO = (RuleLimitsDAO)ctx.getBean("rulelimitsDAO");
+                detailsDAO = (LayerDetailsDAO)ctx.getBean("layerDetailsDAO");
+                limitsDAO = (RuleLimitsDAO)ctx.getBean("ruleLimitsDAO");
             }
         }
     }

@@ -40,29 +40,29 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     private final static Logger LOGGER = Logger.getLogger(UserAdminServiceImpl.class);
 
-    private GSUserDAO userDao;
+    private GSUserDAO userDAO;
 
     // ==========================================================================
     @Override
     public long insert(GSUser user) {
-        userDao.persist(user);
+        userDAO.persist(user);
         return user.getId();
     }
 
     @Override
     public long update(GSUser user) throws ResourceNotFoundFault {
-        GSUser orig = userDao.find(user.getId());
+        GSUser orig = userDAO.find(user.getId());
         if (orig == null) {
             throw new ResourceNotFoundFault("User not found", user.getId());
         }
 
-        userDao.merge(user);
+        userDAO.merge(user);
         return orig.getId();
     }
 
     @Override
     public GSUser get(long id) throws ResourceNotFoundFault {
-        GSUser user = userDao.find(id);
+        GSUser user = userDAO.find(id);
 
         if (user == null) {
             throw new ResourceNotFoundFault("User not found", id);
@@ -74,12 +74,12 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public boolean delete(long id) throws ResourceNotFoundFault {
         // data on ancillary tables should be deleted by cascading
-        return userDao.removeById(id);
+        return userDAO.removeById(id);
     }
 
     @Override
     public List<ShortUser> getAll() {
-        List<GSUser> found = userDao.findAll();
+        List<GSUser> found = userDAO.findAll();
         return convertToShortList(found);
     }
 
@@ -103,7 +103,7 @@ public class UserAdminServiceImpl implements UserAdminService {
             searchCriteria.addFilterILike("name", nameLike);
         }
 
-        List<GSUser> found = userDao.search(searchCriteria);
+        List<GSUser> found = userDAO.search(searchCriteria);
         return convertToShortList(found);
     }
 
@@ -115,7 +115,7 @@ public class UserAdminServiceImpl implements UserAdminService {
             searchCriteria.addFilterILike("name", nameLike);
         }
 
-        return userDao.count(searchCriteria);
+        return userDAO.count(searchCriteria);
     }
 
     // ==========================================================================
@@ -131,8 +131,8 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     // ==========================================================================
 
-    public void setUserDao(GSUserDAO userDao) {
-        this.userDao = userDao;
+    public void setGsUserDAO(GSUserDAO userDao) {
+        this.userDAO = userDao;
     }
 
 }

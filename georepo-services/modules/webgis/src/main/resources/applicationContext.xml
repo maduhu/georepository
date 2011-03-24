@@ -46,7 +46,7 @@
     </bean>
 
     <bean id="wgSguService" class="it.geosolutions.georepo.services.webgis.impl.WGSGUServiceImpl">
-        <property name="userDAO" ref="gsuserDAO"/>
+        <property name="gsUserDAO" ref="gsUserDAO"/>
     </bean>
 
     <jaxrs:server id="webgisREST" address="/webgis">

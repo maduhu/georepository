@@ -30,9 +30,11 @@ import org.apache.log4j.Logger;
 
 import com.trg.search.Search;
 import com.vividsolutions.jts.geom.Geometry;
+import it.geosolutions.georepo.core.dao.GSUserDAO;
 import it.geosolutions.georepo.core.dao.LayerDetailsDAO;
 import it.geosolutions.georepo.core.dao.RuleDAO;
 import it.geosolutions.georepo.core.dao.RuleLimitsDAO;
+import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
@@ -56,8 +58,8 @@ public class RuleReaderServiceImpl implements RuleReaderService {
     private final static Logger LOGGER = Logger.getLogger(RuleReaderServiceImpl.class);
 
     private RuleDAO ruleDAO;
-    private RuleLimitsDAO limitsDAO;
     private LayerDetailsDAO detailsDAO;
+    private GSUserDAO userDAO;
 
     @Override
     @Deprecated
@@ -110,7 +112,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
                     break;
                     
                 case ALLOW:
-                    ret = buildAllowAccessInfo(rule, limits);
+                    ret = buildAllowAccessInfo(rule, limits, filter.getUser());
                     break;
 
                 default:
@@ -128,10 +130,32 @@ public class RuleReaderServiceImpl implements RuleReaderService {
         return ret;
     }
 
-    private AccessInfo buildAllowAccessInfo(Rule rule, List<RuleLimits> limits) {
+    private Geometry getUserArea(IdNameFilter userFilter) {
+        GSUser user = null;
+
+        if(userFilter.getType() == RuleFilter.FilterType.IDVALUE) {
+            user = userDAO.find(userFilter.getId());
+
+        } else if(userFilter.getType() == RuleFilter.FilterType.NAMEVALUE) {
+            Search search = new Search(GSUser.class);
+            search.addFilterEqual("name", userFilter.getName());
+            List<GSUser> users = userDAO.search(search);
+            if(users.size() > 1)
+                throw new IllegalStateException("Found more than one user with name '"+userFilter.getName()+"'");
+            if( ! users.isEmpty() )
+                user = users.get(0);
+        }
+
+        return user == null ? null :  user.getAllowedArea();
+    }
+
+    private AccessInfo buildAllowAccessInfo(Rule rule, List<RuleLimits> limits, IdNameFilter userFilter) {
         AccessInfo accessInfo = new AccessInfo(GrantType.ALLOW);
 
         Geometry area = intersect(limits);
+
+        Geometry userArea = getUserArea(userFilter);
+        area = intersect(area, userArea);
         
         LayerDetails details = rule.getLayerDetails();                
         if(details != null ) {
@@ -312,12 +336,12 @@ public class RuleReaderServiceImpl implements RuleReaderService {
         this.ruleDAO = ruleDAO;
     }
 
-    public void setRuleLimitsDAO(RuleLimitsDAO ruleLimitsDAO) {
-        this.limitsDAO = ruleLimitsDAO;
-    }
-
     public void setLayerDetailsDAO(LayerDetailsDAO detailsDAO) {
         this.detailsDAO = detailsDAO;
+    }
+
+    public void setGsUserDAO(GSUserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
 }

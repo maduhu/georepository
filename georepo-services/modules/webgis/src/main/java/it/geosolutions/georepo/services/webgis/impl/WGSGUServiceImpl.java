@@ -44,7 +44,7 @@ public class WGSGUServiceImpl implements SGUService {
 
     private static final String EXTERNAL_ID_KEY = "sgu_id";
 
-    private GSUserDAO userDAO;
+    private GSUserDAO gsUserDAO;
     private ProfileDAO profileDAO;
 
     @Override
@@ -159,7 +159,7 @@ public class WGSGUServiceImpl implements SGUService {
 
         for (SGUUser sguUser : sguList.getUserList()) {
             Search search = new Search(GSUser.class).addFilterEqual("extId", sguUser.getSguId());
-            List<GSUser> geoRepoList = userDAO.search(search);
+            List<GSUser> geoRepoList = gsUserDAO.search(search);
 
             switch (geoRepoList.size()) {
                 case 0:
@@ -170,7 +170,7 @@ public class WGSGUServiceImpl implements SGUService {
                         LOGGER.error("Error creating new user from " + sguUser);
                     } else {
                         cntNew++;
-                        userDAO.persist(user);
+                        gsUserDAO.persist(user);
                     }
                     break;
                 case 1:
@@ -182,7 +182,7 @@ public class WGSGUServiceImpl implements SGUService {
                         cntUp++;
                         LOGGER.info("Updating " + sguUser + " -- old name : " + oldUser.getName());
                         oldUser.setName(sguUser.getUserName()); // TODO: maybe some other stuff to update...
-                        userDAO.merge(oldUser);
+                        gsUserDAO.merge(oldUser);
                     }
                     break;
                 default:
@@ -215,8 +215,8 @@ public class WGSGUServiceImpl implements SGUService {
         this.profileDAO = profileDAO;
     }
 
-    public void setUserDAO(GSUserDAO userDAO) {
-        this.userDAO = userDAO;
+    public void setGsUserDAO(GSUserDAO gsUserDAO) {
+        this.gsUserDAO = gsUserDAO;
     }
 
     //==========================================================================

@@ -13,28 +13,18 @@
        default-autowire="byName">
 
     <bean id="userAdminService" class="it.geosolutions.georepo.services.UserAdminServiceImpl">
-        <property name="userDao" ref="gsuserDAO"/>
     </bean>
 
     <bean id="profileAdminService" class="it.geosolutions.georepo.services.ProfileAdminServiceImpl">
-<!--        <property name="userDao" ref="gsuserDAO"/>-->
-        <property name="profileDao" ref="profileDAO"/>
     </bean>
 
     <bean id="instanceAdminService" class="it.geosolutions.georepo.services.InstanceAdminServiceImpl">
-        <property name="instanceDAO" ref="instanceDAO"/>
     </bean>
 
     <bean id="ruleAdminService" class="it.geosolutions.georepo.services.RuleAdminServiceImpl">
-        <property name="ruleDAO" ref="ruleDAO"/>
-        <property name="ruleLimitsDAO" ref="rulelimitsDAO"/>
-        <property name="layerDetailsDAO" ref="layerdetailsDAO"/>
     </bean>
 
     <bean id="ruleReaderService" class="it.geosolutions.georepo.services.RuleReaderServiceImpl">
-        <property name="ruleDAO" ref="ruleDAO"/>
-        <property name="ruleLimitsDAO" ref="rulelimitsDAO"/>
-        <property name="layerDetailsDAO" ref="layerdetailsDAO"/>
     </bean>
 
 </beans>

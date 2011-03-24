@@ -40,7 +40,7 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
 
     private final static Logger LOGGER = Logger.getLogger(ProfileAdminServiceImpl.class);
 
-    private ProfileDAO profileDao;
+    private ProfileDAO profileDAO;
 
     // ==========================================================================
     @Override
@@ -48,13 +48,13 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
         Profile p = new Profile();
         p.setName(profile.getName());
         p.setEnabled(profile.isEnabled());
-        profileDao.persist(p);
+        profileDAO.persist(p);
         return p.getId();
     }
 
     @Override
     public long update(ShortProfile profile) throws ResourceNotFoundFault {
-        Profile orig = profileDao.find(profile.getId());
+        Profile orig = profileDAO.find(profile.getId());
         if (orig == null) {
             throw new ResourceNotFoundFault("Profile not found", profile.getId());
         }
@@ -62,13 +62,13 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
         orig.setName(profile.getName());
         orig.setEnabled(profile.isEnabled());
 
-        profileDao.merge(orig);
+        profileDAO.merge(orig);
         return orig.getId();
     }
 
     @Override
     public Profile get(long id) throws ResourceNotFoundFault {
-        Profile profile = profileDao.find(id);
+        Profile profile = profileDAO.find(id);
 
         if (profile == null) {
             throw new ResourceNotFoundFault("Profile not found", id);
@@ -80,19 +80,19 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
 
     @Override
     public boolean delete(long id) throws ResourceNotFoundFault {
-        Profile profile = profileDao.find(id);
+        Profile profile = profileDAO.find(id);
 
         if (profile == null) {
             throw new ResourceNotFoundFault("Profile not found", id);
         }
 
         // data on ancillary tables should be deleted by cascading
-        return profileDao.remove(profile);
+        return profileDAO.remove(profile);
     }
 
     @Override
     public List<ShortProfile> getAll() {
-        List<Profile> found = profileDao.findAll();
+        List<Profile> found = profileDAO.findAll();
         return convertToShortList(found);
     }
 
@@ -107,7 +107,7 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
             searchCriteria.addFilterILike("name", nameLike);
         }
 
-        List<Profile> found = profileDao.search(searchCriteria);
+        List<Profile> found = profileDAO.search(searchCriteria);
 //        return found;
         return convertToShortList(found);
     }
@@ -120,19 +120,19 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
             searchCriteria.addFilterILike("name", nameLike);
         }
 
-        return profileDao.count(searchCriteria);
+        return profileDAO.count(searchCriteria);
     }
 
     // ==========================================================================
 
     @Override
     public Map<String, String> getCustomProps(Long id) {
-        return profileDao.getCustomProps(id);
+        return profileDAO.getCustomProps(id);
     }
 
     @Override
     public void setCustomProps(Long id, Map<String, String> props) {
-        profileDao.setCustomProps(id, props);
+        profileDAO.setCustomProps(id, props);
     }
 
     // ==========================================================================
@@ -148,8 +148,8 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
 
     // ==========================================================================
 
-    public void setProfileDao(ProfileDAO profileDao) {
-        this.profileDao = profileDao;
+    public void setProfileDAO(ProfileDAO profileDao) {
+        this.profileDAO = profileDao;
     }
 
 }
