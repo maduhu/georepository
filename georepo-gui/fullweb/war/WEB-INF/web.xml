@@ -160,14 +160,14 @@
         <url-pattern>/remoting/*</url-pattern>
     </servlet-mapping>
     
-  <servlet>
+  <!--servlet>
 		<servlet-name>WorkspacesManagerServiceRemote</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.WorkspacesManagerServiceImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>WorkspacesManagerServiceRemote</servlet-name>
 		<url-pattern>/georepo/WorkspacesManagerServiceRemote</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	
 		<!-- external graphic file upload servlet 
 	<servlet>

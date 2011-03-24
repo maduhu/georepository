@@ -458,4 +458,7 @@ public class GeoRepoEvents {
     
     /** **/
     public static final EventType LOAD_LAYER_LIMITS = new EventType();
+    
+    /** **/
+    public static final EventType LOAD_RULES = new EventType();
 }

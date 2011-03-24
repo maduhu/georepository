@@ -247,37 +247,37 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
     private long checkUniqueness(Rule rule){
         RuleFilter filter = new RuleFilter();
         
-        if(!rule.getUser().getName().equalsIgnoreCase("*"))
+        if(rule.getUser() != null && !rule.getUser().getName().equalsIgnoreCase("*"))
             filter.setUser(rule.getUser().getId());
         else
             filter.setUser(SpecialFilterType.DEFAULT);
         
-        if(!rule.getProfile().getName().equalsIgnoreCase("*"))
+        if(rule.getProfile() != null && !rule.getProfile().getName().equalsIgnoreCase("*"))
             filter.setProfile(rule.getProfile().getId());
         else
             filter.setProfile(SpecialFilterType.DEFAULT);
         
-        if(!rule.getInstance().getName().equalsIgnoreCase("*"))
+        if(rule.getInstance() != null && !rule.getInstance().getName().equalsIgnoreCase("*"))
             filter.setInstance(rule.getInstance().getId());
         else
             filter.setInstance(SpecialFilterType.DEFAULT);
         
-        if(!rule.getService().equalsIgnoreCase("*"))
+        if(rule.getService() != null && !rule.getService().equalsIgnoreCase("*"))
             filter.setService(rule.getService());
         else
             filter.setService(SpecialFilterType.DEFAULT);
         
-        if(!rule.getRequest().equalsIgnoreCase("*"))
+        if(rule.getRequest() != null && !rule.getRequest().equalsIgnoreCase("*"))
             filter.setRequest(rule.getRequest());
         else
             filter.setRequest(SpecialFilterType.DEFAULT);
         
-        if(!rule.getWorkspace().equalsIgnoreCase("*"))
+        if(rule.getWorkspace() != null && !rule.getWorkspace().equalsIgnoreCase("*"))
             filter.setWorkspace(rule.getWorkspace());
         else
             filter.setWorkspace(SpecialFilterType.DEFAULT);
         
-        if(!rule.getLayer().equalsIgnoreCase("*"))
+        if(rule.getLayer() != null && !rule.getLayer().equalsIgnoreCase("*"))
             filter.setLayer(rule.getLayer());
         else
             filter.setLayer(SpecialFilterType.DEFAULT);
@@ -722,8 +722,11 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         try {
             layerDetails = georepoRemoteService.getRuleAdminService().get(ruleId).getLayerDetails();
 
+            LayerDetails details = null;
             if (layerDetails == null)
-                layerDetails = new LayerDetails();
+                details = new LayerDetails();
+            else
+                details = layerDetails;
 
             it.geosolutions.georepo.core.model.Rule rule = georepoRemoteService
                     .getRuleAdminService().get(ruleId);
@@ -731,27 +734,26 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             GeoServerRESTReader gsreader = new GeoServerRESTReader(gsInstance.getBaseURL(),
                     gsInstance.getUsername(), gsInstance.getPassword());
             RESTLayer layer = gsreader.getLayer(rule.getLayer());
-
-            if (layer.getType().equals(RESTLayer.TYPE.VECTOR)) {
-                layerDetails.setType(LayerType.VECTOR);
-
-                layerDetails.setCqlFilterRead(layerDetailsInfo.getCqlFilterRead());
-                layerDetails.setCqlFilterWrite(layerDetailsInfo.getCqlFilterWrite());
-            } else {
-                layerDetails.setType(LayerType.RASTER);
-            }
-
+            
             // ///////////////////////////////////
             // Saving the layer details info
             // ///////////////////////////////////
-
-            layerDetails.setDefaultStyle(layerDetailsInfo.getDefaultStyle());
+            
+            if (layer.getType().equals(RESTLayer.TYPE.VECTOR)) {
+                details.setType(LayerType.VECTOR);
+                details.setCqlFilterRead(layerDetailsInfo.getCqlFilterRead());
+                details.setCqlFilterWrite(layerDetailsInfo.getCqlFilterWrite());
+            } else {
+                details.setType(LayerType.RASTER);
+            }
+            
+            details.setDefaultStyle(layerDetailsInfo.getDefaultStyle());
             
             String allowedArea = layerDetailsInfo.getAllowedArea();
             if(allowedArea != null){
                 WKTReader wktReader = new WKTReader();  
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);
-                layerDetails.setArea(the_geom);
+                details.setArea(the_geom);
             }
 
             // ///////////////////////////////////
@@ -770,10 +772,12 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 }
             }
 
-            if (allowedStyles.size() > 0)
-                layerDetails.setAllowedStyles(allowedStyles);
-
-            georepoRemoteService.getRuleAdminService().setDetails(ruleId, layerDetails);
+            if (layerDetails == null)
+                details.setAllowedStyles(allowedStyles);
+            else
+                georepoRemoteService.getRuleAdminService().setAllowedStyles(ruleId, allowedStyles);
+            
+            georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
 
         } catch (ResourceNotFoundFault e) {
             logger.error(e.getMessage(), e);

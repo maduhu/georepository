@@ -1105,6 +1105,13 @@ public interface ApplicationMessages extends Messages {
      * @return String
      */
     public String ruleDialogId();
+    
+    /**
+     * The Profile Details Edit Dialog ID
+     * 
+     * @return String
+     */
+    public String profileDialogId();
 
     // ///////////////////////////
     // PLEASE KEEP THIS FILE SORTED ALPHABETICALLY! Thank you.

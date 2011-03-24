@@ -35,9 +35,6 @@ package it.geosolutions.georepo.gui.client.controller;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.model.GSInstance;
-import it.geosolutions.georepo.gui.client.model.GSUser;
-import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
@@ -138,7 +135,8 @@ public class RulesController extends Controller {
                 GeoRepoEvents.EDIT_PROFILE_DETAILS,
                 
                 GeoRepoEvents.SAVE_LAYER_LIMITS,
-                GeoRepoEvents.LOAD_LAYER_LIMITS);
+                GeoRepoEvents.LOAD_LAYER_LIMITS,
+                GeoRepoEvents.LOAD_RULES);
 
     }
 
@@ -168,21 +166,28 @@ public class RulesController extends Controller {
      */
     @Override
     public void handleEvent(AppEvent event) {
+        
         if (event.getType() == GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS)
             onAttachTabWidgets(event);
 
         if (event.getType() == GeoRepoEvents.RULE_UPDATE_GRID_COMBO)
             onUpdateRuleRequestsCombo(event);
+        
         if (event.getType() == GeoRepoEvents.RULE_UPDATE_EDIT_GRID_COMBO)
             onUpdateEditRuleRequestsCombo(event);
+        
         if (event.getType() == GeoRepoEvents.RULE_APPLY_CHANGES_GRID_COMBO)
             onApplyChangesRules(event);
+        
         if (event.getType() == GeoRepoEvents.RULE_ADD)
             onAddRule(event);
+        
         if (event.getType() == GeoRepoEvents.RULE_SAVE)
             onSaveRule(event);
+        
         if (event.getType() == GeoRepoEvents.RULE_DEL)
             onRemoveRule(event);
+        
         if (event.getType() == GeoRepoEvents.RULE_PRIORITY_UP)
             onRulePriorityUp(event);
 
@@ -191,8 +196,21 @@ public class RulesController extends Controller {
 
         if (event.getType() == GeoRepoEvents.INJECT_WKT)
             onInjectWKT(event);
+        
+        if (event.getType() == GeoRepoEvents.LOAD_RULES)
+            onLoadRules();   
 
         forwardToView(this.rulesView, event);
+    }
+
+    /**
+     * 
+     */
+    private void onLoadRules() {
+        RulesTabItem rulesTabItem = (RulesTabItem) tabWidget.getItemByItemId(RULES_TAB_ITEM_ID);
+        final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
+                .getRulesInfo();
+        rulesInfoWidget.getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
     }
 
     /**
@@ -239,7 +257,6 @@ public class RulesController extends Controller {
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
-                // /////////////////////////////////
                 RulesTabItem rulesTabItem = (RulesTabItem) tabWidget
                         .getItemByItemId(RULES_TAB_ITEM_ID);
                 final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
@@ -257,16 +274,14 @@ public class RulesController extends Controller {
 
                     return;
                 }
-                ;
+                
                 boolean res;
                 try {
                     res = saveRule(event);
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                     res = false;
                 }
-                // /////////////////////////////////
                 Rule model = (Rule) tabData;
                 if (res) {
                     grid.getStore().remove(model);
@@ -288,7 +303,6 @@ public class RulesController extends Controller {
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
-                // /////////////////////////////////
                 RulesTabItem rulesTabItem = (RulesTabItem) tabWidget
                         .getItemByItemId(RULES_TAB_ITEM_ID);
                 final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
@@ -299,11 +313,9 @@ public class RulesController extends Controller {
                 try {
                     res = saveRule(event);
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                     res = false;
                 }
-                // /////////////////////////////////
                 Rule model = (Rule) tabData;
                 if (res) {
                     grid.getStore().remove(model);
@@ -325,13 +337,6 @@ public class RulesController extends Controller {
             Object tabData = event.getData();
 
             if (tabData instanceof Rule) {
-                // /////////////////////////////////
-                RulesTabItem rulesTabItem = (RulesTabItem) tabWidget
-                        .getItemByItemId(RULES_TAB_ITEM_ID);
-                final RuleGridWidget rulesInfoWidget = rulesTabItem.getRuleManagementWidget()
-                        .getRulesInfo();
-                final Grid<Rule> grid = rulesInfoWidget.getGrid();
-
                 Rule model = (Rule) tabData;
                 this.rulesView.ruleRowEditor.grid.getStore().remove(model);
                 this.rulesView.ruleRowEditor.grid.getStore().add(model);
@@ -393,6 +398,11 @@ public class RulesController extends Controller {
                                 }
 
                                 public void onSuccess(PagingLoadResult<Rule> result) {
+                                    grid.getStore().getLoader().setSortDir(SortDir.ASC);
+                                    grid.getStore().getLoader().setSortField(
+                                            BeanKeyValue.PRIORITY.getValue());
+                                    grid.getStore().getLoader().load();
+                                    
                                     Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
                                             new String[] {
                                                     I18nProvider.getMessages().ruleServiceName(),
@@ -402,10 +412,10 @@ public class RulesController extends Controller {
 
                             });
                     
-                    grid.getStore().getLoader().setSortDir(SortDir.ASC);
-                    grid.getStore().getLoader().setSortField(
-                            BeanKeyValue.PRIORITY.getValue());
-                    grid.getStore().getLoader().load();
+//                    grid.getStore().getLoader().setSortDir(SortDir.ASC);
+//                    grid.getStore().getLoader().setSortField(
+//                            BeanKeyValue.PRIORITY.getValue());
+//                    grid.getStore().getLoader().load();
                     
                     return true;
                 }
@@ -563,7 +573,7 @@ public class RulesController extends Controller {
                                 System.out.println("SUCCESS: ");
                             }
                         });
-                rulesManagerServiceRemote.saveRule(new_rule,// store.getModels(),
+                rulesManagerServiceRemote.saveRule(new_rule,
                         new AsyncCallback<PagingLoadResult<Rule>>() {
 
                             public void onFailure(Throwable caught) {                                
@@ -631,7 +641,7 @@ public class RulesController extends Controller {
                         rupup = ((Rule) (rules.get(indexUp - 1)));
 
                     if (rupup != null) {
-                        rulesManagerServiceRemote.swap(rup.getId(), rupup.getId(),// store.getModels(),
+                        rulesManagerServiceRemote.swap(rup.getId(), rupup.getId(),
                                 new AsyncCallback<PagingLoadResult<Rule>>() {
 
                                     public void onFailure(Throwable caught) {
@@ -698,7 +708,7 @@ public class RulesController extends Controller {
                         rupup = ((Rule) (rules.get(indexUp + 1)));
 
                     if (rupup != null) {
-                        rulesManagerServiceRemote.swap(rupup.getId(), rup.getId(),// store.getModels(),
+                        rulesManagerServiceRemote.swap(rupup.getId(), rup.getId(),
                                 new AsyncCallback<PagingLoadResult<Rule>>() {
 
                                     public void onFailure(Throwable caught) {
@@ -732,38 +742,6 @@ public class RulesController extends Controller {
                 }
             }
         }
-    }
-
-    /**
-     * Creates the new rule.
-     * 
-     * @param model
-     *            the model
-     * @return the rule
-     */
-    private Rule createNewRule(Rule model) {
-        Rule new_rule = new Rule();
-        new_rule.setId(-1);
-        new_rule.setPriority(model.getPriority() + 1);
-        GSUser all_user = new GSUser();
-        all_user.setId(-1);
-        all_user.setName("*");
-        new_rule.setUser(all_user);
-        Profile all_profile = new Profile();
-        all_profile.setId(-1);
-        all_profile.setName("*");
-        new_rule.setProfile(all_profile);
-        GSInstance all_instance = new GSInstance();
-        all_instance.setId(-1);
-        all_instance.setName("*");
-        all_instance.setBaseURL("*");
-        // new_rule.setInstance(all_instance);
-        new_rule.setGrant("ALLOW");
-        new_rule.setService("*");
-        new_rule.setLayer("*");
-        new_rule.setRequest("*");
-        new_rule.setWorkspace("*");
-        return new_rule;
     }
 
     /**

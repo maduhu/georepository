@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -241,6 +242,18 @@ public class FakeServices {
         @Override
         public void swap(long id1, long id2) {
             throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public Set<String> getAllowedStyles(Long ruleId) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public void setAllowedStyles(Long ruleId, Set<String> styles) {
+            // TODO Auto-generated method stub
+            
         }
     }
 

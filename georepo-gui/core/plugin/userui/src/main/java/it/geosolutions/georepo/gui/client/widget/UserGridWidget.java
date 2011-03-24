@@ -61,10 +61,12 @@ import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.GridEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.LoadListener;
+import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.store.Store;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
@@ -169,6 +171,15 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         userEnabledColumn.setSortable(false);
         configs.add(userEnabledColumn);
         
+        ColumnConfig userAdminColumn = new ColumnConfig();
+        userAdminColumn.setId(BeanKeyValue.USER_ADMIN.getValue());
+        userAdminColumn.setHeader("Admin");
+        userAdminColumn.setWidth(80);
+        userAdminColumn.setRenderer(this.createAdminCheckBox());
+        userAdminColumn.setMenuDisabled(true);
+        userAdminColumn.setSortable(false);
+        configs.add(userAdminColumn);
+        
         ColumnConfig emailColumn = new ColumnConfig();
         emailColumn.setId(BeanKeyValue.EMAIL.getValue());
         emailColumn.setHeader("E-mail");
@@ -229,7 +240,6 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
         loader.setRemoteSort(false);
         store = new ListStore<GSUser>(loader);
-        // store.sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);
 
         // Search tool
         SearchFilterField<GSUser> filter = new SearchFilterField<GSUser>() {
@@ -253,10 +263,8 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         filter.bind(store);
 
         // Add User button
-        // TODO: generalize this!
         Button addUserButton = new Button("Add User");
         addUserButton.setIcon(Resources.ICONS.add());
-        // TODO: temporally disabled!
         addUserButton.setEnabled(false);
 
         addUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
@@ -376,8 +384,6 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 }
 
                 CheckBox userEnabledButton = new CheckBox();
-                // TODO: add correct tooltip text here!
-                // userEnabledButton.setToolTip("Test");
                 userEnabledButton.setValue(model.isEnabled());
 
                 userEnabledButton.addListener(Events.OnClick, new Listener<FieldEvent>() {
@@ -392,6 +398,57 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 });
 
                 return userEnabledButton;
+            }
+        };
+
+        return buttonRendered;
+    }
+    
+    /**
+     * Creates the admin check box.
+     * 
+     * @return the grid cell renderer
+     */
+    private GridCellRenderer<GSUser> createAdminCheckBox() {
+
+        GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
+
+            private boolean init;
+
+            public Object render(final GSUser model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
+
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
+
+                        public void handleEvent(GridEvent<GSUser> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                CheckBox userAdminButton = new CheckBox();
+                userAdminButton.setValue(model.isAdmin());
+
+                userAdminButton.addListener(Events.OnClick, new Listener<FieldEvent>() {
+
+                    public void handleEvent(FieldEvent be) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                "GeoServer Users", "Admin check!" });
+
+                        model.setAdmin((Boolean) be.getField().getValue());
+                        Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_USER, model);
+                    }
+                });
+
+                return userAdminButton;
             }
         };
 
@@ -544,8 +601,6 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 profilesComboBox.setTypeAhead(true);
                 profilesComboBox.setTriggerAction(TriggerAction.ALL);
                 profilesComboBox.setWidth(150);
-                // TODO: add correct tooltip text here!
-                // profilesComboBox.setToolTip("...");
 
                 if (model.getProfile() != null) {
                     profilesComboBox.setValue(model.getProfile());
@@ -623,19 +678,25 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                     });
                 }
 
-                // TODO: generalize this!
                 Button removeUserButton = new Button("Remove");
                 removeUserButton.setIcon(Resources.ICONS.delete());
-                // TODO: add correct tooltip text here!
-                // removeUserButton.setToolTip("...");
 
                 removeUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Users", "Remove User: " + model.getName() });
+                        final Listener<MessageBoxEvent> l = new Listener<MessageBoxEvent>() {  
+                            public void handleEvent(MessageBoxEvent ce) {  
+                                Button btn = ce.getButtonClicked();  
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.DELETE_USER, model);
+                                if(btn.getText().equalsIgnoreCase("Yes")){
+                                    Dispatcher.forwardEvent(GeoRepoEvents.DELETE_USER, model);
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                            "GeoServer Users", "Remove User: " + model.getName() });
+                                }
+                            }  
+                        };  
+
+                        MessageBox.confirm("Confirm", "The User will be deleted. Are you sure you want to do that?", l);
                     }
                 });
 

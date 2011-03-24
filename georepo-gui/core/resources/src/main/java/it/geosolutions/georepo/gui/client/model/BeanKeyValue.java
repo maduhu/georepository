@@ -123,7 +123,9 @@ public enum BeanKeyValue {
     
     PROFILE_PROP_VALUE("profile_value"),
     
-    PROFILE_PROP_KEY("profile_key");
+    PROFILE_PROP_KEY("profile_key"),
+    
+    USER_ADMIN("user_admin");
     
     
     /** The value. */

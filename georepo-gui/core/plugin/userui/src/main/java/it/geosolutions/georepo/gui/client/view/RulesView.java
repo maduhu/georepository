@@ -203,7 +203,7 @@ public class RulesView extends View {
         
         if (event.getType() == GeoRepoEvents.LOAD_LAYER_LIMITS)
             onLoadLayerLimits(event);        
-
+        
     }
 
     /**
@@ -309,8 +309,6 @@ public class RulesView extends View {
             }
 
             public void onSuccess(PagingLoadResult<ProfileCustomProps> result) {
-
-                profileCustomPropsInfo.getStore().getLoader().setSortDir(SortDir.ASC);
                 profileCustomPropsInfo.getStore().getLoader().load();
 
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
@@ -338,8 +336,6 @@ public class RulesView extends View {
             model.setPropKey("_new");
             profileCustomPropsInfo.getStore().add(model);
 
-//            profileCustomPropsInfo.getGrid().repaint();
-            
             Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                     "GeoServer Rules: Layer Custom Properties", "Add Property" });
 
@@ -583,14 +579,11 @@ public class RulesView extends View {
     private void onEditRowUpdateRuleDetails(AppEvent event) {
         if (event.getData() != null && event.getData() instanceof Rule) {
             this.ruleRowEditor.reset();
-            // this.ruleRowEditor.formPanel.reset();
             this.ruleRowEditor.status = "UPDATE";
             showPanel(event);
 
         } else if (event.getData() != null && event.getData() instanceof GridStatus) {
-            this.ruleRowEditor.reset();// .removeAll();//
-            // this.ruleRowEditor.resetComponents();
-            // this.ruleRowEditor.formPanel.reset();//.removeAll();//
+            this.ruleRowEditor.reset();
             this.ruleRowEditor.parentGrid = ((GridStatus) event.getData()).getGrid();
             this.ruleRowEditor.model = ((GridStatus) event.getData()).getModel();
             this.ruleRowEditor.status = "UPDATE";
@@ -626,7 +619,8 @@ public class RulesView extends View {
 
         this.ruleRowEditor.setModel((Rule) event.getData());
         this.ruleRowEditor.addComponentToForm();
-        // this.ruleRowEditor.add(this.ruleRowEditor.formPanel);
+        
+        this.ruleRowEditor.setClosable(false);
         this.ruleRowEditor.show();
         this.ruleRowEditor.formPanel.show();
         this.ruleRowEditor.repaint();
@@ -637,7 +631,7 @@ public class RulesView extends View {
      * 
      */
     private void showPanelData(AppEvent event) {
-        if (this.ruleRowEditor.store != null) {// && ruleRowEditor.store.getCount()>0
+        if (this.ruleRowEditor.store != null) {
             this.ruleRowEditor.store.removeAll();
         } else {
             this.ruleRowEditor.createStore();
@@ -655,6 +649,7 @@ public class RulesView extends View {
 
         this.ruleRowEditor.store.add(((GridStatus) event.getData()).getModel());
 
+        this.ruleRowEditor.setClosable(false);
         this.ruleRowEditor.show();
         this.ruleRowEditor.formPanel.show();
 
@@ -813,9 +808,6 @@ public class RulesView extends View {
 
             public void onSuccess(PagingLoadResult<LayerCustomProps> result) {
 
-//                layerCustomPropsInfo.getStore().getLoader().setSortDir(SortDir.ASC);
-//                layerCustomPropsInfo.getStore().getLoader().setSortField(
-//                        BeanKeyValue.PRIORITY.getValue());
                 layerCustomPropsInfo.getStore().getLoader().load();
 
                 Dispatcher.forwardEvent(GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
@@ -854,7 +846,6 @@ public class RulesView extends View {
 
                 layerAttributesInfo.clearGridElements();
                 layerAttributesInfo.getStore().getLoader().load();
-                // layerAttributesInfo.getGrid().repaint();
 
                 Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
                         I18nProvider.getMessages().ruleServiceName(),

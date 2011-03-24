@@ -19,30 +19,32 @@
  */
 package it.geosolutions.georepo.services;
 
-import com.trg.search.Filter;
-import it.geosolutions.georepo.core.model.LayerDetails;
-import it.geosolutions.georepo.services.dto.RuleFilter.IdNameFilter;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-
-import com.trg.search.Search;
 import it.geosolutions.georepo.core.dao.LayerDetailsDAO;
 import it.geosolutions.georepo.core.dao.RuleDAO;
 import it.geosolutions.georepo.core.dao.RuleLimitsDAO;
+import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.dto.RuleFilter;
+import it.geosolutions.georepo.services.dto.RuleFilter.IdNameFilter;
 import it.geosolutions.georepo.services.dto.RuleFilter.NameFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
 import it.geosolutions.georepo.services.exception.NotFoundWebEx;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+
+import com.trg.search.Filter;
+import com.trg.search.Search;
 
 /**
  *
@@ -350,13 +352,17 @@ public class RuleAdminServiceImpl implements RuleAdminService {
             throw new BadRequestWebEx("Rule is not of ALLOW type");
 
         final Map<String, String> oldProps;
+        final Set<String> oldStyles;
 
         // remove old details if any
         if(rule.getLayerDetails() != null) {
             oldProps = detailsDAO.getCustomProps(ruleId); 
+            oldStyles = detailsDAO.getAllowedStyles(ruleId);
             detailsDAO.remove(rule.getLayerDetails());
-        } else
-            oldProps = null;
+        } else{
+            oldProps = null;            
+            oldStyles = null;
+        }            
 
         rule = ruleDAO.find(ruleId);
         if(rule.getLayerDetails() != null)
@@ -372,6 +378,14 @@ public class RuleAdminServiceImpl implements RuleAdminService {
                 Map<String, String> newProps = new HashMap<String, String>();
                 newProps.putAll(oldProps);
                 detailsDAO.setCustomProps(ruleId, newProps);
+            }
+            
+            if(oldStyles != null){
+                LOGGER.info("Restoring " + oldStyles.size() + " styles from older LayerDetails (id:"+ruleId+")");
+                //cannot reuse the same Map returned by Hibernate, since it is detached now.
+                Set<String> newStyles = new HashSet<String>();
+                newStyles.addAll(oldStyles);
+                detailsDAO.setAllowedStyles(ruleId, newStyles);
             }
         } else {
             LOGGER.info("Removing details for " + rule);
@@ -401,6 +415,31 @@ public class RuleAdminServiceImpl implements RuleAdminService {
             throw new NotFoundWebEx("Rule has no details associated");
         }
         return detailsDAO.getCustomProps(ruleId);
+    }
+    
+    @Override
+    public void setAllowedStyles(Long ruleId, Set<String> styles) {
+        Rule rule = ruleDAO.find(ruleId);
+        if(rule == null)
+            throw new NotFoundWebEx("Rule not found");
+
+        if(rule.getLayerDetails() == null) {
+            throw new NotFoundWebEx("Rule has no details associated");
+        }
+
+        detailsDAO.setAllowedStyles(ruleId, styles);
+    }
+
+    @Override
+    public Set<String> getAllowedStyles(Long ruleId) {
+        Rule rule = ruleDAO.find(ruleId);
+        if(rule == null)
+            throw new NotFoundWebEx("Rule not found");
+
+        if(rule.getLayerDetails() == null) {
+            throw new NotFoundWebEx("Rule has no details associated");
+        }
+        return detailsDAO.getAllowedStyles(ruleId);
     }
 
 

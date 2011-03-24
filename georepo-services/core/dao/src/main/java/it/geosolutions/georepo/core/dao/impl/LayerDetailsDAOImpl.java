@@ -21,6 +21,7 @@ package it.geosolutions.georepo.core.dao.impl;
 
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,5 +115,30 @@ public class LayerDetailsDAOImpl extends BaseDAO<LayerDetails, Long>
         } else {
             throw new IllegalArgumentException("LayerDetails not found");
         }
+    }
+
+    @Override
+    public Set<String> getAllowedStyles(Long id) {
+        LayerDetails found = find(id);
+        if (found != null) {
+            Set<String> styles = found.getAllowedStyles();
+
+            if (styles != null && !Hibernate.isInitialized(styles)) {
+                Hibernate.initialize(styles); // fetch the props
+            }
+            return styles;
+        } else {
+            throw new IllegalArgumentException("LayerDetails not found");
+        }
+    }
+
+    @Override
+    public void setAllowedStyles(Long id, Set<String> styles) {
+        LayerDetails found = find(id);
+        if (found != null) {
+            found.setAllowedStyles(styles);
+        } else {
+            throw new IllegalArgumentException("LayerDetails not found");
+        }        
     }
 }

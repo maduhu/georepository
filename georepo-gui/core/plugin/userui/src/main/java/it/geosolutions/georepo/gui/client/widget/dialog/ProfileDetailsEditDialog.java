@@ -1,5 +1,6 @@
 package it.geosolutions.georepo.gui.client.widget.dialog;
 
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.SaveStaus;
@@ -55,6 +56,7 @@ public class ProfileDetailsEditDialog  extends Dialog {
         setModal(true);
         setWidth(700);
         setHeight(427);
+        setId(I18nProvider.getMessages().profileDialogId());
         
         add(this.getTabWidget());
     }
@@ -73,15 +75,6 @@ public class ProfileDetailsEditDialog  extends Dialog {
 
         getButtonBar().add(new FillToolItem());
 
-        this.done = new Button("Done", new SelectionListener<ButtonEvent>() {
-
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                hide();
-            }
-        });
-
-        addButton(done);
     }
 
     /* (non-Javadoc)
@@ -92,7 +85,7 @@ public class ProfileDetailsEditDialog  extends Dialog {
         super.show();
 
         if (getModel() != null) {
-            setHeading("Editing Profile Details for Rule #" + profile.getId());
+            setHeading("Editing Profile Details for Profile #" + profile.getId());
             this.tabWidget.add(new ProfileDetailsTabItem(PROFILE_DETAILS_DIALOG_ID, profile,
                     profilesManagerServiceRemoteAsync));
 

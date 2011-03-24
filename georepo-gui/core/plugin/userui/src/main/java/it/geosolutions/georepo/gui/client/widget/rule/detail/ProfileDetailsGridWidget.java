@@ -64,6 +64,7 @@ import com.extjs.gxt.ui.client.event.LoadListener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.ComponentManager;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
@@ -197,12 +198,14 @@ public class ProfileDetailsGridWidget extends GeoRepoGridWidget<ProfileCustomPro
                                 "Key " + model.getPropKey() + ": Key changed -> "
                                         + be.getField().getValue() });
 
-                        Map<String, ProfileCustomProps> updateDTO = new HashMap<String, ProfileCustomProps>();
-                        ProfileCustomProps newModel = new ProfileCustomProps();
-                        newModel.setPropKey((String) be.getField().getValue());
-                        newModel.setPropValue(model.getPropValue());
-                        updateDTO.put(model.getPropKey(), newModel);
-                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_KEY, updateDTO);
+//                        Map<String, ProfileCustomProps> updateDTO = new HashMap<String, ProfileCustomProps>();
+//                        ProfileCustomProps newModel = new ProfileCustomProps();
+//                        newModel.setPropKey((String) be.getField().getValue());
+//                        newModel.setPropValue(model.getPropValue());
+//                        updateDTO.put(model.getPropKey(), newModel);
+//                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_KEY, updateDTO);
+                        
+                        model.setPropKey((String) be.getField().getValue());                        
                     }
 
                 });
@@ -257,12 +260,14 @@ public class ProfileDetailsGridWidget extends GeoRepoGridWidget<ProfileCustomPro
                                 "Key " + model.getPropKey() + ": Value changed -> "
                                         + be.getField().getValue() });
 
-                        Map<String, ProfileCustomProps> updateDTO = new HashMap<String, ProfileCustomProps>();
-                        ProfileCustomProps newModel = new ProfileCustomProps();
-                        newModel.setPropKey(model.getPropKey());
-                        newModel.setPropValue((String) be.getField().getValue());
-                        updateDTO.put(model.getPropKey(), newModel);
-                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_VALUE, updateDTO);
+//                        Map<String, ProfileCustomProps> updateDTO = new HashMap<String, ProfileCustomProps>();
+//                        ProfileCustomProps newModel = new ProfileCustomProps();
+//                        newModel.setPropKey(model.getPropKey());
+//                        newModel.setPropValue((String) be.getField().getValue());
+//                        updateDTO.put(model.getPropKey(), newModel);
+//                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_VALUE, updateDTO);
+                        
+                        model.setPropValue((String) be.getField().getValue());
                     }
 
                 });
@@ -348,9 +353,9 @@ public class ProfileDetailsGridWidget extends GeoRepoGridWidget<ProfileCustomPro
 
         };
         loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
-        loader.setRemoteSort(false);
+        loader.setRemoteSort(true);
         store = new ListStore<ProfileCustomProps>(loader);
-        store.sort(BeanKeyValue.PROFILE_PROP_KEY.getValue(), SortDir.ASC);
+//        store.sort(BeanKeyValue.PROFILE_PROP_KEY.getValue(), SortDir.ASC);
 
         Button addRuleCustomPropertyButton = new Button("Add Property");
         addRuleCustomPropertyButton.setIcon(Resources.ICONS.add());
@@ -367,7 +372,7 @@ public class ProfileDetailsGridWidget extends GeoRepoGridWidget<ProfileCustomPro
             }
         });
 
-        Button saveRuleCustomPropertiesButton = new Button("Apply Changes");
+        Button saveRuleCustomPropertiesButton = new Button("Save");
         saveRuleCustomPropertiesButton.setIcon(Resources.ICONS.save());
 
         saveRuleCustomPropertiesButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
@@ -380,13 +385,22 @@ public class ProfileDetailsGridWidget extends GeoRepoGridWidget<ProfileCustomPro
             }
         });
         
+        Button cancelButton = new Button("Cancel");
+        cancelButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+            public void handleEvent(ButtonEvent be) {
+                // /////////////////////////////////////////////////////////
+                // Getting the Profile details edit dialogs and hiding this
+                // /////////////////////////////////////////////////////////
+                ComponentManager.get().get(I18nProvider.getMessages().profileDialogId()).hide();
+            }
+        }); 
+        
         this.toolBar.bind(loader);
         this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(addRuleCustomPropertyButton);
-        this.toolBar.add(saveRuleCustomPropertiesButton);
         this.toolBar.add(new SeparatorToolItem());
-
-        // this.toolBar.disable();
+        this.toolBar.add(saveRuleCustomPropertiesButton);
+        this.toolBar.add(cancelButton);
 
         setUpLoadListener();
     }

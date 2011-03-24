@@ -30,5 +30,5 @@ import it.geosolutions.georepo.core.model.LayerDetails;
 
 public interface LayerDetailsDAO 
         extends RestrictedGenericDAO<LayerDetails>,
-                CustomPropsProvider{
+                CustomPropsProvider, AllowedStylesProvider{
 }

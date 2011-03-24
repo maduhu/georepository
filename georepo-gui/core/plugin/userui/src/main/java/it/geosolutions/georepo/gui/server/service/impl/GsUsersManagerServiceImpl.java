@@ -84,6 +84,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             all_user.setName("*");
             all_user.setFullName("*");
             all_user.setEnabled(true);
+            all_user.setAdmin(false);
             all_user.setEmailAddress(null);
             all_user.setDateCreation(null);
             usersListDTO.add(all_user);
@@ -119,6 +120,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             local_user.setName(remote_user.getName());
             local_user.setFullName(remote_user.getFullName());
             local_user.setEnabled(remote_user.getEnabled());
+            local_user.setAdmin(remote_user.isAdmin());
             local_user.setEmailAddress(remote_user.getEmailAddress());
             local_user.setDateCreation(remote_user.getDateCreation());
             local_user.setPassword(remote_user.getPassword());
@@ -176,6 +178,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
         remote_user.setFullName(user.getFullName());
         remote_user.setEmailAddress(user.getEmailAddress());
         remote_user.setEnabled(user.isEnabled());
+        remote_user.setAdmin(user.isAdmin());
         remote_user.setPassword(user.getPassword());
         remote_user.setDateCreation(user.getDateCreation());
         if (user.getProfile() != null && user.getProfile().getId() >= 0) {

@@ -71,8 +71,9 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
-import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
+import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
+import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
@@ -91,8 +92,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
     private PagingLoader<PagingLoadResult<ModelData>> loader;
 
     /** The tool bar. */
-    private PagingToolBar toolBar;
-
+    private ToolBar toolBar;
     
     /** The rule. */
     private Rule theRule;
@@ -119,10 +119,6 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
      */
     @Override
     public void setGridProperties() {
-        // grid.setAutoExpandColumn(BeanKeyValue.NAME.getValue());
-        // grid.addPlugin(emailEnable);
-        // grid.addPlugin(rssEnable);
-
         grid.setLoadMask(true);
         grid.setAutoWidth(true);
     }
@@ -207,12 +203,14 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
                                 "Key " + model.getPropKey() + ": Key changed -> "
                                         + be.getField().getValue() });
 
-                        Map<String, LayerCustomProps> updateDTO = new HashMap<String, LayerCustomProps>();
-                        LayerCustomProps newModel = new LayerCustomProps();
-                        newModel.setPropKey((String) be.getField().getValue());
-                        newModel.setPropValue(model.getPropValue());
-                        updateDTO.put(model.getPropKey(), newModel);
-                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY, updateDTO);
+//                        Map<String, LayerCustomProps> updateDTO = new HashMap<String, LayerCustomProps>();
+//                        LayerCustomProps newModel = new LayerCustomProps();
+//                        newModel.setPropKey((String) be.getField().getValue());
+//                        newModel.setPropValue(model.getPropValue());
+//                        updateDTO.put(model.getPropKey(), newModel);
+//                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY, updateDTO);
+                        
+                          model.setPropKey((String) be.getField().getValue());
                     }
 
                 });
@@ -285,12 +283,14 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
                                 "Key " + model.getPropKey() + ": Value changed -> "
                                         + be.getField().getValue() });
 
-                        Map<String, LayerCustomProps> updateDTO = new HashMap<String, LayerCustomProps>();
-                        LayerCustomProps newModel = new LayerCustomProps();
-                        newModel.setPropKey(model.getPropKey());
-                        newModel.setPropValue((String) be.getField().getValue());
-                        updateDTO.put(model.getPropKey(), newModel);
-                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE, updateDTO);
+//                        Map<String, LayerCustomProps> updateDTO = new HashMap<String, LayerCustomProps>();
+//                        LayerCustomProps newModel = new LayerCustomProps();
+//                        newModel.setPropKey(model.getPropKey());
+//                        newModel.setPropValue((String) be.getField().getValue());
+//                        updateDTO.put(model.getPropKey(), newModel);
+//                        Dispatcher.forwardEvent(GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE, updateDTO);
+                        
+                        model.setPropValue((String) be.getField().getValue());
                     }
 
                 });
@@ -354,7 +354,6 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
                 removeButton.setBorders(false);
                 removeButton.setIcon(Resources.ICONS.delete());
                 // TODO: add correct tooltip text here!
-                // removeUserButton.setToolTip("...");
                 removeButton.setEnabled(true);
 
                 removeButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
@@ -384,7 +383,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
      */
     @Override
     public void createStore() {
-        this.toolBar = new PagingToolBar(it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+        this.toolBar = new ToolBar();
 
         // Loader fro rulesService
         this.proxy = new RpcProxy<PagingLoadResult<LayerCustomProps>>() {
@@ -398,10 +397,8 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
         loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
         loader.setRemoteSort(true);
         store = new ListStore<LayerCustomProps>(loader);
-//        store.sort(BeanKeyValue.PROP_KEY.getValue(), SortDir.ASC);
 
         // Apply Changes button
-        // TODO: generalize this!
         Button addRuleCustomPropertyButton = new Button("Add Property");
         addRuleCustomPropertyButton.setIcon(Resources.ICONS.add());
 
@@ -411,9 +408,6 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
                 Map<Long, LayerCustomProps> updateDTO = new HashMap<Long, LayerCustomProps>();
                 updateDTO.put(theRule.getId(), null);
                 Dispatcher.forwardEvent(GeoRepoEvents.RULE_CUSTOM_PROP_ADD, updateDTO);
-                
-//                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-//                        "GeoServer Rules: Layer Custom Properties", "Add Property" });
             }
         });
 
@@ -440,12 +434,11 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
             }
         });   
         
-        this.toolBar.bind(loader);
-        this.toolBar.add(new SeparatorToolItem());
+        this.toolBar.add(new FillToolItem());
         this.toolBar.add(addRuleCustomPropertyButton);
+        this.toolBar.add(new SeparatorToolItem());
         this.toolBar.add(saveRuleCustomPropertiesButton);
         this.toolBar.add(cancelButton);
-        this.toolBar.add(new SeparatorToolItem());
 
         setUpLoadListener();
     }
@@ -464,7 +457,7 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
      * 
      * @return the tool bar
      */
-    public PagingToolBar getToolBar() {
+    public ToolBar getToolBar() {
         return toolBar;
     }
 
@@ -473,7 +466,6 @@ public class LayerCustomPropsGridWidget extends GeoRepoGridWidget<LayerCustomPro
      */
     public void clearGridElements() {
         this.store.removeAll();
-        this.toolBar.clear();
         this.toolBar.disable();
     }
 

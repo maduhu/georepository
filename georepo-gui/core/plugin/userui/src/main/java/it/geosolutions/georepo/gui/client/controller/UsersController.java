@@ -172,8 +172,6 @@ public class UsersController extends Controller {
                     }
 
                     public void onSuccess(PagingLoadResult<GSUser> result) {
-
-                        //grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(),SortDir.ASC);<<-- ric mod 20100215
                         grid.getStore().getLoader().load();
                         grid.repaint();
 

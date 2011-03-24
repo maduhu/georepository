@@ -34,8 +34,10 @@ import it.geosolutions.georepo.services.exception.NotFoundWebEx;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -141,54 +143,6 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         assertEquals(1, ruleAdminService.getCount("*",""+p2.getId(),"*",    "*","*", "*","*"));
         assertEquals(2, ruleAdminService.getCount("*","*","*",              "s1","*", "*","*"));
         assertEquals(0, ruleAdminService.getCount("*","*","*",              "ZZ","*", "*","*"));
-    }
-    
-    @Test
-    public void testStyle() throws ResourceNotFoundFault{
-        final Long id;
-        
-        // insert rule
-        {
-            Rule r1 = new Rule(10, null, null, null, "s1", "r1", "w1", "l1", GrantType.ALLOW);
-            ruleAdminService.insert(r1);
-            id = r1.getId();
-        }
-        
-        // set new details
-        final Long lid2;
-        {
-            LayerDetails details = new LayerDetails();
-            details.getAllowedStyles().add("style1");
-            details.getAllowedStyles().add("style2");
-
-            ruleAdminService.setDetails(id, details);
-            lid2 = details.getId();
-            assertNotNull(lid2);
-            
-            assertEquals(2, details.getAllowedStyles().size());
-            assertTrue(details.getAllowedStyles().contains("style1"));
-        }
-        
-        // check styles presence on DB
-        {
-            Rule loaded = ruleAdminService.get(id);
-            
-            LayerDetails details = loaded.getLayerDetails();        	
-            details.getAttributes().add(new LayerAttribute("attr1", AccessType.NONE));
-            details.getAttributes().add(new LayerAttribute("attr2", AccessType.READONLY));
-            details.getAttributes().add(new LayerAttribute("attr3", AccessType.READWRITE));
-
-            assertEquals(3, details.getAttributes().size());
-            
-            ruleAdminService.setDetails(id, details);
-            
-            details = loaded.getLayerDetails();
-            assertNotNull(details);
-            assertEquals(3, details.getAttributes().size());
-            
-            assertEquals(2, details.getAllowedStyles().size());
-            assertTrue(details.getAllowedStyles().contains("style1"));            
-        }
     }
 
     public void testRuleLimits() throws ResourceNotFoundFault {
@@ -308,14 +262,17 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         final Long lid2;
         {
             LayerDetails details = new LayerDetails();
-            details.getAllowedStyles().add("style1");
-            details.getAllowedStyles().add("style2");
             details.getAttributes().add(new LayerAttribute("attr1", AccessType.NONE));
             details.getAttributes().add(new LayerAttribute("attr2", AccessType.READONLY));
             details.getAttributes().add(new LayerAttribute("attr3", AccessType.READWRITE));
 
             assertEquals(3, details.getAttributes().size());
 
+            Set<String> styles = new HashSet<String>();
+            styles.add("style1");
+            styles.add("style2");
+            ruleAdminService.setAllowedStyles(id, styles);
+            
             ruleAdminService.setDetails(id, details);
             lid2 = details.getId();
             assertNotNull(lid2);

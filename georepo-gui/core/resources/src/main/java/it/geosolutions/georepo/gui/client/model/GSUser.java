@@ -65,6 +65,9 @@ public class GSUser extends BeanModel {
 
     /** The enabled. */
     private boolean enabled;
+    
+    /** The admin. */
+    private boolean admin;
 
     /** The profile. */
     private Profile profile;
@@ -219,6 +222,21 @@ public class GSUser extends BeanModel {
         set(BeanKeyValue.USER_ENABLED.getValue(), enabled);
     }
 
+    /**
+     * @return the admin
+     */
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    /**
+     * @param admin the admin to set
+     */
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+        set(BeanKeyValue.USER_ADMIN.getValue(), admin);
+    }
+    
     /**
      * Sets the profile.
      * 

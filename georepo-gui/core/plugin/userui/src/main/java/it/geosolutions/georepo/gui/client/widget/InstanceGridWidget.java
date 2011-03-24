@@ -57,10 +57,12 @@ import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.GridEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.LoadListener;
+import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.store.Store;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
@@ -640,10 +642,19 @@ public class InstanceGridWidget extends GeoRepoGridWidget<GSInstance> {
                 removeInstanceButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "GeoServer Instance", "Remove Instance: " + model.getName() });
+                        final Listener<MessageBoxEvent> l = new Listener<MessageBoxEvent>() {  
+                            public void handleEvent(MessageBoxEvent ce) {  
+                                Button btn = ce.getButtonClicked();  
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.DELETE_INSTANCE, model);
+                                if(btn.getText().equalsIgnoreCase("Yes")){
+                                    Dispatcher.forwardEvent(GeoRepoEvents.DELETE_INSTANCE, model);
+                                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                            "GeoServer Instance", "Remove Instance: " + model.getName() });
+                                }
+                            }  
+                        };  
+
+                        MessageBox.confirm("Confirm", "The Instance will be deleted. Are you sure you want to do that?", l);
                     }
                 });
 

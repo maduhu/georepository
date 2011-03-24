@@ -32,9 +32,7 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
@@ -68,7 +66,6 @@ import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoader;
 import com.extjs.gxt.ui.client.data.RpcProxy;
-import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.event.Events;
@@ -80,7 +77,6 @@ import com.extjs.gxt.ui.client.event.LoadListener;
 import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
-import com.extjs.gxt.ui.client.store.Store;
 import com.extjs.gxt.ui.client.widget.BoxComponent;
 import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.MessageBox;
@@ -122,41 +118,35 @@ public class EditRuleWidget extends GeoRepoFormWidget {
     /** The workspaces service. */
     private WorkspacesManagerServiceRemoteAsync workspacesService;
 
-    /** The proxy. */
-    private RpcProxy<PagingLoadResult<Rule>> proxy;
-
     /** The loader. */
     private PagingLoader<PagingLoadResult<ModelData>> loader;
-
-    /** The Constant COLUMN_PRIORITY_WIDTH. */
-    // private PagingToolBar toolBar;
 
     /** The column priority width. */
     private static final int COLUMN_PRIORITY_WIDTH = 30;
 
     /** The Constant COLUMN_USER_WIDTH. */
-    private static final int COLUMN_USER_WIDTH = 130;
+    private static final int COLUMN_USER_WIDTH = 130;//130;
 
     /** The Constant COLUMN_PROFILE_WIDTH. */
-    private static final int COLUMN_PROFILE_WIDTH = 160;
+    private static final int COLUMN_PROFILE_WIDTH = 130;//160;
 
     /** The Constant COLUMN_INSTANCE_WIDTH. */
-    private static final int COLUMN_INSTANCE_WIDTH = 160;
+    private static final int COLUMN_INSTANCE_WIDTH = 150;//160;
 
     /** The Constant COLUMN_SERVICE_WIDTH. */
-    private static final int COLUMN_SERVICE_WIDTH = 100;
+    private static final int COLUMN_SERVICE_WIDTH = 120;//100;
 
     /** The Constant COLUMN_REQUEST_WIDTH. */
-    private static final int COLUMN_REQUEST_WIDTH = 190;
+    private static final int COLUMN_REQUEST_WIDTH = 180;//190;
 
     /** The Constant COLUMN_WORKSPACE_WIDTH. */
-    private static final int COLUMN_WORKSPACE_WIDTH = 130;
+    private static final int COLUMN_WORKSPACE_WIDTH = 150;//130;
 
     /** The Constant COLUMN_LAYER_WIDTH. */
-    private static final int COLUMN_LAYER_WIDTH = 130;
+    private static final int COLUMN_LAYER_WIDTH = 150;//130;
 
     /** The Constant COLUMN_GRANT_WIDTH. */
-    private static final int COLUMN_GRANT_WIDTH = 100;
+    private static final int COLUMN_GRANT_WIDTH = 100;//100;
 
     /** The model. */
     public Rule model = new Rule();
@@ -181,6 +171,8 @@ public class EditRuleWidget extends GeoRepoFormWidget {
 
     /** The rules view. */
     RulesView rulesView;
+    
+    boolean onExecute = false;
 
     /**
      * Instantiates a new edits the rule widget.
@@ -214,9 +206,6 @@ public class EditRuleWidget extends GeoRepoFormWidget {
         this.profilesService = profilesService;
         this.instancesService = instancesService;
         this.workspacesService = workspacesService;
-
-        // createStore();
-        // initGrid();
     }
 
     /**
@@ -225,7 +214,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
      * @param models
      *            the models
      */
-    public EditRuleWidget(List models) {
+    public EditRuleWidget(List<Rule> models) {
         createStore();
         this.store.add(models);
         initGrid();
@@ -255,17 +244,13 @@ public class EditRuleWidget extends GeoRepoFormWidget {
      */
     public void execute() {
         this.saveStatus.setBusy("Operation in progress");
-        List<Rule> rules = null;
-
-        if (parentGrid != null)
-            rules = new ArrayList<Rule>(parentGrid.getStore().getModels());
-
+        
         if (status.equals("UPDATE")) {
             Dispatcher.forwardEvent(GeoRepoEvents.RULE_SAVE, model);
-            closeOnSubmit = true;
+            onExecute = true;
         } else {
             Dispatcher.forwardEvent(GeoRepoEvents.RULE_ADD, model);
-            closeOnSubmit = true;
+            onExecute = true;
         }
 
         if (this.closeOnSubmit) {
@@ -274,7 +259,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
 
         this.injectEvent();
     }
-
+  
     /*
      * (non-Javadoc)
      * 
@@ -409,14 +394,14 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 }
 
                 // TODO: generalize this!
-                ArrayList list = new ArrayList();
+                ArrayList<Rule> list = new ArrayList<Rule>();
 
                 for (int i = 0; i < store.getCount(); i++) {
                     Rule rule = ((Rule) store.getAt(i));
                     list.add(rule);
                 }
 
-                final TextField priorityCustomField = new TextField();// (ListField)
+                final TextField<String> priorityCustomField = new TextField<String>();// (ListField)
                 priorityCustomField.setId("rulePriorityCombo");
                 priorityCustomField.setName("rulePriorityCombo");
                 priorityCustomField.setEmptyText("*");
@@ -424,13 +409,12 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 priorityCustomField.setValue(BeanKeyValue.PRIORITY.getValue());
                 priorityCustomField.setReadOnly(false);
 
-                // List<GSUser> au = getAvailablepriority().getModels();
                 priorityCustomField.setWidth(COLUMN_PRIORITY_WIDTH - 10);
                 priorityCustomField.show();
 
                 if (model.getPriority() != -1) {
                     long name2 = model.getPriority();
-                    priorityCustomField.setValue(name2);
+                    priorityCustomField.setValue(Long.valueOf(name2).toString());
                 } else {
                     priorityCustomField.setValue("-1");
                 }
@@ -462,29 +446,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
 
                 return priorityCustomField;
             }
-
-            /**
-             * TODO: Call User Service here!!
-             * 
-             * @return
-             */
-            private ListStore<GSUser> getAvailablePriority() {
-                RpcProxy<PagingLoadResult<GSUser>> userProxy = new RpcProxy<PagingLoadResult<GSUser>>() {
-
-                    @Override
-                    protected void load(Object loadConfig,
-                            AsyncCallback<PagingLoadResult<GSUser>> callback) {
-                        gsUsersService.getGsUsers((PagingLoadConfig) loadConfig, true, callback);
-                    }
-
-                };
-                BasePagingLoader<PagingLoadResult<ModelData>> usersLoader = new BasePagingLoader<PagingLoadResult<ModelData>>(
-                        userProxy);
-                usersLoader.setRemoteSort(false);
-                ListStore<GSUser> availablePriority = new ListStore<GSUser>(usersLoader);
-
-                return availablePriority;
-            }
+            
         };
 
         return comboRendered;
@@ -529,7 +491,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 usersComboBox.setStore(getAvailableUsers());
                 usersComboBox.setTypeAhead(true);
                 usersComboBox.setTriggerAction(TriggerAction.ALL);
-                usersComboBox.setWidth(120);
+                usersComboBox.setWidth(100);
 
                 if (model.getUser() != null) {
                     usersComboBox.setValue(model.getUser());
@@ -577,29 +539,6 @@ public class EditRuleWidget extends GeoRepoFormWidget {
         return comboRendered;
     }
 
-    /**
-     * Gets the available rules.
-     * 
-     * @return the available rules
-     */
-    private ListStore<Rule> getAvailableRules() {
-        ListStore<Rule> availableRules = new ListStore<Rule>();
-        RpcProxy<PagingLoadResult<Rule>> ruleProxy = new RpcProxy<PagingLoadResult<Rule>>() {
-
-            @Override
-            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<Rule>> callback) {
-                rulesService.getRules((PagingLoadConfig) loadConfig, false, callback);
-            }
-
-        };
-        BasePagingLoader<PagingLoadResult<ModelData>> profilesLoader = new BasePagingLoader<PagingLoadResult<ModelData>>(
-                ruleProxy);
-        profilesLoader.setRemoteSort(false);
-        availableRules = new ListStore<Rule>(profilesLoader);
-
-        return availableRules;
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -620,8 +559,13 @@ public class EditRuleWidget extends GeoRepoFormWidget {
         if (grid != null && grid.getStore() != null) {
             this.grid.getStore().removeAll();
         }
-
-        this.saveStatus.clearStatus("");
+        
+        this.saveStatus.clearStatus("");    
+        
+        if(!this.onExecute)
+            Dispatcher.forwardEvent(GeoRepoEvents.LOAD_RULES);
+        
+        this.onExecute = false;
     }
 
     /*
@@ -654,7 +598,6 @@ public class EditRuleWidget extends GeoRepoFormWidget {
     @Override
     public void initSizeFormPanel() {
         formPanel.setHeaderVisible(false);
-        // formPanel.setSize(450, 350);
     }
 
     /*
@@ -726,7 +669,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 profilesComboBox.setStore(getAvailableProfiles());
                 profilesComboBox.setTypeAhead(true);
                 profilesComboBox.setTriggerAction(TriggerAction.ALL);
-                profilesComboBox.setWidth(150);
+                profilesComboBox.setWidth(100);
 
                 if (model.getProfile() != null) {
                     profilesComboBox.setValue(model.getProfile());
@@ -811,7 +754,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 instancesComboBox.setStore(getAvailableInstances());
                 instancesComboBox.setTypeAhead(true);
                 instancesComboBox.setTriggerAction(TriggerAction.ALL);
-                instancesComboBox.setWidth(150);
+                instancesComboBox.setWidth(120);
 
                 if (model.getInstance() != null) {
                     instancesComboBox.setValue(model.getInstance());
@@ -907,7 +850,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 servicesComboBox.setEmptyText("(No service available)");
                 servicesComboBox.setDisplayField(BeanKeyValue.SERVICE.getValue());
                 servicesComboBox.setStore(getAvailableServices(model.getInstance()));
-                servicesComboBox.setEditable(true);
+                servicesComboBox.setEditable(false);
                 servicesComboBox.setTypeAhead(true);
                 servicesComboBox.setTriggerAction(TriggerAction.ALL);
                 servicesComboBox.setWidth(90);
@@ -1024,7 +967,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 serviceRequestsComboBox.setEditable(true);
                 serviceRequestsComboBox.setTypeAhead(true);
                 serviceRequestsComboBox.setTriggerAction(TriggerAction.ALL);
-                serviceRequestsComboBox.setWidth(180);
+                serviceRequestsComboBox.setWidth(150);
 
                 KeyListener keyListener = new KeyListener() {
 
@@ -1336,7 +1279,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                 grantsComboBox.setStore(getAvailableGrants());
                 grantsComboBox.setTypeAhead(true);
                 grantsComboBox.setTriggerAction(TriggerAction.ALL);
-                grantsComboBox.setWidth(80);
+                grantsComboBox.setWidth(70);
 
                 if (model.getGrant() != null) {
                     grantsComboBox.setValue(new Grant(model.getGrant()));
@@ -1353,7 +1296,7 @@ public class EditRuleWidget extends GeoRepoFormWidget {
                                 Button btn = ce.getButtonClicked();  
 
                                 if(btn.getText().equalsIgnoreCase("Yes")){
-                                    model.setGrant(grant.getGrant());
+                                    model.setGrant(grant.getGrant());                                    
                                     Dispatcher.forwardEvent(GeoRepoEvents.RULE_UPDATE_EDIT_GRID_COMBO, model);
                                     
                                     Info.display("MessageBox", "Rule Grant changed", btn.getText());  
@@ -1405,82 +1348,17 @@ public class EditRuleWidget extends GeoRepoFormWidget {
         return comboRendered;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
-     */
-    // @Override
     /**
      * Creates the store.
      */
     public void createStore() {
-        /*
-         * this.toolBar = new PagingToolBar(
-         * it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
-         */
-        // Loader fro rulesService
-        this.proxy = new RpcProxy<PagingLoadResult<Rule>>() {
-
-            @Override
-            protected void load(Object loadConfig, AsyncCallback<PagingLoadResult<Rule>> callback) {
-                // rulesService.getRules((PagingLoadConfig) loadConfig, false, callback);
-            }
-
-        };
-        loader = new BasePagingLoader<PagingLoadResult<ModelData>>(proxy);
-        loader.setRemoteSort(false);
-        loader.setSortField(BeanKeyValue.PRIORITY.getValue());
-        loader.setSortDir(SortDir.ASC);
-        store = new ListStore<Rule>(loader);
+        store = new ListStore<Rule>();
         if (store != null) {
-            // store.sort(BeanKeyValue.PRIORITY.getValue(), SortDir.ASC);
             store.setSortField(BeanKeyValue.PRIORITY.getValue());
             store.setSortDir(SortDir.ASC);
         }
-
-        // Search tool
-        SearchFilterField<Rule> filter = new SearchFilterField<Rule>() {
-
-            @Override
-            protected boolean doSelect(Store<Rule> store, Rule parent, Rule record,
-                    String property, String filter) {
-
-                Long priority = parent.get(BeanKeyValue.PRIORITY.getValue());
-                if (priority == Long.valueOf(filter)) {
-                    return true;
-                }
-                return false;
-            }
-
-        };
-        filter.setWidth(130);
-        filter.setIcon(Resources.ICONS.search());
-        // Bind the filter field to your grid store (grid.getStore())
-        filter.bind(store);
-
-        // Apply Changes button
-        // TODO: generalize this!
-        Button addRuleButton = new Button("Add Rule");
-        addRuleButton.setIcon(Resources.ICONS.add());
-
-        addRuleButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
-
-            public void handleEvent(ButtonEvent be) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        "GeoServer Rules", "Add Rule" });
-
-                Rule new_rule = new Rule();
-                new_rule.setId(-1);
-                new_rule.setPriority(-1);
-                new_rule = Constants.getInstance().createNewRule(new_rule);
-
-                Dispatcher.forwardEvent(GeoRepoEvents.RULE_ADD, new GridStatus(grid, new_rule));
-
-            }
-        });
+        
         setUpLoadListener();
-
     }
 
     /**
@@ -1539,12 +1417,6 @@ public class EditRuleWidget extends GeoRepoFormWidget {
         });
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
-     */
-    // @Override
     /**
      * Sets the grid properties.
      */
@@ -1561,7 +1433,6 @@ public class EditRuleWidget extends GeoRepoFormWidget {
     /**
      * Inits the grid.
      */
-    // @Override
     public void initGrid() {
         ColumnModel cm = prepareColumnModel();
 
@@ -1574,7 +1445,6 @@ public class EditRuleWidget extends GeoRepoFormWidget {
         setGridProperties();
     }
 
-    // @Override
     /**
      * Inits the grid.
      * 

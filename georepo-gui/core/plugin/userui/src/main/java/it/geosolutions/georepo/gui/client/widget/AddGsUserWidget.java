@@ -52,10 +52,11 @@ import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -85,6 +86,8 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
 
     /** The e mail. */
     private TextField<String> eMail;
+    
+    private CheckBox isAdmin;
 
     /** The profiles combo box. */
     private ComboBox<Profile> profilesComboBox;
@@ -131,6 +134,7 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
         this.user.setEmailAddress(eMail.getValue());
         this.user.setDateCreation(new Date());
         this.user.setEnabled(true);
+        this.user.setAdmin(isAdmin.getValue());
         this.user.setProfile(profilesComboBox.getValue());
 
         if (this.closeOnSubmit) {
@@ -173,7 +177,11 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
         eMail.setAllowBlank(false);
         eMail.setFieldLabel("e-mail");
         fieldSet.add(eMail);
-
+        
+        isAdmin = new CheckBox();
+        isAdmin.setFieldLabel("Admin");
+        fieldSet.add(isAdmin);
+        
         createProfilesComboBox();
         
         this.formPanel.add(fieldSet);
@@ -252,6 +260,7 @@ public class AddGsUserWidget extends GeoRepoFormWidget {
         this.password.reset();
         this.fullName.reset();
         this.eMail.reset();
+        this.isAdmin.reset();
         this.profilesComboBox.reset();
         this.profilesComboBox.getStore().getLoader().load();
         this.saveStatus.clearStatus("");

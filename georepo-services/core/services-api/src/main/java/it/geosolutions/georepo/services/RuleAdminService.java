@@ -20,7 +20,6 @@
 package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.model.LayerDetails;
-import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.services.dto.RuleFilter;
@@ -29,6 +28,7 @@ import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.jws.WebService;
 import javax.ws.rs.DELETE;
@@ -203,6 +203,9 @@ public interface RuleAdminService {
 
     Map<String, String> getDetailsProps(Long ruleId);
     void setDetailsProps(Long ruleId, Map<String, String> props);
+    
+    Set<String> getAllowedStyles(Long ruleId);
+    void setAllowedStyles(Long ruleId, Set<String> styles);
 
     // ==========================================================================
     

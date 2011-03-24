@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.server.service.impl;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 import it.geosolutions.georepo.gui.server.service.IProfilesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
@@ -45,6 +46,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -210,12 +213,23 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
 
                 int page = start == 0 ? start : start / config.getLimit();
 
-                for (String key : customProperties.keySet()) {
+                SortedSet<String> sortedset = new TreeSet<String>(customProperties.keySet());
+                Iterator<String> it = sortedset.iterator();
+
+                while (it.hasNext()) {
+                    String key = it.next();
                     ProfileCustomProps property = new ProfileCustomProps();
                     property.setPropKey(key);
                     property.setPropValue(customProperties.get(key));
                     customPropsDTO.add(property);
                 }
+                
+//                for (String key : customProperties.keySet()) {
+//                    ProfileCustomProps property = new ProfileCustomProps();
+//                    property.setPropKey(key);
+//                    property.setPropValue(customProperties.get(key));
+//                    customPropsDTO.add(property);
+//                }
             } catch (Exception e) {
                 // do nothing!
             }
