@@ -61,9 +61,8 @@ import org.hibernate.annotations.Type;
 @XmlRootElement(name = "GSUser")
 public class GSUser implements Serializable {
 
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = -8739310455060618812L;
-
+    private static final long serialVersionUID = 7718458156939088033L;
+  
     /** The id. */
     @Id
     @GeneratedValue
@@ -100,6 +99,10 @@ public class GSUser implements Serializable {
     /** Is the GSUser Enabled or not in the system? */
     @Column(nullable=false)
     private boolean enabled;
+
+    /** Is the GSUser a GS admin? */
+    @Column(nullable=false)
+    private boolean admin = false;
 
     /** The user. */
     @ManyToOne(optional = false)
@@ -204,6 +207,14 @@ public class GSUser implements Serializable {
         return emailAddress;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        this.admin = isAdmin;
+    }
+
     /**
      * @return the dateCreation
      */
@@ -267,6 +278,7 @@ public class GSUser implements Serializable {
         int result = 1;
         result = prime * result + ((dateCreation == null) ? 0 : dateCreation.hashCode());
         result = prime * result + (Boolean.valueOf(enabled).hashCode());
+        result = prime * result + (Boolean.valueOf(admin).hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((profile == null) ? 0 : profile.hashCode());
@@ -298,6 +310,9 @@ public class GSUser implements Serializable {
         if(enabled != other.enabled) {
             return false;
         }
+        if(admin != other.admin) {
+            return false;
+        }
         if (id != other.id) {
             return false;
         }
@@ -325,14 +340,15 @@ public class GSUser implements Serializable {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("User [");
-        if (dateCreation != null)
-            builder.append("dateCreation=").append(dateCreation).append(", ");        
-        builder.append("enabled=").append(enabled).append(", ");
         builder.append("id=").append(id).append(", ");
         if (name != null)
             builder.append("name=").append(name).append(", ");
         if (profile != null)
             builder.append("profile=").append(profile);
+        builder.append("enabled=").append(enabled).append(", ");
+        builder.append("admin=").append(admin).append(", ");
+        if (dateCreation != null)
+            builder.append("dateCreation=").append(dateCreation).append(", ");        
         builder.append("]");
         return builder.toString();
     }
