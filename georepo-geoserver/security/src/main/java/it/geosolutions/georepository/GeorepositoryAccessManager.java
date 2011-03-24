@@ -29,6 +29,7 @@ import it.geosolutions.georepo.services.dto.RuleFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,15 +52,20 @@ import org.geoserver.security.WorkspaceAccessLimits;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
+import org.geotools.geometry.jts.JTS;
+import org.geotools.referencing.CRS;
 import org.geotools.util.Converters;
 import org.geotools.util.logging.Logging;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.expression.PropertyName;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiPolygon;
 
 /**
@@ -269,11 +275,27 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
                 PropertyAccessMode.READ);
         List<PropertyName> writeAttributes = toPropertyNames(rule.getAttributes(),
                 PropertyAccessMode.WRITE);
+        
+        // reproject the area if necessary
+        Geometry area = rule.getArea();
+        if(area != null && area.getSRID() > 0) {
+            try {
+                CoordinateReferenceSystem geomCrs = CRS.decode("EPSG:" + area.getSRID());
+                CoordinateReferenceSystem resourceCrs = resource.getCRS();
+                if(resourceCrs != null && !CRS.equalsIgnoreMetadata(geomCrs, resourceCrs)) {
+                    MathTransform mt = CRS.findMathTransform(geomCrs, resourceCrs, true);
+                    area = JTS.transform(area, mt);
+                    rule.setArea(area);
+                }
+            } catch(Exception e) {
+                throw new RuntimeException("Failed to reproject the restricted area to the layer's native SRS", e);
+            }
+        }
 
         if (resource instanceof FeatureTypeInfo) {
             // merge the area among the filters
-            if (rule.getArea() != null) {
-                Filter areaFilter = FF.intersects(FF.property(""), FF.literal(rule.getArea()));
+            if (area != null) {
+                Filter areaFilter = FF.intersects(FF.property(""), FF.literal(area));
                 readFilter = mergeFilter(readFilter, areaFilter);
                 writeFilter = mergeFilter(writeFilter, areaFilter);
             }
