@@ -101,6 +101,8 @@ public interface RuleReaderService {
      */
     List<ShortRule> getMatchingRules(RuleFilter filter);
 
+    boolean isAdmin(String userName);
+
 
     // ==========================================================================
 

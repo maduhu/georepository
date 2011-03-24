@@ -33,7 +33,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import it.geosolutions.georepo.core.dao.GSUserDAO;
 import it.geosolutions.georepo.core.dao.LayerDetailsDAO;
 import it.geosolutions.georepo.core.dao.RuleDAO;
-import it.geosolutions.georepo.core.dao.RuleLimitsDAO;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Rule;
@@ -135,18 +134,21 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 
         if(userFilter.getType() == RuleFilter.FilterType.IDVALUE) {
             user = userDAO.find(userFilter.getId());
-
         } else if(userFilter.getType() == RuleFilter.FilterType.NAMEVALUE) {
-            Search search = new Search(GSUser.class);
-            search.addFilterEqual("name", userFilter.getName());
-            List<GSUser> users = userDAO.search(search);
-            if(users.size() > 1)
-                throw new IllegalStateException("Found more than one user with name '"+userFilter.getName()+"'");
-            if( ! users.isEmpty() )
-                user = users.get(0);
+            user = getUserByName(userFilter.getName());
         }
 
         return user == null ? null :  user.getAllowedArea();
+    }
+
+    private GSUser getUserByName(String userName) {
+        Search search = new Search(GSUser.class);
+        search.addFilterEqual("name", userName);
+        List<GSUser> users = userDAO.search(search);
+        if(users.size() > 1)
+            throw new IllegalStateException("Found more than one user with name '"+userName+"'");
+
+        return users.isEmpty() ? null : users.get(0);
     }
 
     private AccessInfo buildAllowAccessInfo(Rule rule, List<RuleLimits> limits, IdNameFilter userFilter) {
@@ -318,6 +320,14 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 //                    Filter.equal(fieldName, value));
 //        }
 //    }
+
+    // ==========================================================================
+
+    @Override
+    public boolean isAdmin(String userName) {
+        GSUser user = getUserByName(userName);
+        return user == null? false : user.isAdmin() && user.getEnabled();
+    }
 
     // ==========================================================================
 
