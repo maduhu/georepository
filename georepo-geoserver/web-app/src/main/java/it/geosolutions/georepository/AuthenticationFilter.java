@@ -1,5 +1,7 @@
 package it.geosolutions.georepository;
 
+import it.geosolutions.georepo.services.RuleReaderService;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
+import org.geoserver.platform.GeoServerExtensions;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
@@ -24,6 +27,7 @@ public class AuthenticationFilter implements Filter {
     static final String ROOT_ROLE = "ROLE_ADMINISTRATOR";
     static final String ANONYMOUS_ROLE = "ROLE_ANONYMOUS";
     static final String USER_ROLE = "ROLE_USER";
+    private RuleReaderService rules;
 
     @Override
     public void destroy() {
@@ -56,8 +60,8 @@ public class AuthenticationFilter implements Filter {
         
         if(username != null) {
             GrantedAuthority[] authorities;
-            // TODO: check against georepo that the user is the admin
-            if("admin".equals(username)) {
+            // check against georepo that the user is the admin
+            if(rules != null && rules.isAdmin(username)) {
                 authorities = new GrantedAuthority[] {new GrantedAuthorityImpl(ROOT_ROLE)};
             } else {
                 authorities = new GrantedAuthority[] {new GrantedAuthorityImpl(USER_ROLE)};
@@ -85,7 +89,7 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // nothing to do
+        rules = (RuleReaderService) GeoServerExtensions.bean("ruleReaderService");
     }
 
 }
