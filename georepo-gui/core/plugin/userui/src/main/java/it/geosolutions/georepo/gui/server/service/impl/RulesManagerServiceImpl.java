@@ -257,7 +257,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         else
             filter.setProfile(SpecialFilterType.DEFAULT);
         
-        if(!rule.getInstance().getName().equalsIgnoreCase("*"))
+        if(rule.getInstance() != null && !rule.getInstance().getName().equalsIgnoreCase("*"))
             filter.setInstance(rule.getInstance().getId());
         else
             filter.setInstance(SpecialFilterType.DEFAULT);
