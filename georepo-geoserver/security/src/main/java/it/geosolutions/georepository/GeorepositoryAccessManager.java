@@ -27,6 +27,7 @@ import it.geosolutions.georepo.services.dto.AccessInfo;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
