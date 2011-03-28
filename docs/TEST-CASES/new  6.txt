@@ -1,0 +1,85 @@
+uid=admin,ou=people,dc=nurc,dc=nato,dc=int
+Crociera100!
+
+
+################################################
+# File di configurazione per GeoServer
+# Autenticazione e autorizzazione con LDAP
+################################################
+
+ProxyPass /geoserver/ ajp://localhost:8009/geoserver/
+ProxyPassReverse /geoserver/ ajp://localhost:8009/geoserver/
+
+<Location /geoserver/>
+   AuthType basic
+   AuthName "GeoServer"
+   AuthUserFile "/etc/httpd/conf.d/.htpasswd"
+   Anonymous *
+   Require valid-user
+</Location>
+
+
+admin:NdSutwtetn0eQ
+
+
+
+Alias /DART05 "/storage/www/DART05/web"
+Alias /dart05 "/storage/www/DART05/web"
+
+<Directory "/storage/www/DART05/web">
+
+AllowOverride None
+Options +Indexes -FollowSymLinks -IncludesNOEXEC +Includes
+#IndexIgnore *.ht* *.php .??* *.bak *.swp *# HEADER* README* ^.ht* *.conf
+DirectoryIndex index.html
+AddOutputFilter Includes html
+AddHandler type-map var
+Order allow,deny
+Allow from 172.19.0.0/255.255.0.0
+LanguagePriority en cs de es fr it ja ko nl pl pt-br ro sv tr
+ForceLanguagePriority Prefer Fallback
+
+<IfModule mod_auth_cas.c>
+AuthType CAS
+AuthName "Protected Website"
+</IfModule>
+#AuthType Basic
+#AuthBasicProvider ldap
+AuthzLDAPAuthoritative on
+#AuthLDAPURL ldap://whale.nurc.nato.int:389/ou=people,dc=nurc,dc=nato,dc=int?uid?sub?(objectClass=*)
+AuthLDAPURL ldap://whale.nurc.nato.int:389/dc=nurc,dc=nato,dc=int??sub?(objectClass=*)
+AuthLDAPBindDN uid=admin,ou=people,dc=nurc,dc=nato,dc=int
+AuthLDAPBindPassword Crociera100!
+AuthLDAPGroupAttributeIsDN  off
+AuthLDAPGroupAttribute memberUid
+require ldap-group cn=DART05_WEB,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+require ldap-group cn=DART05_WEBMASTER,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+require ldap-group cn=DART05_WRITER,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+require ldap-group cn=DART05_READER,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+require ldap-group cn=DART05_NURC,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+require ldap-group cn=DART05_ORG1,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+Satisfy any
+
+</Directory>
+
+
+
+
+<Location /geoserver/>
+   AuthType basic
+   AuthName "GeoServer"
+	AuthzLDAPAuthoritative on
+	#AuthLDAPURL ldap://whale.nurc.nato.int:389/ou=people,dc=nurc,dc=nato,dc=int?uid?sub?(objectClass=*)
+	AuthLDAPURL ldap://whale.nurc.nato.int:389/dc=nurc,dc=nato,dc=int??sub?(objectClass=*)
+	AuthLDAPBindDN uid=admin,ou=people,dc=nurc,dc=nato,dc=int
+	AuthLDAPBindPassword Crociera100!
+	AuthLDAPGroupAttributeIsDN  off
+	AuthLDAPGroupAttribute memberUid
+	require ldap-group cn=DART05_WEB,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+	require ldap-group cn=DART05_WEBMASTER,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+	require ldap-group cn=DART05_WRITER,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+	require ldap-group cn=DART05_READER,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+	require ldap-group cn=DART05_NURC,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+	require ldap-group cn=DART05_ORG1,ou=DART05,ou=groups,dc=nurc,dc=nato,dc=int
+	Satisfy any
+</Location>

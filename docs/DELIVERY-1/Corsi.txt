@@ -1,0 +1,19 @@
+Come anticipato durante la call conference, vi giro un paio di template e le specifiche di SIN per scrivere i documenti.
+
+Documentazione per GEOREPO richiesta:
+
+USE CASE:
+Use Case con il template che vi ho inviato (un vecchio use case che avevo scritto tempo fa). Va ovviamente espanso e, se ne avete di pronti, sarebbe il caso di mettere qualche sequence diagram.
+
+DATI:
+Vi giro un documento ripreso da un vecchio progetto dove alcune parti non sono riempite. In teoria c'e' una nomemclatura da seguire. Nel documento se possibile si dovrebbero chiamare le tabelle:
+AYA2_NOMETABELLA_TAB (in pratica aggiungere un prefisso AYA2_ e un suffisso _TAB o _VIEW etc.).
+
+MANUALE UTENTE:
+La parte di GUI di georepository
+Se avete pronta qualche cosa su Geoserver
+Importante: la parte di procedure che avevamo concordato con Emanuele dove riassumo i contenuti: dettaglio configurazione, procedure per start/stop/restart/status servizi, procedure per aggiornare le connessioni al DB (altrimenti quando IBM cambia le password ... loro non sanno cosa fare ...)
+
+Il tutto serve per venerdi', anche in formato non perfetto.
+
+Marco
