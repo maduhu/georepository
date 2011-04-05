@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.server.gwt;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.server.service.IGsUsersManagerService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
@@ -88,5 +89,19 @@ public class GsUsersManagerServiceImpl extends RemoteServiceServlet implements
      */
     public void deleteGsUser(GSUser user) throws ApplicationException {
         gsUserManagerService.deleteUser(user);
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#getUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
+     */
+    public UserLimitsInfo getUserLimitsInfo(GSUser user) throws ApplicationException {
+        return gsUserManagerService.getUserLimitsInfo(user);
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#saveUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
+     */
+    public UserLimitsInfo saveUserLimitsInfo(UserLimitsInfo userLimitInfo) throws ApplicationException {
+        return gsUserManagerService.saveUserLimitsInfo(userLimitInfo);
     }
 }

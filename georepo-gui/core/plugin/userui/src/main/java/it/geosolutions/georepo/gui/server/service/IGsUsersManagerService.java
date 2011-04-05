@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.server.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -75,4 +76,17 @@ public interface IGsUsersManagerService {
      *            the profile
      */
     public void deleteUser(GSUser user);
+    
+
+    /**
+     * @param user
+     * @return UserLimitInfo
+     */
+    public UserLimitsInfo getUserLimitsInfo(GSUser user);
+    
+    /**
+     * @param user
+     * @return UserLimitInfo
+     */
+    public UserLimitsInfo saveUserLimitsInfo(UserLimitsInfo userLimitInfo);
 }

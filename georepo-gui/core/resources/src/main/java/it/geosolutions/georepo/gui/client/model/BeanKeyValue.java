@@ -125,7 +125,9 @@ public enum BeanKeyValue {
     
     PROFILE_PROP_KEY("profile_key"),
     
-    USER_ADMIN("user_admin");
+    USER_ADMIN("user_admin"),
+    
+    USER_ALLOWED_AREA("user_allowed_area");
     
     
     /** The value. */

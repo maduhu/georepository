@@ -40,7 +40,7 @@ import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
 /**
- * The Class LayerCustomPropsTabItem.
+ * The Class ProfileDetailsTabItem.
  */
 public class ProfileDetailsTabItem extends TabItem {
 

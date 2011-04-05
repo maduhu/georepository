@@ -238,7 +238,7 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
     	String area = layerDetailsInfo.getAllowedArea();
     	if(area != null){
     		allowedArea.setValue(area);
-    	}    	
+    	} 	
     }
 	
     /**

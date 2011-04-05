@@ -37,7 +37,6 @@ import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
@@ -70,8 +69,8 @@ import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
+import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
@@ -206,6 +205,14 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
         userProfileColumn.setMenuDisabled(true);
         userProfileColumn.setSortable(false);
         configs.add(userProfileColumn);
+        
+        ColumnConfig detailsUserColumn = new ColumnConfig();
+        detailsUserColumn.setId("detailsUser");
+        detailsUserColumn.setWidth(80);
+        detailsUserColumn.setRenderer(this.createUserDetailsButton());
+        detailsUserColumn.setMenuDisabled(true);
+        detailsUserColumn.setSortable(false);
+        configs.add(detailsUserColumn);
 
         ColumnConfig removeActionColumn = new ColumnConfig();
         removeActionColumn.setId("removeUser");
@@ -701,6 +708,56 @@ public class UserGridWidget extends GeoRepoGridWidget<GSUser> {
                 });
 
                 return removeUserButton;
+            }
+
+        };
+
+        return buttonRendered;
+    }
+    
+    /**
+     * Creates the user details button.
+     * 
+     * @return the grid cell renderer
+     */
+    private GridCellRenderer<GSUser> createUserDetailsButton() {
+        GridCellRenderer<GSUser> buttonRendered = new GridCellRenderer<GSUser>() {
+
+            private boolean init;
+
+            public Object render(final GSUser model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<GSUser> store, Grid<GSUser> grid) {
+
+                if (!init) {
+                    init = true;
+                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<GSUser>>() {
+
+                        public void handleEvent(GridEvent<GSUser> be) {
+                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
+                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
+                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
+                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                Button detailsUserButton = new Button("Details");
+                detailsUserButton.setIcon(Resources.ICONS.table());
+
+                detailsUserButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+
+                    public void handleEvent(ButtonEvent be) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                "GeoServer User", "User Details: " + model.getName() });
+
+                        Dispatcher.forwardEvent(GeoRepoEvents.EDIT_USER_DETAILS, model);
+                    }
+                });
+
+                return detailsUserButton;
             }
 
         };

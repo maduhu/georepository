@@ -754,6 +754,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 WKTReader wktReader = new WKTReader();  
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);
                 details.setArea(the_geom);
+            }else{
+                details.setArea(null); 
             }
 
             // ///////////////////////////////////
@@ -873,6 +875,8 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 WKTReader wktReader = new WKTReader();
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);
                 ruleLimits.setAllowedArea(the_geom);
+            }else{
+                ruleLimits.setAllowedArea(null); 
             }
 
             georepoRemoteService.getRuleAdminService().setLimits(ruleId, ruleLimits);

@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.client.view;
 
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
@@ -41,6 +42,7 @@ import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
+import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
 import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
@@ -55,6 +57,7 @@ import it.geosolutions.georepo.gui.client.widget.EditRuleWidget;
 import it.geosolutions.georepo.gui.client.widget.GridStatus;
 import it.geosolutions.georepo.gui.client.widget.dialog.ProfileDetailsEditDialog;
 import it.geosolutions.georepo.gui.client.widget.dialog.RuleDetailsEditDialog;
+import it.geosolutions.georepo.gui.client.widget.dialog.UserDetailsEditDialog;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesGridWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerAttributesTabItem;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.LayerCustomPropsGridWidget;
@@ -66,11 +69,12 @@ import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsInfoWidg
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleDetailsTabItem;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleLimitsInfoWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleLimitsTabItem;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.UserDetailsInfoWidget;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.UserDetailsTabItem;
 
 import java.util.List;
 import java.util.Map;
 
-import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -110,6 +114,9 @@ public class RulesView extends View {
     
     /** The profile editor dialog. */
     private ProfileDetailsEditDialog profileEditorDialog;
+    
+    /** The user editor dialog. */
+    private UserDetailsEditDialog userDetailsEditDialog;
 
     public EditRuleWidget ruleRowEditor;
 
@@ -127,7 +134,10 @@ public class RulesView extends View {
         ruleEditorDialog.setClosable(false);
         
         this.profileEditorDialog = new ProfileDetailsEditDialog(profilesManagerServiceRemote);
-        profileEditorDialog.setClosable(false);
+        profileEditorDialog.setClosable(false);        
+        
+        this.userDetailsEditDialog = new UserDetailsEditDialog(usersManagerServiceRemote);
+        userDetailsEditDialog.setClosable(false);
 
         this.ruleRowEditor = new EditRuleWidget(GeoRepoEvents.SAVE_USER, true,
                 rulesManagerServiceRemote, null, null, null, null);
@@ -202,8 +212,96 @@ public class RulesView extends View {
             onSaveLayerLimits(event);
         
         if (event.getType() == GeoRepoEvents.LOAD_LAYER_LIMITS)
-            onLoadLayerLimits(event);        
+            onLoadLayerLimits(event);   
         
+        if (event.getType() == GeoRepoEvents.EDIT_USER_DETAILS)
+            onEditUserDetails(event);
+        
+        if (event.getType() == GeoRepoEvents.LOAD_USER_LIMITS)
+            onLoadUserLimits(event);  
+        
+        if (event.getType() == GeoRepoEvents.SAVE_USER_LIMITS)
+            onSaveUserLimits(event);
+        
+    }
+
+    /**
+     * @param event
+     */
+    private void onSaveUserLimits(AppEvent event) {
+        UserLimitsInfo userInfo = event.getData();
+        
+        this.usersManagerServiceRemote.saveUserLimitsInfo(userInfo, 
+                new AsyncCallback<UserLimitsInfo>() {
+
+            public void onFailure(Throwable caught) {
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                        I18nProvider.getMessages().ruleServiceName(),
+                        "Error occurred while saving User Details!" });
+            }
+
+            public void onSuccess(UserLimitsInfo result) {
+                UserDetailsTabItem userDetailsTabItem = (UserDetailsTabItem) userDetailsEditDialog
+                        .getTabWidget().getItemByItemId(UserDetailsEditDialog.USER_DETAILS_DIALOG_ID);
+
+                UserDetailsInfoWidget userDetailsInfoWidget = userDetailsTabItem.getUserDetailsWidget()
+                        .getUserDetailsInfo();
+                userDetailsInfoWidget.bindModelData(result);
+
+
+                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                        I18nProvider.getMessages().userServiceName(),
+                        I18nProvider.getMessages().userFetchSuccessMessage() });
+            }
+        });
+    }
+
+    /**
+     * @param event
+     */
+    private void onLoadUserLimits(AppEvent event) {
+        GSUser user = event.getData();
+
+        this.usersManagerServiceRemote.getUserLimitsInfo(user,
+                new AsyncCallback<UserLimitsInfo>() {
+
+                    public void onFailure(Throwable caught) {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                                I18nProvider.getMessages().ruleServiceName(),
+                                "Error occurred while getting User Details!" });
+                    }
+
+                    public void onSuccess(UserLimitsInfo result) {
+                        if (result != null) {
+                            UserDetailsTabItem userDetailsTabItem = (UserDetailsTabItem) userDetailsEditDialog
+                                    .getTabWidget().getItemByItemId(UserDetailsEditDialog.USER_DETAILS_DIALOG_ID);
+
+                            UserDetailsInfoWidget userDetailsWidget = userDetailsTabItem
+                                    .getUserDetailsWidget().getUserDetailsInfo();
+
+                            userDetailsWidget.bindModelData(result);
+
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
+                                    I18nProvider.getMessages().userServiceName(),
+                                    I18nProvider.getMessages().userFetchSuccessMessage() });
+                        }
+                    }
+                });
+    }
+
+    /**
+     * @param event
+     */
+    private void onEditUserDetails(AppEvent event) {
+        if (event.getData() != null && event.getData() instanceof GSUser) {
+            this.userDetailsEditDialog.reset();
+            this.userDetailsEditDialog.setModel((GSUser) event.getData());
+            this.userDetailsEditDialog.show();
+        } else {
+            // TODO: i18n!!
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                    "User Details Editor", "Could not found any associated user!" });
+        }
     }
 
     /**
@@ -281,7 +379,7 @@ public class RulesView extends View {
         } else {
             // TODO: i18n!!
             Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Editor", "Could not found any associated rule!" });
+                    "Profiles Details Editor", "Could not found any associated profiles!" });
         }
     }
 
