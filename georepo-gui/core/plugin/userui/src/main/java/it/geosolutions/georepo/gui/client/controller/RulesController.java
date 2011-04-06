@@ -136,7 +136,11 @@ public class RulesController extends Controller {
                 
                 GeoRepoEvents.SAVE_LAYER_LIMITS,
                 GeoRepoEvents.LOAD_LAYER_LIMITS,
-                GeoRepoEvents.LOAD_RULES);
+                GeoRepoEvents.LOAD_RULES,
+                
+                GeoRepoEvents.EDIT_USER_DETAILS,
+                GeoRepoEvents.LOAD_USER_LIMITS,
+                GeoRepoEvents.SAVE_USER_LIMITS);
 
     }
 

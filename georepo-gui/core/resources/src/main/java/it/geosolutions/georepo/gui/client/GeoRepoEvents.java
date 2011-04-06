@@ -461,4 +461,13 @@ public class GeoRepoEvents {
     
     /** **/
     public static final EventType LOAD_RULES = new EventType();
+    
+    /** **/
+    public static final EventType LOAD_USER_LIMITS = new EventType();
+    
+    /** **/
+    public static final EventType SAVE_USER_LIMITS = new EventType();
+    
+    /** **/
+    public static final EventType EDIT_USER_DETAILS = new EventType();
 }
