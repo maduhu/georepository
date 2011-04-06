@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.trg.search.ISearch;
+import com.vividsolutions.jts.geom.MultiPolygon;
 
 /**
  * Public implementation of the GSUserDAO interface
@@ -58,6 +59,16 @@ public class GSUserDAOImpl extends BaseDAO<GSUser, Long>
 
     @Override
     public GSUser merge(GSUser entity) {
+        // Workaround: if area srid has changed (and vertices did not), the geometry will not be updated on db
+        // Check for test UserDAOTest.testUpdateSRID().
+        MultiPolygon oldMp = entity.getAllowedArea();
+        if(oldMp != null) {
+            entity.setAllowedArea(null);
+            super.merge(entity);
+            em().flush();
+            entity.setAllowedArea(oldMp);
+        }
+        // end workaround
         return super.merge(entity);
     }
 
