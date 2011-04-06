@@ -57,9 +57,11 @@ import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RuleDetailsInfoWidget.
+ * 
+ * @author Tobia di Pisa
+ *
  */
 public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetailsInfo> {
 
@@ -200,10 +202,35 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
     public LayerDetailsInfo getModelData() {
     	LayerDetailsInfo layerDetailsForm = new LayerDetailsInfo();
 
-    	layerDetailsForm.setAllowedArea(allowedArea.getValue());
+    	String area = allowedArea.getValue();
+    	
+        String wkt, srid;
+        if(area != null){            
+            if(area.indexOf("SRID=") != -1){
+                String[] allowedAreaArray = area.split(";");
+                
+                srid = allowedAreaArray[0].split("=")[1];
+                wkt = allowedAreaArray[1];
+            }else{
+                srid = "4326";
+                wkt = area;
+            }
+        }else{
+            srid = null;
+            wkt = null;
+        }
+        
+    	layerDetailsForm.setAllowedArea(wkt);
+    	layerDetailsForm.setSrid(srid);
     	layerDetailsForm.setCqlFilterRead(cqlFilterRead.getValue());
     	layerDetailsForm.setCqlFilterWrite(cqlFilterWrite.getValue());
-    	layerDetailsForm.setDefaultStyle(comboStyles.getValue().getStyle());
+    	
+    	LayerStyle layerStyle = comboStyles.getValue();
+    	if(layerStyle != null)
+    	    layerDetailsForm.setDefaultStyle(layerStyle.getStyle());
+    	else
+    	    layerDetailsForm.setDefaultStyle(null);
+    	
     	layerDetailsForm.setRuleId(theRule.getId());
     	
         return layerDetailsForm;
@@ -216,29 +243,25 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
      *            the layer details info
      */
     public void bindModelData(LayerDetailsInfo layerDetailsInfo){
-    	this.bindModel(layerDetailsInfo);
-    	
-    	String defaultStyle = layerDetailsInfo.getDefaultStyle();
-    	if(defaultStyle != null){
-    		comboStyles.setValue(new LayerStyle(defaultStyle));
-    	}
-    	    	
-    	String cqlRead = layerDetailsInfo.getCqlFilterRead();
-    	if(cqlRead != null){
-    		cqlFilterRead.setValue(cqlRead);
-    	}
-    	
-    	
-    	String cqlWrite = layerDetailsInfo.getCqlFilterWrite();
-    	if(cqlWrite != null){
-    		cqlFilterWrite.setValue(cqlWrite);
-    	}
-    	
-    	
-    	String area = layerDetailsInfo.getAllowedArea();
-    	if(area != null){
-    		allowedArea.setValue(area);
-    	} 	
+        this.bindModel(layerDetailsInfo);
+
+        String defaultStyle = layerDetailsInfo.getDefaultStyle();
+        if(defaultStyle != null)
+            comboStyles.setValue(new LayerStyle(defaultStyle));
+
+        String cqlRead = layerDetailsInfo.getCqlFilterRead();
+        if(cqlRead != null)
+            cqlFilterRead.setValue(cqlRead);
+
+
+        String cqlWrite = layerDetailsInfo.getCqlFilterWrite();
+        if(cqlWrite != null)
+            cqlFilterWrite.setValue(cqlWrite);
+
+        String area = layerDetailsInfo.getAllowedArea();
+        String srid = layerDetailsInfo.getSrid();
+        if(area != null && srid != null)
+            allowedArea.setValue("SRID=" + srid + ";" + area);
     }
 	
     /**

@@ -29,6 +29,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.io.WKTReader;
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
@@ -72,6 +75,13 @@ public class UserAdminServiceImplTest extends ServiceTestBase {
 
             loaded.setProfile(p2);
             loaded.setName(NEWNAME);
+            
+            WKTReader wktReader = new WKTReader();
+            String allowedArea = "MULTIPOLYGON (((414699.55 130160.43, 414701.83 130149.9, 414729.2 130155.7, 414729.2 130155.7, 414733.25 130149.8, 414735.1 130140.9, 414743.75 130142.7, 414740.6 130158.15, 414742.15 130158.5, 414739.65 130169.25, 414728.05 130166.65, 414727.77 130167.93, 414724.52 130167.19, 414717.65 130165.63, 414717.85 130164.45, 414699.55 130160.43)))";
+            MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);            
+            the_geom.setSRID(4326);
+            
+            loaded.setAllowedArea(the_geom);            
             userAdminService.update(loaded);
         }
         {
@@ -80,7 +90,10 @@ public class UserAdminServiceImplTest extends ServiceTestBase {
 
             assertEquals(NEWNAME, loaded.getName());
             assertEquals("p2", loaded.getProfile().getName());
-        }
+            
+            assertNotNull(loaded.getAllowedArea());
+            assertEquals(4326, loaded.getAllowedArea().getSRID());
+        }        
     }
 
     @Test

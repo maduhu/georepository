@@ -128,7 +128,26 @@ public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsIn
     public UserLimitsInfo getModelData() {
         UserLimitsInfo userInfo = new UserLimitsInfo();
 
-        userInfo.setAllowedArea(allowedArea.getValue());   
+        String area = allowedArea.getValue();
+        
+        String wkt, srid;
+        if(area != null){            
+            if(area.indexOf("SRID=") != -1){
+                String[] allowedAreaArray = area.split(";");
+                
+                srid = allowedAreaArray[0].split("=")[1];
+                wkt = allowedAreaArray[1];
+            }else{
+                srid = "4326";
+                wkt = area;
+            }
+        }else{
+            srid = null;
+            wkt = null;
+        }
+        
+        userInfo.setAllowedArea(wkt);
+        userInfo.setSrid(srid);
         userInfo.setUserId(user.getId());
 
         return userInfo;
@@ -144,8 +163,9 @@ public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsIn
         this.bindModel(userInfo);
 
         String area = userInfo.getAllowedArea();
-        if(area != null){
-            allowedArea.setValue(area);
+        String srid = userInfo.getSrid();
+        if(area != null && srid != null){
+            allowedArea.setValue("SRID=" + srid + ";" + area);
         }else{
             allowedArea.setValue("");
         }   	

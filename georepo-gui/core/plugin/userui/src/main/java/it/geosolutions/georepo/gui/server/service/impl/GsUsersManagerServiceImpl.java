@@ -32,11 +32,9 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
-import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 import it.geosolutions.georepo.gui.server.service.IGsUsersManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
@@ -58,7 +56,6 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GsUsersManagerServiceImpl.
  */
@@ -217,12 +214,20 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
 
         try {
             gsUser = georepoRemoteService.getUserAdminService().get(userId);
-
+            
             if (gsUser != null) {
                 userLimitInfo = new UserLimitsInfo();
                 userLimitInfo.setUserId(userId);
-                userLimitInfo.setAllowedArea(gsUser.getAllowedArea() != null ? gsUser
-                        .getAllowedArea().toText() : null);
+                
+                MultiPolygon the_geom = gsUser.getAllowedArea();
+                
+                if(the_geom != null){
+                    userLimitInfo.setAllowedArea(the_geom.toText());
+                    userLimitInfo.setSrid(String.valueOf(the_geom.getSRID()));
+                }else{
+                    userLimitInfo.setAllowedArea(null);
+                    userLimitInfo.setSrid(null);
+                }
             }
         } catch (ResourceNotFoundFault e) {
             logger.error(e.getMessage(), e);
@@ -248,13 +253,13 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             if(allowedArea != null){
                 WKTReader wktReader = new WKTReader();
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);
+                the_geom.setSRID(Integer.valueOf(userLimitInfo.getSrid()).intValue());
                 gsUser.setAllowedArea(the_geom);
             }else{
                 gsUser.setAllowedArea(null); 
             }
 
             georepoRemoteService.getUserAdminService().update(gsUser);
-
         } catch (ResourceNotFoundFault e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);

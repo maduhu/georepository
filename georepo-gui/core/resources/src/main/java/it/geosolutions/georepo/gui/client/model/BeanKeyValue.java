@@ -127,7 +127,13 @@ public enum BeanKeyValue {
     
     USER_ADMIN("user_admin"),
     
-    USER_ALLOWED_AREA("user_allowed_area");
+    USER_ALLOWED_AREA("user_allowed_area"),
+    
+    USER_ALLOWED_AREA_SRID("user_allowed_area_srid"),
+    
+    LAYER_ALLOWED_AREA_SRID("layer_allowed_area_srid"),
+    
+    RULE_ALLOWED_AREA_SRID("rule_allowed_area_srid");
     
     
     /** The value. */

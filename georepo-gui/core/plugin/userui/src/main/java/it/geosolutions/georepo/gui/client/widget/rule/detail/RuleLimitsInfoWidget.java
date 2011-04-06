@@ -128,7 +128,26 @@ public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsIn
     public LayerLimitsInfo getModelData() {
         LayerLimitsInfo layerLimitsForm = new LayerLimitsInfo();
 
-        layerLimitsForm.setAllowedArea(allowedArea.getValue());
+        String area = allowedArea.getValue();
+
+        String wkt, srid;
+        if(area != null){            
+            if(area.indexOf("SRID=") != -1){
+                String[] allowedAreaArray = area.split(";");
+                
+                srid = allowedAreaArray[0].split("=")[1];
+                wkt = allowedAreaArray[1];
+            }else{
+                srid = "4326";
+                wkt = area;
+            }
+        }else{
+            srid = null;
+            wkt = null;
+        }
+        
+        layerLimitsForm.setAllowedArea(wkt);
+        layerLimitsForm.setSrid(srid);
         layerLimitsForm.setRuleId(theRule.getId());
 
         return layerLimitsForm;
@@ -144,8 +163,9 @@ public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsIn
         this.bindModel(layerLimitsInfo);
 
         String area = layerLimitsInfo.getAllowedArea();
-        if(area != null){
-            allowedArea.setValue(area);
+        String srid = layerLimitsInfo.getSrid();
+        if(area != null && srid != null){
+            allowedArea.setValue("SRID=" + srid + ";" + area);
         }else{
             allowedArea.setValue("");
         }   

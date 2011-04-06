@@ -18,6 +18,9 @@ public class LayerLimitsInfo extends BeanModel {
     private Long ruleId;
 
     private String allowedArea;
+    
+    private String srid;
+    
 
     /**
      * Instantiates a new limits.
@@ -54,6 +57,21 @@ public class LayerLimitsInfo extends BeanModel {
         this.allowedArea = allowedArea;
         set(BeanKeyValue.ALLOWED_AREA.getValue(), this.allowedArea);
     }
+    
+    /**
+     * @return the srid
+     */
+    public String getSrid() {
+        return srid;
+    }
+
+    /**
+     * @param srid the srid to set
+     */
+    public void setSrid(String srid) {
+        this.srid = srid;
+        set(BeanKeyValue.LAYER_ALLOWED_AREA_SRID.getValue(), this.srid);
+    }
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
@@ -64,6 +82,7 @@ public class LayerLimitsInfo extends BeanModel {
         int result = 1;
         result = prime * result + ((ruleId == null) ? 0 : ruleId.hashCode());
         result = prime * result + ((allowedArea == null) ? 0 : allowedArea.hashCode());
+        result = prime * result + ((srid == null) ? 0 : srid.hashCode());
         return result;
     }
 
@@ -99,6 +118,14 @@ public class LayerLimitsInfo extends BeanModel {
         } else if (!allowedArea.equals(other.allowedArea)) {
             return false;
         }
+        
+        if (srid == null) {
+            if (other.srid != null) {
+                return false;
+            }
+        } else if (!srid.equals(other.srid)) {
+            return false;
+        }
 
         return true;
     }
@@ -115,6 +142,8 @@ public class LayerLimitsInfo extends BeanModel {
             builder.append("ruleId=").append(ruleId).append(", ");
         if (allowedArea != null)
             builder.append("allowedArea=").append(allowedArea).append(", ");
+        if (srid != null)
+            builder.append("srid=").append(srid).append(", ");
 
         builder.append("]");
         return builder.toString();

@@ -751,8 +751,9 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             
             String allowedArea = layerDetailsInfo.getAllowedArea();
             if(allowedArea != null){
-                WKTReader wktReader = new WKTReader();  
+                WKTReader wktReader = new WKTReader();
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);
+                the_geom.setSRID(Integer.valueOf(layerDetailsInfo.getSrid()).intValue());
                 details.setArea(the_geom);
             }else{
                 details.setArea(null); 
@@ -815,8 +816,16 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 layerDetailsInfo.setCqlFilterRead(layerDetails.getCqlFilterRead());
                 layerDetailsInfo.setCqlFilterWrite(layerDetails.getCqlFilterWrite());
                 layerDetailsInfo.setDefaultStyle(layerDetails.getDefaultStyle());
-                layerDetailsInfo.setAllowedArea(layerDetails.getArea() != null ? layerDetails
-                        .getArea().toText() : null);
+                
+                MultiPolygon the_geom = layerDetails.getArea();
+                
+                if(the_geom != null){
+                    layerDetailsInfo.setAllowedArea(the_geom.toText());
+                    layerDetailsInfo.setSrid(String.valueOf(the_geom.getSRID()));
+                }else{
+                    layerDetailsInfo.setAllowedArea(null);
+                    layerDetailsInfo.setSrid(null);
+                }
 
                 if (layerDetails.getType().equals(LayerType.RASTER)) {
                     layerDetailsInfo.setType("raster");
@@ -871,9 +880,10 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             
             String allowedArea = layerLimitsForm.getAllowedArea();
             
-            if(allowedArea != null){
+            if(allowedArea != null){                
                 WKTReader wktReader = new WKTReader();
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);
+                the_geom.setSRID(Integer.valueOf(layerLimitsForm.getSrid()).intValue());
                 ruleLimits.setAllowedArea(the_geom);
             }else{
                 ruleLimits.setAllowedArea(null); 
@@ -909,10 +919,17 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             if (ruleLimits != null) {
                 layerLimitsInfo = new LayerLimitsInfo();
                 layerLimitsInfo.setRuleId(ruleId);
-                layerLimitsInfo.setAllowedArea(ruleLimits.getAllowedArea() != null ? ruleLimits
-                        .getAllowedArea().toText() : null);
+                
+                MultiPolygon the_geom = ruleLimits.getAllowedArea();
+                
+                if(the_geom != null){
+                    layerLimitsInfo.setAllowedArea(the_geom.toText());
+                    layerLimitsInfo.setSrid(String.valueOf(the_geom.getSRID()));
+                }else{
+                    layerLimitsInfo.setAllowedArea(null);
+                    layerLimitsInfo.setSrid(null);
+                }
             }
-
         } catch (ResourceNotFoundFault e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);

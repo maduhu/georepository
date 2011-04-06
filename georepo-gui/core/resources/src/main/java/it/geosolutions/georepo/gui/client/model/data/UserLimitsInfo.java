@@ -1,3 +1,35 @@
+/*
+ * $ Header: it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo,v. 0.1 5-apr-2011 created by tdipisa <tobia.dipisa at geo-solutions.it> $
+ * $ Revision: 0.1 $
+ * $ Date: 5-apr-2011 $
+ *
+ * ====================================================================
+ *
+ * Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ * http://www.geo-solutions.it
+ *
+ * GPLv3 + Classpath exception
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. 
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by developers
+ * of GeoSolutions.  For more information on GeoSolutions, please see
+ * <http://www.geo-solutions.it/>.
+ *
+ */
 package it.geosolutions.georepo.gui.client.model.data;
 
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
@@ -5,7 +37,7 @@ import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 import com.extjs.gxt.ui.client.data.BeanModel;
 
 /**
- * Class UserInfo.
+ * Class UserLimitsInfo.
  * 
  * @author Tobia di Pisa
  *
@@ -18,6 +50,9 @@ public class UserLimitsInfo extends BeanModel{
     private Long userId;
 
     private String allowedArea;
+    
+    private String srid;
+
 
     /**
      * Instantiates a new limits.
@@ -54,6 +89,21 @@ public class UserLimitsInfo extends BeanModel{
         this.allowedArea = allowedArea;
         set(BeanKeyValue.USER_ALLOWED_AREA.getValue(), this.allowedArea);
     }
+    
+    /**
+     * @return the srid
+     */
+    public String getSrid() {
+        return srid;
+    }
+
+    /**
+     * @param srid the srid to set
+     */
+    public void setSrid(String srid) {
+        this.srid = srid;
+        set(BeanKeyValue.USER_ALLOWED_AREA_SRID.getValue(), this.srid);
+    }
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
@@ -64,6 +114,7 @@ public class UserLimitsInfo extends BeanModel{
         int result = 1;
         result = prime * result + ((userId == null) ? 0 : userId.hashCode());
         result = prime * result + ((allowedArea == null) ? 0 : allowedArea.hashCode());
+        result = prime * result + ((srid == null) ? 0 : srid.hashCode());
         return result;
     }
 
@@ -100,6 +151,14 @@ public class UserLimitsInfo extends BeanModel{
             return false;
         }
 
+        if (srid == null) {
+            if (other.srid != null) {
+                return false;
+            }
+        } else if (!srid.equals(other.srid)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -115,6 +174,8 @@ public class UserLimitsInfo extends BeanModel{
             builder.append("userId=").append(userId).append(", ");
         if (allowedArea != null)
             builder.append("allowedArea=").append(allowedArea).append(", ");
+        if (srid != null)
+            builder.append("srid=").append(srid).append(", ");
 
         builder.append("]");
         return builder.toString();
