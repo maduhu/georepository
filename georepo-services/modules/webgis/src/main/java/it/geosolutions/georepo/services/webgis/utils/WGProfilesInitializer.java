@@ -138,7 +138,7 @@ public class WGProfilesInitializer implements InitializingBean {
         this.ruleDAO = dao;
     }
 
-    public void setLayerdetailsDAO(LayerDetailsDAO dao) {
+    public void setLayerDetailsDAO(LayerDetailsDAO dao) {
         LOGGER.info("Setting DAO " + dao);
         this.detailsDAO = dao;
     }

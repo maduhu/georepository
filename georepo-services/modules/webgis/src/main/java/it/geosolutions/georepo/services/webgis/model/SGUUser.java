@@ -34,11 +34,12 @@ public class SGUUser {
     private String sguId;
     private String userName;
 
-    private String profileId;
+    private String profile;
 
-    private String geomTableName;
-    private String geomIdField;
-    private String geomId;
+    private String wkt;
+    private Integer srid;
+
+    private boolean enabled;
     
     @XmlAttribute(name="id", required=true)
     public String getSguId() {
@@ -58,50 +59,53 @@ public class SGUUser {
         this.userName = userName;
     }
 
-    @XmlElement
-    public String getGeomId() {
-        return geomId;
+    @XmlElement(name="enable")
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setGeomId(String geomId) {
-        this.geomId = geomId;
-    }
-
-    @XmlElement
-    public String getGeomIdField() {
-        return geomIdField;
-    }
-
-    public void setGeomIdField(String geomIdField) {
-        this.geomIdField = geomIdField;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @XmlElement
-    public String getGeomTableName() {
-        return geomTableName;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setGeomTableName(String geomTableName) {
-        this.geomTableName = geomTableName;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     @XmlElement
-    public String getProfileId() {
-        return profileId;
+    public String getWkt() {
+        return wkt;
     }
 
-    public void setProfileId(String profileId) {
-        this.profileId = profileId;
+    public void setWkt(String wkt) {
+        this.wkt = wkt;
     }
+
+    public Integer getSrid() {
+        return srid;
+    }
+
+    public void setSrid(Integer srid) {
+        this.srid = srid;
+    }
+
 
     @Override
     public String toString() {
-        return "SGUUser{" + "sguId=" + sguId 
+        return this.getClass().getSimpleName() 
+                + '['
+                + "sguId=" + sguId
                 + " userName=" + userName
-                + " profileId=" + profileId
-                + " geomTableName=" + geomTableName
-                + " geomIdField=" + geomIdField +
-                " geomId=" + geomId + '}';
+                + " profile=" + profile
+                + ( enabled ? " enabled" : " disabled" )
+                + " wkt=" + (wkt==null? "NULL" : wkt.substring(0, Math.min(30, wkt.length())))
+                + " srid=" + srid
+                + ']';
     }
 
 }
