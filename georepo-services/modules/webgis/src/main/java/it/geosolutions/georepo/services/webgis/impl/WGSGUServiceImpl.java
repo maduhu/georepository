@@ -21,9 +21,15 @@
 package it.geosolutions.georepo.services.webgis.impl;
 
 import com.trg.search.Search;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import com.vividsolutions.jts.simplify.DouglasPeuckerLineSimplifier;
+import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 import it.geosolutions.georepo.core.dao.GSUserDAO;
 import it.geosolutions.georepo.core.dao.ProfileDAO;
 import it.geosolutions.georepo.core.model.GSUser;
@@ -33,10 +39,12 @@ import it.geosolutions.georepo.services.webgis.model.SGUProfile;
 import it.geosolutions.georepo.services.webgis.model.SGUProfileList;
 import it.geosolutions.georepo.services.webgis.model.SGUUser;
 import it.geosolutions.georepo.services.webgis.model.SGUUserList;
+import jaitools.jts.Utils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 /**
  *
@@ -240,13 +248,64 @@ public class WGSGUServiceImpl implements SGUService {
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(wkt);
                 int isrid = srid!= null? srid.intValue() : 4326;
                 the_geom.setSRID(isrid);
-                user.setAllowedArea(the_geom);
+
+                MultiPolygon simp = simplifyMultiPolygon(the_geom);
+                simp.setSRID(isrid);
+                user.setAllowedArea(simp);
             } catch (ParseException pe) {
                 LOGGER.error("Error parsing WKT for " + sguUser, pe);
             }
         }
 
         return user;
+    }
+
+    /**
+     * Simplifies a MultiPolygon.
+     * <BR/><BR/>
+     * Simplification is performed by first removing collinear points, then
+     * by applying DouglasPeucker simplification.
+     * <BR/>Order <B>is</B> important, since it's more likely to have collinear
+     * points before applying any other simplification.
+     */
+    public static MultiPolygon simplifyMultiPolygon(final MultiPolygon mp) {
+
+        final Polygon[] simpPolys = new Polygon[mp.getNumGeometries()];
+
+        for (int i= 0; i < mp.getNumGeometries(); i++) {
+            Polygon p = (Polygon)mp.getGeometryN(i);
+            Polygon s1 = Utils.removeCollinearVertices(p);
+            TopologyPreservingSimplifier tps = new TopologyPreservingSimplifier(s1);
+            Polygon s2 = (Polygon)tps.getResultGeometry();
+            simpPolys[i] = s2;
+
+            if(LOGGER.isInfoEnabled()) {
+                LOGGER.info("RCV: simplified poly " + getPoints(p) 
+                        + " --> " + getPoints(s1)
+                        + " --> " + getPoints(s2));
+            }
+        }
+
+        // reuse existing factory
+        final GeometryFactory gf = mp.getFactory();
+        return gf.createMultiPolygon(simpPolys);
+    }
+
+    /**
+     * Return the number of points of a polygon in the format
+     * E+I0+I1+...+In
+     * where E is the number of points of the exterior ring and I0..In are
+     * the number of points of the Internal rings.
+     */
+    public static String getPoints(final Polygon p) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(p.getExteriorRing().getNumPoints());
+        for (int i = 0; i < p.getNumInteriorRing(); i++) {
+            LineString ir = p.getInteriorRingN(i);
+            sb.append('+').append(ir.getNumPoints());
+        }
+
+        return sb.toString();
     }
 
     //==========================================================================
