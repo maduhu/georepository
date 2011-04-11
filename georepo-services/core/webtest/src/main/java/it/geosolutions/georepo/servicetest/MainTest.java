@@ -73,108 +73,108 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
     protected final static String MULTIPOLYGONWKT = "MULTIPOLYGON(((48 62, 48 63, 49 63, 49 62, 48 62)))";
 
     public void afterPropertiesSet() throws Exception {
-        LOGGER.info("===== RESETTING DB DATA =====");
-        removeAll();
-        
-        LOGGER.info("===== Creating Profiles (not actually needed while testing GS) =====");
-        ShortProfile shortProfile = new ShortProfile();
-        shortProfile.setName("basic");
-        long pid1 = profileAdminService.insert(shortProfile);
-        Profile p1 = profileAdminService.get(pid1);
-
-        ShortProfile shortProfile2 = new ShortProfile();
-        shortProfile2.setName("advanced");
-        long pid2 = profileAdminService.insert(shortProfile2);
-        Profile p2 = profileAdminService.get(pid2);
-
-
-        LOGGER.info("===== Creating Users =====");
-        GSUser cite = createUser("cite");
-        cite.setProfile(p1);
-        userAdminService.insert(cite);
-
-        GSUser wmsUser = createUser("wmsuser");
-        wmsUser.setProfile(p1);
-        userAdminService.insert(wmsUser);
-        
-        GSUser areaUser = createUser("area");
-        areaUser.setProfile(p1);
-        userAdminService.insert(areaUser);
-        
-        GSUser uStates = createUser("u-states");
-        uStates.setProfile(p1);
-        userAdminService.insert(uStates);
-
-        LOGGER.info("===== Creating Rules =====");
-
-        LayerDetails ld1 = new LayerDetails();
-        ld1.getAllowedStyles().add("style1");
-        ld1.getAllowedStyles().add("style2");
-        ld1.getAttributes().add(new LayerAttribute("attr1", AccessType.NONE));
-        ld1.getAttributes().add(new LayerAttribute("attr2", AccessType.READONLY));
-        ld1.getAttributes().add(new LayerAttribute("attr3", AccessType.READWRITE));
-
-        int priority = 0;
-        
-        /* Cite user rules */
-        // allow user cite full control over the cite workspace
-        ruleAdminService.insert(new Rule(priority++, cite, null, null, null, null, "cite", null, GrantType.ALLOW));
-        // allow only getmap, getcapatbilities and reflector usage on workspace sf
-        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetMap", "sf", null, GrantType.ALLOW)));
-        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetCapabilities", "sf", null, GrantType.ALLOW)));
-        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "reflect", "sf", null, GrantType.ALLOW)));
-        // allow only GetMap and GetFeature the topp workspace
-        
-        /* wms user rules */
-        ruleAdminService.insert((new Rule(priority++, wmsUser, null, null, "wms", null, null, null, GrantType.ALLOW)));
-        
-        /* all powerful but only in a restricted area */
-        Rule areaRestriction = new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.LIMIT);
-        RuleLimits limits = new RuleLimits();
-        limits.setAllowedArea((MultiPolygon) new WKTReader().read(MULTIPOLYGONWKT));
-        long ruleId = ruleAdminService.insert(areaRestriction);
-        ruleAdminService.setLimits(ruleId, limits);
-        ruleAdminService.insert((new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.ALLOW)));
-        
-        /* some users for interactive testing with the default data directory */
-        // uStates can do whatever, but only on topp:states
-        ruleAdminService.insert(new Rule(priority++, uStates, null, null, null, null, "topp", "states", GrantType.ALLOW));
-        
-        // deny everything else
-        ruleAdminService.insert(new Rule(priority++, null, null, null,  null, null, null, null, GrantType.DENY));
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                boolean success = false;
-                int cnt = 5;
-
-                while( ! success && cnt-->0) {
-                    try{
-                        LOGGER.info("Waiting 5 secs...");
-                        Thread.sleep(5000);
-
-                        LOGGER.info("Trying creating spring remoting client...");
-                        instantiateAndRunSpringRemoting();
-
-                        success = true;
-
-                    } catch (InterruptedException ex) {
-                    }catch(Exception e) {
-                        LOGGER.warn("Failed creating spring remoting client...");
-                    }
-                }
-            }
-        }).start();
+//        LOGGER.info("===== RESETTING DB DATA =====");
+//        removeAll();
+//        
+//        LOGGER.info("===== Creating Profiles (not actually needed while testing GS) =====");
+//        ShortProfile shortProfile = new ShortProfile();
+//        shortProfile.setName("basic");
+//        long pid1 = profileAdminService.insert(shortProfile);
+//        Profile p1 = profileAdminService.get(pid1);
+//
+//        ShortProfile shortProfile2 = new ShortProfile();
+//        shortProfile2.setName("advanced");
+//        long pid2 = profileAdminService.insert(shortProfile2);
+//        Profile p2 = profileAdminService.get(pid2);
+//
+//
+//        LOGGER.info("===== Creating Users =====");
+//        GSUser cite = createUser("cite");
+//        cite.setProfile(p1);
+//        userAdminService.insert(cite);
+//
+//        GSUser wmsUser = createUser("wmsuser");
+//        wmsUser.setProfile(p1);
+//        userAdminService.insert(wmsUser);
+//        
+//        GSUser areaUser = createUser("area");
+//        areaUser.setProfile(p1);
+//        userAdminService.insert(areaUser);
+//        
+//        GSUser uStates = createUser("u-states");
+//        uStates.setProfile(p1);
+//        userAdminService.insert(uStates);
+//
+//        LOGGER.info("===== Creating Rules =====");
+//
+//        LayerDetails ld1 = new LayerDetails();
+//        ld1.getAllowedStyles().add("style1");
+//        ld1.getAllowedStyles().add("style2");
+//        ld1.getAttributes().add(new LayerAttribute("attr1", AccessType.NONE));
+//        ld1.getAttributes().add(new LayerAttribute("attr2", AccessType.READONLY));
+//        ld1.getAttributes().add(new LayerAttribute("attr3", AccessType.READWRITE));
+//
+//        int priority = 0;
+//        
+//        /* Cite user rules */
+//        // allow user cite full control over the cite workspace
+//        ruleAdminService.insert(new Rule(priority++, cite, null, null, null, null, "cite", null, GrantType.ALLOW));
+//        // allow only getmap, getcapatbilities and reflector usage on workspace sf
+//        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetMap", "sf", null, GrantType.ALLOW)));
+//        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetCapabilities", "sf", null, GrantType.ALLOW)));
+//        ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "reflect", "sf", null, GrantType.ALLOW)));
+//        // allow only GetMap and GetFeature the topp workspace
+//        
+//        /* wms user rules */
+//        ruleAdminService.insert((new Rule(priority++, wmsUser, null, null, "wms", null, null, null, GrantType.ALLOW)));
+//        
+//        /* all powerful but only in a restricted area */
+//        Rule areaRestriction = new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.LIMIT);
+//        RuleLimits limits = new RuleLimits();
+//        limits.setAllowedArea((MultiPolygon) new WKTReader().read(MULTIPOLYGONWKT));
+//        long ruleId = ruleAdminService.insert(areaRestriction);
+//        ruleAdminService.setLimits(ruleId, limits);
+//        //ruleAdminService.insert((new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.ALLOW)));
+//        
+//        /* some users for interactive testing with the default data directory */
+//        // uStates can do whatever, but only on topp:states
+//        ruleAdminService.insert(new Rule(priority++, uStates, null, null, null, null, "topp", "states", GrantType.ALLOW));
+//        
+//        // deny everything else
+//        ruleAdminService.insert(new Rule(priority++, null, null, null,  null, null, null, null, GrantType.DENY));
+//        new Thread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                boolean success = false;
+//                int cnt = 5;
+//
+//                while( ! success && cnt-->0) {
+//                    try{
+//                        LOGGER.info("Waiting 5 secs...");
+//                        Thread.sleep(5000);
+//
+//                        LOGGER.info("Trying creating spring remoting client...");
+//                        instantiateAndRunSpringRemoting();
+//
+//                        success = true;
+//
+//                    } catch (InterruptedException ex) {
+//                    }catch(Exception e) {
+//                        LOGGER.warn("Failed creating spring remoting client...");
+//                    }
+//                }
+//            }
+//        }).start();
 
 
         try {
             LOGGER.info("===== User List =====");
 
-            List<ShortUser> users = userAdminService.getAll();
-            for (ShortUser loop : users) {
-                System.out.println("User -> " + loop);
-            }
+//            List<ShortUser> users = userAdminService.getAll();
+//            for (ShortUser loop : users) {
+//                System.out.println("User -> " + loop);
+//            }
 
 
 
