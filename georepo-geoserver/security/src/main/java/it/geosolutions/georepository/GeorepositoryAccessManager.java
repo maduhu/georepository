@@ -26,23 +26,31 @@ import it.geosolutions.georepo.services.RuleReaderService;
 import it.geosolutions.georepo.services.dto.AccessInfo;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CoverageInfo;
 import org.geoserver.catalog.FeatureTypeInfo;
 import org.geoserver.catalog.LayerInfo;
 import org.geoserver.catalog.ResourceInfo;
 import org.geoserver.catalog.StoreInfo;
+import org.geoserver.catalog.StyleInfo;
 import org.geoserver.catalog.WMSLayerInfo;
 import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.ows.Dispatcher;
+import org.geoserver.ows.DispatcherCallback;
 import org.geoserver.ows.Request;
+import org.geoserver.ows.Response;
+import org.geoserver.ows.util.KvpUtils;
+import org.geoserver.platform.Operation;
+import org.geoserver.platform.Service;
+import org.geoserver.platform.ServiceException;
 import org.geoserver.security.CatalogMode;
 import org.geoserver.security.CoverageAccessLimits;
 import org.geoserver.security.DataAccessLimits;
@@ -50,11 +58,17 @@ import org.geoserver.security.ResourceAccessManager;
 import org.geoserver.security.VectorAccessLimits;
 import org.geoserver.security.WMSAccessLimits;
 import org.geoserver.security.WorkspaceAccessLimits;
+import org.geoserver.wms.GetFeatureInfo;
+import org.geoserver.wms.GetFeatureInfoRequest;
+import org.geoserver.wms.GetLegendGraphicRequest;
+import org.geoserver.wms.GetMapRequest;
+import org.geoserver.wms.MapLayerInfo;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
+import org.geotools.styling.Style;
 import org.geotools.util.Converters;
 import org.geotools.util.logging.Logging;
 import org.opengis.filter.Filter;
@@ -64,6 +78,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -74,7 +89,7 @@ import com.vividsolutions.jts.geom.MultiPolygon;
  * 
  * @author Andrea Aime - GeoSolutions
  */
-public class GeorepositoryAccessManager implements ResourceAccessManager {
+public class GeorepositoryAccessManager implements ResourceAccessManager, DispatcherCallback {
 
     static final Logger LOGGER = Logging.getLogger(GeorepositoryAccessManager.class);
 
@@ -92,16 +107,32 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
     CatalogMode catalogMode = CatalogMode.HIDE;
 
     RuleReaderService rules;
+    
+    Catalog catalog;
 
     String instanceName;
 
-    public GeorepositoryAccessManager(RuleReaderService rules, String instanceName) {
+    public GeorepositoryAccessManager(RuleReaderService rules, Catalog catalog, String instanceName) {
         this.rules = rules;
+        this.catalog = catalog;
         this.instanceName = instanceName;
 
         LOGGER.log(Level.INFO,
                 "Initializing the GeoRepository access manager with instance name {0}",
                 instanceName);
+    }
+    
+    boolean isAdmin(Authentication user) {
+        if (user.getAuthorities() != null) {
+            for (GrantedAuthority authority : user.getAuthorities()) {
+                final String userRole = authority.getAuthority();
+                if (ROOT_ROLE.equals(userRole)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -112,15 +143,10 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         String username = null;
         if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
             // shortcut, if the user is the admin, he can do everything
-            if (user.getAuthorities() != null) {
-                for (GrantedAuthority authority : user.getAuthorities()) {
-                    final String userRole = authority.getAuthority();
-                    if (ROOT_ROLE.equals(userRole)) {
-                        LOGGER.log(Level.FINE, "Admin level access, returning "
-                                + "full rights for workspace {0}" + workspace.getName());
-                        return buildAccessLimits(workspace, AccessInfo.ALLOW_ALL);
-                    }
-                }
+            if (isAdmin(user)) {
+                LOGGER.log(Level.FINE, "Admin level access, returning "
+                        + "full rights for workspace {0}" + workspace.getName());
+                return buildAccessLimits(workspace, AccessInfo.ALLOW_ALL);
             }
 
             username = user.getName();
@@ -189,15 +215,10 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         String username = null;
         if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
             // shortcut, if the user is the admin, he can do everything
-            if (user.getAuthorities() != null) {
-                for (GrantedAuthority authority : user.getAuthorities()) {
-                    final String userRole = authority.getAuthority();
-                    if (ROOT_ROLE.equals(userRole)) {
-                        LOGGER.log(Level.FINE, "Admin level access, returning "
-                                + "full rights for layer {0}" + resource.getPrefixedName());
-                        return buildAccessLimits(resource, AccessInfo.ALLOW_ALL);
-                    }
-                }
+            if (isAdmin(user)) {
+                LOGGER.log(Level.FINE, "Admin level access, returning "
+                        + "full rights for layer {0}" + resource.getPrefixedName());
+                return buildAccessLimits(resource, AccessInfo.ALLOW_ALL);
             }
 
             username = user.getName();
@@ -369,6 +390,192 @@ public class GeorepositoryAccessManager implements ResourceAccessManager {
         }
 
         return result;
+    }
+
+    @Override
+    public void finished(Request request) {
+        // nothing to do
+    }
+
+    @Override
+    public Request init(Request request) {
+        return request;
+    }
+
+    @Override
+    public Operation operationDispatched(Request gsRequest, Operation operation) {
+        // service and request
+        String service = gsRequest.getService();
+        String request = gsRequest.getRequest();
+        
+        // get the user
+        Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        String username = null;
+        if (user != null && !(user instanceof AnonymousAuthenticationToken)) {
+            // shortcut, if the user is the admin, he can do everything
+            if (isAdmin(user)) {
+                LOGGER.log(Level.FINE, "Admin level access, no applying default style for this request");
+                return operation;
+            } else {
+                username = user.getName();
+            }
+        }
+
+        if(request != null && "WMS".equalsIgnoreCase(service) && ("GetMap".equalsIgnoreCase(request) 
+                || "GetFeatureInfo".equalsIgnoreCase(request))) {
+            // extract the getmap part
+            Object ro = operation.getParameters()[0];
+            GetMapRequest getMap;
+            if(ro instanceof GetMapRequest) {
+                getMap = (GetMapRequest) ro;
+            } else if(ro instanceof GetFeatureInfoRequest) {
+                getMap = ((GetFeatureInfoRequest) ro).getGetMapRequest();
+            } else {
+                throw new ServiceException("Unrecognized request object: " + ro);
+            }
+            
+            overrideGetMapRequest(gsRequest, service, request, username, getMap);
+        } else if(request != null && "WMS".equalsIgnoreCase(service) && "GetLegendGraphic".equalsIgnoreCase(request)) {
+            overrideGetLegendGraphicRequest(gsRequest, operation, service, request, username);
+            
+        }
+        
+        return operation;
+    }
+
+    void overrideGetLegendGraphicRequest(Request gsRequest, Operation operation,
+            String service, String request, String username) {
+        // get the layer
+        String layerName = (String) gsRequest.getKvp().get("LAYER");
+        LayerInfo layer = catalog.getLayerByName(layerName);
+        ResourceInfo resource = layer.getResource();
+        
+        // get the rule, it contains default and allowed styles
+        RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        ruleFilter.setUser(username);
+        ruleFilter.setInstance(instanceName);
+        ruleFilter.setService(service);
+        ruleFilter.setRequest(request);
+        ruleFilter.setWorkspace(resource.getStore().getWorkspace().getName());
+        ruleFilter.setLayer(resource.getName());
+        AccessInfo rule = rules.getAccessInfo(ruleFilter);
+        
+        // get the request object
+        GetLegendGraphicRequest getLegend = (GetLegendGraphicRequest) operation.getParameters()[0];
+        
+        // get the requested style
+        String styleName = (String) gsRequest.getKvp().get("STYLE");
+        if(styleName == null) {
+            if(rule.getDefaultStyle() != null) {
+                try {
+                    StyleInfo si = catalog.getStyleByName(rule.getDefaultStyle());
+                    if(si == null) {
+                        throw new ServiceException("Could not find default style suggested " +
+                                    "by GeoRepository: " + rule.getDefaultStyle());
+                    }
+                    getLegend.setStyle(si.getStyle());
+                } catch (IOException e) {
+                    throw new ServiceException("Unable to load the style suggested by GeoRepository: " 
+                            + rule.getDefaultStyle(), e);
+                }
+            }
+        } else {
+            checkStyleAllowed(rule, styleName);
+        }
+    }
+
+    private void overrideGetMapRequest(Request gsRequest, String service, String request,
+            String username, GetMapRequest getMap) {
+        // basic sanity checks, we don't allow dynamic styling
+        if(getMap.getSld() != null || getMap.getSldBody() != null) {
+            throw new ServiceException("Dynamic style usage is forbidden");
+        }
+        
+        if(gsRequest.getKvp().get("layers") == null) {
+            throw new ServiceException("GetMap POST requests are forbidden");
+        }
+        
+        // parse the styles param like the kvp parser would (since we have no way,
+        // to know if a certain style was requested explicitly or defaulted, and
+        // we need to tell apart the default case from the explicit request case
+        String stylesParam = (String) gsRequest.getRawKvp().get("STYLES");
+        List<String> styleNameList = new ArrayList<String>();
+        if (stylesParam != null) {
+            styleNameList.addAll(KvpUtils.readFlat(stylesParam));
+        }
+        
+        // apply the override/security check for each layer in the request
+        List<MapLayerInfo> layers = getMap.getLayers();
+        for (int i = 0; i < layers.size(); i++) {
+            MapLayerInfo layer = layers.get(i);
+            ResourceInfo info = layer.getResource();
+            
+            if(info == null) {
+                throw new ServiceException("Remote layers are not allowed");
+            } 
+            
+            // get the rule, it contains default and allowed styles
+            RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+            ruleFilter.setUser(username);
+            ruleFilter.setInstance(instanceName);
+            ruleFilter.setService(service);
+            ruleFilter.setRequest(request);
+            ruleFilter.setWorkspace(info.getStore().getWorkspace().getName());
+            ruleFilter.setLayer(info.getName());
+            AccessInfo rule = rules.getAccessInfo(ruleFilter);
+            
+            // get the requested style name
+            String styleName = styleNameList.size() > 0 ? styleNameList.get(i) : null;
+            
+            // if default use georepo default
+            if(styleName == null && rule.getDefaultStyle() != null) {
+                try {
+                    StyleInfo si = catalog.getStyleByName(rule.getDefaultStyle());
+                    if(si == null) {
+                        throw new ServiceException("Could not find default style suggested " +
+                        		"by GeoRepository: " + rule.getDefaultStyle());
+                    }
+                    Style style = si.getStyle();
+                    getMap.getStyles().set(i, style);
+                } catch (IOException e) {
+                    throw new ServiceException("Unable to load the style suggested by GeoRepository: " 
+                            + rule.getDefaultStyle(), e);
+                }
+            } else {
+                checkStyleAllowed(rule, styleName);
+            }
+        }
+    }
+
+    private void checkStyleAllowed(AccessInfo rule, String styleName) {
+        // otherwise check if the requested style is allowed 
+        Set<String> allowedStyles = new HashSet<String>();
+        if(rule.getDefaultStyle() != null) {
+            allowedStyles.add(rule.getDefaultStyle());
+        }
+        if(rule.getAllowedStyles() != null) {
+            allowedStyles.addAll(rule.getAllowedStyles());
+        }
+        
+        if(allowedStyles.size() > 0 && !allowedStyles.contains(styleName)) {
+            throw new ServiceException("The '" + styleName + "' style is not available on this layer");
+        }
+    }
+
+    @Override
+    public Object operationExecuted(Request request, Operation operation, Object result) {
+        return result;
+    }
+
+    @Override
+    public Response responseDispatched(Request request, Operation operation, Object result,
+            Response response) {
+        return response;
+    }
+
+    @Override
+    public Service serviceDispatched(Request request, Service service) throws ServiceException {
+        return service;
     }
 
 }
