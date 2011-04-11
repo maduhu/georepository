@@ -282,6 +282,8 @@ public class GSUser implements Serializable {
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((profile == null) ? 0 : profile.hashCode());
+        result = prime * result + ((allowedArea == null) ? 0 : allowedArea.hashCode());
+        result = prime * result + ((allowedArea == null) ? 0 : allowedArea.getSRID());
         return result;
     }
 
@@ -328,6 +330,15 @@ public class GSUser implements Serializable {
                 return false;
             }
         } else if (!profile.equals(other.profile)) {
+            return false;
+        }
+        if (allowedArea == null) {
+            if (other.allowedArea != null) {
+                return false;
+            }
+        } else if (!allowedArea.equals(other.allowedArea)) {
+            return false;
+        } else if(other.allowedArea != null && other.allowedArea.getSRID() != allowedArea.getSRID()) {
             return false;
         }
         return true;

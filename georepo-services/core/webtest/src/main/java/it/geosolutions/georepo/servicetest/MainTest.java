@@ -40,9 +40,8 @@ import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;

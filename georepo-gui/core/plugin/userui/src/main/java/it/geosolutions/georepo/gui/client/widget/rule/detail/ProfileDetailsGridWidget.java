@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
 import com.extjs.gxt.ui.client.data.LoadEvent;
@@ -78,7 +77,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 /**
- * The Class LayerCustomPropsGridWidget.
+ * The Class ProfileDetailsGridWidget.
  */
 public class ProfileDetailsGridWidget extends GeoRepoGridWidget<ProfileCustomProps> {
 

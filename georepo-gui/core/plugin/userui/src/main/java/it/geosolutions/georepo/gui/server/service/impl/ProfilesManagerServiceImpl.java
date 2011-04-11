@@ -166,7 +166,7 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
                 ShortProfile short_profile = new ShortProfile();
                 short_profile.setId(remote_profile.getId());
                 short_profile.setName(profile.getName());
-                short_profile.setEnabled(profile.isEnabled());
+                short_profile.setEnabled(profile.isEnabled());                
                 georepoRemoteService.getProfileAdminService().update(short_profile);
             } catch (ResourceNotFoundFault e) {
                 logger.error(e.getLocalizedMessage(), e.getCause());

@@ -33,6 +33,7 @@
 package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -77,4 +78,16 @@ public interface GsUsersManagerServiceRemoteAsync {
      */
     public void deleteGsUser(GSUser user, AsyncCallback<PagingLoadResult<GSUser>> callback);
 
+    /**
+     * @param user
+     * @param callback
+     */
+    public void getUserLimitsInfo(GSUser user, AsyncCallback<UserLimitsInfo> callback);
+    
+    /**
+     * @param user
+     * @param callback
+     */
+    public void saveUserLimitsInfo(UserLimitsInfo userLimitInfo, AsyncCallback<UserLimitsInfo> callback);
+    
 }

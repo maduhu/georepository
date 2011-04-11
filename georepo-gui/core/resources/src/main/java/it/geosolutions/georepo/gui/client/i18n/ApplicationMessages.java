@@ -813,6 +813,13 @@ public interface ApplicationMessages extends Messages {
     public String uploadShapeFileToolTip();
 
     /**
+     * User fetch success message.
+     * 
+     * @return the string
+     */
+    public String userFetchSuccessMessage();
+    
+    /**
      * User management label.
      * 
      * @return the string
@@ -825,6 +832,13 @@ public interface ApplicationMessages extends Messages {
      * @return the string
      */
     public String usernameLabel();
+    
+    /**
+     * User service Name.
+     * 
+     * @return the string
+     */
+    public String userServiceName();
 
     /**
      * Watches management label.
@@ -1112,6 +1126,13 @@ public interface ApplicationMessages extends Messages {
      * @return String
      */
     public String profileDialogId();
+    
+    /**
+     * The User Details Edit Dialog ID
+     * 
+     * @return String
+     */
+    public String userDialogId();
 
     // ///////////////////////////
     // PLEASE KEEP THIS FILE SORTED ALPHABETICALLY! Thank you.

@@ -21,6 +21,15 @@
 package it.geosolutions.georepo.services.webgis.impl;
 
 import com.trg.search.Search;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
+import com.vividsolutions.jts.simplify.DouglasPeuckerLineSimplifier;
+import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 import it.geosolutions.georepo.core.dao.GSUserDAO;
 import it.geosolutions.georepo.core.dao.ProfileDAO;
 import it.geosolutions.georepo.core.model.GSUser;
@@ -30,10 +39,12 @@ import it.geosolutions.georepo.services.webgis.model.SGUProfile;
 import it.geosolutions.georepo.services.webgis.model.SGUProfileList;
 import it.geosolutions.georepo.services.webgis.model.SGUUser;
 import it.geosolutions.georepo.services.webgis.model.SGUUserList;
+import jaitools.jts.Utils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 /**
  *
@@ -43,6 +54,8 @@ public class WGSGUServiceImpl implements SGUService {
     private final static Logger LOGGER = Logger.getLogger(WGSGUServiceImpl.class);
 
     private static final String EXTERNAL_ID_KEY = "sgu_id";
+
+    private final static String SAMPLE_AREA = "MULTIPOLYGON (((414699.55 130160.43, 414701.83 130149.9, 414729.2 130155.7, 414729.2 130155.7, 414733.25 130149.8, 414735.1 130140.9, 414743.75 130142.7, 414740.6 130158.15, 414742.15 130158.5, 414739.65 130169.25, 414728.05 130166.65, 414727.77 130167.93, 414724.52 130167.19, 414717.65 130165.63, 414717.85 130164.45, 414699.55 130160.43)))";
 
     private GSUserDAO gsUserDAO;
     private ProfileDAO profileDAO;
@@ -64,6 +77,7 @@ public class WGSGUServiceImpl implements SGUService {
         return list;
     }
 
+
     @Override
     public SGUUserList getUsers() {
         SGUUserList list = new SGUUserList();
@@ -71,17 +85,18 @@ public class WGSGUServiceImpl implements SGUService {
         SGUUser user = new SGUUser();
         user.setSguId("u1");
         user.setUserName("sample_user_1");
-        user.setGeomTableName("table1");
-        user.setGeomIdField("field1");
-        user.setGeomId("fid#100");
+        user.setProfile("profile_1");
+        user.setEnabled(true);
+        user.setWkt(SAMPLE_AREA);
         list.getUserList().add(user);
 
         user = new SGUUser();
         user.setSguId("u2");
-        user.setUserName("sample_user_2");
-        user.setGeomTableName("table2");
-        user.setGeomIdField("field2");
-        user.setGeomId("fid#200");
+        user.setUserName("sample_user_2_disabled");
+        user.setProfile("profile_2");
+        user.setEnabled(false);
+        user.setWkt(null);
+
         list.getUserList().add(user);
 
         return list;
@@ -152,61 +167,145 @@ public class WGSGUServiceImpl implements SGUService {
         LOGGER.info("Got " + sguList);
         int cntNew = 0;
         int cntErr = 0;
+        int cntEx = 0;
         int cntUp = 0;
         int cntOld = 0;
 
         ProfileCache profileCache = new ProfileCache(profileDAO);
 
         for (SGUUser sguUser : sguList.getUserList()) {
-            Search search = new Search(GSUser.class).addFilterEqual("extId", sguUser.getSguId());
-            List<GSUser> geoRepoList = gsUserDAO.search(search);
+            try {
+                Search search = new Search(GSUser.class).addFilterEqual("extId", sguUser.getSguId());
+                List<GSUser> geoRepoList = gsUserDAO.search(search);
 
-            switch (geoRepoList.size()) {
-                case 0:
-                    LOGGER.info("Importing new " + sguUser);
-                    GSUser user = createUser(sguUser, profileCache);
-                    if(user == null) {
-                        cntErr++;
-                        LOGGER.error("Error creating new user from " + sguUser);
-                    } else {
-                        cntNew++;
-                        gsUserDAO.persist(user);
-                    }
-                    break;
-                case 1:
-                    GSUser oldUser = geoRepoList.get(0);                    
+                switch (geoRepoList.size()) {
+                    case 0:
+                        LOGGER.info("Importing new " + sguUser);
+                        GSUser user = createUser(sguUser, profileCache);
+                        if (user == null) {
+                            cntErr++;
+                            LOGGER.error("Error creating new user from " + sguUser);
+                        } else {
+                            cntNew++;
+                            gsUserDAO.persist(user);
+                        }
+                        break;
+                    case 1:
+                        GSUser oldUser = geoRepoList.get(0);
+                        boolean updated = update(sguUser, oldUser); // TODO: define policy for updating user (geom may be changed)
 
-                    if( oldUser.getName().equals(sguUser.getUserName())) { // TODO: define policy for updating user (geom may be changed)
-                        cntOld++;
-                    } else {
-                        cntUp++;
-                        LOGGER.info("Updating " + sguUser + " -- old name : " + oldUser.getName());
-                        oldUser.setName(sguUser.getUserName()); // TODO: maybe some other stuff to update...
-                        gsUserDAO.merge(oldUser);
-                    }
-                    break;
-                default:
-                    LOGGER.error("Found " + geoRepoList.size() + " users related to " + sguUser + " Please check and fix the DB.");
+                        if ( updated ) {
+                            cntOld++;
+                        } else {
+                            cntUp++;
+                            LOGGER.info("Updating " + sguUser + " -- userId : " + oldUser.getId());
+                            gsUserDAO.merge(oldUser);
+                        }
+                        break;
+                    default:
+                        LOGGER.error("Found " + geoRepoList.size() + " users related to " + sguUser + " Please check and fix the DB.");
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error importing " + sguList, e);
+                cntEx++;
             }
-
         }
-        LOGGER.info("setUsers: new:" + cntNew + " updated:" + cntUp + " existing:" + cntOld + " err:"+cntErr);
+        LOGGER.info("setUsers: new:" + cntNew + " updated:" + cntUp + " existing:" + cntOld + " err:"+cntErr + " ex:"+cntEx);
         return "OK";
     }
 
-    private GSUser createUser(SGUUser su, ProfileCache profileCache) {
+    // TODO: add the fields you want to update
+    private boolean update(SGUUser sgu, GSUser gs) {
+        boolean updated = false;
+        if(! sgu.getUserName().equals(gs.getName())) {
+            updated = true;
+            gs.setName(sgu.getUserName());
+        }
+        if( sgu.isEnabled() != gs.getEnabled()) {
+            updated = true;
+            gs.setEnabled(sgu.isEnabled());
+        }
+        return updated;
+    }
+
+    private GSUser createUser(SGUUser sguUser, ProfileCache profileCache) {
         GSUser user = new GSUser();
-        user.setName(su.getUserName());
-        user.setExtId(su.getSguId());
-        Profile profile = profileCache.get(su.getProfileId());
+        user.setName(sguUser.getUserName());
+        user.setExtId(sguUser.getSguId());
+
+        Profile profile = profileCache.get(sguUser.getProfile());
         if(profile == null)
             return null;
         user.setProfile(profile);
 
+        user.setEnabled(sguUser.isEnabled());
 
-        // TODO:::: RETRIEVE GEOMETRY FROM EXTERNAL TABLE
+        String wkt = sguUser.getWkt();
+        Integer srid = sguUser.getSrid();
+        if(wkt != null && ! wkt.trim().isEmpty()) {
+            final WKTReader wktReader = new WKTReader(); // should be made static? is it threadsafe?
+            try {
+                MultiPolygon the_geom = (MultiPolygon) wktReader.read(wkt);
+                int isrid = srid!= null? srid.intValue() : 4326;
+                the_geom.setSRID(isrid);
+
+                MultiPolygon simp = simplifyMultiPolygon(the_geom);
+                simp.setSRID(isrid);
+                user.setAllowedArea(simp);
+            } catch (ParseException pe) {
+                LOGGER.error("Error parsing WKT for " + sguUser, pe);
+            }
+        }
 
         return user;
+    }
+
+    /**
+     * Simplifies a MultiPolygon.
+     * <BR/><BR/>
+     * Simplification is performed by first removing collinear points, then
+     * by applying DouglasPeucker simplification.
+     * <BR/>Order <B>is</B> important, since it's more likely to have collinear
+     * points before applying any other simplification.
+     */
+    public static MultiPolygon simplifyMultiPolygon(final MultiPolygon mp) {
+
+        final Polygon[] simpPolys = new Polygon[mp.getNumGeometries()];
+
+        for (int i= 0; i < mp.getNumGeometries(); i++) {
+            Polygon p = (Polygon)mp.getGeometryN(i);
+            Polygon s1 = Utils.removeCollinearVertices(p);
+            TopologyPreservingSimplifier tps = new TopologyPreservingSimplifier(s1);
+            Polygon s2 = (Polygon)tps.getResultGeometry();
+            simpPolys[i] = s2;
+
+            if(LOGGER.isInfoEnabled()) {
+                LOGGER.info("RCV: simplified poly " + getPoints(p) 
+                        + " --> " + getPoints(s1)
+                        + " --> " + getPoints(s2));
+            }
+        }
+
+        // reuse existing factory
+        final GeometryFactory gf = mp.getFactory();
+        return gf.createMultiPolygon(simpPolys);
+    }
+
+    /**
+     * Return the number of points of a polygon in the format
+     * E+I0+I1+...+In
+     * where E is the number of points of the exterior ring and I0..In are
+     * the number of points of the Internal rings.
+     */
+    public static String getPoints(final Polygon p) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(p.getExteriorRing().getNumPoints());
+        for (int i = 0; i < p.getNumInteriorRing(); i++) {
+            LineString ir = p.getInteriorRingN(i);
+            sb.append('+').append(ir.getNumPoints());
+        }
+
+        return sb.toString();
     }
 
     //==========================================================================

@@ -27,6 +27,9 @@ public class LayerDetailsInfo extends BeanModel {
 
     private String allowedArea;
 
+    private String srid;
+   
+
     /**
      * Instantiates a new style.
      */
@@ -125,6 +128,21 @@ public class LayerDetailsInfo extends BeanModel {
         this.allowedArea = allowedArea;
         set(BeanKeyValue.ALLOWED_AREA.getValue(), this.allowedArea);
     }
+    
+    /**
+     * @return the srid
+     */
+    public String getSrid() {
+        return srid;
+    }
+
+    /**
+     * @param srid the srid to set
+     */
+    public void setSrid(String srid) {
+        this.srid = srid;
+        set(BeanKeyValue.RULE_ALLOWED_AREA_SRID.getValue(), this.srid);
+    }
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
@@ -138,6 +156,7 @@ public class LayerDetailsInfo extends BeanModel {
         result = prime * result + ((cqlFilterRead == null) ? 0 : cqlFilterRead.hashCode());
         result = prime * result + ((cqlFilterWrite == null) ? 0 : cqlFilterWrite.hashCode());
         result = prime * result + ((allowedArea == null) ? 0 : allowedArea.hashCode());
+        result = prime * result + ((srid == null) ? 0 : srid.hashCode());
         return result;
     }
 
@@ -197,6 +216,14 @@ public class LayerDetailsInfo extends BeanModel {
         } else if (!allowedArea.equals(other.allowedArea)) {
             return false;
         }
+        
+        if (srid == null) {
+            if (other.srid != null) {
+                return false;
+            }
+        } else if (!srid.equals(other.srid)) {
+            return false;
+        }
 
         return true;
     }
@@ -219,6 +246,8 @@ public class LayerDetailsInfo extends BeanModel {
             builder.append("cqlFilterWrite=").append(cqlFilterWrite).append(", ");
         if (allowedArea != null)
             builder.append("allowedArea=").append(allowedArea).append(", ");
+        if (srid != null)
+            builder.append("srid=").append(srid).append(", ");
 
         builder.append("]");
         return builder.toString();

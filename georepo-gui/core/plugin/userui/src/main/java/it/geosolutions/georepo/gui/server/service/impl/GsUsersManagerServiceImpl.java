@@ -35,6 +35,7 @@ package it.geosolutions.georepo.gui.server.service.impl;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 import it.geosolutions.georepo.gui.server.service.IGsUsersManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 import it.geosolutions.georepo.services.dto.ShortUser;
@@ -51,8 +52,10 @@ import org.springframework.stereotype.Component;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GsUsersManagerServiceImpl.
  */
@@ -199,5 +202,72 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             logger.error(e.getLocalizedMessage(), e.getCause());
             throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
         }
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IGsUsersManagerService#getUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
+     */
+    public UserLimitsInfo getUserLimitsInfo(GSUser user) throws ApplicationException {
+        Long userId = user.getId();
+        it.geosolutions.georepo.core.model.GSUser gsUser = null;
+        UserLimitsInfo userLimitInfo = null;
+
+        try {
+            gsUser = georepoRemoteService.getUserAdminService().get(userId);
+            
+            if (gsUser != null) {
+                userLimitInfo = new UserLimitsInfo();
+                userLimitInfo.setUserId(userId);
+                
+                MultiPolygon the_geom = gsUser.getAllowedArea();
+                
+                if(the_geom != null){
+                    userLimitInfo.setAllowedArea(the_geom.toText());
+                    userLimitInfo.setSrid(String.valueOf(the_geom.getSRID()));
+                }else{
+                    userLimitInfo.setAllowedArea(null);
+                    userLimitInfo.setSrid(null);
+                }
+            }
+        } catch (ResourceNotFoundFault e) {
+            logger.error(e.getMessage(), e);
+            throw new ApplicationException(e.getMessage(), e);
+        }
+
+        return userLimitInfo;
+    }
+    
+    /* (non-Javadoc)
+     * @see it.geosolutions.georepo.gui.server.service.IGsUsersManagerService#saveUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
+     */
+    public UserLimitsInfo saveUserLimitsInfo(UserLimitsInfo userLimitInfo) throws ApplicationException {
+
+        Long userId = userLimitInfo.getUserId();
+        it.geosolutions.georepo.core.model.GSUser gsUser = null;
+
+        try {
+            gsUser = georepoRemoteService.getUserAdminService().get(userId);
+            
+            String allowedArea = userLimitInfo.getAllowedArea();
+            
+            if(allowedArea != null){
+                WKTReader wktReader = new WKTReader();
+                MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);
+                the_geom.setSRID(Integer.valueOf(userLimitInfo.getSrid()).intValue());
+                gsUser.setAllowedArea(the_geom);
+            }else{
+                gsUser.setAllowedArea(null); 
+            }
+
+            georepoRemoteService.getUserAdminService().update(gsUser);
+        } catch (ResourceNotFoundFault e) {
+            logger.error(e.getMessage(), e);
+            throw new ApplicationException(e.getMessage(), e);
+        } catch (ParseException e) {
+            logger.error(e.getMessage(), e);
+            throw new ApplicationException(e.getMessage(), e);
+        }
+
+        return userLimitInfo;
     }
 }

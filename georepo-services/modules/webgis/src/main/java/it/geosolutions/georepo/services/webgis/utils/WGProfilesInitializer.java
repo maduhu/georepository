@@ -33,8 +33,11 @@ import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.core.model.enums.LayerType;
 import it.geosolutions.georepo.services.webgis.model.TOCLayer;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -63,6 +66,7 @@ public class WGProfilesInitializer implements InitializingBean {
         {
             Profile profile = new Profile();
             profile.setName("Avanzato");
+            profile.setDateCreation(new Date());
             profileDAO.persist(profile);
             Map<String, String> props = new HashMap<String, String>();
             props.put("XXXdoubleMap", "true");
@@ -72,6 +76,7 @@ public class WGProfilesInitializer implements InitializingBean {
         {
             Profile profile = new Profile();
             profile.setName("Analisi");
+            profile.setDateCreation(new Date());
             profileDAO.persist(profile);
             Map<String, String> props = new HashMap<String, String>();
             props.put("QQQdoubleMap", "true");
@@ -83,7 +88,7 @@ public class WGProfilesInitializer implements InitializingBean {
         instance.setBaseURL("http://demo.geo-solutions.it/geoserver/");
         instance.setName("GS@demo");
         instance.setUsername("admin");
-        instance.setPassword("geoserver");
+        instance.setPassword("1geosolutions2");
 
         instanceDAO.persist(instance);
 
@@ -107,6 +112,7 @@ public class WGProfilesInitializer implements InitializingBean {
     protected Profile createBaseProfile() {
         Profile profile = new Profile();
         profile.setName("Base");
+        profile.setDateCreation(new Date());
         profileDAO.persist(profile);
         Map<String, String> props = new HashMap<String, String>();
         props.put("doubleMap", "true");
@@ -132,7 +138,7 @@ public class WGProfilesInitializer implements InitializingBean {
         this.ruleDAO = dao;
     }
 
-    public void setLayerdetailsDAO(LayerDetailsDAO dao) {
+    public void setLayerDetailsDAO(LayerDetailsDAO dao) {
         LOGGER.info("Setting DAO " + dao);
         this.detailsDAO = dao;
     }

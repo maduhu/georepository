@@ -1,38 +1,34 @@
 package it.geosolutions.georepo.gui.client.widget.dialog;
 
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
 import it.geosolutions.georepo.gui.client.widget.SaveStaus;
-import it.geosolutions.georepo.gui.client.widget.rule.detail.ProfileDetailsTabItem;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.UserDetailsTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
 import com.extjs.gxt.ui.client.widget.Dialog;
-import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 
 /**
- * ProfileDetailsEditDialog class.
+ * UserDetailsEditDialog class.
  * 
  * @author Tobia di Pisa
  *
  */
-public class ProfileDetailsEditDialog  extends Dialog {
+public class UserDetailsEditDialog  extends Dialog {
 
-    /** The Constant PROFILE_DETAILS_DIALOG_ID. */
-    public static final String PROFILE_DETAILS_DIALOG_ID = "profileDetailsDialog";
+    /** The Constant USER_DETAILS_DIALOG_ID. */
+    public static final String USER_DETAILS_DIALOG_ID = "userDetailsDialog";
 
     /** The save status. */
     private SaveStaus saveStatus;
 
-    /** The done. */
-    private Button done;
-    
     /** The model. */
-    private Profile profile;
+    private GSUser user;
 
-    /** The rules manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemoteAsync;
+    /** The user manager service remote. */
+    private GsUsersManagerServiceRemoteAsync usersManagerServiceRemoteAsync;
 
     /** The tab widget. */
     private TabWidget tabWidget;
@@ -43,8 +39,8 @@ public class ProfileDetailsEditDialog  extends Dialog {
      * @param rulesManagerServiceRemote
      *            the rules manager service remote
      */
-    public ProfileDetailsEditDialog(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemoteAsync) {
-        this.profilesManagerServiceRemoteAsync = profilesManagerServiceRemoteAsync;
+    public UserDetailsEditDialog(GsUsersManagerServiceRemoteAsync usersManagerServiceRemoteAsync) {
+        this.usersManagerServiceRemoteAsync = usersManagerServiceRemoteAsync;
 
         setTabWidget(new TabWidget());
         
@@ -54,7 +50,7 @@ public class ProfileDetailsEditDialog  extends Dialog {
         setModal(true);
         setWidth(700);
         setHeight(427);
-        setId(I18nProvider.getMessages().profileDialogId());
+        setId(I18nProvider.getMessages().userDialogId());
         
         add(this.getTabWidget());
     }
@@ -83,10 +79,9 @@ public class ProfileDetailsEditDialog  extends Dialog {
         super.show();
 
         if (getModel() != null) {
-            setHeading("Editing Profile Details for Profile #" + profile.getId());
-            this.tabWidget.add(new ProfileDetailsTabItem(PROFILE_DETAILS_DIALOG_ID, profile,
-                    profilesManagerServiceRemoteAsync));
-
+            setHeading("Editing User Details for User #" + user.getId());
+            this.tabWidget.add(new UserDetailsTabItem(USER_DETAILS_DIALOG_ID, user,
+                    usersManagerServiceRemoteAsync));
         }
 
     }
@@ -105,15 +100,15 @@ public class ProfileDetailsEditDialog  extends Dialog {
      * @param model
      *            the new model
      */
-    public void setModel(Profile profile) {
-        this.profile = profile;
+    public void setModel(GSUser user) {
+        this.user = user;
     }
 
     /* (non-Javadoc)
      * @see com.extjs.gxt.ui.client.widget.Component#getModel()
      */
-    public Profile getModel() {
-        return this.profile;
+    public GSUser getModel() {
+        return this.user;
     }
 
     /**

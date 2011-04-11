@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.client.service;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
@@ -102,4 +103,18 @@ public interface GsUsersManagerServiceRemote extends RemoteService {
      *             the application exception
      */
     public void deleteGsUser(GSUser user) throws ApplicationException;
+    
+    /**
+     * @param user
+     * @return UserLimitInfo
+     * @throws ApplicationException
+     */
+    public UserLimitsInfo getUserLimitsInfo(GSUser user) throws ApplicationException;
+    
+    /**
+     * @param user
+     * @return UserLimitInfo
+     * @throws ApplicationException
+     */
+    public UserLimitsInfo saveUserLimitsInfo(UserLimitsInfo userLimitInfo) throws ApplicationException;
 }

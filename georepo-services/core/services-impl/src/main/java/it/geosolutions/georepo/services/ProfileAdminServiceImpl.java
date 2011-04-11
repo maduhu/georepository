@@ -48,6 +48,7 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
         Profile p = new Profile();
         p.setName(profile.getName());
         p.setEnabled(profile.isEnabled());
+        p.setDateCreation(profile.getDateCreation());
         profileDAO.persist(p);
         return p.getId();
     }

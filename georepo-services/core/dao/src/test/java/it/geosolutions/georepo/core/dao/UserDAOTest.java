@@ -20,6 +20,8 @@
 
 package it.geosolutions.georepo.core.dao;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.MultiPolygon;
 import it.geosolutions.georepo.core.model.GSUser;
 
 import org.junit.Test;
@@ -54,6 +56,46 @@ public class UserDAOTest extends BaseDAOTest {
             GSUser loaded2 = userDAO.find(id);
             assertNotNull("Can't retrieve user", loaded2);
             assertNotNull(loaded2.getAllowedArea());
+        }
+
+        userDAO.removeById(id);
+        assertNull("User not deleted", userDAO.find(id));
+    }
+
+    @Test
+    public void testUpdateSRID() throws Exception {
+
+        final int srid2 = 4326;
+        final int srid1 = 8307;
+
+        long id;
+        {
+            GSUser user = createUserAndProfile(getName());
+            MultiPolygon mp = buildMultiPolygon();
+            mp.setSRID(srid1);
+            user.setAllowedArea(mp);
+            userDAO.persist(user);
+            id = user.getId();
+        }
+
+        // test save & load
+        {
+            GSUser loaded = userDAO.find(id);
+            assertNotNull("Can't retrieve user", loaded);
+            assertEquals("bad SRID", srid1, loaded.getAllowedArea().getSRID());
+
+            MultiPolygon mp = buildMultiPolygon();
+            mp.setSRID(srid2);
+            loaded.setAllowedArea(mp);
+            assertEquals("SRID not set", srid2, loaded.getAllowedArea().getSRID());
+
+            userDAO.merge(loaded);
+        }
+
+        {
+            GSUser loaded = userDAO.find(id);
+            assertNotNull("Can't retrieve user", loaded);
+            assertEquals("SRID not updated", srid2, loaded.getAllowedArea().getSRID());
         }
 
         userDAO.removeById(id);

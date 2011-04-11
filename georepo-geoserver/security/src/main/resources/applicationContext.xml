@@ -32,7 +32,8 @@
 
 	<bean id="georeposityRuleAccessManager" class="it.geosolutions.georepository.GeorepositoryAccessManager">
 		<constructor-arg index="0" ref="ruleReaderService" />
-		<constructor-arg index="1" value="${instanceName}" />
+		<constructor-arg index="1" ref="rawCatalog" />
+		<constructor-arg index="2" value="${instanceName}" />
 	</bean>
 
 </beans>
