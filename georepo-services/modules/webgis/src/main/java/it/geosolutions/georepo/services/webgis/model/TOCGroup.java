@@ -36,7 +36,7 @@ public class TOCGroup {
 
     private String title;
     private String url;
-    private final boolean visible = false;
+    private boolean visible = true;
     private List<TOCLayer> layerList = new ArrayList<TOCLayer>();
 
     @XmlElement(name="layer")
@@ -69,6 +69,10 @@ public class TOCGroup {
     @XmlAttribute
     public boolean isVisible() {
         return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     @Override
