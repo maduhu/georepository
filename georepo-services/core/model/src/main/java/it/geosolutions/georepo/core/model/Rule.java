@@ -118,7 +118,7 @@ public class Rule implements Serializable {
     private String layer;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "grant_type", nullable = false)
     private GrantType access;
 
     @OneToOne(optional = true, cascade = CascadeType.REMOVE, mappedBy = "rule") // main ref is in LayerDetails
