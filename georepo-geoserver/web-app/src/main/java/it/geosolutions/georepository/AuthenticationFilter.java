@@ -74,13 +74,25 @@ public class AuthenticationFilter implements Filter {
                     new GrantedAuthority[] {new GrantedAuthorityImpl(ANONYMOUS_ROLE)});
         }
         
-        if(authentication instanceof AnonymousAuthenticationToken && (httpRequest.getPathInfo().startsWith("/web"))) {
+        /* if(authentication instanceof AnonymousAuthenticationToken && (httpRequest.getPathInfo().startsWith("/web"))) {
             httpResponse.addHeader("WWW-Authenticate", "Basic realm=\"geoserver\"");
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please authenticate as administrator");
         } else if(httpRequest.getPathInfo().startsWith("/j_spring_security_logout")) {
             // send them back to the home page
             httpResponse.addHeader("WWW-Authenticate", "Basic realm=\"geoserver\"");
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/web");
+        } else {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            chain.doFilter(httpRequest, response);
+        } */
+        
+        if(httpRequest.getPathInfo().startsWith("/j_spring_security_logout")) {
+            // send them back to the home page
+            httpResponse.addHeader("WWW-Authenticate", "Basic realm=\"geoserver\"");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/web");
+        } else if(authentication instanceof AnonymousAuthenticationToken) {
+            httpResponse.addHeader("WWW-Authenticate", "Basic realm=\"geoserver\"");
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please authenticate as administrator");
         } else {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(httpRequest, response);
