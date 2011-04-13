@@ -1142,7 +1142,7 @@ public class RuleGridWidget extends GeoRepoGridWidget<Rule> {
         this.toolBar = new PagingToolBar(
                 it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
-        // Loader fro rulesService
+        // Loader for rulesService
         this.proxy = new RpcProxy<PagingLoadResult<Rule>>() {
 
             @Override

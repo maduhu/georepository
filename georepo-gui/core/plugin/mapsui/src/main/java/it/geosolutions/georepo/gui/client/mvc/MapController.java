@@ -52,12 +52,19 @@ public class MapController extends Controller {
     public MapController() {
         registerEventTypes(
                 GeoRepoEvents.INIT_MAPS_UI_MODULE,
-                GeoRepoEvents.ATTACH_MAP_WIDGET, GeoRepoEvents.UPDATE_MAP_SIZE,
-                GeoRepoEvents.ATTACH_TOOLBAR, GeoRepoEvents.ACTIVATE_DRAW_FEATURES,
-                GeoRepoEvents.DEACTIVATE_DRAW_FEATURES, GeoRepoEvents.ERASE_AOI_FEATURES,
-                GeoRepoEvents.ENABLE_DRAW_BUTTON, GeoRepoEvents.DISABLE_DRAW_BUTTON,
-                GeoRepoEvents.DRAW_AOI_ON_MAP, GeoRepoEvents.ZOOM_TO_CENTER,
-                GeoRepoEvents.ADMIN_MODE_CHANGE, GeoRepoEvents.LOGIN_SUCCESS);
+                GeoRepoEvents.ATTACH_MAP_WIDGET, 
+                GeoRepoEvents.UPDATE_MAP_SIZE,
+                GeoRepoEvents.ATTACH_TOOLBAR, 
+                GeoRepoEvents.ACTIVATE_DRAW_FEATURES,
+                GeoRepoEvents.DEACTIVATE_DRAW_FEATURES, 
+                GeoRepoEvents.ERASE_AOI_FEATURES,
+                GeoRepoEvents.ENABLE_DRAW_BUTTON, 
+                GeoRepoEvents.DISABLE_DRAW_BUTTON,
+                GeoRepoEvents.DRAW_AOI_ON_MAP, 
+                GeoRepoEvents.ZOOM_TO_CENTER,
+                GeoRepoEvents.ADMIN_MODE_CHANGE, 
+                GeoRepoEvents.LOGIN_SUCCESS
+         );
     }
 
     /*
