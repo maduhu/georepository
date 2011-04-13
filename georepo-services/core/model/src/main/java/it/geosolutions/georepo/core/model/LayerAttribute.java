@@ -44,7 +44,7 @@ public class LayerAttribute implements Serializable {
     @Column(nullable=false)
     private String name;
 
-    @Column
+    @Column(name="data_type")
     private String datatype; // should be an enum?
 
     /** 
@@ -57,7 +57,7 @@ public class LayerAttribute implements Serializable {
      *
      */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true /*false*/)
+    @Column(name="access_type", nullable = true /*false*/)
     private AccessType access;
 
     public LayerAttribute() {
