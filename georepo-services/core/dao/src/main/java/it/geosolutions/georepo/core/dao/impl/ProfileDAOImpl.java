@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.trg.search.ISearch;
 import it.geosolutions.georepo.core.dao.ProfileDAO;
 import it.geosolutions.georepo.core.model.Profile;
+import java.util.Date;
 import javax.persistence.Query;
 import org.hibernate.Hibernate;
 
@@ -45,6 +46,11 @@ public class ProfileDAOImpl extends BaseDAO<Profile, Long>
 
     @Override
     public void persist(Profile... entities) {
+        Date now = new Date();
+        for (Profile profile : entities) {
+            profile.setDateCreation(now);
+        }
+
         super.persist(entities);
     }
 
