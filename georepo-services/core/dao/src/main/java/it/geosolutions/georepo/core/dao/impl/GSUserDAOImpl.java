@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.trg.search.ISearch;
 import com.vividsolutions.jts.geom.MultiPolygon;
+import java.util.Date;
 
 /**
  * Public implementation of the GSUserDAO interface
@@ -44,6 +45,10 @@ public class GSUserDAOImpl extends BaseDAO<GSUser, Long>
 
     @Override
     public void persist(GSUser... entities) {
+        Date now = new Date();
+        for (GSUser user : entities) {
+            user.setDateCreation(now);
+        }
         super.persist(entities);
     }
 

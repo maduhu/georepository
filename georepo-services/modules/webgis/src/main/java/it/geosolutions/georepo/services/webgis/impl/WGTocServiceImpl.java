@@ -21,13 +21,11 @@
 package it.geosolutions.georepo.services.webgis.impl;
 
 import it.geosolutions.georepo.core.model.GSInstance;
-import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
-import it.geosolutions.georepo.services.InstanceAdminService;
 import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
@@ -48,8 +46,6 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import org.apache.log4j.Logger;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.styling.SLDParser;
@@ -103,6 +99,9 @@ public class WGTocServiceImpl implements WebGisTOCService {
                     }
                     if (group != null) {
                         group.getLayerList().add(tocl);
+                        if( ! "1".equals(props.get(TOCLayer.TOCProps.visible.name()))) {
+                            group.setVisible(false);
+                        }
                     }
                     if (bg != null) {
                         bg.getLayerList().add(tocl);
@@ -159,7 +158,8 @@ public class WGTocServiceImpl implements WebGisTOCService {
         if(group == null) {
             group = new TOCGroup();
             group.setTitle(groupTitle);
-            group.setUrl(instance.getBaseURL());
+//            group.setUrl(instance.getBaseURL());
+            group.setUrl("SDI"); // webgis will set the URL on its own
             groups.put(groupKey, group);
         }
 
