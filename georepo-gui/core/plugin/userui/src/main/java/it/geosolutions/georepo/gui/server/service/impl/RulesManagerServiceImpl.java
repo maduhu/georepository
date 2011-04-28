@@ -162,8 +162,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 all.setName("*");
                 local_rule.setProfile(all);
             } else {
-                it.geosolutions.georepo.core.model.Profile remote_profile = remote_rule
-                        .getProfile();
+                it.geosolutions.georepo.core.model.Profile remote_profile = remote_rule.getProfile();
                 Profile local_profile = new Profile();
                 local_profile.setId(remote_profile.getId());
                 local_profile.setName(remote_profile.getName());
@@ -176,8 +175,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 all.setName("*");
                 all.setBaseURL("*");
             } else {
-                it.geosolutions.georepo.core.model.GSInstance remote_instance = remote_rule
-                        .getInstance();
+                it.geosolutions.georepo.core.model.GSInstance remote_instance = remote_rule.getInstance();
                 GSInstance local_instance = new GSInstance();
                 local_instance.setId(remote_instance.getId());
                 local_instance.setName(remote_instance.getName());
@@ -187,15 +185,11 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 local_rule.setInstance(local_instance);
             }
 
-            local_rule
-                    .setService(remote_rule.getService() != null ? remote_rule.getService() : "*");
-            local_rule
-                    .setRequest(remote_rule.getRequest() != null ? remote_rule.getRequest() : "*");
-            local_rule.setWorkspace(remote_rule.getWorkspace() != null ? remote_rule.getWorkspace()
-                    : "*");
+            local_rule.setService(remote_rule.getService() != null ? remote_rule.getService() : "*");
+            local_rule.setRequest(remote_rule.getRequest() != null ? remote_rule.getRequest() : "*");
+            local_rule.setWorkspace(remote_rule.getWorkspace() != null ? remote_rule.getWorkspace() : "*");
             local_rule.setLayer(remote_rule.getLayer() != null ? remote_rule.getLayer() : "*");
-            local_rule.setGrant(remote_rule.getAccess() != null ? remote_rule.getAccess()
-                    .toString() : "ALLOW");
+            local_rule.setGrant(remote_rule.getAccess() != null ? remote_rule.getAccess().toString() : "ALLOW");
 
             ruleListDTO.add(local_rule);
         }

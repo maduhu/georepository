@@ -95,14 +95,14 @@
     </build>
 
     <repositories>
-    		<!-- GeoSolutions -->
+    	<!-- GeoSolutions -->
         <repository>
             <id>geosolutions</id>
             <name>GeoSolutions Repository</name>
             <url>http://maven.geo-solutions.it</url>
         </repository>
 
-				<!-- Hibernate Spatial -->
+		<!-- Hibernate Spatial -->
         <repository>
             <id>Hibernate Spatial repo</id>
             <url>http://www.hibernatespatial.org/repository</url>
@@ -114,7 +114,7 @@
             <url>http://hibernate-generic-dao.googlecode.com/svn/trunk/maven-repo/</url>
         </repository>
 
-				<!-- Apache -->
+		<!-- Apache -->
         <repository>
             <id>maven2-repository.dev.java.net</id>
             <name>Java.net Repository for Maven</name>
@@ -149,7 +149,7 @@
             </releases>
         </repository>
 
-				<!-- ibiblio -->
+		<!-- ibiblio -->
         <repository>
             <id>ibiblio-maven2-repository</id>
             <name>ibiblio Repository for Maven</name>
@@ -160,7 +160,7 @@
             </snapshots>
         </repository>
 
-				<!-- JBoss -->
+		<!-- JBoss -->
         <repository>
             <id>jboss-repo</id>
             <name>JBoss Maven2 Repository</name>
@@ -170,7 +170,7 @@
             </snapshots>
         </repository>
 
-				<!-- Spring -->
+		<!-- Spring -->
         <repository>
             <id>spring-release</id>
             <name>Spring Portfolio Release Repository</name>
@@ -189,7 +189,7 @@
             <layout>legacy</layout>
         </repository>
 
-				<!-- OSGEO -->
+		<!-- OSGEO -->
         <repository>
             <id>opengeo</id>
             <name>OpenGeo Maven Repository</name>
@@ -210,7 +210,6 @@
     </repositories>
 
     <pluginRepositories>
-
         <pluginRepository>
             <id>apache.snapshots</id>
             <name>Apache Snapshots Repository</name>
@@ -249,7 +248,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
-
     </pluginRepositories>
 
 </project>
