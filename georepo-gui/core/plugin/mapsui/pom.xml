@@ -45,8 +45,6 @@
 			<artifactId>gui-resources</artifactId>
 		</dependency>
 
-    <!-- =============================================================== -->
-
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>

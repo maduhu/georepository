@@ -32,34 +32,46 @@
  */
 package it.geosolutions.georepo.gui.client.action.toolbar;
 
-import it.geosolutions.georepo.gui.client.Category;
-import it.geosolutions.georepo.gui.client.action.ToolbarApplicationAction;
+import it.geosolutions.geogwt.gui.client.widget.map.action.ToolbarMapAction;
+import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 
-import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.widget.MessageBox;
+import com.extjs.gxt.ui.client.widget.button.Button;
 
 /**
  * The Class UpdateUsersAction.
  */
-public class UpdateUsersAction extends ToolbarApplicationAction {
+public class UpdateUsersAction extends ToolbarMapAction {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8098807160118329223L;
 
     /**
      * Instantiates a new update users in action.
      * 
      */
     public UpdateUsersAction() {
-        super(I18nProvider.getMessages().syncUsers(), Category.SYNC);
+        super();
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
-     */
-    public void handleEvent(BaseEvent baseEvent) {
+    @Override
+    public boolean initialize() {
+        
+        if (!isInitialized()) {
+            setTooltip(I18nProvider.getMessages().syncUsers());
+            setIcon(Resources.ICONS.share());
+            this.initialiazed = true;
+        }
+
+        return isInitialized();
+    }
+
+    @Override
+    public void performAction(Button button) {
         MessageBox.alert("Update Users", "This feature is not implemented yet !", null);
     }
 }

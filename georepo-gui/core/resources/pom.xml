@@ -20,6 +20,25 @@
 
 	<dependencies>
 
+		<!-- =============================================================== -->
+	    <!-- GeoGWT Core                                                 -->
+	    <!-- =========================================================== -->
+	
+	    <dependency>
+			<groupId>it.geosolutions.geogwt.core</groupId>
+	        <artifactId>geogwt-resources</artifactId>
+	        <version>0.1-SNAPSHOT</version>
+		</dependency>
+
+    	<!-- =============================================================== -->
+
+		<!-- GeoGWT -->
+		<dependency>
+			<groupId>it.geosolutions.geogwt.widgets.map</groupId>
+			<artifactId>maptoolbar</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>

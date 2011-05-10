@@ -32,19 +32,14 @@
  */
 package it.geosolutions.georepo.gui.client.mvc;
 
-import it.geosolutions.georepo.gui.client.AdministrationMode;
+import it.geosolutions.geogwt.gui.client.widget.map.MapLayoutWidget;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.GeoRepoUtils;
-import it.geosolutions.georepo.gui.client.widget.ButtonBar;
-import it.geosolutions.georepo.gui.client.widget.map.MapLayoutWidget;
 
 import org.gwtopenmaps.openlayers.client.LonLat;
 
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
-import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.mvc.View;
-import com.extjs.gxt.ui.client.widget.ContentPanel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -56,7 +51,7 @@ public class MapView extends View {
     private MapLayoutWidget mapLayout;
 
     /** The button bar. */
-    private ButtonBar buttonBar;
+//    private ButtonBar buttonBar;
 
     /**
      * Instantiates a new map view.
@@ -77,52 +72,49 @@ public class MapView extends View {
      */
     @Override
     protected void handleEvent(AppEvent event) {
-        if (event.getType() == GeoRepoEvents.ATTACH_MAP_WIDGET) {
-            this.mapLayout.onAddToCenterPanel((ContentPanel) event.getData());
-        }
+//        if (event.getType() == GeoRepoEvents.ATTACH_MAP_WIDGET) {
+//            this.mapLayout.onAddToCenterPanel((ContentPanel) event.getData());
+//        }
 
         if (event.getType() == GeoRepoEvents.UPDATE_MAP_SIZE) {
             this.mapLayout.updateMapSize();
         }
 
-        if (event.getType() == GeoRepoEvents.ATTACH_TOOLBAR) {
-            onAttachToolbar(event);
-        }
+//        if (event.getType() == GeoRepoEvents.ATTACH_TOOLBAR) {
+//            onAttachToolbar(event);
+//        }
 
-        if (event.getType() == GeoRepoEvents.ACTIVATE_DRAW_FEATURES) {
-            onActivateDrawFeature();
-        }
+//        if (event.getType() == GeoRepoEvents.ACTIVATE_DRAW_FEATURES) {
+//            onActivateDrawFeature();
+//        }
 
-        if (event.getType() == GeoRepoEvents.DEACTIVATE_DRAW_FEATURES) {
-            onDeactivateDrawFeature();
-        }
+//        if (event.getType() == GeoRepoEvents.DEACTIVATE_DRAW_FEATURES) {
+//            onDeactivateDrawFeature();
+//        }
 
-        if (event.getType() == GeoRepoEvents.ERASE_AOI_FEATURES) {
-            onEraseAOIFeatures();
-        }
+//        if (event.getType() == GeoRepoEvents.ERASE_AOI_FEATURES) {
+//            onEraseAOIFeatures();
+//        }
 
-        if (event.getType() == GeoRepoEvents.ENABLE_DRAW_BUTTON) {
-            onEnableDrawButton();
-        }
+//        if (event.getType() == GeoRepoEvents.ENABLE_DRAW_BUTTON) {
+//            onEnableDrawButton();
+//        }
+//
+//        if (event.getType() == GeoRepoEvents.DISABLE_DRAW_BUTTON) {
+//            onDisableDrawButton();
+//        }
 
-        if (event.getType() == GeoRepoEvents.DISABLE_DRAW_BUTTON) {
-            onDisableDrawButton();
-        }
+//        if (event.getType() == GeoRepoEvents.DRAW_AOI_ON_MAP) {
+//            onDrawAoiOnMap(event);
+//        }
 
-        if (event.getType() == GeoRepoEvents.DRAW_AOI_ON_MAP) {
-            onDrawAoiOnMap(event);
-        }
+//        if (event.getType() == GeoRepoEvents.ZOOM_TO_CENTER) {
+//            onZoomToCenter();
+//        }
 
-        if (event.getType() == GeoRepoEvents.ZOOM_TO_CENTER) {
-            onZoomToCenter();
-        }
-
-        if (event.getType() == GeoRepoEvents.ADMIN_MODE_CHANGE) {
-            onAdminModeChange(event);
-        }
-        if (event.getType() == GeoRepoEvents.LOGIN_SUCCESS) {
-            this.buttonBar.fireEvent(event.getType(), event);
-        }
+//        if (event.getType() == GeoRepoEvents.LOGIN_SUCCESS) {
+//            this.buttonBar.fireEvent(event.getType(), event);
+//        }
     }
 
     /**
@@ -133,33 +125,33 @@ public class MapView extends View {
         this.mapLayout.getMap().setCenter(center, 3);
     }
 
-    /**
-     * On draw aoi on map.
-     * 
-     * @param event
-     *            the event
-     */
-    private void onDrawAoiOnMap(AppEvent event) {
-        this.mapLayout.drawAoiOnMap((String) event.getData());
-        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "AOI Service",
-                "Zoom to selected AOI." });
-    }
+//    /**
+//     * On draw aoi on map.
+//     * 
+//     * @param event
+//     *            the event
+//     */
+//    private void onDrawAoiOnMap(AppEvent event) {
+//        this.mapLayout.drawAoiOnMap((String) event.getData());
+//        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "AOI Service",
+//                "Zoom to selected AOI." });
+//    }
 
-    /**
-     * On disable draw button.
-     */
-    private void onDisableDrawButton() {
-        this.buttonBar.changeButtonState("drawFeature", false);
-        this.mapLayout.deactivateDrawFeature();
-    }
-
-    /**
-     * On enable draw button.
-     */
-    private void onEnableDrawButton() {
-        this.buttonBar.changeButtonState("drawFeature", true);
-        this.mapLayout.activateDrawFeature();
-    }
+//    /**
+//     * On disable draw button.
+//     */
+//    private void onDisableDrawButton() {
+//        this.buttonBar.changeButtonState("drawFeature", false);
+//        this.mapLayout.deactivateDrawFeature();
+//    }
+//
+//    /**
+//     * On enable draw button.
+//     */
+//    private void onEnableDrawButton() {
+//        this.buttonBar.changeButtonState("drawFeature", true);
+//        this.mapLayout.activateDrawFeature();
+//    }
 
     /**
      * On erase aoi features.
@@ -184,33 +176,21 @@ public class MapView extends View {
 
     }
 
-    /**
-     * On admin mode change.
-     * 
-     * @param event
-     *            the event
-     */
-    private void onAdminModeChange(AppEvent event) {
-        AdministrationMode adminMode = event.getData();
-        this.buttonBar.changeButtonState("deleteContent",
-                adminMode == AdministrationMode.NOTIFICATION_DISTRIBUTION);
-    }
-
-    /**
-     * On attach toolbar.
-     * 
-     * @param event
-     *            the event
-     */
-    private void onAttachToolbar(AppEvent event) {
-        mapLayout.setTools(GeoRepoUtils.getInstance().getGlobalConfiguration()
-                .getToolbarItemManager().getClientTools());
-
-        this.buttonBar = new ButtonBar(mapLayout);
-
-        ContentPanel north = (ContentPanel) event.getData();
-        north.add(buttonBar.getToolBar());
-
-        north.layout();
-    }
+//    /**
+//     * On attach toolbar.
+//     * 
+//     * @param event
+//     *            the event
+//     */
+//    private void onAttachToolbar(AppEvent event) {
+//        mapLayout.setTools(GeoRepoUtils.getInstance().getGlobalConfiguration()
+//                .getToolbarItemManager().getClientTools());
+//
+//        this.buttonBar = new ButtonBar(mapLayout);
+//
+//        ContentPanel north = (ContentPanel) event.getData();
+//        north.add(buttonBar.getToolBar());
+//
+//        north.layout();
+//    }
 }

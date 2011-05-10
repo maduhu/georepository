@@ -40,11 +40,4 @@ import java.io.Serializable;
  */
 public interface IGeoRepoConfiguration extends Serializable {
 
-    /**
-     * Gets the toolbar item manager.
-     * 
-     * @return the toolbar item manager
-     */
-    public IToolbarItemManager getToolbarItemManager();
-
 }

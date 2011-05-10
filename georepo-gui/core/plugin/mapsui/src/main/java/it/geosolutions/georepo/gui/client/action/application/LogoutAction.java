@@ -32,12 +32,11 @@
  */
 package it.geosolutions.georepo.gui.client.action.application;
 
-import it.geosolutions.georepo.gui.client.Category;
+import it.geosolutions.geogwt.gui.client.widget.map.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.action.ToolbarApplicationAction;
+import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 
-import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -48,23 +47,33 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 /**
  * The Class LogoutAction.
  */
-public class LogoutAction extends ToolbarApplicationAction {
+public class LogoutAction extends ToolbarMapAction {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8343538202482412376L;
 
     /**
      * Instantiates a new logout action.
      */
     public LogoutAction() {
-        super(I18nProvider.getMessages().logoutTooltip(), Category.LOGOUT);
-        // TODO Auto-generated constructor stub
+        super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
-     */
-    public void handleEvent(BaseEvent ce) {
+    @Override
+    public boolean initialize() {
+        if (!isInitialized()) {
+            setTooltip(I18nProvider.getMessages().logoutTooltip());
+            setIcon(Resources.ICONS.logout());
+            this.initialiazed = true;
+        }
+
+        return isInitialized();
+    }
+
+    @Override
+    public void performAction(Button button) {
         MessageBox.confirm(I18nProvider.getMessages().logoutDialogTitle(), I18nProvider
                 .getMessages().logoutDialogMessage(), new Listener<MessageBoxEvent>() {
 

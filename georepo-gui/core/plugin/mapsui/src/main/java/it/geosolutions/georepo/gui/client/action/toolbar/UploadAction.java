@@ -32,13 +32,11 @@
  */
 package it.geosolutions.georepo.gui.client.action.toolbar;
 
-import it.geosolutions.georepo.gui.client.Category;
+import it.geosolutions.geogwt.gui.client.widget.map.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.action.ToolbarMapAction;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 
-import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.widget.button.Button;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,19 +45,28 @@ import com.extjs.gxt.ui.client.mvc.Dispatcher;
 public class UploadAction extends ToolbarMapAction {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 866317708422386224L;
+
+    /**
      * Instantiates a new upload action.
      */
     public UploadAction() {
-        super(I18nProvider.getMessages().uploadShapeFileToolTip(), Category.GEOREPO_UPLOAD_SHP);
+        super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.gxt.ui.client.event.BaseEvent)
-     */
-    public void handleEvent(BaseEvent baseEvent) {
+    @Override
+    public boolean initialize() {
+        // TODO Auto-generated method stub
+        
+        //I18nProvider.getMessages().uploadShapeFileToolTip()
+        
+        return false;
+    }
+
+    @Override
+    public void performAction(Button button) {
         Dispatcher.forwardEvent(GeoRepoEvents.SHOW_UPLOAD_WIDGET);
     }
 }

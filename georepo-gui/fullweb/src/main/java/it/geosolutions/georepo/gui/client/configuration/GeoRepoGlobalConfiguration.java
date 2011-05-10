@@ -49,10 +49,6 @@ public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration {
     @Autowired
     private IUserBeanManager userBeanManager;
 
-    /** The toolbar item manager. */
-    @Autowired
-    private IToolbarItemManager toolbarItemManager;
-
     /**
      * Gets the profile bean manager.
      * 
@@ -61,17 +57,6 @@ public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration {
     public IUserBeanManager getUserBeanManager() {
         // TODO Auto-generated method stub
         return userBeanManager;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * it.geosolutions.georepo.gui.client.configuration.GeoRepoConfiguration#getToolbarItemManager
-     * ()
-     */
-    public IToolbarItemManager getToolbarItemManager() {
-        return toolbarItemManager;
     }
 
 }
