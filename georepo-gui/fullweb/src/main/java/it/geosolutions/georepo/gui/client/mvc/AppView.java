@@ -420,8 +420,8 @@ public class AppView extends View {
         logout.setOrder(500);
         
         List<GenericClientTool> clientTools = new ArrayList<GenericClientTool>();
-        clientTools.add(poweredBy);
-        clientTools.add(toolbarSeparator1);
+        //clientTools.add(poweredBy);
+        //clientTools.add(toolbarSeparator1);
         clientTools.add(pan);
         clientTools.add(zoomAll);
         clientTools.add(zoomBox);
