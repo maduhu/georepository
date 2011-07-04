@@ -32,9 +32,11 @@ import com.trg.search.Search;
 import com.vividsolutions.jts.geom.Geometry;
 import it.geosolutions.georepo.core.dao.GSUserDAO;
 import it.geosolutions.georepo.core.dao.LayerDetailsDAO;
+import it.geosolutions.georepo.core.dao.ProfileDAO;
 import it.geosolutions.georepo.core.dao.RuleDAO;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.LayerDetails;
+import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.core.model.enums.GrantType;
@@ -42,6 +44,7 @@ import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.RuleFilter.NameFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.exception.BadRequestWebEx;
+import java.util.Collections;
 
 /**
  *
@@ -59,6 +62,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
     private RuleDAO ruleDAO;
     private LayerDetailsDAO detailsDAO;
     private GSUserDAO userDAO;
+    private ProfileDAO profileDAO;
 
     @Override
     @Deprecated
@@ -151,6 +155,50 @@ public class RuleReaderServiceImpl implements RuleReaderService {
         return users.isEmpty() ? null : users.get(0);
     }
 
+    private GSUser getUser(IdNameFilter filter) {
+        Search search = new Search(GSUser.class);
+
+        switch(filter.getType()) {
+            case IDVALUE:
+                search.addFilterEqual("id", filter.getId());
+                break;
+            case NAMEVALUE:
+                search.addFilterEqual("name", filter.getName());
+                break;
+            default:
+                return null;
+        }
+
+        List<GSUser> users = userDAO.search(search);
+        if(users.size() > 1)
+            throw new IllegalStateException("Found more than one user '"+filter+"'");
+
+        return users.isEmpty() ? null : users.get(0);
+    }
+
+    private Profile getProfile(IdNameFilter filter) {
+        Search search = new Search(Profile.class);
+
+        switch(filter.getType()) {
+            case IDVALUE:
+                search.addFilterEqual("id", filter.getId());
+                break;
+            case NAMEVALUE:
+                search.addFilterEqual("name", filter.getName());
+                break;
+            default:
+                return null;
+        }
+
+        List<Profile> profiles = profileDAO.search(search);
+        if(profiles.size() > 1)
+            throw new IllegalStateException("Found more than one profile '"+filter+"'");
+
+        return profiles.isEmpty() ? null : profiles.get(0);
+    }
+
+
+
     private AccessInfo buildAllowAccessInfo(Rule rule, List<RuleLimits> limits, IdNameFilter userFilter) {
         AccessInfo accessInfo = new AccessInfo(GrantType.ALLOW);
 
@@ -227,8 +275,25 @@ public class RuleReaderServiceImpl implements RuleReaderService {
         Search searchCriteria = new Search(Rule.class);
         searchCriteria.addSortAsc("priority");
 
+        IdNameFilter profileFilter = filter.getProfile();
+
+        GSUser user = getUser(filter.getUser());
+        if(user != null) {
+            Profile profile = getProfile(profileFilter);
+            if(profile != null) {
+                if(user.getProfile().getId() != profile.getId()) {
+                    LOGGER.warn("User profile and given profile differ [User:"+filter.getUser()+"] [Profile:"+profileFilter+"].");
+                    return (List<Rule>)Collections.EMPTY_LIST;
+                }
+            } else {
+                // Set user's profile
+                profileFilter = new IdNameFilter(RuleFilter.FilterType.IDVALUE);
+                profileFilter.setId(user.getProfile().getId());
+            }
+        }
+
         addCriteria(searchCriteria, "gsuser", filter.getUser());
-        addCriteria(searchCriteria, "profile", filter.getProfile());
+        addCriteria(searchCriteria, "profile", profileFilter);
         addCriteria(searchCriteria, "instance", filter.getInstance());
 
         addStringCriteria(searchCriteria, "service", filter.getService()); // see class' javadoc
@@ -352,6 +417,10 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 
     public void setGsUserDAO(GSUserDAO userDAO) {
         this.userDAO = userDAO;
+    }
+
+    public void setProfileDAO(ProfileDAO profileDAO) {
+        this.profileDAO = profileDAO;
     }
 
 }

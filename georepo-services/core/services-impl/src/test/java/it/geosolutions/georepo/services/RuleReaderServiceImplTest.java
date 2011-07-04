@@ -20,6 +20,7 @@
 
 package it.geosolutions.georepo.services;
 
+import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
@@ -214,4 +215,128 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
         accessInfo = ruleReaderService.getAccessInfo("u0","p0","i0", "UNMATCH", null,"W0","l0");
         assertEquals(GrantType.DENY, accessInfo.getGrant());
     }
+
+    @Test
+    public void testProfiles() {
+        assertEquals(0, ruleAdminService.getCountAll());
+
+        Profile p1 = createProfile("p1");
+        Profile p2 = createProfile("p2");
+
+        GSUser u1 = createUser("u1", p1);
+        GSUser u2 = createUser("u2", p2);
+
+        List<Rule> rules = new ArrayList<Rule>();
+        rules.add(new Rule(rules.size()+10, null, p1, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW));
+        rules.add(new Rule(rules.size()+10, null, p1, null,      null, null, null, null, GrantType.DENY));
+
+        for (Rule rule : rules) {
+            ruleAdminService.insert(rule);
+        }
+
+        assertEquals(rules.size(), ruleAdminService.getCountAll());
+
+        //===
+
+        {
+            RuleFilter filter;
+            filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+            filter.setUser(u1.getId());
+            assertEquals(2, ruleReaderService.getMatchingRules(filter).size());
+            filter.setService("s1");
+            assertEquals(2, ruleReaderService.getMatchingRules(filter).size());
+            assertEquals(GrantType.ALLOW, ruleReaderService.getAccessInfo(filter).getGrant());
+
+            filter.setService("s2");
+            assertEquals(1, ruleReaderService.getMatchingRules(filter).size());
+            assertEquals(GrantType.DENY, ruleReaderService.getAccessInfo(filter).getGrant());
+        }
+
+        {
+            RuleFilter filter;
+            filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+            filter.setUser(u2.getId());
+            filter.setProfile(p1.getId());
+            assertEquals(0, ruleReaderService.getMatchingRules(filter).size());
+            assertEquals(GrantType.DENY, ruleReaderService.getAccessInfo(filter).getGrant());
+
+        }
+    }
+
+    @Test
+    public void testProfilesOrder01() {
+        assertEquals(0, ruleAdminService.getCountAll());
+
+        Profile p1 = createProfile("p1");
+        Profile p2 = createProfile("p2");
+
+        GSUser u1 = createUser("u1", p1);
+        GSUser u2 = createUser("u2", p2);
+
+        List<Rule> rules = new ArrayList<Rule>();
+        rules.add(new Rule(rules.size()+10, null, p1, null,      null, null, null, null, GrantType.ALLOW));
+        rules.add(new Rule(rules.size()+10, null, p2, null,      null, null, null, null, GrantType.DENY));
+
+        for (Rule rule : rules) {
+            ruleAdminService.insert(rule);
+        }
+
+        assertEquals(rules.size(), ruleAdminService.getCountAll());
+
+        //===
+
+        RuleFilter filterU1;
+        filterU1 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filterU1.setUser(u1.getId());
+
+        RuleFilter filterU2;
+        filterU2 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filterU2.setUser(u2.getId());
+
+
+        assertEquals(1, ruleReaderService.getMatchingRules(filterU1).size());
+        assertEquals(1, ruleReaderService.getMatchingRules(filterU2).size());
+
+        assertEquals(GrantType.ALLOW, ruleReaderService.getAccessInfo(filterU1).getGrant());
+        assertEquals(GrantType.DENY, ruleReaderService.getAccessInfo(filterU2).getGrant());
+    }
+
+    @Test
+    public void testProfilesOrder02() {
+        assertEquals(0, ruleAdminService.getCountAll());
+
+        Profile p1 = createProfile("p1");
+        Profile p2 = createProfile("p2");
+
+        GSUser u1 = createUser("u1", p1);
+        GSUser u2 = createUser("u2", p2);
+
+        List<Rule> rules = new ArrayList<Rule>();
+        rules.add(new Rule(rules.size()+10, null, p2, null,      null, null, null, null, GrantType.DENY));
+        rules.add(new Rule(rules.size()+10, null, p1, null,      null, null, null, null, GrantType.ALLOW));
+
+        for (Rule rule : rules) {
+            ruleAdminService.insert(rule);
+        }
+
+        assertEquals(rules.size(), ruleAdminService.getCountAll());
+
+        //===
+
+        RuleFilter filterU1;
+        filterU1 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filterU1.setUser(u1.getId());
+
+        RuleFilter filterU2;
+        filterU2 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filterU2.setUser(u2.getId());
+
+
+        assertEquals(1, ruleReaderService.getMatchingRules(filterU1).size());
+        assertEquals(1, ruleReaderService.getMatchingRules(filterU2).size());
+
+        assertEquals(GrantType.ALLOW, ruleReaderService.getAccessInfo(filterU1).getGrant());
+        assertEquals(GrantType.DENY, ruleReaderService.getAccessInfo(filterU2).getGrant());
+    }
+
 }
