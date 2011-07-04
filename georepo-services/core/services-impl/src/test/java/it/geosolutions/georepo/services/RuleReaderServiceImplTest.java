@@ -20,14 +20,23 @@
 
 package it.geosolutions.georepo.services;
 
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 import it.geosolutions.georepo.core.model.GSUser;
+import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.core.model.Rule;
+import it.geosolutions.georepo.core.model.RuleLimits;
+import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.dto.AccessInfo;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
+import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.AfterClass;
@@ -234,9 +243,10 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
             ruleAdminService.insert(rule);
         }
 
-        assertEquals(rules.size(), ruleAdminService.getCountAll());
-
+        LOGGER.info("SETUP ENDED, STARTING TESTS");
         //===
+
+        assertEquals(rules.size(), ruleAdminService.getCountAll());
 
         {
             RuleFilter filter;
@@ -264,7 +274,7 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
     }
 
     @Test
-    public void testProfilesOrder01() {
+    public void testProfilesOrder01() throws UnknownHostException {
         assertEquals(0, ruleAdminService.getCountAll());
 
         Profile p1 = createProfile("p1");
@@ -281,18 +291,19 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
             ruleAdminService.insert(rule);
         }
 
-        assertEquals(rules.size(), ruleAdminService.getCountAll());
-
+        LOGGER.info("SETUP ENDED, STARTING TESTS");
         //===
 
-        RuleFilter filterU1;
-        filterU1 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        assertEquals(rules.size(), ruleAdminService.getCountAll());
+
+        RuleFilter filterU1 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
         filterU1.setUser(u1.getId());
 
-        RuleFilter filterU2;
-        filterU2 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        RuleFilter filterU2 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
         filterU2.setUser(u2.getId());
 
+        filterU1.setSourceAddress(Inet4Address.getByAddress(new byte[]{42,43,44,45}));
+        filterU2.setSourceAddress(Inet4Address.getByAddress(new byte[]{0xe, 0xf, 0x10, 0x11}));
 
         assertEquals(1, ruleReaderService.getMatchingRules(filterU1).size());
         assertEquals(1, ruleReaderService.getMatchingRules(filterU2).size());
@@ -319,9 +330,10 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
             ruleAdminService.insert(rule);
         }
 
-        assertEquals(rules.size(), ruleAdminService.getCountAll());
-
+        LOGGER.info("SETUP ENDED, STARTING TESTS");
         //===
+
+        assertEquals(rules.size(), ruleAdminService.getCountAll());
 
         RuleFilter filterU1;
         filterU1 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
@@ -337,6 +349,96 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
 
         assertEquals(GrantType.ALLOW, ruleReaderService.getAccessInfo(filterU1).getGrant());
         assertEquals(GrantType.DENY, ruleReaderService.getAccessInfo(filterU2).getGrant());
+    }
+
+    protected MultiPolygon buildMultiPolygon(String multip) {
+        try {
+            WKTReader reader = new WKTReader();
+            MultiPolygon mp = (MultiPolygon) reader.read(multip);
+            mp.setSRID(4326);
+            return mp;
+        } catch (ParseException ex) {
+            throw new RuntimeException("Unexpected exception: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Test
+    public void testArea() throws ResourceNotFoundFault {
+        assertEquals(0, ruleAdminService.getCountAll());
+
+        final String MULTIPOLYGONWKT0 = "MULTIPOLYGON(((10 0, 0 -10, -10 0, 0 10, 10 0)))";
+        final String MULTIPOLYGONWKT1 = "MULTIPOLYGON(((6 6, 6 -6, -6 -6 , -6 6, 6 6)))";
+
+        Profile p1 = createProfile("p1");
+        GSUser u1 = createUser("u1", p1);
+        u1.setAllowedArea(buildMultiPolygon(MULTIPOLYGONWKT0));
+        userAdminService.update(u1);
+
+        Rule r0 = new Rule(10, u1, p1, null,      null, null, null, null, GrantType.LIMIT);
+        Rule r1 = new Rule(20, null, p1, null,      null, null, null, null, GrantType.ALLOW);
+
+
+        ruleAdminService.insert(r0);
+        ruleAdminService.insert(r1);
+
+        RuleLimits limits = new RuleLimits();
+        limits.setAllowedArea(buildMultiPolygon(MULTIPOLYGONWKT1));
+        ruleAdminService.setLimits(r0.getId(), limits);
+
+        LOGGER.info("SETUP ENDED, STARTING TESTS");
+
+        assertEquals(2, ruleAdminService.getCountAll());
+
+        //===
+
+        RuleFilter filterU1;
+        filterU1 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filterU1.setUser(u1.getId());
+
+
+        assertEquals(2, ruleReaderService.getMatchingRules(filterU1).size());
+
+        AccessInfo accessInfo = ruleReaderService.getAccessInfo(filterU1);
+        assertEquals(GrantType.ALLOW, accessInfo.getGrant());
+        assertNotNull(accessInfo.getArea());
+        assertEquals(9, accessInfo.getArea().getNumPoints());
+    }
+
+    @Test
+    public void testAttrib() throws ResourceNotFoundFault {
+        assertEquals(0, ruleAdminService.getCountAll());
+
+        Profile p1 = createProfile("p1");
+        GSUser u1 = createUser("u1", p1);
+
+        Rule r1 = new Rule(20, null, p1, null,      null, null, null, "l1", GrantType.ALLOW);
+        ruleAdminService.insert(r1);
+
+        LayerDetails details = new LayerDetails();
+        details.getAllowedStyles().add("style01");
+        details.getAllowedStyles().add("style02");
+        details.getAttributes().add(new LayerAttribute("att1", "String", AccessType.NONE));
+        details.getAttributes().add(new LayerAttribute("att2", "String", AccessType.READONLY));
+        details.getAttributes().add(new LayerAttribute("att3", "String", AccessType.READWRITE));
+
+        ruleAdminService.setDetails(r1.getId(), details);
+
+        LOGGER.info("SETUP ENDED, STARTING TESTS========================================");
+
+        assertEquals(1, ruleAdminService.getCountAll());
+
+        //===
+
+        RuleFilter filterU1;
+        filterU1 = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        filterU1.setUser(u1.getId());
+
+        LOGGER.info("getMatchingRules ========================================");
+        assertEquals(1, ruleReaderService.getMatchingRules(filterU1).size());
+
+        LOGGER.info("getAccessInfo ========================================");
+        AccessInfo accessInfo = ruleReaderService.getAccessInfo(filterU1);
+        assertEquals(GrantType.ALLOW, accessInfo.getGrant());
     }
 
 }

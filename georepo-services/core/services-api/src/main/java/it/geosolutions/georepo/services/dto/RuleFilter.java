@@ -23,6 +23,7 @@ package it.geosolutions.georepo.services.dto;
 import it.geosolutions.georepo.core.model.Rule;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 
 import org.apache.log4j.Logger;
 
@@ -74,6 +75,8 @@ public class RuleFilter implements Serializable {
     private final NameFilter request;
     private final NameFilter workspace;
     private final NameFilter layer;
+
+    private InetAddress sourceAddress;
 
 
     public RuleFilter() {
@@ -243,7 +246,13 @@ public class RuleFilter implements Serializable {
         return workspace;
     }
 
+    public InetAddress getSourceAddress() {
+        return sourceAddress;
+    }
 
+    public void setSourceAddress(InetAddress sourceAddress) {
+        this.sourceAddress = sourceAddress;
+    }
     
     @Override
     public String toString() {
@@ -256,6 +265,11 @@ public class RuleFilter implements Serializable {
         sb.append(" req:").append(request);
         sb.append(" ws:").append(workspace);
         sb.append(" layer:").append(layer);
+        sb.append(" srcaddr:");
+        if(sourceAddress == null)
+            sb.append('-');
+        else
+            sb.append(sourceAddress);
         sb.append(']');
 
         return sb.toString();
