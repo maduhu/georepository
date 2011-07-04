@@ -151,7 +151,9 @@ public class AccessInfo implements Serializable {
             sb.append(" cqlW:").append(cqlFilterWrite);
         }
         if (area != null) {
-            sb.append(" area:").append(area); // needs decoding?
+            sb.append(" area: [")
+                    .append(area.getNumPoints()).append(" vertices, (")
+                    .append(area.getCoordinate().x).append(',').append(area.getCoordinate().y).append(')');
         }
         if (allowedStyles != null && ! allowedStyles.isEmpty()) {
             sb.append(" allSty:").append(allowedStyles); // needs decoding?
