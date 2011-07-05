@@ -284,6 +284,7 @@ public class GeorepositoryAccessManager implements ResourceAccessManager, Dispat
         }
         ruleFilter.setWorkspace(workspace);
         ruleFilter.setLayer(layer);
+        ruleFilter.setSourceAddress(getSourceAddress(owsRequest));
         AccessInfo rule = rules.getAccessInfo(ruleFilter);
         
         if (rule == null) {
