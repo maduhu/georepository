@@ -27,12 +27,15 @@ import it.geosolutions.georepo.services.dto.AccessInfo;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CoverageInfo;
@@ -184,6 +187,7 @@ public class GeorepositoryAccessManager implements ResourceAccessManager, Dispat
                 ruleFilter.setRequest(request);
         }
         ruleFilter.setWorkspace(workspace.getName());
+        ruleFilter.setSourceAddress(getSourceAddress(owsRequest));
         AccessInfo rule = rules.getAccessInfo(ruleFilter);
         
         if (rule == null) {
@@ -193,6 +197,25 @@ public class GeorepositoryAccessManager implements ResourceAccessManager, Dispat
         LOGGER.log(Level.SEVERE, "Returning {0} for workspace {1} and user {2}", 
                 new Object[] {limits, workspace.getName(), username});
         return limits;
+    }
+
+    InetAddress getSourceAddress(Request owsRequest) {
+        if(owsRequest == null) {
+            return null;
+        }
+        try {
+            HttpServletRequest http = owsRequest.getHttpRequest();
+            String forwardedFor = http.getHeader("X-Forwarded-For");
+            if (forwardedFor != null) {
+                String[] ips = forwardedFor.split(", ");
+                return InetAddress.getByName(ips[0]);
+            } else {
+                return InetAddress.getByName(http.getRemoteAddr());
+            }
+        } catch(Exception e) {
+            LOGGER.log(Level.INFO, "Failed to get remote address", e);
+            return null;
+        }
     }
 
     private WorkspaceAccessLimits buildAccessLimits(WorkspaceInfo workspace, AccessInfo rule) {
