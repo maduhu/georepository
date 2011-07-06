@@ -247,7 +247,7 @@ public class WGSGUServiceImpl implements SGUService {
             try {
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(wkt);
                 int isrid = srid!= null? srid.intValue() : 4326;
-                the_geom.setSRID(isrid);
+                the_geom.setSRID(isrid); // !!! read javadoc about setSRID()
 
                 MultiPolygon simp = simplifyMultiPolygon(the_geom);
                 simp.setSRID(isrid);

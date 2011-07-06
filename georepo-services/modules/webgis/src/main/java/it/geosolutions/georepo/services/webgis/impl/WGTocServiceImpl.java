@@ -99,7 +99,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
                     }
                     if (group != null) {
                         group.getLayerList().add(tocl);
-                        if( ! "1".equals(props.get(TOCLayer.TOCProps.visible.name()))) {
+                        if( ! "true".equals(props.get(TOCLayer.TOCProps.visible.name()))) {
                             group.setVisible(false);
                         }
                     }

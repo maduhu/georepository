@@ -86,6 +86,7 @@ public class SGUUser {
         this.wkt = wkt;
     }
 
+    @XmlElement
     public Integer getSrid() {
         return srid;
     }
