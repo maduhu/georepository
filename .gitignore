@@ -33,6 +33,7 @@ georepo-services/core/webgisstub/target
 georepo-services/core/dao/target
 georepo-services/target
 georepo-gui/fullweb/target
+georepo-gui/fullweb/war
 georepo-gui/core/target
 georepo-gui/core/plugin/target
 georepo-gui/core/plugin/mapsui/target
