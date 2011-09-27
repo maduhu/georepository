@@ -33,7 +33,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="SGUUserList")
 public class SGUUserList {
 
-    private List<SGUUser> userList = new ArrayList<SGUUser>();
+    private List<SGUUser> userList;
+
+    public SGUUserList() {
+        this(10);
+    }
+
+    public SGUUserList(int initialCapacity) {
+        userList = new ArrayList<SGUUser>(initialCapacity);
+    }
 
     @XmlElement(name="SGUUser")
     public List<SGUUser> getUserList() {
@@ -42,6 +50,10 @@ public class SGUUserList {
 
     public void setUserList(List<SGUUser> userList) {
         this.userList = userList;
+    }
+
+    public void add(SGUUser user) {
+        userList.add(user);
     }
 
     @Override
