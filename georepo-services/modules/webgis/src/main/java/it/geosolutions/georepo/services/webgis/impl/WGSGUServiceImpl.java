@@ -169,13 +169,13 @@ public class WGSGUServiceImpl implements SGUService {
                         break;
                     case 1:
                         GSUser oldUser = geoRepoList.get(0);
+                        LOGGER.info("Updating " + sguUser + " -- userId : " + oldUser.getId());
                         boolean updated = update(sguUser, oldUser); // TODO: define policy for updating user (geom may be changed)
 
                         if ( updated ) {
                             cntOld++;
                         } else {
                             cntUp++;
-                            LOGGER.info("Updating " + sguUser + " -- userId : " + oldUser.getId());
                             gsUserDAO.merge(oldUser);
                         }
                         break;
@@ -194,7 +194,7 @@ public class WGSGUServiceImpl implements SGUService {
     // TODO: add the fields you want to update
     private boolean update(SGUUser sgu, GSUser gs) {
         boolean updated = false;
-        if(! sgu.getUserName().equals(gs.getName())) {
+        if(! gs.getName().equals(sgu.getUserName())) {
             updated = true;
             gs.setName(sgu.getUserName());
         }
@@ -291,6 +291,7 @@ public class WGSGUServiceImpl implements SGUService {
         SGUUser sgu = new SGUUser();
         sgu.setEnabled(user.getEnabled());
         sgu.setProfile(user.getProfile().getName());
+        sgu.setUserName(user.getName());
         sgu.setSguId(user.getExtId());
         sgu.setSrid(user.getAllowedArea().getSRID());
         sgu.setWkt(user.getAllowedArea().toText());
