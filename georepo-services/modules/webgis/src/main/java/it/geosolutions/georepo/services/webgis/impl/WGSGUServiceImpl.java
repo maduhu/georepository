@@ -53,53 +53,30 @@ import org.apache.log4j.Priority;
 public class WGSGUServiceImpl implements SGUService {
     private final static Logger LOGGER = Logger.getLogger(WGSGUServiceImpl.class);
 
-    private static final String EXTERNAL_ID_KEY = "sgu_id";
-
-    private final static String SAMPLE_AREA = "MULTIPOLYGON (((414699.55 130160.43, 414701.83 130149.9, 414729.2 130155.7, 414729.2 130155.7, 414733.25 130149.8, 414735.1 130140.9, 414743.75 130142.7, 414740.6 130158.15, 414742.15 130158.5, 414739.65 130169.25, 414728.05 130166.65, 414727.77 130167.93, 414724.52 130167.19, 414717.65 130165.63, 414717.85 130164.45, 414699.55 130160.43)))";
-
     private GSUserDAO gsUserDAO;
     private ProfileDAO profileDAO;
 
     @Override
     public SGUProfileList getProfiles() {
-        SGUProfileList list = new SGUProfileList();
-
-        SGUProfile p1 = new SGUProfile();
-        p1.setSguId("p1");
-        p1.setName("Sample profile 1");
-        list.getProfileList().add(p1);
-
-        p1 = new SGUProfile();
-        p1.setSguId("p2");
-        p1.setName("Sample profile 2");
-        list.getProfileList().add(p1);
-
-        return list;
+        List<Profile> profiles = profileDAO.findAll();
+        
+        SGUProfileList ret = new SGUProfileList(profiles.size());
+        for (Profile profile : profiles) {
+            ret.add(transformProfile(profile));
+        }
+        return ret;
     }
 
 
     @Override
     public SGUUserList getUsers() {
-        SGUUserList list = new SGUUserList();
+        List<GSUser> users = gsUserDAO.findAll();
 
-        SGUUser user = new SGUUser();
-        user.setSguId("u1");
-        user.setUserName("sample_user_1");
-        user.setProfile("profile_1");
-        user.setEnabled(true);
-        user.setWkt(SAMPLE_AREA);
-        list.getUserList().add(user);
-
-        user = new SGUUser();
-        user.setSguId("u2");
-        user.setUserName("sample_user_2_disabled");
-        user.setProfile("profile_2");
-        user.setEnabled(false);
-        user.setWkt(null);
-
-        list.getUserList().add(user);
-
-        return list;
+        SGUUserList ret = new SGUUserList(users.size());
+        for (GSUser user : users) {
+            ret.add(transformUser(user));
+        }
+        return ret;
     }
 
     //==========================================================================
@@ -192,13 +169,13 @@ public class WGSGUServiceImpl implements SGUService {
                         break;
                     case 1:
                         GSUser oldUser = geoRepoList.get(0);
+                        LOGGER.info("Updating " + sguUser + " -- userId : " + oldUser.getId());
                         boolean updated = update(sguUser, oldUser); // TODO: define policy for updating user (geom may be changed)
 
                         if ( updated ) {
                             cntOld++;
                         } else {
                             cntUp++;
-                            LOGGER.info("Updating " + sguUser + " -- userId : " + oldUser.getId());
                             gsUserDAO.merge(oldUser);
                         }
                         break;
@@ -217,7 +194,7 @@ public class WGSGUServiceImpl implements SGUService {
     // TODO: add the fields you want to update
     private boolean update(SGUUser sgu, GSUser gs) {
         boolean updated = false;
-        if(! sgu.getUserName().equals(gs.getName())) {
+        if(! gs.getName().equals(sgu.getUserName())) {
             updated = true;
             gs.setName(sgu.getUserName());
         }
@@ -306,6 +283,26 @@ public class WGSGUServiceImpl implements SGUService {
         }
 
         return sb.toString();
+    }
+
+    //==========================================================================
+
+    public static SGUUser transformUser(GSUser user) {
+        SGUUser sgu = new SGUUser();
+        sgu.setEnabled(user.getEnabled());
+        sgu.setProfile(user.getProfile().getName());
+        sgu.setUserName(user.getName());
+        sgu.setSguId(user.getExtId());
+        sgu.setSrid(user.getAllowedArea().getSRID());
+        sgu.setWkt(user.getAllowedArea().toText());
+        return sgu;
+    }
+
+    public static SGUProfile transformProfile(Profile profile) {
+        SGUProfile sgu = new SGUProfile();
+        sgu.setName(profile.getName());
+        sgu.setSguId(profile.getExtId());
+        return sgu;
     }
 
     //==========================================================================

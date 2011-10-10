@@ -33,7 +33,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="SGUProfileList")
 public class SGUProfileList {
 
-    private List<SGUProfile> profileList = new ArrayList<SGUProfile>();
+    private List<SGUProfile> profileList;
+
+    public SGUProfileList() {
+        this(10);
+    }
+
+    public SGUProfileList(int initialCapacity) {
+        profileList = new ArrayList<SGUProfile>(initialCapacity);
+    }
+
 
     @XmlElement(name="SGUProfile")
     public List<SGUProfile> getProfileList() {
@@ -42,6 +51,10 @@ public class SGUProfileList {
 
     public void setProfileList(List<SGUProfile> profileList) {
         this.profileList = profileList;
+    }
+
+    public void add(SGUProfile profile) {
+        profileList.add(profile);
     }
 
     @Override
