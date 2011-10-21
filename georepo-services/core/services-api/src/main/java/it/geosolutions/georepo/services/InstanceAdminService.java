@@ -20,57 +20,32 @@
 package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.model.GSInstance;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 import java.util.List;
 
-import javax.jws.WebParam;
-import javax.jws.WebService;
-
-import org.codehaus.jra.Delete;
-import org.codehaus.jra.Get;
-import org.codehaus.jra.HttpResource;
-import org.codehaus.jra.Post;
-import org.codehaus.jra.Put;
-
 /**
  * Operations on {@link GSInstance GSInstance}s.
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@WebService(name = "InstanceAdminService", targetNamespace = "http://geosolutions.it/georepo")
-public interface InstanceAdminService {
+public interface InstanceAdminService extends GetProviderService<GSInstance> {
 
     // ==========================================================================
     // Basic operations
 
-    @Post
-    @HttpResource(location = "/instances")
-    long insert(@WebParam(name = "instance") GSInstance instance);
+    long insert(GSInstance instance);
 
-    @Put
-    @HttpResource(location = "/instances")
-    long update(@WebParam(name = "instance") GSInstance instance) throws ResourceNotFoundFault;
+    long update(GSInstance instance) throws NotFoundServiceEx;
 
-    @Delete
-    @HttpResource(location = "/instances/{id}")
-    boolean delete(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    boolean delete(long id) throws NotFoundServiceEx;
 
-    @Get
-    @HttpResource(location = "/instances/{id}")
-    GSInstance get(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    GSInstance get(long id) throws NotFoundServiceEx;
 
-    @Get
-    @HttpResource(location = "/instances")
     List<GSInstance> getAll();
 
-    @Get
-    @HttpResource(location = "/instances/{nameLike}/{page}/{entries}")
-    List<GSInstance> getList(@WebParam(name = "nameLike") String nameLike,
-            @WebParam(name = "page") int page, @WebParam(name = "entries") int entries);
+    List<GSInstance> getList(String nameLike, Integer page, Integer entries);
 
-    @Get
-    @HttpResource(location = "/instancescount/{nameLike}")
-    long getCount(@WebParam(name = "nameLike") String nameLike);
+    long getCount(String nameLike);
 
 }

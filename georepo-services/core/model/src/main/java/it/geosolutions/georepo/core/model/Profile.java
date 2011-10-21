@@ -4,7 +4,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -27,6 +27,7 @@
  */
 package it.geosolutions.georepo.core.model;
 
+import it.geosolutions.georepo.core.model.adapter.MapAdapter;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,7 +42,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -55,7 +59,8 @@ import org.hibernate.annotations.ForeignKey;
 @Table(name = "gr_profile")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "profile")
 @XmlRootElement(name = "Profile")
-public class Profile implements Serializable {
+@XmlType(propOrder={"id","extId","name","dateCreation","customProps"})
+public class Profile implements Identifiable, Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 8457036587275531556L;
@@ -64,7 +69,7 @@ public class Profile implements Serializable {
     @Id
     @GeneratedValue
     @Column
-    private long id;
+    private Long id;
 
     /** External Id. An ID used in an external systems.
      * This field should simplify GeoRepository integration in complex systems.
@@ -98,26 +103,24 @@ public class Profile implements Serializable {
      * Instantiates a new profile.
      */
     public Profile() {
-
-
     }
 
     /**
      * Gets the id.
-     * 
+     *
      * @return the id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * Sets the id.
-     * 
+     *
      * @param id
      *            the new id
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -131,7 +134,7 @@ public class Profile implements Serializable {
 
     /**
      * Gets the name.
-     * 
+     *
      * @return the name
      */
     public String getName() {
@@ -140,7 +143,7 @@ public class Profile implements Serializable {
 
     /**
      * Sets the name.
-     * 
+     *
      * @param name
      *            the new name
      */
@@ -150,7 +153,7 @@ public class Profile implements Serializable {
 
     /**
      * Gets the date creation.
-     * 
+     *
      * @return the date creation
      */
     public Date getDateCreation() {
@@ -159,7 +162,7 @@ public class Profile implements Serializable {
 
     /**
      * Sets the date creation.
-     * 
+     *
      * @param dateCreation
      *            the new date creation
      */
@@ -169,16 +172,17 @@ public class Profile implements Serializable {
 
     /**
      * Gets the enabled.
-     * 
+     *
      * @return the enabled
      */
+    @XmlAttribute
     public Boolean getEnabled() {
         return enabled;
     }
 
     /**
      * Sets the enabled.
-     * 
+     *
      * @param enabled
      *            the new enabled
      */
@@ -186,6 +190,7 @@ public class Profile implements Serializable {
         this.enabled = enabled;
     }
 
+    @XmlJavaTypeAdapter(MapAdapter.class)
     public Map<String, String> getCustomProps() {
         return customProps;
     }
@@ -260,5 +265,5 @@ public class Profile implements Serializable {
         builder.append("]");
         return builder.toString();
     }
-    
+
 }

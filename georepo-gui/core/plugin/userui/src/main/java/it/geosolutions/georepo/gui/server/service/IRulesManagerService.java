@@ -39,7 +39,6 @@ import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.List;
 

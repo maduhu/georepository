@@ -1,19 +1,19 @@
 /*
  *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
- * 
+ *
  *  GPLv3 + Classpath exception
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,7 +34,7 @@ import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.dto.AccessInfo;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -363,7 +363,7 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
     }
 
     @Test
-    public void testArea() throws ResourceNotFoundFault {
+    public void testArea() throws NotFoundServiceEx {
         assertEquals(0, ruleAdminService.getCountAll());
 
         final String MULTIPOLYGONWKT0 = "MULTIPOLYGON(((10 0, 0 -10, -10 0, 0 10, 10 0)))";
@@ -405,7 +405,7 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
     }
 
     @Test
-    public void testAttrib() throws ResourceNotFoundFault {
+    public void testAttrib() throws NotFoundServiceEx {
         assertEquals(0, ruleAdminService.getCountAll());
 
         Profile p1 = createProfile("p1");

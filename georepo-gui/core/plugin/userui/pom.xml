@@ -4,12 +4,12 @@
 
 	<parent>
 		<groupId>it.geosolutions.georepository</groupId>
-		<artifactId>gui-plugin</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<artifactId>georepo-gui-plugin</artifactId>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>it.geosolutions.georepository</groupId>
-	<artifactId>gui-userui</artifactId>
+	<artifactId>georepo-gui-userui</artifactId>
 	<packaging>jar</packaging>
 
 	<name>GeoRepo - GUI - User plugin</name>
@@ -37,15 +37,15 @@
 		<!-- ============================== -->
 		<dependency>
 			<groupId>it.geosolutions.georepository</groupId>
-			<artifactId>gui-resources</artifactId>
+			<artifactId>georepo-gui-resources</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>it.geosolutions.georepository</groupId>
-			<artifactId>login-api</artifactId>
+			<artifactId>georepo-login-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>it.geosolutions.georepository</groupId>
-			<artifactId>generic-api</artifactId>
+			<artifactId>georepo-generic-api</artifactId>
 		</dependency>
 		
 		<dependency>

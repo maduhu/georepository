@@ -21,58 +21,32 @@ package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.services.dto.ShortUser;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 import java.util.List;
 
-import javax.jws.WebParam;
-import javax.jws.WebService;
 
-import org.codehaus.jra.Delete;
-import org.codehaus.jra.Get;
-import org.codehaus.jra.HttpResource;
-import org.codehaus.jra.Post;
-import org.codehaus.jra.Put;
 
 /**
  * Operations on {@link GSUser GSUser}s.
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@WebService(name = "UserAdminService", targetNamespace = "http://geosolutions.it/georepo")
-public interface UserAdminService {
+public interface UserAdminService extends GetProviderService<GSUser> {
 
     // ==========================================================================
     // Basic operations
 
-    @Put
-    @HttpResource(location = "/users")
-    long insert(@WebParam(name = "user") GSUser user);
+    long insert(GSUser user);
 
-    @Post
-    @HttpResource(location = "/users")
-    long update(@WebParam(name = "user") GSUser user) throws ResourceNotFoundFault;
+    long update(GSUser user) throws NotFoundServiceEx;
 
-    @Delete
-    @HttpResource(location = "/users/{id}")
-    boolean delete(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    boolean delete(long id) throws NotFoundServiceEx;
 
-    @Get
-    @HttpResource(location = "/users/{id}")
-    GSUser get(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    @Override
+    GSUser get(long id) throws NotFoundServiceEx;
 
-    @Get
-    @HttpResource(location = "/users")
-    List<ShortUser> getAll();
-
-    @Get
-    @HttpResource(location = "/users/{nameLike}/{page}/{entries}")
-    List<ShortUser> getList(
-            @WebParam(name = "nameLike") String nameLike,
-            @WebParam(name = "page") Integer page,
-            @WebParam(name = "entries") Integer entries);
-
-    @Get
-    @HttpResource(location = "/userscount/{nameLike}")
-    long getCount(@WebParam(name = "nameLike") String nameLike);
+    long getCount(String nameLike);
+    List<ShortUser> getList(String nameLike, Integer page, Integer entries);
+    List<GSUser> getFullList(String nameLike, Integer page, Integer entries);
 }

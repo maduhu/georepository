@@ -4,12 +4,12 @@
 
 	<parent>
 		<groupId>it.geosolutions.georepository</groupId>
-		<artifactId>gui-plugin</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<artifactId>georepo-gui-plugin</artifactId>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>it.geosolutions.georepository</groupId>
-	<artifactId>gui-mapsui</artifactId>
+	<artifactId>georepo-gui-mapsui</artifactId>
 	<packaging>jar</packaging>
 
 	<name>GeoRepo - GUI - Map plugin</name>
@@ -42,7 +42,7 @@
 
     <dependency>
 		<groupId>it.geosolutions.georepository</groupId>
-			<artifactId>gui-resources</artifactId>
+			<artifactId>georepo-gui-resources</artifactId>
 		</dependency>
 
 		<dependency>

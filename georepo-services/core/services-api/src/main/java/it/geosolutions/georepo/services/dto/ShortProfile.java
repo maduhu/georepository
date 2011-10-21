@@ -34,6 +34,7 @@ public class ShortProfile implements Serializable {
     private static final long serialVersionUID = -8410646966443187827L;
     private long id;
     private String name;
+    private String extId;
     private Date dateCreation;
     private boolean enabled;
 
@@ -45,6 +46,7 @@ public class ShortProfile implements Serializable {
         this.name = profile.getName();
         this.dateCreation = profile.getDateCreation();
         this.enabled = profile.getEnabled();
+        this.extId = profile.getExtId();
     }
 
     public long getId() {
@@ -77,6 +79,14 @@ public class ShortProfile implements Serializable {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getExtId() {
+        return extId;
+    }
+
+    public void setExtId(String extId) {
+        this.extId = extId;
     }
 
     @Override

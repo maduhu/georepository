@@ -43,7 +43,7 @@ import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.RuleFilter.NameFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.exception.BadRequestWebEx;
+import it.geosolutions.georepo.services.exception.BadRequestServiceEx;
 import java.util.Collections;
 
 /**
@@ -98,10 +98,10 @@ public class RuleReaderServiceImpl implements RuleReaderService {
         for (Rule rule : found) {
             if(ret != null)
                 break;
-                
+
             switch(rule.getAccess()) {
                 case LIMIT:
-                    
+
                    RuleLimits rl = rule.getRuleLimits();
                    if(rl != null) {
                        LOGGER.info("Collecting limits: " + rl);
@@ -113,7 +113,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
                 case DENY:
                     ret = new AccessInfo(GrantType.DENY);
                     break;
-                    
+
                 case ALLOW:
                     ret = buildAllowAccessInfo(rule, limits, filter.getUser());
                     break;
@@ -206,8 +206,8 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 
         Geometry userArea = getUserArea(userFilter);
         area = intersect(area, userArea);
-        
-        LayerDetails details = rule.getLayerDetails();                
+
+        LayerDetails details = rule.getLayerDetails();
         if(details != null ) {
             area = intersect(area, details.getArea());
 
@@ -253,8 +253,8 @@ public class RuleReaderServiceImpl implements RuleReaderService {
     }
 
     //==========================================================================
-    
-//    protected List<Rule> getRules(String userName, String profileName, String instanceName, String service, String request, String workspace, String layer) throws BadRequestWebEx {
+
+//    protected List<Rule> getRules(String userName, String profileName, String instanceName, String service, String request, String workspace, String layer) throws BadRequestServiceEx {
 //        Search searchCriteria = new Search(Rule.class);
 //        searchCriteria.addSortAsc("priority");
 //
@@ -271,7 +271,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 //        return found;
 //    }
 
-    protected List<Rule> getRules(RuleFilter filter) throws BadRequestWebEx {
+    protected List<Rule> getRules(RuleFilter filter) throws BadRequestServiceEx {
         Search searchCriteria = new Search(Rule.class);
         searchCriteria.addSortAsc("priority");
 
@@ -314,7 +314,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
             case DEFAULT:
                 searchCriteria.addFilterNull(fieldName);
                 break;
-                
+
             case IDVALUE:
                 searchCriteria.addFilterOr(
                         Filter.isNull(fieldName),
@@ -361,10 +361,10 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 //     * </UL>
 //     * We're dealing with <TT><I>name</I></TT>s here, so <U>we'll suppose that the related object's name field is called "<TT>name</TT>"</U>.
 //     */
-//    protected void addCriteria(Search searchCriteria, String name, String fieldName) throws BadRequestWebEx {
+//    protected void addCriteria(Search searchCriteria, String name, String fieldName) throws BadRequestServiceEx {
 //        if (name == null)
 //            return; // TODO: check desired behaviour
-////            throw new BadRequestWebEx(fieldName + " is null");
+////            throw new BadRequestServiceEx(fieldName + " is null");
 //
 //        searchCriteria.addFilterOr(
 //                Filter.isNull(fieldName),
@@ -378,7 +378,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 //     * <LI>any string will match that specific value and any rules with that field set to null</LI>
 //     * </UL>
 //     */
-//    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestWebEx {
+//    protected void addStringMatchCriteria(Search searchCriteria, String value, String fieldName) throws BadRequestServiceEx {
 //        if(value != null) {
 //            searchCriteria.addFilterOr(
 //                    Filter.isNull(fieldName),
@@ -404,9 +404,9 @@ public class RuleReaderServiceImpl implements RuleReaderService {
 
         return shortList;
     }
-    
+
     // ==========================================================================
-    
+
     public void setRuleDAO(RuleDAO ruleDAO) {
         this.ruleDAO = ruleDAO;
     }

@@ -11,6 +11,7 @@
     <!--        <property name="hibernate.connection.username">NOT USEFUL</property>-->
     <!--        <property name="hibernate.connection.password">NOT USEFUL</property>-->
     <mapping class="it.geosolutions.georepo.core.model.GSUser"/>
+    <mapping class="it.geosolutions.georepo.core.model.GRUser"/>
     <mapping class="it.geosolutions.georepo.core.model.Profile"/>
     <mapping class="it.geosolutions.georepo.core.model.GSInstance"/>
     <mapping class="it.geosolutions.georepo.core.model.Rule"/>

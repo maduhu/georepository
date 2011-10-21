@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -39,7 +39,6 @@ import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 import it.geosolutions.georepo.gui.server.service.IGsUsersManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 import it.geosolutions.georepo.services.dto.ShortUser;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +54,7 @@ import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 /**
  * The Class GsUsersManagerServiceImpl.
@@ -71,7 +71,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * it.geosolutions.georepo.gui.server.service.IFeatureService#loadFeature(com.extjs.gxt.ui.
      * client.data.PagingLoadConfig, java.lang.String)
@@ -92,7 +92,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             all_user.setDateCreation(null);
             usersListDTO.add(all_user);
         }
-        
+
         long usersCount = georepoRemoteService.getUserAdminService().getCount(null) + 1;
 
         Long t = new Long(usersCount);
@@ -112,7 +112,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
             it.geosolutions.georepo.core.model.GSUser remote_user;
             try {
                 remote_user = georepoRemoteService.getUserAdminService().get(short_usr.getId());
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 if (logger.isErrorEnabled())
                     logger.error("Details for profile " + short_usr.getName()
                             + " not found on Server!");
@@ -150,24 +150,24 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
         it.geosolutions.georepo.core.model.GSUser remote_user = null;
         if (user.getId() >= 0) {
             try {
-                remote_user = georepoRemoteService.getUserAdminService().get(user.getId()); 
+                remote_user = georepoRemoteService.getUserAdminService().get(user.getId());
                 copyUser(user, remote_user);
                 georepoRemoteService.getUserAdminService().update(remote_user);
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 logger.error(e.getLocalizedMessage(), e.getCause());
                 throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
-            } 
+            }
         } else {
             try {
                 remote_user = new it.geosolutions.georepo.core.model.GSUser();
                 copyUser(user, remote_user);
                 georepoRemoteService.getUserAdminService().insert(remote_user);
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 logger.error(e.getLocalizedMessage(), e.getCause());
                 throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
-            } 
+            }
         }
-        
+
     }
 
     /**
@@ -176,7 +176,7 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
      * @throws ResourceNotFoundFault
      */
     private void copyUser(GSUser user, it.geosolutions.georepo.core.model.GSUser remote_user)
-            throws ResourceNotFoundFault {
+            throws NotFoundServiceEx {
         remote_user.setName(user.getName());
         remote_user.setFullName(user.getFullName());
         remote_user.setEmailAddress(user.getEmailAddress());
@@ -196,14 +196,14 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
     public void deleteUser(GSUser user) throws ApplicationException {
         it.geosolutions.georepo.core.model.GSUser remote_user = null;
         try {
-            remote_user = georepoRemoteService.getUserAdminService().get(user.getId()); 
+            remote_user = georepoRemoteService.getUserAdminService().get(user.getId());
             georepoRemoteService.getUserAdminService().delete(remote_user.getId());
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getLocalizedMessage(), e.getCause());
             throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
         }
     }
-    
+
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.server.service.IGsUsersManagerService#getUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
      */
@@ -214,13 +214,13 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
 
         try {
             gsUser = georepoRemoteService.getUserAdminService().get(userId);
-            
+
             if (gsUser != null) {
                 userLimitInfo = new UserLimitsInfo();
                 userLimitInfo.setUserId(userId);
-                
+
                 MultiPolygon the_geom = gsUser.getAllowedArea();
-                
+
                 if(the_geom != null){
                     userLimitInfo.setAllowedArea(the_geom.toText());
                     userLimitInfo.setSrid(String.valueOf(the_geom.getSRID()));
@@ -229,14 +229,14 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
                     userLimitInfo.setSrid(null);
                 }
             }
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         }
 
         return userLimitInfo;
     }
-    
+
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.server.service.IGsUsersManagerService#saveUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
      */
@@ -247,20 +247,20 @@ public class GsUsersManagerServiceImpl implements IGsUsersManagerService {
 
         try {
             gsUser = georepoRemoteService.getUserAdminService().get(userId);
-            
+
             String allowedArea = userLimitInfo.getAllowedArea();
-            
+
             if(allowedArea != null){
                 WKTReader wktReader = new WKTReader();
                 MultiPolygon the_geom = (MultiPolygon) wktReader.read(allowedArea);
                 the_geom.setSRID(Integer.valueOf(userLimitInfo.getSrid()).intValue());
                 gsUser.setAllowedArea(the_geom);
             }else{
-                gsUser.setAllowedArea(null); 
+                gsUser.setAllowedArea(null);
             }
 
             georepoRemoteService.getUserAdminService().update(gsUser);
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         } catch (ParseException e) {

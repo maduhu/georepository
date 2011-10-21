@@ -15,6 +15,9 @@
     <bean id="userAdminService" class="it.geosolutions.georepo.services.UserAdminServiceImpl">
     </bean>
 
+    <bean id="grUserAdminService" class="it.geosolutions.georepo.services.GRUserAdminServiceImpl">
+    </bean>
+
     <bean id="profileAdminService" class="it.geosolutions.georepo.services.ProfileAdminServiceImpl">
     </bean>
 

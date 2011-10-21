@@ -41,7 +41,6 @@ import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
 import it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader;
 import it.geosolutions.geoserver.rest.decoder.RESTLayer;
 import it.geosolutions.geoserver.rest.decoder.RESTLayerList;
@@ -64,6 +63,7 @@ import org.springframework.stereotype.Component;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -234,7 +234,7 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService {
         } catch (MalformedURLException e) {
             logger.error(e.getLocalizedMessage(), e);
             throw new ApplicationException(e.getLocalizedMessage(), e);
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getLocalizedMessage(), e);
             throw new ApplicationException(e.getLocalizedMessage(), e);
         }

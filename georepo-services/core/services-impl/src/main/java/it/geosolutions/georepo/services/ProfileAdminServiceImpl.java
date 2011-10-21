@@ -21,7 +21,6 @@ package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.dao.ProfileDAO;
 import it.geosolutions.georepo.core.model.Profile;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.List;
 
@@ -29,11 +28,14 @@ import org.apache.log4j.Logger;
 
 import com.trg.search.Search;
 import it.geosolutions.georepo.services.dto.ShortProfile;
+import it.geosolutions.georepo.services.exception.BadRequestServiceEx;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 import java.util.ArrayList;
 import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
+ *
  * @author ETj (etj at geo-solutions.it)
  */
 public class ProfileAdminServiceImpl implements ProfileAdminService {
@@ -54,25 +56,26 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public long update(ShortProfile profile) throws ResourceNotFoundFault {
+    public long update(ShortProfile profile) throws NotFoundServiceEx {
         Profile orig = profileDAO.find(profile.getId());
         if (orig == null) {
-            throw new ResourceNotFoundFault("Profile not found", profile.getId());
+            throw new NotFoundServiceEx("Profile not found", profile.getId());
         }
 
         orig.setName(profile.getName());
         orig.setEnabled(profile.isEnabled());
+        orig.setExtId(profile.getExtId());
 
         profileDAO.merge(orig);
         return orig.getId();
     }
 
     @Override
-    public Profile get(long id) throws ResourceNotFoundFault {
+    public Profile get(long id) throws NotFoundServiceEx {
         Profile profile = profileDAO.find(id);
 
         if (profile == null) {
-            throw new ResourceNotFoundFault("Profile not found", id);
+            throw new NotFoundServiceEx("Profile not found", id);
         }
 
 //        return new ShortProfile(profile);
@@ -80,11 +83,11 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public boolean delete(long id) throws ResourceNotFoundFault {
+    public boolean delete(long id) throws NotFoundServiceEx {
         Profile profile = profileDAO.find(id);
 
         if (profile == null) {
-            throw new ResourceNotFoundFault("Profile not found", id);
+            throw new NotFoundServiceEx("Profile not found", id);
         }
 
         // data on ancillary tables should be deleted by cascading
@@ -92,36 +95,42 @@ public class ProfileAdminServiceImpl implements ProfileAdminService {
     }
 
     @Override
-    public List<ShortProfile> getAll() {
-        List<Profile> found = profileDAO.findAll();
-        return convertToShortList(found);
+    public List<Profile> getFullList(String nameLike, Integer page, Integer entries) {
+        Search searchCriteria = buildCriteria(page, entries, nameLike);
+        List<Profile> found = profileDAO.search(searchCriteria);
+        for (Profile profile : found) {
+            profile.setCustomProps(profileDAO.getCustomProps(profile.getId()));
+        }
+        return found;
     }
 
     @Override
-    public List<ShortProfile> getList(String nameLike, int page, int entries) {
-        Search searchCriteria = new Search(Profile.class);
-        searchCriteria.setMaxResults(entries);
-        searchCriteria.setPage(page);
-        searchCriteria.addSortAsc("name");
-
-        if (nameLike != null) {
-            searchCriteria.addFilterILike("name", nameLike);
-        }
-
+    public List<ShortProfile> getList(String nameLike, Integer page, Integer entries) {
+        Search searchCriteria = buildCriteria(page, entries, nameLike);
         List<Profile> found = profileDAO.search(searchCriteria);
-//        return found;
         return convertToShortList(found);
     }
 
     @Override
     public long getCount(String nameLike) {
-        Search searchCriteria = new Search(Profile.class);
+        Search searchCriteria = buildCriteria(null, null, nameLike);
+        return profileDAO.count(searchCriteria);
+    }
 
+    protected Search buildCriteria(Integer page, Integer entries, String nameLike) throws BadRequestServiceEx {
+        if( (page != null && entries == null) || (page ==null && entries != null)) {
+            throw new BadRequestServiceEx("Page and entries params should be declared together.");
+        }
+        Search searchCriteria = new Search(Profile.class);
+        if(page != null) {
+            searchCriteria.setMaxResults(entries);
+            searchCriteria.setPage(page);
+        }
+        searchCriteria.addSortAsc("name");
         if (nameLike != null) {
             searchCriteria.addFilterILike("name", nameLike);
         }
-
-        return profileDAO.count(searchCriteria);
+        return searchCriteria;
     }
 
     // ==========================================================================

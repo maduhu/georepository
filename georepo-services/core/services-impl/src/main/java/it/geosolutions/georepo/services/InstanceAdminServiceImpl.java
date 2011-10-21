@@ -20,7 +20,6 @@
 package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.model.GSInstance;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.List;
 
@@ -28,9 +27,11 @@ import org.apache.log4j.Logger;
 
 import com.trg.search.Search;
 import it.geosolutions.georepo.core.dao.GSInstanceDAO;
+import it.geosolutions.georepo.services.exception.BadRequestServiceEx;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 /**
- * 
+ *
  * @author ETj (etj at geo-solutions.it)
  */
 public class InstanceAdminServiceImpl implements InstanceAdminService {
@@ -47,10 +48,10 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
     }
 
     @Override
-    public long update(GSInstance instance) throws ResourceNotFoundFault {
+    public long update(GSInstance instance) throws NotFoundServiceEx {
         GSInstance orig = instanceDAO.find(instance.getId());
         if (orig == null) {
-            throw new ResourceNotFoundFault("GSInstance not found", instance.getId());
+            throw new NotFoundServiceEx("GSInstance not found", instance.getId());
         }
 
         instanceDAO.merge(instance);
@@ -58,11 +59,11 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
     }
 
     @Override
-    public GSInstance get(long id) throws ResourceNotFoundFault {
+    public GSInstance get(long id) throws NotFoundServiceEx {
         GSInstance instance = instanceDAO.find(id);
 
         if (instance == null) {
-            throw new ResourceNotFoundFault("GSInstance not found", id);
+            throw new NotFoundServiceEx("GSInstance not found", id);
         }
 
 //        return new ShortInstance(instance);
@@ -70,11 +71,11 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
     }
 
     @Override
-    public boolean delete(long id) throws ResourceNotFoundFault {
+    public boolean delete(long id) throws NotFoundServiceEx {
         GSInstance instance = instanceDAO.find(id);
 
         if (instance == null) {
-            throw new ResourceNotFoundFault("GSInstance not found", id);
+            throw new NotFoundServiceEx("GSInstance not found", id);
         }
 
         // data on ancillary tables should be deleted by cascading
@@ -89,10 +90,18 @@ public class InstanceAdminServiceImpl implements InstanceAdminService {
     }
 
     @Override
-    public List<GSInstance> getList(String nameLike, int page, int entries) {
+    public List<GSInstance> getList(String nameLike, Integer page, Integer entries) {
+
+        if( (page != null && entries == null) || (page ==null && entries != null)) {
+            throw new BadRequestServiceEx("Page and entries params should be declared together.");
+        }
+
         Search searchCriteria = new Search(GSInstance.class);
-        searchCriteria.setMaxResults(entries);
-        searchCriteria.setPage(page);
+
+        if(page != null) {
+            searchCriteria.setMaxResults(entries);
+            searchCriteria.setPage(page);
+        }
         searchCriteria.addSortAsc("name");
 
         if (nameLike != null) {

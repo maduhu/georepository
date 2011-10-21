@@ -24,20 +24,21 @@
 
     <parent>
         <groupId>it.geosolutions.georepository</groupId>
-        <artifactId>root</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>georepo-root</artifactId>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
     <groupId>it.geosolutions.georepository</groupId>
-    <artifactId>modules</artifactId>
+    <artifactId>georepo-modules</artifactId>
     <packaging>pom</packaging>
-    <name>GeoRepo - Modules</name>
+    <name>GeoRepo - Modules - 0 Root</name>
 
     <modules>
         <module>login</module>
         <module>generic-api</module>
         <module>webgis</module>
         <module>webgisstub</module>
+        <module>rest</module>
     </modules>
 
 </project>

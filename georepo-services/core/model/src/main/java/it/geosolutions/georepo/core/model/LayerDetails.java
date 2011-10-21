@@ -21,6 +21,7 @@
 package it.geosolutions.georepo.core.model;
 
 import com.vividsolutions.jts.geom.MultiPolygon;
+import it.geosolutions.georepo.core.model.adapter.MapAdapter;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
 import it.geosolutions.georepo.core.model.enums.LayerType;
 import java.io.Serializable;
@@ -39,7 +40,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -176,6 +179,7 @@ public class LayerDetails implements Serializable {
         this.id = id;
     }
 
+    @XmlJavaTypeAdapter(MapAdapter.class)
     public Map<String, String> getCustomProps() {
         return customProps;
     }
@@ -184,6 +188,7 @@ public class LayerDetails implements Serializable {
         this.customProps = customProps;
     }
 
+    @XmlTransient
     public Rule getRule() {
         return rule;
     }
@@ -192,6 +197,7 @@ public class LayerDetails implements Serializable {
         this.rule = rule;
     }
 
+    @XmlElement(name="attribute")
     public Set<LayerAttribute> getAttributes() {
         return attributes;
     }

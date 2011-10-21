@@ -26,6 +26,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -53,7 +54,7 @@ public class LayerAttribute implements Serializable {
      * This field should be notnull, but making it so, hibernate will insist to
      * put it into the PK.
      * We'll making it notnull in the {@link LayerDetails#attributes parent class},
-     * but this seems not to work. We're enforncing the netnull at the DAO level.
+     * but this seems not to work. We're enforncing the notnull at the DAO level.
      *
      */
     @Enumerated(EnumType.STRING)
@@ -73,7 +74,8 @@ public class LayerAttribute implements Serializable {
         this.datatype = datatype;
         this.access = access;
     }
-    
+
+    @XmlAttribute
     public AccessType getAccess() {
         return access;
     }

@@ -36,7 +36,6 @@ import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.server.service.IInstancesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,6 +49,7 @@ import org.springframework.stereotype.Component;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -160,7 +160,7 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
         try {
             remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId()); 
             georepoRemoteService.getInstanceAdminService().delete(remote_instance.getId());
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getLocalizedMessage(), e.getCause());
             throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
         }
@@ -181,7 +181,7 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
                 remote_instance.setPassword(instance.getPassword());
                 remote_instance.setUsername(instance.getUsername());
                 georepoRemoteService.getInstanceAdminService().update(remote_instance);
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 logger.error(e.getLocalizedMessage(), e.getCause());
                 throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
             } 

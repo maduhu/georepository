@@ -24,7 +24,7 @@ import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.RuleLimits;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 import java.util.List;
 import java.util.Map;
@@ -42,7 +42,7 @@ import javax.ws.rs.QueryParam;
 
 /**
  * Operations on {@link Rule Rule}s.
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @WebService(name = "ProfileAdminService", targetNamespace = "http://geosolutions.it/georepo")
@@ -58,7 +58,7 @@ public interface RuleAdminService {
 
     @PUT
     @Path("/rules/{id}")
-    long update(@PathParam("rule") Rule rule) throws ResourceNotFoundFault;
+    long update(@PathParam("rule") Rule rule) throws NotFoundServiceEx;
 
     /**
      * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
@@ -76,11 +76,11 @@ public interface RuleAdminService {
 
     @DELETE
     @Path("/rules/{id}")
-    boolean delete(@PathParam("id") long id) throws ResourceNotFoundFault;
+    boolean delete(@PathParam("id") long id) throws NotFoundServiceEx;
 
     @GET
     @Path("/rules/{id}")
-    Rule get(@PathParam("id") long id) throws ResourceNotFoundFault;
+    Rule get(@PathParam("id") long id) throws NotFoundServiceEx;
 
     @GET
     @Path("/rules")
@@ -122,13 +122,24 @@ public interface RuleAdminService {
 
     /**
      * Return the Rules according to the filter.
-     *    
+     *
      * @param page used for retrieving paged data, may be null if not used. If not null, also <TT>entries</TT> should be defined.
      * @param entries used for retrieving paged data, may be null if not used. If not null, also <TT>page</TT> should be defined.
      *
      * @see RuleReaderService#getMatchingRules(RuleFilter)
      */
     List<ShortRule> getList(RuleFilter filter, Integer page, Integer entries);
+
+    /**
+     * Return the Rules according to the filter.
+     * Rules will be enriched with all their joined data, so this method may be heavy to execute.
+     *
+     * @param page used for retrieving paged data, may be null if not used. If not null, also <TT>entries</TT> should be defined.
+     * @param entries used for retrieving paged data, may be null if not used. If not null, also <TT>page</TT> should be defined.
+     *
+     * @see RuleReaderService#getMatchingRules(RuleFilter)
+     */
+    List<Rule> getListFull(RuleFilter filter, Integer page, Integer entries);
 
     /**
      * Return the Rules count according to the filter.
@@ -203,11 +214,11 @@ public interface RuleAdminService {
 
     Map<String, String> getDetailsProps(Long ruleId);
     void setDetailsProps(Long ruleId, Map<String, String> props);
-    
+
     Set<String> getAllowedStyles(Long ruleId);
     void setAllowedStyles(Long ruleId, Set<String> styles);
 
     // ==========================================================================
-    
+
 
 }

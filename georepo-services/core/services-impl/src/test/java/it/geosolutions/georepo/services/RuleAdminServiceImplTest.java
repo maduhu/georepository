@@ -1,19 +1,19 @@
 /*
  *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
- * 
+ *
  *  GPLv3 + Classpath exception
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,9 +29,8 @@ import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.exception.BadRequestWebEx;
-import it.geosolutions.georepo.services.exception.NotFoundWebEx;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.exception.BadRequestServiceEx;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,7 +60,7 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
     }
 
     @Test
-    public void testInsertDeleteRule() throws ResourceNotFoundFault {
+    public void testInsertDeleteRule() throws NotFoundServiceEx {
 
         Profile profile = createProfile(getName());
         Rule rule = new Rule();
@@ -145,7 +144,7 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
         assertEquals(0, ruleAdminService.getCount("*","*","*",              "ZZ","*", "*","*"));
     }
 
-    public void testRuleLimits() throws ResourceNotFoundFault {
+    public void testRuleLimits() throws NotFoundServiceEx {
         final Long id;
 
         {
@@ -202,13 +201,13 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
 
     }
 
-    public void testRuleLimitsErrors() throws ResourceNotFoundFault {
+    public void testRuleLimitsErrors() throws NotFoundServiceEx {
 
         try {
             RuleLimits limits = new RuleLimits();
             ruleAdminService.setLimits(-10L, limits);
             fail("Failed recognising not existent rule");
-        } catch (NotFoundWebEx e) {
+        } catch (NotFoundServiceEx e) {
             // OK
         }
 
@@ -221,13 +220,13 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
             RuleLimits limits = new RuleLimits();
             ruleAdminService.setLimits(id, limits);
             fail("Failed recognising bad rule type");
-        } catch (BadRequestWebEx e) {
+        } catch (BadRequestServiceEx e) {
             // OK
         }
 
     }
 
-    public void testRuleDetails() throws ResourceNotFoundFault {
+    public void testRuleDetails() throws NotFoundServiceEx {
         final Long id;
 
         {
@@ -272,7 +271,7 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
             styles.add("style1");
             styles.add("style2");
             ruleAdminService.setAllowedStyles(id, styles);
-            
+
             ruleAdminService.setDetails(id, details);
             lid2 = details.getId();
             assertNotNull(lid2);
@@ -313,13 +312,13 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
 
     }
 
-    public void testRuleDetailsErrors() throws ResourceNotFoundFault {
+    public void testRuleDetailsErrors() throws NotFoundServiceEx {
 
         try {
             LayerDetails details = new LayerDetails();
             ruleAdminService.setDetails(-10L, details);
             fail("Failed recognising not existent rule");
-        } catch (NotFoundWebEx e) {
+        } catch (NotFoundServiceEx e) {
             // OK
         }
 
@@ -331,11 +330,11 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
             LayerDetails details = new LayerDetails();
             ruleAdminService.setDetails(id1, details);
             fail("Failed recognising bad rule type");
-        } catch (BadRequestWebEx e) {
+        } catch (BadRequestServiceEx e) {
             // OK
         }
 
-        try {            
+        try {
             Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", null, GrantType.ALLOW);
             ruleAdminService.insert(r1);
             Long id1 = r1.getId();
@@ -343,13 +342,13 @@ public class RuleAdminServiceImplTest extends ServiceTestBase {
             LayerDetails details = new LayerDetails();
             ruleAdminService.setDetails(id1, details);
             fail("Failed recognising bad rule constraints");
-        } catch (BadRequestWebEx e) {
+        } catch (BadRequestServiceEx e) {
             // OK
         }
 
     }
 
-    public void testRuleDetailsProps() throws ResourceNotFoundFault {
+    public void testRuleDetailsProps() throws NotFoundServiceEx {
         final Long id;
         final Long lid1;
 

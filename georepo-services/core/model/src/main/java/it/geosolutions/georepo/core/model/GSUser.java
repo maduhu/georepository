@@ -4,7 +4,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -29,6 +29,7 @@
 package it.geosolutions.georepo.core.model;
 
 import com.vividsolutions.jts.geom.MultiPolygon;
+import it.geosolutions.georepo.core.model.adapter.FK2ProfileAdapter;
 import it.geosolutions.georepo.core.model.adapter.MultiPolygonAdapter;
 import java.io.Serializable;
 import java.util.Date;
@@ -41,7 +42,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.Cache;
@@ -53,21 +56,22 @@ import org.hibernate.annotations.Type;
  * A User that can access GeoServer resources.
  *
  * <P>A GSUser is <B>not</B> in the domain of the users which can log into GeoRepository.
- * 
+ *
  */
 @Entity(name = "GSUser")
 @Table(name = "gr_gsuser")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "GSUser")
 @XmlRootElement(name = "GSUser")
-public class GSUser implements Serializable {
+@XmlType(propOrder={"id","extId","name","fullName","password","emailAddress","dateCreation","profile","allowedArea"})
+public class GSUser implements Identifiable, Serializable {
 
     private static final long serialVersionUID = 7718458156939088033L;
-  
+
     /** The id. */
     @Id
     @GeneratedValue
     @Column
-    private long id;
+    private Long id;
 
     /** External Id. An ID used in an external systems.
      * This field should simplify GeoRepository integration in complex systems.
@@ -90,7 +94,7 @@ public class GSUser implements Serializable {
     /** The email address. */
     @Column(nullable=true)
     private String emailAddress;
-    
+
     /** The date of creation of this user */
     @Column(updatable=false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -98,7 +102,7 @@ public class GSUser implements Serializable {
 
     /** Is the GSUser Enabled or not in the system? */
     @Column(nullable=false)
-    private boolean enabled;
+    private boolean enabled = true;
 
     /** Is the GSUser a GS admin? */
     @Column(nullable=false)
@@ -121,20 +125,20 @@ public class GSUser implements Serializable {
 
     /**
      * Gets the id.
-     * 
+     *
      * @return the id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * Sets the id.
-     * 
+     *
      * @param id
      *            the new id
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -148,7 +152,7 @@ public class GSUser implements Serializable {
 
     /**
      * Gets the name.
-     * 
+     *
      * @return the name
      */
     public String getName() {
@@ -157,7 +161,7 @@ public class GSUser implements Serializable {
 
     /**
      * Sets the name.
-     * 
+     *
      * @param name
      *            the new name
      */
@@ -207,6 +211,7 @@ public class GSUser implements Serializable {
         return emailAddress;
     }
 
+    @XmlAttribute
     public boolean isAdmin() {
         return admin;
     }
@@ -233,6 +238,7 @@ public class GSUser implements Serializable {
     /**
      * @return the enabled
      */
+    @XmlAttribute
     public Boolean getEnabled() {
         return enabled;
     }
@@ -248,6 +254,7 @@ public class GSUser implements Serializable {
     /**
      * @return the profile
      */
+    @XmlJavaTypeAdapter(FK2ProfileAdapter.class)
     public Profile getProfile() {
         return profile;
     }
@@ -359,7 +366,7 @@ public class GSUser implements Serializable {
         builder.append("enabled=").append(enabled).append(", ");
         builder.append("admin=").append(admin).append(", ");
         if (dateCreation != null)
-            builder.append("dateCreation=").append(dateCreation).append(", ");        
+            builder.append("dateCreation=").append(dateCreation).append(", ");
         builder.append("]");
         return builder.toString();
     }

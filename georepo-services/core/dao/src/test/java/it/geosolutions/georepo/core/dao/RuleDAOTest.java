@@ -34,7 +34,7 @@ import java.util.Map;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author ETj (etj at geo-solutions.it)
  */
 public class RuleDAOTest extends BaseDAOTest {
@@ -55,8 +55,8 @@ public class RuleDAOTest extends BaseDAOTest {
     @Test
     public void testPersistRule() throws Exception {
 
-        long uid;
-        long rid;
+        Long uid;
+        Long rid;
         {
             Rule rule = createRule();
             rid = rule.getId();
@@ -368,8 +368,8 @@ public class RuleDAOTest extends BaseDAOTest {
             //cannot reuse the same Map returned by Hibernate, since they will be detached
             if(props != null) {
                 oldProps.putAll(oldProps);
-            } 
-            
+            }
+
             detailsDAO.remove(rule.getLayerDetails());
         }
 
@@ -394,7 +394,7 @@ public class RuleDAOTest extends BaseDAOTest {
             detailsDAO.persist(details);
             // restore old properties
             if(oldProps != null) { // always it is, add a size check
-                LOGGER.info("Restoring " + oldProps.size() + " props from older LayerDetails (id:"+ruleId+")");                
+                LOGGER.info("Restoring " + oldProps.size() + " props from older LayerDetails (id:"+ruleId+")");
                 detailsDAO.setCustomProps(ruleId, oldProps);
             }
         } else {
@@ -467,7 +467,7 @@ public class RuleDAOTest extends BaseDAOTest {
         ruleDAO.persist(r3);
 
         ruleDAO.swap(r1.getId(), r2.getId());
-        
+
         assertEquals(20, ruleDAO.find(r1.getId()).getPriority());
         assertEquals(10, ruleDAO.find(r2.getId()).getPriority());
         assertEquals(30, ruleDAO.find(r3.getId()).getPriority());

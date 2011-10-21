@@ -26,14 +26,14 @@
 
     <parent>
         <groupId>it.geosolutions.georepository</groupId>
-        <artifactId>login-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>georepo-login-parent</artifactId>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
     <groupId>it.geosolutions.georepository</groupId>
-    <artifactId>login-api</artifactId>
+    <artifactId>georepo-login-api</artifactId>
     <packaging>jar</packaging>
-    <name>GeoRepo - Module - Login - API</name>
+    <name>GeoRepo - Modules - Login - API</name>
 
     <dependencies>
 
@@ -42,7 +42,7 @@
         <!-- ================================================================-->
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
-            <artifactId>generic-api</artifactId>
+            <artifactId>georepo-generic-api</artifactId>
         </dependency>
         
         <!-- ================================================================-->

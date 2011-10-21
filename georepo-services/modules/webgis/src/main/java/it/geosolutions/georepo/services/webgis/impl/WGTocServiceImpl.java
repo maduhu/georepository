@@ -1,19 +1,19 @@
 /*
  *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
- * 
+ *
  *  GPLv3 + Classpath exception
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,9 +29,8 @@ import it.geosolutions.georepo.core.model.enums.GrantType;
 import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.exception.BadRequestWebEx;
-import it.geosolutions.georepo.services.exception.NotFoundWebEx;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.exception.BadRequestServiceEx;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 import it.geosolutions.georepo.services.webgis.WebGisTOCService;
 import it.geosolutions.georepo.services.webgis.model.TOCAttrib;
 import it.geosolutions.georepo.services.webgis.model.TOCConfig;
@@ -68,7 +67,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
     public TOCConfig getTOC(String profile) {
 
         if(profile == null)
-            throw new BadRequestWebEx("Missing Profile");
+            throw new BadRequestServiceEx("Missing Profile");
 
         // groupTitle, Group
         Map<String, TOCGroup> tocGroups = new HashMap<String, TOCGroup>();
@@ -77,14 +76,16 @@ public class WGTocServiceImpl implements WebGisTOCService {
 
         RuleFilter ruleFilter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
         ruleFilter.setProfile(profile);
-        
+
         List<ShortRule> rules = ruleAdminService.getList(ruleFilter, null, null);
         for (ShortRule shortRule : rules) {
             if(shortRule.getLayer() != null && shortRule.getAccess()==GrantType.ALLOW) {
+                    Map<String, String> props = null;
+                    Rule rule = null;
                 try {
                     LOGGER.info("retrieving props for Rule " + shortRule);
-                    Map<String, String> props = ruleAdminService.getDetailsProps(shortRule.getId());
-                    Rule rule = ruleAdminService.get(shortRule.getId());
+                    props = ruleAdminService.getDetailsProps(shortRule.getId());
+                    rule = ruleAdminService.get(shortRule.getId());
                     GSInstance gs = rule.getInstance();
                     GeoServerRESTReader reader = cacheReader(gs, readers);
                     TOCGroup bg = fetchOrCreateGroup(bgGroups, props.get(TOCLayer.TOCProps.bgGroup.name()), gs);
@@ -106,10 +107,13 @@ public class WGTocServiceImpl implements WebGisTOCService {
                     if (bg != null) {
                         bg.getLayerList().add(tocl);
                     }
-                } catch (ResourceNotFoundFault ex) {
-                    LOGGER.error("Rule not found: " + shortRule + ": " + ex.getMessage());
-                } catch (NotFoundWebEx ex) {
-                    LOGGER.info("Props not found for rule " + shortRule + ": " + ex.getMessage());
+                } catch (NotFoundServiceEx ex) {
+                    if(props == null)
+                        LOGGER.info("Props not found for rule " + shortRule + ": " + ex.getMessage());
+                    else if(rule == null)
+                        LOGGER.error("Rule not found: " + shortRule + ": " + ex.getMessage());
+                    else
+                        throw new IllegalStateException(ex);
                 }
             }
         }
@@ -253,7 +257,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
     //==========================================================================
 
     @Override
-    public String setProperty(long layerId, String propertyName, String propertyValue) throws NotFoundWebEx {
+    public String setProperty(long layerId, String propertyName, String propertyValue) throws NotFoundServiceEx {
 
         Map<String, String> props = ruleAdminService.getDetailsProps(layerId); // throws notfoundex
 
@@ -264,12 +268,12 @@ public class WGTocServiceImpl implements WebGisTOCService {
             return oldValue;
         } else {
             LOGGER.info("Will not set property " +propertyName + " to " + propertyValue + " for layer " + layerId + ": property not found");
-            throw new NotFoundWebEx("Property "+propertyName+" not found");
+            throw new NotFoundServiceEx("Property "+propertyName+" not found");
         }
     }
 
     @Override
-    public String getProperty(long layerId, String propertyName) throws NotFoundWebEx {
+    public String getProperty(long layerId, String propertyName) throws NotFoundServiceEx {
         Map<String, String> props = ruleAdminService.getDetailsProps(layerId); // throws notfoundex
         LOGGER.info("Getting property " +propertyName );
         return props.get(propertyName);

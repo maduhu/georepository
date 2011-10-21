@@ -25,6 +25,7 @@
 <!--    <class>it.geosolutions.georepo.core.model.AttributePermission</class>-->
 <!--    <class>it.geosolutions.georepo.core.model.LayerPermission</class>-->
     <class>it.geosolutions.georepo.core.model.GSUser</class>
+    <class>it.geosolutions.georepo.core.model.GRUser</class>
     <class>it.geosolutions.georepo.core.model.Profile</class>
     <class>it.geosolutions.georepo.core.model.GSInstance</class>
     <class>it.geosolutions.georepo.core.model.Rule</class>

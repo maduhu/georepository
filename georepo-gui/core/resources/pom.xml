@@ -4,12 +4,12 @@
 
 	<parent>
 		<groupId>it.geosolutions.georepository</groupId>
-		<artifactId>gui-core</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<artifactId>georepo-gui-core</artifactId>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>it.geosolutions.georepository</groupId>
-	<artifactId>gui-resources</artifactId>
+	<artifactId>georepo-gui-resources</artifactId>
 	<packaging>jar</packaging>
 
 	<name>GeoRepo - GUI - Resources</name>
@@ -57,27 +57,27 @@
 
 		<dependency>
         	<groupId>it.geosolutions.georepository</groupId>
-			<artifactId>model</artifactId>
+			<artifactId>georepo-model</artifactId>
 		</dependency>
 
 		<dependency>
         	<groupId>it.geosolutions.georepository</groupId>
-			<artifactId>services-api</artifactId>
+			<artifactId>georepo-services-api</artifactId>
 		</dependency>
 
 		<dependency>
         	<groupId>it.geosolutions.georepository</groupId>
-            <artifactId>login-api</artifactId>
+            <artifactId>georepo-login-api</artifactId>
 		</dependency>
 
         <dependency>
         	<groupId>it.geosolutions.georepository</groupId>
-            <artifactId>login-impl</artifactId>
+            <artifactId>georepo-login-impl</artifactId>
 		</dependency>
 
 		<dependency>
         	<groupId>it.geosolutions.georepository</groupId>
-            <artifactId>generic-api</artifactId>
+            <artifactId>georepo-generic-api</artifactId>
 		</dependency>
 
         <!-- =============================================================== -->

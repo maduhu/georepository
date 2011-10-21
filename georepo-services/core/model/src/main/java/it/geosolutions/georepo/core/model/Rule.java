@@ -1,24 +1,27 @@
 /*
  *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
- * 
+ *
  *  GPLv3 + Classpath exception
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.geosolutions.georepo.core.model;
 
+import it.geosolutions.georepo.core.model.adapter.FKGSInstanceAdapter;
+import it.geosolutions.georepo.core.model.adapter.FKProfileAdapter;
+import it.geosolutions.georepo.core.model.adapter.FKUserAdapter;
 import it.geosolutions.georepo.core.model.enums.GrantType;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
@@ -34,6 +37,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ForeignKey;
@@ -74,7 +79,8 @@ import org.hibernate.annotations.Index;
         @UniqueConstraint(columnNames = {"gsuser_id", "profile_id", "instance_id", "service", "request", "workspace", "layer"})})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Rule")
 @XmlRootElement(name = "Rule")
-public class Rule implements Serializable {
+@XmlType(propOrder={"id","priority","gsuser","profile","instance","service","request","workspace","layer","access","layerDetails","ruleLimits"})
+public class Rule implements Identifiable, Serializable {
 
     private static final long serialVersionUID = -5127129225384707164L;
 
@@ -124,7 +130,7 @@ public class Rule implements Serializable {
     @OneToOne(optional = true, cascade = CascadeType.REMOVE, mappedBy = "rule") // main ref is in LayerDetails
     @ForeignKey(name = "fk_rule_details")
     private LayerDetails layerDetails;
-    
+
     @OneToOne(optional = true, cascade = CascadeType.REMOVE, mappedBy = "rule") // main ref is in ruleLimits
     @ForeignKey(name = "fk_rule_limits")
     private RuleLimits ruleLimits;
@@ -160,6 +166,7 @@ public class Rule implements Serializable {
         this.priority = priority;
     }
 
+    @XmlJavaTypeAdapter(FKUserAdapter.class)
     public GSUser getGsuser() {
         return gsuser;
     }
@@ -168,6 +175,7 @@ public class Rule implements Serializable {
         this.gsuser = gsuser;
     }
 
+    @XmlJavaTypeAdapter(FKProfileAdapter.class)
     public Profile getProfile() {
         return profile;
     }
@@ -176,6 +184,7 @@ public class Rule implements Serializable {
         this.profile = profile;
     }
 
+    @XmlJavaTypeAdapter(FKGSInstanceAdapter.class)
     public GSInstance getInstance() {
         return instance;
     }
@@ -229,10 +238,10 @@ public class Rule implements Serializable {
     }
 
     /**
-     * This setter is only used by hibernate, should not be called by the user.
+     * @deprecated  This setter is only used by hibernate, should not be called by the user.
      * @param ruleLimits
      */
-    protected void setRuleLimits(RuleLimits ruleLimits) {
+    public void setRuleLimits(RuleLimits ruleLimits) {
         this.ruleLimits = ruleLimits;
     }
 
@@ -241,9 +250,9 @@ public class Rule implements Serializable {
     }
 
     /**
-     * This setter is only used by hibernate, should not be called by the user.
+     * @deprecated This setter is only used by hibernate, should not be called by the user.
      */
-    protected void setLayerDetails(LayerDetails layerDetails) {
+    public void setLayerDetails(LayerDetails layerDetails) {
         this.layerDetails = layerDetails;
     }
 

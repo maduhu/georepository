@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -17,40 +17,33 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package it.geosolutions.georepo.services.exception;
 
-import javax.xml.ws.WebFault;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 /**
- * 
- * Bad parameter coming from web service client
- * 
- * @author ETj
+ *
+ * @author ETj (etj at geo-solutions.it)
  */
+public class NotFoundServiceEx extends WebApplicationException {
 
-@WebFault(name = "IllegalParameterFault", faultBean = "it.geosolutions.georepo.services.exception.IllegalParameterFault")
-public class IllegalParameterFault extends Exception {
+    private String message;
 
-    public IllegalParameterFault() {
-    }
+    public NotFoundServiceEx(String message) {
+        super(Response.Status.NOT_FOUND);
+        this.message = message;
+     }
 
-    /**
-     * This is needed, or the SOAP client will throw an ex in initialization:
-     * java.lang.NoSuchMethodException:
-     * it.geosolutions.georepo.services.exception.ResourceNotFoundFault.<init>(java.lang.String)
-     */
-    public IllegalParameterFault(String msg) {
-        super(msg);
-    }
-
-    public IllegalParameterFault(String message, Throwable cause) {
-        super(message, cause);
-    }
+    public NotFoundServiceEx(String message, Long id) {
+        super(Response.Status.NOT_FOUND);
+        this.message = message + " (id:"+id+")";
+     }
 
     @Override
     public String getMessage() {
-        return super.getMessage();
+        return message;
     }
+
 
 }

@@ -22,7 +22,6 @@ package it.geosolutions.georepo.services;
 import it.geosolutions.georepo.core.dao.GSUserDAO;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.services.dto.ShortUser;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +29,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.trg.search.Search;
-import it.geosolutions.georepo.services.exception.BadRequestWebEx;
+import it.geosolutions.georepo.services.exception.BadRequestServiceEx;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 /**
- * 
+ *
  * @author ETj (etj at geo-solutions.it)
  */
 public class UserAdminServiceImpl implements UserAdminService {
@@ -50,10 +50,10 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public long update(GSUser user) throws ResourceNotFoundFault {
+    public long update(GSUser user) throws NotFoundServiceEx {
         GSUser orig = userDAO.find(user.getId());
         if (orig == null) {
-            throw new ResourceNotFoundFault("User not found", user.getId());
+            throw new NotFoundServiceEx("User not found", user.getId());
         }
 
         userDAO.merge(user);
@@ -61,33 +61,27 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public GSUser get(long id) throws ResourceNotFoundFault {
+    public GSUser get(long id) throws NotFoundServiceEx {
         GSUser user = userDAO.find(id);
 
         if (user == null) {
-            throw new ResourceNotFoundFault("User not found", id);
+            throw new NotFoundServiceEx("User not found", id);
         }
 
         return user;
     }
 
     @Override
-    public boolean delete(long id) throws ResourceNotFoundFault {
+    public boolean delete(long id) throws NotFoundServiceEx {
         // data on ancillary tables should be deleted by cascading
         return userDAO.removeById(id);
     }
 
     @Override
-    public List<ShortUser> getAll() {
-        List<GSUser> found = userDAO.findAll();
-        return convertToShortList(found);
-    }
-
-    @Override
-    public List<ShortUser> getList(String nameLike, Integer page, Integer entries) {
+    public List<GSUser> getFullList(String nameLike, Integer page, Integer entries) {
 
         if( (page != null && entries == null) || (page ==null && entries != null)) {
-            throw new BadRequestWebEx("Page and entries params should be declared together.");
+            throw new BadRequestServiceEx("Page and entries params should be declared together.");
         }
 
         Search searchCriteria = new Search(GSUser.class);
@@ -96,7 +90,7 @@ public class UserAdminServiceImpl implements UserAdminService {
             searchCriteria.setMaxResults(entries);
             searchCriteria.setPage(page);
         }
-        
+
         searchCriteria.addSortAsc("name");
 
         if (nameLike != null) {
@@ -104,7 +98,12 @@ public class UserAdminServiceImpl implements UserAdminService {
         }
 
         List<GSUser> found = userDAO.search(searchCriteria);
-        return convertToShortList(found);
+        return found;
+    }
+
+    @Override
+    public List<ShortUser> getList(String nameLike, Integer page, Integer entries) {
+        return convertToShortList(getFullList(nameLike, page, entries));
     }
 
     @Override

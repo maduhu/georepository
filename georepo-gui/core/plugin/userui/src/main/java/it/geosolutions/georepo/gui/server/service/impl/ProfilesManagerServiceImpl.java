@@ -34,12 +34,10 @@ package it.geosolutions.georepo.gui.server.service.impl;
 
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 import it.geosolutions.georepo.gui.server.service.IProfilesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 import it.geosolutions.georepo.services.dto.ShortProfile;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +55,7 @@ import org.springframework.stereotype.Component;
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -119,7 +118,7 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
             try {
                 remote_profile = georepoRemoteService.getProfileAdminService().get(
                         short_profile.getId());
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 if (logger.isErrorEnabled())
                     logger.error("Details for profile " + short_profile.getName()
                             + " not found on Server!");
@@ -149,7 +148,7 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
         try {
             remote_profile = georepoRemoteService.getProfileAdminService().get(profile.getId()); 
             georepoRemoteService.getProfileAdminService().delete(remote_profile.getId());
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getLocalizedMessage(), e.getCause());
             throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
         }
@@ -168,7 +167,7 @@ public class ProfilesManagerServiceImpl implements IProfilesManagerService {
                 short_profile.setName(profile.getName());
                 short_profile.setEnabled(profile.isEnabled());                
                 georepoRemoteService.getProfileAdminService().update(short_profile);
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 logger.error(e.getLocalizedMessage(), e.getCause());
                 throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
             } 

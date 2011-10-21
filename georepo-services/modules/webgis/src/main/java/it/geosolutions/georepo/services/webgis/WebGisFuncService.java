@@ -20,7 +20,6 @@
 package it.geosolutions.georepo.services.webgis;
 
 import it.geosolutions.georepo.services.webgis.model.WebGisProperty;
-import it.geosolutions.georepo.services.exception.IllegalParameterFault;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -41,7 +40,7 @@ public interface WebGisFuncService {
     @Produces(MediaType.APPLICATION_XML)
     List<WebGisProperty> getProfileProperties(
                 @PathParam("profile") String profile
-            ) throws IllegalParameterFault;
+            ) ;
 
     @GET
     @Path("/properties/{profile}/{property}")
@@ -49,6 +48,6 @@ public interface WebGisFuncService {
     String getProperty (
                 @PathParam("profile") String profile,
                 @PathParam("property") String property
-            ) throws IllegalParameterFault ;
+            ) ;
 
 }

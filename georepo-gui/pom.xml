@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.geosolutions.georepository</groupId>
-    <artifactId>gui-root</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>georepo-gui-root</artifactId>
+    <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>GeoRepo - GUI</name>
 
     <properties>
-        <georepo-version>1.0-SNAPSHOT</georepo-version>
+        <georepo-version>1.1-SNAPSHOT</georepo-version>
 
         <spring.version>3.0.4.RELEASE</spring.version>
 <!--        <spring.version>2.5.6.SEC01</spring.version>-->
@@ -84,32 +84,32 @@
 	    <!-- =========================================================== -->
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>gui-core</artifactId>
+                <artifactId>georepo-gui-core</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>gui-resources</artifactId>
+                <artifactId>georepo-gui-resources</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>gui-plugin</artifactId>
+                <artifactId>georepo-gui-plugin</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>gui-userui</artifactId>
+                <artifactId>georepo-gui-userui</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>gui-mapsui</artifactId>
+                <artifactId>georepo-gui-mapsui</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>gui-fullweb</artifactId>
+                <artifactId>georepo-gui-fullweb</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
@@ -118,49 +118,49 @@
 	    <!-- =========================================================== -->
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>model</artifactId>
+                <artifactId>georepo-model</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>dao</artifactId>
+                <artifactId>georepo-persistence</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>services-api</artifactId>
+                <artifactId>georepo-services-api</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>services-impl</artifactId>
+                <artifactId>georepo-services-impl</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>login-api</artifactId>
+                <artifactId>georepo-login-api</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>login-impl</artifactId>
+                <artifactId>georepo-login-impl</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>generic-api</artifactId>
+                <artifactId>georepo-generic-api</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>it.geosolutions.georepository</groupId>
-                <artifactId>webgis</artifactId>
+                <artifactId>georepo-webgis</artifactId>
                 <version>${georepo-version}</version>
             </dependency>
 
@@ -266,12 +266,6 @@
                 <artifactId>gwt-user</artifactId>
                 <version>2.1.1</version>
                 <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt-servlet</artifactId>
-                <version>2.1.1</version>
             </dependency>
 
             <dependency>

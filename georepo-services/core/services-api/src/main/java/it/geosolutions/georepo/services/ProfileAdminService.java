@@ -21,68 +21,39 @@ package it.geosolutions.georepo.services;
 
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.services.dto.ShortProfile;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 import java.util.List;
 import java.util.Map;
 
-import javax.jws.WebParam;
-import javax.jws.WebService;
-
-import org.codehaus.jra.Delete;
-import org.codehaus.jra.Get;
-import org.codehaus.jra.HttpResource;
-import org.codehaus.jra.Post;
-import org.codehaus.jra.Put;
 
 /**
  * Operations on {@link Profile Profile}s.
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@WebService(name = "ProfileAdminService", targetNamespace = "http://geosolutions.it/georepo")
-public interface ProfileAdminService {
+public interface ProfileAdminService extends GetProviderService<Profile> {
 
     // ==========================================================================
     // Basic operations
 
-    @Post
-    @HttpResource(location = "/profiles")
-    long insert(@WebParam(name = "profile") ShortProfile profile);
+    long insert(ShortProfile profile);
 
-    @Put
-    @HttpResource(location = "/profiles")
-    long update(@WebParam(name = "profile") ShortProfile profile) throws ResourceNotFoundFault;
+    long update(ShortProfile profile) throws NotFoundServiceEx;
 
-    @Delete
-    @HttpResource(location = "/profiles/{id}")
-    boolean delete(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    boolean delete(long id) throws NotFoundServiceEx;
 
-    @Get
-    @HttpResource(location = "/profiles/{id}")
-    Profile get(@WebParam(name = "id") long id) throws ResourceNotFoundFault;
+    @Override
+    Profile get(long id) throws NotFoundServiceEx;
 
-    @Get
-    @HttpResource(location = "/profiles")
-    List<ShortProfile> getAll();
-
-    @Get
-    @HttpResource(location = "/profiles/{nameLike}/{page}/{entries}")
-    List<ShortProfile> getList(@WebParam(name = "nameLike") String nameLike,
-            @WebParam(name = "page") int page, @WebParam(name = "entries") int entries);
-
-    @Get
-    @HttpResource(location = "/profilescount/{nameLike}")
-    long getCount(@WebParam(name = "nameLike") String nameLike);
+    long getCount(String nameLike);
+    List<ShortProfile> getList(String nameLike, Integer page, Integer entries);
+    List<Profile> getFullList(String nameLike, Integer page, Integer entries);
 
     // ==========================================================================
 
-    @Get
-    @HttpResource(location = "/profiles/{id}/props")
-    public Map<String, String> getCustomProps(@WebParam(name = "id") Long id);
+    public Map<String, String> getCustomProps(Long id);
 
-    @Put
-    @HttpResource(location = "/profiles/{id}/props")
-    public void setCustomProps(@WebParam(name = "id")Long id, Map<String, String> props);
+    public void setCustomProps(Long id, Map<String, String> props);
 
 }

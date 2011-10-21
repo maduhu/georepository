@@ -24,6 +24,7 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import it.geosolutions.georepo.core.model.GRUser;
 import it.geosolutions.georepo.core.model.Profile;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public abstract class BaseDAOTest extends TestCase {
     protected final Logger LOGGER;
 
     protected static GSUserDAO userDAO;
+    protected static GRUserDAO grUserDAO;
     protected static ProfileDAO profileDAO;
     protected static RuleDAO ruleDAO;
     protected static LayerDetailsDAO detailsDAO;
@@ -63,6 +65,7 @@ public abstract class BaseDAOTest extends TestCase {
                 ctx = new ClassPathXmlApplicationContext(paths);
 
                 userDAO = (GSUserDAO)ctx.getBean("gsUserDAO");
+                grUserDAO = (GRUserDAO)ctx.getBean("grUserDAO");
                 profileDAO = (ProfileDAO)ctx.getBean("profileDAO");
                 ruleDAO = (RuleDAO)ctx.getBean("ruleDAO");
                 detailsDAO = (LayerDetailsDAO)ctx.getBean("layerDetailsDAO");
@@ -84,6 +87,7 @@ public abstract class BaseDAOTest extends TestCase {
     public void testCheckDAOs() {
 
         assertNotNull(userDAO);
+        assertNotNull(grUserDAO);
         assertNotNull(profileDAO);
         assertNotNull(ruleDAO);
         assertNotNull(detailsDAO);
@@ -104,6 +108,17 @@ public abstract class BaseDAOTest extends TestCase {
         }
 
         assertEquals("Users have not been properly deleted", 0, userDAO.count(null));
+    }
+
+    protected void removeAllGRUsers() {
+        List<GRUser> list = grUserDAO.findAll();
+        for (GRUser item : list) {
+            LOGGER.info("Removing " + item);
+            boolean ret = grUserDAO.remove(item);
+            assertTrue("User not removed", ret);
+        }
+
+        assertEquals("GRUsers have not been properly deleted", 0, grUserDAO.count(null));
     }
 
     protected void removeAllRules() {

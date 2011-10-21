@@ -20,6 +20,7 @@
 
 package it.geosolutions.georepo.services.dto;
 
+import it.geosolutions.georepo.core.model.GRUser;
 import it.geosolutions.georepo.core.model.GSUser;
 import java.io.Serializable;
 
@@ -40,6 +41,11 @@ public class ShortUser implements Serializable {
     }
 
     public ShortUser(GSUser user) {
+        this.id = user.getId();
+        this.name = user.getName();
+    }
+
+    public ShortUser(GRUser user) {
         this.id = user.getId();
         this.name = user.getName();
     }

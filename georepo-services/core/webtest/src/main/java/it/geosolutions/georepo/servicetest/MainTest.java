@@ -1,19 +1,19 @@
 /*
  *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
- * 
+ *
  *  GPLv3 + Classpath exception
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -38,7 +38,6 @@ import it.geosolutions.georepo.services.dto.AccessInfo;
 import it.geosolutions.georepo.services.dto.ShortProfile;
 import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.dto.ShortUser;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 
 import java.util.List;
 
@@ -52,6 +51,7 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
 
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.io.WKTReader;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 /**
  *
@@ -73,9 +73,9 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
 
     public void afterPropertiesSet() throws Exception {
         /***********************************************************************
-         * 
+         *
          * WARNING, READ CAREFULLY BEFORE CHANGING ANYTHING IN THIS SETUP
-         * 
+         *
          * This test setup is used for the ResorceAccessManager integration tests,
          * which expect the webtest to be running in Jetty with these exact contents.
          * If you need to add more or modify the contents please also make sure
@@ -83,14 +83,14 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
          * If you blinding modify the class and I find the tests got broken
          * this is the destiny that awaits you:
          * http://en.wikipedia.org/wiki/Impalement
-         * 
+         *
          * Signed: Andrea Vlad Dracul Aime
-         * 
+         *
          ***********************************************************************/
-        
+
         LOGGER.info("===== RESETTING DB DATA =====");
         removeAll();
-        
+
         LOGGER.info("===== Creating Profiles (not actually needed while testing GS) =====");
         ShortProfile shortProfile = new ShortProfile();
         shortProfile.setName("basic");
@@ -111,11 +111,11 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         GSUser wmsUser = createUser("wmsuser");
         wmsUser.setProfile(p1);
         userAdminService.insert(wmsUser);
-        
+
         GSUser areaUser = createUser("area");
         areaUser.setProfile(p1);
         userAdminService.insert(areaUser);
-        
+
         GSUser uStates = createUser("u-states");
         uStates.setProfile(p1);
         userAdminService.insert(uStates);
@@ -130,7 +130,7 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         ld1.getAttributes().add(new LayerAttribute("attr3", AccessType.READWRITE));
 
         int priority = 0;
-        
+
         /* Cite user rules */
         // allow user cite full control over the cite workspace
         ruleAdminService.insert(new Rule(priority++, cite, null, null, null, null, "cite", null, GrantType.ALLOW));
@@ -139,10 +139,10 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "GetCapabilities", "sf", null, GrantType.ALLOW)));
         ruleAdminService.insert((new Rule(priority++, cite, null, null, "wms", "reflect", "sf", null, GrantType.ALLOW)));
         // allow only GetMap and GetFeature the topp workspace
-        
+
         /* wms user rules */
         ruleAdminService.insert((new Rule(priority++, wmsUser, null, null, "wms", null, null, null, GrantType.ALLOW)));
-        
+
         /* all powerful but only in a restricted area */
         Rule areaRestriction = new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.LIMIT);
         RuleLimits limits = new RuleLimits();
@@ -150,11 +150,11 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         long ruleId = ruleAdminService.insert(areaRestriction);
         ruleAdminService.setLimits(ruleId, limits);
         ruleAdminService.insert((new Rule(priority++, areaUser, null, null, null, null, null, null, GrantType.ALLOW)));
-        
+
         /* some users for interactive testing with the default data directory */
         // uStates can do whatever, but only on topp:states
         ruleAdminService.insert(new Rule(priority++, uStates, null, null, null, null, "topp", "states", GrantType.ALLOW));
-        
+
         // deny everything else
         ruleAdminService.insert(new Rule(priority++, null, null, null,  null, null, null, null, GrantType.DENY));
         new Thread(new Runnable() {
@@ -186,7 +186,7 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         try {
             LOGGER.info("===== User List =====");
 
-            List<ShortUser> users = userAdminService.getAll();
+            List<ShortUser> users = userAdminService.getList(null,null,null);
             for (ShortUser loop : users) {
                 System.out.println("User -> " + loop);
             }
@@ -221,7 +221,7 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
 
     //==========================================================================
 
-    protected void removeAll() throws ResourceNotFoundFault {
+    protected void removeAll() throws NotFoundServiceEx {
         LOGGER.info("***** removeAll()");
         removeAllRules();
         removeAllUsers();
@@ -229,7 +229,7 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
         removeAllInstances();
     }
 
-    protected void removeAllRules() throws ResourceNotFoundFault {
+    protected void removeAllRules() throws NotFoundServiceEx {
         List<ShortRule> list = ruleAdminService.getAll();
         for (ShortRule item : list) {
             LOGGER.info("Removing " + item);
@@ -242,8 +242,8 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
                 throw new IllegalStateException("Rules have not been properly deleted");
     }
 
-    protected void removeAllUsers() throws ResourceNotFoundFault {
-        List<ShortUser> list = userAdminService.getAll();
+    protected void removeAllUsers() throws NotFoundServiceEx {
+        List<ShortUser> list = userAdminService.getList(null,null,null);
         for (ShortUser item : list) {
             LOGGER.info("Removing " + item);
             boolean ret = userAdminService.delete(item.getId());
@@ -255,8 +255,8 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
                 throw new IllegalStateException("Users have not been properly deleted");
     }
 
-    protected void removeAllProfiles() throws ResourceNotFoundFault {
-        List<ShortProfile> list = profileAdminService.getAll();
+    protected void removeAllProfiles() throws NotFoundServiceEx {
+        List<ShortProfile> list = profileAdminService.getList(null,null,null);
         for (ShortProfile item : list) {
             LOGGER.info("Removing " + item);
             boolean ret = profileAdminService.delete(item.getId());
@@ -268,7 +268,7 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
                 throw new IllegalStateException("Profiles have not been properly deleted");
     }
 
-    protected void removeAllInstances() throws ResourceNotFoundFault {
+    protected void removeAllInstances() throws NotFoundServiceEx {
         List<GSInstance> list = instanceAdminService.getAll();
         for (GSInstance item : list) {
             LOGGER.info("Removing " + item);
@@ -283,7 +283,7 @@ public class MainTest implements InitializingBean, ApplicationContextAware {
     }
 
     //==========================================================================
-    
+
     public void setInstanceAdminService(InstanceAdminService instanceAdminService) {
         this.instanceAdminService = instanceAdminService;
     }

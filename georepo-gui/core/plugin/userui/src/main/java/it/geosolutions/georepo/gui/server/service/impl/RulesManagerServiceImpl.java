@@ -53,7 +53,6 @@ import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.RuleFilter.SpecialFilterType;
 import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader;
 import it.geosolutions.geoserver.rest.decoder.RESTFeatureType;
 import it.geosolutions.geoserver.rest.decoder.RESTLayer;
@@ -80,6 +79,7 @@ import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -131,7 +131,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             it.geosolutions.georepo.core.model.Rule remote_rule;
             try {
                 remote_rule = georepoRemoteService.getRuleAdminService().get(short_rule.getId());
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 if (logger.isErrorEnabled())
                     logger.error("Details for rule " + short_rule.getPriority()
                             + " not found on Server!");
@@ -223,7 +223,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             } else {
                 try {
                     georepoRemoteService.getRuleAdminService().update(rule2);
-                } catch (ResourceNotFoundFault e) {
+                } catch (NotFoundServiceEx e) {
                     e.printStackTrace();
                 }
             }
@@ -308,7 +308,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         if (rule.getId() != -1) {
             try {
                 georepoRemoteService.getRuleAdminService().delete(rule.getId());
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -333,7 +333,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
         for (ShortRule rule : georepoRemoteService.getRuleAdminService().getAll()) {
             try {
                 georepoRemoteService.getRuleAdminService().delete(rule.getId());
-            } catch (ResourceNotFoundFault e) {
+            } catch (NotFoundServiceEx e) {
                 logger.error(e.getMessage(), e);
                 throw new ApplicationException(e.getMessage(), e);
             }
@@ -576,7 +576,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 }        
             }
 
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         }
@@ -694,7 +694,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             details.setAttributes(layerAttribs);            
             georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
             
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         }
@@ -776,7 +776,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
             
             georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
 
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         } catch (MalformedURLException e) {
@@ -828,7 +828,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                 }
             }
 
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         }
@@ -885,7 +885,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
 
             georepoRemoteService.getRuleAdminService().setLimits(ruleId, ruleLimits);
 
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         } catch (ParseException e) {
@@ -924,7 +924,7 @@ public class RulesManagerServiceImpl implements IRulesManagerService {
                     layerLimitsInfo.setSrid(null);
                 }
             }
-        } catch (ResourceNotFoundFault e) {
+        } catch (NotFoundServiceEx e) {
             logger.error(e.getMessage(), e);
             throw new ApplicationException(e.getMessage(), e);
         }

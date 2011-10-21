@@ -5,7 +5,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -17,7 +17,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -40,6 +40,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import javax.xml.bind.annotation.XmlType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -52,7 +53,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "gr_gsinstance")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "gsinstance")
 @XmlRootElement(name = "GSInstance")
-public class GSInstance implements Serializable {
+@XmlType(propOrder={"id","name","description","dateCreation","baseURL","username","password"})
+
+public class GSInstance implements Identifiable, Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -2584592064221812813L;
@@ -61,7 +64,7 @@ public class GSInstance implements Serializable {
     @Id
     @GeneratedValue
     @Column
-    private long id;
+    private Long id;
 
     /** The name. */
     @Column(nullable = false, updatable = true)
@@ -96,14 +99,14 @@ public class GSInstance implements Serializable {
     /**
      * @return the id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

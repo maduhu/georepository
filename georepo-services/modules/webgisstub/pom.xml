@@ -4,12 +4,12 @@
 
     <parent>
         <groupId>it.geosolutions.georepository</groupId>
-        <artifactId>modules</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>georepo-modules</artifactId>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
     <groupId>it.geosolutions.georepository</groupId>
-	<artifactId>webgisstub</artifactId>
+	<artifactId>georepo-webgisstub</artifactId>
 	<packaging>war</packaging>
 
 	<name>GeoRepo - Module - WebGis Web test</name>
@@ -32,17 +32,17 @@
         <!-- =============================================================== -->
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>georepo-model</artifactId>
         </dependency>
 
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
-            <artifactId>services-api</artifactId>
+            <artifactId>georepo-services-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>it.geosolutions.georepository</groupId>
-            <artifactId>webgis</artifactId>
+            <artifactId>georepo-webgis</artifactId>
         </dependency>
 
         <!-- =============================================================== -->
@@ -271,7 +271,7 @@
 				<configuration>
 <!--					<webAppSourceDirectory>${basedir}/war</webAppSourceDirectory>-->
 					<webAppConfig>
-						<contextPath>/</contextPath>
+						<contextPath>/georepo</contextPath>
 					</webAppConfig>
 					<connectors>
 						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">

@@ -24,12 +24,12 @@
 
     <parent>
         <groupId>it.geosolutions.georepository</groupId>
-        <artifactId>root</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>georepo-root</artifactId>
+        <version>1.1-SNAPSHOT</version>
     </parent>
   
     <groupId>it.geosolutions.georepository</groupId>
-    <artifactId>core</artifactId>
+    <artifactId>georepo-core</artifactId>
     <name>GeoRepo - Core</name>
     <packaging>pom</packaging>
   

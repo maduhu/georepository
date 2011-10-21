@@ -1,19 +1,19 @@
 /*
  *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
- * 
+ *
  *  GPLv3 + Classpath exception
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,8 +29,7 @@ import it.geosolutions.georepo.services.InstanceAdminService;
 import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.exception.NotFoundWebEx;
-import it.geosolutions.georepo.services.exception.ResourceNotFoundFault;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 import it.geosolutions.georepo.services.webgis.model.TOCLayer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -51,11 +50,11 @@ public class FakeServices {
 
     static {
         Profile basepr = new Profile();
-        basepr.setId(1);
+        basepr.setId(1l);
         basepr.setName("Base");
         basepr.setEnabled(Boolean.TRUE);
 
-        int icnt = 100;
+        long icnt = 100;
         int lcnt = 1000;
 
         {
@@ -81,7 +80,7 @@ public class FakeServices {
             createRule(i1, "layer905", "Gruppo3");
             createRule(i1, "layer906", "Gruppo2"); // should be diffrent from grp in previous instnance with same name
 
-            createRule(i1, "new layer not yet edited and forgotted somewhere", null);
+            createRule(i1, "new layer not yet edited and forgotten somewhere", null);
 
             createRule(i1, "mappa01", null, "Mappa");
 
@@ -107,7 +106,7 @@ public class FakeServices {
     private static Rule createRule(GSInstance gsi, String layerName, String group) {
         return createRule(gsi, layerName, group, null);
     }
-    
+
     private static Rule createRule(GSInstance gsi, String layerName, String group, String bgGroup) {
         Rule rule = new Rule();
         rule.setId(ruleCnt);
@@ -138,6 +137,7 @@ public class FakeServices {
 
     public class FakeRuleAdminService implements  RuleAdminService {
 
+
         @Override
         public List<ShortRule> getList(String userId, String profileId, String instanceId, String service, String request, String workspace, String layer, Integer page, Integer entries) {
             List<ShortRule> ret = new ArrayList<ShortRule>();
@@ -148,13 +148,18 @@ public class FakeServices {
         }
 
         @Override
+        public List<Rule> getListFull(RuleFilter filter, Integer page, Integer entries) {
+            return new ArrayList(staticRules.values());
+        }
+
+        @Override
         public Map<String, String> getDetailsProps(Long ruleId) {
             Rule rule = staticRules.get(ruleId);
             if(rule == null)
-                throw new NotFoundWebEx("rule not found: " + ruleId);
+                throw new NotFoundServiceEx("rule not found: " + ruleId);
             LayerDetails details = staticDetails.get(ruleId);
             if(details == null)
-                throw new NotFoundWebEx("details not found: " + ruleId);
+                throw new NotFoundServiceEx("details not found: " + ruleId);
             return details.getCustomProps();
         }
 
@@ -162,20 +167,20 @@ public class FakeServices {
         public void setDetailsProps(Long ruleId, Map<String, String> props) {
             Rule rule = staticRules.get(ruleId);
             if(rule == null)
-                throw new NotFoundWebEx("rule not found: " + ruleId);
+                throw new NotFoundServiceEx("rule not found: " + ruleId);
             LayerDetails details = staticDetails.get(ruleId);
             if(details == null)
-                throw new NotFoundWebEx("details not found: " + ruleId);
+                throw new NotFoundServiceEx("details not found: " + ruleId);
             details.setCustomProps(props);
         }
 
         @Override
-        public boolean delete(long id) throws ResourceNotFoundFault {
+        public boolean delete(long id) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public Rule get(long id) throws ResourceNotFoundFault {
+        public Rule get(long id) {
             return staticRules.get(id);
         }
 
@@ -215,7 +220,7 @@ public class FakeServices {
         }
 
         @Override
-        public long update(Rule rule) throws ResourceNotFoundFault {
+        public long update(Rule rule) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
@@ -253,7 +258,7 @@ public class FakeServices {
         @Override
         public void setAllowedStyles(Long ruleId, Set<String> styles) {
             // TODO Auto-generated method stub
-            
+
         }
     }
 
@@ -265,17 +270,17 @@ public class FakeServices {
         }
 
         @Override
-        public long update(GSInstance instance) throws ResourceNotFoundFault {
+        public long update(GSInstance instance)  {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public boolean delete(long id) throws ResourceNotFoundFault {
+        public boolean delete(long id) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public GSInstance get(long id) throws ResourceNotFoundFault {
+        public GSInstance get(long id)  {
             return staticInstances.get(id);
         }
 
@@ -285,12 +290,12 @@ public class FakeServices {
         }
 
         @Override
-        public List<GSInstance> getList(String nameLike, int page, int entries) {
+        public long getCount(String nameLike) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public long getCount(String nameLike) {
+        public List<GSInstance> getList(String nameLike, Integer page, Integer entries) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
