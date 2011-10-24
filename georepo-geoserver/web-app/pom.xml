@@ -34,7 +34,7 @@
     </dependency>
     <dependency>
       <groupId>it.geosolutions.georepository.geoserver</groupId>
-      <artifactId>security</artifactId>
+      <artifactId>georepo-security</artifactId>
       <version>${project.version}</version>
     </dependency>
 
