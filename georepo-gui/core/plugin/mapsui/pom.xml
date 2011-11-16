@@ -18,30 +18,24 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-<!--	<pluginRepositories>
-		<pluginRepository>
-			<id>gwt-maven</id>
-			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo</url>
-		</pluginRepository>
-	</pluginRepositories>
-	<repositories>
-		<repository>
-			<id>gwt-maven</id>
-			<url>
-            http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/
-          </url>
-		</repository>
-	</repositories>-->
+	<!--
+		<pluginRepositories> <pluginRepository> <id>gwt-maven</id>
+		<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo</url>
+		</pluginRepository> </pluginRepositories> <repositories> <repository>
+		<id>gwt-maven</id> <url>
+		http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/ </url>
+		</repository> </repositories>
+	-->
 
 
 	<dependencies>
 
-    <!-- =============================================================== -->
-    <!-- GeoRepo                                                         -->
-    <!-- =============================================================== -->
+		<!-- =============================================================== -->
+		<!-- GeoRepo                                                         -->
+		<!-- =============================================================== -->
 
-    <dependency>
-		<groupId>it.geosolutions.georepository</groupId>
+		<dependency>
+			<groupId>it.geosolutions.georepository</groupId>
 			<artifactId>georepo-gui-resources</artifactId>
 		</dependency>
 
@@ -57,16 +51,20 @@
 			<artifactId>gxt</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-incubator</artifactId>
-<!--			<version>2.0.1</version>-->
-		</dependency>
+		<!--
+			dependency> <groupId>com.google.gwt</groupId>
+			<artifactId>gwt-incubator</artifactId> </dependency
+		-->
 
 		<!-- GWT-OL Resources -->
 		<dependency>
 			<groupId>org.gwtopenmaps.openlayers</groupId>
-			<artifactId>openlayers_gwt</artifactId>
+			<artifactId>gwt-openlayers-client</artifactId>
+			<version>0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.gwtopenmaps.openlayers</groupId>
+			<artifactId>gwt-openlayers-server</artifactId>
 			<version>0.6</version>
 		</dependency>
 
@@ -166,17 +164,47 @@
 	<build>
 
 		<plugins>
-			<!-- ... or ask the plugin to detect them based on gwt modules files and 
-				copy the required java sources -->
+			<!--
+				... or ask the plugin to detect them based on gwt modules files and
+				copy the required java sources
+			-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <version>2.1.0-1</version>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>2.3.0</version>
+				<configuration>
+					<inplace>true</inplace>
+					<warSourceDirectory>war</warSourceDirectory>
+					<disableCastChecking>true</disableCastChecking>
+					<disableClassMetadata>true</disableClassMetadata>
+					<extraJvmArgs>-Xmx1024M -Xss1024k -Dgwt.nowarn.legacy.tools</extraJvmArgs>
+				</configuration>
 				<executions>
 					<!-- GWT version detected from dependencyManagement -->
 					<execution>
 						<goals>
 							<goal>resources</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>generateAsync</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generateAsync</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -196,8 +224,10 @@
 			</plugin>
 		</plugins>
 
-		<!-- TODO: the resources stuff hardcodes paths to source + test directories, 
-			we should be able to use some properties here -->
+		<!--
+			TODO: the resources stuff hardcodes paths to source + test
+			directories, we should be able to use some properties here
+		-->
 		<resources>
 			<resource>
 				<directory>${basedir}/src/main/java</directory>

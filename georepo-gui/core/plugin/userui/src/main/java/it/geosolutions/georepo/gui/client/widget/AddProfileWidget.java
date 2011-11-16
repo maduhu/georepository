@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,11 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
-import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-
 import java.util.Date;
 
 import com.extjs.gxt.ui.client.event.EventType;
@@ -45,11 +40,18 @@ import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 
+import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
+import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class AddProfileWidget.
  */
-public class AddProfileWidget extends GeoRepoFormWidget {
+public class AddProfileWidget extends GeoRepoFormWidget
+{
 
     /** The submit event. */
     private EventType submitEvent;
@@ -61,49 +63,53 @@ public class AddProfileWidget extends GeoRepoFormWidget {
     protected Profile profile = new Profile();
 
     /** The gs manager service remote. */
-    private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote;
+    private GsUsersManagerRemoteServiceAsync gsManagerServiceRemote;
 
     /** The profiles manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote;
+    private ProfilesManagerRemoteServiceAsync profilesManagerServiceRemote;
 
     /** The profile name. */
     private TextField<String> profileName;
 
     /**
      * Instantiates a new adds the profile widget.
-     * 
+     *
      * @param submitEvent
      *            the submit event
      * @param closeOnSubmit
      *            the close on submit
      */
-    public AddProfileWidget(EventType submitEvent, boolean closeOnSubmit) {
+    public AddProfileWidget(EventType submitEvent, boolean closeOnSubmit)
+    {
         this.submitEvent = submitEvent;
         this.closeOnSubmit = closeOnSubmit;
     }
 
     /**
      * Gets the submit event.
-     * 
+     *
      * @return the submit event
      */
-    protected EventType getSubmitEvent() {
+    protected EventType getSubmitEvent()
+    {
         return this.submitEvent;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.IForm#execute()
      */
-    public void execute() {
+    public void execute()
+    {
         this.saveStatus.setBusy("Operation in progress");
         this.profile.setId(-1);
         this.profile.setName(profileName.getValue());
         this.profile.setDateCreation(new Date());
         this.profile.setEnabled(true);
 
-        if (this.closeOnSubmit) {
+        if (this.closeOnSubmit)
+        {
             cancel();
         }
 
@@ -112,13 +118,15 @@ public class AddProfileWidget extends GeoRepoFormWidget {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#addComponentToForm ()
      */
     @Override
-    public void addComponentToForm() {
+    public void addComponentToForm()
+    {
         fieldSet = new FieldSet();
         fieldSet.setHeading("Profile Information");
+
         FormLayout layout = new FormLayout();
         layout.setLabelWidth(80);
         fieldSet.setLayout(layout);
@@ -135,12 +143,13 @@ public class AddProfileWidget extends GeoRepoFormWidget {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#cancel()
      */
     @SuppressWarnings("deprecation")
     @Override
-    public void cancel() {
+    public void cancel()
+    {
         resetComponents();
         super.close();
 
@@ -149,40 +158,44 @@ public class AddProfileWidget extends GeoRepoFormWidget {
     /**
      * Reset components.
      */
-    public void resetComponents() {
+    public void resetComponents()
+    {
         this.profileName.reset();
         this.saveStatus.clearStatus("");
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.widget.AddGenericAOIWidget# addOtherComponents()
      */
     /**
      * Adds the other components.
      */
-    public void addOtherComponents() {
+    public void addOtherComponents()
+    {
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#initSize()
      */
     @Override
-    public void initSize() {
-        setHeading(/* TODO: I18nProvider.getMessages().addAoiDialogTitle() */"Create new Profile");
+    public void initSize()
+    {
+        setHeading( /* TODO: I18nProvider.getMessages().addAoiDialogTitle() */"Create new Profile");
         setSize(420, 300);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#initSizeFormPanel ()
      */
     @Override
-    public void initSizeFormPanel() {
+    public void initSizeFormPanel()
+    {
         formPanel.setHeaderVisible(false);
         formPanel.setSize(450, 350);
     }
@@ -191,37 +204,41 @@ public class AddProfileWidget extends GeoRepoFormWidget {
      * @see it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget#injectEvent()
      */
     @Override
-    public void injectEvent() {
+    public void injectEvent()
+    {
         Dispatcher.forwardEvent(getSubmitEvent(), this.profile);
     }
 
     /**
      * Gets the profile.
-     * 
+     *
      * @return the profile
      */
-    public Profile getProfile() {
+    public Profile getProfile()
+    {
         return profile;
     }
 
     /**
      * Sets the gs user service.
-     * 
+     *
      * @param gsManagerServiceRemote
      *            the new gs user service
      */
-    public void setGsUserService(GsUsersManagerServiceRemoteAsync gsManagerServiceRemote) {
+    public void setGsUserService(GsUsersManagerRemoteServiceAsync gsManagerServiceRemote)
+    {
         this.gsManagerServiceRemote = gsManagerServiceRemote;
     }
 
     /**
      * Sets the profile service.
-     * 
+     *
      * @param profilesManagerServiceRemote
      *            the new profile service
      */
-    public void setProfileService(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+    public void setProfileService(ProfilesManagerRemoteServiceAsync profilesManagerServiceRemote)
+    {
         this.profilesManagerServiceRemote = profilesManagerServiceRemote;
     }
-    
+
 }

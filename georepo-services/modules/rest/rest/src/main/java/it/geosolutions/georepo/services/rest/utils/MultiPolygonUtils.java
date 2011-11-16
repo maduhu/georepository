@@ -22,15 +22,20 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
+
 import jaitools.jts.Utils;
+
 import org.apache.log4j.Logger;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class MultiPolygonUtils {
-    private final static Logger LOGGER = Logger.getLogger(MultiPolygonUtils.class);
+public class MultiPolygonUtils
+{
+    private static final Logger LOGGER = Logger.getLogger(MultiPolygonUtils.class);
+
     /**
      * Simplifies a MultiPolygon.
      * <BR/><BR/>
@@ -39,26 +44,30 @@ public class MultiPolygonUtils {
      * <BR/>Order <B>is</B> important, since it's more likely to have collinear
      * points before applying any other simplification.
      */
-    public static MultiPolygon simplifyMultiPolygon(final MultiPolygon mp) {
+    public static MultiPolygon simplifyMultiPolygon(final MultiPolygon mp)
+    {
 
         final Polygon[] simpPolys = new Polygon[mp.getNumGeometries()];
 
-        for (int i= 0; i < mp.getNumGeometries(); i++) {
-            Polygon p = (Polygon)mp.getGeometryN(i);
+        for (int i = 0; i < mp.getNumGeometries(); i++)
+        {
+            Polygon p = (Polygon) mp.getGeometryN(i);
             Polygon s1 = Utils.removeCollinearVertices(p);
             TopologyPreservingSimplifier tps = new TopologyPreservingSimplifier(s1);
-            Polygon s2 = (Polygon)tps.getResultGeometry();
+            Polygon s2 = (Polygon) tps.getResultGeometry();
             simpPolys[i] = s2;
 
-            if(LOGGER.isInfoEnabled()) {
-                LOGGER.info("RCV: simplified poly " + getPoints(p)
-                        + " --> " + getPoints(s1)
-                        + " --> " + getPoints(s2));
+            if (LOGGER.isInfoEnabled())
+            {
+                LOGGER.info("RCV: simplified poly " + getPoints(p) +
+                    " --> " + getPoints(s1) +
+                    " --> " + getPoints(s2));
             }
         }
 
         // reuse existing factory
         final GeometryFactory gf = mp.getFactory();
+
         return gf.createMultiPolygon(simpPolys);
     }
 
@@ -68,10 +77,12 @@ public class MultiPolygonUtils {
      * where E is the number of points of the exterior ring and I0..In are
      * the number of points of the Internal rings.
      */
-    public static String getPoints(final Polygon p) {
+    public static String getPoints(final Polygon p)
+    {
         final StringBuilder sb = new StringBuilder();
         sb.append(p.getExteriorRing().getNumPoints());
-        for (int i = 0; i < p.getNumInteriorRing(); i++) {
+        for (int i = 0; i < p.getNumInteriorRing(); i++)
+        {
             LineString ir = p.getInteriorRingN(i);
             sb.append('+').append(ir.getNumPoints());
         }

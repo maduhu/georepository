@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -31,13 +31,6 @@
  *
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
-
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
-import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
-import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget;
 
 import java.util.List;
 
@@ -57,38 +50,47 @@ import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
+import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget;
+
+
 /**
  * The Class RuleDetailsInfoWidget.
- * 
+ *
  * @author Tobia di Pisa
  *
  */
-public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetailsInfo> {
+public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetailsInfo>
+{
 
-	/** The rule. */
-	private Rule theRule;
-    
+    /** The rule. */
+    private Rule theRule;
+
     /** The workspaces service. */
-    private WorkspacesManagerServiceRemoteAsync workspacesService;
-    
+    private WorkspacesManagerRemoteServiceAsync workspacesService;
+
     /** The rule details widget. */
     private RuleDetailsWidget ruleDetailsWidget;
-    
+
     /** The combo styles. */
-    private ComboBox<LayerStyle> comboStyles;      
-    
+    private ComboBox<LayerStyle> comboStyles;
+
     /** The cql filter read. */
     private TextArea cqlFilterRead;
-    
+
     /** The cql filter write. */
     private TextArea cqlFilterWrite;
-    
+
     /** The allowed area. */
     private TextArea allowedArea;
 
     /**
      * Instantiates a new rule details info widget.
-     * 
+     *
      * @param model
      *            the model
      * @param workspacesService
@@ -96,9 +98,10 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
      * @param ruleDetailsWidget
      *            the rule details widget
      */
-    public RuleDetailsInfoWidget(Rule model, WorkspacesManagerServiceRemoteAsync workspacesService,
-    		RuleDetailsWidget ruleDetailsWidget) {
-    	
+    public RuleDetailsInfoWidget(Rule model, WorkspacesManagerRemoteServiceAsync workspacesService,
+        RuleDetailsWidget ruleDetailsWidget)
+    {
+
         super();
         this.theRule = model;
         this.workspacesService = workspacesService;
@@ -110,7 +113,8 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
      * @see it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget#createFormPanel()
      */
     @Override
-    public FormPanel createFormPanel() {
+    public FormPanel createFormPanel()
+    {
         FormPanel fp = new FormPanel();
         fp.setFrame(true);
         fp.setHeaderVisible(false);
@@ -137,13 +141,15 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
         comboStyles.setStore(getAvailableStyles(theRule));
         comboStyles.setTypeAhead(true);
         comboStyles.setTriggerAction(TriggerAction.ALL);
-        comboStyles.addListener(Events.Select, new Listener<FieldEvent>() {
+        comboStyles.addListener(Events.Select, new Listener<FieldEvent>()
+            {
 
-            public void handleEvent(FieldEvent be) {
-                ruleDetailsWidget.enableSaveButton();
-            }
+                public void handleEvent(FieldEvent be)
+                {
+                    ruleDetailsWidget.enableSaveButton();
+                }
 
-        });        
+            });
 
         fieldSet.add(comboStyles);
 
@@ -151,13 +157,15 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
         cqlFilterRead.setFieldLabel("CQL Read");
         cqlFilterRead.setWidth(200);
         cqlFilterRead.setPreventScrollbars(true);
-        cqlFilterRead.addListener(Events.Change, new Listener<FieldEvent>() {
+        cqlFilterRead.addListener(Events.Change, new Listener<FieldEvent>()
+            {
 
-            public void handleEvent(FieldEvent be) {
-                ruleDetailsWidget.enableSaveButton();
-            }
+                public void handleEvent(FieldEvent be)
+                {
+                    ruleDetailsWidget.enableSaveButton();
+                }
 
-        }); 
+            });
 
         fieldSet.add(cqlFilterRead);
 
@@ -165,13 +173,15 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
         cqlFilterWrite.setFieldLabel("CQL Write");
         cqlFilterWrite.setWidth(200);
         cqlFilterWrite.setPreventScrollbars(true);
-        cqlFilterWrite.addListener(Events.Change, new Listener<FieldEvent>() {
+        cqlFilterWrite.addListener(Events.Change, new Listener<FieldEvent>()
+            {
 
-            public void handleEvent(FieldEvent be) {
-                ruleDetailsWidget.enableSaveButton();
-            }
+                public void handleEvent(FieldEvent be)
+                {
+                    ruleDetailsWidget.enableSaveButton();
+                }
 
-        }); 
+            });
 
         fieldSet.add(cqlFilterWrite);
 
@@ -179,13 +189,15 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
         allowedArea.setFieldLabel("Allowed Area");
         allowedArea.setWidth(200);
         allowedArea.setPreventScrollbars(true);
-        allowedArea.addListener(Events.Change, new Listener<FieldEvent>() {
+        allowedArea.addListener(Events.Change, new Listener<FieldEvent>()
+            {
 
-            public void handleEvent(FieldEvent be) {
-                ruleDetailsWidget.enableSaveButton();
-            }
+                public void handleEvent(FieldEvent be)
+                {
+                    ruleDetailsWidget.enableSaveButton();
+                }
 
-        }); 
+            });
 
         fieldSet.add(allowedArea);
 
@@ -193,117 +205,142 @@ public class RuleDetailsInfoWidget extends GeoRepoFormBindingWidget<LayerDetails
 
         return fp;
     }
-	
+
     /**
      * Gets the model data.
-     * 
+     *
      * @return the model data
      */
-    public LayerDetailsInfo getModelData() {
-    	LayerDetailsInfo layerDetailsForm = new LayerDetailsInfo();
+    public LayerDetailsInfo getModelData()
+    {
+        LayerDetailsInfo layerDetailsForm = new LayerDetailsInfo();
 
-    	String area = allowedArea.getValue();
-    	
+        String area = allowedArea.getValue();
+
         String wkt, srid;
-        if(area != null){            
-            if(area.indexOf("SRID=") != -1){
+        if (area != null)
+        {
+            if (area.indexOf("SRID=") != -1)
+            {
                 String[] allowedAreaArray = area.split(";");
-                
+
                 srid = allowedAreaArray[0].split("=")[1];
                 wkt = allowedAreaArray[1];
-            }else{
+            }
+            else
+            {
                 srid = "4326";
                 wkt = area;
             }
-        }else{
+        }
+        else
+        {
             srid = null;
             wkt = null;
         }
-        
-    	layerDetailsForm.setAllowedArea(wkt);
-    	layerDetailsForm.setSrid(srid);
-    	layerDetailsForm.setCqlFilterRead(cqlFilterRead.getValue());
-    	layerDetailsForm.setCqlFilterWrite(cqlFilterWrite.getValue());
-    	
-    	LayerStyle layerStyle = comboStyles.getValue();
-    	if(layerStyle != null)
-    	    layerDetailsForm.setDefaultStyle(layerStyle.getStyle());
-    	else
-    	    layerDetailsForm.setDefaultStyle(null);
-    	
-    	layerDetailsForm.setRuleId(theRule.getId());
-    	
+
+        layerDetailsForm.setAllowedArea(wkt);
+        layerDetailsForm.setSrid(srid);
+        layerDetailsForm.setCqlFilterRead(cqlFilterRead.getValue());
+        layerDetailsForm.setCqlFilterWrite(cqlFilterWrite.getValue());
+
+        LayerStyle layerStyle = comboStyles.getValue();
+        if (layerStyle != null)
+        {
+            layerDetailsForm.setDefaultStyle(layerStyle.getStyle());
+        }
+        else
+        {
+            layerDetailsForm.setDefaultStyle(null);
+        }
+
+        layerDetailsForm.setRuleId(theRule.getId());
+
         return layerDetailsForm;
     }
-    
+
     /**
      * Bind model data.
-     * 
+     *
      * @param layerDetailsInfo
      *            the layer details info
      */
-    public void bindModelData(LayerDetailsInfo layerDetailsInfo){
+    public void bindModelData(LayerDetailsInfo layerDetailsInfo)
+    {
         this.bindModel(layerDetailsInfo);
 
         String defaultStyle = layerDetailsInfo.getDefaultStyle();
-        if(defaultStyle != null)
+        if (defaultStyle != null)
+        {
             comboStyles.setValue(new LayerStyle(defaultStyle));
+        }
 
         String cqlRead = layerDetailsInfo.getCqlFilterRead();
-        if(cqlRead != null)
+        if (cqlRead != null)
+        {
             cqlFilterRead.setValue(cqlRead);
+        }
 
 
         String cqlWrite = layerDetailsInfo.getCqlFilterWrite();
-        if(cqlWrite != null)
+        if (cqlWrite != null)
+        {
             cqlFilterWrite.setValue(cqlWrite);
+        }
 
         String area = layerDetailsInfo.getAllowedArea();
         String srid = layerDetailsInfo.getSrid();
-        if(area != null && srid != null)
+        if ((area != null) && (srid != null))
+        {
             allowedArea.setValue("SRID=" + srid + ";" + area);
+        }
     }
-	
+
     /**
      * Gets the available styles.
-     * 
+     *
      * @param rule
      *            the rule
      * @return the available styles
      */
-    private ListStore<LayerStyle> getAvailableStyles(final Rule rule) {
-        RpcProxy<List<LayerStyle>> workspacesProxy = new RpcProxy<List<LayerStyle>>() {
+    private ListStore<LayerStyle> getAvailableStyles(final Rule rule)
+    {
+        RpcProxy<List<LayerStyle>> workspacesProxy = new RpcProxy<List<LayerStyle>>()
+            {
 
-            @Override
-            protected void load(Object loadConfig,
-                    AsyncCallback<List<LayerStyle>> callback) {
+                @Override
+                protected void load(Object loadConfig, AsyncCallback<List<LayerStyle>> callback)
+                {
                     workspacesService.getStyles(rule, callback);
-            }
+                }
 
-        };
-        
+            };
+
         BaseListLoader<ListLoadResult<ModelData>> workspacesLoader = new BaseListLoader<ListLoadResult<ModelData>>(
                 workspacesProxy);
         workspacesLoader.setRemoteSort(false);
+
         ListStore<LayerStyle> geoserverStyles = new ListStore<LayerStyle>(workspacesLoader);
 
         return geoserverStyles;
     }
 
-	/**
-     * Disable cql filter buttons.
-     */
-	public void disableCQLFilterButtons() {
-		this.cqlFilterRead.disable();
-		this.cqlFilterWrite.disable();		
-	}
+    /**
+    * Disable cql filter buttons.
+    */
+    public void disableCQLFilterButtons()
+    {
+        this.cqlFilterRead.disable();
+        this.cqlFilterWrite.disable();
+    }
 
-	/**
-     * Enable cql filter buttons.
-     */
-	public void enableCQLFilterButtons() {
-		this.cqlFilterRead.enable();
-		this.cqlFilterWrite.enable();	
-	}
+    /**
+    * Enable cql filter buttons.
+    */
+    public void enableCQLFilterButtons()
+    {
+        this.cqlFilterRead.enable();
+        this.cqlFilterWrite.enable();
+    }
 
 }

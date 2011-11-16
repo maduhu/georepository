@@ -19,71 +19,80 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import com.trg.search.ISearch;
+import com.vividsolutions.jts.geom.MultiPolygon;
+
 import it.geosolutions.georepo.core.dao.GSUserDAO;
 import it.geosolutions.georepo.core.model.GSUser;
-
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.trg.search.ISearch;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import java.util.Date;
 
 /**
  * Public implementation of the GSUserDAO interface
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@Transactional
-public class GSUserDAOImpl extends BaseDAO<GSUser, Long>
-// extends GenericDAOImpl<GSUser, Long>
-        implements GSUserDAO {
+@Transactional(value = "georepoTransactionManager")
+public class GSUserDAOImpl extends BaseDAO<GSUser, Long> implements GSUserDAO
+{
 
-    final private static Logger LOGGER = Logger.getLogger(GSUserDAOImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(GSUserDAOImpl.class);
 
     @Override
-    public void persist(GSUser... entities) {
+    public void persist(GSUser... entities)
+    {
         Date now = new Date();
-        for (GSUser user : entities) {
+        for (GSUser user : entities)
+        {
             user.setDateCreation(now);
         }
         super.persist(entities);
     }
 
     @Override
-    public List<GSUser> findAll() {
+    public List<GSUser> findAll()
+    {
         return super.findAll();
     }
 
     @Override
-    public List<GSUser> search(ISearch search) {
+    public List<GSUser> search(ISearch search)
+    {
         return super.search(search);
     }
 
     @Override
-    public GSUser merge(GSUser entity) {
+    public GSUser merge(GSUser entity)
+    {
         // Workaround: if area srid has changed (and vertices did not), the geometry will not be updated on db
         // Check for test UserDAOTest.testUpdateSRID().
         MultiPolygon oldMp = entity.getAllowedArea();
-        if(oldMp != null) {
+        if (oldMp != null)
+        {
             entity.setAllowedArea(null);
             super.merge(entity);
             em().flush();
             entity.setAllowedArea(oldMp);
         }
+
         // end workaround
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(GSUser entity) {
+    public boolean remove(GSUser entity)
+    {
         return super.remove(entity);
     }
 
     @Override
-    public boolean removeById(Long id) {
+    public boolean removeById(Long id)
+    {
         return super.removeById(id);
     }
 

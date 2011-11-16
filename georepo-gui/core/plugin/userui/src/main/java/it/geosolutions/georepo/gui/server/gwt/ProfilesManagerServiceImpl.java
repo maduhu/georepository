@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,28 +32,28 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
+import java.util.List;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteService;
 import it.geosolutions.georepo.gui.server.service.IProfilesManagerService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
-
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ProfilesManagerServiceImpl.
  */
-public class ProfilesManagerServiceImpl extends RemoteServiceServlet implements
-        ProfilesManagerServiceRemote {
+public class ProfilesManagerServiceImpl extends RemoteServiceServlet implements ProfilesManagerRemoteService
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -1466494799053878981L;
@@ -67,46 +67,51 @@ public class ProfilesManagerServiceImpl extends RemoteServiceServlet implements
     /**
      * Instantiates a new profiles manager service impl.
      */
-    public ProfilesManagerServiceImpl() {
+    public ProfilesManagerServiceImpl()
+    {
         this.profilesManagerService = (IProfilesManagerService) ApplicationContextUtil.getInstance().getBean(
                 "profilesManagerServiceGWT");
     }
 
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getProfiles(com.extjs.gxt.ui.client.data.PagingLoadConfig)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteService#getProfiles(com.extjs.gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full) throws ApplicationException {
-        return profilesManagerService.getProfiles(config, full);
+    public PagingLoadResult<Profile> getProfiles(int offset, int limit, boolean full) throws ApplicationException
+    {
+        return profilesManagerService.getProfiles(offset, limit, full);
     }
 
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#deleteProfile(it.geosolutions.georepo.gui.client.model.Profile)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteService#deleteProfile(it.geosolutions.georepo.gui.client.model.Profile)
      */
-    public void deleteProfile(Profile profile) throws ApplicationException {
+    public void deleteProfile(Profile profile) throws ApplicationException
+    {
         profilesManagerService.deleteProfile(profile);
     }
 
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#saveProfile(it.geosolutions.georepo.gui.client.model.Profile)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteService#saveProfile(it.geosolutions.georepo.gui.client.model.Profile)
      */
-    public void saveProfile(Profile profile) throws ApplicationException {
+    public void saveProfile(Profile profile) throws ApplicationException
+    {
         profilesManagerService.saveProfile(profile);
     }
-    
+
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#getProfileCustomProps(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteService#getProfileCustomProps(com.extjs.gxt.ui.client.data.PagingLoadConfig, it.geosolutions.georepo.gui.client.model.Rule)
      */
-    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(PagingLoadConfig config, 
-            Profile profile) throws ApplicationException{
-        return profilesManagerService.getProfileCustomProps(config, profile);
+    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(int offset, int limit,
+        Profile profile) throws ApplicationException
+    {
+        return profilesManagerService.getProfileCustomProps(offset, limit, profile);
     }
-    
+
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote#setProfileProps(java.lang.Long, java.util.List)
+     * @see it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteService#setProfileProps(java.lang.Long, java.util.List)
      */
-    public void setProfileProps(Long profileId, List<ProfileCustomProps> customProps) 
-        throws ApplicationException{        
+    public void setProfileProps(Long profileId, List<ProfileCustomProps> customProps) throws ApplicationException
+    {
         profilesManagerService.setProfileProps(profileId, customProps);
     }
-    
+
 }

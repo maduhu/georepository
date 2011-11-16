@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,29 +32,31 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.Constants;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+
+import it.geosolutions.georepo.gui.client.Constants;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerRemoteServiceAsync;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class RuleManagementWidget.
  */
-public class RuleManagementWidget extends ContentPanel {
+public class RuleManagementWidget extends ContentPanel
+{
 
     /** The rules info. */
     private RuleGridWidget rulesInfo;
 
     /**
      * Instantiates a new rule management widget.
-     * 
+     *
      * @param rulesService
      *            the rules service
      * @param gsUsersService
@@ -66,11 +68,12 @@ public class RuleManagementWidget extends ContentPanel {
      * @param workspacesService
      *            the workspaces service
      */
-    public RuleManagementWidget(RulesManagerServiceRemoteAsync rulesService,
-            GsUsersManagerServiceRemoteAsync gsUsersService,
-            ProfilesManagerServiceRemoteAsync profilesService,
-            InstancesManagerServiceRemoteAsync instancesService,
-            WorkspacesManagerServiceRemoteAsync workspacesService) {
+    public RuleManagementWidget(RulesManagerRemoteServiceAsync rulesService,
+        GsUsersManagerRemoteServiceAsync gsUsersService,
+        ProfilesManagerRemoteServiceAsync profilesService,
+        InstancesManagerRemoteServiceAsync instancesService,
+        WorkspacesManagerRemoteServiceAsync workspacesService)
+    {
         setMonitorWindowResize(true);
         setHeaderVisible(false);
         setFrame(true);
@@ -78,19 +81,21 @@ public class RuleManagementWidget extends ContentPanel {
         setScrollMode(Scroll.NONE);
         setAutoWidth(true);
         setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
-        
-        setRulesInfo(new RuleGridWidget(rulesService, gsUsersService, profilesService, instancesService, workspacesService));
+
+        setRulesInfo(new RuleGridWidget(rulesService, gsUsersService, profilesService, instancesService,
+                workspacesService));
         add(getRulesInfo().getGrid());
         setBottomComponent(this.getRulesInfo().getToolBar());
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.widget.Component#onWindowResize(int, int)
      */
     @Override
-    protected void onWindowResize(int width, int height) {
+    protected void onWindowResize(int width, int height)
+    {
         // TODO Auto-generated method stub
         super.setWidth(width - 5);
         super.layout();
@@ -98,20 +103,22 @@ public class RuleManagementWidget extends ContentPanel {
 
     /**
      * Sets the rules info.
-     * 
+     *
      * @param rulesInfo
      *            the new rules info
      */
-    public void setRulesInfo(RuleGridWidget rulesInfo) {
+    public void setRulesInfo(RuleGridWidget rulesInfo)
+    {
         this.rulesInfo = rulesInfo;
     }
 
     /**
      * Gets the rules info.
-     * 
+     *
      * @return the rules info
      */
-    public RuleGridWidget getRulesInfo() {
+    public RuleGridWidget getRulesInfo()
+    {
         return rulesInfo;
     }
 

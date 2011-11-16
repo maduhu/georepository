@@ -24,72 +24,92 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 
-@XmlRootElement(name="GeoRepoConfiguration")
-@XmlType(propOrder={"profileList","userList","gsInstanceList","ruleList"})
-public class RESTFullConfiguration {
+@XmlRootElement(name = "GeoRepoConfiguration")
+@XmlType(propOrder = { "profileList", "userList", "gsInstanceList", "ruleList" })
+public class RESTFullConfiguration
+{
 
     private RESTFullProfileList profileList;
     private RESTFullUserList userList;
     private RESTFullGSInstanceList gsInstanceList;
     private RESTFullRuleList ruleList;
 
-    public RESTFullConfiguration() {
+    public RESTFullConfiguration()
+    {
     }
 
-    @XmlElement(name="GSInstances")
-    public RESTFullGSInstanceList getGsInstanceList() {
+    @XmlElement(name = "GSInstances")
+    public RESTFullGSInstanceList getGsInstanceList()
+    {
         return gsInstanceList;
     }
 
-    public void setGsInstanceList(RESTFullGSInstanceList gsInstanceList) {
+    public void setGsInstanceList(RESTFullGSInstanceList gsInstanceList)
+    {
         this.gsInstanceList = gsInstanceList;
     }
 
-    @XmlElement(name="Profiles")
-    public RESTFullProfileList getProfileList() {
+    @XmlElement(name = "Profiles")
+    public RESTFullProfileList getProfileList()
+    {
         return profileList;
     }
 
-    public void setProfileList(RESTFullProfileList profileList) {
+    public void setProfileList(RESTFullProfileList profileList)
+    {
         this.profileList = profileList;
     }
 
-    @XmlElement(name="Rules")
-    public RESTFullRuleList getRuleList() {
+    @XmlElement(name = "Rules")
+    public RESTFullRuleList getRuleList()
+    {
         return ruleList;
     }
 
-    public void setRuleList(RESTFullRuleList ruleList) {
+    public void setRuleList(RESTFullRuleList ruleList)
+    {
         this.ruleList = ruleList;
     }
 
-    @XmlElement(name="Users")
-    public RESTFullUserList getUserList() {
+    @XmlElement(name = "Users")
+    public RESTFullUserList getUserList()
+    {
         return userList;
     }
 
-    public void setUserList(RESTFullUserList userList) {
+    public void setUserList(RESTFullUserList userList)
+    {
         this.userList = userList;
     }
 
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName()).append('[');
-        if(profileList != null)
+        if (profileList != null)
+        {
             sb.append(profileList);
-        if(userList != null)
+        }
+        if (userList != null)
+        {
             sb.append(", ").append(userList);
-        if(gsInstanceList != null)
+        }
+        if (gsInstanceList != null)
+        {
             sb.append(", ").append(gsInstanceList);
-        if(ruleList != null)
+        }
+        if (ruleList != null)
+        {
             sb.append(", ").append(ruleList);
+        }
         sb.append(']');
 
         return sb.toString();

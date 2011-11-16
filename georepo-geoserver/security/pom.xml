@@ -30,11 +30,11 @@
 			<artifactId>georepo-services-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>org.hibernatespatial</groupId>
 			<artifactId>hibernate-spatial</artifactId>
 			<version>1.0</version>
-		</dependency>
+		</dependency -->
 
 		<!-- test dependencies -->
 		<dependency>

@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,32 +32,35 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
+
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class LayerAttributesTabItem.
  */
-public class LayerAttributesTabItem extends TabItem {
+public class LayerAttributesTabItem extends TabItem
+{
 
     /** The layer attributes widget. */
     private LayerAttributesWidget layerAttributesWidget;
-    
+
     /** The model. */
     private Rule model;
-    
+
     /**
      * Instantiates a new layer attributes tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      */
-    private LayerAttributesTabItem(String tabItemId) {
+    private LayerAttributesTabItem(String tabItemId)
+    {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
         super("Layer Attributes");
@@ -67,7 +70,7 @@ public class LayerAttributesTabItem extends TabItem {
 
     /**
      * Instantiates a new layer attributes tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      * @param model
@@ -75,7 +78,8 @@ public class LayerAttributesTabItem extends TabItem {
      * @param rulesService
      *            the rules service
      */
-    public LayerAttributesTabItem(String tabItemId, Rule model, RulesManagerServiceRemoteAsync rulesService) {
+    public LayerAttributesTabItem(String tabItemId, Rule model, RulesManagerRemoteServiceAsync rulesService)
+    {
         this(tabItemId);
         this.model = model;
 
@@ -86,26 +90,28 @@ public class LayerAttributesTabItem extends TabItem {
 
         getLayerAttributesWidget().getLayerAttributesInfo().getLoader().load();
 
-        //getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+        // getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 
     /**
      * Sets the layer attributes widget.
-     * 
+     *
      * @param layerAttributesWidget
      *            the new layer attributes widget
      */
-    public void setLayerAttributesWidget(LayerAttributesWidget layerAttributesWidget) {
+    public void setLayerAttributesWidget(LayerAttributesWidget layerAttributesWidget)
+    {
         this.layerAttributesWidget = layerAttributesWidget;
     }
 
     /**
      * Gets the layer attributes widget.
-     * 
+     *
      * @return the layer attributes widget
      */
-    public LayerAttributesWidget getLayerAttributesWidget() {
+    public LayerAttributesWidget getLayerAttributesWidget()
+    {
         return layerAttributesWidget;
     }
 

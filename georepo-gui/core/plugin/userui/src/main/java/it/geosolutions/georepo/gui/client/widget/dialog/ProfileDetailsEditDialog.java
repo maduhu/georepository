@@ -1,23 +1,25 @@
 package it.geosolutions.georepo.gui.client.widget.dialog;
 
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.SaveStaus;
-import it.geosolutions.georepo.gui.client.widget.rule.detail.ProfileDetailsTabItem;
-import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
-
 import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.SaveStaus;
+import it.geosolutions.georepo.gui.client.widget.rule.detail.ProfileDetailsTabItem;
+import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
+
+
 /**
  * ProfileDetailsEditDialog class.
- * 
+ *
  * @author Tobia di Pisa
  *
  */
-public class ProfileDetailsEditDialog  extends Dialog {
+public class ProfileDetailsEditDialog extends Dialog
+{
 
     /** The Constant PROFILE_DETAILS_DIALOG_ID. */
     public static final String PROFILE_DETAILS_DIALOG_ID = "profileDetailsDialog";
@@ -27,27 +29,28 @@ public class ProfileDetailsEditDialog  extends Dialog {
 
     /** The done. */
     private Button done;
-    
+
     /** The model. */
     private Profile profile;
 
     /** The rules manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemoteAsync;
+    private ProfilesManagerRemoteServiceAsync ProfilesManagerRemoteServiceAsync;
 
     /** The tab widget. */
     private TabWidget tabWidget;
 
     /**
      * Instantiates a new rule details edit dialog.
-     * 
+     *
      * @param rulesManagerServiceRemote
      *            the rules manager service remote
      */
-    public ProfileDetailsEditDialog(ProfilesManagerServiceRemoteAsync profilesManagerServiceRemoteAsync) {
-        this.profilesManagerServiceRemoteAsync = profilesManagerServiceRemoteAsync;
+    public ProfileDetailsEditDialog(ProfilesManagerRemoteServiceAsync ProfilesManagerRemoteServiceAsync)
+    {
+        this.ProfilesManagerRemoteServiceAsync = ProfilesManagerRemoteServiceAsync;
 
         setTabWidget(new TabWidget());
-        
+
         setResizable(false);
         setButtons("");
         setClosable(true);
@@ -55,7 +58,7 @@ public class ProfileDetailsEditDialog  extends Dialog {
         setWidth(700);
         setHeight(427);
         setId(I18nProvider.getMessages().profileDialogId());
-        
+
         add(this.getTabWidget());
     }
 
@@ -63,7 +66,8 @@ public class ProfileDetailsEditDialog  extends Dialog {
      * @see com.extjs.gxt.ui.client.widget.Dialog#createButtons()
      */
     @Override
-    protected void createButtons() {
+    protected void createButtons()
+    {
         super.createButtons();
 
         this.saveStatus = new SaveStaus();
@@ -79,13 +83,15 @@ public class ProfileDetailsEditDialog  extends Dialog {
      * @see com.extjs.gxt.ui.client.widget.Window#show()
      */
     @Override
-    public void show() {
+    public void show()
+    {
         super.show();
 
-        if (getModel() != null) {
+        if (getModel() != null)
+        {
             setHeading("Editing Profile Details for Profile #" + profile.getId());
             this.tabWidget.add(new ProfileDetailsTabItem(PROFILE_DETAILS_DIALOG_ID, profile,
-                    profilesManagerServiceRemoteAsync));
+                    ProfilesManagerRemoteServiceAsync));
 
         }
 
@@ -94,44 +100,49 @@ public class ProfileDetailsEditDialog  extends Dialog {
     /**
      * Reset.
      */
-    public void reset() {
+    public void reset()
+    {
         this.tabWidget.removeAll();
         this.saveStatus.clearStatus("");
     }
 
     /**
      * Sets the model.
-     * 
+     *
      * @param model
      *            the new model
      */
-    public void setModel(Profile profile) {
+    public void setModel(Profile profile)
+    {
         this.profile = profile;
     }
 
     /* (non-Javadoc)
      * @see com.extjs.gxt.ui.client.widget.Component#getModel()
      */
-    public Profile getModel() {
+    public Profile getModel()
+    {
         return this.profile;
     }
 
     /**
      * Sets the tab widget.
-     * 
+     *
      * @param tabWidget
      *            the new tab widget
      */
-    public void setTabWidget(TabWidget tabWidget) {
+    public void setTabWidget(TabWidget tabWidget)
+    {
         this.tabWidget = tabWidget;
     }
 
     /**
      * Gets the tab widget.
-     * 
+     *
      * @return the tab widget
      */
-    public TabWidget getTabWidget() {
+    public TabWidget getTabWidget()
+    {
         return tabWidget;
     }
 

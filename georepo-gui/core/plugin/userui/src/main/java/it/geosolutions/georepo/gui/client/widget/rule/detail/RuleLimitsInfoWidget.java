@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,11 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget;
-
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -45,16 +40,23 @@ import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget;
+
+
 /**
  * The Class RuleLimitsInfoWidget.
  */
-public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsInfo> {
+public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsInfo>
+{
 
     /** The rule. */
     private Rule theRule;
 
     /** The rule service. */
-    private RulesManagerServiceRemoteAsync rulesService;
+    private RulesManagerRemoteServiceAsync rulesService;
 
     /** The rule details widget. */
     private RuleLimitsWidget ruleLimitsWidget;
@@ -64,7 +66,7 @@ public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsIn
 
     /**
      * Instantiates a new rule details info widget.
-     * 
+     *
      * @param model
      *            the model
      * @param workspacesService
@@ -72,8 +74,9 @@ public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsIn
      * @param ruleDetailsWidget
      *            the rule details widget
      */
-    public RuleLimitsInfoWidget(Rule model, RulesManagerServiceRemoteAsync rulesService,
-            RuleLimitsWidget ruleLimitsWidget) {
+    public RuleLimitsInfoWidget(Rule model, RulesManagerRemoteServiceAsync rulesService,
+        RuleLimitsWidget ruleLimitsWidget)
+    {
 
         super();
         this.theRule = model;
@@ -86,7 +89,8 @@ public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsIn
      * @see it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget#createFormPanel()
      */
     @Override
-    public FormPanel createFormPanel() {
+    public FormPanel createFormPanel()
+    {
         FormPanel fp = new FormPanel();
         fp.setFrame(true);
         fp.setHeaderVisible(false);
@@ -105,13 +109,15 @@ public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsIn
         allowedArea.setFieldLabel("Allowed Area");
         allowedArea.setWidth(400);
         allowedArea.setPreventScrollbars(true);
-        allowedArea.addListener(Events.Change, new Listener<FieldEvent>() {
+        allowedArea.addListener(Events.Change, new Listener<FieldEvent>()
+            {
 
-            public void handleEvent(FieldEvent be) {
-                ruleLimitsWidget.enableSaveButton();
-            }
+                public void handleEvent(FieldEvent be)
+                {
+                    ruleLimitsWidget.enableSaveButton();
+                }
 
-        }); 
+            });
 
         fieldSet.add(allowedArea);
 
@@ -122,30 +128,37 @@ public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsIn
 
     /**
      * Gets the model data.
-     * 
+     *
      * @return the model data
      */
-    public LayerLimitsInfo getModelData() {
+    public LayerLimitsInfo getModelData()
+    {
         LayerLimitsInfo layerLimitsForm = new LayerLimitsInfo();
 
         String area = allowedArea.getValue();
 
         String wkt, srid;
-        if(area != null){            
-            if(area.indexOf("SRID=") != -1){
+        if (area != null)
+        {
+            if (area.indexOf("SRID=") != -1)
+            {
                 String[] allowedAreaArray = area.split(";");
-                
+
                 srid = allowedAreaArray[0].split("=")[1];
                 wkt = allowedAreaArray[1];
-            }else{
+            }
+            else
+            {
                 srid = "4326";
                 wkt = area;
             }
-        }else{
+        }
+        else
+        {
             srid = null;
             wkt = null;
         }
-        
+
         layerLimitsForm.setAllowedArea(wkt);
         layerLimitsForm.setSrid(srid);
         layerLimitsForm.setRuleId(theRule.getId());
@@ -155,20 +168,24 @@ public class RuleLimitsInfoWidget extends GeoRepoFormBindingWidget<LayerLimitsIn
 
     /**
      * Bind model data.
-     * 
+     *
      * @param layerDetailsInfo
      *            the layer details info
      */
-    public void bindModelData(LayerLimitsInfo layerLimitsInfo){
+    public void bindModelData(LayerLimitsInfo layerLimitsInfo)
+    {
         this.bindModel(layerLimitsInfo);
 
         String area = layerLimitsInfo.getAllowedArea();
         String srid = layerLimitsInfo.getSrid();
-        if(area != null && srid != null){
+        if ((area != null) && (srid != null))
+        {
             allowedArea.setValue("SRID=" + srid + ";" + area);
-        }else{
+        }
+        else
+        {
             allowedArea.setValue("");
-        }   
+        }
     }
 
 }

@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,23 +32,26 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
+import javax.servlet.http.HttpSession;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import it.geosolutions.georepo.gui.client.model.User;
 import it.geosolutions.georepo.gui.client.service.LoginRemote;
+import it.geosolutions.georepo.gui.server.GeoRepoKeySessionValues;
 import it.geosolutions.georepo.gui.server.service.ILoginService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
-
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class LoginRemoteImpl.
  */
-public class LoginRemoteImpl extends RemoteServiceServlet implements LoginRemote {
+public class LoginRemoteImpl extends RemoteServiceServlet implements LoginRemote
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6763250533126295210L;
@@ -62,80 +65,53 @@ public class LoginRemoteImpl extends RemoteServiceServlet implements LoginRemote
     /**
      * Instantiates a new login remote impl.
      */
-    public LoginRemoteImpl() {
+    public LoginRemoteImpl()
+    {
         this.loginService = (ILoginService) ApplicationContextUtil.getInstance().getBean(
                 "loginService");
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.service.LoginRemote#authenticate(java .lang.String,
      * java.lang.String)
      */
-    public User authenticate(String userName, String password) {
-        return loginService.authenticate(userName, password, getThreadLocalRequest().getSession());
-    }
+    public User authenticate(String userName, String password)
+    {
+        HttpSession session = getThreadLocalRequest().getSession();
 
-    // /**
-    // *
-    // */
-    // public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
-    // String searchText) {
-    // return loginService.loadUsers(config, searchText);
-    // }
-    //
-    // /**
-    // *
-    // */
-    // public User saveUser(User profile) throws ApplicationException {
-    // return loginService.saveUser(profile);
-    // }
-    //
-    // /**
-    // *
-    // */
-    // // public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
-    // // throws ApplicationException {
-    // // return loginService.loadAllUsers(config);
-    // // }
-    //
-    // public void deleteUser(Long userId) throws ApplicationException {
-    // this.loginService.deleteUser(userId);
-    // }
-    //
-    // public User updateUser(User profile) {
-    // return loginService.updateUser(profile);
-    // }
-    //
-    // public User getUserDetail(User profile) throws ApplicationException {
-    // return loginService.getUserDetail(profile);
-    // }
-    //
-    // public List<RegUser> findUserNames() throws ApplicationException {
-    // return loginService.findUserNames(getThreadLocalRequest().getSession());
-    // }
+        return loginService.authenticate(userName, password, session);
+    }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.service.LoginRemote#logout()
      */
-    public void logout() {
+    public void logout()
+    {
         HttpSession session = getThreadLocalRequest().getSession();
-        if (session != null) {
-            session.invalidate();
-            logger.info("LOGOUT ------------------------------ INVALIDATING SESSION");
+        if (session != null)
+        {
+            session.removeAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue());
+            session.setAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue(), "");
         }
 
     }
 
-    // public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
-    // long aoiID) throws ApplicationException {
-    // return loginService.getRelatedUsers(config, aoiID);
-    // }
-    //
-    // public int getRelatedUsersCount(long aoiId) {
-    // return loginService.getRelatedUsersCount(aoiId);
-    // }
+    public Boolean isAuthenticated()
+    {
+        boolean authenticated = false;
+
+        HttpSession session = getThreadLocalRequest().getSession();
+        if ((session.getAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue()) != null) &&
+                !((String) session.getAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue())).isEmpty())
+        {
+            authenticated = true;
+        }
+
+        return authenticated;
+    }
+
 }

@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,11 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Events;
@@ -44,24 +39,32 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+
+
 /**
  * The Class RuleLimitsTabItem.
  */
-public class RuleLimitsTabItem extends TabItem {
+public class RuleLimitsTabItem extends TabItem
+{
 
     /** The rule details widget. */
     private RuleLimitsWidget ruleLimitsWidget;
-    
+
     /** The rule. */
     private Rule theRule;
-    
+
     /**
      * Instantiates a new rule limits tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      */
-    private RuleLimitsTabItem(String tabItemId) {
+    private RuleLimitsTabItem(String tabItemId)
+    {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
         super("Layer Limits");
@@ -71,7 +74,7 @@ public class RuleLimitsTabItem extends TabItem {
 
     /**
      * Instantiates a new rule details tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      * @param model
@@ -79,7 +82,8 @@ public class RuleLimitsTabItem extends TabItem {
      * @param workspacesService
      *            the workspaces service
      */
-    public RuleLimitsTabItem(String tabItemId, Rule model, RulesManagerServiceRemoteAsync rulesService) {
+    public RuleLimitsTabItem(String tabItemId, Rule model, RulesManagerRemoteServiceAsync rulesService)
+    {
         this(tabItemId);
         this.theRule = model;
 
@@ -87,35 +91,40 @@ public class RuleLimitsTabItem extends TabItem {
         add(getRuleLimitsWidget());
 
         setScrollMode(Scroll.NONE);
-        
-        this.addListener(Events.Select, new Listener<BaseEvent>(){
 
-            public void handleEvent(BaseEvent be) {     
-                if(ruleLimitsWidget.getRuleLimitsInfo().getModel() == null){
-                    Dispatcher.forwardEvent(GeoRepoEvents.LOAD_LAYER_LIMITS, theRule);
-                }              
-            }
+        this.addListener(Events.Select, new Listener<BaseEvent>()
+            {
 
-        });
+                public void handleEvent(BaseEvent be)
+                {
+                    if (ruleLimitsWidget.getRuleLimitsInfo().getModel() == null)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.LOAD_LAYER_LIMITS, theRule);
+                    }
+                }
+
+            });
 
     }
 
     /**
      * Sets the rule details widget.
-     * 
+     *
      * @param ruleLimitsWidget
      *            the new rule details widget
      */
-    public void setRuleLimitsWidget(RuleLimitsWidget ruleDetailsWidget) {
+    public void setRuleLimitsWidget(RuleLimitsWidget ruleDetailsWidget)
+    {
         this.ruleLimitsWidget = ruleDetailsWidget;
     }
 
     /**
      * Gets the rule limits widget.
-     * 
+     *
      * @return the rule limits widget
      */
-    public RuleLimitsWidget getRuleLimitsWidget() {
+    public RuleLimitsWidget getRuleLimitsWidget()
+    {
         return ruleLimitsWidget;
     }
 

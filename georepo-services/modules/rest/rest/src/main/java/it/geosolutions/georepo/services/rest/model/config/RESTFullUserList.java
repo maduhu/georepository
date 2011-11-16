@@ -20,47 +20,56 @@
 
 package it.geosolutions.georepo.services.rest.model.config;
 
-import it.geosolutions.georepo.core.model.GSUser;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import it.geosolutions.georepo.core.model.GSUser;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 
-@XmlRootElement(name="UserList")
-public class RESTFullUserList {
+@XmlRootElement(name = "UserList")
+public class RESTFullUserList
+{
 
     private List<GSUser> list;
 
-    public RESTFullUserList() {
+    public RESTFullUserList()
+    {
         this(10);
     }
 
-    public RESTFullUserList(int initialCapacity) {
+    public RESTFullUserList(int initialCapacity)
+    {
         list = new ArrayList<GSUser>(initialCapacity);
     }
 
-    @XmlElement(name="User")
-    public List<GSUser> getList() {
+    @XmlElement(name = "User")
+    public List<GSUser> getList()
+    {
         return list;
     }
 
-    public void setList(List<GSUser> userList) {
+    public void setList(List<GSUser> userList)
+    {
         this.list = userList;
     }
 
-    public void add(GSUser user) {
+    public void add(GSUser user)
+    {
         list.add(user);
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName() +"[" + list.size() + " users]";
+    public String toString()
+    {
+        return getClass().getSimpleName() + "[" + list.size() + " users]";
     }
 
 }
-

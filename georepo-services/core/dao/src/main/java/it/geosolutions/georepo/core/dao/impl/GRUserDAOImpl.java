@@ -20,59 +20,67 @@
 package it.geosolutions.georepo.core.dao.impl;
 
 
+import java.util.Date;
 import java.util.List;
+
+import com.trg.search.ISearch;
+
+import it.geosolutions.georepo.core.dao.GRUserDAO;
+import it.geosolutions.georepo.core.model.GRUser;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.trg.search.ISearch;
-import it.geosolutions.georepo.core.dao.GRUserDAO;
-import it.geosolutions.georepo.core.model.GRUser;
-import java.util.Date;
 
 /**
  * Public implementation of the GSUserDAO interface
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@Transactional
-public class GRUserDAOImpl extends BaseDAO<GRUser, Long>
-// extends GenericDAOImpl<GSUser, Long>
-        implements GRUserDAO {
+@Transactional(value = "georepoTransactionManager")
+public class GRUserDAOImpl extends BaseDAO<GRUser, Long> implements GRUserDAO
+{
 
-    final private static Logger LOGGER = Logger.getLogger(GRUserDAOImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(GRUserDAOImpl.class);
 
     @Override
-    public void persist(GRUser... entities) {
+    public void persist(GRUser... entities)
+    {
         Date now = new Date();
-        for (GRUser user : entities) {
+        for (GRUser user : entities)
+        {
             user.setDateCreation(now);
         }
         super.persist(entities);
     }
 
     @Override
-    public List<GRUser> findAll() {
+    public List<GRUser> findAll()
+    {
         return super.findAll();
     }
 
     @Override
-    public List<GRUser> search(ISearch search) {
+    public List<GRUser> search(ISearch search)
+    {
         return super.search(search);
     }
 
     @Override
-    public GRUser merge(GRUser entity) {
+    public GRUser merge(GRUser entity)
+    {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(GRUser entity) {
+    public boolean remove(GRUser entity)
+    {
         return super.remove(entity);
     }
 
     @Override
-    public boolean removeById(Long id) {
+    public boolean removeById(Long id)
+    {
         return super.removeById(id);
     }
 

@@ -1,7 +1,7 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync,v. 0.1 10-feb-2011 11.07.33 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteService,v. 0.1 10-feb-2011 11.08.17 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
- * $ Date: 10-feb-2011 11.07.33 $
+ * $ Date: 10-feb-2011 11.08.17 $
  *
  * ====================================================================
  *
@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,62 +32,67 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
+import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface GsUsersManagerServiceRemoteAsync.
+ * The Interface GsUsersManagerRemoteService.
  */
-public interface GsUsersManagerServiceRemoteAsync {
+@RemoteServiceRelativePath("GsUsersManagerRemoteService")
+public interface GsUsersManagerRemoteService extends RemoteService
+{
 
     /**
      * Gets the gs users.
-     * 
+     *
      * @param config
      *            the config
      * @param full
      *            the full
-     * @param callback
-     *            the callback
      * @return the gs users
+     * @throws ApplicationException
+     *             the application exception
      */
-    public void getGsUsers(PagingLoadConfig config, boolean full, AsyncCallback<PagingLoadResult<GSUser>> callback);
+    public PagingLoadResult<GSUser> getGsUsers(int offset, int limit, boolean full) throws ApplicationException;
 
     /**
      * Save gs profile.
-     * 
+     *
      * @param profile
      *            the profile
-     * @param callback
-     *            the callback
+     * @throws ApplicationException
+     *             the application exception
      */
-    public void saveGsUser(GSUser user, AsyncCallback<PagingLoadResult<GSUser>> callback);
+    public void saveGsUser(GSUser user) throws ApplicationException;
 
     /**
      * Delete gs profile.
-     * 
+     *
      * @param profile
      *            the profile
-     * @param asyncCallback
-     *            the callback
+     * @throws ApplicationException
+     *             the application exception
      */
-    public void deleteGsUser(GSUser user, AsyncCallback<PagingLoadResult<GSUser>> callback);
+    public void deleteGsUser(GSUser user) throws ApplicationException;
 
     /**
      * @param user
-     * @param callback
+     * @return UserLimitInfo
+     * @throws ApplicationException
      */
-    public void getUserLimitsInfo(GSUser user, AsyncCallback<UserLimitsInfo> callback);
-    
+    public UserLimitsInfo getUserLimitsInfo(GSUser user) throws ApplicationException;
+
     /**
      * @param user
-     * @param callback
+     * @return UserLimitInfo
+     * @throws ApplicationException
      */
-    public void saveUserLimitsInfo(UserLimitsInfo userLimitInfo, AsyncCallback<UserLimitsInfo> callback);
-    
+    public UserLimitsInfo saveUserLimitsInfo(UserLimitsInfo userLimitInfo) throws ApplicationException;
+
 }

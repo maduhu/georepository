@@ -6,24 +6,27 @@
 
 	<entry-point class='it.geosolutions.georepo.gui.client.UserUI' />
 
-	<source path="client" />
+	  <!-- Specify the paths for translatable code                    -->
+	  <source path='client'/>
+	  <source path='shared'/>
+	  <inherits name="com.extjs.gxt.ui.GXT"/>
 
 	<servlet path="/LoginRemote"
 		class="it.geosolutions.georepo.gui.server.gwt.LoginRemoteImpl" />
 
-	<servlet path="/GsUsersManagerServiceRemote"
+	<servlet path="/GsUsersManagerRemoteService"
 		class="it.geosolutions.georepo.gui.server.gwt.GsUsersManagerServiceImpl" />
 		
-	<servlet path="/ProfilesManagerServiceRemote"
+	<servlet path="/ProfilesManagerRemoteService"
 		class="it.geosolutions.georepo.gui.server.gwt.ProfilesManagerServiceImpl" />
 	
-	<servlet path="/InstancesManagerServiceRemote"
-		class="it.geosolutions.georepo.gui.server.gwt.InstancesManagerServiceImpl" />
+	<servlet path="/InstancesManagerRemoteService"
+		class="it.geosolutions.georepo.gui.server.gwt.InstancesManagerRemoteServiceImpl" />
 		
-	<servlet path="/RulesManagerServiceRemote"
+	<servlet path="/RulesManagerRemoteService"
 		class="it.geosolutions.georepo.gui.server.gwt.RulesManagerServiceImpl" />
 	
-	<servlet path="/WorkspacesManagerServiceRemote"
+	<servlet path="/WorkspacesManagerRemoteService"
 		class="it.geosolutions.georepo.gui.server.gwt.WorkspacesManagerServiceImpl" />
 		
 </module>

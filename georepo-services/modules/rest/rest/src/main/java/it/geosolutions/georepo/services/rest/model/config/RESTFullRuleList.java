@@ -20,48 +20,57 @@
 
 package it.geosolutions.georepo.services.rest.model.config;
 
-import it.geosolutions.georepo.core.model.GSInstance;
-import it.geosolutions.georepo.core.model.Rule;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import it.geosolutions.georepo.core.model.GSInstance;
+import it.geosolutions.georepo.core.model.Rule;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 
-@XmlRootElement(name="RuleList")
-public class RESTFullRuleList {
+@XmlRootElement(name = "RuleList")
+public class RESTFullRuleList
+{
 
     private List<Rule> list;
 
-    public RESTFullRuleList() {
+    public RESTFullRuleList()
+    {
         this(10);
     }
 
-    public RESTFullRuleList(int initialCapacity) {
+    public RESTFullRuleList(int initialCapacity)
+    {
         list = new ArrayList<Rule>(initialCapacity);
     }
 
-    @XmlElement(name="Rule")
-    public List<Rule> getList() {
+    @XmlElement(name = "Rule")
+    public List<Rule> getList()
+    {
         return list;
     }
 
-    public void setList(List<Rule> list) {
+    public void setList(List<Rule> list)
+    {
         this.list = list;
     }
 
-    public void add(Rule rule) {
+    public void add(Rule rule)
+    {
         list.add(rule);
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName() +"[" + list.size() + " items]";
+    public String toString()
+    {
+        return getClass().getSimpleName() + "[" + list.size() + " items]";
     }
 
 }
-

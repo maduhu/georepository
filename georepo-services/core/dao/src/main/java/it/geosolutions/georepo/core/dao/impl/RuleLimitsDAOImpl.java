@@ -22,52 +22,59 @@ package it.geosolutions.georepo.core.dao.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.trg.search.ISearch;
+
 import it.geosolutions.georepo.core.dao.RuleLimitsDAO;
 import it.geosolutions.georepo.core.model.RuleLimits;
 
+import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
+
 /**
  * Public implementation of the RuleLimitsDAO interface
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@Transactional
-public class RuleLimitsDAOImpl extends BaseDAO<RuleLimits, Long>
-// extends GenericDAOImpl<GSUser, Long>
-        implements RuleLimitsDAO {
+@Transactional(value = "georepoTransactionManager")
+public class RuleLimitsDAOImpl extends BaseDAO<RuleLimits, Long> implements RuleLimitsDAO
+{
 
-    final private static Logger LOGGER = Logger.getLogger(RuleLimitsDAOImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(RuleLimitsDAOImpl.class);
 
     @Override
-    public void persist(RuleLimits... entities) {
+    public void persist(RuleLimits... entities)
+    {
         super.persist(entities);
     }
 
     @Override
-    public List<RuleLimits> findAll() {
+    public List<RuleLimits> findAll()
+    {
         return super.findAll();
     }
 
     @Override
-    public List<RuleLimits> search(ISearch search) {
+    public List<RuleLimits> search(ISearch search)
+    {
         return super.search(search);
     }
 
     @Override
-    public RuleLimits merge(RuleLimits entity) {
+    public RuleLimits merge(RuleLimits entity)
+    {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(RuleLimits entity) {
+    public boolean remove(RuleLimits entity)
+    {
         return super.remove(entity);
     }
 
     @Override
-    public boolean removeById(Long id) {
+    public boolean removeById(Long id)
+    {
         return super.removeById(id);
     }
 

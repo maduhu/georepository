@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,15 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.model.GSInstance;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.view.InstancesView;
-import it.geosolutions.georepo.gui.client.widget.InstanceGridWidget;
-import it.geosolutions.georepo.gui.client.widget.tab.InstancesTabItem;
-import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
-
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -48,48 +39,69 @@ import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.view.InstancesView;
+import it.geosolutions.georepo.gui.client.widget.InstanceGridWidget;
+import it.geosolutions.georepo.gui.client.widget.tab.InstancesTabItem;
+import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class RulesController.
  */
-public class InstanceController extends Controller {
+public class InstanceController extends Controller
+{
 
     /** The Constant INSTANCES_TAB_ITEM_ID. */
     private static final String INSTANCES_TAB_ITEM_ID = "InstancesTabItem";
 
     /** The instances manager service remote. */
-    private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote = InstancesManagerServiceRemote.Util
-            .getInstance();
+    private InstancesManagerRemoteServiceAsync instancesManagerServiceRemote =
+        InstancesManagerRemoteServiceAsync.Util.getInstance();
 
     /** The tab widget. */
     private TabWidget tabWidget;
-    
+
     /** The users view. */
     private InstancesView instancesView;
 
     /**
      * Instantiates a new uSERS controller.
      */
-    public InstanceController() {
+    public InstanceController()
+    {
         registerEventTypes(
-                GeoRepoEvents.INIT_MAPS_UI_MODULE,
-                
-                GeoRepoEvents.UPDATE_INSTANCE,
-                GeoRepoEvents.DELETE_INSTANCE,
-                GeoRepoEvents.SAVE_INSTANCE,
-                
-                GeoRepoEvents.CREATE_NEW_INSTANCE,
-                
-                GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
+            GeoRepoEvents.INIT_MAPS_UI_MODULE,
+
+
+
+
+            GeoRepoEvents.UPDATE_INSTANCE,
+            GeoRepoEvents.DELETE_INSTANCE,
+            GeoRepoEvents.SAVE_INSTANCE,
+
+
+
+
+            GeoRepoEvents.CREATE_NEW_INSTANCE,
+
+
+
+
+            GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.Controller#initialize()
      */
     @Override
-    protected void initialize() {
+    protected void initialize()
+    {
         initWidget();
         this.instancesView = new InstancesView(this);
     }
@@ -97,140 +109,162 @@ public class InstanceController extends Controller {
     /**
      * Inits the widget.
      */
-    private void initWidget() {
+    private void initWidget()
+    {
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
      * .mvc.AppEvent)
      */
     @Override
-    public void handleEvent(AppEvent event) {
+    public void handleEvent(AppEvent event)
+    {
         if (event.getType() == GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS)
+        {
             onAttachTabWidgets(event);
+        }
 
-        if (event.getType() == GeoRepoEvents.UPDATE_INSTANCE ||
-                event.getType() == GeoRepoEvents.SAVE_INSTANCE)
+        if ((event.getType() == GeoRepoEvents.UPDATE_INSTANCE) ||
+                (event.getType() == GeoRepoEvents.SAVE_INSTANCE))
+        {
             onSaveInstance(event);
+        }
 
         if (event.getType() == GeoRepoEvents.DELETE_INSTANCE)
+        {
             onDeleteInstance(event);
-        
-         forwardToView(instancesView, event);
+        }
+
+        forwardToView(instancesView, event);
     }
 
     /**
      * On attach tab widgets.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onAttachTabWidgets(AppEvent event) {
-        if (tabWidget == null) {
+    private void onAttachTabWidgets(AppEvent event)
+    {
+        if (tabWidget == null)
+        {
             tabWidget = (TabWidget) event.getData();
             tabWidget.add(new InstancesTabItem(INSTANCES_TAB_ITEM_ID, instancesManagerServiceRemote));
         }
     }
 
     /**
-     * 
+     *
      * @param event
      */
-    private void onSaveInstance(AppEvent event) {
-        if (tabWidget != null) {
+    private void onSaveInstance(AppEvent event)
+    {
+        if (tabWidget != null)
+        {
 
             InstancesTabItem instancesTabItem = (InstancesTabItem) tabWidget.getItemByItemId(INSTANCES_TAB_ITEM_ID);
-            final InstanceGridWidget instancesInfoWidget = instancesTabItem.getInstanceManagementWidget().getInstancesInfo();
+            final InstanceGridWidget instancesInfoWidget =
+                instancesTabItem.getInstanceManagementWidget().getInstancesInfo();
             final Grid<GSInstance> grid = instancesInfoWidget.getGrid();
 
-            if (grid != null && grid.getStore() != null && event.getData() != null && event.getData() instanceof GSInstance) {
-                
+            if ((grid != null) && (grid.getStore() != null) && (event.getData() != null) && (event.getData() instanceof GSInstance))
+            {
+
                 GSInstance instance = event.getData();
-                
-                instancesManagerServiceRemote.saveInstance(instance, new AsyncCallback<PagingLoadResult<GSInstance>>() {
 
-                    public void onFailure(Throwable caught) {
+                instancesManagerServiceRemote.saveInstance(instance, new AsyncCallback<Void>()
+                    {
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                new String[] {
-                                        /* I18nProvider.getMessages().ruleServiceName() */ "Instance Service",
-                                        /* I18nProvider.getMessages().ruleFetchFailureMessage() */ "Error occurred while saving instance!" });
-                    }
+                        public void onFailure(Throwable caught)
+                        {
 
-                    public void onSuccess(PagingLoadResult<GSInstance> result) {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                new String[] {  /* I18nProvider.getMessages().ruleServiceName() */"Instance Service",
+                                    /* I18nProvider.getMessages().ruleFetchFailureMessage() */ "Error occurred while saving instance!" });
+                        }
 
-                        //grid.getStore().sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
-                        grid.getStore().getLoader().load();
-                        grid.repaint();
+                        public void onSuccess(Void result)
+                        {
 
-                        Dispatcher.forwardEvent(
+                            // grid.getStore().sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
+                            grid.getStore().getLoader().load();
+                            grid.repaint();
+
+                            Dispatcher.forwardEvent(
                                 GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
-                                new String[] {
-                                        /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "Instance Service" ,
-                                        /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "Instance saved successfully!" });
-                    }
-                });
-                
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                new String[] {  /* TODO: I18nProvider.getMessages().ruleServiceName()*/"Instance Service",
+                                    /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "Instance saved successfully!" });
+                        }
+                    });
+
             }
         }
     }
 
     /**
-     * 
+     *
      * @param event
      */
-    private void onDeleteInstance(AppEvent event) {
-        if (tabWidget != null) {
+    private void onDeleteInstance(AppEvent event)
+    {
+        if (tabWidget != null)
+        {
 
             InstancesTabItem instancesTabItem = (InstancesTabItem) tabWidget.getItemByItemId(INSTANCES_TAB_ITEM_ID);
-            final InstanceGridWidget instancesInfoWidget = instancesTabItem.getInstanceManagementWidget().getInstancesInfo();
+            final InstanceGridWidget instancesInfoWidget =
+                instancesTabItem.getInstanceManagementWidget().getInstancesInfo();
             final Grid<GSInstance> grid = instancesInfoWidget.getGrid();
 
-            if (grid != null && grid.getStore() != null && event.getData() != null && event.getData() instanceof GSInstance) {
-                
+            if ((grid != null) && (grid.getStore() != null) && (event.getData() != null) && (event.getData() instanceof GSInstance))
+            {
+
                 GSInstance instance = event.getData();
-                
-                instancesManagerServiceRemote.deleteInstance(instance, new AsyncCallback<PagingLoadResult<GSInstance>>() {
 
-                    public void onFailure(Throwable caught) {
+                instancesManagerServiceRemote.deleteInstance(instance,
+                    new AsyncCallback<Void>()
+                    {
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                new String[] {
-                                        /* TODO: I18nProvider.getMessages().ruleServiceName() */ "Instance Service",
-                                        /* TODO: I18nProvider.getMessages().ruleFetchFailureMessage() */ "Error occurred while removing Instance!" });
-                    }
+                        public void onFailure(Throwable caught)
+                        {
 
-                    public void onSuccess(PagingLoadResult<GSInstance> result) {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                new String[] {  /* TODO: I18nProvider.getMessages().ruleServiceName() */"Instance Service",
+                                    /* TODO: I18nProvider.getMessages().ruleFetchFailureMessage() */ "Error occurred while removing Instance!" });
+                        }
 
-                        //grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
-                        grid.getStore().getLoader().load();
-                        grid.repaint();
+                        public void onSuccess(Void result)
+                        {
 
-                        Dispatcher.forwardEvent(
+                            // grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
+                            grid.getStore().getLoader().load();
+                            grid.repaint();
+
+                            Dispatcher.forwardEvent(
                                 GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
-                                new String[] {
-                                        /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "Instance Service" ,
-                                        /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "Instance removed successfully!" });
-                    }
-                });
-                
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                new String[] {  /* TODO: I18nProvider.getMessages().ruleServiceName()*/"Instance Service",
+                                    /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "Instance removed successfully!" });
+                        }
+                    });
+
             }
         }
     }
 
     /**
      * Forward to tab widget.
-     * 
+     *
      * @param event
      *            the event
      */
     @SuppressWarnings("unused")
-    private void forwardToTabWidget(AppEvent event) {
-         this.tabWidget.fireEvent(event.getType(), event);
+    private void forwardToTabWidget(AppEvent event)
+    {
+        this.tabWidget.fireEvent(event.getType(), event);
     }
 
 }

@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,21 +32,23 @@
  */
 package it.geosolutions.georepo.gui.client.configuration;
 
-import it.geosolutions.georepo.gui.client.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import it.geosolutions.georepo.gui.client.model.User;
+
 import org.springframework.stereotype.Component;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class UserBeanManager.
  */
 @Component("userBeanManager")
-public class UserBeanManager implements IUserBeanManager {
+public class UserBeanManager implements IUserBeanManager
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 575619421702010379L;
@@ -56,32 +58,36 @@ public class UserBeanManager implements IUserBeanManager {
 
     /**
      * Sets the users.
-     * 
+     *
      * @param users
      *            the new users
      */
-    public void setUsers(List<User> users) {
+    public void setUsers(List<User> users)
+    {
         this.users = users;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.configuration.IUserBeanManager#getUsers ()
      */
-    public List<User> getUsers() {
+    public List<User> getUsers()
+    {
         // TODO Auto-generated method stub
         return users;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.configuration.IUserBeanManager#configureUsers()
      */
     @PostConstruct
-    public void configureUsers() {
-        for (int i = 0; i < 200; i++) {
+    public void configureUsers()
+    {
+        for (int i = 0; i < 200; i++)
+        {
             User user = new User();
             user.setPath("georepo/resources/images/userChoose.jpg");
             user.setName("TEST" + i);

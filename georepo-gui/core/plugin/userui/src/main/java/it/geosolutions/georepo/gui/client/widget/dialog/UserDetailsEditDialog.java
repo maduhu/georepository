@@ -1,22 +1,24 @@
 package it.geosolutions.georepo.gui.client.widget.dialog;
 
+import com.extjs.gxt.ui.client.widget.Dialog;
+import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
+
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.GSUser;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
 import it.geosolutions.georepo.gui.client.widget.SaveStaus;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.UserDetailsTabItem;
 import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
 
-import com.extjs.gxt.ui.client.widget.Dialog;
-import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 
 /**
  * UserDetailsEditDialog class.
- * 
+ *
  * @author Tobia di Pisa
  *
  */
-public class UserDetailsEditDialog  extends Dialog {
+public class UserDetailsEditDialog extends Dialog
+{
 
     /** The Constant USER_DETAILS_DIALOG_ID. */
     public static final String USER_DETAILS_DIALOG_ID = "userDetailsDialog";
@@ -28,22 +30,23 @@ public class UserDetailsEditDialog  extends Dialog {
     private GSUser user;
 
     /** The user manager service remote. */
-    private GsUsersManagerServiceRemoteAsync usersManagerServiceRemoteAsync;
+    private GsUsersManagerRemoteServiceAsync usersManagerServiceRemoteAsync;
 
     /** The tab widget. */
     private TabWidget tabWidget;
 
     /**
      * Instantiates a new rule details edit dialog.
-     * 
+     *
      * @param rulesManagerServiceRemote
      *            the rules manager service remote
      */
-    public UserDetailsEditDialog(GsUsersManagerServiceRemoteAsync usersManagerServiceRemoteAsync) {
+    public UserDetailsEditDialog(GsUsersManagerRemoteServiceAsync usersManagerServiceRemoteAsync)
+    {
         this.usersManagerServiceRemoteAsync = usersManagerServiceRemoteAsync;
 
         setTabWidget(new TabWidget());
-        
+
         setResizable(false);
         setButtons("");
         setClosable(true);
@@ -51,7 +54,7 @@ public class UserDetailsEditDialog  extends Dialog {
         setWidth(700);
         setHeight(427);
         setId(I18nProvider.getMessages().userDialogId());
-        
+
         add(this.getTabWidget());
     }
 
@@ -59,7 +62,8 @@ public class UserDetailsEditDialog  extends Dialog {
      * @see com.extjs.gxt.ui.client.widget.Dialog#createButtons()
      */
     @Override
-    protected void createButtons() {
+    protected void createButtons()
+    {
         super.createButtons();
 
         this.saveStatus = new SaveStaus();
@@ -75,10 +79,12 @@ public class UserDetailsEditDialog  extends Dialog {
      * @see com.extjs.gxt.ui.client.widget.Window#show()
      */
     @Override
-    public void show() {
+    public void show()
+    {
         super.show();
 
-        if (getModel() != null) {
+        if (getModel() != null)
+        {
             setHeading("Editing User Details for User #" + user.getId());
             this.tabWidget.add(new UserDetailsTabItem(USER_DETAILS_DIALOG_ID, user,
                     usersManagerServiceRemoteAsync));
@@ -89,44 +95,49 @@ public class UserDetailsEditDialog  extends Dialog {
     /**
      * Reset.
      */
-    public void reset() {
+    public void reset()
+    {
         this.tabWidget.removeAll();
         this.saveStatus.clearStatus("");
     }
 
     /**
      * Sets the model.
-     * 
+     *
      * @param model
      *            the new model
      */
-    public void setModel(GSUser user) {
+    public void setModel(GSUser user)
+    {
         this.user = user;
     }
 
     /* (non-Javadoc)
      * @see com.extjs.gxt.ui.client.widget.Component#getModel()
      */
-    public GSUser getModel() {
+    public GSUser getModel()
+    {
         return this.user;
     }
 
     /**
      * Sets the tab widget.
-     * 
+     *
      * @param tabWidget
      *            the new tab widget
      */
-    public void setTabWidget(TabWidget tabWidget) {
+    public void setTabWidget(TabWidget tabWidget)
+    {
         this.tabWidget = tabWidget;
     }
 
     /**
      * Gets the tab widget.
-     * 
+     *
      * @return the tab widget
      */
-    public TabWidget getTabWidget() {
+    public TabWidget getTabWidget()
+    {
         return tabWidget;
     }
 

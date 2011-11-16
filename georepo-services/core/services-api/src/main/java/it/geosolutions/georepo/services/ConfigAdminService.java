@@ -19,14 +19,14 @@
  */
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.core.model.GSUser;
-import it.geosolutions.georepo.services.dto.ShortUser;
-import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
-
 import java.util.List;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
+
+import it.geosolutions.georepo.core.model.GSUser;
+import it.geosolutions.georepo.services.dto.ShortUser;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 import org.codehaus.jra.Delete;
 import org.codehaus.jra.Get;
@@ -34,13 +34,15 @@ import org.codehaus.jra.HttpResource;
 import org.codehaus.jra.Post;
 import org.codehaus.jra.Put;
 
+
 /**
  * Operations on {@link GSUser GSUser}s.
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@WebService(name = "UserAdminService", targetNamespace = "http://geosolutions.it/georepo")
-public interface ConfigAdminService {
+@WebService(name = "ConfigAdminService", targetNamespace = "http://geosolutions.it/georepo")
+public interface ConfigAdminService
+{
 
     // ==========================================================================
     // Basic operations
@@ -67,10 +69,9 @@ public interface ConfigAdminService {
 
     @Get
     @HttpResource(location = "/users/{nameLike}/{page}/{entries}")
-    List<ShortUser> getList(
-            @WebParam(name = "nameLike") String nameLike,
-            @WebParam(name = "page") Integer page,
-            @WebParam(name = "entries") Integer entries);
+    List<ShortUser> getList(@WebParam(name = "nameLike") String nameLike,
+        @WebParam(name = "page") Integer page,
+        @WebParam(name = "entries") Integer entries);
 
     @Get
     @HttpResource(location = "/userscount/{nameLike}")

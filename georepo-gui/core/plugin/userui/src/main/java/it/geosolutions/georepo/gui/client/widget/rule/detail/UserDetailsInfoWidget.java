@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,11 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.model.GSUser;
-import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget;
-
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -45,16 +40,23 @@ import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget;
+
+
 /**
  * The Class UserDetailsInfoWidget.
  */
-public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsInfo> {
+public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsInfo>
+{
 
     /** The user. */
     private GSUser user;
 
     /** The user service. */
-    private GsUsersManagerServiceRemoteAsync usersService;
+    private GsUsersManagerRemoteServiceAsync usersService;
 
     /** The user details widget. */
     private UserDetailsWidget userDetailsWidget;
@@ -64,7 +66,7 @@ public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsIn
 
     /**
      * Instantiates a new rule details info widget.
-     * 
+     *
      * @param model
      *            the model
      * @param workspacesService
@@ -72,8 +74,9 @@ public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsIn
      * @param ruleDetailsWidget
      *            the rule details widget
      */
-    public UserDetailsInfoWidget(GSUser model, GsUsersManagerServiceRemoteAsync usersService,
-            UserDetailsWidget userDetailsWidget) {
+    public UserDetailsInfoWidget(GSUser model, GsUsersManagerRemoteServiceAsync usersService,
+        UserDetailsWidget userDetailsWidget)
+    {
 
         super();
         this.user = model;
@@ -86,7 +89,8 @@ public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsIn
      * @see it.geosolutions.georepo.gui.client.widget.GeoRepoFormBindingWidget#createFormPanel()
      */
     @Override
-    public FormPanel createFormPanel() {
+    public FormPanel createFormPanel()
+    {
         FormPanel fp = new FormPanel();
         fp.setFrame(true);
         fp.setHeaderVisible(false);
@@ -105,13 +109,15 @@ public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsIn
         allowedArea.setFieldLabel("Allowed Area");
         allowedArea.setWidth(400);
         allowedArea.setPreventScrollbars(true);
-        allowedArea.addListener(Events.Change, new Listener<FieldEvent>() {
+        allowedArea.addListener(Events.Change, new Listener<FieldEvent>()
+            {
 
-            public void handleEvent(FieldEvent be) {
-                userDetailsWidget.enableSaveButton();
-            }
+                public void handleEvent(FieldEvent be)
+                {
+                    userDetailsWidget.enableSaveButton();
+                }
 
-        }); 
+            });
 
         fieldSet.add(allowedArea);
 
@@ -122,30 +128,37 @@ public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsIn
 
     /**
      * Gets the model data.
-     * 
+     *
      * @return the model data
      */
-    public UserLimitsInfo getModelData() {
+    public UserLimitsInfo getModelData()
+    {
         UserLimitsInfo userInfo = new UserLimitsInfo();
 
         String area = allowedArea.getValue();
-        
+
         String wkt, srid;
-        if(area != null){            
-            if(area.indexOf("SRID=") != -1){
+        if (area != null)
+        {
+            if (area.indexOf("SRID=") != -1)
+            {
                 String[] allowedAreaArray = area.split(";");
-                
+
                 srid = allowedAreaArray[0].split("=")[1];
                 wkt = allowedAreaArray[1];
-            }else{
+            }
+            else
+            {
                 srid = "4326";
                 wkt = area;
             }
-        }else{
+        }
+        else
+        {
             srid = null;
             wkt = null;
         }
-        
+
         userInfo.setAllowedArea(wkt);
         userInfo.setSrid(srid);
         userInfo.setUserId(user.getId());
@@ -155,20 +168,24 @@ public class UserDetailsInfoWidget extends GeoRepoFormBindingWidget<UserLimitsIn
 
     /**
      * Bind model data.
-     * 
+     *
      * @param layerDetailsInfo
      *            the layer details info
      */
-    public void bindModelData(UserLimitsInfo userInfo){
+    public void bindModelData(UserLimitsInfo userInfo)
+    {
         this.bindModel(userInfo);
 
         String area = userInfo.getAllowedArea();
         String srid = userInfo.getSrid();
-        if(area != null && srid != null){
+        if ((area != null) && (srid != null))
+        {
             allowedArea.setValue("SRID=" + srid + ";" + area);
-        }else{
+        }
+        else
+        {
             allowedArea.setValue("");
-        }   	
+        }
     }
 
 }

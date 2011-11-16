@@ -20,6 +20,9 @@
 
 package it.geosolutions.georepo.services.rest.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.services.ProfileAdminService;
 import it.geosolutions.georepo.services.dto.ShortProfile;
@@ -29,27 +32,30 @@ import it.geosolutions.georepo.services.rest.RESTProfileService;
 import it.geosolutions.georepo.services.rest.exception.BadRequestRestEx;
 import it.geosolutions.georepo.services.rest.exception.InternalErrorRestEx;
 import it.geosolutions.georepo.services.rest.exception.NotFoundRestEx;
-import it.geosolutions.georepo.services.rest.model.config.RESTFullProfileList;
 import it.geosolutions.georepo.services.rest.model.RESTInputProfile;
-import java.util.List;
-import java.util.Map;
+import it.geosolutions.georepo.services.rest.model.config.RESTFullProfileList;
+
 import org.apache.log4j.Logger;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class RESTProfileServiceImpl implements RESTProfileService {
-    private final static Logger LOGGER = Logger.getLogger(RESTProfileServiceImpl.class);
+public class RESTProfileServiceImpl implements RESTProfileService
+{
+    private static final Logger LOGGER = Logger.getLogger(RESTProfileServiceImpl.class);
 
     private ProfileAdminService profileService;
 
     @Override
-    public RESTFullProfileList getProfiles(String nameLike, Integer page, Integer entries) {
+    public RESTFullProfileList getProfiles(String nameLike, Integer page, Integer entries)
+    {
         List<Profile> profiles = profileService.getFullList(nameLike, page, entries);
 
         // load lazy data
-        for (Profile profile : profiles) {
+        for (Profile profile : profiles)
+        {
             Map<String, String> props = profileService.getCustomProps(profile.getId());
             profile.setCustomProps(props);
         }
@@ -61,39 +67,54 @@ public class RESTProfileServiceImpl implements RESTProfileService {
     }
 
     @Override
-    public long getCount(String nameLike) {
-        return  profileService.getCount(nameLike);
+    public long getCount(String nameLike)
+    {
+        return profileService.getCount(nameLike);
     }
 
     @Override
-    public void delete(Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
-        try {
+    public void delete(Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
+        try
+        {
             profileService.delete(id);
-        } catch (NotFoundServiceEx ex) {
+        }
+        catch (NotFoundServiceEx ex)
+        {
             LOGGER.warn(ex);
             throw new NotFoundRestEx("Profile not found");
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             LOGGER.error(ex);
             throw new InternalErrorRestEx(ex.getMessage());
         }
     }
 
     @Override
-    public Profile get(Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
-        try {
+    public Profile get(Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
+        try
+        {
             Profile ret = profileService.get(id);
+
             return ret;
-        } catch (NotFoundServiceEx ex) {
+        }
+        catch (NotFoundServiceEx ex)
+        {
             LOGGER.warn(ex);
             throw new NotFoundRestEx("Profile not found");
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             LOGGER.error(ex);
             throw new InternalErrorRestEx(ex.getMessage());
         }
     }
 
     @Override
-    public Long insert(RESTInputProfile profile) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
+    public Long insert(RESTInputProfile profile) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
 
 //        if(profile.getId() != null)
 //            throw new BadRequestServiceEx("Id can't be set externally");
@@ -107,17 +128,21 @@ public class RESTProfileServiceImpl implements RESTProfileService {
 
         Long id = profileService.insert(insert);
 
-        if(profile.getCustomProps() != null) {
+        if (profile.getCustomProps() != null)
+        {
             LOGGER.info("examinig custom props: " + profile.getCustomProps().keySet());
-            for (Map.Entry<String, String> entry : profile.getCustomProps().entrySet()) {
-                LOGGER.info(" --> prop " + entry.getKey()+":"+entry.getValue());
+            for (Map.Entry<String, String> entry : profile.getCustomProps().entrySet())
+            {
+                LOGGER.info(" --> prop " + entry.getKey() + ":" + entry.getValue());
             }
 
             Map<String, String> props = profileService.getCustomProps(id);
             props.keySet().retainAll(profile.getCustomProps().keySet());
             props.putAll(profile.getCustomProps());
             profileService.setCustomProps(id, props);
-        } else {
+        }
+        else
+        {
             LOGGER.info("No custom props to insert");
         }
 
@@ -125,44 +150,56 @@ public class RESTProfileServiceImpl implements RESTProfileService {
     }
 
     @Override
-    public void update(Long id, RESTInputProfile profile) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
+    public void update(Long id, RESTInputProfile profile) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
 
-        try {
+        try
+        {
             Profile old = profileService.get(id);
 
-            if(profile.getExtId() != null && ! profile.getExtId().equals(old.getExtId()))
+            if ((profile.getExtId() != null) && !profile.getExtId().equals(old.getExtId()))
+            {
                 throw new BadRequestServiceEx("ExtId can't be updated");
+            }
 
             ShortProfile shortProfile = new ShortProfile(old);
 
-            if(profile.getEnabled() != null)
+            if (profile.getEnabled() != null)
+            {
                 shortProfile.setEnabled(profile.getEnabled());
+            }
 
-            if(profile.getName() != null)
+            if (profile.getName() != null)
+            {
                 shortProfile.setName(profile.getName());
+            }
 
             profileService.update(shortProfile);
 
-            if(profile.getCustomProps() != null)
+            if (profile.getCustomProps() != null)
+            {
                 profileService.setCustomProps(id, profile.getCustomProps());
+            }
 
-        } catch (NotFoundServiceEx ex) {
+        }
+        catch (NotFoundServiceEx ex)
+        {
             LOGGER.warn("Profile not found: " + id);
             throw new NotFoundRestEx("Profile not found: " + id);
         }
     }
 
 
+    // ==========================================================================
+    // ==========================================================================
 
-    //==========================================================================
-    //==========================================================================
 
-
-    public void setProfileAdminService(ProfileAdminService profileService) {
+    public void setProfileAdminService(ProfileAdminService profileService)
+    {
         this.profileService = profileService;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
 
 //    class ProfileCache {

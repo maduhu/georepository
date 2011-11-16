@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,19 +32,21 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import it.geosolutions.georepo.gui.client.model.User;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Interface LoginRemoteAsync.
  */
-public interface LoginRemoteAsync {
+public interface LoginRemoteAsync
+{
 
     /**
      * Authenticate.
-     * 
+     *
      * @param userName
      *            the profile name
      * @param password
@@ -59,7 +61,7 @@ public interface LoginRemoteAsync {
     // * @param config
     // * @param callback
     // */
-    // public void loadUsers(PagingLoadConfig config, String searchText,
+    // public void loadUsers(RpcPagingLoadConfig config, String searchText,
     // AsyncCallback<PagingLoadResult<User>> callback);
     //
     // /**
@@ -67,7 +69,7 @@ public interface LoginRemoteAsync {
     // * @param config
     // * @param callback
     // */
-    // // public void loadAllUsers(PagingLoadConfig config,
+    // // public void loadAllUsers(RpcPagingLoadConfig config,
     // // AsyncCallback<PagingLoadResult<User>> callback);
     //
     // /**
@@ -106,11 +108,13 @@ public interface LoginRemoteAsync {
     //
     /**
      * Logout.
-     * 
+     *
      * @param callback
      *            the callback
      */
     public void logout(AsyncCallback<?> callback);
+
+    public void isAuthenticated(AsyncCallback<Boolean> callback);
 
     // /**
     // *
@@ -118,7 +122,7 @@ public interface LoginRemoteAsync {
     // * @param searchText
     // * @param callback
     // */
-    // public void getRelatedUsers(PagingLoadConfig config, long aoiID,
+    // public void getRelatedUsers(RpcPagingLoadConfig config, long aoiID,
     // AsyncCallback<PagingLoadResult<User>> callback);
     //
     // /**

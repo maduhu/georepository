@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,32 +32,36 @@
  */
 package it.geosolutions.georepo.gui.client.model.data;
 
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 
-import com.extjs.gxt.ui.client.data.BeanModel;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Service.
  */
-public class Service extends BeanModel {
+public class Service extends BeanModel implements IsSerializable
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 2828906795801803648L;
-    
+
     /** The service. */
     private String service;
 
     /** The path. */
     private String path;
-    
+
     /**
      * Instantiates a new service.
-     * 
+     *
      * @param service
      *            the service
      */
-    public Service(String service) {
+    public Service(String service)
+    {
         this();
         setService(service);
     }
@@ -65,48 +69,53 @@ public class Service extends BeanModel {
     /**
      * Instantiates a new service.
      */
-    public Service() {
+    public Service()
+    {
         super();
         setPath("georepo/resources/images/service.jpg");
     }
-    
+
     /**
      * Sets the service.
-     * 
+     *
      * @param service
      *            the new service
      */
-    public void setService(String service) {
+    public void setService(String service)
+    {
         this.service = service;
         set(BeanKeyValue.SERVICE.getValue(), this.service);
     }
 
     /**
      * Sets the path.
-     * 
+     *
      * @param path
      *            the new path
      */
-    public void setPath(String path) {
+    public void setPath(String path)
+    {
         this.path = path;
         set(BeanKeyValue.PATH.getValue(), path);
     }
 
     /**
      * Gets the path.
-     * 
+     *
      * @return the path
      */
-    public String getPath() {
+    public String getPath()
+    {
         return path;
     }
 
     /**
      * Gets the service.
-     * 
+     *
      * @return the service
      */
-    public String getService() {
+    public String getService()
+    {
         return service;
     }
 
@@ -114,10 +123,12 @@ public class Service extends BeanModel {
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((service == null) ? 0 : service.hashCode());
+        result = (prime * result) + ((service == null) ? 0 : service.hashCode());
+
         return result;
     }
 
@@ -125,24 +136,34 @@ public class Service extends BeanModel {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
             return true;
         }
-        if (obj == null) {
+        if (obj == null)
+        {
             return false;
         }
-        if (!(obj instanceof Service)) {
+        if (!(obj instanceof Service))
+        {
             return false;
         }
+
         Service other = (Service) obj;
-        if (service == null) {
-            if (other.service != null) {
+        if (service == null)
+        {
+            if (other.service != null)
+            {
                 return false;
             }
-        } else if (!service.equals(other.service)) {
+        }
+        else if (!service.equals(other.service))
+        {
             return false;
         }
+
         return true;
     }
 
@@ -150,13 +171,17 @@ public class Service extends BeanModel {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder builder = new StringBuilder();
         builder.append("Service [");
         if (service != null)
+        {
             builder.append("service=").append(service);
+        }
         builder.append("]");
+
         return builder.toString();
     }
-    
+
 }

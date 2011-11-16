@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,6 +32,10 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
+import java.util.List;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
@@ -40,20 +44,17 @@ import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 
-import java.util.List;
-
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Interface IRulesManagerService.
  */
-public interface IRulesManagerService {
+public interface IRulesManagerService
+{
 
     /**
      * Gets the rules.
-     * 
+     *
      * @param config
      *            the config
      * @param full
@@ -62,11 +63,11 @@ public interface IRulesManagerService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Rule> getRules(PagingLoadConfig config, boolean full) throws ApplicationException;
-    
+    public PagingLoadResult<Rule> getRules(int offset, int limit, boolean full) throws ApplicationException;
+
     /**
      * Save all rules.
-     * 
+     *
      * @param rules
      *            the rules
      * @throws ApplicationException
@@ -76,18 +77,18 @@ public interface IRulesManagerService {
 
     /**
      * Gets the layer custom props.
-     * 
+     *
      * @param config
      *            the config
      * @param rule
      *            the rule
      * @return the layer custom props
      */
-    public PagingLoadResult<LayerCustomProps> getLayerCustomProps(PagingLoadConfig config, Rule rule);
+    public PagingLoadResult<LayerCustomProps> getLayerCustomProps(int offset, int limit, Rule rule);
 
     /**
      * Sets the details props.
-     * 
+     *
      * @param ruleId
      *            the rule id
      * @param customProps
@@ -96,57 +97,56 @@ public interface IRulesManagerService {
     public void setDetailsProps(Long ruleId, List<LayerCustomProps> customProps);
 
 
-
     /**
      * Gets the layer attributes.
-     * 
+     *
      * @param rule
      *            the rule
      * @return the layer attributes
      */
     public List<LayerAttribUI> getLayerAttributes(Rule rule);
-    
+
     /**
      * @param ruleId
      * @param layerAttributes
      */
     public void setLayerAttributes(Long ruleId, List<LayerAttribUI> layerAttributes);
-    
+
     /**
      * @param layerDetailsForm
      * @return LayerDetailsForm
      */
     public LayerDetailsInfo saveLayerDetailsInfo(LayerDetailsInfo layerDetailsForm, List<LayerStyle> layerStyles);
-    
+
     /**
      * @param rule
      * @return LayerDetailsForm
      */
     public LayerDetailsInfo getLayerDetailsInfo(Rule rule);
-    
+
     /**
      * Save single rule
-     * 
+     *
      * @param rule
      */
-	public void saveRule(Rule rule) throws ApplicationException;
-	
+    public void saveRule(Rule rule) throws ApplicationException;
+
     /**
      * Save single rule
-     * 
+     *
      * @param rule
-     * @return 
-     * @throws ResourceNotFoundFault 
+     * @return
+     * @throws ResourceNotFoundFault
      */
-	public void findRule(Rule rule) throws ApplicationException, Exception;
-	
+    public void findRule(Rule rule) throws ApplicationException, Exception;
+
     /**
      * Delete single rule
-     * 
+     *
      * @param rule
      */
-	public void deleteRule(Rule rule) throws ApplicationException;
-	
+    public void deleteRule(Rule rule) throws ApplicationException;
+
     /**
      * Shifts the priority of the rules having <TT>priority &gt;= priorityStart</TT>
      * down by <TT>offset</TT>.
@@ -159,7 +159,7 @@ public interface IRulesManagerService {
      * Swaps the priorities of two rules.
      */
     public void swap(long id1, long id2);
-    
+
     /**
      * @param layerLimitsForm
      * @return LayerLimitsInfo

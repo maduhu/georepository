@@ -23,35 +23,42 @@ package it.geosolutions.georepo.services.rest.model;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-@XmlRootElement(name="ShortProfile")
-public class RESTShortProfile {
+@XmlRootElement(name = "ShortProfile")
+public class RESTShortProfile
+{
 
     private Long id;
     private String name;
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName()+"[id:" + id + " name:" + name + ']';
+    public String toString()
+    {
+        return getClass().getSimpleName() + "[id:" + id + " name:" + name + ']';
     }
 }

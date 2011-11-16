@@ -21,34 +21,41 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 @XmlRootElement(name = "Map")
-public class MapType implements Iterable<RemappedType> {
+public class MapType implements Iterable<RemappedType>
+{
 
 
     List<RemappedType> entries = new LinkedList<RemappedType>();
 
     @XmlElement(name = "item")
-    public List<RemappedType> getEntries() {
+    public List<RemappedType> getEntries()
+    {
         return entries;
     }
 
-    public void setEntries(List<RemappedType> entries) {
+    public void setEntries(List<RemappedType> entries)
+    {
         this.entries = entries;
     }
 
-    public void add(Map.Entry<Long, Long> entry) {
+    public void add(Map.Entry<Long, Long> entry)
+    {
         entries.add(new RemappedType(entry.getKey(), entry.getValue()));
     }
 
     @Override
-    public Iterator<RemappedType> iterator() {
+    public Iterator<RemappedType> iterator()
+    {
         return entries.iterator();
     }
 }

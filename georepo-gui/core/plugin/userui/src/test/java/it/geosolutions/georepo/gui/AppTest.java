@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -36,35 +36,40 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class AppTest.
  */
-public class AppTest extends TestCase {
-
-    /**
-     * Instantiates a new app test.
-     * 
-     * @param testName
-     *            the test name
-     */
-    public AppTest(String testName) {
-        super(testName);
-    }
+public class AppTest extends TestCase
+{
 
     /**
      * Suite.
-     * 
+     *
      * @return the test
      */
-    public static Test suite() {
+    public static Test suite()
+    {
         return new TestSuite(AppTest.class);
+    }
+
+    /**
+     * Instantiates a new app test.
+     *
+     * @param testName
+     *            the test name
+     */
+    public AppTest(String testName)
+    {
+        super(testName);
     }
 
     /**
      * Test app.
      */
-    public void testApp() {
+    public void testApp()
+    {
         assertTrue(true);
     }
 }

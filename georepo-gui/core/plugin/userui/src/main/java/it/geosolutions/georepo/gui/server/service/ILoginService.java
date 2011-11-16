@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,19 +32,21 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
+import javax.servlet.http.HttpSession;
+
 import it.geosolutions.georepo.gui.client.model.User;
 
-import javax.servlet.http.HttpSession;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Interface ILoginService.
  */
-public interface ILoginService {
+public interface ILoginService
+{
 
     /**
      * Authenticate.
-     * 
+     *
      * @param userName
      *            the profile name
      * @param password

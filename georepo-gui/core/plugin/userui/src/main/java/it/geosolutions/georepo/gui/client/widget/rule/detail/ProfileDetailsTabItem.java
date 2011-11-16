@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,30 +32,33 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
+
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+
 
 /**
  * The Class ProfileDetailsTabItem.
  */
-public class ProfileDetailsTabItem extends TabItem {
+public class ProfileDetailsTabItem extends TabItem
+{
 
     /** The profile details widget. */
     private ProfileDetailsWidget profileDetailsWidget;
 
     private Profile profile;
-    
+
     /**
      * Instantiates a new profile details tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      */
-    private ProfileDetailsTabItem(String tabItemId) {
+    private ProfileDetailsTabItem(String tabItemId)
+    {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
         super("Profile Details");
@@ -65,17 +68,18 @@ public class ProfileDetailsTabItem extends TabItem {
 
     /**
      * Instantiates a new Profile Details tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
-     * @param model 
+     * @param model
      * @param rulesService
      *            the rules service
      */
-    public ProfileDetailsTabItem(String tabItemId, Profile profile, ProfilesManagerServiceRemoteAsync profilesService) {
+    public ProfileDetailsTabItem(String tabItemId, Profile profile, ProfilesManagerRemoteServiceAsync profilesService)
+    {
         this(tabItemId);
         this.profile = profile;
-        
+
         setProfileDetailsWidget(new ProfileDetailsWidget(this.profile, profilesService));
         add(getProfileDetailsWidget());
 
@@ -88,14 +92,16 @@ public class ProfileDetailsTabItem extends TabItem {
     /**
      * @return the profileDetailsWidget
      */
-    public ProfileDetailsWidget getProfileDetailsWidget() {
+    public ProfileDetailsWidget getProfileDetailsWidget()
+    {
         return profileDetailsWidget;
     }
 
     /**
      * @param profileDetailsWidget the profileDetailsWidget to set
      */
-    public void setProfileDetailsWidget(ProfileDetailsWidget profileDetailsWidget) {
+    public void setProfileDetailsWidget(ProfileDetailsWidget profileDetailsWidget)
+    {
         this.profileDetailsWidget = profileDetailsWidget;
     }
 

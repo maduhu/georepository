@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,34 +32,36 @@
  */
 package it.geosolutions.georepo.gui.client.view;
 
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.AddInstanceWidget;
-
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
+
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.AddInstanceWidget;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class UsersView.
  */
-public class InstancesView extends View {
+public class InstancesView extends View
+{
 
     /** The instances manager service remote. */
-    private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote = InstancesManagerServiceRemote.Util
-            .getInstance();
+    private InstancesManagerRemoteServiceAsync instancesManagerServiceRemote =
+        InstancesManagerRemoteServiceAsync.Util.getInstance();
 
     private AddInstanceWidget addInstance;
 
     /**
      * Instantiates a new users view.
-     * 
+     *
      * @param controller
      *            the controller
      */
-    public InstancesView(Controller controller) {
+    public InstancesView(Controller controller)
+    {
         super(controller);
 
         this.addInstance = new AddInstanceWidget(GeoRepoEvents.SAVE_INSTANCE, true);
@@ -68,29 +70,33 @@ public class InstancesView extends View {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client.mvc.AppEvent)
      */
     @Override
-    protected void handleEvent(AppEvent event) {
+    protected void handleEvent(AppEvent event)
+    {
         if (event.getType() == GeoRepoEvents.CREATE_NEW_INSTANCE)
+        {
             onCreateNewInstance(event);
+        }
 
     }
 
     /**
      * On create new instance.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onCreateNewInstance(AppEvent event) {
+    private void onCreateNewInstance(AppEvent event)
+    {
         this.addInstance.show();
     }
 
 //    /**
 //     * On edit instance.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -108,7 +114,7 @@ public class InstancesView extends View {
 
 //    /**
 //     * On rule custom prop add.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -133,7 +139,7 @@ public class InstancesView extends View {
 //
 //    /**
 //     * On rule custom prop remove.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -167,7 +173,7 @@ public class InstancesView extends View {
 //
 //    /**
 //     * On rule custom prop update key.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -201,7 +207,7 @@ public class InstancesView extends View {
 //
 //    /**
 //     * On rule custom prop update value.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -235,7 +241,7 @@ public class InstancesView extends View {
 //
 //    /**
 //     * On rule custom prop save.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */

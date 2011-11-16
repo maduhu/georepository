@@ -103,6 +103,8 @@
 
         <javassist-version>3.8.0.GA</javassist-version>
 
+		<gsmanager-version>1.2-SNAPSHOT</gsmanager-version>
+		
         <geoapi-version>2.3-M1</geoapi-version>
         <gt-version>2.7-RC2</gt-version>
     </properties>
@@ -202,6 +204,15 @@
             </dependency>
 
 		    <!-- =========================================================== -->
+		    <!--     GeoServer Manager                                       -->
+		    <!-- =========================================================== -->
+			<dependency>
+				<groupId>it.geosolutions</groupId>
+				<artifactId>geoserver-manager</artifactId>
+				<version>${gsmanager-version}</version>
+			</dependency>
+
+		    <!-- =========================================================== -->
 		    <!--     Quartz                                                  -->
 		    <!-- =========================================================== -->
             <dependency>
@@ -242,7 +253,7 @@
                 <artifactId>jdom</artifactId>
                 <version>1.0</version>
             </dependency>
-<!--            <dependency>
+<!--        <dependency>
                 <groupId>org.jdom</groupId>
                 <artifactId>jdom</artifactId>
                 <version>1.1</version>
@@ -398,7 +409,7 @@
 		    <!-- =========================================================== -->
 		    <!--     GEO-BATCH                                               -->
 		    <!-- =========================================================== -->
-<!--            <dependency>
+<!--        <dependency>
                 <groupId>com.digitalglobe</groupId>
                 <artifactId>gb-action-geoserver-restclient</artifactId>
                 <version>${geobatch-version}</version>
@@ -476,7 +487,6 @@
                 <artifactId>spring-remoting</artifactId>
                 <version>${spring-version}</version>
             </dependency>
-
 
 		    <!-- =========================================================== -->
 		    <!--     SPRING SECURITY                                         -->
@@ -633,9 +643,8 @@
                 <version>1.10</version>
             </dependency>
 
-
 		    <!-- =========================================================== -->
-				<!-- JAI & ImageIO                                               -->
+			<!-- JAI & ImageIO                                               -->
 		    <!-- =========================================================== -->
             <dependency>
                 <groupId>javax.media</groupId>

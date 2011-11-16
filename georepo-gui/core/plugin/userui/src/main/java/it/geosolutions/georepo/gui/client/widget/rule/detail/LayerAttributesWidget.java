@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,34 +32,37 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class LayerAttributesWidget.
  */
-public class LayerAttributesWidget extends ContentPanel {
-    
+public class LayerAttributesWidget extends ContentPanel
+{
+
     /** The layer attributes info. */
     private LayerAttributesGridWidget layerAttributesInfo;
-    
+
     /** The rule. */
     private Rule theRule;
 
     /**
      * Instantiates a new layer attributes widget.
-     * 
+     *
      * @param model
      *            the model
      * @param rulesService
      *            the rules service
      */
-    public LayerAttributesWidget(Rule model, RulesManagerServiceRemoteAsync rulesService) {
+    public LayerAttributesWidget(Rule model, RulesManagerRemoteServiceAsync rulesService)
+    {
         this.theRule = model;
         setHeaderVisible(false);
         setFrame(true);
@@ -73,38 +76,41 @@ public class LayerAttributesWidget extends ContentPanel {
         super.setMonitorWindowResize(true);
 
         setScrollMode(Scroll.NONE);
-        
+
         setBottomComponent(this.getLayerAttributesInfo().getToolBar());
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.widget.Component#onWindowResize(int, int)
      */
     @Override
-    protected void onWindowResize(int width, int height) {
+    protected void onWindowResize(int width, int height)
+    {
         super.setWidth(width - 5);
         super.layout();
     }
-    
+
     /**
      * Sets the layer attributes info.
-     * 
+     *
      * @param layerAttributesInfo
      *            the new layer attributes info
      */
-    public void setLayerAttributesInfo(LayerAttributesGridWidget layerAttributesInfo) {
+    public void setLayerAttributesInfo(LayerAttributesGridWidget layerAttributesInfo)
+    {
         this.layerAttributesInfo = layerAttributesInfo;
     }
 
     /**
      * Gets the layer attributes info.
-     * 
+     *
      * @return the layer attributes info
      */
-    public LayerAttributesGridWidget getLayerAttributesInfo() {
+    public LayerAttributesGridWidget getLayerAttributesInfo()
+    {
         return layerAttributesInfo;
     }
-    
+
 }

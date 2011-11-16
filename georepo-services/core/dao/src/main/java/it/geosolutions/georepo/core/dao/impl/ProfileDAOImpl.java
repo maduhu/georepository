@@ -19,35 +19,41 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.Query;
 
 import com.trg.search.ISearch;
+
 import it.geosolutions.georepo.core.dao.ProfileDAO;
 import it.geosolutions.georepo.core.model.Profile;
-import java.util.Date;
-import javax.persistence.Query;
+
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * Public implementation of the ProfileDAO interface
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@Transactional
+@Transactional(value = "georepoTransactionManager")
 public class ProfileDAOImpl extends BaseDAO<Profile, Long>
-        // extends GenericDAOImpl<User, Long>
-        implements ProfileDAO {
+    // extends GenericDAOImpl<User, Long>
+    implements ProfileDAO
+{
 
-    final private static Logger LOGGER = Logger.getLogger(ProfileDAOImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(ProfileDAOImpl.class);
 
     @Override
-    public void persist(Profile... entities) {
+    public void persist(Profile... entities)
+    {
         Date now = new Date();
-        for (Profile profile : entities) {
+        for (Profile profile : entities)
+        {
             profile.setDateCreation(now);
         }
 
@@ -55,61 +61,78 @@ public class ProfileDAOImpl extends BaseDAO<Profile, Long>
     }
 
     @Override
-    public List<Profile> findAll() {
+    public List<Profile> findAll()
+    {
         return super.findAll();
     }
 
     @Override
-    public List<Profile> search(ISearch search) {
+    public List<Profile> search(ISearch search)
+    {
         return super.search(search);
     }
 
     @Override
-    public Profile merge(Profile entity) {
+    public Profile merge(Profile entity)
+    {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(Profile entity) {
+    public boolean remove(Profile entity)
+    {
         return super.remove(entity);
     }
 
     @Override
-    public boolean removeById(Long id) {
+    public boolean removeById(Long id)
+    {
         return super.removeById(id);
     }
 
     @Override
-    public List<Profile> searchByCustomProp(String key, String value) {
+    public List<Profile> searchByCustomProp(String key, String value)
+    {
         Query q = em().createQuery("FROM Profile p WHERE p.customProps[:key] = :value");
         q.setParameter("key", key);
         q.setParameter("value", value);
+
         return q.getResultList();
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     @Override
-    public Map<String, String> getCustomProps(Long id) {
+    public Map<String, String> getCustomProps(Long id)
+    {
         Profile found = find(id);
-        if (found != null) {
+        if (found != null)
+        {
             Map<String, String> props = found.getCustomProps();
 
-            if (props != null && !Hibernate.isInitialized(props)) {
+            if ((props != null) && !Hibernate.isInitialized(props))
+            {
                 Hibernate.initialize(props); // fetch the props
             }
+
             return props;
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException("Profile not found");
         }
     }
 
     @Override
-    public void setCustomProps(Long id, Map<String, String> props) {
+    public void setCustomProps(Long id, Map<String, String> props)
+    {
         Profile profile = find(id);
-        if (profile != null) {
+        if (profile != null)
+        {
             profile.setCustomProps(props);
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException("Profile not found");
         }
     }

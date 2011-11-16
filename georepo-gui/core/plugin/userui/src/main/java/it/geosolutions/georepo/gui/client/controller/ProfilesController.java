@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,64 +32,75 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.view.ProfilesView;
-import it.geosolutions.georepo.gui.client.widget.ProfileGridWidget;
-import it.geosolutions.georepo.gui.client.widget.tab.ProfilesTabItem;
-import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
-
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.view.ProfilesView;
+import it.geosolutions.georepo.gui.client.widget.ProfileGridWidget;
+import it.geosolutions.georepo.gui.client.widget.tab.ProfilesTabItem;
+import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class RulesController.
  */
-public class ProfilesController extends Controller {
+public class ProfilesController extends Controller
+{
 
     /** The Constant PROFILES_TAB_ITEM_ID. */
     private static final String PROFILES_TAB_ITEM_ID = "ProfilesTabItem";
 
     /** The profiles manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
-            .getInstance();
+    private ProfilesManagerRemoteServiceAsync profilesManagerServiceRemote =
+        ProfilesManagerRemoteServiceAsync.Util.getInstance();
 
     /** The tab widget. */
     private TabWidget tabWidget;
-    
+
     /** The users view. */
     private ProfilesView profilesView;
 
     /**
      * Instantiates a new uSERS controller.
      */
-    public ProfilesController() {
+    public ProfilesController()
+    {
         registerEventTypes(
-                GeoRepoEvents.INIT_MAPS_UI_MODULE,
-                
-                GeoRepoEvents.UPDATE_PROFILE,
-                GeoRepoEvents.DELETE_PROFILE,
-                GeoRepoEvents.SAVE_PROFILE,
-                
-                GeoRepoEvents.CREATE_NEW_PROFILE,
-                
-                GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
+            GeoRepoEvents.INIT_MAPS_UI_MODULE,
+
+
+
+
+            GeoRepoEvents.UPDATE_PROFILE,
+            GeoRepoEvents.DELETE_PROFILE,
+            GeoRepoEvents.SAVE_PROFILE,
+
+
+
+
+            GeoRepoEvents.CREATE_NEW_PROFILE,
+
+
+
+
+            GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.Controller#initialize()
      */
     @Override
-    protected void initialize() {
+    protected void initialize()
+    {
         initWidget();
         this.profilesView = new ProfilesView(this);
     }
@@ -97,140 +108,159 @@ public class ProfilesController extends Controller {
     /**
      * Inits the widget.
      */
-    private void initWidget() {
+    private void initWidget()
+    {
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
      * .mvc.AppEvent)
      */
     @Override
-    public void handleEvent(AppEvent event) {
+    public void handleEvent(AppEvent event)
+    {
         if (event.getType() == GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS)
+        {
             onAttachTabWidgets(event);
+        }
 
-        if (event.getType() == GeoRepoEvents.UPDATE_PROFILE ||
-                event.getType() == GeoRepoEvents.SAVE_PROFILE)
+        if ((event.getType() == GeoRepoEvents.UPDATE_PROFILE) ||
+                (event.getType() == GeoRepoEvents.SAVE_PROFILE))
+        {
             onSaveProfile(event);
+        }
 
         if (event.getType() == GeoRepoEvents.DELETE_PROFILE)
+        {
             onDeleteProfile(event);
-        
-         forwardToView(profilesView, event);
+        }
+
+        forwardToView(profilesView, event);
     }
 
     /**
      * On attach tab widgets.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onAttachTabWidgets(AppEvent event) {
-        if (tabWidget == null) {
+    private void onAttachTabWidgets(AppEvent event)
+    {
+        if (tabWidget == null)
+        {
             tabWidget = (TabWidget) event.getData();
             tabWidget.add(new ProfilesTabItem(PROFILES_TAB_ITEM_ID, profilesManagerServiceRemote));
         }
     }
 
     /**
-     * 
+     *
      * @param event
      */
-    private void onSaveProfile(AppEvent event) {
-        if (tabWidget != null) {
+    private void onSaveProfile(AppEvent event)
+    {
+        if (tabWidget != null)
+        {
 
             ProfilesTabItem profilesTabItem = (ProfilesTabItem) tabWidget.getItemByItemId(PROFILES_TAB_ITEM_ID);
             final ProfileGridWidget profilesInfoWidget = profilesTabItem.getProfileManagementWidget().getProfilesInfo();
             final Grid<Profile> grid = profilesInfoWidget.getGrid();
 
-            if (grid != null && grid.getStore() != null && event.getData() != null && event.getData() instanceof Profile) {
-                
+            if ((grid != null) && (grid.getStore() != null) && (event.getData() != null) && (event.getData() instanceof Profile))
+            {
+
                 Profile profile = event.getData();
-                
-                profilesManagerServiceRemote.saveProfile(profile, new AsyncCallback<PagingLoadResult<Profile>>() {
 
-                    public void onFailure(Throwable caught) {
+                profilesManagerServiceRemote.saveProfile(profile, new AsyncCallback<Void>()
+                    {
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                new String[] {
-                                        /* I18nProvider.getMessages().ruleServiceName() */ "Profile Service",
-                                        /* I18nProvider.getMessages().ruleFetchFailureMessage() */ "Error occurred while saving profile!" });
-                    }
+                        public void onFailure(Throwable caught)
+                        {
 
-                    public void onSuccess(PagingLoadResult<Profile> result) {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                new String[] {  /* I18nProvider.getMessages().ruleServiceName() */"Profile Service",
+                                    /* I18nProvider.getMessages().ruleFetchFailureMessage() */ "Error occurred while saving profile!" });
+                        }
 
-                        //grid.getStore().sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
-                        grid.getStore().getLoader().load();
-                        grid.repaint();
+                        public void onSuccess(Void result)
+                        {
 
-                        Dispatcher.forwardEvent(
+                            // grid.getStore().sort(BeanKeyValue.NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
+                            grid.getStore().getLoader().load();
+                            grid.repaint();
+
+                            Dispatcher.forwardEvent(
                                 GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
-                                new String[] {
-                                        /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "Profile Service" ,
-                                        /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "Profile saved successfully!" });
-                    }
-                });
-                
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                new String[] {  /* TODO: I18nProvider.getMessages().ruleServiceName()*/"Profile Service",
+                                    /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "Profile saved successfully!" });
+                        }
+                    });
+
             }
         }
     }
 
     /**
-     * 
+     *
      * @param event
      */
-    private void onDeleteProfile(AppEvent event) {
-        if (tabWidget != null) {
+    private void onDeleteProfile(AppEvent event)
+    {
+        if (tabWidget != null)
+        {
 
             ProfilesTabItem profilesTabItem = (ProfilesTabItem) tabWidget.getItemByItemId(PROFILES_TAB_ITEM_ID);
             final ProfileGridWidget profilesInfoWidget = profilesTabItem.getProfileManagementWidget().getProfilesInfo();
             final Grid<Profile> grid = profilesInfoWidget.getGrid();
 
-            if (grid != null && grid.getStore() != null && event.getData() != null && event.getData() instanceof Profile) {
-                
+            if ((grid != null) && (grid.getStore() != null) && (event.getData() != null) && (event.getData() instanceof Profile))
+            {
+
                 Profile profile = event.getData();
-                
-                profilesManagerServiceRemote.deleteProfile(profile, new AsyncCallback<PagingLoadResult<Profile>>() {
 
-                    public void onFailure(Throwable caught) {
+                profilesManagerServiceRemote.deleteProfile(profile, new AsyncCallback<Void>()
+                    {
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                new String[] {
-                                        /* TODO: I18nProvider.getMessages().ruleServiceName() */ "Profile Service",
-                                        /* TODO: I18nProvider.getMessages().ruleFetchFailureMessage() */ "Error occurred while removing Profile!" });
-                    }
+                        public void onFailure(Throwable caught)
+                        {
 
-                    public void onSuccess(PagingLoadResult<Profile> result) {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                new String[] {  /* TODO: I18nProvider.getMessages().ruleServiceName() */"Profile Service",
+                                    /* TODO: I18nProvider.getMessages().ruleFetchFailureMessage() */ "Error occurred while removing Profile!" });
+                        }
 
-                        //grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
-                        grid.getStore().getLoader().load();
-                        grid.repaint();
+                        public void onSuccess(Void result)
+                        {
 
-                        Dispatcher.forwardEvent(
+                            // grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(), SortDir.ASC);<<-- ric mod 20100215
+                            grid.getStore().getLoader().load();
+                            grid.repaint();
+
+                            Dispatcher.forwardEvent(
                                 GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
-                                new String[] {
-                                        /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "Profile Service" ,
-                                        /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "Profile removed successfully!" });
-                    }
-                });
-                
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                new String[] {  /* TODO: I18nProvider.getMessages().ruleServiceName()*/"Profile Service",
+                                    /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "Profile removed successfully!" });
+                        }
+                    });
+
             }
         }
     }
 
     /**
      * Forward to tab widget.
-     * 
+     *
      * @param event
      *            the event
      */
     @SuppressWarnings("unused")
-    private void forwardToTabWidget(AppEvent event) {
-         this.tabWidget.fireEvent(event.getType(), event);
+    private void forwardToTabWidget(AppEvent event)
+    {
+        this.tabWidget.fireEvent(event.getType(), event);
     }
 
 }

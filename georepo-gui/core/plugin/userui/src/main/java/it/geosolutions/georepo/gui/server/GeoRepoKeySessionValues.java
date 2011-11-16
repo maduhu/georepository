@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -36,7 +36,8 @@ package it.geosolutions.georepo.gui.server;
 /**
  * The Enum GeoRepoKeySessionValues.
  */
-public enum GeoRepoKeySessionValues {
+public enum GeoRepoKeySessionValues
+{
 
     /** The USE r_ logge d_ token. */
     USER_LOGGED_TOKEN("userLoggedToken");
@@ -46,20 +47,22 @@ public enum GeoRepoKeySessionValues {
 
     /**
      * Instantiates a new geo repo key session values.
-     * 
+     *
      * @param value
      *            the value
      */
-    GeoRepoKeySessionValues(String value) {
+    GeoRepoKeySessionValues(String value)
+    {
         this.value = value;
     }
 
     /**
      * Gets the value.
-     * 
+     *
      * @return the value
      */
-    public String getValue() {
+    public String getValue()
+    {
         return value;
     }
 

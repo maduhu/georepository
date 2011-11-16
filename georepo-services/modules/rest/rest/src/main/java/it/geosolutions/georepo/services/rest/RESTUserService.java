@@ -19,6 +19,9 @@
  */
 package it.geosolutions.georepo.services.rest;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.services.exception.BadRequestServiceEx;
 import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
@@ -26,10 +29,8 @@ import it.geosolutions.georepo.services.rest.exception.BadRequestRestEx;
 import it.geosolutions.georepo.services.rest.exception.NotFoundRestEx;
 import it.geosolutions.georepo.services.rest.model.RESTShortUserList;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+
 
 /**
  *
@@ -37,7 +38,8 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
  */
 
 @Path("/")
-public interface RESTUserService {
+public interface RESTUserService
+{
 
     /**
      * @return a sample user list
@@ -46,10 +48,9 @@ public interface RESTUserService {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_XML)
-    RESTShortUserList getUsers(
-            @QueryParam("nameLike") String nameLike,
-            @QueryParam("page") Integer page,
-            @QueryParam("entries") Integer entries);
+    RESTShortUserList getUsers(@QueryParam("nameLike") String nameLike,
+        @QueryParam("page") Integer page,
+        @QueryParam("entries") Integer entries);
 
     @GET
     @Path("/count/{nameLike}")
@@ -58,7 +59,7 @@ public interface RESTUserService {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
-    GSUser get(@PathParam("id")Long id) throws BadRequestRestEx, NotFoundRestEx;
+    GSUser get(@PathParam("id") Long id) throws BadRequestRestEx, NotFoundRestEx;
 
 
 //    @PUT
@@ -69,17 +70,18 @@ public interface RESTUserService {
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_XML)
-    Long insert(@Multipart("user")GSUser user) throws BadRequestRestEx, NotFoundRestEx;
+    Long insert(@Multipart("user") GSUser user) throws BadRequestRestEx, NotFoundRestEx;
 
 
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
-    void update(@PathParam("id")Long id, @Multipart("user")GSUser user) throws BadRequestRestEx, NotFoundRestEx;
+    void update(@PathParam("id") Long id,
+        @Multipart("user") GSUser user) throws BadRequestRestEx, NotFoundRestEx;
 
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
-    void delete(@PathParam("id")Long id) throws BadRequestRestEx, NotFoundRestEx;
+    void delete(@PathParam("id") Long id) throws BadRequestRestEx, NotFoundRestEx;
 
 }

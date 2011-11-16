@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -38,10 +38,11 @@ package it.geosolutions.georepo.gui.server.service;
 /**
  * The Class SecurityManager.
  */
-public class SecurityManager {
+public class SecurityManager
+{
 
     // Logger LOGGER = Logger.getLogger(SecurityManager.class.getName());
-    //	
+    //
     // private List<String> authorizedRoles;
     //
     // private MemberServiceInternal memberService;
@@ -81,7 +82,7 @@ public class SecurityManager {
     // */
     // /*AuthenticationManager am = (AuthenticationManager)
     // ctx.getBean("OpenSDIAuthenticationManager");
-    //		
+    //
     // try {
     // UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username,
     // password);
@@ -91,7 +92,7 @@ public class SecurityManager {
     // log.warn("Authentication Failed: " + e.getLocalizedMessage());
     // return new GrantedAuthority[]{new GrantedAuthorityImpl("BAD_CREDENTIALS")};
     // } */
-    //		
+    //
     // /**
     // * DG Member Service
     // */
@@ -119,7 +120,7 @@ public class SecurityManager {
     // for (Role role : member.getRoles()) {
     // memberRoles.add(new GrantedAuthorityImpl(role.getName().toUpperCase()));
     // }
-    //				
+    //
     // return memberRoles;
     // } else {
     // LOGGER.info("Invalid role for member " + member.getUsername());

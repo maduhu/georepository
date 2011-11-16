@@ -20,6 +20,11 @@
 package it.geosolutions.georepo.services.rest;
 
 
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import it.geosolutions.georepo.services.rest.exception.BadRequestRestEx;
 import it.geosolutions.georepo.services.rest.exception.InternalErrorRestEx;
@@ -29,12 +34,8 @@ import it.geosolutions.georepo.services.rest.model.config.RESTFullConfiguration;
 import it.geosolutions.georepo.services.rest.model.config.RESTFullProfileList;
 import it.geosolutions.georepo.services.rest.model.config.RESTFullUserList;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+
 
 /**
  *
@@ -42,7 +43,8 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
  */
 
 @Path("/")
-public interface RESTConfigService {
+public interface RESTConfigService
+{
 
     /**
      * @return a sample profile list
@@ -55,19 +57,17 @@ public interface RESTConfigService {
     @PUT
     @Path("/full")
     @Produces(MediaType.APPLICATION_XML)
-    RESTConfigurationRemapping setConfiguration(@Multipart("configuration")RESTFullConfiguration config)
-            throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    RESTConfigurationRemapping setConfiguration(@Multipart("configuration") RESTFullConfiguration config)
+        throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
     @GET
     @Path("/users")
     @Produces(MediaType.APPLICATION_XML)
-    RESTFullUserList getUsers()
-            throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    RESTFullUserList getUsers() throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
     @GET
     @Path("/profiles")
     @Produces(MediaType.APPLICATION_XML)
-    RESTFullProfileList getProfiles()
-            throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    RESTFullProfileList getProfiles() throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
 }

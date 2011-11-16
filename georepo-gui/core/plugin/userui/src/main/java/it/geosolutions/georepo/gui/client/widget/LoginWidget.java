@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -31,11 +31,6 @@
  *
  */
 package it.geosolutions.georepo.gui.client.widget;
-
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.widget.LoginStatus.EnumLoginStatus;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -49,11 +44,18 @@ import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.widget.LoginStatus.EnumLoginStatus;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class LoginWidget.
  */
-public class LoginWidget extends Dialog {
+public class LoginWidget extends Dialog
+{
 
     /** The user name. */
     protected TextField<String> userName;
@@ -79,7 +81,8 @@ public class LoginWidget extends Dialog {
     /**
      * Instantiates a new login widget.
      */
-    public LoginWidget() {
+    public LoginWidget()
+    {
         FormLayout layout = new FormLayout();
         layout.setLabelWidth(90);
         layout.setDefaultWidth(175);
@@ -96,19 +99,23 @@ public class LoginWidget extends Dialog {
         setResizable(false);
         setClosable(false);
 
-        KeyListener keyListener = new KeyListener() {
-            @Override
-            public void componentKeyUp(ComponentEvent event) {
-                if (userName.isDirty() || password.isDirty()) {
-                    boolean loginInfoOk = validate();
+        KeyListener keyListener = new KeyListener()
+            {
+                @Override
+                public void componentKeyUp(ComponentEvent event)
+                {
+                    if (userName.isDirty() || password.isDirty())
+                    {
+                        boolean loginInfoOk = validate();
 
-                    if (loginInfoOk && (event.getKeyCode() == '\r')) {
-                        event.cancelBubble();
-                        onSubmit();
+                        if (loginInfoOk && (event.getKeyCode() == '\r'))
+                        {
+                            event.cancelBubble();
+                            onSubmit();
+                        }
                     }
                 }
-            }
-        };
+            };
 
         userName = new TextField<String>();
         userName.setMinLength(USERNAME_MIN_LENGTH);
@@ -128,11 +135,12 @@ public class LoginWidget extends Dialog {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.widget.Dialog#createButtons()
      */
     @Override
-    protected void createButtons() {
+    protected void createButtons()
+    {
         super.createButtons();
         status = new LoginStatus();
 
@@ -143,23 +151,27 @@ public class LoginWidget extends Dialog {
 
         reset = new Button(I18nProvider.getMessages().resetLabel());
         reset.setIconStyle("x-georepo-reset");
-        reset.addSelectionListener(new SelectionListener<ButtonEvent>() {
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                reset();
-            }
+        reset.addSelectionListener(new SelectionListener<ButtonEvent>()
+            {
+                @Override
+                public void componentSelected(ButtonEvent ce)
+                {
+                    reset();
+                }
 
-        });
+            });
 
         login = new Button(I18nProvider.getMessages().loginLabel());
         login.setIconStyle("x-georepo-login");
         login.disable();
-        login.addSelectionListener(new SelectionListener<ButtonEvent>() {
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                onSubmit();
-            }
-        });
+        login.addSelectionListener(new SelectionListener<ButtonEvent>()
+            {
+                @Override
+                public void componentSelected(ButtonEvent ce)
+                {
+                    onSubmit();
+                }
+            });
 
         addButton(reset);
         addButton(login);
@@ -169,7 +181,8 @@ public class LoginWidget extends Dialog {
     /**
      * Reset.
      */
-    public void reset() {
+    public void reset()
+    {
         userName.reset();
         password.reset();
         validate();
@@ -180,7 +193,8 @@ public class LoginWidget extends Dialog {
     /**
      * Reset password.
      */
-    public void resetPassword() {
+    public void resetPassword()
+    {
         password.reset();
         validate();
         password.focus();
@@ -189,7 +203,8 @@ public class LoginWidget extends Dialog {
     /**
      * Error connection.
      */
-    public void errorConnection() {
+    public void errorConnection()
+    {
         userName.reset();
         password.reset();
         validate();
@@ -201,33 +216,39 @@ public class LoginWidget extends Dialog {
     /**
      * On submit.
      */
-    protected void onSubmit() {
+    protected void onSubmit()
+    {
         status.setBusy(I18nProvider.getMessages().pleaseWaitMessage());
         getButtonBar().disable();
 
-        Dispatcher.forwardEvent(GeoRepoEvents.LOGIN, new String[] { userName.getValue(),
-                password.getValue() });
+        Dispatcher.forwardEvent(GeoRepoEvents.LOGIN, new String[]
+            {
+                userName.getValue(),
+                password.getValue()
+            });
     }
 
     /**
      * Checks for value.
-     * 
+     *
      * @param field
      *            the field
      * @return true, if successful
      */
-    protected boolean hasValue(TextField<String> field) {
-        return field.getValue() != null && field.getValue().length() > 0;
+    protected boolean hasValue(TextField<String> field)
+    {
+        return (field.getValue() != null) && (field.getValue().length() > 0);
     }
 
     /**
      * Validate.
-     * 
+     *
      * @return true, if successful
      */
-    protected boolean validate() {
-        boolean loginInfoOk = hasValue(userName) && hasValue(password)
-                && password.getValue().length() >= PASSWORD_MIN_LENGTH;
+    protected boolean validate()
+    {
+        boolean loginInfoOk = hasValue(userName) && hasValue(password) &&
+            (password.getValue().length() >= PASSWORD_MIN_LENGTH);
         login.setEnabled(loginInfoOk);
 
         return loginInfoOk;
@@ -235,13 +256,14 @@ public class LoginWidget extends Dialog {
 
     /**
      * Sets the status login finder.
-     * 
+     *
      * @param status
      *            the status
      * @param message
      *            the message
      */
-    public void setStatusLoginFinder(EnumLoginStatus status, EnumLoginStatus message) {
+    public void setStatusLoginFinder(EnumLoginStatus status, EnumLoginStatus message)
+    {
         this.status.setIconStyle(status.getValue());
         this.status.setText(message.getValue());
         getButtonBar().enable();

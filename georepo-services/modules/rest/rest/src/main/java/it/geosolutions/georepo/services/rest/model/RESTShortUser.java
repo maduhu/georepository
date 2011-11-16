@@ -24,12 +24,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-@XmlRootElement(name="ShortUser")
-public class RESTShortUser {
+@XmlRootElement(name = "ShortUser")
+public class RESTShortUser
+{
 
     private Long id;
     private String extId;
@@ -39,59 +41,70 @@ public class RESTShortUser {
 
     private boolean enabled;
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    @XmlAttribute(name="extid")
-    public String getExtId() {
+    @XmlAttribute(name = "extid")
+    public String getExtId()
+    {
         return extId;
     }
 
-    public void setExtId(String extId) {
+    public void setExtId(String extId)
+    {
         this.extId = extId;
     }
 
     @XmlElement
-    public String getUserName() {
+    public String getUserName()
+    {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUserName(String userName)
+    {
         this.userName = userName;
     }
 
-    @XmlAttribute(name="enable")
-    public boolean isEnabled() {
+    @XmlAttribute(name = "enable")
+    public boolean isEnabled()
+    {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled)
+    {
         this.enabled = enabled;
     }
 
     @XmlElement
-    public String getProfile() {
+    public String getProfile()
+    {
         return profile;
     }
 
-    public void setProfile(String profile) {
+    public void setProfile(String profile)
+    {
         this.profile = profile;
     }
 
     @Override
-    public String toString() {
-        return this.getClass().getSimpleName()
-                + '['
-                + "sguId=" + extId
-                + " userName=" + userName
-                + " profile=" + profile
-                + ( enabled ? " enabled" : " disabled" )
-                + ']';
+    public String toString()
+    {
+        return this.getClass().getSimpleName() +
+            '[' +
+            "sguId=" + extId +
+            " userName=" + userName +
+            " profile=" + profile +
+            (enabled ? " enabled" : " disabled") +
+            ']';
     }
 
 }

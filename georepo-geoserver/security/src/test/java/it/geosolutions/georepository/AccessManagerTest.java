@@ -1,5 +1,8 @@
 package it.geosolutions.georepository;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.io.WKTReader;
+
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.LayerInfo;
 import org.geoserver.catalog.WorkspaceInfo;
@@ -11,25 +14,25 @@ import org.geoserver.security.WorkspaceAccessLimits;
 import org.geotools.factory.CommonFactoryFinder;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.WKTReader;
 
-public class AccessManagerTest extends GeorepositoryBaseTest {
-    
+public class AccessManagerTest extends GeorepositoryBaseTest
+{
+
     /**
      * Override to have the code access the raw catalog
      */
-    protected Catalog getCatalog() {
+    protected Catalog getCatalog()
+    {
         return (Catalog) applicationContext.getBean("rawCatalog");
     }
 
 
-    public void testAdmin() {
+    public void testAdmin()
+    {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken("admin",
                 "geoserver",
                 new GrantedAuthority[] { new GrantedAuthorityImpl("ROLE_ADMINISTRATOR") });
@@ -48,8 +51,9 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         assertNull(vl.getReadAttributes());
         assertNull(vl.getWriteAttributes());
     }
-    
-    public void testAnonymousUser() {
+
+    public void testAnonymousUser()
+    {
         // check workspace access
         WorkspaceInfo citeWS = getCatalog().getWorkspaceByName(MockData.CITE_PREFIX);
         WorkspaceAccessLimits wl = manager.getAccessLimits(null, citeWS);
@@ -65,7 +69,8 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         assertNull(vl.getWriteAttributes());
     }
 
-    public void testCiteWorkspaceAccess() {
+    public void testCiteWorkspaceAccess()
+    {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken("cite",
                 "cite");
 
@@ -88,7 +93,8 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         assertTrue(wl.isWritable());
     }
 
-    public void testCiteLayerAccess() {
+    public void testCiteLayerAccess()
+    {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken("cite",
                 "cite");
 
@@ -105,6 +111,7 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         request.setService("WFS");
         request.setRequest("GetFeature");
         Dispatcher.REQUEST.set(request);
+
         LayerInfo generic = getCatalog().getLayerByName(getLayerId(MockData.GENERICENTITY));
         vl = (VectorAccessLimits) manager.getAccessLimits(user, generic);
         assertEquals(Filter.EXCLUDE, vl.getReadFilter());
@@ -121,7 +128,8 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         assertEquals(Filter.INCLUDE, vl.getWriteFilter());
     }
 
-    public void testWmsLimited() {
+    public void testWmsLimited()
+    {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(
                 "wmsuser", "wmsuser");
 
@@ -130,6 +138,7 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         request.setService("WFS");
         request.setRequest("GetFeature");
         Dispatcher.REQUEST.set(request);
+
         LayerInfo generic = getCatalog().getLayerByName(getLayerId(MockData.GENERICENTITY));
         VectorAccessLimits vl = (VectorAccessLimits) manager.getAccessLimits(user, generic);
         assertEquals(Filter.EXCLUDE, vl.getReadFilter());
@@ -145,21 +154,22 @@ public class AccessManagerTest extends GeorepositoryBaseTest {
         assertEquals(Filter.INCLUDE, vl.getWriteFilter());
     }
 
-    public void testAreaLimited() throws Exception {
+    public void testAreaLimited() throws Exception
+    {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(
                 "area", "area");
 
         // check we have the geometry filter set
         LayerInfo generic = getCatalog().getLayerByName(getLayerId(MockData.GENERICENTITY));
         VectorAccessLimits vl = (VectorAccessLimits) manager.getAccessLimits(user, generic);
-        
+
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
         Geometry limit = new WKTReader().read("MULTIPOLYGON(((48 62, 48 63, 49 63, 49 62, 48 62)))");
         Filter filter = ff.intersects(ff.property(""), ff.literal(limit));
-        
+
         assertEquals(filter, vl.getReadFilter());
         assertEquals(filter, vl.getWriteFilter());
 
-        
+
     }
 }

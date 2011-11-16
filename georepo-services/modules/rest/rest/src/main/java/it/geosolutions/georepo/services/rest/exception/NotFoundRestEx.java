@@ -22,24 +22,28 @@ package it.geosolutions.georepo.services.rest.exception;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class NotFoundRestEx extends WebApplicationException {
+public class NotFoundRestEx extends WebApplicationException
+{
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1263563388095079971L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1263563388095079971L;
 
-	private String message;
+    private String message;
 
-    public NotFoundRestEx(String message) {
+    public NotFoundRestEx(String message)
+    {
         super(Response.Status.NOT_FOUND);
         this.message = message;
-     }
+    }
 
     @Override
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 

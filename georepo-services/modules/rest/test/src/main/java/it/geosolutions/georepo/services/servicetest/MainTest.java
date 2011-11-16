@@ -20,6 +20,12 @@
 
 package it.geosolutions.georepo.services.servicetest;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.LayerAttribute;
@@ -38,11 +44,7 @@ import it.geosolutions.georepo.services.dto.ShortRule;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 import it.geosolutions.georepo.services.rest.utils.InstanceCleaner;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -51,9 +53,10 @@ import org.springframework.beans.factory.InitializingBean;
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class MainTest implements InitializingBean {
+public class MainTest implements InitializingBean
+{
 
-    private final static Logger LOGGER = Logger.getLogger(MainTest.class);
+    private static final Logger LOGGER = Logger.getLogger(MainTest.class);
 
     private RuleAdminService ruleAdminService;
     private ProfileAdminService profileAdminService;
@@ -63,7 +66,8 @@ public class MainTest implements InitializingBean {
 
     private InstanceCleaner instanceCleaner;
 
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() throws Exception
+    {
         LOGGER.info("===== Starting GeoRepository REST test services =====");
 
         instanceCleaner.removeAll();
@@ -71,14 +75,17 @@ public class MainTest implements InitializingBean {
     }
 
 
-    private void setUpTestRule() {
+    private void setUpTestRule()
+    {
 
         ShortProfile sp1 = new ShortProfile();
         sp1.setName("test_profile");
+
         long p1id = profileAdminService.insert(sp1);
 
         ShortProfile sp2 = new ShortProfile();
         sp2.setName("test_profile2");
+
         long p2id = profileAdminService.insert(sp2);
         Profile p2 = profileAdminService.get(p2id);
 
@@ -111,7 +118,7 @@ public class MainTest implements InitializingBean {
         final Long r1id;
 
         {
-            Rule r1 = new Rule(10, null, null, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+            Rule r1 = new Rule(10, null, null, null, "s1", "r1", "w1", "l1", GrantType.ALLOW);
             ruleAdminService.insert(r1);
             r1id = r1.getId();
         }
@@ -124,7 +131,7 @@ public class MainTest implements InitializingBean {
             details.getAttributes().add(new LayerAttribute("FIRST_attr1", AccessType.NONE));
             ruleAdminService.setDetails(r1id, details);
             lid1 = details.getId();
-            assert lid1 != null ;
+            assert lid1 != null;
         }
 
         // check details have been set in Rule
@@ -163,7 +170,8 @@ public class MainTest implements InitializingBean {
             Rule loaded = ruleAdminService.get(r1id);
             LayerDetails details = loaded.getLayerDetails();
             assert details != null;
-            for (LayerAttribute layerAttribute : details.getAttributes()) {
+            for (LayerAttribute layerAttribute : details.getAttributes())
+            {
                 LOGGER.error(layerAttribute);
             }
 
@@ -172,38 +180,44 @@ public class MainTest implements InitializingBean {
             assert details.getAllowedStyles().contains("style1");
         }
 
-        Map<String,String> ldcp = new HashMap<String, String>();
+        Map<String, String> ldcp = new HashMap<String, String>();
         ldcp.put("a", "x");
         ldcp.put("b", "y");
         ruleAdminService.setDetailsProps(r1id, ldcp);
 
     }
 
-    //==========================================================================
+    // ==========================================================================
 
-    public void setInstanceCleaner(InstanceCleaner instanceCleaner) {
+    public void setInstanceCleaner(InstanceCleaner instanceCleaner)
+    {
         this.instanceCleaner = instanceCleaner;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
-    public void setProfileAdminService(ProfileAdminService profileAdminService) {
+    public void setProfileAdminService(ProfileAdminService profileAdminService)
+    {
         this.profileAdminService = profileAdminService;
     }
 
-    public void setUserAdminService(UserAdminService userAdminService) {
+    public void setUserAdminService(UserAdminService userAdminService)
+    {
         this.userAdminService = userAdminService;
     }
 
-    public void setInstanceAdminService(InstanceAdminService instanceAdminService) {
+    public void setInstanceAdminService(InstanceAdminService instanceAdminService)
+    {
         this.instanceAdminService = instanceAdminService;
     }
 
-    public void setRuleAdminService(RuleAdminService ruleAdminService) {
+    public void setRuleAdminService(RuleAdminService ruleAdminService)
+    {
         this.ruleAdminService = ruleAdminService;
     }
 
-    public void setGrUserAdminService(GRUserAdminService grUserAdminService) {
+    public void setGrUserAdminService(GRUserAdminService grUserAdminService)
+    {
         this.grUserAdminService = grUserAdminService;
     }
 }

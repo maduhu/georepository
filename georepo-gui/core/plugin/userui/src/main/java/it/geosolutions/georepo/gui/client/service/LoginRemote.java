@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,45 +32,23 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
-import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.User;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-// TODO: Auto-generated Javadoc
+import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.User;
+
+
 /**
  * The Interface LoginRemote.
  */
-public interface LoginRemote extends RemoteService {
-
-    /**
-     * The Class Util.
-     */
-    public static class Util {
-
-        /** The instance. */
-        private static LoginRemoteAsync instance;
-
-        /**
-         * Gets the instance.
-         * 
-         * @return the instance
-         */
-        public static LoginRemoteAsync getInstance() {
-            if (instance == null) {
-                instance = (LoginRemoteAsync) GWT.create(LoginRemote.class);
-                ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "LoginRemote");
-            }
-            return instance;
-        }
-    }
+public interface LoginRemote extends RemoteService
+{
 
     /**
      * Authenticate.
-     * 
+     *
      * @param userName
      *            the profile name
      * @param password
@@ -81,85 +59,39 @@ public interface LoginRemote extends RemoteService {
      */
     public User authenticate(String userName, String password) throws ApplicationException;
 
-    // /**
-    // *
-    // * @param config
-    // * @return PagingLoadResult<User
-    // * @throws ApplicationException
-    // *
-    // * Serach Users filtering by Username
-    // *
-    // */
-    // public PagingLoadResult<User> loadUsers(PagingLoadConfig config,
-    // String serchText) throws ApplicationException;
-    //
-    // /**
-    // *
-    // * @param config
-    // * @return PagingLoadResult<User>
-    // * @throws ApplicationException
-    // */
-    // // public PagingLoadResult<User> loadAllUsers(PagingLoadConfig config)
-    // // throws ApplicationException;
-    //
-    // /**
-    // *
-    // * @param profile
-    // * @return
-    // * @throws ApplicationException
-    // */
-    // public User saveUser(User profile) throws ApplicationException;
-    //
-    // /**
-    // *
-    // * @param userId
-    // * @throws ApplicationException
-    // */
-    // public void deleteUser(Long userId) throws ApplicationException;
-    //
-    // /**
-    // *
-    // * @param profile
-    // * @return
-    // */
-    // public User updateUser(User profile);
-    //
-    // /**
-    // *
-    // * @param userId
-    // * @return
-    // * @throws ApplicationException
-    // */
-    // public User getUserDetail(User profile) throws ApplicationException;
-    //
-    // /**
-    // * @return a List<String> that represented the couple Key - UserName
-    // */
-    // public List<RegUser> findUserNames() throws ApplicationException;
-
     /**
      * Logout.
      */
     public void logout();
 
-    // /**
-    // *
-    // * @param config
-    // * @param aoiId
-    // * @return PagingLoadResult<User>
-    // *
-    // * @throws ApplicationException
-    // *
-    // * Search Users that have UserPref on the AOI
-    // */
-    // public PagingLoadResult<User> getRelatedUsers(PagingLoadConfig config,
-    // long aoiID) throws ApplicationException;
-    //
-    // /**
-    // *
-    // * @param aoiId
-    // * @return
-    // */
-    // public int getRelatedUsersCount(long aoiId);
+    public Boolean isAuthenticated();
+
+    /**
+     * The Class Util.
+     */
+    public static class Util
+    {
+
+        /** The instance. */
+        private static LoginRemoteAsync instance;
+
+        /**
+         * Gets the instance.
+         *
+         * @return the instance
+         */
+        public static LoginRemoteAsync getInstance()
+        {
+            if (instance == null)
+            {
+                instance = (LoginRemoteAsync) GWT.create(LoginRemote.class);
+
+                ServiceDefTarget target = (ServiceDefTarget) instance;
+                target.setServiceEntryPoint(GWT.getModuleBaseURL() + "LoginRemote");
+            }
+
+            return instance;
+        }
+    }
 
 }

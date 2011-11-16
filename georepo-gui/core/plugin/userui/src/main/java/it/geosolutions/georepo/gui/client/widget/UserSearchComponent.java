@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -31,8 +31,6 @@
  *
  */
 package it.geosolutions.georepo.gui.client.widget;
-
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -44,11 +42,15 @@ import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class UserSearchComponent.
  */
-public class UserSearchComponent {
+public class UserSearchComponent
+{
 
     /** The form panel. */
     private FormPanel formPanel;
@@ -59,14 +61,16 @@ public class UserSearchComponent {
     /**
      * Instantiates a new user search component.
      */
-    public UserSearchComponent() {
+    public UserSearchComponent()
+    {
         this.createFormPanel();
     }
 
     /**
      * Creates the form panel.
      */
-    private void createFormPanel() {
+    private void createFormPanel()
+    {
         formPanel = new FormPanel();
         formPanel.setFrame(true);
         formPanel.setHeaderVisible(false);
@@ -80,13 +84,15 @@ public class UserSearchComponent {
         FormLayout layout = new FormLayout();
         fieldSet.setLayout(layout);
 
-        search = new Button("Search", new SelectionListener<ButtonEvent>() {
+        search = new Button("Search", new SelectionListener<ButtonEvent>()
+                {
 
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SHOW_SEARCH_USER_WIDGET);
-            }
-        });
+                    @Override
+                    public void componentSelected(ButtonEvent ce)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SHOW_SEARCH_USER_WIDGET);
+                    }
+                });
 
         ButtonBar bar = new ButtonBar();
         bar.setAlignment(HorizontalAlignment.CENTER);
@@ -107,10 +113,11 @@ public class UserSearchComponent {
 
     /**
      * Gets the form panel.
-     * 
+     *
      * @return the form panel
      */
-    public FormPanel getFormPanel() {
+    public FormPanel getFormPanel()
+    {
         return formPanel;
     }
 

@@ -49,9 +49,8 @@
 		</dependency>
 		
 		<dependency>
-		   <groupId>it.geosolutions</groupId>
-       <artifactId>geoserver-manager</artifactId>
-       <version>1.1-SNAPSHOT</version>
+			<groupId>it.geosolutions</groupId>
+			<artifactId>geoserver-manager</artifactId>
 		</dependency>
 
 		<!-- ============================== -->
@@ -125,12 +124,40 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.1.0-1</version>
+				<version>2.3.0</version>
+				<configuration>
+					<inplace>true</inplace>
+					<warSourceDirectory>war</warSourceDirectory>
+					<disableCastChecking>true</disableCastChecking>
+					<disableClassMetadata>true</disableClassMetadata>
+					<extraJvmArgs>-Xmx1024M -Xss1024k -Dgwt.nowarn.legacy.tools</extraJvmArgs>
+				</configuration>
 				<executions>
 					<!-- GWT version detected from dependencyManagement -->
 					<execution>
 						<goals>
 							<goal>resources</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>generateAsync</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generateAsync</goal>
 						</goals>
 					</execution>
 				</executions>

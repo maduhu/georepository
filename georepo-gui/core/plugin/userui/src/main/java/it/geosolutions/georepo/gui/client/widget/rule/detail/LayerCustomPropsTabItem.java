@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,32 +32,35 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
+
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class LayerCustomPropsTabItem.
  */
-public class LayerCustomPropsTabItem extends TabItem {
+public class LayerCustomPropsTabItem extends TabItem
+{
 
     /** The layer custom props widget. */
     private LayerCustomPropsWidget layerCustomPropsWidget;
-    
+
     /** The model. */
     private Rule model;
-    
+
     /**
      * Instantiates a new layer custom props tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      */
-    private LayerCustomPropsTabItem(String tabItemId) {
+    private LayerCustomPropsTabItem(String tabItemId)
+    {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
         super("Layer Custom Properties");
@@ -67,7 +70,7 @@ public class LayerCustomPropsTabItem extends TabItem {
 
     /**
      * Instantiates a new layer custom props tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      * @param model
@@ -75,10 +78,11 @@ public class LayerCustomPropsTabItem extends TabItem {
      * @param rulesService
      *            the rules service
      */
-    public LayerCustomPropsTabItem(String tabItemId, Rule model, RulesManagerServiceRemoteAsync rulesService) {
+    public LayerCustomPropsTabItem(String tabItemId, Rule model, RulesManagerRemoteServiceAsync rulesService)
+    {
         this(tabItemId);
         this.model = model;
-        
+
         setLayerCustomPropsWidget(new LayerCustomPropsWidget(model, rulesService));
         add(getLayerCustomPropsWidget());
 
@@ -90,20 +94,22 @@ public class LayerCustomPropsTabItem extends TabItem {
 
     /**
      * Sets the layer custom props widget.
-     * 
+     *
      * @param layerCustomPropsWidget
      *            the new layer custom props widget
      */
-    public void setLayerCustomPropsWidget(LayerCustomPropsWidget layerCustomPropsWidget) {
+    public void setLayerCustomPropsWidget(LayerCustomPropsWidget layerCustomPropsWidget)
+    {
         this.layerCustomPropsWidget = layerCustomPropsWidget;
     }
 
     /**
      * Gets the layer custom props widget.
-     * 
+     *
      * @return the layer custom props widget
      */
-    public LayerCustomPropsWidget getLayerCustomPropsWidget() {
+    public LayerCustomPropsWidget getLayerCustomPropsWidget()
+    {
         return layerCustomPropsWidget;
     }
 

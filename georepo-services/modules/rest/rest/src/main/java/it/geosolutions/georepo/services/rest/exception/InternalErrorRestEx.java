@@ -22,24 +22,28 @@ package it.geosolutions.georepo.services.rest.exception;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class InternalErrorRestEx extends WebApplicationException {
+public class InternalErrorRestEx extends WebApplicationException
+{
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 9014519381293787498L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 9014519381293787498L;
 
-	private String message;
+    private String message;
 
-    public InternalErrorRestEx(String message) {
+    public InternalErrorRestEx(String message)
+    {
         super(Response.Status.INTERNAL_SERVER_ERROR);
         this.message = message;
-     }
+    }
 
     @Override
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 

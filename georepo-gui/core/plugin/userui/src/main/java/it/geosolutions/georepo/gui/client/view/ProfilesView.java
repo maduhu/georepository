@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,34 +32,36 @@
  */
 package it.geosolutions.georepo.gui.client.view;
 
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.AddProfileWidget;
-
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
+
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.AddProfileWidget;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class UsersView.
  */
-public class ProfilesView extends View {
+public class ProfilesView extends View
+{
 
     /** The profiles manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
-            .getInstance();
+    private ProfilesManagerRemoteServiceAsync profilesManagerServiceRemote =
+        ProfilesManagerRemoteServiceAsync.Util.getInstance();
 
     private AddProfileWidget addProfile;
 
     /**
      * Instantiates a new users view.
-     * 
+     *
      * @param controller
      *            the controller
      */
-    public ProfilesView(Controller controller) {
+    public ProfilesView(Controller controller)
+    {
         super(controller);
 
         this.addProfile = new AddProfileWidget(GeoRepoEvents.SAVE_PROFILE, true);
@@ -68,29 +70,33 @@ public class ProfilesView extends View {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client.mvc.AppEvent)
      */
     @Override
-    protected void handleEvent(AppEvent event) {
+    protected void handleEvent(AppEvent event)
+    {
         if (event.getType() == GeoRepoEvents.CREATE_NEW_PROFILE)
+        {
             onCreateNewProfile(event);
+        }
 
     }
 
     /**
      * On create new profile.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onCreateNewProfile(AppEvent event) {
+    private void onCreateNewProfile(AppEvent event)
+    {
         this.addProfile.show();
     }
 
 //    /**
 //     * On edit profile.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -108,7 +114,7 @@ public class ProfilesView extends View {
 
 //    /**
 //     * On rule custom prop add.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -133,7 +139,7 @@ public class ProfilesView extends View {
 //
 //    /**
 //     * On rule custom prop remove.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -167,7 +173,7 @@ public class ProfilesView extends View {
 //
 //    /**
 //     * On rule custom prop update key.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -201,7 +207,7 @@ public class ProfilesView extends View {
 //
 //    /**
 //     * On rule custom prop update value.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -235,7 +241,7 @@ public class ProfilesView extends View {
 //
 //    /**
 //     * On rule custom prop save.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */

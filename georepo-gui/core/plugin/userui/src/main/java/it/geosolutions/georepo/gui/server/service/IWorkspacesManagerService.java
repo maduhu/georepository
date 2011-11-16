@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,6 +32,10 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
+import java.util.List;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.Rule;
@@ -39,20 +43,17 @@ import it.geosolutions.georepo.gui.client.model.data.Layer;
 import it.geosolutions.georepo.gui.client.model.data.LayerStyle;
 import it.geosolutions.georepo.gui.client.model.data.Workspace;
 
-import java.util.List;
-
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Interface IWorkspacesManagerService.
  */
-public interface IWorkspacesManagerService {
+public interface IWorkspacesManagerService
+{
 
     /**
      * Gets the workspaces.
-     * 
+     *
      * @param config
      *            the config
      * @param URL
@@ -61,12 +62,12 @@ public interface IWorkspacesManagerService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Workspace> getWorkspaces(PagingLoadConfig config, String URL,
-            GSInstance gsInstance) throws ApplicationException;
+    public PagingLoadResult<Workspace> getWorkspaces(int offset, int limit, String URL,
+        GSInstance gsInstance) throws ApplicationException;
 
     /**
      * Gets the layers.
-     * 
+     *
      * @param config
      *            the config
      * @param baseURL
@@ -77,8 +78,8 @@ public interface IWorkspacesManagerService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Layer> getLayers(PagingLoadConfig config, String baseURL,
-            GSInstance gsInstance, String workspace) throws ApplicationException;
+    public PagingLoadResult<Layer> getLayers(int offset, int limit, String baseURL,
+        GSInstance gsInstance, String workspace) throws ApplicationException;
 
     /**
      * @param gsInstance

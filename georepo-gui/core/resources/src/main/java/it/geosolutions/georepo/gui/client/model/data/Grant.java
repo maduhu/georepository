@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,15 +32,18 @@
  */
 package it.geosolutions.georepo.gui.client.model.data;
 
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
 
-import com.extjs.gxt.ui.client.data.BeanModel;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Grant.
  */
-public class Grant extends BeanModel {
+public class Grant extends BeanModel implements IsSerializable
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -3711302358289438531L;
@@ -50,14 +53,15 @@ public class Grant extends BeanModel {
 
     /** The path. */
     private String path;
-    
+
     /**
      * Instantiates a new grant.
-     * 
+     *
      * @param grant
      *            the grant
      */
-    public Grant(String grant) {
+    public Grant(String grant)
+    {
         this();
         setGrant(grant);
     }
@@ -65,48 +69,53 @@ public class Grant extends BeanModel {
     /**
      * Instantiates a new grant.
      */
-    public Grant() {
+    public Grant()
+    {
         super();
         setPath("georepo/resources/images/grant.jpg");
     }
-    
+
     /**
      * Sets the grant.
-     * 
+     *
      * @param grant
      *            the new grant
      */
-    public void setGrant(String grant) {
+    public void setGrant(String grant)
+    {
         this.grant = grant;
         set(BeanKeyValue.GRANT.getValue(), this.grant);
     }
 
     /**
      * Sets the path.
-     * 
+     *
      * @param path
      *            the new path
      */
-    public void setPath(String path) {
+    public void setPath(String path)
+    {
         this.path = path;
         set(BeanKeyValue.PATH.getValue(), path);
     }
 
     /**
      * Gets the path.
-     * 
+     *
      * @return the path
      */
-    public String getPath() {
+    public String getPath()
+    {
         return path;
     }
 
     /**
      * Gets the grant.
-     * 
+     *
      * @return the grant
      */
-    public String getGrant() {
+    public String getGrant()
+    {
         return grant;
     }
 
@@ -114,11 +123,13 @@ public class Grant extends BeanModel {
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((grant == null) ? 0 : grant.hashCode());
-        result = prime * result + ((path == null) ? 0 : path.hashCode());
+        result = (prime * result) + ((grant == null) ? 0 : grant.hashCode());
+        result = (prime * result) + ((path == null) ? 0 : path.hashCode());
+
         return result;
     }
 
@@ -126,31 +137,45 @@ public class Grant extends BeanModel {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
             return true;
         }
-        if (obj == null) {
+        if (obj == null)
+        {
             return false;
         }
-        if (!(obj instanceof Grant)) {
+        if (!(obj instanceof Grant))
+        {
             return false;
         }
+
         Grant other = (Grant) obj;
-        if (grant == null) {
-            if (other.grant != null) {
+        if (grant == null)
+        {
+            if (other.grant != null)
+            {
                 return false;
             }
-        } else if (!grant.equals(other.grant)) {
+        }
+        else if (!grant.equals(other.grant))
+        {
             return false;
         }
-        if (path == null) {
-            if (other.path != null) {
+        if (path == null)
+        {
+            if (other.path != null)
+            {
                 return false;
             }
-        } else if (!path.equals(other.path)) {
+        }
+        else if (!path.equals(other.path))
+        {
             return false;
         }
+
         return true;
     }
 
@@ -158,15 +183,21 @@ public class Grant extends BeanModel {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder builder = new StringBuilder();
         builder.append("Grant [");
         if (grant != null)
+        {
             builder.append("grant=").append(grant).append(", ");
+        }
         if (path != null)
+        {
             builder.append("path=").append(path);
+        }
         builder.append("]");
+
         return builder.toString();
     }
-    
+
 }

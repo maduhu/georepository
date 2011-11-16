@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -31,16 +31,6 @@
  *
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
-
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.model.data.AccessType;
-import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.GeoRepoGridWidget;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,177 +66,222 @@ import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.AccessType;
+import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.GeoRepoGridWidget;
+
+
 /**
  * The Class LayerAttributesGridWidget.
  */
-public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> {
-    
+public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI>
+{
+
     /** The rule. */
     private Rule theRule;
-	
+
     /** The rules service. */
-    private RulesManagerServiceRemoteAsync rulesService;
+    private RulesManagerRemoteServiceAsync rulesService;
 
     /** The proxy. */
     private RpcProxy<List<LayerAttribUI>> proxy;
-    
+
     /** The loader. */
     private BaseListLoader<ListLoadResult<ModelData>> loader;
-    
+
     /** The tool bar. */
     private ToolBar toolBar;
-    
+
     /** The save rule attributes button. */
     private Button saveRuleAttributesButton;
-    
+
     /** The cancel rule attributes button. */
     private Button cancelButton;
-    
+
     /**
      * Instantiates a new layer attributes grid widget.
-     * 
+     *
      * @param model
      *            the model
      * @param rulesService
      *            the rules service
      */
-    public LayerAttributesGridWidget(Rule model, RulesManagerServiceRemoteAsync rulesService) {
+    public LayerAttributesGridWidget(Rule model, RulesManagerRemoteServiceAsync rulesService)
+    {
         super();
         this.theRule = model;
         this.rulesService = rulesService;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#setGridProperties ()
      */
     @Override
-    public void setGridProperties() {
+    public void setGridProperties()
+    {
         grid.setLoadMask(true);
         grid.setAutoWidth(true);
     }
-    
+
     /**
      * Clear grid elements.
      */
-    public void clearGridElements() {
+    public void clearGridElements()
+    {
         this.store.removeAll();
         this.saveRuleAttributesButton.disable();
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.widget.GEOREPOGridWidget#createStore()
      */
     @Override
-    public void createStore() {
-    	this.toolBar = new ToolBar();
-    	
+    public void createStore()
+    {
+        this.toolBar = new ToolBar();
+
         // /////////////////////////////
         // Loader for rulesService
         // /////////////////////////////
-        
-        this.proxy = new RpcProxy<List<LayerAttribUI>>() {
-            @Override
-            protected void load(Object loadConfig, AsyncCallback<List<LayerAttribUI>> callback) {
-                rulesService.getLayerAttributes(theRule, callback);
-            }
-        };
 
-        loader = new BaseListLoader<ListLoadResult<ModelData>>(proxy); 
+        this.proxy = new RpcProxy<List<LayerAttribUI>>()
+            {
+                @Override
+                protected void load(Object loadConfig, AsyncCallback<List<LayerAttribUI>> callback)
+                {
+                    rulesService.getLayerAttributes(theRule, callback);
+                }
+            };
+
+        loader = new BaseListLoader<ListLoadResult<ModelData>>(proxy);
         loader.setRemoteSort(false);
         store = new ListStore<LayerAttribUI>(loader);
         store.sort(BeanKeyValue.ATTR_NAME.getValue(), SortDir.ASC);
-        
+
         this.saveRuleAttributesButton = new Button("Save");
         saveRuleAttributesButton.setIcon(Resources.ICONS.save());
         saveRuleAttributesButton.disable();
 
-        saveRuleAttributesButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
+        saveRuleAttributesButton.addListener(Events.OnClick, new Listener<ButtonEvent>()
+            {
 
-            public void handleEvent(ButtonEvent be) {
-            	int storeCount = store.getCount();
-            	
-            	if(storeCount > 0){
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                            "GeoServer Rules: Layer Attributes", "Apply Changes" });
-                    
-                    Dispatcher.forwardEvent(GeoRepoEvents.ATTRIBUTE_UPDATE_GRID_COMBO, theRule.getId());
-            	}else{                    
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE, 
-                            new String[] {
-                    			"GeoServer Rules: Layer Attributes",
-                    			"No attribute to save!"
-                            }
-                    );
-            	}
+                public void handleEvent(ButtonEvent be)
+                {
+                    int storeCount = store.getCount();
 
-            }
-        });
-        
+                    if (storeCount > 0)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                            new String[] { "GeoServer Rules: Layer Attributes", "Apply Changes" });
+
+                        Dispatcher.forwardEvent(GeoRepoEvents.ATTRIBUTE_UPDATE_GRID_COMBO, theRule.getId());
+                    }
+                    else
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ALERT_MESSAGE,
+                            new String[]
+                            {
+                                "GeoServer Rules: Layer Attributes",
+                                "No attribute to save!"
+                            });
+                    }
+
+                }
+            });
+
         cancelButton = new Button("Cancel");
-        cancelButton.addListener(Events.OnClick, new Listener<ButtonEvent>() {
-            public void handleEvent(ButtonEvent be) {
-                // /////////////////////////////////////////////////////////
-                // Getting the Rule details edit dialogs and hiding this
-                // /////////////////////////////////////////////////////////
-                ComponentManager.get().get(I18nProvider.getMessages().ruleDialogId()).hide();
-            }
-        });        
-        
+        cancelButton.addListener(Events.OnClick, new Listener<ButtonEvent>()
+            {
+                public void handleEvent(ButtonEvent be)
+                {
+                    // /////////////////////////////////////////////////////////
+                    // Getting the Rule details edit dialogs and hiding this
+                    // /////////////////////////////////////////////////////////
+                    ComponentManager.get().get(I18nProvider.getMessages().ruleDialogId()).hide();
+                }
+            });
+
         this.toolBar.add(new FillToolItem());
         this.toolBar.add(saveRuleAttributesButton);
         this.toolBar.add(cancelButton);
-        
+
         setUpLoadListener();
     }
-    
+
     /**
      * Sets the up load listener.
      */
-    private void setUpLoadListener() {
-        loader.addLoadListener(new LoadListener() {
-            @Override
-            public void loaderBeforeLoad(LoadEvent le) {
-                if (!toolBar.isEnabled())
-                    toolBar.enable();
-            }
-
-            @Override
-            public void loaderLoad(LoadEvent le) {
-
-                // TODO: change messages here!!
-
-                BasePagingLoadResult<?> result = le.getData();
-                if (!result.getData().isEmpty()) {
-                    int size = result.getData().size();
-                    String message = "";
-                    if (size == 1)
-                        message = I18nProvider.getMessages().recordLabel();
-                    else
-                        message = I18nProvider.getMessages().recordPluralLabel();
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                            I18nProvider.getMessages().remoteServiceName(),
-                            I18nProvider.getMessages().foundLabel() + " " + result.getData().size()
-                                    + " " + message });
-                } else {
-                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                            I18nProvider.getMessages().remoteServiceName(),
-                            I18nProvider.getMessages().recordNotFoundMessage() });
+    private void setUpLoadListener()
+    {
+        loader.addLoadListener(new LoadListener()
+            {
+                @Override
+                public void loaderBeforeLoad(LoadEvent le)
+                {
+                    if (!toolBar.isEnabled())
+                    {
+                        toolBar.enable();
+                    }
                 }
-            }
 
-        });
+                @Override
+                public void loaderLoad(LoadEvent le)
+                {
+
+                    // TODO: change messages here!!
+
+                    BasePagingLoadResult<?> result = le.getData();
+                    if (!result.getData().isEmpty())
+                    {
+                        int size = result.getData().size();
+                        String message = "";
+                        if (size == 1)
+                        {
+                            message = I18nProvider.getMessages().recordLabel();
+                        }
+                        else
+                        {
+                            message = I18nProvider.getMessages().recordPluralLabel();
+                        }
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                            new String[]
+                            {
+                                I18nProvider.getMessages().remoteServiceName(),
+                                I18nProvider.getMessages().foundLabel() + " " + result.getData().size() +
+                                " " + message
+                            });
+                    }
+                    else
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                            new String[]
+                            {
+                                I18nProvider.getMessages().remoteServiceName(),
+                                I18nProvider.getMessages().recordNotFoundMessage()
+                            });
+                    }
+                }
+
+            });
     }
 
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.client.widget.GeoRepoGridWidget#prepareColumnModel()
      */
     @Override
-    public ColumnModel prepareColumnModel() {
+    public ColumnModel prepareColumnModel()
+    {
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
-        
+
         ColumnConfig attributeNameColumn = new ColumnConfig();
         attributeNameColumn.setId(BeanKeyValue.ATTR_NAME.getValue());
         attributeNameColumn.setHeader("Name");
@@ -254,7 +289,7 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
         attributeNameColumn.setRenderer(this.createNameTextBox());
         attributeNameColumn.setMenuDisabled(true);
         attributeNameColumn.setSortable(false);
-        
+
         configs.add(attributeNameColumn);
 
         ColumnConfig attributeTypeColumn = new ColumnConfig();
@@ -265,7 +300,7 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
         attributeTypeColumn.setMenuDisabled(true);
         attributeTypeColumn.setSortable(false);
         configs.add(attributeTypeColumn);
-        
+
         ColumnConfig attributeAccessColumn = new ColumnConfig();
         attributeAccessColumn.setId(BeanKeyValue.ATTR_ACCESS.getValue());
         attributeAccessColumn.setHeader("Access Type");
@@ -274,200 +309,233 @@ public class LayerAttributesGridWidget extends GeoRepoGridWidget<LayerAttribUI> 
         attributeAccessColumn.setMenuDisabled(true);
         attributeAccessColumn.setSortable(false);
         configs.add(attributeAccessColumn);
-        
+
         return new ColumnModel(configs);
     }
-    
+
     /**
      * Creates the name text box.
-     * 
+     *
      * @return the grid cell renderer
      */
-    private GridCellRenderer<LayerAttribUI> createNameTextBox() {
+    private GridCellRenderer<LayerAttribUI> createNameTextBox()
+    {
 
-        GridCellRenderer<LayerAttribUI> textRendered = new GridCellRenderer<LayerAttribUI>() {
+        GridCellRenderer<LayerAttribUI> textRendered = new GridCellRenderer<LayerAttribUI>()
+            {
 
-            private boolean init;
+                private boolean init;
 
-            public Object render(final LayerAttribUI model, String property, ColumnData config,
-                    int rowIndex, int colIndex, ListStore<LayerAttribUI> store, Grid<LayerAttribUI> grid) {
+                public Object render(final LayerAttribUI model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<LayerAttribUI> store, Grid<LayerAttribUI> grid)
+                {
 
-                if (!init) {
-                    init = true;
-                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<LayerAttribUI>>() {
+                    if (!init)
+                    {
+                        init = true;
+                        grid.addListener(Events.ColumnResize, new Listener<GridEvent<LayerAttribUI>>()
+                            {
 
-                        public void handleEvent(GridEvent<LayerAttribUI> be) {
-                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
-                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
-                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
-                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                public void handleEvent(GridEvent<LayerAttribUI> be)
+                                {
+                                    for (int i = 0; i < be.getGrid().getStore().getCount(); i++)
+                                    {
+                                        if ((be.getGrid().getView().getWidget(i, be.getColIndex()) != null) &&
+                                                (be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent))
+                                        {
+                                            ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                                    be.getColIndex())).setWidth(be.getWidth() - 10);
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    });
+                            });
+                    }
+
+                    LabelField attrName = new LabelField();
+                    attrName.setWidth(150);
+                    attrName.setReadOnly(true);
+                    attrName.setValue(model.getName());
+
+                    return attrName;
                 }
-                
-                LabelField attrName = new LabelField();
-                attrName.setWidth(150);
-                attrName.setReadOnly(true);
-                attrName.setValue(model.getName());
-                
-                return attrName;
-            }
-        };
+            };
 
         return textRendered;
     }
-    
+
     /**
      * Creates the type text box.
-     * 
+     *
      * @return the grid cell renderer
      */
-    private GridCellRenderer<LayerAttribUI> createTypeTextBox() {
+    private GridCellRenderer<LayerAttribUI> createTypeTextBox()
+    {
 
-        GridCellRenderer<LayerAttribUI> textRendered = new GridCellRenderer<LayerAttribUI>() {
+        GridCellRenderer<LayerAttribUI> textRendered = new GridCellRenderer<LayerAttribUI>()
+            {
 
-            private boolean init;
+                private boolean init;
 
-            public Object render(final LayerAttribUI model, String property, ColumnData config,
-                    int rowIndex, int colIndex, ListStore<LayerAttribUI> store, Grid<LayerAttribUI> grid) {
+                public Object render(final LayerAttribUI model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<LayerAttribUI> store, Grid<LayerAttribUI> grid)
+                {
 
-                if (!init) {
-                    init = true;
-                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<LayerAttribUI>>() {
+                    if (!init)
+                    {
+                        init = true;
+                        grid.addListener(Events.ColumnResize, new Listener<GridEvent<LayerAttribUI>>()
+                            {
 
-                        public void handleEvent(GridEvent<LayerAttribUI> be) {
-                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
-                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
-                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
-                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                                public void handleEvent(GridEvent<LayerAttribUI> be)
+                                {
+                                    for (int i = 0; i < be.getGrid().getStore().getCount(); i++)
+                                    {
+                                        if ((be.getGrid().getView().getWidget(i, be.getColIndex()) != null) &&
+                                                (be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent))
+                                        {
+                                            ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                                    be.getColIndex())).setWidth(be.getWidth() - 10);
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    });
-                }
-                
-                LabelField attrType = new LabelField();
-                attrType.setWidth(150);
-                attrType.setReadOnly(true);
-                attrType.setValue(model.getDataType());
+                            });
+                    }
 
-                return attrType;
-            }
-        };
+                    LabelField attrType = new LabelField();
+                    attrType.setWidth(150);
+                    attrType.setReadOnly(true);
+                    attrType.setValue(model.getDataType());
+
+                    return attrType;
+                }
+            };
 
         return textRendered;
     }
-    
+
     /**
      * Creates the access type combo box.
-     * 
+     *
      * @return the grid cell renderer
      */
-    private GridCellRenderer<LayerAttribUI> createAccessTypeComboBox() {
-    	
-        GridCellRenderer<LayerAttribUI> comboRendered = new GridCellRenderer<LayerAttribUI>() {
+    private GridCellRenderer<LayerAttribUI> createAccessTypeComboBox()
+    {
 
-            private boolean init;
+        GridCellRenderer<LayerAttribUI> comboRendered = new GridCellRenderer<LayerAttribUI>()
+            {
 
-            public Object render(final LayerAttribUI model, String property, ColumnData config,
-                    int rowIndex, int colIndex, ListStore<LayerAttribUI> store, Grid<LayerAttribUI> grid) {
+                private boolean init;
 
-                if (!init) {
-                    init = true;
-                    grid.addListener(Events.ColumnResize, new Listener<GridEvent<LayerAttribUI>>() {
+                public Object render(final LayerAttribUI model, String property, ColumnData config,
+                    int rowIndex, int colIndex, ListStore<LayerAttribUI> store, Grid<LayerAttribUI> grid)
+                {
 
-                        public void handleEvent(GridEvent<LayerAttribUI> be) {
-                            for (int i = 0; i < be.getGrid().getStore().getCount(); i++) {
-                                if (be.getGrid().getView().getWidget(i, be.getColIndex()) != null
-                                        && be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent) {
-                                    ((BoxComponent) be.getGrid().getView().getWidget(i,
-                                            be.getColIndex())).setWidth(be.getWidth() - 10);
+                    if (!init)
+                    {
+                        init = true;
+                        grid.addListener(Events.ColumnResize, new Listener<GridEvent<LayerAttribUI>>()
+                            {
+
+                                public void handleEvent(GridEvent<LayerAttribUI> be)
+                                {
+                                    for (int i = 0; i < be.getGrid().getStore().getCount(); i++)
+                                    {
+                                        if ((be.getGrid().getView().getWidget(i, be.getColIndex()) != null) &&
+                                                (be.getGrid().getView().getWidget(i, be.getColIndex()) instanceof BoxComponent))
+                                        {
+                                            ((BoxComponent) be.getGrid().getView().getWidget(i,
+                                                    be.getColIndex())).setWidth(be.getWidth() - 10);
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    });
-                }
-                
-                ComboBox<AccessType> typeComboBox = new ComboBox<AccessType>();
-                typeComboBox.setId("accessCombo");
-                typeComboBox.setName("accessCombo");
-                typeComboBox.setDisplayField(BeanKeyValue.ATTR_ACCESS.getValue());
-                typeComboBox.setEditable(false);
-                typeComboBox.setStore(getAvailableAccessType());
-                typeComboBox.setTypeAhead(true);
-                typeComboBox.setTriggerAction(TriggerAction.ALL);
-                typeComboBox.setWidth(100);
-
-                if (model.getAccessType() != null) {
-                	typeComboBox.setValue(new AccessType(model.getAccessType()));
-                	typeComboBox.setSelection(Arrays.asList(new AccessType(model.getAccessType())));
-                }
-                
-                typeComboBox.setEmptyText("(No access types available)");
-                typeComboBox.addListener(Events.Select, new Listener<FieldEvent>() {
-
-                    public void handleEvent(FieldEvent be) {
-                        final AccessType accessType = (AccessType) be.getField().getValue();
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                "Attribute Access Type",
-                                "Attribute " + model.getName() + ": Attribute access type changed" });
-
-                        model.setAccessType(accessType.getType());  
-                        saveRuleAttributesButton.enable();                        
+                            });
                     }
-                });
 
-                return typeComboBox;
-            }
+                    ComboBox<AccessType> typeComboBox = new ComboBox<AccessType>();
+                    typeComboBox.setId("accessCombo");
+                    typeComboBox.setName("accessCombo");
+                    typeComboBox.setDisplayField(BeanKeyValue.ATTR_ACCESS.getValue());
+                    typeComboBox.setEditable(false);
+                    typeComboBox.setStore(getAvailableAccessType());
+                    typeComboBox.setTypeAhead(true);
+                    typeComboBox.setTriggerAction(TriggerAction.ALL);
+                    typeComboBox.setWidth(100);
 
-            /**
-             * TODO: Call User Service here!!
-             * 
-             * @param workspace
-             * @param rule
-             * 
-             * @return ListStore<AccessType>
-             */
-            private ListStore<AccessType> getAvailableAccessType() {
-                ListStore<AccessType> availableAccessTypes = new ListStore<AccessType>();
-                List<AccessType> accessType = new ArrayList<AccessType>();
+                    if (model.getAccessType() != null)
+                    {
+                        typeComboBox.setValue(new AccessType(model.getAccessType()));
+                        typeComboBox.setSelection(Arrays.asList(new AccessType(model.getAccessType())));
+                    }
 
-                AccessType none = new AccessType("NONE");
-                AccessType readonly  = new AccessType("READONLY");
-                AccessType readwrite = new AccessType("READWRITE");
+                    typeComboBox.setEmptyText("(No access types available)");
+                    typeComboBox.addListener(Events.Select, new Listener<FieldEvent>()
+                        {
 
-                accessType.add(none);
-                accessType.add(readonly);
-                accessType.add(readwrite);
+                            public void handleEvent(FieldEvent be)
+                            {
+                                final AccessType accessType = (AccessType) be.getField().getValue();
+                                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                    new String[]
+                                    {
+                                        "Attribute Access Type",
+                                        "Attribute " + model.getName() + ": Attribute access type changed"
+                                    });
 
-                availableAccessTypes.add(accessType);
+                                model.setAccessType(accessType.getType());
+                                saveRuleAttributesButton.enable();
+                            }
+                        });
 
-                return availableAccessTypes;
-            }
-        };
+                    return typeComboBox;
+                }
+
+                /**
+                 * TODO: Call User Service here!!
+                 *
+                 * @param workspace
+                 * @param rule
+                 *
+                 * @return ListStore<AccessType>
+                 */
+                private ListStore<AccessType> getAvailableAccessType()
+                {
+                    ListStore<AccessType> availableAccessTypes = new ListStore<AccessType>();
+                    List<AccessType> accessType = new ArrayList<AccessType>();
+
+                    AccessType none = new AccessType("NONE");
+                    AccessType readonly = new AccessType("READONLY");
+                    AccessType readwrite = new AccessType("READWRITE");
+
+                    accessType.add(none);
+                    accessType.add(readonly);
+                    accessType.add(readwrite);
+
+                    availableAccessTypes.add(accessType);
+
+                    return availableAccessTypes;
+                }
+            };
 
         return comboRendered;
     }
-    
+
     /**
      * Gets the loader.
-     * 
+     *
      * @return the loader
      */
-    public BaseListLoader<ListLoadResult<ModelData>> getLoader() {
+    public BaseListLoader<ListLoadResult<ModelData>> getLoader()
+    {
         return loader;
     }
 
     /**
      * Gets the tool bar.
-     * 
+     *
      * @return the tool bar
      */
-    public ToolBar getToolBar() {
+    public ToolBar getToolBar()
+    {
         return toolBar;
     }
 }

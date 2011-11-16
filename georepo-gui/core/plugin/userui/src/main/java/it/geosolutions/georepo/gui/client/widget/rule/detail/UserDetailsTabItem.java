@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,11 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.model.GSUser;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Events;
@@ -44,24 +39,32 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+
+
 /**
  * The Class UserDetailsTabItem.
  */
-public class UserDetailsTabItem extends TabItem {
+public class UserDetailsTabItem extends TabItem
+{
 
     /** The user details widget. */
     private UserDetailsWidget userDetailsWidget;
-    
+
     /** The user. */
     private GSUser user;
-    
+
     /**
      * Instantiates a new user tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      */
-    private UserDetailsTabItem(String tabItemId) {
+    private UserDetailsTabItem(String tabItemId)
+    {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
         super("User Details");
@@ -71,7 +74,7 @@ public class UserDetailsTabItem extends TabItem {
 
     /**
      * Instantiates a new rule details tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      * @param model
@@ -79,7 +82,8 @@ public class UserDetailsTabItem extends TabItem {
      * @param workspacesService
      *            the workspaces service
      */
-    public UserDetailsTabItem(String tabItemId, GSUser model, GsUsersManagerServiceRemoteAsync usersService) {
+    public UserDetailsTabItem(String tabItemId, GSUser model, GsUsersManagerRemoteServiceAsync usersService)
+    {
         this(tabItemId);
         this.user = model;
 
@@ -87,35 +91,40 @@ public class UserDetailsTabItem extends TabItem {
         add(getUserDetailsWidget());
 
         setScrollMode(Scroll.NONE);
-        
-        this.addListener(Events.Select, new Listener<BaseEvent>(){
 
-            public void handleEvent(BaseEvent be) {     
-                if(userDetailsWidget.getUserDetailsInfo().getModel() == null){
-                    Dispatcher.forwardEvent(GeoRepoEvents.LOAD_USER_LIMITS, user);
-                }              
-            }
+        this.addListener(Events.Select, new Listener<BaseEvent>()
+            {
 
-        });
+                public void handleEvent(BaseEvent be)
+                {
+                    if (userDetailsWidget.getUserDetailsInfo().getModel() == null)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.LOAD_USER_LIMITS, user);
+                    }
+                }
+
+            });
 
     }
 
     /**
      * Sets the user details widget.
-     * 
+     *
      * @param userDetailsWidget
      *            the new user details widget
      */
-    public void setUserDetailsWidget(UserDetailsWidget userDetailsWidget) {
+    public void setUserDetailsWidget(UserDetailsWidget userDetailsWidget)
+    {
         this.userDetailsWidget = userDetailsWidget;
     }
 
     /**
      * Gets the user limits widget.
-     * 
+     *
      * @return the user limits widget
      */
-    public UserDetailsWidget getUserDetailsWidget() {
+    public UserDetailsWidget getUserDetailsWidget()
+    {
         return userDetailsWidget;
     }
 

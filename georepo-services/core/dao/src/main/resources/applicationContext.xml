@@ -17,7 +17,7 @@
     <!-- DB related stuff -->
     <!--=====================================================================-->
 
-    <import resource="applicationContext-datasource.xml"/>
+    <import resource="applicationContext-georepoDatasource.xml"/>
 
     <!--=====================================================================-->
 	<!--
@@ -25,25 +25,45 @@
 		(i.e. EntityManagerFactory). We're wiring these to the Generic DAOs
 		using an autowire annotation in BaseDAO.
 	-->
-	<bean id="searchProcessor" class="com.trg.search.jpa.JPASearchProcessor">
-		<constructor-arg ref="metadataUtil" />
+	<bean id="georepoSearchProcessor" class="com.trg.search.jpa.JPASearchProcessor">
+		<constructor-arg ref="georepoMetadataUtil" />
 	</bean>
 
-	<bean id="metadataUtil" class="com.trg.search.jpa.hibernate.HibernateMetadataUtil"
+	<bean id="georepoMetadataUtil" class="com.trg.search.jpa.hibernate.HibernateMetadataUtil"
 		factory-method="getInstanceForEntityManagerFactory">
-		<constructor-arg ref="entityManagerFactory" />
+		<constructor-arg ref="georepoEntityManagerFactory" />
 	</bean>
 	
     <!--=====================================================================-->
     <!-- DAOs -->
     <!--=====================================================================-->
 
-	<bean id="gsUserDAO" class="it.geosolutions.georepo.core.dao.impl.GSUserDAOImpl" />
-	<bean id="grUserDAO" class="it.geosolutions.georepo.core.dao.impl.GRUserDAOImpl" />
-	<bean id="profileDAO" class="it.geosolutions.georepo.core.dao.impl.ProfileDAOImpl" />
-	<bean id="instanceDAO" class="it.geosolutions.georepo.core.dao.impl.GSInstanceDAOImpl" />
-	<bean id="ruleDAO" class="it.geosolutions.georepo.core.dao.impl.RuleDAOImpl" />
-	<bean id="ruleLimitsDAO" class="it.geosolutions.georepo.core.dao.impl.RuleLimitsDAOImpl" />
-	<bean id="layerDetailsDAO" class="it.geosolutions.georepo.core.dao.impl.LayerDetailsDAOImpl" />
+	<bean id="gsUserDAO" class="it.geosolutions.georepo.core.dao.impl.GSUserDAOImpl">
+		<property name="searchProcessor" ref="georepoSearchProcessor" />
+	</bean>
+	
+	<bean id="grUserDAO" class="it.geosolutions.georepo.core.dao.impl.GRUserDAOImpl" >
+		<property name="searchProcessor" ref="georepoSearchProcessor" />
+	</bean>
+	
+	<bean id="profileDAO" class="it.geosolutions.georepo.core.dao.impl.ProfileDAOImpl" >
+		<property name="searchProcessor" ref="georepoSearchProcessor" />
+	</bean>
+	
+	<bean id="instanceDAO" class="it.geosolutions.georepo.core.dao.impl.GSInstanceDAOImpl" >
+		<property name="searchProcessor" ref="georepoSearchProcessor" />
+	</bean>
+	
+	<bean id="ruleDAO" class="it.geosolutions.georepo.core.dao.impl.RuleDAOImpl" >
+		<property name="searchProcessor" ref="georepoSearchProcessor" />
+	</bean>
+	
+	<bean id="ruleLimitsDAO" class="it.geosolutions.georepo.core.dao.impl.RuleLimitsDAOImpl" >
+		<property name="searchProcessor" ref="georepoSearchProcessor" />
+	</bean>
+	
+	<bean id="layerDetailsDAO" class="it.geosolutions.georepo.core.dao.impl.LayerDetailsDAOImpl" >
+		<property name="searchProcessor" ref="georepoSearchProcessor" />
+	</bean>
 	
 </beans>

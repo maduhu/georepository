@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,19 +32,21 @@
  */
 package it.geosolutions.georepo.gui.client.widget.tab;
 
-import it.geosolutions.georepo.gui.client.Constants;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.InstanceManagementWidget;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
+
+import it.geosolutions.georepo.gui.client.Constants;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.InstanceManagementWidget;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class InstancesTabItem.
  */
-public class InstancesTabItem extends TabItem {
+public class InstancesTabItem extends TabItem
+{
 
     /** The instance management widget. */
     private InstanceManagementWidget instanceManagementWidget;
@@ -52,9 +54,10 @@ public class InstancesTabItem extends TabItem {
     /**
      * Instantiates a new instances tab item.
      */
-    public InstancesTabItem(String tabItemId) {
+    public InstancesTabItem(String tabItemId)
+    {
         // TODO: add I18n message
-        //super(I18nProvider.getMessages().instances());
+        // super(I18nProvider.getMessages().instances());
         super("Instances");
         setId(tabItemId);
         setIcon(Resources.ICONS.pageEdit());
@@ -62,17 +65,18 @@ public class InstancesTabItem extends TabItem {
 
     /**
      * Instantiates a new instances tab item.
-     * @param instancesTabItemId 
-     * 
+     * @param instancesTabItemId
+     *
      * @param instancesManagerServiceRemote
      *            the instances manager service remote
      */
-    public InstancesTabItem(String tabItemId, InstancesManagerServiceRemoteAsync instancesManagerServiceRemote) {
+    public InstancesTabItem(String tabItemId, InstancesManagerRemoteServiceAsync instancesManagerServiceRemote)
+    {
         this(tabItemId);
         setScrollMode(Scroll.NONE);
         setAutoWidth(true);
         setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
-        
+
         setInstanceManagementWidget(new InstanceManagementWidget(instancesManagerServiceRemote));
         add(getInstanceManagementWidget());
 
@@ -82,20 +86,22 @@ public class InstancesTabItem extends TabItem {
 
     /**
      * Sets the feature management widget.
-     * 
+     *
      * @param instanceManagementWidget
      *            the new feature management widget
      */
-    public void setInstanceManagementWidget(InstanceManagementWidget instanceManagementWidget) {
+    public void setInstanceManagementWidget(InstanceManagementWidget instanceManagementWidget)
+    {
         this.instanceManagementWidget = instanceManagementWidget;
     }
 
     /**
      * Gets the feature management widget.
-     * 
+     *
      * @return the feature management widget
      */
-    public InstanceManagementWidget getInstanceManagementWidget() {
+    public InstanceManagementWidget getInstanceManagementWidget()
+    {
         return instanceManagementWidget;
     }
 

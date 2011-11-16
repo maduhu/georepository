@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,31 +32,31 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
-import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.GSInstance;
-import it.geosolutions.georepo.gui.server.service.IInstancesManagerService;
-import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+
+import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.data.rpc.RpcPageLoadResult;
+import it.geosolutions.georepo.gui.server.service.IInstancesManagerService;
+import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class InstancesManagerServiceImpl.
  */
 @Component("instancesManagerServiceGWT")
-public class InstancesManagerServiceImpl implements IInstancesManagerService {
+public class InstancesManagerServiceImpl implements IInstancesManagerService
+{
 
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -68,13 +68,14 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.server.service.IInstancesManagerService#getInstances(com.extjs.gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<GSInstance> getInstances(PagingLoadConfig config, boolean full)
-            throws ApplicationException {
-        int start = config.getOffset();
+    public PagingLoadResult<GSInstance> getInstances(int offset, int limit, boolean full) throws ApplicationException
+    {
+        int start = offset;
 
         List<GSInstance> instancesListDTO = new ArrayList<GSInstance>();
 
-        if (full) {
+        if (full)
+        {
             GSInstance all = new GSInstance();
             all.setId(-1);
             all.setName("*");
@@ -86,20 +87,24 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
 
         Long t = new Long(instancesCount);
 
-        int page = start == 0 ? start : start / config.getLimit();
+        int page = (start == 0) ? start : (start / limit);
 
-        List<it.geosolutions.georepo.core.model.GSInstance> instancesList = georepoRemoteService
-                .getInstanceAdminService().getList(null, page, config.getLimit());
+        List<it.geosolutions.georepo.core.model.GSInstance> instancesList =
+            georepoRemoteService.getInstanceAdminService().getList(null, page, limit);
 
-        if (instancesList == null) {
+        if (instancesList == null)
+        {
             if (logger.isErrorEnabled())
+            {
                 logger.error("No server instace found on server");
+            }
             throw new ApplicationException("No server instance found on server");
         }
 
         Iterator<it.geosolutions.georepo.core.model.GSInstance> it = instancesList.iterator();
 
-        while (it.hasNext()) {
+        while (it.hasNext())
+        {
             it.geosolutions.georepo.core.model.GSInstance remote_instance = it.next();
             GSInstance local_instance = new GSInstance();
             local_instance.setId(remote_instance.getId());
@@ -112,55 +117,66 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
             instancesListDTO.add(local_instance);
         }
 
-        return new BasePagingLoadResult<GSInstance>(instancesListDTO, config.getOffset(), t
-                .intValue());
+        return new RpcPageLoadResult<GSInstance>(instancesListDTO, offset, t.intValue());
     }
 
     /**
-     * 
+     *
      * @param config
      * @param name
      * @return
      */
-    public GSInstance getInstance(PagingLoadConfig config, long id){
-    	GSInstance inst = null;
-        List<it.geosolutions.georepo.core.model.GSInstance> instancesList = georepoRemoteService
-        .getInstanceAdminService().getAll();
-        if (instancesList == null) {
+    public GSInstance getInstance(int offset, int limit, long id)
+    {
+        GSInstance inst = null;
+        List<it.geosolutions.georepo.core.model.GSInstance> instancesList =
+            georepoRemoteService.getInstanceAdminService().getAll();
+        if (instancesList == null)
+        {
             if (logger.isErrorEnabled())
+            {
                 logger.error("No server instace found on server");
+            }
             throw new ApplicationException("No server instance found on server");
         }
 
         Iterator<it.geosolutions.georepo.core.model.GSInstance> it = instancesList.iterator();
         boolean exit = false;
-        while (!exit && it.hasNext()) {
+        while (!exit && it.hasNext())
+        {
             it.geosolutions.georepo.core.model.GSInstance remote_instance = it.next();
-            if(remote_instance.getId()== id){
-            	 GSInstance local_instance = new GSInstance();
-                 local_instance.setId(remote_instance.getId());
-                 local_instance.setName(remote_instance.getName());
-                 local_instance.setDescription(remote_instance.getDescription());
-                 local_instance.setDateCreation(remote_instance.getDateCreation());
-                 local_instance.setBaseURL(remote_instance.getBaseURL());
-                 local_instance.setUsername(remote_instance.getUsername());
-                 local_instance.setPassword(remote_instance.getPassword());
-                 inst = local_instance;
-                 exit = true;
+            if (remote_instance.getId() == id)
+            {
+                GSInstance local_instance = new GSInstance();
+                local_instance.setId(remote_instance.getId());
+                local_instance.setName(remote_instance.getName());
+                local_instance.setDescription(remote_instance.getDescription());
+                local_instance.setDateCreation(remote_instance.getDateCreation());
+                local_instance.setBaseURL(remote_instance.getBaseURL());
+                local_instance.setUsername(remote_instance.getUsername());
+                local_instance.setPassword(remote_instance.getPassword());
+                inst = local_instance;
+                exit = true;
             }
-            
+
         }
+
         return inst;
     }
+
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.server.service.IInstancesManagerService#deleteInstance(it.geosolutions.georepo.gui.client.model.Instance)
      */
-    public void deleteInstance(GSInstance instance) {
+    public void deleteInstance(GSInstance instance)
+    {
         it.geosolutions.georepo.core.model.GSInstance remote_instance = null;
-        try {
-            remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId()); 
+        try
+        {
+            remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId());
             georepoRemoteService.getInstanceAdminService().delete(remote_instance.getId());
-        } catch (NotFoundServiceEx e) {
+        }
+        catch (NotFoundServiceEx e)
+        {
             logger.error(e.getLocalizedMessage(), e.getCause());
             throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
         }
@@ -169,11 +185,14 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
     /* (non-Javadoc)
      * @see it.geosolutions.georepo.gui.server.service.IInstancesManagerService#saveInstance(it.geosolutions.georepo.gui.client.model.Instance)
      */
-    public void saveInstance(GSInstance instance) {
+    public void saveInstance(GSInstance instance)
+    {
         it.geosolutions.georepo.core.model.GSInstance remote_instance = null;
-        if (instance.getId() >= 0) {
-            try {
-                remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId()); 
+        if (instance.getId() >= 0)
+        {
+            try
+            {
+                remote_instance = georepoRemoteService.getInstanceAdminService().get(instance.getId());
                 remote_instance.setName(instance.getName());
                 remote_instance.setDateCreation(instance.getDateCreation());
                 remote_instance.setDescription(instance.getDescription());
@@ -181,12 +200,17 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
                 remote_instance.setPassword(instance.getPassword());
                 remote_instance.setUsername(instance.getUsername());
                 georepoRemoteService.getInstanceAdminService().update(remote_instance);
-            } catch (NotFoundServiceEx e) {
+            }
+            catch (NotFoundServiceEx e)
+            {
                 logger.error(e.getLocalizedMessage(), e.getCause());
                 throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
-            } 
-        } else {
-            try {
+            }
+        }
+        else
+        {
+            try
+            {
                 remote_instance = new it.geosolutions.georepo.core.model.GSInstance();
                 remote_instance.setName(instance.getName());
                 remote_instance.setDateCreation(instance.getDateCreation());
@@ -195,10 +219,12 @@ public class InstancesManagerServiceImpl implements IInstancesManagerService {
                 remote_instance.setPassword(instance.getPassword());
                 remote_instance.setUsername(instance.getUsername());
                 georepoRemoteService.getInstanceAdminService().insert(remote_instance);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 logger.error(e.getLocalizedMessage(), e.getCause());
                 throw new ApplicationException(e.getLocalizedMessage(), e.getCause());
-            } 
+            }
         }
     }
 }

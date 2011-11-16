@@ -20,39 +20,47 @@ package it.geosolutions.georepo.services.rest.model.config.adapter;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-@XmlRootElement(name="item")
-public class RemappedType {
+@XmlRootElement(name = "item")
+public class RemappedType
+{
 
     private Long oldId;
     private Long newId;
 
-    public RemappedType(Long key, Long value) {
+    public RemappedType(Long key, Long value)
+    {
         this.oldId = key;
         this.newId = value;
     }
 
-    public RemappedType() {
+    public RemappedType()
+    {
     }
 
     @XmlAttribute
-    public Long getOld() {
+    public Long getOld()
+    {
         return oldId;
     }
 
-    public void setOld(Long key) {
+    public void setOld(Long key)
+    {
         this.oldId = key;
     }
 
     @XmlAttribute
-    public Long getNew() {
+    public Long getNew()
+    {
         return newId;
     }
 
-    public void setNew(Long value) {
+    public void setNew(Long value)
+    {
         this.newId = value;
     }
 }

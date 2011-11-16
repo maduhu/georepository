@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,19 +32,21 @@
  */
 package it.geosolutions.georepo.gui.client.widget.tab;
 
-import it.geosolutions.georepo.gui.client.Constants;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.ProfileManagementWidget;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
+
+import it.geosolutions.georepo.gui.client.Constants;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.ProfileManagementWidget;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ProfilesTabItem.
  */
-public class ProfilesTabItem extends TabItem {
+public class ProfilesTabItem extends TabItem
+{
 
     /** The profile management widget. */
     private ProfileManagementWidget profileManagementWidget;
@@ -52,7 +54,8 @@ public class ProfilesTabItem extends TabItem {
     /**
      * Instantiates a new profiles tab item.
      */
-    public ProfilesTabItem(String tabItemId) {
+    public ProfilesTabItem(String tabItemId)
+    {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
         super("Profiles");
@@ -62,14 +65,15 @@ public class ProfilesTabItem extends TabItem {
 
     /**
      * Instantiates a new profiles tab item.
-     * 
+     *
      * @param profilesTabItemId
-     * 
+     *
      * @param profilesManagerServiceRemote
      *            the profiles manager service remote
      */
     public ProfilesTabItem(String tabItemId,
-            ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+        ProfilesManagerRemoteServiceAsync profilesManagerServiceRemote)
+    {
         this(tabItemId);
         setScrollMode(Scroll.NONE);
         setAutoWidth(true);
@@ -79,26 +83,28 @@ public class ProfilesTabItem extends TabItem {
         add(getProfileManagementWidget());
 
         getProfileManagementWidget().getProfilesInfo().getLoader().load(0,
-                it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+            it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 
     /**
      * Sets the feature management widget.
-     * 
+     *
      * @param profileManagementWidget
      *            the new feature management widget
      */
-    public void setProfileManagementWidget(ProfileManagementWidget profileManagementWidget) {
+    public void setProfileManagementWidget(ProfileManagementWidget profileManagementWidget)
+    {
         this.profileManagementWidget = profileManagementWidget;
     }
 
     /**
      * Gets the feature management widget.
-     * 
+     *
      * @return the feature management widget
      */
-    public ProfileManagementWidget getProfileManagementWidget() {
+    public ProfileManagementWidget getProfileManagementWidget()
+    {
         return profileManagementWidget;
     }
 

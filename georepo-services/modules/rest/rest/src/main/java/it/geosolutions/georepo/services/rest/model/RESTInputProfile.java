@@ -20,19 +20,23 @@
 
 package it.geosolutions.georepo.services.rest.model;
 
-import it.geosolutions.georepo.core.model.adapter.MapAdapter;
 import java.io.Serializable;
 import java.util.Map;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import it.geosolutions.georepo.core.model.adapter.MapAdapter;
+
 
 /**
  * A compact representation of Profile holding only the insertable/updatadable fields
  *
  * @author Etj (etj at geo-solutions.it)
  */
-@XmlRootElement(name="Profile")
-public class RESTInputProfile implements Serializable {
+@XmlRootElement(name = "Profile")
+public class RESTInputProfile implements Serializable
+{
 
     private static final long serialVersionUID = -8410646966443187827L;
 
@@ -42,51 +46,61 @@ public class RESTInputProfile implements Serializable {
 
     private Map<String, String> customProps;
 
-    public RESTInputProfile() {
+    public RESTInputProfile()
+    {
     }
 
-    public Boolean getEnabled() {
+    public Boolean getEnabled()
+    {
         return enabled;
     }
 
-    public void setEnabled(Boolean enabled) {
+    public void setEnabled(Boolean enabled)
+    {
         this.enabled = enabled;
     }
 
-    public String getExtId() {
+    public String getExtId()
+    {
         return extId;
     }
 
-    public void setExtId(String extId) {
+    public void setExtId(String extId)
+    {
         this.extId = extId;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
     @XmlJavaTypeAdapter(MapAdapter.class)
-    public Map<String, String> getCustomProps() {
+    public Map<String, String> getCustomProps()
+    {
         return customProps;
     }
 
-    public void setCustomProps(Map<String, String> customProps) {
+    public void setCustomProps(Map<String, String> customProps)
+    {
         this.customProps = customProps;
     }
 
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName()
-                +"[extid=" + extId
-                + " name=" + name
-                + " enabled=" + enabled
-                + " cprops=" + (customProps == null? "-" : customProps.keySet())
-                + ']';
+    public String toString()
+    {
+        return getClass().getSimpleName() +
+            "[extid=" + extId +
+            " name=" + name +
+            " enabled=" + enabled +
+            " cprops=" + ((customProps == null) ? "-" : customProps.keySet()) +
+            ']';
     }
 
 }

@@ -20,7 +20,10 @@
 
 package it.geosolutions.georepo.services.rest.impl;
 
+import java.util.List;
+
 import com.vividsolutions.jts.geom.MultiPolygon;
+
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.services.ProfileAdminService;
@@ -32,46 +35,74 @@ import it.geosolutions.georepo.services.rest.exception.*;
 import it.geosolutions.georepo.services.rest.model.RESTShortUser;
 import it.geosolutions.georepo.services.rest.model.RESTShortUserList;
 import it.geosolutions.georepo.services.rest.utils.MultiPolygonUtils;
-import java.util.List;
+
 import org.apache.log4j.Logger;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class RESTUserServiceImpl implements RESTUserService {
-    private final static Logger LOGGER = Logger.getLogger(RESTUserServiceImpl.class);
+public class RESTUserServiceImpl implements RESTUserService
+{
+    private static final Logger LOGGER = Logger.getLogger(RESTUserServiceImpl.class);
+
+    // ==========================================================================
+
+    public static RESTShortUser transformUser(GSUser user)
+    {
+        RESTShortUser shu = new RESTShortUser();
+        shu.setId(user.getId());
+        shu.setExtId(user.getExtId());
+        shu.setUserName(user.getName());
+        shu.setEnabled(user.getEnabled());
+        shu.setProfile(user.getProfile().getName());
+
+        return shu;
+    }
 
     private UserAdminService userService;
     private ProfileAdminService profileService;
 
     @Override
-    public void delete(Long id) throws BadRequestServiceEx, NotFoundRestEx {
-        try {
+    public void delete(Long id) throws BadRequestServiceEx, NotFoundRestEx
+    {
+        try
+        {
             userService.delete(id);
-        } catch (NotFoundServiceEx ex) {
+        }
+        catch (NotFoundServiceEx ex)
+        {
             LOGGER.warn("User not found: " + id);
             throw new NotFoundRestEx("User not found: " + id);
         }
     }
 
     @Override
-    public GSUser get(Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
-        try {
+    public GSUser get(Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
+        try
+        {
             return userService.get(id);
-        } catch (NotFoundServiceEx ex) {
+        }
+        catch (NotFoundServiceEx ex)
+        {
             LOGGER.warn("User not found: " + id);
             throw new NotFoundRestEx("User not found: " + id);
         }
     }
 
     @Override
-    public Long insert(GSUser user) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
-        try {
+    public Long insert(GSUser user) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
+        try
+        {
             // resolve profile
             Profile placeHolderProfile = user.getProfile();
-            if(placeHolderProfile == null)
+            if (placeHolderProfile == null)
+            {
                 throw new BadRequestServiceEx("Can't insert user without profile");
+            }
 
             Long profileId = placeHolderProfile.getId();
 
@@ -83,90 +114,107 @@ public class RESTUserServiceImpl implements RESTUserService {
 
             // Simplify geometry
             MultiPolygon origmp = user.getAllowedArea();
-            if(origmp != null)
+            if (origmp != null)
+            {
                 user.setAllowedArea(MultiPolygonUtils.simplifyMultiPolygon(origmp));
+            }
 
             return userService.insert(user);
 
-        } catch (NotFoundServiceEx ex) {
+        }
+        catch (NotFoundServiceEx ex)
+        {
             LOGGER.warn("Profile not found " + user.getProfile(), ex);
             throw new NotFoundRestEx(ex.getMessage());
-        } catch (BadRequestServiceEx ex) {
+        }
+        catch (BadRequestServiceEx ex)
+        {
             LOGGER.warn("Bad request: " + ex.getMessage(), ex);
             throw new BadRequestRestEx(ex.getMessage());
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             LOGGER.error(ex.getMessage(), ex);
             throw new InternalErrorRestEx(ex.getMessage());
         }
     }
 
     @Override
-    public void update(Long id, GSUser user) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
+    public void update(Long id, GSUser user) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
 
-        if(! id.equals(user.getId()))
+        if (!id.equals(user.getId()))
+        {
             throw new BadRequestServiceEx("Id mismatch");
+        }
 
-        try {
+        try
+        {
             GSUser old = userService.get(id);
 
-            if(user.getExtId() != null && ! user.getExtId().equals(old.getExtId()))
+            if ((user.getExtId() != null) && !user.getExtId().equals(old.getExtId()))
+            {
                 throw new BadRequestServiceEx("ExtId can't be updated");
+            }
 
             // resolve profile
             Profile placeHolderProfile = user.getProfile();
-            if(placeHolderProfile == null)
+            if (placeHolderProfile == null)
+            {
                 throw new BadRequestServiceEx("Can't set a user without profile");
+            }
+
             Profile profile = profileService.get(placeHolderProfile.getId());
             user.setProfile(profile);
 
             userService.update(user);
 
-        } catch (NotFoundServiceEx ex) {
-            LOGGER.warn("Problems updating user " + id+": " + ex.getMessage(), ex);
+        }
+        catch (NotFoundServiceEx ex)
+        {
+            LOGGER.warn("Problems updating user " + id + ": " + ex.getMessage(), ex);
             throw new NotFoundRestEx(ex.getMessage());
-        } catch (BadRequestServiceEx ex) {
-            LOGGER.warn("Problems updating user " + id+": " + ex.getMessage(), ex);
+        }
+        catch (BadRequestServiceEx ex)
+        {
+            LOGGER.warn("Problems updating user " + id + ": " + ex.getMessage(), ex);
             throw new BadRequestRestEx(ex.getMessage());
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             LOGGER.error(ex);
             throw new InternalErrorRestEx(ex.getMessage());
         }
     }
 
     @Override
-    public RESTShortUserList getUsers(String nameLike, Integer page, Integer entries) {
-        List<GSUser> list = userService.getFullList(null,null,null);
+    public RESTShortUserList getUsers(String nameLike, Integer page, Integer entries)
+    {
+        List<GSUser> list = userService.getFullList(null, null, null);
         RESTShortUserList ret = new RESTShortUserList(list.size());
-        for (GSUser user : list) {
+        for (GSUser user : list)
+        {
             ret.add(transformUser(user));
         }
+
         return ret;
     }
 
     @Override
-    public long getCount(String nameLike) {
-        return  userService.getCount(nameLike);
+    public long getCount(String nameLike)
+    {
+        return userService.getCount(nameLike);
     }
 
-    //==========================================================================
+    // ==========================================================================
 
-    public static RESTShortUser transformUser(GSUser user) {
-        RESTShortUser shu = new RESTShortUser();
-        shu.setId(user.getId());
-        shu.setExtId(user.getExtId());
-        shu.setUserName(user.getName());
-        shu.setEnabled(user.getEnabled());
-        shu.setProfile(user.getProfile().getName());
-        return shu;
-    }
-    
-    //==========================================================================
-
-    public void setUserAdminService(UserAdminService userService) {
+    public void setUserAdminService(UserAdminService userService)
+    {
         this.userService = userService;
     }
 
-    public void setProfileAdminService(ProfileAdminService profileService) {
+    public void setProfileAdminService(ProfileAdminService profileService)
+    {
         this.profileService = profileService;
     }
 

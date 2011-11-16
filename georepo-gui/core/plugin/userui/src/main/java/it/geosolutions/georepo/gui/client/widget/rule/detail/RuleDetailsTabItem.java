@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,11 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.Events;
@@ -44,25 +39,33 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.TabItem;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerRemoteServiceAsync;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class RuleDetailsTabItem.
  */
-public class RuleDetailsTabItem extends TabItem {
+public class RuleDetailsTabItem extends TabItem
+{
 
     /** The rule details widget. */
     private RuleDetailsWidget ruleDetailsWidget;
-    
+
     /** The rule. */
     private Rule theRule;
-    
+
     /**
      * Instantiates a new rule details tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      */
-    private RuleDetailsTabItem(String tabItemId) {
+    private RuleDetailsTabItem(String tabItemId)
+    {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
         super("Layer Details");
@@ -72,7 +75,7 @@ public class RuleDetailsTabItem extends TabItem {
 
     /**
      * Instantiates a new rule details tab item.
-     * 
+     *
      * @param tabItemId
      *            the tab item id
      * @param model
@@ -80,7 +83,8 @@ public class RuleDetailsTabItem extends TabItem {
      * @param workspacesService
      *            the workspaces service
      */
-    public RuleDetailsTabItem(String tabItemId, Rule model, WorkspacesManagerServiceRemoteAsync workspacesService) {
+    public RuleDetailsTabItem(String tabItemId, Rule model, WorkspacesManagerRemoteServiceAsync workspacesService)
+    {
         this(tabItemId);
         this.theRule = model;
 
@@ -88,41 +92,47 @@ public class RuleDetailsTabItem extends TabItem {
         add(getRuleDetailsWidget());
 
         setScrollMode(Scroll.NONE);
-        
-        this.addListener(Events.Select, new Listener<BaseEvent>(){
 
-            public void handleEvent(BaseEvent be) {	
-                if(ruleDetailsWidget.getRuleDetailsInfo().getModel() == null){
-                    Dispatcher.forwardEvent(GeoRepoEvents.LOAD_LAYER_DETAILS, theRule);
-                }	
+        this.addListener(Events.Select, new Listener<BaseEvent>()
+            {
 
-                if(ruleDetailsWidget.getRuleDetailsGrid().getStore().getCount() < 1){
-                    ruleDetailsWidget.getRuleDetailsGrid().getLoader().load();
-                }	
-            }
+                public void handleEvent(BaseEvent be)
+                {
+                    if (ruleDetailsWidget.getRuleDetailsInfo().getModel() == null)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.LOAD_LAYER_DETAILS, theRule);
+                    }
 
-        });
+                    if (ruleDetailsWidget.getRuleDetailsGrid().getStore().getCount() < 1)
+                    {
+                        ruleDetailsWidget.getRuleDetailsGrid().getLoader().load();
+                    }
+                }
 
-        //getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+            });
+
+        // getLayerCustomPropsWidget().getLayerCustomPropsInfo().getLoader().load(0, it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 
     /**
      * Sets the rule details widget.
-     * 
+     *
      * @param ruleDetailsWidget
      *            the new rule details widget
      */
-    public void setRuleDetailsWidget(RuleDetailsWidget ruleDetailsWidget) {
+    public void setRuleDetailsWidget(RuleDetailsWidget ruleDetailsWidget)
+    {
         this.ruleDetailsWidget = ruleDetailsWidget;
     }
 
     /**
      * Gets the rule details widget.
-     * 
+     *
      * @return the rule details widget
      */
-    public RuleDetailsWidget getRuleDetailsWidget() {
+    public RuleDetailsWidget getRuleDetailsWidget()
+    {
         return ruleDetailsWidget;
     }
 

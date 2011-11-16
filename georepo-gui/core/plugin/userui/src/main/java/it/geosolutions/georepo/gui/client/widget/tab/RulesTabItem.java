@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,25 +32,27 @@
  */
 package it.geosolutions.georepo.gui.client.widget.tab;
 
-import it.geosolutions.georepo.gui.client.Constants;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.widget.RuleManagementWidget;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.widget.TabItem;
+
+import it.geosolutions.georepo.gui.client.Constants;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.widget.RuleManagementWidget;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class RulesTabItem.
  */
-public class RulesTabItem extends TabItem {
+public class RulesTabItem extends TabItem
+{
 
     /** The rules management widget. */
     private RuleManagementWidget rulesManagementWidget;
@@ -58,7 +60,8 @@ public class RulesTabItem extends TabItem {
     /**
      * Instantiates a new rules tab item.
      */
-    public RulesTabItem(String tabItemId) {
+    public RulesTabItem(String tabItemId)
+    {
         // TODO: add I18n message
         // super(I18nProvider.getMessages().profiles());
         super("Rules");
@@ -68,50 +71,53 @@ public class RulesTabItem extends TabItem {
 
     /**
      * Instantiates a new rules tab item.
-     * 
+     *
      * @param tabItemId
-     * 
+     *
      * @param rulesManagerServiceRemote
      *            the rules manager service remote
      */
-    public RulesTabItem(String tabItemId, RulesManagerServiceRemoteAsync rulesService,
-            GsUsersManagerServiceRemoteAsync gsUsersService,
-            ProfilesManagerServiceRemoteAsync profilesService,
-            InstancesManagerServiceRemoteAsync instancesService,
-            WorkspacesManagerServiceRemoteAsync workspacesService) {
+    public RulesTabItem(String tabItemId, RulesManagerRemoteServiceAsync rulesService,
+        GsUsersManagerRemoteServiceAsync gsUsersService,
+        ProfilesManagerRemoteServiceAsync profilesService,
+        InstancesManagerRemoteServiceAsync instancesService,
+        WorkspacesManagerRemoteServiceAsync workspacesService)
+    {
         this(tabItemId);
         setScrollMode(Scroll.NONE);
         setAutoWidth(true);
         setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
-        
+
         setRuleManagementWidget(new RuleManagementWidget(rulesService, gsUsersService,
                 profilesService, instancesService, workspacesService));
         add(getRuleManagementWidget());
 
         getRuleManagementWidget().getRulesInfo().getStore().setSortField(
-                BeanKeyValue.PRIORITY.getValue());
+            BeanKeyValue.PRIORITY.getValue());
         getRuleManagementWidget().getRulesInfo().getStore().setSortDir(SortDir.ASC);
         getRuleManagementWidget().getRulesInfo().getLoader().load(0,
-                it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
+            it.geosolutions.georepo.gui.client.Constants.DEFAULT_PAGESIZE);
 
     }
 
     /**
      * Sets the rule management widget.
-     * 
+     *
      * @param rulesManagementWidget
      *            the new rule management widget
      */
-    public void setRuleManagementWidget(RuleManagementWidget rulesManagementWidget) {
+    public void setRuleManagementWidget(RuleManagementWidget rulesManagementWidget)
+    {
         this.rulesManagementWidget = rulesManagementWidget;
     }
 
     /**
      * Gets the rule management widget.
-     * 
+     *
      * @return the rule management widget
      */
-    public RuleManagementWidget getRuleManagementWidget() {
+    public RuleManagementWidget getRuleManagementWidget()
+    {
         return rulesManagementWidget;
     }
 

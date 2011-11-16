@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -53,94 +53,109 @@ import org.apache.log4j.Logger;
 
 /**
  * Adds basic authentication to CXF services by using login operation.
- * 
+ *
  * @author Tobia di Pisa (tobia.dipisa at geo-solutions.it)
- * 
+ *
  * @see http://chrisdail.com/2008/08/13/http-basic-authentication-with-apache-cxf-revisited/
  *
  */
-public class AuthenticationHandler extends AbstractInDatabindingInterceptor{
+public class AuthenticationHandler extends AbstractInDatabindingInterceptor
+{
 
-	private final static Logger LOGGER = Logger.getLogger(AuthenticationHandler.class);
-	
-	private String realm;
-	
-	/**
-	 * @param realm the realm to set
-	 */
-	public void setRealm(String realm) {
-		this.realm = realm;
-	}
+    private static final Logger LOGGER = Logger.getLogger(AuthenticationHandler.class);
 
-	public AuthenticationHandler() {
-		super(Phase.UNMARSHAL);
-	}
+    private String realm;
 
-	/**
-	 * @param username
-	 * @param password
-	 * @return boolean
-	 */
-	private boolean isAuthenticated(String username, String password) {
+    public AuthenticationHandler()
+    {
+        super(Phase.UNMARSHAL);
+    }
+
+    /**
+     * @param realm the realm to set
+     */
+    public void setRealm(String realm)
+    {
+        this.realm = realm;
+    }
+
+    /**
+     * @param username
+     * @param password
+     * @return boolean
+     */
+    private boolean isAuthenticated(String username, String password)
+    {
         LOGGER.warn("FORCING AUTH");
-		return true;
-	}
 
-	/* (non-Javadoc)
-	 * @see org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message.Message)
-	 */
-	@Override
-	public void handleMessage(Message message) throws Fault {
-        AuthorizationPolicy policy = (AuthorizationPolicy)message.get(AuthorizationPolicy.class);
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message.Message)
+     */
+    @Override
+    public void handleMessage(Message message) throws Fault
+    {
+        AuthorizationPolicy policy = (AuthorizationPolicy) message.get(AuthorizationPolicy.class);
 
         //
         // TODO: To manage the public access (guest).
         //
-        if (policy == null) {
+        if (policy == null)
+        {
             sendErrorResponse(message, HttpURLConnection.HTTP_UNAUTHORIZED);
+
             return;
         }
-        
+
         String username = policy.getUserName();
-        String password = policy.getPassword(); 
-        
-        if (isAuthenticated(username, password)) {
+        String password = policy.getPassword();
+
+        if (isAuthenticated(username, password))
+        {
             // ////////////////////////////////////////
-        	// let request to continue
+            // let request to continue
             // ////////////////////////////////////////
-        	return;
-        } else {
-        	// /////////////////////////////////////////////////////////////////////
-            // authentication failed, request the authetication, 
-        	// add the realm name if needed to the value of WWW-Authenticate 
-        	// /////////////////////////////////////////////////////////////////////
-        	sendErrorResponse(message, HttpURLConnection.HTTP_UNAUTHORIZED);
-        	return;
-        }		
-	}
-	
+            return;
+        }
+        else
+        {
+            // /////////////////////////////////////////////////////////////////////
+            // authentication failed, request the authetication,
+            // add the realm name if needed to the value of WWW-Authenticate
+            // /////////////////////////////////////////////////////////////////////
+            sendErrorResponse(message, HttpURLConnection.HTTP_UNAUTHORIZED);
+
+            return;
+        }
+    }
+
     /**
      * @param message
      * @param responseCode
      */
     @SuppressWarnings("unchecked")
-	private void sendErrorResponse(Message message, int responseCode) {
+    private void sendErrorResponse(Message message, int responseCode)
+    {
 
         Message outMessage = getOutMessage(message);
         outMessage.put(Message.RESPONSE_CODE, responseCode);
-        
+
         // ////////////////////////////////////////
         // Set the response headers
         // ////////////////////////////////////////
-        Map<String, List<String>> responseHeaders = (Map<String, List<String>>)message.get(Message.PROTOCOL_HEADERS);
+        Map<String, List<String>> responseHeaders = (Map<String, List<String>>) message.get(Message.PROTOCOL_HEADERS);
 
-        if (responseHeaders != null) {
+        if (responseHeaders != null)
+        {
             responseHeaders.put("WWW-Authenticate", Arrays.asList("Basic realm=\"" + realm + "\""));
-            responseHeaders.put("Content-Length",   Arrays.asList("0"));
+            responseHeaders.put("Content-Length", Arrays.asList("0"));
         }
 
         message.getInterceptorChain().abort();
-        try {
+        try
+        {
             getConduit(message).prepare(outMessage);
 
             OutputStream os = outMessage.getContent(OutputStream.class);
@@ -149,24 +164,29 @@ public class AuthenticationHandler extends AbstractInDatabindingInterceptor{
             LOGGER.info("Sending error " + responseCode);
 
             close(outMessage);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             LOGGER.warn(e.getMessage(), e);
         }
     }
-	
+
     /**
      * @param inMessage
      * @return Message
-     */ 
-    private Message getOutMessage(Message inMessage) {
+     */
+    private Message getOutMessage(Message inMessage)
+    {
         Exchange exchange = inMessage.getExchange();
         Message outMessage = exchange.getOutMessage();
-        if (outMessage == null) {
+        if (outMessage == null)
+        {
             Endpoint endpoint = exchange.get(Endpoint.class);
             outMessage = endpoint.getBinding().createMessage();
             exchange.setOutMessage(outMessage);
         }
         outMessage.putAll(inMessage);
+
         return outMessage;
     }
 
@@ -175,12 +195,13 @@ public class AuthenticationHandler extends AbstractInDatabindingInterceptor{
      * @return Conduit
      * @throws IOException
      */
-    private Conduit getConduit(Message inMessage)
-            throws IOException {
+    private Conduit getConduit(Message inMessage) throws IOException
+    {
         Exchange exchange = inMessage.getExchange();
         EndpointReferenceType target = exchange.get(EndpointReferenceType.class);
         Conduit conduit = exchange.getDestination().getBackChannel(inMessage, null, target);
         exchange.setConduit(conduit);
+
         return conduit;
     }
 
@@ -188,11 +209,11 @@ public class AuthenticationHandler extends AbstractInDatabindingInterceptor{
      * @param outMessage
      * @throws IOException
      */
-    private void close(Message outMessage)
-            throws IOException {
+    private void close(Message outMessage) throws IOException
+    {
         OutputStream os = outMessage.getContent(OutputStream.class);
         os.flush();
         os.close();
     }
-    
+
 }

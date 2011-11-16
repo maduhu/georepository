@@ -22,44 +22,52 @@ package it.geosolutions.georepo.services.rest.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 
-@XmlRootElement(name="ProfileList")
-public class RESTShortProfileList {
+@XmlRootElement(name = "ProfileList")
+public class RESTShortProfileList
+{
 
     private List<RESTShortProfile> list;
 
-    public RESTShortProfileList() {
+    public RESTShortProfileList()
+    {
         this(10);
     }
 
-    public RESTShortProfileList(int initialCapacity) {
+    public RESTShortProfileList(int initialCapacity)
+    {
         list = new ArrayList<RESTShortProfile>(initialCapacity);
     }
 
-    @XmlElement(name="User")
-    public List<RESTShortProfile> getUserList() {
+    @XmlElement(name = "User")
+    public List<RESTShortProfile> getUserList()
+    {
         return list;
     }
 
-    public void setUserList(List<RESTShortProfile> list) {
+    public void setUserList(List<RESTShortProfile> list)
+    {
         this.list = list;
     }
 
-    public void add(RESTShortProfile profile) {
+    public void add(RESTShortProfile profile)
+    {
         list.add(profile);
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName() +"[" + list.size() + " profiles]";
+    public String toString()
+    {
+        return getClass().getSimpleName() + "[" + list.size() + " profiles]";
     }
 
 }
-

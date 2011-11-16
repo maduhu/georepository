@@ -20,47 +20,56 @@
 
 package it.geosolutions.georepo.services.rest.model.config;
 
-import it.geosolutions.georepo.core.model.GSInstance;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import it.geosolutions.georepo.core.model.GSInstance;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 
-@XmlRootElement(name="GSInstanceList")
-public class RESTFullGSInstanceList {
+@XmlRootElement(name = "GSInstanceList")
+public class RESTFullGSInstanceList
+{
 
     private List<GSInstance> list;
 
-    public RESTFullGSInstanceList() {
+    public RESTFullGSInstanceList()
+    {
         this(10);
     }
 
-    public RESTFullGSInstanceList(int initialCapacity) {
+    public RESTFullGSInstanceList(int initialCapacity)
+    {
         list = new ArrayList<GSInstance>(initialCapacity);
     }
 
-    @XmlElement(name="GSInstance")
-    public List<GSInstance> getList() {
+    @XmlElement(name = "GSInstance")
+    public List<GSInstance> getList()
+    {
         return list;
     }
 
-    public void setList(List<GSInstance> list) {
+    public void setList(List<GSInstance> list)
+    {
         this.list = list;
     }
 
-    public void add(GSInstance gs) {
+    public void add(GSInstance gs)
+    {
         list.add(gs);
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName() +"[" + list.size() + " items]";
+    public String toString()
+    {
+        return getClass().getSimpleName() + "[" + list.size() + " items]";
     }
 
 }
-

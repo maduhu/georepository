@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,29 +32,32 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.Constants;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+
+import it.geosolutions.georepo.gui.client.Constants;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class InstanceManagementWidget.
  */
-public class InstanceManagementWidget extends ContentPanel {
+public class InstanceManagementWidget extends ContentPanel
+{
 
     /** The instances info. */
     private InstanceGridWidget instancesInfo;
 
     /**
      * Instantiates a new instance management widget.
-     * 
+     *
      * @param instancesManagerServiceRemote
      *            the instances manager service remote
      */
-    public InstanceManagementWidget(InstancesManagerServiceRemoteAsync instancesManagerServiceRemote) {
+    public InstanceManagementWidget(InstancesManagerRemoteServiceAsync instancesManagerServiceRemote)
+    {
         setMonitorWindowResize(true);
         setHeaderVisible(false);
         setFrame(true);
@@ -70,11 +73,12 @@ public class InstanceManagementWidget extends ContentPanel {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.widget.Component#onWindowResize(int, int)
      */
     @Override
-    protected void onWindowResize(int width, int height) {
+    protected void onWindowResize(int width, int height)
+    {
         // TODO Auto-generated method stub
         super.setWidth(width - 5);
         super.layout();
@@ -82,20 +86,22 @@ public class InstanceManagementWidget extends ContentPanel {
 
     /**
      * Sets the instances info.
-     * 
+     *
      * @param instancesInfo
      *            the new instances info
      */
-    public void setInstancesInfo(InstanceGridWidget instancesInfo) {
+    public void setInstancesInfo(InstanceGridWidget instancesInfo)
+    {
         this.instancesInfo = instancesInfo;
     }
 
     /**
      * Gets the instances info.
-     * 
+     *
      * @return the instances info
      */
-    public InstanceGridWidget getInstancesInfo() {
+    public InstanceGridWidget getInstancesInfo()
+    {
         return instancesInfo;
     }
 

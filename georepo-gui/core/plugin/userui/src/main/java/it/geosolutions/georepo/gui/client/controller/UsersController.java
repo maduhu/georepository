@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,19 +32,6 @@
  */
 package it.geosolutions.georepo.gui.client.controller;
 
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.GSUser;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.view.UsersView;
-import it.geosolutions.georepo.gui.client.widget.UserGridWidget;
-import it.geosolutions.georepo.gui.client.widget.tab.GsUsersTabItem;
-import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
-
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -52,51 +39,71 @@ import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.view.UsersView;
+import it.geosolutions.georepo.gui.client.widget.UserGridWidget;
+import it.geosolutions.georepo.gui.client.widget.tab.GsUsersTabItem;
+import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class UsersController.
  */
-public class UsersController extends Controller {
+public class UsersController extends Controller
+{
 
     /** The Constant USERS_TAB_ITEM_ID. */
     private static final String USERS_TAB_ITEM_ID = "UsersTabItem";
 
     /** The gs manager service remote. */
-    private GsUsersManagerServiceRemoteAsync gsManagerServiceRemote = GsUsersManagerServiceRemote.Util
-            .getInstance();
+    private GsUsersManagerRemoteServiceAsync gsManagerServiceRemote =
+        GsUsersManagerRemoteServiceAsync.Util.getInstance();
 
     /** The profiles manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
-            .getInstance();
+    private ProfilesManagerRemoteServiceAsync profilesManagerServiceRemote =
+        ProfilesManagerRemoteServiceAsync.Util.getInstance();
 
     /** The tab widget. */
     private TabWidget tabWidget;
 
     /** The users view. */
     private UsersView usersView;
-    
+
     /**
      * Instantiates a new users controller.
      */
-    public UsersController() {
+    public UsersController()
+    {
         registerEventTypes(
-                GeoRepoEvents.INIT_MAPS_UI_MODULE,
-                
-                GeoRepoEvents.CREATE_NEW_USER,
-                GeoRepoEvents.SAVE_USER,
-                GeoRepoEvents.UPDATE_USER,
-                GeoRepoEvents.DELETE_USER,
-                
-                GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
+            GeoRepoEvents.INIT_MAPS_UI_MODULE,
+
+
+
+
+            GeoRepoEvents.CREATE_NEW_USER,
+            GeoRepoEvents.SAVE_USER,
+            GeoRepoEvents.UPDATE_USER,
+            GeoRepoEvents.DELETE_USER,
+
+
+
+
+            GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.Controller#initialize()
      */
     @Override
-    protected void initialize() {
+    protected void initialize()
+    {
         this.usersView = new UsersView(this);
         initWidget();
     }
@@ -104,39 +111,50 @@ public class UsersController extends Controller {
     /**
      * Inits the widget.
      */
-    private void initWidget() {
+    private void initWidget()
+    {
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.Controller#handleEvent(com.extjs.gxt.ui.client
      * .mvc.AppEvent)
      */
     @Override
-    public void handleEvent(AppEvent event) {
+    public void handleEvent(AppEvent event)
+    {
         if (event.getType() == GeoRepoEvents.ATTACH_BOTTOM_TAB_WIDGETS)
+        {
             onAttachTabWidgets(event);
+        }
 
-        if (event.getType() == GeoRepoEvents.UPDATE_USER ||
-                event.getType() == GeoRepoEvents.SAVE_USER)
+        if ((event.getType() == GeoRepoEvents.UPDATE_USER) ||
+                (event.getType() == GeoRepoEvents.SAVE_USER))
+        {
             onSaveUser(event);
+        }
 
         if (event.getType() == GeoRepoEvents.DELETE_USER)
+        {
             onDeleteUser(event);
-        
-         forwardToView(usersView, event);
+        }
+
+        forwardToView(usersView, event);
     }
 
     /**
      * On attach tab widgets.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onAttachTabWidgets(AppEvent event) {
-        if (tabWidget == null) {
+    private void onAttachTabWidgets(AppEvent event)
+    {
+        if (tabWidget == null)
+        {
             tabWidget = (TabWidget) event.getData();
+
             TabItem usersTabItem = new GsUsersTabItem(USERS_TAB_ITEM_ID, gsManagerServiceRemote,
                     profilesManagerServiceRemote);
             tabWidget.add(usersTabItem);
@@ -145,105 +163,118 @@ public class UsersController extends Controller {
 
     /**
      * On update profile.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onSaveUser(AppEvent event) {
-        if (tabWidget != null) {
+    private void onSaveUser(AppEvent event)
+    {
+        if (tabWidget != null)
+        {
 
             GsUsersTabItem usersTabItem = (GsUsersTabItem) tabWidget.getItemByItemId(USERS_TAB_ITEM_ID);
             final UserGridWidget usersInfoWidget = usersTabItem.getUserManagementWidget().getUsersInfo();
             final Grid<GSUser> grid = usersInfoWidget.getGrid();
 
-            if (grid != null && grid.getStore() != null && event.getData() != null && event.getData() instanceof GSUser) {
-                
+            if ((grid != null) && (grid.getStore() != null) && (event.getData() != null) && (event.getData() instanceof GSUser))
+            {
+
                 GSUser user = event.getData();
-                
-                gsManagerServiceRemote.saveGsUser(user, new AsyncCallback<PagingLoadResult<GSUser>>() {
 
-                    public void onFailure(Throwable caught) {
+                gsManagerServiceRemote.saveGsUser(user, new AsyncCallback<Void>()
+                    {
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                new String[] {
-                                        I18nProvider.getMessages().ruleServiceName(),
-                                        I18nProvider.getMessages()
-                                                .ruleFetchFailureMessage() });
-                    }
+                        public void onFailure(Throwable caught)
+                        {
 
-                    public void onSuccess(PagingLoadResult<GSUser> result) {
-                        grid.getStore().getLoader().load();
-                        grid.repaint();
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                new String[]
+                                {
+                                    I18nProvider.getMessages().ruleServiceName(),
+                                    I18nProvider.getMessages().ruleFetchFailureMessage()
+                                });
+                        }
 
-                        Dispatcher.forwardEvent(
+                        public void onSuccess(Void result)
+                        {
+                            grid.getStore().getLoader().load();
+                            grid.repaint();
+
+                            Dispatcher.forwardEvent(
                                 GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
-                                new String[] {
-                                        /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "User Service" ,
-                                        /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "User saved successfully!" });
-                    }
-                });
-                
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                new String[] {  /* TODO: I18nProvider.getMessages().ruleServiceName()*/"User Service",
+                                    /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "User saved successfully!" });
+                        }
+                    });
+
             }
         }
     }
 
     /**
      * On delete profile.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onDeleteUser(AppEvent event) {
-        if (tabWidget != null) {
+    private void onDeleteUser(AppEvent event)
+    {
+        if (tabWidget != null)
+        {
 
             GsUsersTabItem usersTabItem = (GsUsersTabItem) tabWidget.getItemByItemId(USERS_TAB_ITEM_ID);
             final UserGridWidget usersInfoWidget = usersTabItem.getUserManagementWidget().getUsersInfo();
             final Grid<GSUser> grid = usersInfoWidget.getGrid();
 
-            if (grid != null && grid.getStore() != null && event.getData() != null && event.getData() instanceof GSUser) {
-                
+            if ((grid != null) && (grid.getStore() != null) && (event.getData() != null) && (event.getData() instanceof GSUser))
+            {
+
                 GSUser user = event.getData();
-                
-                gsManagerServiceRemote.deleteGsUser(user, new AsyncCallback<PagingLoadResult<GSUser>>() {
 
-                    public void onFailure(Throwable caught) {
+                gsManagerServiceRemote.deleteGsUser(user, new AsyncCallback<Void>()
+                    {
 
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
-                                new String[] {
-                                        I18nProvider.getMessages().ruleServiceName(),
-                                        I18nProvider.getMessages()
-                                                .ruleFetchFailureMessage() });
-                    }
+                        public void onFailure(Throwable caught)
+                        {
 
-                    public void onSuccess(PagingLoadResult<GSUser> result) {
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                                new String[]
+                                {
+                                    I18nProvider.getMessages().ruleServiceName(),
+                                    I18nProvider.getMessages().ruleFetchFailureMessage()
+                                });
+                        }
 
-                        //grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(),SortDir.ASC);//<<-- ric mod 20100215
-                        grid.getStore().getLoader().load();
-                        grid.repaint();
+                        public void onSuccess(Void result)
+                        {
 
-                        Dispatcher.forwardEvent(
+                            // grid.getStore().sort(BeanKeyValue.USER_NAME.getValue(),SortDir.ASC);//<<-- ric mod 20100215
+                            grid.getStore().getLoader().load();
+                            grid.repaint();
+
+                            Dispatcher.forwardEvent(
                                 GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
-                                new String[] {
-                                        /* TODO: I18nProvider.getMessages().ruleServiceName()*/ "User Service" ,
-                                        /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "User removed successfully!" });
-                    }
-                });
-                
+                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                                new String[] {  /* TODO: I18nProvider.getMessages().ruleServiceName()*/"User Service",
+                                    /* TODO: I18nProvider.getMessages().ruleFetchSuccessMessage() */ "User removed successfully!" });
+                        }
+                    });
+
             }
         }
     }
-    
+
     /**
      * Forward to tab widget.
-     * 
+     *
      * @param event
      *            the event
      */
     @SuppressWarnings("unused")
-    private void forwardToTabWidget(AppEvent event) {
-         this.tabWidget.fireEvent(event.getType(), event);
+    private void forwardToTabWidget(AppEvent event)
+    {
+        this.tabWidget.fireEvent(event.getType(), event);
     }
 
 }

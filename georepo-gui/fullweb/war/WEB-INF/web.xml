@@ -14,10 +14,20 @@
         </param-value>
 	</context-param>
 
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>log4j.properties</param-value>
-    </context-param>
+	<!-- Log4j configuration -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/log4j.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>log4jExposeWebAppRoot</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<listener>
+		<listener-class>
+		org.springframework.web.util.Log4jConfigListener
+		</listener-class>
+	</listener>
 
 	<!-- spring context loader -->
     <listener>
@@ -28,6 +38,18 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+	<!-- CUSOM Authentication Filter -->
+    <filter>
+     <filter-name>Georepository CUSTOM security filter</filter-name>
+     <filter-class>it.geosolutions.georepo.gui.AuthenticationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>Georepository CUSTOM security filter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- Standard Context -->
 	<servlet>
 		<servlet-name>ConfigurationRemote</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.ConfigurationRemoteImpl</servlet-class>
@@ -51,7 +73,7 @@
 
 	<servlet>
 		<servlet-name>remoteLoggingServiceImpl</servlet-name>
-		<servlet-class>com.google.gwt.libideas.logging.server.RemoteLoggingServiceImpl</servlet-class> 
+		<servlet-class>com.google.gwt.logging.server.RemoteLoggingServiceImpl</servlet-class> 
 	</servlet> 
 	<servlet-mapping> 
 	    <servlet-name>remoteLoggingServiceImpl</servlet-name> 
@@ -62,48 +84,48 @@
 	<!-- **                                TAB WIDGETS                                          **  -->
 	<!-- *****************************************************************************************  -->
 	<servlet>
-		<servlet-name>GsUsersManagerServiceRemote</servlet-name>
+		<servlet-name>GsUsersManagerRemoteService</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.GsUsersManagerServiceImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>GsUsersManagerServiceRemote</servlet-name>
-		<url-pattern>/georepo/GsUsersManagerServiceRemote</url-pattern>
+		<servlet-name>GsUsersManagerRemoteService</servlet-name>
+		<url-pattern>/georepo/GsUsersManagerRemoteService</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>ProfilesManagerServiceRemote</servlet-name>
+		<servlet-name>ProfilesManagerRemoteService</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.ProfilesManagerServiceImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ProfilesManagerServiceRemote</servlet-name>
-		<url-pattern>/georepo/ProfilesManagerServiceRemote</url-pattern>
+		<servlet-name>ProfilesManagerRemoteService</servlet-name>
+		<url-pattern>/georepo/ProfilesManagerRemoteService</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>InstancesManagerServiceRemote</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.gwt.InstancesManagerServiceImpl</servlet-class>
+		<servlet-name>InstancesManagerRemoteService</servlet-name>
+		<servlet-class>it.geosolutions.georepo.gui.server.gwt.InstancesManagerRemoteServiceImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>InstancesManagerServiceRemote</servlet-name>
-		<url-pattern>/georepo/InstancesManagerServiceRemote</url-pattern>
+		<servlet-name>InstancesManagerRemoteService</servlet-name>
+		<url-pattern>/georepo/InstancesManagerRemoteService</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>RulesManagerServiceRemote</servlet-name>
+		<servlet-name>RulesManagerRemoteService</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.RulesManagerServiceImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>RulesManagerServiceRemote</servlet-name>
-		<url-pattern>/georepo/RulesManagerServiceRemote</url-pattern>
+		<servlet-name>RulesManagerRemoteService</servlet-name>
+		<url-pattern>/georepo/RulesManagerRemoteService</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>WorkspacesManagerServiceRemote</servlet-name>
+		<servlet-name>WorkspacesManagerRemoteService</servlet-name>
 		<servlet-class>it.geosolutions.georepo.gui.server.gwt.WorkspacesManagerServiceImpl</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>WorkspacesManagerServiceRemote</servlet-name>
-		<url-pattern>/georepo/WorkspacesManagerServiceRemote</url-pattern>
+		<servlet-name>WorkspacesManagerRemoteService</servlet-name>
+		<url-pattern>/georepo/WorkspacesManagerRemoteService</url-pattern>
 	</servlet-mapping>
 	
 	<!-- *****************************************************************************************  -->
@@ -160,90 +182,6 @@
         <url-pattern>/remoting/*</url-pattern>
     </servlet-mapping>
     
-  <!--servlet>
-		<servlet-name>WorkspacesManagerServiceRemote</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.gwt.WorkspacesManagerServiceImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>WorkspacesManagerServiceRemote</servlet-name>
-		<url-pattern>/georepo/WorkspacesManagerServiceRemote</url-pattern>
-	</servlet-mapping-->
-	
-		<!-- external graphic file upload servlet 
-	<servlet>
-		<servlet-name>ExternalGraphicUploadServlet</servlet-name>
-		<servlet-class>
-			it.geosolutions.georepo.gui.server.upload.ExternalGraphicUploadServlet</servlet-class>
-		<load-on-startup>8</load-on-startup>
-	</servlet>-->
-
-	<!-- sld file upload servlet 
-	<servlet>
-		<servlet-name>SLDUploadServlet</servlet-name>
-		<servlet-class>
-			it.geosolutions.georepo.gui.server.upload.SLDUploadServlet</servlet-class>
-		<load-on-startup>8</load-on-startup>
-	</servlet>-->
-
-	<!-- sld file save servlet 
-	<servlet>
-		<servlet-name>SLDSaveServlet</servlet-name>
-		<servlet-class>
-			it.geosolutions.georepo.gui.server.upload.SLDSaveServlet</servlet-class>
-		<load-on-startup>8</load-on-startup>
-	</servlet>-->
-
-	<!-- sld servlet 
-	<servlet>
-		<servlet-name>StyleServlet</servlet-name>
-		<servlet-class>
-			it.geosolutions.georepo.gui.server.upload.StyleServlet</servlet-class>
-		<load-on-startup>8</load-on-startup>
-	</servlet>-->
-
-	<!-- servlet-mapping>
-		<servlet-name>ExternalGraphicUploadServlet</servlet-name>
-		<url-pattern>/georepo/ExternalGraphicUploadServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>SLDUploadServlet</servlet-name>
-		<url-pattern>/georepo/SLDUploadServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>SLDSaveServlet</servlet-name>
-		<url-pattern>/georepo/SLDSaveServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>StyleServlet</servlet-name>
-		<url-pattern>/georepo/StyleServlet</url-pattern>
-	</servlet-mapping-->
-	
-	<!-- Proxy Servlet
-	<servlet>
-		<servlet-name>HttpProxy</servlet-name>
-		<servlet-class>it.geosolutions.georepo.gui.server.servlet.HTTPProxy</servlet-class>
-		<init-param>
-			<param-name>proxyHost</param-name>
-			<param-value>localhost</param-value>
-		</init-param>
-		<init-param>
-			<param-name>proxyPort</param-name>
-			<param-value>80</param-value>
-		</init-param>
-		<init-param>
-			<param-name>proxyPath</param-name>
-			<param-value></param-value>
-		</init-param>
-		<init-param>
-			<param-name>maxFileUploadSize</param-name>
-			<param-value></param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>HttpProxy</servlet-name>
-		<url-pattern>/georepo/proxy</url-pattern>
-	</servlet-mapping> -->
-	
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>Application.html</welcome-file>

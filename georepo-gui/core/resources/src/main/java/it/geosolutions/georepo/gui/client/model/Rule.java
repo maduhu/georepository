@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -34,12 +34,15 @@ package it.geosolutions.georepo.gui.client.model;
 
 
 import com.extjs.gxt.ui.client.data.BeanModel;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Rule.
  */
-public class Rule extends BeanModel {
+public class Rule extends BeanModel implements IsSerializable
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 5445560155635714470L;
@@ -49,256 +52,279 @@ public class Rule extends BeanModel {
 
     /** The priority. */
     private long priority;
-    
+
     /** The user. */
     private GSUser user;
-    
+
     /** The profile. */
     private Profile profile;
-    
+
     /** The instance. */
     private GSInstance instance;
-    
+
     /** The service. */
     private String service;
-    
+
     /** The request. */
     private String request;
-    
+
     /** The workspace. */
     private String workspace;
-    
+
     /** The layer. */
     private String layer;
-    
+
     /** The grant. */
     private String grant;
-    
+
     /** The path. */
     private String path;
 
     /**
      * Instantiates a new rule.
      */
-    public Rule() {
+    public Rule()
+    {
         setPath("georepo/resources/images/rule.jpg");
     }
 
     /**
      * Gets the id.
-     * 
+     *
      * @return the id
      */
-    public long getId() {
+    public long getId()
+    {
         return id;
     }
 
     /**
      * Sets the id.
-     * 
+     *
      * @param id
      *            the new id
      */
-    public void setId(long id) {
+    public void setId(long id)
+    {
         this.id = id;
     }
 
     /**
      * Gets the priority.
-     * 
+     *
      * @return the priority
      */
-    public long getPriority() {
+    public long getPriority()
+    {
         return priority;
     }
 
     /**
      * Sets the priority.
-     * 
+     *
      * @param priority
      *            the new priority
      */
-    public void setPriority(long priority) {
+    public void setPriority(long priority)
+    {
         this.priority = priority;
         set(BeanKeyValue.PRIORITY.getValue(), this.priority);
     }
 
     /**
      * Gets the user.
-     * 
+     *
      * @return the user
      */
-    public GSUser getUser() {
+    public GSUser getUser()
+    {
         return user;
     }
 
     /**
      * Sets the user.
-     * 
+     *
      * @param user
      *            the new user
      */
-    public void setUser(GSUser user) {
+    public void setUser(GSUser user)
+    {
         this.user = user;
         set(BeanKeyValue.USER.getValue(), this.user);
     }
 
     /**
      * Gets the profile.
-     * 
+     *
      * @return the profile
      */
-    public Profile getProfile() {
+    public Profile getProfile()
+    {
         return profile;
     }
 
     /**
      * Sets the profile.
-     * 
+     *
      * @param profile
      *            the new profile
      */
-    public void setProfile(Profile profile) {
+    public void setProfile(Profile profile)
+    {
         this.profile = profile;
         set(BeanKeyValue.PROFILE.getValue(), this.profile);
     }
 
     /**
      * Sets the instance.
-     * 
+     *
      * @param instance
      *            the new instance
      */
-    public void setInstance(GSInstance instance) {
+    public void setInstance(GSInstance instance)
+    {
         this.instance = instance;
         set(BeanKeyValue.INSTANCE.getValue(), this.instance);
     }
 
     /**
      * Gets the single instance of Rule.
-     * 
+     *
      * @return single instance of Rule
      */
-    public GSInstance getInstance() {
+    public GSInstance getInstance()
+    {
         return instance;
     }
 
     /**
      * Gets the service.
-     * 
+     *
      * @return the service
      */
-    public String getService() {
+    public String getService()
+    {
         return service;
     }
 
     /**
      * Sets the service.
-     * 
+     *
      * @param service
      *            the new service
      */
-    public void setService(String service) {
+    public void setService(String service)
+    {
         this.service = service;
         set(BeanKeyValue.SERVICE.getValue(), this.service);
     }
 
     /**
      * Gets the request.
-     * 
+     *
      * @return the request
      */
-    public String getRequest() {
+    public String getRequest()
+    {
         return request;
     }
 
     /**
      * Sets the request.
-     * 
+     *
      * @param request
      *            the new request
      */
-    public void setRequest(String request) {
+    public void setRequest(String request)
+    {
         this.request = request;
         set(BeanKeyValue.REQUEST.getValue(), this.request);
     }
 
     /**
      * Gets the workspace.
-     * 
+     *
      * @return the workspace
      */
-    public String getWorkspace() {
+    public String getWorkspace()
+    {
         return workspace;
     }
 
     /**
      * Sets the workspace.
-     * 
+     *
      * @param workspace
      *            the new workspace
      */
-    public void setWorkspace(String workspace) {
+    public void setWorkspace(String workspace)
+    {
         this.workspace = workspace;
         set(BeanKeyValue.WORKSPACE.getValue(), this.workspace);
     }
 
     /**
      * Gets the layer.
-     * 
+     *
      * @return the layer
      */
-    public String getLayer() {
+    public String getLayer()
+    {
         return layer;
     }
 
     /**
      * Sets the layer.
-     * 
+     *
      * @param layer
      *            the new layer
      */
-    public void setLayer(String layer) {
+    public void setLayer(String layer)
+    {
         this.layer = layer;
         set(BeanKeyValue.LAYER.getValue(), this.layer);
     }
 
     /**
      * Gets the grant.
-     * 
+     *
      * @return the grant
      */
-    public String getGrant() {
+    public String getGrant()
+    {
         return grant;
     }
 
     /**
      * Sets the grant.
-     * 
+     *
      * @param grant
      *            the new grant
      */
-    public void setGrant(String grant) {
+    public void setGrant(String grant)
+    {
         this.grant = grant;
         set(BeanKeyValue.GRANT.getValue(), this.grant);
     }
 
     /**
      * Gets the path.
-     * 
+     *
      * @return the path
      */
-    public String getPath() {
+    public String getPath()
+    {
         return path;
     }
 
     /**
      * Sets the path.
-     * 
+     *
      * @param path
      *            the new path
      */
-    public void setPath(String path) {
+    public void setPath(String path)
+    {
         this.path = path;
         set(BeanKeyValue.PATH.getValue(), this.path);
     }
@@ -307,20 +333,22 @@ public class Rule extends BeanModel {
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((grant == null) ? 0 : grant.hashCode());
-        result = prime * result + (int) (id ^ (id >>> 32));
-        result = prime * result + ((instance == null) ? 0 : instance.hashCode());
-        result = prime * result + ((layer == null) ? 0 : layer.hashCode());
-        result = prime * result + ((path == null) ? 0 : path.hashCode());
-        result = prime * result + (int) (priority ^ (priority >>> 32));
-        result = prime * result + ((profile == null) ? 0 : profile.hashCode());
-        result = prime * result + ((request == null) ? 0 : request.hashCode());
-        result = prime * result + ((service == null) ? 0 : service.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        result = prime * result + ((workspace == null) ? 0 : workspace.hashCode());
+        result = (prime * result) + ((grant == null) ? 0 : grant.hashCode());
+        result = (prime * result) + (int) (id ^ (id >>> 32));
+        result = (prime * result) + ((instance == null) ? 0 : instance.hashCode());
+        result = (prime * result) + ((layer == null) ? 0 : layer.hashCode());
+        result = (prime * result) + ((path == null) ? 0 : path.hashCode());
+        result = (prime * result) + (int) (priority ^ (priority >>> 32));
+        result = (prime * result) + ((profile == null) ? 0 : profile.hashCode());
+        result = (prime * result) + ((request == null) ? 0 : request.hashCode());
+        result = (prime * result) + ((service == null) ? 0 : service.hashCode());
+        result = (prime * result) + ((user == null) ? 0 : user.hashCode());
+        result = (prime * result) + ((workspace == null) ? 0 : workspace.hashCode());
+
         return result;
     }
 
@@ -328,86 +356,130 @@ public class Rule extends BeanModel {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
             return true;
         }
-        if (obj == null) {
+        if (obj == null)
+        {
             return false;
         }
-        if (!(obj instanceof Rule)) {
+        if (!(obj instanceof Rule))
+        {
             return false;
         }
+
         Rule other = (Rule) obj;
-        if (grant == null) {
-            if (other.grant != null) {
+        if (grant == null)
+        {
+            if (other.grant != null)
+            {
                 return false;
             }
-        } else if (!grant.equals(other.grant)) {
+        }
+        else if (!grant.equals(other.grant))
+        {
             return false;
         }
-        if (id != other.id) {
+        if (id != other.id)
+        {
             return false;
         }
-        if (instance == null) {
-            if (other.instance != null) {
+        if (instance == null)
+        {
+            if (other.instance != null)
+            {
                 return false;
             }
-        } else if (!instance.equals(other.instance)) {
+        }
+        else if (!instance.equals(other.instance))
+        {
             return false;
         }
-        if (layer == null) {
-            if (other.layer != null) {
+        if (layer == null)
+        {
+            if (other.layer != null)
+            {
                 return false;
             }
-        } else if (!layer.equals(other.layer)) {
+        }
+        else if (!layer.equals(other.layer))
+        {
             return false;
         }
-        if (path == null) {
-            if (other.path != null) {
+        if (path == null)
+        {
+            if (other.path != null)
+            {
                 return false;
             }
-        } else if (!path.equals(other.path)) {
+        }
+        else if (!path.equals(other.path))
+        {
             return false;
         }
-        if (priority != other.priority) {
+        if (priority != other.priority)
+        {
             return false;
         }
-        if (profile == null) {
-            if (other.profile != null) {
+        if (profile == null)
+        {
+            if (other.profile != null)
+            {
                 return false;
             }
-        } else if (!profile.equals(other.profile)) {
+        }
+        else if (!profile.equals(other.profile))
+        {
             return false;
         }
-        if (request == null) {
-            if (other.request != null) {
+        if (request == null)
+        {
+            if (other.request != null)
+            {
                 return false;
             }
-        } else if (!request.equals(other.request)) {
+        }
+        else if (!request.equals(other.request))
+        {
             return false;
         }
-        if (service == null) {
-            if (other.service != null) {
+        if (service == null)
+        {
+            if (other.service != null)
+            {
                 return false;
             }
-        } else if (!service.equals(other.service)) {
+        }
+        else if (!service.equals(other.service))
+        {
             return false;
         }
-        if (user == null) {
-            if (other.user != null) {
+        if (user == null)
+        {
+            if (other.user != null)
+            {
                 return false;
             }
-        } else if (!user.equals(other.user)) {
+        }
+        else if (!user.equals(other.user))
+        {
             return false;
         }
-        if (workspace == null) {
-            if (other.workspace != null) {
+        if (workspace == null)
+        {
+            if (other.workspace != null)
+            {
                 return false;
             }
-        } else if (!workspace.equals(other.workspace)) {
+        }
+        else if (!workspace.equals(other.workspace))
+        {
             return false;
         }
+
         return true;
     }
 
@@ -415,30 +487,50 @@ public class Rule extends BeanModel {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder builder = new StringBuilder();
         builder.append("Rule [");
         if (grant != null)
+        {
             builder.append("grant=").append(grant).append(", ");
+        }
         builder.append("id=").append(id).append(", ");
         if (instance != null)
+        {
             builder.append("instance=").append(instance).append(", ");
+        }
         if (layer != null)
+        {
             builder.append("layer=").append(layer).append(", ");
+        }
         if (path != null)
+        {
             builder.append("path=").append(path).append(", ");
+        }
         builder.append("priority=").append(priority).append(", ");
         if (profile != null)
+        {
             builder.append("profile=").append(profile).append(", ");
+        }
         if (request != null)
+        {
             builder.append("request=").append(request).append(", ");
+        }
         if (service != null)
+        {
             builder.append("service=").append(service).append(", ");
+        }
         if (user != null)
+        {
             builder.append("user=").append(user).append(", ");
+        }
         if (workspace != null)
+        {
             builder.append("workspace=").append(workspace);
+        }
         builder.append("]");
+
         return builder.toString();
     }
 

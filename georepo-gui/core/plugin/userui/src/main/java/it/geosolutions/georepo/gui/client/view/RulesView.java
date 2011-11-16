@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,27 +32,30 @@
  */
 package it.geosolutions.georepo.gui.client.view;
 
+import java.util.Map;
+
+import com.extjs.gxt.ui.client.mvc.AppEvent;
+import com.extjs.gxt.ui.client.mvc.Controller;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.mvc.View;
+import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.model.data.LayerAttribUI;
 import it.geosolutions.georepo.gui.client.model.data.LayerCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.LayerDetailsInfo;
 import it.geosolutions.georepo.gui.client.model.data.LayerLimitsInfo;
 import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemote;
-import it.geosolutions.georepo.gui.client.service.WorkspacesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerRemoteServiceAsync;
 import it.geosolutions.georepo.gui.client.widget.EditRuleWidget;
 import it.geosolutions.georepo.gui.client.widget.GridStatus;
 import it.geosolutions.georepo.gui.client.widget.dialog.ProfileDetailsEditDialog;
@@ -72,49 +75,40 @@ import it.geosolutions.georepo.gui.client.widget.rule.detail.RuleLimitsTabItem;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.UserDetailsInfoWidget;
 import it.geosolutions.georepo.gui.client.widget.rule.detail.UserDetailsTabItem;
 
-import java.util.List;
-import java.util.Map;
-
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import com.extjs.gxt.ui.client.mvc.AppEvent;
-import com.extjs.gxt.ui.client.mvc.Controller;
-import com.extjs.gxt.ui.client.mvc.Dispatcher;
-import com.extjs.gxt.ui.client.mvc.View;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class RulesView.
  */
-public class RulesView extends View {
+public class RulesView extends View
+{
 
     /** The rules manager service remote. */
-    private RulesManagerServiceRemoteAsync rulesManagerServiceRemote = RulesManagerServiceRemote.Util
-            .getInstance();
+    private RulesManagerRemoteServiceAsync rulesManagerServiceRemote =
+        RulesManagerRemoteServiceAsync.Util.getInstance();
 
     /** The workspace manager service remote. */
-    private WorkspacesManagerServiceRemoteAsync workspacesManagerServiceRemote = WorkspacesManagerServiceRemote.Util
-            .getInstance();
+    private WorkspacesManagerRemoteServiceAsync workspacesManagerServiceRemote =
+        WorkspacesManagerRemoteServiceAsync.Util.getInstance();
 
     /** The rules manager service remote. */
-    private GsUsersManagerServiceRemoteAsync usersManagerServiceRemote = GsUsersManagerServiceRemote.Util
-            .getInstance();
+    private GsUsersManagerRemoteServiceAsync usersManagerServiceRemote =
+        GsUsersManagerRemoteServiceAsync.Util.getInstance();
 
     /** The rules manager service remote. */
-    private InstancesManagerServiceRemoteAsync instancesManagerServiceRemote = InstancesManagerServiceRemote.Util
-            .getInstance();
+    private InstancesManagerRemoteServiceAsync instancesManagerServiceRemote =
+        InstancesManagerRemoteServiceAsync.Util.getInstance();
 
     /** The rules manager service remote. */
-    private ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote = ProfilesManagerServiceRemote.Util
-            .getInstance();
+    private ProfilesManagerRemoteServiceAsync profilesManagerServiceRemote =
+        ProfilesManagerRemoteServiceAsync.Util.getInstance();
 
     /** The rule editor dialog. */
     private RuleDetailsEditDialog ruleEditorDialog;
-    
+
     /** The profile editor dialog. */
     private ProfileDetailsEditDialog profileEditorDialog;
-    
+
     /** The user editor dialog. */
     private UserDetailsEditDialog userDetailsEditDialog;
 
@@ -122,20 +116,21 @@ public class RulesView extends View {
 
     /**
      * Instantiates a new rules view.
-     * 
+     *
      * @param controller
      *            the controller
      */
-    public RulesView(Controller controller) {
+    public RulesView(Controller controller)
+    {
         super(controller);
 
         this.ruleEditorDialog = new RuleDetailsEditDialog(rulesManagerServiceRemote,
                 workspacesManagerServiceRemote);
         ruleEditorDialog.setClosable(false);
-        
+
         this.profileEditorDialog = new ProfileDetailsEditDialog(profilesManagerServiceRemote);
-        profileEditorDialog.setClosable(false);        
-        
+        profileEditorDialog.setClosable(false);
+
         this.userDetailsEditDialog = new UserDetailsEditDialog(usersManagerServiceRemote);
         userDetailsEditDialog.setClosable(false);
 
@@ -151,351 +146,463 @@ public class RulesView extends View {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client.mvc.AppEvent)
      */
     @Override
-    protected void handleEvent(AppEvent event) {
+    protected void handleEvent(AppEvent event)
+    {
         if (event.getType() == GeoRepoEvents.EDIT_RULE_DETAILS)
+        {
             onEditRuleDetails(event);
+        }
         if (event.getType() == GeoRepoEvents.EDIT_RULE)
+        {
             onEditRowRuleDetails(event);
+        }
         if (event.getType() == GeoRepoEvents.EDIT_RULE_UPDATE)
+        {
             onEditRowUpdateRuleDetails(event);
+        }
         if (event.getType() == GeoRepoEvents.RULE_CUSTOM_PROP_ADD)
+        {
             onRuleCustomPropAdd(event);
+        }
 
         if (event.getType() == GeoRepoEvents.RULE_CUSTOM_PROP_DEL)
+        {
             onRuleCustomPropRemove(event);
+        }
 
         if (event.getType() == GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_KEY)
+        {
             onRuleCustomPropUpdateKey(event);
+        }
 
         if (event.getType() == GeoRepoEvents.RULE_CUSTOM_PROP_UPDATE_VALUE)
+        {
             onRuleCustomPropUpdateValue(event);
+        }
 
         if (event.getType() == GeoRepoEvents.RULE_CUSTOM_PROP_APPLY_CHANGES)
+        {
             onRuleCustomPropSave(event);
+        }
 
         if (event.getType() == GeoRepoEvents.ATTRIBUTE_UPDATE_GRID_COMBO)
+        {
             onRuleLayerAttributesSave(event);
+        }
 
         if (event.getType() == GeoRepoEvents.SAVE_LAYER_DETAILS)
+        {
             onSaveLayerDetailsInfo(event);
+        }
 
         if (event.getType() == GeoRepoEvents.LOAD_LAYER_DETAILS)
+        {
             onLoadLayerDetailsInfo(event);
+        }
 
-        if (event.getType() == GeoRepoEvents.UPDATE_SOUTH_SIZE) {
+        if (event.getType() == GeoRepoEvents.UPDATE_SOUTH_SIZE)
+        {
             // logger
         }
-        
+
         if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_KEY)
+        {
             onRuleProfileCustomPropUpdateKey(event);
-        
+        }
+
         if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_UPDATE_VALUE)
+        {
             onRuleProfileCustomPropUpdateValue(event);
-        
+        }
+
         if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_DEL)
+        {
             onRuleProfileCustomPropRemove(event);
-        
+        }
+
         if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_ADD)
+        {
             onRuleProfileCustomPropAdd(event);
-        
+        }
+
         if (event.getType() == GeoRepoEvents.RULE_PROFILE_CUSTOM_PROP_APPLY_CHANGES)
+        {
             onRuleProfileCustomPropSave(event);
+        }
 
         if (event.getType() == GeoRepoEvents.EDIT_PROFILE_DETAILS)
+        {
             onEditProfileDetails(event);
-        
+        }
+
         if (event.getType() == GeoRepoEvents.SAVE_LAYER_LIMITS)
+        {
             onSaveLayerLimits(event);
-        
+        }
+
         if (event.getType() == GeoRepoEvents.LOAD_LAYER_LIMITS)
-            onLoadLayerLimits(event);   
-        
+        {
+            onLoadLayerLimits(event);
+        }
+
         if (event.getType() == GeoRepoEvents.EDIT_USER_DETAILS)
+        {
             onEditUserDetails(event);
-        
+        }
+
         if (event.getType() == GeoRepoEvents.LOAD_USER_LIMITS)
-            onLoadUserLimits(event);  
-        
+        {
+            onLoadUserLimits(event);
+        }
+
         if (event.getType() == GeoRepoEvents.SAVE_USER_LIMITS)
+        {
             onSaveUserLimits(event);
-        
+        }
+
     }
 
     /**
      * @param event
      */
-    private void onSaveUserLimits(AppEvent event) {
+    private void onSaveUserLimits(AppEvent event)
+    {
         UserLimitsInfo userInfo = event.getData();
-        
-        this.usersManagerServiceRemote.saveUserLimitsInfo(userInfo, 
-                new AsyncCallback<UserLimitsInfo>() {
 
-            public void onFailure(Throwable caught) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        "Error occurred while saving User Details!" });
-            }
+        this.usersManagerServiceRemote.saveUserLimitsInfo(userInfo,
+            new AsyncCallback<UserLimitsInfo>()
+            {
 
-            public void onSuccess(UserLimitsInfo result) {
-                UserDetailsTabItem userDetailsTabItem = (UserDetailsTabItem) userDetailsEditDialog
-                        .getTabWidget().getItemByItemId(UserDetailsEditDialog.USER_DETAILS_DIALOG_ID);
+                public void onFailure(Throwable caught)
+                {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                        new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while saving User Details!"
+                        });
+                }
 
-                UserDetailsInfoWidget userDetailsInfoWidget = userDetailsTabItem.getUserDetailsWidget()
-                        .getUserDetailsInfo();
-                userDetailsInfoWidget.bindModelData(result);
+                public void onSuccess(UserLimitsInfo result)
+                {
+                    UserDetailsTabItem userDetailsTabItem = (UserDetailsTabItem) userDetailsEditDialog.getTabWidget().getItemByItemId(UserDetailsEditDialog.USER_DETAILS_DIALOG_ID);
+
+                    UserDetailsInfoWidget userDetailsInfoWidget =
+                        userDetailsTabItem.getUserDetailsWidget().getUserDetailsInfo();
+                    userDetailsInfoWidget.bindModelData(result);
 
 
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        I18nProvider.getMessages().userServiceName(),
-                        I18nProvider.getMessages().userFetchSuccessMessage() });
-            }
-        });
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                        new String[]
+                        {
+                            I18nProvider.getMessages().userServiceName(),
+                            I18nProvider.getMessages().userFetchSuccessMessage()
+                        });
+                }
+            });
     }
 
     /**
      * @param event
      */
-    private void onLoadUserLimits(AppEvent event) {
+    private void onLoadUserLimits(AppEvent event)
+    {
         GSUser user = event.getData();
 
         this.usersManagerServiceRemote.getUserLimitsInfo(user,
-                new AsyncCallback<UserLimitsInfo>() {
+            new AsyncCallback<UserLimitsInfo>()
+            {
 
-                    public void onFailure(Throwable caught) {
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                                I18nProvider.getMessages().ruleServiceName(),
-                                "Error occurred while getting User Details!" });
+                public void onFailure(Throwable caught)
+                {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                        new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while getting User Details!"
+                        });
+                }
+
+                public void onSuccess(UserLimitsInfo result)
+                {
+                    if (result != null)
+                    {
+                        UserDetailsTabItem userDetailsTabItem = (UserDetailsTabItem) userDetailsEditDialog.getTabWidget().getItemByItemId(UserDetailsEditDialog.USER_DETAILS_DIALOG_ID);
+
+                        UserDetailsInfoWidget userDetailsWidget =
+                            userDetailsTabItem.getUserDetailsWidget().getUserDetailsInfo();
+
+                        userDetailsWidget.bindModelData(result);
+
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                            new String[]
+                            {
+                                I18nProvider.getMessages().userServiceName(),
+                                I18nProvider.getMessages().userFetchSuccessMessage()
+                            });
                     }
-
-                    public void onSuccess(UserLimitsInfo result) {
-                        if (result != null) {
-                            UserDetailsTabItem userDetailsTabItem = (UserDetailsTabItem) userDetailsEditDialog
-                                    .getTabWidget().getItemByItemId(UserDetailsEditDialog.USER_DETAILS_DIALOG_ID);
-
-                            UserDetailsInfoWidget userDetailsWidget = userDetailsTabItem
-                                    .getUserDetailsWidget().getUserDetailsInfo();
-
-                            userDetailsWidget.bindModelData(result);
-
-                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                    I18nProvider.getMessages().userServiceName(),
-                                    I18nProvider.getMessages().userFetchSuccessMessage() });
-                        }
-                    }
-                });
+                }
+            });
     }
 
     /**
      * @param event
      */
-    private void onEditUserDetails(AppEvent event) {
-        if (event.getData() != null && event.getData() instanceof GSUser) {
+    private void onEditUserDetails(AppEvent event)
+    {
+        if ((event.getData() != null) && (event.getData() instanceof GSUser))
+        {
             this.userDetailsEditDialog.reset();
             this.userDetailsEditDialog.setModel((GSUser) event.getData());
             this.userDetailsEditDialog.show();
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "User Details Editor", "Could not found any associated user!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "User Details Editor", "Could not found any associated user!" });
         }
     }
 
     /**
      * @param event
      */
-    private void onLoadLayerLimits(AppEvent event) {
+    private void onLoadLayerLimits(AppEvent event)
+    {
         Rule rule = event.getData();
 
         this.rulesManagerServiceRemote.getLayerLimitsInfo(rule,
-                new AsyncCallback<LayerLimitsInfo>() {
+            new AsyncCallback<LayerLimitsInfo>()
+            {
 
-                    public void onFailure(Throwable caught) {
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
+                public void onFailure(Throwable caught)
+                {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                        new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while getting Rule Layer Details!"
+                        });
+                }
+
+                public void onSuccess(LayerLimitsInfo result)
+                {
+                    if (result != null)
+                    {
+                        RuleLimitsTabItem ruleLimitsTabItem = (RuleLimitsTabItem) ruleEditorDialog.getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_LIMITS_DIALOG_ID);
+
+                        RuleLimitsInfoWidget ruleDetailsWidget =
+                            ruleLimitsTabItem.getRuleLimitsWidget().getRuleLimitsInfo();
+
+                        ruleDetailsWidget.bindModelData(result);
+
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                            new String[]
+                            {
                                 I18nProvider.getMessages().ruleServiceName(),
-                                "Error occurred while getting Rule Layer Details!" });
+                                I18nProvider.getMessages().ruleFetchSuccessMessage()
+                            });
                     }
-
-                    public void onSuccess(LayerLimitsInfo result) {
-                        if (result != null) {
-                            RuleLimitsTabItem ruleLimitsTabItem = (RuleLimitsTabItem) ruleEditorDialog
-                                    .getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_LIMITS_DIALOG_ID);
-
-                            RuleLimitsInfoWidget ruleDetailsWidget = ruleLimitsTabItem
-                                    .getRuleLimitsWidget().getRuleLimitsInfo();
-
-                            ruleDetailsWidget.bindModelData(result);
-
-                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                    I18nProvider.getMessages().ruleServiceName(),
-                                    I18nProvider.getMessages().ruleFetchSuccessMessage() });
-                        }
-                    }
-                });
+                }
+            });
     }
 
     /**
      * @param event
      */
-    private void onSaveLayerLimits(AppEvent event) {
+    private void onSaveLayerLimits(AppEvent event)
+    {
         LayerLimitsInfo layerLimitsInfo = event.getData();
-        
-        this.rulesManagerServiceRemote.saveLayerLimitsInfo(layerLimitsInfo, 
-                new AsyncCallback<LayerLimitsInfo>() {
 
-            public void onFailure(Throwable caught) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        "Error occurred while saving Rule Layer Limits!" });
-            }
+        this.rulesManagerServiceRemote.saveLayerLimitsInfo(layerLimitsInfo,
+            new AsyncCallback<LayerLimitsInfo>()
+            {
 
-            public void onSuccess(LayerLimitsInfo result) {
-                RuleLimitsTabItem ruleLimitsTabItem = (RuleLimitsTabItem) ruleEditorDialog
-                        .getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_LIMITS_DIALOG_ID);
+                public void onFailure(Throwable caught)
+                {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                        new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while saving Rule Layer Limits!"
+                        });
+                }
 
-                RuleLimitsInfoWidget ruleLimitsWidget = ruleLimitsTabItem.getRuleLimitsWidget()
-                        .getRuleLimitsInfo();
-                ruleLimitsWidget.bindModelData(result);
+                public void onSuccess(LayerLimitsInfo result)
+                {
+                    RuleLimitsTabItem ruleLimitsTabItem = (RuleLimitsTabItem) ruleEditorDialog.getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_LIMITS_DIALOG_ID);
+
+                    RuleLimitsInfoWidget ruleLimitsWidget = ruleLimitsTabItem.getRuleLimitsWidget().getRuleLimitsInfo();
+                    ruleLimitsWidget.bindModelData(result);
 
 
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        I18nProvider.getMessages().ruleFetchSuccessMessage() });
-            }
-        });
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                        new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            I18nProvider.getMessages().ruleFetchSuccessMessage()
+                        });
+                }
+            });
     }
 
     /**
      * @param event
      */
-    private void onEditProfileDetails(AppEvent event) {
-        if (event.getData() != null && event.getData() instanceof Profile) {
+    private void onEditProfileDetails(AppEvent event)
+    {
+        if ((event.getData() != null) && (event.getData() instanceof Profile))
+        {
             this.profileEditorDialog.reset();
             this.profileEditorDialog.setModel((Profile) event.getData());
             this.profileEditorDialog.show();
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Profiles Details Editor", "Could not found any associated profiles!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Profiles Details Editor", "Could not found any associated profiles!" });
         }
     }
 
     /**
      * @param event
      */
-    private void onRuleProfileCustomPropSave(AppEvent event) {
+    private void onRuleProfileCustomPropSave(AppEvent event)
+    {
 
         Long profileId = event.getData();
 
-        ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
-                .getTabWidget().getItemByItemId(ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+        ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog.getTabWidget().getItemByItemId(ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
 
-        final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
-                .getProfileDetailsWidget().getProfileDetailsInfo();
+        final ProfileDetailsGridWidget profileCustomPropsInfo =
+            profileDetailsTabItem.getProfileDetailsWidget().getProfileDetailsInfo();
 
-        profilesManagerServiceRemote.setProfileProps(profileId, profileCustomPropsInfo.getStore()
-                .getModels(), new AsyncCallback<PagingLoadResult<ProfileCustomProps>>() {
+        profilesManagerServiceRemote.setProfileProps(profileId, profileCustomPropsInfo.getStore().getModels(), new AsyncCallback<Void>()
+            {
 
-            public void onFailure(Throwable caught) {
+                public void onFailure(Throwable caught)
+                {
 
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        "Error occurred while saving Rule Custom Properties!" });
-            }
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while saving Rule Custom Properties!"
+                        });
+                }
 
-            public void onSuccess(PagingLoadResult<ProfileCustomProps> result) {
-                profileCustomPropsInfo.getStore().getLoader().load();
+                public void onSuccess(Void result)
+                {
+                    profileCustomPropsInfo.getStore().getLoader().load();
 
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        I18nProvider.getMessages().ruleFetchSuccessMessage() });
-            }
-        });
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            I18nProvider.getMessages().ruleFetchSuccessMessage()
+                        });
+                }
+            });
     }
 
     /**
      * @param event
      */
-    private void onRuleProfileCustomPropAdd(AppEvent event) {
+    private void onRuleProfileCustomPropAdd(AppEvent event)
+    {
 
-        if (event.getData() != null) {
+        if (event.getData() != null)
+        {
 
-            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
-                    .getTabWidget().getItemByItemId(
-                            ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog.getTabWidget().getItemByItemId(
+                    ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
 
-            final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
-                    .getProfileDetailsWidget().getProfileDetailsInfo();
+            final ProfileDetailsGridWidget profileCustomPropsInfo =
+                profileDetailsTabItem.getProfileDetailsWidget().getProfileDetailsInfo();
 
             ProfileCustomProps model = new ProfileCustomProps();
             model.setPropKey("_new");
             profileCustomPropsInfo.getStore().add(model);
 
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                    "GeoServer Rules: Layer Custom Properties", "Add Property" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                new String[] { "GeoServer Rules: Layer Custom Properties", "Add Property" });
 
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Details Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Details Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * @param event
      */
-    private void onRuleProfileCustomPropRemove(AppEvent event) {
-        if (event.getData() != null) {
+    private void onRuleProfileCustomPropRemove(AppEvent event)
+    {
+        if (event.getData() != null)
+        {
             Map<Long, ProfileCustomProps> updateDTO = event.getData();
 
-            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
-                    .getTabWidget().getItemByItemId(
-                            ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog.getTabWidget().getItemByItemId(
+                    ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
 
-            final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
-                    .getProfileDetailsWidget().getProfileDetailsInfo();
+            final ProfileDetailsGridWidget profileCustomPropsInfo =
+                profileDetailsTabItem.getProfileDetailsWidget().getProfileDetailsInfo();
 
-            for (Long ruleId : updateDTO.keySet()) {
+            for (Long ruleId : updateDTO.keySet())
+            {
                 ProfileCustomProps dto = updateDTO.get(ruleId);
 
-                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels()) {
+                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels())
+                {
                     if (prop.getPropKey().equals(dto.getPropKey()))
+                    {
                         profileCustomPropsInfo.getStore().remove(prop);
+                    }
                 }
             }
 
             profileCustomPropsInfo.getGrid().repaint();
 
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Details Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Details Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * @param event
      */
-    private void onRuleProfileCustomPropUpdateValue(AppEvent event) {
-        
-        if (event.getData() != null) {
-            
-            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
-                    .getTabWidget().getItemByItemId(
-                            ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+    private void onRuleProfileCustomPropUpdateValue(AppEvent event)
+    {
 
-            final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
-                    .getProfileDetailsWidget().getProfileDetailsInfo();
+        if (event.getData() != null)
+        {
+
+            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog.getTabWidget().getItemByItemId(
+                    ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+
+            final ProfileDetailsGridWidget profileCustomPropsInfo =
+                profileDetailsTabItem.getProfileDetailsWidget().getProfileDetailsInfo();
 
             Map<String, ProfileCustomProps> updateDTO = event.getData();
 
-            for (String key : updateDTO.keySet()) {
-                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels()) {
-                    if (prop.getPropKey().equals(key)) {
+            for (String key : updateDTO.keySet())
+            {
+                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels())
+                {
+                    if (prop.getPropKey().equals(key))
+                    {
                         profileCustomPropsInfo.getStore().remove(prop);
+
                         ProfileCustomProps newModel = updateDTO.get(key);
                         profileCustomPropsInfo.getStore().add(newModel);
                     }
@@ -503,33 +610,40 @@ public class RulesView extends View {
             }
 
             profileCustomPropsInfo.getGrid().repaint();
-            
-        } else {
+
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Profile Details Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Profile Details Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * @param event
      */
-    private void onRuleProfileCustomPropUpdateKey(AppEvent event) {
-        
-        if (event.getData() != null) {
-            
-            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog
-                    .getTabWidget().getItemByItemId(ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
-            
-            final ProfileDetailsGridWidget profileCustomPropsInfo = profileDetailsTabItem
-                    .getProfileDetailsWidget().getProfileDetailsInfo();
+    private void onRuleProfileCustomPropUpdateKey(AppEvent event)
+    {
+
+        if (event.getData() != null)
+        {
+
+            ProfileDetailsTabItem profileDetailsTabItem = (ProfileDetailsTabItem) this.profileEditorDialog.getTabWidget().getItemByItemId(ProfileDetailsEditDialog.PROFILE_DETAILS_DIALOG_ID);
+
+            final ProfileDetailsGridWidget profileCustomPropsInfo =
+                profileDetailsTabItem.getProfileDetailsWidget().getProfileDetailsInfo();
 
             Map<String, ProfileCustomProps> updateDTO = event.getData();
 
-            for (String key : updateDTO.keySet()) {
-                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels()) {
-                    if (prop.getPropKey().equals(key)) {
+            for (String key : updateDTO.keySet())
+            {
+                for (ProfileCustomProps prop : profileCustomPropsInfo.getStore().getModels())
+                {
+                    if (prop.getPropKey().equals(key))
+                    {
                         profileCustomPropsInfo.getStore().remove(prop);
+
                         ProfileCustomProps newModel = updateDTO.get(key);
                         profileCustomPropsInfo.getStore().add(newModel);
                     }
@@ -537,178 +651,218 @@ public class RulesView extends View {
             }
 
             profileCustomPropsInfo.getGrid().repaint();
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Profile Details Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Profile Details Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * @param event
      */
-    private void onLoadLayerDetailsInfo(AppEvent event) {
+    private void onLoadLayerDetailsInfo(AppEvent event)
+    {
         Rule rule = event.getData();
 
         this.rulesManagerServiceRemote.getLayerDetailsInfo(rule,
-                new AsyncCallback<LayerDetailsInfo>() {
+            new AsyncCallback<LayerDetailsInfo>()
+            {
 
-                    public void onFailure(Throwable caught) {
-                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                                I18nProvider.getMessages().ruleServiceName(),
-                                "Error occurred while getting Rule Layer Details!" });
-                    }
+                public void onFailure(Throwable caught)
+                {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                        new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while getting Rule Layer Details!"
+                        });
+                }
 
-                    public void onSuccess(LayerDetailsInfo result) {
-                        if (result != null) {
-                            RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog
-                                    .getTabWidget().getItemByItemId(
-                                            RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
+                public void onSuccess(LayerDetailsInfo result)
+                {
+                    if (result != null)
+                    {
+                        RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog.getTabWidget().getItemByItemId(
+                                RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
 
-                            RuleDetailsInfoWidget ruleDetailsWidget = ruleDetailsTabItem
-                                    .getRuleDetailsWidget().getRuleDetailsInfo();
+                        RuleDetailsInfoWidget ruleDetailsWidget =
+                            ruleDetailsTabItem.getRuleDetailsWidget().getRuleDetailsInfo();
 
-                            ruleDetailsWidget.bindModelData(result);
+                        ruleDetailsWidget.bindModelData(result);
 
-                            if (result.getType().equalsIgnoreCase("raster")) {
-                                ruleDetailsWidget.disableCQLFilterButtons();
-                            } else {
-                                ruleDetailsWidget.enableCQLFilterButtons();
-                            }
-
-                            Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                                    I18nProvider.getMessages().ruleServiceName(),
-                                    I18nProvider.getMessages().ruleFetchSuccessMessage() });
+                        if (result.getType().equalsIgnoreCase("raster"))
+                        {
+                            ruleDetailsWidget.disableCQLFilterButtons();
                         }
+                        else
+                        {
+                            ruleDetailsWidget.enableCQLFilterButtons();
+                        }
+
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE,
+                            new String[]
+                            {
+                                I18nProvider.getMessages().ruleServiceName(),
+                                I18nProvider.getMessages().ruleFetchSuccessMessage()
+                            });
                     }
-                });
+                }
+            });
 
     }
 
     /**
      * @param event
      */
-    private void onSaveLayerDetailsInfo(AppEvent event) {
+    private void onSaveLayerDetailsInfo(AppEvent event)
+    {
         LayerDetailsInfo layerDetailsInfo = event.getData();
 
-        RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog
-                .getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
+        RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog.getTabWidget().getItemByItemId(RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
 
-        final RuleDetailsGridWidget ruleDetailsGridWidget = ruleDetailsTabItem
-                .getRuleDetailsWidget().getRuleDetailsGrid();
+        final RuleDetailsGridWidget ruleDetailsGridWidget =
+            ruleDetailsTabItem.getRuleDetailsWidget().getRuleDetailsGrid();
 
-        this.rulesManagerServiceRemote.saveLayerDetailsInfo(layerDetailsInfo, ruleDetailsGridWidget
-                .getStore().getModels(), new AsyncCallback<LayerDetailsInfo>() {
+        this.rulesManagerServiceRemote.saveLayerDetailsInfo(layerDetailsInfo, ruleDetailsGridWidget.getStore().getModels(), new AsyncCallback<LayerDetailsInfo>()
+            {
 
-            public void onFailure(Throwable caught) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        "Error occurred while saving Rule Layer Details!" });
-            }
+                public void onFailure(Throwable caught)
+                {
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while saving Rule Layer Details!"
+                        });
+                }
 
-            public void onSuccess(LayerDetailsInfo result) {
-                RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog
-                        .getTabWidget().getItemByItemId(
-                                RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
+                public void onSuccess(LayerDetailsInfo result)
+                {
+                    RuleDetailsTabItem ruleDetailsTabItem = (RuleDetailsTabItem) ruleEditorDialog.getTabWidget().getItemByItemId(
+                            RuleDetailsEditDialog.RULE_DETAILS_DIALOG_ID);
 
-                RuleDetailsInfoWidget ruleDetailsWidget = ruleDetailsTabItem.getRuleDetailsWidget()
-                        .getRuleDetailsInfo();
-                ruleDetailsWidget.bindModelData(result);
+                    RuleDetailsInfoWidget ruleDetailsWidget = ruleDetailsTabItem.getRuleDetailsWidget().getRuleDetailsInfo();
+                    ruleDetailsWidget.bindModelData(result);
 
-                ruleDetailsGridWidget.clearGridElements();
-                ruleDetailsGridWidget.getStore().getLoader().load();
+                    ruleDetailsGridWidget.clearGridElements();
+                    ruleDetailsGridWidget.getStore().getLoader().load();
 
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        I18nProvider.getMessages().ruleFetchSuccessMessage() });
-            }
-        });
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            I18nProvider.getMessages().ruleFetchSuccessMessage()
+                        });
+                }
+            });
     }
 
     /**
      * On edit rule details.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onEditRuleDetails(AppEvent event) {
-        if (event.getData() != null && event.getData() instanceof Rule) {
+    private void onEditRuleDetails(AppEvent event)
+    {
+        if ((event.getData() != null) && (event.getData() instanceof Rule))
+        {
             this.ruleEditorDialog.reset();
             this.ruleEditorDialog.setModel((Rule) event.getData());
             this.ruleEditorDialog.show();
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * On edit rule details.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onEditRowRuleDetails(AppEvent event) {
-        if (event.getData() != null && event.getData() instanceof Rule) {
+    private void onEditRowRuleDetails(AppEvent event)
+    {
+        if ((event.getData() != null) && (event.getData() instanceof Rule))
+        {
             this.ruleRowEditor.reset();
             this.ruleRowEditor.status = "INSERT";
             showPanel(event);
-        } else if (event.getData() != null && event.getData() instanceof GridStatus) {
+        }
+        else if ((event.getData() != null) && (event.getData() instanceof GridStatus))
+        {
             this.ruleRowEditor.reset();
             this.ruleRowEditor.status = "INSERT";
             this.ruleRowEditor.parentGrid = ((GridStatus) event.getData()).getGrid();
             this.ruleRowEditor.model = ((GridStatus) event.getData()).getModel();
             showPanelData(event);
 
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * On edit rule update details.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onEditRowUpdateRuleDetails(AppEvent event) {
-        if (event.getData() != null && event.getData() instanceof Rule) {
+    private void onEditRowUpdateRuleDetails(AppEvent event)
+    {
+        if ((event.getData() != null) && (event.getData() instanceof Rule))
+        {
             this.ruleRowEditor.reset();
             this.ruleRowEditor.status = "UPDATE";
             showPanel(event);
 
-        } else if (event.getData() != null && event.getData() instanceof GridStatus) {
+        }
+        else if ((event.getData() != null) && (event.getData() instanceof GridStatus))
+        {
             this.ruleRowEditor.reset();
             this.ruleRowEditor.parentGrid = ((GridStatus) event.getData()).getGrid();
             this.ruleRowEditor.model = ((GridStatus) event.getData()).getModel();
             this.ruleRowEditor.status = "UPDATE";
             showPanelData(event);
 
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Editor", "Could not found any associated rule!" });
         }
     }
 
     /*
-     * 
+     *
      */
-    private void showPanel(AppEvent event) {
+    private void showPanel(AppEvent event)
+    {
         if (this.ruleRowEditor.store != null)
+        {
             this.ruleRowEditor.store.removeAll();
+        }
         this.ruleRowEditor.createStore();
         this.ruleRowEditor.store.add((Rule) event.getData());
         this.ruleRowEditor.initGrid();
 
-        if (!this.ruleRowEditor.formPanel.isRendered()) {
+        if (!this.ruleRowEditor.formPanel.isRendered())
+        {
             this.ruleRowEditor.formPanel.setFrame(true);
             this.ruleRowEditor.formPanel.setLayout(new FlowLayout());
         }
-        if (!this.ruleRowEditor.isRendered()) {
+        if (!this.ruleRowEditor.isRendered())
+        {
             this.ruleRowEditor.initializeFormPanel();
             this.ruleRowEditor.setFrame(true);
             this.ruleRowEditor.setLayout(new FlowLayout());
@@ -717,7 +871,7 @@ public class RulesView extends View {
 
         this.ruleRowEditor.setModel((Rule) event.getData());
         this.ruleRowEditor.addComponentToForm();
-        
+
         this.ruleRowEditor.setClosable(false);
         this.ruleRowEditor.show();
         this.ruleRowEditor.formPanel.show();
@@ -726,15 +880,20 @@ public class RulesView extends View {
     }
 
     /*
-     * 
+     *
      */
-    private void showPanelData(AppEvent event) {
-        if (this.ruleRowEditor.store != null) {
+    private void showPanelData(AppEvent event)
+    {
+        if (this.ruleRowEditor.store != null)
+        {
             this.ruleRowEditor.store.removeAll();
-        } else {
+        }
+        else
+        {
             this.ruleRowEditor.createStore();
         }
-        if (!this.ruleRowEditor.isRendered()) {
+        if (!this.ruleRowEditor.isRendered())
+        {
             this.ruleRowEditor.initGrid();
 
             this.ruleRowEditor.setFrame(true);
@@ -756,83 +915,98 @@ public class RulesView extends View {
 
     /**
      * On rule custom prop add.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onRuleCustomPropAdd(AppEvent event) {
-        if (event.getData() != null) {
-            LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog
-                    .getTabWidget().getItemByItemId(
-                            RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
-            final LayerCustomPropsGridWidget layerCustomPropsInfo = layersCustomPropsItem
-                    .getLayerCustomPropsWidget().getLayerCustomPropsInfo();
+    private void onRuleCustomPropAdd(AppEvent event)
+    {
+        if (event.getData() != null)
+        {
+            LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog.getTabWidget().getItemByItemId(
+                    RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
+            final LayerCustomPropsGridWidget layerCustomPropsInfo =
+                layersCustomPropsItem.getLayerCustomPropsWidget().getLayerCustomPropsInfo();
             LayerCustomProps model = new LayerCustomProps();
             model.setPropKey("_new");
             layerCustomPropsInfo.getStore().add(model);
 
             layerCustomPropsInfo.getGrid().repaint();
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Details Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Details Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * On rule custom prop remove.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onRuleCustomPropRemove(AppEvent event) {
-        if (event.getData() != null) {
+    private void onRuleCustomPropRemove(AppEvent event)
+    {
+        if (event.getData() != null)
+        {
             Map<Long, LayerCustomProps> updateDTO = event.getData();
 
-            LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog
-                    .getTabWidget().getItemByItemId(
-                            RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
-            final LayerCustomPropsGridWidget layerCustomPropsInfo = layersCustomPropsItem
-                    .getLayerCustomPropsWidget().getLayerCustomPropsInfo();
+            LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog.getTabWidget().getItemByItemId(
+                    RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
+            final LayerCustomPropsGridWidget layerCustomPropsInfo =
+                layersCustomPropsItem.getLayerCustomPropsWidget().getLayerCustomPropsInfo();
 
-            for (Long ruleId : updateDTO.keySet()) {
+            for (Long ruleId : updateDTO.keySet())
+            {
                 LayerCustomProps dto = updateDTO.get(ruleId);
 
-                for (LayerCustomProps prop : layerCustomPropsInfo.getStore().getModels()) {
+                for (LayerCustomProps prop : layerCustomPropsInfo.getStore().getModels())
+                {
                     if (prop.getPropKey().equals(dto.getPropKey()))
+                    {
                         layerCustomPropsInfo.getStore().remove(prop);
+                    }
                 }
             }
 
             layerCustomPropsInfo.getGrid().repaint();
 
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Details Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Details Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * On rule custom prop update key.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onRuleCustomPropUpdateKey(AppEvent event) {
-        if (event.getData() != null) {
-            LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog
-                    .getTabWidget().getItemByItemId(
-                            RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
-            final LayerCustomPropsGridWidget layerCustomPropsInfo = layersCustomPropsItem
-                    .getLayerCustomPropsWidget().getLayerCustomPropsInfo();
+    private void onRuleCustomPropUpdateKey(AppEvent event)
+    {
+        if (event.getData() != null)
+        {
+            LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog.getTabWidget().getItemByItemId(
+                    RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
+            final LayerCustomPropsGridWidget layerCustomPropsInfo =
+                layersCustomPropsItem.getLayerCustomPropsWidget().getLayerCustomPropsInfo();
 
             Map<String, LayerCustomProps> updateDTO = event.getData();
 
-            for (String key : updateDTO.keySet()) {
-                for (LayerCustomProps prop : layerCustomPropsInfo.getStore().getModels()) {
-                    if (prop.getPropKey().equals(key)) {
+            for (String key : updateDTO.keySet())
+            {
+                for (LayerCustomProps prop : layerCustomPropsInfo.getStore().getModels())
+                {
+                    if (prop.getPropKey().equals(key))
+                    {
                         layerCustomPropsInfo.getStore().remove(prop);
+
                         LayerCustomProps newModel = updateDTO.get(key);
                         layerCustomPropsInfo.getStore().add(newModel);
                     }
@@ -840,33 +1014,40 @@ public class RulesView extends View {
             }
 
             layerCustomPropsInfo.getGrid().repaint();
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Details Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Details Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
      * On rule custom prop update value.
-     * 
+     *
      * @param event
      *            the event
      */
-    private void onRuleCustomPropUpdateValue(AppEvent event) {
-        if (event.getData() != null) {
-            LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog
-                    .getTabWidget().getItemByItemId(
-                            RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
-            final LayerCustomPropsGridWidget layerCustomPropsInfo = layersCustomPropsItem
-                    .getLayerCustomPropsWidget().getLayerCustomPropsInfo();
+    private void onRuleCustomPropUpdateValue(AppEvent event)
+    {
+        if (event.getData() != null)
+        {
+            LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog.getTabWidget().getItemByItemId(
+                    RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
+            final LayerCustomPropsGridWidget layerCustomPropsInfo =
+                layersCustomPropsItem.getLayerCustomPropsWidget().getLayerCustomPropsInfo();
 
             Map<String, LayerCustomProps> updateDTO = event.getData();
 
-            for (String key : updateDTO.keySet()) {
-                for (LayerCustomProps prop : layerCustomPropsInfo.getStore().getModels()) {
-                    if (prop.getPropKey().equals(key)) {
+            for (String key : updateDTO.keySet())
+            {
+                for (LayerCustomProps prop : layerCustomPropsInfo.getStore().getModels())
+                {
+                    if (prop.getPropKey().equals(key))
+                    {
                         layerCustomPropsInfo.getStore().remove(prop);
+
                         LayerCustomProps newModel = updateDTO.get(key);
                         layerCustomPropsInfo.getStore().add(newModel);
                     }
@@ -874,81 +1055,95 @@ public class RulesView extends View {
             }
 
             layerCustomPropsInfo.getGrid().repaint();
-        } else {
+        }
+        else
+        {
             // TODO: i18n!!
-            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                    "Rules Details Editor", "Could not found any associated rule!" });
+            Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE,
+                new String[] { "Rules Details Editor", "Could not found any associated rule!" });
         }
     }
 
     /**
-     * 
+     *
      * @param event
      */
-    private void onRuleCustomPropSave(AppEvent event) {
+    private void onRuleCustomPropSave(AppEvent event)
+    {
         Long ruleId = event.getData();
 
-        LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog
-                .getTabWidget().getItemByItemId(
-                        RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
-        final LayerCustomPropsGridWidget layerCustomPropsInfo = layersCustomPropsItem
-                .getLayerCustomPropsWidget().getLayerCustomPropsInfo();
+        LayerCustomPropsTabItem layersCustomPropsItem = (LayerCustomPropsTabItem) this.ruleEditorDialog.getTabWidget().getItemByItemId(
+                RuleDetailsEditDialog.RULE_LAYER_CUSTOM_PROPS_DIALOG_ID);
+        final LayerCustomPropsGridWidget layerCustomPropsInfo =
+            layersCustomPropsItem.getLayerCustomPropsWidget().getLayerCustomPropsInfo();
 
-        rulesManagerServiceRemote.setDetailsProps(ruleId, layerCustomPropsInfo.getStore()
-                .getModels(), new AsyncCallback<PagingLoadResult<LayerCustomProps>>() {
+        rulesManagerServiceRemote.setDetailsProps(ruleId, layerCustomPropsInfo.getStore().getModels(), new AsyncCallback<Void>()
+            {
 
-            public void onFailure(Throwable caught) {
+                public void onFailure(Throwable caught)
+                {
 
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        "Error occurred while saving Rule Custom Properties!" });
-            }
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while saving Rule Custom Properties!"
+                        });
+                }
 
-            public void onSuccess(PagingLoadResult<LayerCustomProps> result) {
+                public void onSuccess(Void result)
+                {
 
-                layerCustomPropsInfo.getStore().getLoader().load();
+                    layerCustomPropsInfo.getStore().getLoader().load();
 
-                Dispatcher.forwardEvent(GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        I18nProvider.getMessages().ruleFetchSuccessMessage() });
-            }
-        });
+                    Dispatcher.forwardEvent(GeoRepoEvents.BIND_MEMBER_DISTRIBUTION_NODES, result);
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            I18nProvider.getMessages().ruleFetchSuccessMessage()
+                        });
+                }
+            });
     }
 
     /**
-     * 
+     *
      * @param event
      */
-    private void onRuleLayerAttributesSave(AppEvent event) {
+    private void onRuleLayerAttributesSave(AppEvent event)
+    {
         Long ruleId = event.getData();
 
-        LayerAttributesTabItem layerAttributesTabItem = (LayerAttributesTabItem) this.ruleEditorDialog
-                .getTabWidget().getItemByItemId(
-                        RuleDetailsEditDialog.RULE_LAYER_ATTRIBUTES_DIALOG_ID);
+        LayerAttributesTabItem layerAttributesTabItem = (LayerAttributesTabItem) this.ruleEditorDialog.getTabWidget().getItemByItemId(
+                RuleDetailsEditDialog.RULE_LAYER_ATTRIBUTES_DIALOG_ID);
 
-        final LayerAttributesGridWidget layerAttributesInfo = layerAttributesTabItem
-                .getLayerAttributesWidget().getLayerAttributesInfo();
+        final LayerAttributesGridWidget layerAttributesInfo =
+            layerAttributesTabItem.getLayerAttributesWidget().getLayerAttributesInfo();
 
-        rulesManagerServiceRemote.setLayerAttributes(ruleId, layerAttributesInfo.getStore()
-                .getModels(), new AsyncCallback<List<LayerAttribUI>>() {
+        rulesManagerServiceRemote.setLayerAttributes(ruleId, layerAttributesInfo.getStore().getModels(), new AsyncCallback<Void>()
+            {
 
-            public void onFailure(Throwable caught) {
+                public void onFailure(Throwable caught)
+                {
 
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        "Error occurred while saving Rule Layer Attributes!" });
-            }
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_ERROR_MESSAGE, new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            "Error occurred while saving Rule Layer Attributes!"
+                        });
+                }
 
-            public void onSuccess(List<LayerAttribUI> result) {
+                public void onSuccess(Void result)
+                {
 
-                layerAttributesInfo.clearGridElements();
-                layerAttributesInfo.getStore().getLoader().load();
+                    layerAttributesInfo.clearGridElements();
+                    layerAttributesInfo.getStore().getLoader().load();
 
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        I18nProvider.getMessages().ruleServiceName(),
-                        I18nProvider.getMessages().ruleFetchSuccessMessage() });
-            }
-        });
+                    Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                        {
+                            I18nProvider.getMessages().ruleServiceName(),
+                            I18nProvider.getMessages().ruleFetchSuccessMessage()
+                        });
+                }
+            });
     }
 }

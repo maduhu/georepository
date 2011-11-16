@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,21 +32,23 @@
  */
 package it.geosolutions.georepo.gui.client.widget.tab;
 
+import com.extjs.gxt.ui.client.Style.Scroll;
+import com.extjs.gxt.ui.client.widget.TabItem;
+
 import it.geosolutions.georepo.gui.client.Constants;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemoteAsync;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemoteAsync;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
 import it.geosolutions.georepo.gui.client.widget.UserManagementWidget;
 
-import com.extjs.gxt.ui.client.Style.Scroll;
-import com.extjs.gxt.ui.client.widget.TabItem;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class GsUsersTabItem.
  */
-public class GsUsersTabItem extends TabItem {
+public class GsUsersTabItem extends TabItem
+{
 
     /** The profile management widget. */
     private UserManagementWidget userManagementWidget;
@@ -54,7 +56,8 @@ public class GsUsersTabItem extends TabItem {
     /**
      * Instantiates a new gs users tab item.
      */
-    public GsUsersTabItem(String tabItemId) {
+    public GsUsersTabItem(String tabItemId)
+    {
         super(I18nProvider.getMessages().userManagementLabel());
         setId(tabItemId);
         setIcon(Resources.ICONS.user());
@@ -62,19 +65,20 @@ public class GsUsersTabItem extends TabItem {
 
     /**
      * Instantiates a new gs users tab item.
-     * @param usersTabItemId 
-     * 
+     * @param usersTabItemId
+     *
      * @param gsManagerServiceRemote
      *            the gs manager service remote
      * @param profilesManagerServiceRemote
      */
-    public GsUsersTabItem(String tabItemId, GsUsersManagerServiceRemoteAsync gsManagerServiceRemote,
-            ProfilesManagerServiceRemoteAsync profilesManagerServiceRemote) {
+    public GsUsersTabItem(String tabItemId, GsUsersManagerRemoteServiceAsync gsManagerServiceRemote,
+        ProfilesManagerRemoteServiceAsync profilesManagerServiceRemote)
+    {
         this(tabItemId);
         setScrollMode(Scroll.NONE);
         setAutoWidth(true);
         setHeight(Constants.SOUTH_PANEL_DIMENSION - 25);
-        
+
         setUserManagementWidget(new UserManagementWidget(gsManagerServiceRemote,
                 profilesManagerServiceRemote));
         add(getUserManagementWidget());
@@ -84,20 +88,22 @@ public class GsUsersTabItem extends TabItem {
 
     /**
      * Sets the feature management widget.
-     * 
+     *
      * @param userManagementWidget
      *            the new feature management widget
      */
-    public void setUserManagementWidget(UserManagementWidget userManagementWidget) {
+    public void setUserManagementWidget(UserManagementWidget userManagementWidget)
+    {
         this.userManagementWidget = userManagementWidget;
     }
 
     /**
      * Gets the feature management widget.
-     * 
+     *
      * @return the feature management widget
      */
-    public UserManagementWidget getUserManagementWidget() {
+    public UserManagementWidget getUserManagementWidget()
+    {
         return userManagementWidget;
     }
 

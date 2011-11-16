@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,36 +32,39 @@
  */
 package it.geosolutions.georepo.gui.client.widget.rule.detail;
 
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.service.RulesManagerServiceRemoteAsync;
-
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class LayerCustomPropsWidget.
  */
-public class LayerCustomPropsWidget extends ContentPanel {
-    
+public class LayerCustomPropsWidget extends ContentPanel
+{
+
     /** The layer custom props info. */
     private LayerCustomPropsGridWidget layerCustomPropsInfo;
-    
+
     /** The model. */
     private Rule model;
 
     /**
      * Instantiates a new layer custom props widget.
-     * 
+     *
      * @param model
      *            the model
      * @param rulesService
      *            the rules service
      */
-    public LayerCustomPropsWidget(Rule model, RulesManagerServiceRemoteAsync rulesService) {
+    public LayerCustomPropsWidget(Rule model, RulesManagerRemoteServiceAsync rulesService)
+    {
         this.model = model;
-        
+
         setHeaderVisible(false);
         setFrame(true);
         setHeight(330);
@@ -80,32 +83,35 @@ public class LayerCustomPropsWidget extends ContentPanel {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.widget.Component#onWindowResize(int, int)
      */
     @Override
-    protected void onWindowResize(int width, int height) {
+    protected void onWindowResize(int width, int height)
+    {
         super.setWidth(width - 5);
         super.layout();
     }
-    
+
     /**
      * Sets the layer custom props info.
-     * 
+     *
      * @param layerCustomPropsInfo
      *            the new layer custom props info
      */
-    public void setLayerCustomPropsInfo(LayerCustomPropsGridWidget layerCustomPropsInfo) {
+    public void setLayerCustomPropsInfo(LayerCustomPropsGridWidget layerCustomPropsInfo)
+    {
         this.layerCustomPropsInfo = layerCustomPropsInfo;
     }
 
     /**
      * Gets the layer custom props info.
-     * 
+     *
      * @return the layer custom props info
      */
-    public LayerCustomPropsGridWidget getLayerCustomPropsInfo() {
+    public LayerCustomPropsGridWidget getLayerCustomPropsInfo()
+    {
         return layerCustomPropsInfo;
     }
-    
+
 }

@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,72 +32,78 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import com.extjs.gxt.ui.client.widget.grid.Grid;
+
 import it.geosolutions.georepo.gui.client.model.Rule;
 
-
-import com.extjs.gxt.ui.client.widget.grid.Grid;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class GridStatus.
  */
-public class GridStatus {
+public class GridStatus
+{
 
 
     /** The model. */
     private Rule model;
-    
+
     /** The grid. */
     private Grid<Rule> grid;
 
     /**
      * Instantiates a new grid status.
-     * 
+     *
      * @param grid
      *            the grid
      * @param rule
      *            the rule
      */
-    public GridStatus(Grid<Rule> grid, Rule rule) {
+    public GridStatus(Grid<Rule> grid, Rule rule)
+    {
         this.grid = grid;
         this.model = rule;
     }
 
     /**
      * Gets the model.
-     * 
+     *
      * @return the model
      */
-    public Rule getModel() {
+    public Rule getModel()
+    {
         return model;
     }
 
     /**
      * Sets the model.
-     * 
+     *
      * @param model
      *            the new model
      */
-    public void setModel(Rule model) {
+    public void setModel(Rule model)
+    {
         this.model = model;
     }
 
     /**
      * Gets the grid.
-     * 
+     *
      * @return the grid
      */
-    public Grid<Rule> getGrid() {
+    public Grid<Rule> getGrid()
+    {
         return grid;
     }
 
     /**
      * Sets the grid.
-     * 
+     *
      * @param grid
      *            the new grid
      */
-    public void setGrid(Grid<Rule> grid) {
+    public void setGrid(Grid<Rule> grid)
+    {
         this.grid = grid;
     }
 }

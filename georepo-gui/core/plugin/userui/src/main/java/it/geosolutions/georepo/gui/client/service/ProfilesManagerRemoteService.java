@@ -1,5 +1,5 @@
 /*
- * $ Header: it.geosolutions.georepo.gui.client.service.ProfilesManagerServiceRemote,v. 0.1 10-feb-2011 17.05.14 created by afabiani <alessio.fabiani at geo-solutions.it> $
+ * $ Header: it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteService,v. 0.1 10-feb-2011 17.05.14 created by afabiani <alessio.fabiani at geo-solutions.it> $
  * $ Revision: 0.1 $
  * $ Date: 10-feb-2011 17.05.14 $
  *
@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,53 +32,27 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
+import java.util.List;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 
-import java.util.List;
 
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
-
-// TODO: Auto-generated Javadoc
 /**
- * The Interface ProfilesManagerServiceRemote.
+ * The Interface ProfilesManagerRemoteService.
  */
-public interface ProfilesManagerServiceRemote extends RemoteService {
-
-    /**
-     * The Class Util.
-     */
-    public static class Util {
-
-        /** The instance. */
-        private static ProfilesManagerServiceRemoteAsync instance;
-
-        /**
-         * Gets the instance.
-         * 
-         * @return the instance
-         */
-        public static ProfilesManagerServiceRemoteAsync getInstance() {
-            if (instance == null) {
-                instance = (ProfilesManagerServiceRemoteAsync) GWT
-                        .create(ProfilesManagerServiceRemote.class);
-                ServiceDefTarget target = (ServiceDefTarget) instance;
-                target
-                        .setServiceEntryPoint(GWT.getModuleBaseURL()
-                                + "ProfilesManagerServiceRemote");
-            }
-            return instance;
-        }
-    }
+@RemoteServiceRelativePath("ProfilesManagerRemoteService")
+public interface ProfilesManagerRemoteService extends RemoteService
+{
 
     /**
      * Gets the profiles.
-     * 
+     *
      * @param config
      *            the config
      * @param full
@@ -87,12 +61,11 @@ public interface ProfilesManagerServiceRemote extends RemoteService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full)
-            throws ApplicationException;
+    public PagingLoadResult<Profile> getProfiles(int offset, int limit, boolean full) throws ApplicationException;
 
     /**
      * Save profile.
-     * 
+     *
      * @param profile
      *            the profile
      * @throws ApplicationException
@@ -102,21 +75,22 @@ public interface ProfilesManagerServiceRemote extends RemoteService {
 
     /**
      * Delete profile.
-     * 
+     *
      * @param profile
      *            the profile
      * @throws ApplicationException
      *             the application exception
      */
     public void deleteProfile(Profile profile) throws ApplicationException;
-    
+
     /**
      * @param ruleId
      * @param customProps
      * @throws ApplicationException
      */
-    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(PagingLoadConfig config, Profile profile) throws ApplicationException;
-    
+    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(int offset, int limit, Profile profile)
+        throws ApplicationException;
+
     /**
      * @param ruleId
      * @param customProps

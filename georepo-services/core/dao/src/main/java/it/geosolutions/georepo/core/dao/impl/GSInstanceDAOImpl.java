@@ -19,55 +19,61 @@
  */
 package it.geosolutions.georepo.core.dao.impl;
 
+import java.util.List;
+
+import com.trg.search.ISearch;
+
 import it.geosolutions.georepo.core.dao.GSInstanceDAO;
 import it.geosolutions.georepo.core.model.GSInstance;
-
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.trg.search.ISearch;
 
 /**
  * Public implementation of the GSInstanceDAO interface
- * 
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-@Transactional
-public class GSInstanceDAOImpl extends BaseDAO<GSInstance, Long>
-// extends GenericDAOImpl<GSInstance, Long>
-        implements GSInstanceDAO {
+@Transactional(value = "georepoTransactionManager")
+public class GSInstanceDAOImpl extends BaseDAO<GSInstance, Long> implements GSInstanceDAO
+{
 
-    final private static Logger LOGGER = Logger.getLogger(GSInstanceDAOImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(GSInstanceDAOImpl.class);
 
     @Override
-    public void persist(GSInstance... entities) {
+    public void persist(GSInstance... entities)
+    {
         super.persist(entities);
     }
 
     @Override
-    public List<GSInstance> findAll() {
+    public List<GSInstance> findAll()
+    {
         return super.findAll();
     }
 
     @Override
-    public List<GSInstance> search(ISearch search) {
+    public List<GSInstance> search(ISearch search)
+    {
         return super.search(search);
     }
 
     @Override
-    public GSInstance merge(GSInstance entity) {
+    public GSInstance merge(GSInstance entity)
+    {
         return super.merge(entity);
     }
 
     @Override
-    public boolean remove(GSInstance entity) {
+    public boolean remove(GSInstance entity)
+    {
         return super.remove(entity);
     }
 
     @Override
-    public boolean removeById(Long id) {
+    public boolean removeById(Long id)
+    {
         return super.removeById(id);
     }
 

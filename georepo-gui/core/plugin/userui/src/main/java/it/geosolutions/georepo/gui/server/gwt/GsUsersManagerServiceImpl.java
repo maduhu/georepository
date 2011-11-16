@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,26 +32,25 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteService;
 import it.geosolutions.georepo.gui.server.service.IGsUsersManagerService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GsUsersManagerServiceImpl.
  */
-public class GsUsersManagerServiceImpl extends RemoteServiceServlet implements
-        GsUsersManagerServiceRemote {
+public class GsUsersManagerServiceImpl extends RemoteServiceServlet implements GsUsersManagerRemoteService
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -6961825619542958052L;
@@ -65,43 +64,49 @@ public class GsUsersManagerServiceImpl extends RemoteServiceServlet implements
     /**
      * Instantiates a new gs users manager service impl.
      */
-    public GsUsersManagerServiceImpl() {
+    public GsUsersManagerServiceImpl()
+    {
         this.gsUserManagerService = (IGsUsersManagerService) ApplicationContextUtil.getInstance().getBean(
                 "gsUsersManagerServiceGWT");
     }
 
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#getGsUsers(com.extjs.gxt.ui.client.data.PagingLoadConfig)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteService#getGsUsers(com.extjs.gxt.ui.client.data.PagingLoadConfig)
      */
-    public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full) throws ApplicationException {
-        return gsUserManagerService.getGsUsers(config, full);
+    public PagingLoadResult<GSUser> getGsUsers(int offset, int limit, boolean full) throws ApplicationException
+    {
+        return gsUserManagerService.getGsUsers(offset, limit, full);
     }
 
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#saveGsUser(it.geosolutions.georepo.gui.client.model.GSUser)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteService#saveGsUser(it.geosolutions.georepo.gui.client.model.GSUser)
      */
-    public void saveGsUser(GSUser user) throws ApplicationException {
+    public void saveGsUser(GSUser user) throws ApplicationException
+    {
         gsUserManagerService.saveUser(user);
     }
 
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#deleteGsUser(it.geosolutions.georepo.gui.client.model.GSUser)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteService#deleteGsUser(it.geosolutions.georepo.gui.client.model.GSUser)
      */
-    public void deleteGsUser(GSUser user) throws ApplicationException {
+    public void deleteGsUser(GSUser user) throws ApplicationException
+    {
         gsUserManagerService.deleteUser(user);
     }
-    
+
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#getUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteService#getUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
      */
-    public UserLimitsInfo getUserLimitsInfo(GSUser user) throws ApplicationException {
+    public UserLimitsInfo getUserLimitsInfo(GSUser user) throws ApplicationException
+    {
         return gsUserManagerService.getUserLimitsInfo(user);
     }
-    
+
     /* (non-Javadoc)
-     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerServiceRemote#saveUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
+     * @see it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteService#saveUserLimitsInfo(it.geosolutions.georepo.gui.client.model.GSUser)
      */
-    public UserLimitsInfo saveUserLimitsInfo(UserLimitsInfo userLimitInfo) throws ApplicationException {
+    public UserLimitsInfo saveUserLimitsInfo(UserLimitsInfo userLimitInfo) throws ApplicationException
+    {
         return gsUserManagerService.saveUserLimitsInfo(userLimitInfo);
     }
 }

@@ -20,46 +20,56 @@
 
 package it.geosolutions.georepo.services.rest.model.config;
 
-import it.geosolutions.georepo.core.model.Profile;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import it.geosolutions.georepo.core.model.Profile;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 
-@XmlRootElement(name="ProfileList")
-public class RESTFullProfileList {
+@XmlRootElement(name = "ProfileList")
+public class RESTFullProfileList
+{
 
     private List<Profile> list;
 
-    public RESTFullProfileList() {
+    public RESTFullProfileList()
+    {
         this(10);
     }
 
-    public RESTFullProfileList(int initialCapacity) {
+    public RESTFullProfileList(int initialCapacity)
+    {
         list = new ArrayList<Profile>(initialCapacity);
     }
 
-    @XmlElement(name="Profile")
-    public List<Profile> getList() {
+    @XmlElement(name = "Profile")
+    public List<Profile> getList()
+    {
         return list;
     }
 
-    public void setList(List<Profile> profileList) {
+    public void setList(List<Profile> profileList)
+    {
         this.list = profileList;
     }
 
-    public void add(Profile profile) {
+    public void add(Profile profile)
+    {
         list.add(profile);
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName() +"[" + list.size() + " profiles]";
+    public String toString()
+    {
+        return getClass().getSimpleName() + "[" + list.size() + " profiles]";
     }
 
 }

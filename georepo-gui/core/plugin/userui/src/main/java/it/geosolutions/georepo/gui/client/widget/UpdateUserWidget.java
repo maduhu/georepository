@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,38 +32,41 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
-import it.geosolutions.georepo.gui.client.GeoRepoWidgetsData;
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.SendType;
-import it.geosolutions.georepo.gui.client.UpdateInterval;
-import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
-import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.model.User;
-
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
+
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.GeoRepoWidgetsData;
+import it.geosolutions.georepo.gui.client.SendType;
+import it.geosolutions.georepo.gui.client.SendType.SendTypeEnum;
+import it.geosolutions.georepo.gui.client.UpdateInterval;
+import it.geosolutions.georepo.gui.client.UpdateInterval.UpdateIntervalEnum;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.User;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class UpdateUserWidget.
  */
-public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
+public class UpdateUserWidget extends GeoRepoUpdateWidget<User>
+{
 
     /**
      * The Enum UpdateUserKey.
      */
-    private enum UpdateUserKey {
+    private enum UpdateUserKey
+    {
 
         /** The USE r_ nam e_ id. */
         USER_NAME_ID("USER_NAME_UPDATE"),
-        
+
         /** The EMAI l_ update. */
         EMAIL_UPDATE("EMAIL_UPDATE");
 
@@ -72,20 +75,22 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
 
         /**
          * Instantiates a new update user key.
-         * 
+         *
          * @param value
          *            the value
          */
-        UpdateUserKey(String value) {
+        UpdateUserKey(String value)
+        {
             this.value = value;
         }
 
         /**
          * Gets the value.
-         * 
+         *
          * @return the value
          */
-        public String getValue() {
+        public String getValue()
+        {
             return value;
         }
     }
@@ -113,13 +118,14 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * it.geosolutions.georepo.gui.client.widget.GEOREPOUpdateWidget#bind(com.extjs.gxt.ui.client
      * .data.BaseModel)
      */
     @Override
-    public void bind(User user) {
+    public void bind(User user)
+    {
         super.bind(user);
         // checkComponentsModifiability();
     }
@@ -136,23 +142,26 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.IForm#execute()
      */
-    public void execute() {
+    public void execute()
+    {
         this.saveStatus.setBusy("Operation in progress");
         Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_USER, this.object);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#addComponentToForm()
      */
     @Override
-    public void addComponentToForm() {
+    public void addComponentToForm()
+    {
         fieldSet = new FieldSet();
         fieldSet.setHeading("User Information");
+
         FormLayout layout = new FormLayout();
         layout.setLabelWidth(150);
         fieldSet.setLayout(layout);
@@ -199,7 +208,8 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
     /**
      * Inits the combo.
      */
-    private void initCombo() {
+    private void initCombo()
+    {
 
         this.storeTypes = new ListStore<SendType>();
         this.storeTypes.add(GeoRepoWidgetsData.getSendTypes());
@@ -240,11 +250,12 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#initSize()
      */
     @Override
-    public void initSize() {
+    public void initSize()
+    {
         setHeading("Update User");
         setSize(470, 250);
 
@@ -252,11 +263,12 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#initSizeFormPanel()
      */
     @Override
-    public void initSizeFormPanel() {
+    public void initSizeFormPanel()
+    {
         formPanel.setHeaderVisible(false);
         formPanel.setSize(470, 250);
 
@@ -264,12 +276,13 @@ public class UpdateUserWidget extends GeoRepoUpdateWidget<User> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.form.GEOREPOFormWidget#cancel()
      */
     @SuppressWarnings("deprecation")
     @Override
-    public void cancel() {
+    public void cancel()
+    {
         super.close();
         this.formBinding.unbind();
     }

@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -31,11 +31,6 @@
  *
  */
 package it.geosolutions.georepo.gui.client.widget;
-
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.model.User;
 
 import com.extjs.gxt.ui.client.binding.FormBinding;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -54,11 +49,18 @@ import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.User;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class UserInfoBindingWidget.
  */
-public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
+public class UserInfoBindingWidget extends GeoRepoBindingWidget<User>
+{
 
     /** The form data. */
     private FormData formData;
@@ -102,14 +104,16 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /**
      * Instantiates a new user info binding widget.
      */
-    public UserInfoBindingWidget() {
+    public UserInfoBindingWidget()
+    {
         this.init();
     }
 
     /**
      * Inits the.
      */
-    private void init() {
+    private void init()
+    {
         formData = new FormData("-20");
         formPanel = createFormPanel();
         formBinding = new FormBinding(formPanel, true);
@@ -117,11 +121,12 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.widget.GEOREPOBindingWidget# createFormPanel()
      */
     @Override
-    public FormPanel createFormPanel() {
+    public FormPanel createFormPanel()
+    {
         FormPanel fp = new FormPanel();
         fp.setFrame(true);
         fp.setHeaderVisible(false);
@@ -194,15 +199,20 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
         table.setCellSpacing(8);
         table.setCellPadding(4);
 
-        this.newUser = new Button("New", new SelectionListener<ButtonEvent>() {
+        this.newUser = new Button("New", new SelectionListener<ButtonEvent>()
+                {
 
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "Add User",
-                        "Add User botton pressed." });
-                Dispatcher.forwardEvent(GeoRepoEvents.SHOW_ADD_USER_WIDGET);
-            }
-        });
+                    @Override
+                    public void componentSelected(ButtonEvent ce)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                            {
+                                "Add User",
+                                "Add User botton pressed."
+                            });
+                        Dispatcher.forwardEvent(GeoRepoEvents.SHOW_ADD_USER_WIDGET);
+                    }
+                });
 
         this.newUser.setIcon(Resources.ICONS.userAdd());
 
@@ -210,23 +220,31 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
         table.setWidget(1, 1, this.newUser);
 
-        this.deleteUser = new Button("Delete", new SelectionListener<ButtonEvent>() {
+        this.deleteUser = new Button("Delete", new SelectionListener<ButtonEvent>()
+                {
 
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        "Delete User", "Delete User button pressed." });
-                MessageBox.confirm("Delete User", "Are you sure to delete profile "
-                        + getModel().getName() + " ?", new Listener<MessageBoxEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                            {
+                                "Delete User", "Delete User button pressed."
+                            });
+                        MessageBox.confirm("Delete User", "Are you sure to delete profile " +
+                            getModel().getName() + " ?", new Listener<MessageBoxEvent>()
+                            {
 
-                    public void handleEvent(MessageBoxEvent be) {
-                        Button btn = be.getButtonClicked();
-                        if (btn.getText().equalsIgnoreCase("YES"))
-                            Dispatcher.forwardEvent(GeoRepoEvents.DELETE_USER, getModel());
+                                public void handleEvent(MessageBoxEvent be)
+                                {
+                                    Button btn = be.getButtonClicked();
+                                    if (btn.getText().equalsIgnoreCase("YES"))
+                                    {
+                                        Dispatcher.forwardEvent(GeoRepoEvents.DELETE_USER, getModel());
+                                    }
+                                }
+                            });
                     }
                 });
-            }
-        });
 
         this.deleteUser.disable();
 
@@ -236,15 +254,19 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
         table.setWidget(1, 2, this.deleteUser);
 
-        this.updateUser = new Button("Update", new SelectionListener<ButtonEvent>() {
+        this.updateUser = new Button("Update", new SelectionListener<ButtonEvent>()
+                {
 
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        "Update User", "Update User button pressed." });
-                Dispatcher.forwardEvent(GeoRepoEvents.SHOW_UPDATE_USER_WIDGET, getModel());
-            }
-        });
+                    @Override
+                    public void componentSelected(ButtonEvent ce)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                            {
+                                "Update User", "Update User button pressed."
+                            });
+                        Dispatcher.forwardEvent(GeoRepoEvents.SHOW_UPDATE_USER_WIDGET, getModel());
+                    }
+                });
 
         this.updateUser.disable();
 
@@ -254,15 +276,19 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
         table.setWidget(1, 3, this.updateUser);
 
-        this.search = new Button("Search", new SelectionListener<ButtonEvent>() {
+        this.search = new Button("Search", new SelectionListener<ButtonEvent>()
+                {
 
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        "Search User", "Search User button pressed." });
-                Dispatcher.forwardEvent(GeoRepoEvents.SHOW_SEARCH_USER_WIDGET);
-            }
-        });
+                    @Override
+                    public void componentSelected(ButtonEvent ce)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                            {
+                                "Search User", "Search User button pressed."
+                            });
+                        Dispatcher.forwardEvent(GeoRepoEvents.SHOW_SEARCH_USER_WIDGET);
+                    }
+                });
 
         search.setIcon(Resources.ICONS.search());
 
@@ -270,15 +296,20 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
         table.setWidget(2, 1, this.search);
 
-        this.getAOIs = new Button("Get AOIs", new SelectionListener<ButtonEvent>() {
+        this.getAOIs = new Button("Get AOIs", new SelectionListener<ButtonEvent>()
+                {
 
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] { "Get AOI",
-                        "Get AOI button pressed." });
-                Dispatcher.forwardEvent(GeoRepoEvents.SEARCH_USER_AOI, getModel());
-            }
-        });
+                    @Override
+                    public void componentSelected(ButtonEvent ce)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                            {
+                                "Get AOI",
+                                "Get AOI button pressed."
+                            });
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEARCH_USER_AOI, getModel());
+                    }
+                });
 
         this.getAOIs.disable();
         this.getAOIs.setIcon(Resources.ICONS.getAOIS());
@@ -287,15 +318,19 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
         table.setWidget(2, 2, this.getAOIs);
 
-        this.getFeatures = new Button("Get Features", new SelectionListener<ButtonEvent>() {
+        this.getFeatures = new Button("Get Features", new SelectionListener<ButtonEvent>()
+                {
 
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[] {
-                        "Get Features", "Get Features button pressed." });
-                Dispatcher.forwardEvent(GeoRepoEvents.SEARCH_USER_GEORSS, getModel());
-            }
-        });
+                    @Override
+                    public void componentSelected(ButtonEvent ce)
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEND_INFO_MESSAGE, new String[]
+                            {
+                                "Get Features", "Get Features button pressed."
+                            });
+                        Dispatcher.forwardEvent(GeoRepoEvents.SEARCH_USER_GEORSS, getModel());
+                    }
+                });
 
         this.getFeatures.disable();
         this.getFeatures.setIcon(Resources.ICONS.getFeatures());
@@ -312,7 +347,8 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /**
      * Enable buttons.
      */
-    public void enableButtons() {
+    public void enableButtons()
+    {
         this.deleteUser.enable();
         this.updateUser.enable();
         this.getAOIs.enable();
@@ -322,7 +358,8 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
     /**
      * Disable buttons.
      */
-    public void disableButtons() {
+    public void disableButtons()
+    {
         this.deleteUser.disable();
         this.updateUser.disable();
         this.getAOIs.disable();
@@ -331,11 +368,12 @@ public class UserInfoBindingWidget extends GeoRepoBindingWidget<User> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.widget.GEOREPOBindingWidget#unBindModel()
      */
     @Override
-    public void unBindModel() {
+    public void unBindModel()
+    {
         super.unBindModel();
         disableButtons();
     }

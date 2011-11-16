@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,22 +32,22 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.GSUser;
 import it.geosolutions.georepo.gui.client.model.data.UserLimitsInfo;
 
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface IGsUsersManagerService.
  */
-public interface IGsUsersManagerService {
+public interface IGsUsersManagerService
+{
 
     /**
      * Gets the gs users.
-     * 
+     *
      * @param config
      *            the config
      * @param full
@@ -56,12 +56,11 @@ public interface IGsUsersManagerService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<GSUser> getGsUsers(PagingLoadConfig config, boolean full)
-            throws ApplicationException;
+    public PagingLoadResult<GSUser> getGsUsers(int offset, int limit, boolean full) throws ApplicationException;
 
     /**
      * Save profile.
-     * 
+     *
      * @param profile
      *            the profile
      * @throws ApplicationException
@@ -71,19 +70,19 @@ public interface IGsUsersManagerService {
 
     /**
      * Delete profile.
-     * 
+     *
      * @param profile
      *            the profile
      */
     public void deleteUser(GSUser user);
-    
+
 
     /**
      * @param user
      * @return UserLimitInfo
      */
     public UserLimitsInfo getUserLimitsInfo(GSUser user);
-    
+
     /**
      * @param user
      * @return UserLimitInfo

@@ -17,6 +17,10 @@
  */
 package it.geosolutions.georepo.services.rest.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.LayerDetails;
@@ -40,17 +44,17 @@ import it.geosolutions.georepo.services.rest.model.config.RESTFullProfileList;
 import it.geosolutions.georepo.services.rest.model.config.RESTFullRuleList;
 import it.geosolutions.georepo.services.rest.model.config.RESTFullUserList;
 import it.geosolutions.georepo.services.rest.utils.InstanceCleaner;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 import org.apache.log4j.Logger;
+
 
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class RESTConfigServiceImpl implements RESTConfigService {
-    private final static Logger LOGGER = Logger.getLogger(RESTConfigServiceImpl.class.toString());
+public class RESTConfigServiceImpl implements RESTConfigService
+{
+    private static final Logger LOGGER = Logger.getLogger(RESTConfigServiceImpl.class.toString());
 
     private UserAdminService userAdminService;
     private ProfileAdminService profileAdminService;
@@ -60,7 +64,8 @@ public class RESTConfigServiceImpl implements RESTConfigService {
     private InstanceCleaner instanceCleaner;
 
     @Override
-    public RESTFullConfiguration getConfiguration() {
+    public RESTFullConfiguration getConfiguration()
+    {
         RESTFullConfiguration cfg = new RESTFullConfiguration();
 
         RESTFullUserList users = new RESTFullUserList();
@@ -83,68 +88,80 @@ public class RESTConfigServiceImpl implements RESTConfigService {
     }
 
     @Override
-    public synchronized RESTConfigurationRemapping setConfiguration(RESTFullConfiguration config) {
+    public synchronized RESTConfigurationRemapping setConfiguration(RESTFullConfiguration config)
+    {
         LOGGER.warn("SETTING CONFIGURATION");
-        
+
         instanceCleaner.removeAll();
+
         RESTConfigurationRemapping remap = new RESTConfigurationRemapping();
 
-        RemapperCache<Profile, ProfileAdminService> profileCache =
-                new RemapperCache<Profile, ProfileAdminService>(profileAdminService, remap.getProfiles());
-        RemapperCache<GSUser, UserAdminService> userCache =
-                new RemapperCache<GSUser, UserAdminService>(userAdminService, remap.getUsers());
+        RemapperCache<Profile, ProfileAdminService> profileCache = new RemapperCache<Profile, ProfileAdminService>(profileAdminService, remap.getProfiles());
+        RemapperCache<GSUser, UserAdminService> userCache = new RemapperCache<GSUser, UserAdminService>(userAdminService, remap.getUsers());
         RemapperCache<GSInstance, InstanceAdminService> instanceCache =
-                new RemapperCache<GSInstance, InstanceAdminService>(instanceAdminService, remap.getInstances());
+            new RemapperCache<GSInstance, InstanceAdminService>(instanceAdminService, remap.getInstances());
 
 
         // === Profiles
-        for (Profile profile : config.getProfileList().getList()) {
+        for (Profile profile : config.getProfileList().getList())
+        {
             Long oldId = profile.getId();
             ShortProfile sp = new ShortProfile(profile);
             long newId = profileAdminService.insert(sp);
-            LOGGER.info("Remapping profile " + oldId + " -> "  + newId);
+            LOGGER.info("Remapping profile " + oldId + " -> " + newId);
             remap.getProfiles().put(oldId, newId);
-            if(profile.getCustomProps() != null && ! profile.getCustomProps().isEmpty()) {
+            if ((profile.getCustomProps() != null) && !profile.getCustomProps().isEmpty())
+            {
                 profileAdminService.setCustomProps(newId, profile.getCustomProps());
             }
         }
 
         // === Users
-        for (GSUser user : config.getUserList().getList()) {
+        for (GSUser user : config.getUserList().getList())
+        {
             Long oldProfileId = user.getProfile().getId();
 
             Profile profile = profileCache.get(oldProfileId);
-            user.setProfile(profile);            
+            user.setProfile(profile);
+
             Long oldId = user.getId();
             user.setId(null);
+
             long newId = userAdminService.insert(user);
-            LOGGER.info("Remapping user " + oldId + " -> "  + newId);
+            LOGGER.info("Remapping user " + oldId + " -> " + newId);
             remap.getUsers().put(oldId, newId);
         }
 
 
         // === GSInstances
-        for (GSInstance instance : config.getGsInstanceList().getList()) {
+        for (GSInstance instance : config.getGsInstanceList().getList())
+        {
             Long oldId = instance.getId();
             instance.setId(null);
+
             long newId = instanceAdminService.insert(instance);
-            LOGGER.info("Remapping gsInstance " + oldId + " -> "  + newId);
+            LOGGER.info("Remapping gsInstance " + oldId + " -> " + newId);
             remap.getInstances().put(oldId, newId);
         }
 
-        //=== Rules
-        for (Rule rule : config.getRuleList().getList()) {
+        // === Rules
+        for (Rule rule : config.getRuleList().getList())
+        {
             Long oldId = rule.getId();
             rule.setId(null);
 
-            if(rule.getProfile() != null)
+            if (rule.getProfile() != null)
+            {
                 rule.setProfile(profileCache.get(rule.getProfile().getId()));
+            }
 
-            if(rule.getGsuser() != null) {
+            if (rule.getGsuser() != null)
+            {
                 rule.setGsuser(userCache.get(rule.getGsuser().getId()));
             }
 
-            if(rule.getInstance() != null) {
+            if (rule.getInstance() != null)
+            {
                 rule.setInstance(instanceCache.get(rule.getInstance().getId()));
             }
 
@@ -154,10 +171,11 @@ public class RESTConfigServiceImpl implements RESTConfigService {
             rule.setLayerDetails(null);
 
             long newId = ruleAdminService.insert(rule);
-            LOGGER.info("Remapping rule " + oldId + " -> "  + newId);
+            LOGGER.info("Remapping rule " + oldId + " -> " + newId);
             remap.getRules().put(oldId, newId);
 
-            if(ld != null) {
+            if (ld != null)
+            {
                 ruleAdminService.setDetails(newId, ld);
             }
         }
@@ -167,8 +185,9 @@ public class RESTConfigServiceImpl implements RESTConfigService {
 
 
     @Override
-    public RESTFullUserList getUsers() throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
-        List<GSUser> users = userAdminService.getFullList(null,null,null);
+    public RESTFullUserList getUsers() throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
+        List<GSUser> users = userAdminService.getFullList(null, null, null);
 
         RESTFullUserList ret = new RESTFullUserList();
         ret.setList(users);
@@ -177,8 +196,9 @@ public class RESTConfigServiceImpl implements RESTConfigService {
     }
 
     @Override
-    public RESTFullProfileList getProfiles() throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx {
-        List<Profile> profiles = profileAdminService.getFullList(null,null,null);
+    public RESTFullProfileList getProfiles() throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx
+    {
+        List<Profile> profiles = profileAdminService.getFullList(null, null, null);
 
         RESTFullProfileList ret = new RESTFullProfileList();
         ret.setList(profiles);
@@ -187,7 +207,7 @@ public class RESTConfigServiceImpl implements RESTConfigService {
 
     }
 
-    //==========================================================================
+    // ==========================================================================
 
 //    class ProfileCache {
 //        private final Map<String, Profile> cache = new HashMap<String, Profile>();
@@ -214,61 +234,75 @@ public class RESTConfigServiceImpl implements RESTConfigService {
 //        }
 //    }
 
-    //==========================================================================
+    // ==========================================================================
 
-    public void setInstanceCleaner(InstanceCleaner instanceCleaner) {
+    public void setInstanceCleaner(InstanceCleaner instanceCleaner)
+    {
         this.instanceCleaner = instanceCleaner;
     }
-    
-    //==========================================================================
 
-    public void setProfileAdminService(ProfileAdminService profileAdminService) {
+    // ==========================================================================
+
+    public void setProfileAdminService(ProfileAdminService profileAdminService)
+    {
         this.profileAdminService = profileAdminService;
     }
 
-    public void setUserAdminService(UserAdminService userAdminService) {
+    public void setUserAdminService(UserAdminService userAdminService)
+    {
         this.userAdminService = userAdminService;
     }
 
-    public void setInstanceAdminService(InstanceAdminService instanceAdminService) {
+    public void setInstanceAdminService(InstanceAdminService instanceAdminService)
+    {
         this.instanceAdminService = instanceAdminService;
     }
 
-    public void setRuleAdminService(RuleAdminService ruleAdminService) {
+    public void setRuleAdminService(RuleAdminService ruleAdminService)
+    {
         this.ruleAdminService = ruleAdminService;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
 
-    class RemapperCache<TYPE, SERVICE extends GetProviderService<TYPE>> {
+    class RemapperCache<TYPE, SERVICE extends GetProviderService<TYPE>>
+    {
         private Map<Long, TYPE> cache = new HashMap<Long, TYPE>();
         private final Map<Long, Long> idRemapper;
         private final SERVICE service;
 
-        public RemapperCache(SERVICE service, Map<Long, Long> idRemapper) {
+        public RemapperCache(SERVICE service, Map<Long, Long> idRemapper)
+        {
             this.idRemapper = idRemapper;
             this.service = service;
         }
 
 
-        TYPE get(Long oldId) {
+        TYPE get(Long oldId)
+        {
             Long newId = idRemapper.get(oldId);
-            if(newId == null) {
-                LOGGER.error("Can't remap " + oldId );
+            if (newId == null)
+            {
+                LOGGER.error("Can't remap " + oldId);
                 LOGGER.error("Configuration will be erased");
                 instanceCleaner.removeAll();
                 throw new BadRequestRestEx("Can't remap " + oldId);
             }
 
             TYPE cached = cache.get(newId);
-            try {
-                if (cached == null) {
+            try
+            {
+                if (cached == null)
+                {
                     cached = service.get(newId.longValue()); // may throw NotFoundServiceEx
                     cache.put(newId, cached);
                 }
+
                 return cached;
-            } catch (NotFoundServiceEx ex) {
+            }
+            catch (NotFoundServiceEx ex)
+            {
                 LOGGER.error(ex.getMessage(), ex);
                 throw new NotFoundRestEx(ex.getMessage());
             }

@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,43 +32,41 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
-import it.geosolutions.georepo.gui.client.ApplicationException;
-import it.geosolutions.georepo.gui.client.model.GSInstance;
-//import it.geosolutions.georepo.core.model.GSInstance;
-
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
-// TODO: Auto-generated Javadoc
+import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
+
+
 /**
  * The Interface IInstancesManagerService.
  */
-public interface IInstancesManagerService {
+public interface IInstancesManagerService
+{
 
     /**
      * Gets the instances.
-     * 
+     *
      * @param config
      *            the config
      * @return the instances
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<GSInstance> getInstances(PagingLoadConfig config, boolean full)
-            throws ApplicationException;
-    
+    public PagingLoadResult<GSInstance> getInstances(int offset, int limit, boolean full) throws ApplicationException;
+
     /**
      * Get the instance
-     * 
+     *
      * @param config
      * @param l
      * @return
      */
-    public GSInstance getInstance(PagingLoadConfig config, long l) throws ApplicationException;
-    
+    public GSInstance getInstance(int offset, int limit, long l) throws ApplicationException;
+
     /**
      * Delete instance.
-     * 
+     *
      * @param instance
      *            the instance
      */
@@ -76,10 +74,10 @@ public interface IInstancesManagerService {
 
     /**
      * Save instance.
-     * 
+     *
      * @param instance
      *            the instance
      */
     public void saveInstance(GSInstance instance);
-    
+
 }

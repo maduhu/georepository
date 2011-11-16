@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,24 +32,25 @@
  */
 package it.geosolutions.georepo.gui.server.service;
 
+import java.util.List;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Profile;
 import it.geosolutions.georepo.gui.client.model.data.ProfileCustomProps;
 
-import java.util.List;
-
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Interface IProfilesManagerService.
  */
-public interface IProfilesManagerService {
+public interface IProfilesManagerService
+{
 
     /**
      * Gets the profiles.
-     * 
+     *
      * @param config
      *            the config
      * @param full
@@ -58,12 +59,11 @@ public interface IProfilesManagerService {
      * @throws ApplicationException
      *             the application exception
      */
-    public PagingLoadResult<Profile> getProfiles(PagingLoadConfig config, boolean full)
-            throws ApplicationException;
+    public PagingLoadResult<Profile> getProfiles(int offset, int limit, boolean full) throws ApplicationException;
 
     /**
      * Delete profile.
-     * 
+     *
      * @param profile
      *            the profile
      */
@@ -71,22 +71,22 @@ public interface IProfilesManagerService {
 
     /**
      * Save profile.
-     * 
+     *
      * @param profile
      *            the profile
      */
     public void saveProfile(Profile profile);
-    
+
     /**
      * @param config
      * @param rule
      * @return
      */
-    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(PagingLoadConfig config, Profile profile);
-    
+    public PagingLoadResult<ProfileCustomProps> getProfileCustomProps(int offset, int limit, Profile profile);
+
     /**
      * @param ruleId
      * @param customProps
      */
-    public void setProfileProps(Long profileId, List<ProfileCustomProps> customProps); 
+    public void setProfileProps(Long profileId, List<ProfileCustomProps> customProps);
 }

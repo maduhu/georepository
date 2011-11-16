@@ -19,17 +19,18 @@
  */
 package it.geosolutions.georepo.services.rest;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.services.rest.exception.BadRequestRestEx;
 import it.geosolutions.georepo.services.rest.exception.InternalErrorRestEx;
 import it.geosolutions.georepo.services.rest.exception.NotFoundRestEx;
-import it.geosolutions.georepo.services.rest.model.config.RESTFullProfileList;
 import it.geosolutions.georepo.services.rest.model.RESTInputProfile;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import it.geosolutions.georepo.services.rest.model.config.RESTFullProfileList;
 
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+
 
 /**
  *
@@ -37,7 +38,8 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
  */
 
 @Path("/")
-public interface RESTProfileService {
+public interface RESTProfileService
+{
 
     /**
      * @return a sample user list
@@ -45,11 +47,9 @@ public interface RESTProfileService {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_XML)
-    RESTFullProfileList getProfiles(
-                @QueryParam("nameLike") String nameLike,
-                @QueryParam("page") Integer page,
-                @QueryParam("entries") Integer entries)
-            throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    RESTFullProfileList getProfiles(@QueryParam("nameLike") String nameLike,
+        @QueryParam("page") Integer page,
+        @QueryParam("entries") Integer entries) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
     @GET
     @Path("/count/{nameLike}")
@@ -58,7 +58,7 @@ public interface RESTProfileService {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
-    Profile get(@PathParam("id")Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    Profile get(@PathParam("id") Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
 
 //    @PUT
@@ -69,16 +69,18 @@ public interface RESTProfileService {
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_XML)
-    Long insert(@Multipart("profile")RESTInputProfile profile) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    Long insert(@Multipart("profile") RESTInputProfile profile) throws BadRequestRestEx, NotFoundRestEx,
+        InternalErrorRestEx;
 
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
-    void update(@PathParam("id")Long id, @Multipart("profile")RESTInputProfile profile) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    void update(@PathParam("id") Long id,
+        @Multipart("profile") RESTInputProfile profile) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
-    void delete(@PathParam("id")Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    void delete(@PathParam("id") Long id) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
 }
