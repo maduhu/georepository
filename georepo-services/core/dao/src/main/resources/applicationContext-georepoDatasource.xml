@@ -25,7 +25,7 @@
 
     <bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
         <property name="location" value="classpath:georepo-datasource-ovr.properties"/>
-        <property name="ignoreResourceNotFound" value="false"/>
+        <property name="ignoreResourceNotFound" value="true"/>
     </bean>
 
 <!--
