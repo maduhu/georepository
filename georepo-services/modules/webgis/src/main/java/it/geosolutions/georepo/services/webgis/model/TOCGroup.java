@@ -21,7 +21,10 @@
 package it.geosolutions.georepo.services.webgis.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -41,11 +44,19 @@ public class TOCGroup {
 
     @XmlElement(name="layer")
     public List<TOCLayer> getLayerList() {
-        return layerList;
+        // reorder list on output
+        SortedSet<TOCLayer> set = new TreeSet<TOCLayer>(new TOCLayer.TOCLayerComparator());
+        set.addAll(layerList);
+        List<TOCLayer> ret = new ArrayList<TOCLayer>(set);
+        return Collections.unmodifiableList(ret);
     }
 
     public void setLayerList(List<TOCLayer> layerList) {
         this.layerList = layerList;
+    }
+
+    public void addLayer(TOCLayer layer) {
+        layerList.add(layer);
     }
 
     @XmlAttribute

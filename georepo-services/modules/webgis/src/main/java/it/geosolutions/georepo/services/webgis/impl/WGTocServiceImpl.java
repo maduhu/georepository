@@ -99,13 +99,13 @@ public class WGTocServiceImpl implements WebGisTOCService {
                         continue;
                     }
                     if (group != null) {
-                        group.getLayerList().add(tocl);
+                        group.addLayer(tocl);
                         if( ! "true".equals(props.get(TOCLayer.TOCProps.visible.name()))) {
                             group.setVisible(false);
                         }
                     }
                     if (bg != null) {
-                        bg.getLayerList().add(tocl);
+                        bg.addLayer(tocl);
                     }
                 } catch (NotFoundServiceEx ex) {
                     if(props == null)
@@ -180,7 +180,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
         String defaultStyle = null;
 
         if (gsreader != null) {
-
+            //=== set information read from GeoServer
             try {
                 RESTLayer rl = gsreader.getLayer(rule.getLayer());
                 RESTResource res = gsreader.getResource(rl);
@@ -237,7 +237,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
 
         }
 
-        if (!dataIsSet) {
+        if (!dataIsSet) { // set some default values
             tocLayer.setTitle("TITLE of " + rule.getLayer());
             tocLayer.setAbs("ABSTRACT of " + rule.getLayer());
             tocLayer.setMinX(-180);
@@ -247,6 +247,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
             tocLayer.setSrs("EPSG:4326");
         }
 
+        //=== add all other props
         for (Map.Entry<String, String> entry : props.entrySet()) {
             tocLayer.getProperties().put(entry.getKey(), entry.getValue());
         }

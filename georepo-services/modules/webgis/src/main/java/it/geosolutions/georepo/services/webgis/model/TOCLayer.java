@@ -21,6 +21,7 @@
 package it.geosolutions.georepo.services.webgis.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.namespace.QName;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -38,6 +40,10 @@ import javax.xml.namespace.QName;
  */
 @XmlRootElement(name="layer")
 public class TOCLayer {
+    private final static Logger LOGGER = Logger.getLogger(TOCLayer.class);
+
+    public final static int POSITION_DEFAULT = Integer.MAX_VALUE;
+
     public enum TOCProps {
         groupName("NOGROUP"),
         format("image/png"),
@@ -51,7 +57,8 @@ public class TOCLayer {
         typeLayer("0"),
         minScale(""),
         maxScale(""),
-        bgGroup(null)
+        bgGroup(null),
+        position(Integer.toString(POSITION_DEFAULT))
         ;
 
         private String defaultValue;
@@ -173,6 +180,22 @@ public class TOCLayer {
         this.georepoId = georepoId;
     }
 
+    @XmlTransient
+    public int getPosition() {
+        String spos = properties.get(TOCProps.position.name());
+        if ( spos != null ) {
+            try {
+                return Integer.parseInt(spos);
+            } catch (NumberFormatException ex) {
+                LOGGER.warn("Could not parse position attr for TOCLayer "+ georepoId + ":" + name, ex);
+                return POSITION_DEFAULT;
+            }
+        } else {
+            LOGGER.info("No position set for TOCLayer "+ georepoId + ":" + name);
+            return POSITION_DEFAULT;
+        }
+    }
+
     @XmlTransient // will be encoded by getAny()
     public Map<String, String> getProperties() {
         return properties;
@@ -199,5 +222,27 @@ public class TOCLayer {
 
     public void setAttributes(List<TOCAttrib> attributes) {
         this.attributes = attributes;
+    }
+
+    public static class TOCLayerComparator implements Comparator<TOCLayer> {
+        private final static Logger LOGGER = Logger.getLogger(TOCLayerComparator.class);
+
+        @Override
+        public int compare(TOCLayer o1, TOCLayer o2) {
+            int delta = o1.getPosition() - o2.getPosition();
+            if (delta != 0)
+                return delta;
+            LOGGER.warn("Layers have same position: "
+                    + o1.getGeorepoId()+':'+o1.getName() + ' '
+                    + o2.getGeorepoId()+':'+o2.getName());
+            delta = o1.getName().compareTo(o2.getName());
+            if (delta != 0)
+                return delta;
+            LOGGER.warn("Layers have same name: "
+                    + o1.getGeorepoId()+':'+o1.getName() + ' '
+                    + o2.getGeorepoId()+':'+o2.getName());
+
+            return (int)(o1.getGeorepoId() - o2.getGeorepoId());
+        }
     }
  }
