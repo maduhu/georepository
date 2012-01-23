@@ -65,8 +65,8 @@ public class AuthenticationFilter implements Filter
             authorities = new GrantedAuthority[] { new GrantedAuthorityImpl(ROOT_ROLE) };
 
             UsernamePasswordAuthenticationToken upa = new UsernamePasswordAuthenticationToken(
-                    "admin",
-                    "admin",
+                    "1nt3rnAL-G30r3p0-admin",
+                    "1geosolutions2",
                     authorities);
             authentication = upa;
 

@@ -34,7 +34,7 @@
     </modules>
 
     <properties>
-        <georepo-version>1.0-SNAPSHOT</georepo-version>
+        <georepo-version>1.1-SNAPSHOT</georepo-version>
         <main-prefix>georepo</main-prefix>
         <geoserver-version>2.2-SNAPSHOT</geoserver-version>
         <jetty-version>6.1.8</jetty-version>

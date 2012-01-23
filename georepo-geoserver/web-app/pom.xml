@@ -16,8 +16,10 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.geoserver.web</groupId>
-      <artifactId>web-app</artifactId>
+      <!-- groupId>org.geoserver.web</groupId>
+      <artifactId>web-app</artifactId -->
+      <groupId>it.geosolutions.geoserver</groupId>
+      <artifactId>webapp</artifactId>
       <version>${geoserver-version}</version>
     </dependency>
 
@@ -129,14 +131,20 @@
 
   <profiles>
 	<profile>
-      <id>monitoring</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.geoserver.community</groupId>
-          <artifactId>monitoring</artifactId>
-          <version>${geoserver-version}</version>
-        </dependency>
-      </dependencies>
+        <id>monitoring</id>
+        <activation>
+          <property>
+            <name>all</name>
+            <value>true</value>
+          </property>
+        </activation>
+        <dependencies>
+          <dependency>
+            <groupId>org.geoserver.community</groupId>
+            <artifactId>monitoring</artifactId>
+            <version>${geoserver-version}</version>
+          </dependency>
+        </dependencies>
     </profile>
 	<profile>
         <id>importer</id>

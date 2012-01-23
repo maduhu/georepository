@@ -20,6 +20,9 @@
 
 package it.geosolutions.georepo.login;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import it.geosolutions.georepo.api.AuthProvider;
 import it.geosolutions.georepo.api.dto.Authority;
 import it.geosolutions.georepo.api.dto.GrantedAuths;
@@ -27,19 +30,18 @@ import it.geosolutions.georepo.api.exception.AuthException;
 import it.geosolutions.georepo.login.util.GrantAll;
 import it.geosolutions.georepo.login.util.SessionManager;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+
 /**
  * @author ETj (etj at geo-solutions.it)
  */
-public class LoginServiceImpl implements LoginService, InitializingBean, DisposableBean {
+public class LoginServiceImpl implements LoginService, InitializingBean, DisposableBean
+{
 
-    private final static Logger LOGGER = Logger.getLogger(LoginServiceImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(LoginServiceImpl.class);
 
     // private List<String> authorizedRoles;
 
@@ -48,27 +50,32 @@ public class LoginServiceImpl implements LoginService, InitializingBean, Disposa
 
     private SessionManager sessionManager;
 
-    public LoginServiceImpl() {
+    public LoginServiceImpl()
+    {
         LOGGER.info("Creating " + getClass().getSimpleName() + " instance");
     }
 
     @Override
-    public void afterPropertiesSet() {
+    public void afterPropertiesSet()
+    {
         LOGGER.debug("afterPropertiesSet()");
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() throws Exception
+    {
         LOGGER.debug("destroy()");
     }
 
     @PostConstruct
-    public void postConstruct() {
+    public void postConstruct()
+    {
         LOGGER.debug("postConstruct()");
     }
 
     @PreDestroy
-    public void preDestroy() {
+    public void preDestroy()
+    {
         LOGGER.debug("preDestroy()");
 
     }
@@ -78,7 +85,8 @@ public class LoginServiceImpl implements LoginService, InitializingBean, Disposa
     // ==========================================================================
 
     @Override
-    public String login(String username, String password) throws AuthException {
+    public String login(String username, String password) throws AuthException
+    {
         LOGGER.info("LOGIN REQUEST FOR " + username);
 
         // MessageContext msgCtxt = webServiceContext.getMessageContext();
@@ -87,35 +95,46 @@ public class LoginServiceImpl implements LoginService, InitializingBean, Disposa
         //
         // LOGGER.info("LOGIN REQUEST FOR " + username + " @ " + clientIP);
 
-        if (username == null) {
+        if (username == null)
+        {
             throw new AuthException("Null username");
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 GrantedAuths ga = authProvider.login(username, password);
-                if (!ga.getAuthorities().contains(Authority.LOGIN)) {
+                if (!ga.getAuthorities().contains(Authority.LOGIN))
+                {
                     LOGGER.warn("Login not granted to user [" + username + "]");
                     throw new AuthException("User " + username + "can't log in");
                 }
 
                 String token = sessionManager.createSession(username, ga);
+
                 return token;
-            } catch (AuthException ex) {
-                LOGGER.warn("Authentication Failed for user [" + username + "]: "
-                        + ex.getLocalizedMessage());
+            }
+            catch (AuthException ex)
+            {
+                LOGGER.warn("Authentication Failed for user [" + username + "]: " +
+                    ex.getLocalizedMessage());
                 throw new AuthException("Authentication error", ex);
             }
         }
     }
 
     @Override
-    public void logout(String token) {
+    public void logout(String token)
+    {
         LOGGER.info("LOGOUT:" + token);
         sessionManager.closeSession(token);
     }
 
     @Override
-    public GrantedAuths getGrantedAuthorities(String token) {
-        LOGGER.info("LOGOUT:" + token);
+    public GrantedAuths getGrantedAuthorities(String token)
+    {
+        LOGGER.info("getGrantedAuthorities:" + token);
+
         return sessionManager.getGrantedAuthorities(token);
     }
 
@@ -123,12 +142,14 @@ public class LoginServiceImpl implements LoginService, InitializingBean, Disposa
     // Setters
     // ==========================================================================
 
-    public void setAuthProvider(AuthProvider authProvider) {
+    public void setAuthProvider(AuthProvider authProvider)
+    {
         LOGGER.info("Setting AuthProvider: " + authProvider.getClass());
         this.authProvider = authProvider;
     }
 
-    public void setSessionManager(SessionManager sessionManager) {
+    public void setSessionManager(SessionManager sessionManager)
+    {
         this.sessionManager = sessionManager;
     }
 }

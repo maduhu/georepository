@@ -1,28 +1,31 @@
 package it.geosolutions.georepository;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
-
 import java.util.Collections;
 import java.util.List;
+
+import com.mockrunner.mock.web.MockHttpServletResponse;
 
 import org.geoserver.data.test.MockData;
 import org.geoserver.platform.GeoServerExtensions;
 import org.w3c.dom.Document;
 
-import com.mockrunner.mock.web.MockHttpServletResponse;
+import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 
-public class ServicesTest extends GeorepositoryBaseTest {
+
+public class ServicesTest extends GeorepositoryBaseTest
+{
 
     /**
      * Enable the Spring Security auth filters, otherwise there will be no auth
      */
     @Override
-    protected List<javax.servlet.Filter> getFilters() {
-        return Collections.singletonList((javax.servlet.Filter) GeoServerExtensions
-                .bean("filterChainProxy"));
+    protected List<javax.servlet.Filter> getFilters()
+    {
+        return Collections.singletonList((javax.servlet.Filter) GeoServerExtensions.bean("filterChainProxy"));
     }
 
-    public void testAdmin() throws Exception {
+    public void testAdmin() throws Exception
+    {
         authenticate("admin", "geoserver");
 
         // check from the caps he can access everything
@@ -34,7 +37,8 @@ public class ServicesTest extends GeorepositoryBaseTest {
         assertXpathEvaluatesTo("8", "count(//Layer[starts-with(Name, 'cdf:')])", dom);
     }
 
-    public void testCiteCapabilities() throws Exception {
+    public void testCiteCapabilities() throws Exception
+    {
         authenticate("cite", "cite");
 
         // check from the caps he can access cite and sf, but not others
@@ -45,15 +49,16 @@ public class ServicesTest extends GeorepositoryBaseTest {
         assertXpathEvaluatesTo("3", "count(//Layer[starts-with(Name, 'sf:')])", dom);
         assertXpathEvaluatesTo("0", "count(//Layer[starts-with(Name, 'cdf:')])", dom);
     }
-    
-    public void testCiteLayers() throws Exception {
+
+    public void testCiteLayers() throws Exception
+    {
         authenticate("cite", "cite");
-        
-        // try a getmap/reflector on a sf layer, should work 
+
+        // try a getmap/reflector on a sf layer, should work
         MockHttpServletResponse response = getAsServletResponse("wms/reflect?layers=" + getLayerId(MockData.BASIC_POLYGONS));
         assertEquals(200, response.getStatusCode());
         assertEquals("image/png", response.getContentType());
-        
+
         // try a getmap/reflector on a sf layer, should work
         response = getAsServletResponse("wms/reflect?layers=" + getLayerId(MockData.GENERICENTITY));
         assertEquals(200, response.getStatusCode());

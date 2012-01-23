@@ -106,7 +106,7 @@
 		<gsmanager-version>1.2-SNAPSHOT</gsmanager-version>
 		
         <geoapi-version>2.3-M1</geoapi-version>
-        <gt-version>2.7-RC2</gt-version>
+        <gt-version>8-SNAPSHOT</gt-version>
     </properties>
 
     <!-- =========================================================== -->
