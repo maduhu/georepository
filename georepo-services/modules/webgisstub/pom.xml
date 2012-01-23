@@ -45,6 +45,11 @@
             <artifactId>georepo-webgis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>it.geosolutions.georepository</groupId>
+            <artifactId>georepo-rest</artifactId>
+        </dependency>
+
         <!-- =============================================================== -->
         <!-- =============================================================== -->
         
