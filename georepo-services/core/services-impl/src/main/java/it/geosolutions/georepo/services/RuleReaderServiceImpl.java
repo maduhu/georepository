@@ -284,7 +284,7 @@ public class RuleReaderServiceImpl implements RuleReaderService {
         if(user != null) {
             Profile profile = getProfile(profileFilter);
             if(profile != null) {
-                if(user.getProfile().getId() != profile.getId()) {
+                if(user.getProfile().getId().longValue() != profile.getId().longValue()) {
                     LOGGER.warn("User profile and given profile differ [User:"+filter.getUser()+"] [Profile:"+profileFilter+"].");
                     return (List<Rule>)Collections.EMPTY_LIST;
                 }
