@@ -16,10 +16,14 @@
 
   <dependencies>
     <dependency>
-      <!-- groupId>org.geoserver.web</groupId>
-      <artifactId>web-app</artifactId -->
-      <groupId>it.geosolutions.geoserver</groupId>
-      <artifactId>webapp</artifactId>
+      <!-- GeoServer Trunk Artifact -->
+      <groupId>org.geoserver.web</groupId>
+      <artifactId>web-app</artifactId>
+
+      <!-- GeoServer Priv Artifact -->
+      <!-- groupId>it.geosolutions.geoserver</groupId>
+      <artifactId>webapp</artifactId -->
+
       <version>${geoserver-version}</version>
     </dependency>
 
