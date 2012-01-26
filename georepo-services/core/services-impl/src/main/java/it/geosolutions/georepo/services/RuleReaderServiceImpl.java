@@ -99,6 +99,9 @@ public class RuleReaderServiceImpl implements RuleReaderService {
             if(ret != null)
                 break;
 
+            if(LOGGER.isDebugEnabled())
+                LOGGER.debug("Rule " + rule + " matches filter " + filter);
+
             switch(rule.getAccess()) {
                 case LIMIT:
 
@@ -290,6 +293,8 @@ public class RuleReaderServiceImpl implements RuleReaderService {
                 profileFilter = new IdNameFilter(RuleFilter.FilterType.IDVALUE);
                 profileFilter.setId(user.getProfile().getId());
             }
+        } else { // the user has no profile (authorized but unregistered in georepo?)
+            profileFilter = new IdNameFilter(RuleFilter.FilterType.DEFAULT);
         }
 
         addCriteria(searchCriteria, "gsuser", filter.getUser());
