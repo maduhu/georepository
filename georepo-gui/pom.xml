@@ -5,13 +5,13 @@
 
     <groupId>it.geosolutions.georepository</groupId>
     <artifactId>georepo-gui-root</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>GeoRepo - GUI</name>
 
     <properties>
-        <georepo-version>1.1-SNAPSHOT</georepo-version>
+        <georepo-version>2.2-SNAPSHOT</georepo-version>
 
         <spring.version>3.0.4.RELEASE</spring.version>
 <!--        <spring.version>2.5.6.SEC01</spring.version>-->
@@ -20,7 +20,7 @@
         <commonsFileuploadVersion>1.2.1</commonsFileuploadVersion>
         <commonsIoVersion>1.4</commonsIoVersion>
     
-		<gsmanager-version>1.2.3-SNAPSHOT</gsmanager-version>
+	<gsmanager-version>1.3.2-SNAPSHOT</gsmanager-version>
 		
         <jaxws-version>2.1</jaxws-version>
         <cxf-version>2.3.2</cxf-version>

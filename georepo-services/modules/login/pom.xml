@@ -22,11 +22,11 @@
     
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>it.geosolutions.georepository</groupId>
-    <artifactId>georepo-modules</artifactId>
-	<version>1.1-SNAPSHOT</version>
-  </parent>
+    <parent>
+      <groupId>it.geosolutions.georepository</groupId>
+      <artifactId>georepo-modules</artifactId>
+	  <version>2.2-SNAPSHOT</version>
+    </parent>
 
     <groupId>it.geosolutions.georepository</groupId>
     <artifactId>georepo-login-parent</artifactId>
