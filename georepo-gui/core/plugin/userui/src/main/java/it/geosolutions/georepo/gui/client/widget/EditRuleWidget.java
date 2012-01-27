@@ -32,6 +32,26 @@
  */
 package it.geosolutions.georepo.gui.client.widget;
 
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
+import it.geosolutions.georepo.gui.client.model.GSInstance;
+import it.geosolutions.georepo.gui.client.model.GSUser;
+import it.geosolutions.georepo.gui.client.model.Profile;
+import it.geosolutions.georepo.gui.client.model.Rule;
+import it.geosolutions.georepo.gui.client.model.data.Grant;
+import it.geosolutions.georepo.gui.client.model.data.Layer;
+import it.geosolutions.georepo.gui.client.model.data.Request;
+import it.geosolutions.georepo.gui.client.model.data.Service;
+import it.geosolutions.georepo.gui.client.model.data.Workspace;
+import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.service.WorkspacesManagerRemoteServiceAsync;
+import it.geosolutions.georepo.gui.client.view.RulesView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,34 +82,14 @@ import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.form.GeoRepoFormWidget;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.model.BeanKeyValue;
-import it.geosolutions.georepo.gui.client.model.GSInstance;
-import it.geosolutions.georepo.gui.client.model.GSUser;
-import it.geosolutions.georepo.gui.client.model.Profile;
-import it.geosolutions.georepo.gui.client.model.Rule;
-import it.geosolutions.georepo.gui.client.model.data.Grant;
-import it.geosolutions.georepo.gui.client.model.data.Layer;
-import it.geosolutions.georepo.gui.client.model.data.Request;
-import it.geosolutions.georepo.gui.client.model.data.Service;
-import it.geosolutions.georepo.gui.client.model.data.Workspace;
-import it.geosolutions.georepo.gui.client.service.GsUsersManagerRemoteServiceAsync;
-import it.geosolutions.georepo.gui.client.service.InstancesManagerRemoteServiceAsync;
-import it.geosolutions.georepo.gui.client.service.ProfilesManagerRemoteServiceAsync;
-import it.geosolutions.georepo.gui.client.service.RulesManagerRemoteServiceAsync;
-import it.geosolutions.georepo.gui.client.service.WorkspacesManagerRemoteServiceAsync;
-import it.geosolutions.georepo.gui.client.view.RulesView;
 
 
 // TODO: Auto-generated Javadoc
@@ -1153,8 +1153,11 @@ public class EditRuleWidget extends GeoRepoFormWidget
                     if ((service != null) && service.equalsIgnoreCase("WMS"))
                     {
                         Request getMap = new Request("GetMap");
+                        Request getFeatureInfo = new Request("GetFeatureInfo");
                         Request describeLayer = new Request("DescribeLayer");
+                        
                         requests.add(getMap);
+                        requests.add(getFeatureInfo);
                         requests.add(describeLayer);
                     }
 
@@ -1162,6 +1165,7 @@ public class EditRuleWidget extends GeoRepoFormWidget
                     {
                         Request getCoverage = new Request("GetCoverage");
                         Request describeCoverage = new Request("DescribeCoverage");
+                        
                         requests.add(getCoverage);
                         requests.add(describeCoverage);
                     }
@@ -1170,10 +1174,21 @@ public class EditRuleWidget extends GeoRepoFormWidget
                     {
                         Request getFeatureType = new Request("GetFeatureType");
                         Request describeFeatureType = new Request("DescribeFeatureType");
+                        Request getFeature = new Request("GetFeature");
+                        Request getGmlObject = new Request("GetGmlObject");
+                        Request lockFeature = new Request("LockFeature");
+                        Request getFeatureWithLock = new Request("GetFeatureWithLock");
+                        Request transaction = new Request("Transaction");
+                        
                         requests.add(getFeatureType);
                         requests.add(describeFeatureType);
+                        requests.add(getFeature);
+                        requests.add(getGmlObject);
+                        requests.add(lockFeature);
+                        requests.add(getFeatureWithLock);
+                        requests.add(transaction);
                     }
-
+                    
                     availableServicesRequests.add(requests);
 
                     return availableServicesRequests;
