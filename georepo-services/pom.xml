@@ -587,6 +587,11 @@
             </dependency>
             <dependency>
                 <groupId>com.trg</groupId>
+                <artifactId>trg-search</artifactId>
+                <version>${hibernate-generic-dao-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.trg</groupId>
                 <artifactId>trg-search-jpa-hibernate</artifactId>
                 <version>${hibernate-generic-dao-version}</version>
             </dependency>
