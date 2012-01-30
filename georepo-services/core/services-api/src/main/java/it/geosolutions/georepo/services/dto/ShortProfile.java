@@ -20,16 +20,19 @@
 
 package it.geosolutions.georepo.services.dto;
 
-import it.geosolutions.georepo.core.model.Profile;
 import java.io.Serializable;
 import java.util.Date;
 
+import it.geosolutions.georepo.core.model.Profile;
+
+
 /**
  * A compact representation of Profile useful in lists.
- * 
+ *
  * @author Etj (etj at geo-solutions.it)
  */
-public class ShortProfile implements Serializable {
+public class ShortProfile implements Serializable
+{
 
     private static final long serialVersionUID = -8410646966443187827L;
     private long id;
@@ -38,10 +41,12 @@ public class ShortProfile implements Serializable {
     private Date dateCreation;
     private boolean enabled;
 
-    public ShortProfile() {
+    public ShortProfile()
+    {
     }
 
-    public ShortProfile(Profile profile) {
+    public ShortProfile(Profile profile)
+    {
         this.id = profile.getId();
         this.name = profile.getName();
         this.dateCreation = profile.getDateCreation();
@@ -49,53 +54,64 @@ public class ShortProfile implements Serializable {
         this.extId = profile.getExtId();
     }
 
-    public long getId() {
+    public long getId()
+    {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(long id)
+    {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public Date getDateCreation() {
+    public Date getDateCreation()
+    {
         return dateCreation;
     }
 
-    public void setDateCreation(Date dateCreation) {
+    public void setDateCreation(Date dateCreation)
+    {
         this.dateCreation = dateCreation;
     }
 
-    public boolean isEnabled() {
+    public boolean isEnabled()
+    {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled)
+    {
         this.enabled = enabled;
     }
 
-    public String getExtId() {
+    public String getExtId()
+    {
         return extId;
     }
 
-    public void setExtId(String extId) {
+    public void setExtId(String extId)
+    {
         this.extId = extId;
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName()
-                +"[id=" + id
-                + " name=" + name
-                + " enabled=" + enabled
-                + ']';
+    public String toString()
+    {
+        return getClass().getSimpleName() +
+            "[id=" + id +
+            " name=" + name +
+            " enabled=" + enabled +
+            ']';
     }
 
 }

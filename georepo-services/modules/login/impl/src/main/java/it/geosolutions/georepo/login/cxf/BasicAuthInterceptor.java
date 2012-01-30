@@ -87,7 +87,7 @@ public class BasicAuthInterceptor extends AbstractInDatabindingInterceptor {
         GrantedAuths ga = null;
 
         try {
-            ga = authProvider.login(policy.getUserName(), policy.getPassword());
+            ga = authProvider.login(policy.getUserName(), policy.getPassword(), "");
         } catch (Exception ex) {
             LOGGER.warn("Login failed:" + ex.getMessage());
             sendErrorResponse(message, HttpURLConnection.HTTP_FORBIDDEN);

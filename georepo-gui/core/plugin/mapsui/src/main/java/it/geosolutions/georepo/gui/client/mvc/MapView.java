@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,20 +32,22 @@
  */
 package it.geosolutions.georepo.gui.client.mvc;
 
+import com.extjs.gxt.ui.client.mvc.AppEvent;
+import com.extjs.gxt.ui.client.mvc.Controller;
+import com.extjs.gxt.ui.client.mvc.View;
+
 import it.geosolutions.geogwt.gui.client.widget.map.MapLayoutWidget;
 import it.geosolutions.georepo.gui.client.GeoRepoEvents;
 
 import org.gwtopenmaps.openlayers.client.LonLat;
 
-import com.extjs.gxt.ui.client.mvc.AppEvent;
-import com.extjs.gxt.ui.client.mvc.Controller;
-import com.extjs.gxt.ui.client.mvc.View;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class MapView.
  */
-public class MapView extends View {
+public class MapView extends View
+{
 
     /** The map layout. */
     private MapLayoutWidget mapLayout;
@@ -55,11 +57,12 @@ public class MapView extends View {
 
     /**
      * Instantiates a new map view.
-     * 
+     *
      * @param controller
      *            the controller
      */
-    public MapView(Controller controller) {
+    public MapView(Controller controller)
+    {
         super(controller);
 
         this.mapLayout = new MapLayoutWidget();
@@ -67,16 +70,18 @@ public class MapView extends View {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client. mvc.AppEvent)
      */
     @Override
-    protected void handleEvent(AppEvent event) {
+    protected void handleEvent(AppEvent event)
+    {
 //        if (event.getType() == GeoRepoEvents.ATTACH_MAP_WIDGET) {
 //            this.mapLayout.onAddToCenterPanel((ContentPanel) event.getData());
 //        }
 
-        if (event.getType() == GeoRepoEvents.UPDATE_MAP_SIZE) {
+        if (event.getType() == GeoRepoEvents.UPDATE_MAP_SIZE)
+        {
             this.mapLayout.updateMapSize();
         }
 
@@ -120,14 +125,15 @@ public class MapView extends View {
     /**
      * On zoom to center.
      */
-    private void onZoomToCenter() {
+    private void onZoomToCenter()
+    {
         LonLat center = this.mapLayout.getMap().getCenter();
         this.mapLayout.getMap().setCenter(center, 3);
     }
 
 //    /**
 //     * On draw aoi on map.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */
@@ -156,14 +162,16 @@ public class MapView extends View {
     /**
      * On erase aoi features.
      */
-    private void onEraseAOIFeatures() {
+    private void onEraseAOIFeatures()
+    {
         this.mapLayout.eraseFeatures();
     }
 
     /**
      * On activate draw feature.
      */
-    private void onActivateDrawFeature() {
+    private void onActivateDrawFeature()
+    {
         this.mapLayout.activateDrawFeature();
 
     }
@@ -171,14 +179,15 @@ public class MapView extends View {
     /**
      * On deactivate draw feature.
      */
-    private void onDeactivateDrawFeature() {
+    private void onDeactivateDrawFeature()
+    {
         this.mapLayout.deactivateDrawFeature();
 
     }
 
 //    /**
 //     * On attach toolbar.
-//     * 
+//     *
 //     * @param event
 //     *            the event
 //     */

@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -35,12 +35,14 @@ package it.geosolutions.georepo.gui.client.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class GeoRepoGlobalConfiguration.
  */
 @Component("georepoGlobalConfiguration")
-public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration {
+public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -3377836318526396981L;
@@ -51,10 +53,11 @@ public class GeoRepoGlobalConfiguration implements IGeoRepoConfiguration {
 
     /**
      * Gets the profile bean manager.
-     * 
+     *
      * @return the profile bean manager
      */
-    public IUserBeanManager getUserBeanManager() {
+    public IUserBeanManager getUserBeanManager()
+    {
         // TODO Auto-generated method stub
         return userBeanManager;
     }

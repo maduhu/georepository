@@ -40,6 +40,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -51,11 +52,17 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity(name = "GRUser")
 @Table(name = "gr_gruser")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "GRUser")
-@XmlRootElement(name = "GSUser")
+@XmlRootElement(name = "GRUser")
+@XmlType(propOrder={"id","extId","name","enabled","fullName","password","emailAddress","dateCreation"})
 public class GRUser implements Identifiable, Serializable {
 
 
-    /** The id. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5161617651332259455L;
+
+	/** The id. */
     @Id
     @GeneratedValue
     @Column

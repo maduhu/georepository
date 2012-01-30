@@ -85,7 +85,7 @@ public class LoginServiceImpl implements LoginService, InitializingBean, Disposa
     // ==========================================================================
 
     @Override
-    public String login(String username, String password) throws AuthException
+    public String login(String username, String password, String encryptedPassword) throws AuthException
     {
         LOGGER.info("LOGIN REQUEST FOR " + username);
 
@@ -103,11 +103,11 @@ public class LoginServiceImpl implements LoginService, InitializingBean, Disposa
         {
             try
             {
-                GrantedAuths ga = authProvider.login(username, password);
+                GrantedAuths ga = authProvider.login(username, password, encryptedPassword);
                 if (!ga.getAuthorities().contains(Authority.LOGIN))
                 {
                     LOGGER.warn("Login not granted to user [" + username + "]");
-                    throw new AuthException("User " + username + "can't log in");
+                    throw new AuthException("User " + username + " can't log in");
                 }
 
                 String token = sessionManager.createSession(username, ga);

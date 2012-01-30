@@ -13,18 +13,22 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+
 /**
- * 
+ *
  * @author ETj (etj at geo-solutions.it)
  */
-public class TokenEncoder {
+public class TokenEncoder
+{
 
     // // 123456789 123456789 123456789 12
     // private static final byte[] KEY =
     // "installation dependant key needed".substring(0,16).getBytes();
 
-    public static String encode(String msg, String key) {
-        try {
+    public static String encode(String msg, String key)
+    {
+        try
+        {
             SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, keySpec);
@@ -32,22 +36,35 @@ public class TokenEncoder {
             byte[] input = msg.getBytes();
             byte[] encrypted = cipher.doFinal(input);
             byte[] output = Base64.encodeBase64(encrypted);
+
             return new String(output);
-        } catch (NoSuchAlgorithmException ex) {
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
-        } catch (NoSuchPaddingException ex) {
+        }
+        catch (NoSuchPaddingException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
-        } catch (IllegalBlockSizeException ex) {
+        }
+        catch (IllegalBlockSizeException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
-        } catch (BadPaddingException ex) {
+        }
+        catch (BadPaddingException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
-        } catch (InvalidKeyException ex) {
+        }
+        catch (InvalidKeyException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
         }
     }
 
-    public static String decode(String msg, String key) {
-        try {
+    public static String decode(String msg, String key)
+    {
+        try
+        {
             SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, keySpec);
@@ -56,15 +73,25 @@ public class TokenEncoder {
             byte[] decrypted = cipher.doFinal(de64);
 
             return new String(decrypted);
-        } catch (NoSuchAlgorithmException ex) {
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
-        } catch (NoSuchPaddingException ex) {
+        }
+        catch (NoSuchPaddingException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
-        } catch (IllegalBlockSizeException ex) {
+        }
+        catch (IllegalBlockSizeException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
-        } catch (BadPaddingException ex) {
+        }
+        catch (BadPaddingException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
-        } catch (InvalidKeyException ex) {
+        }
+        catch (InvalidKeyException ex)
+        {
             throw new RuntimeException("Error while encoding", ex);
         }
     }

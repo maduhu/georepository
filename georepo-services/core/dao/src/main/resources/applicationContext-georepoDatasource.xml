@@ -90,7 +90,7 @@
 
 	<bean id="georepoVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-		<property name="databasePlatform" value="org.hibernatespatial.postgis.PostgisDialect" />
+		<property name="databasePlatform" value="${georepoVendorAdapter.databasePlatform}" />
 		<property name="showSql" value="true" />
 		<property name="generateDdl" value="false" />
 	</bean>

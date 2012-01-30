@@ -14,6 +14,7 @@ http://www.springframework.org/schema/context
 		class="it.geosolutions.georepo.gui.service.GeoRepoRemoteService">
 		<property name="loginService" ref="mainLoginService" />
         <property name="userAdminService" ref="userAdminService" />
+        <property name="grUserAdminService" ref="grUserAdminService" />
         <property name="profileAdminService" ref="profileAdminService" />
         <property name="instanceAdminService" ref="instanceAdminService" />
         <property name="ruleAdminService" ref="ruleAdminService" />

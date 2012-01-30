@@ -19,23 +19,25 @@
  */
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.core.model.Rule;
-import it.geosolutions.georepo.services.dto.AccessInfo;
-import it.geosolutions.georepo.services.dto.RuleFilter;
-import it.geosolutions.georepo.services.dto.ShortRule;
-
 import java.util.List;
 
 import javax.jws.WebService;
 import javax.ws.rs.PathParam;
 
+import it.geosolutions.georepo.core.model.Rule;
+import it.geosolutions.georepo.services.dto.AccessInfo;
+import it.geosolutions.georepo.services.dto.RuleFilter;
+import it.geosolutions.georepo.services.dto.ShortRule;
+
+
 /**
- * Operations on 
- * 
+ * Operations on
+ *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @WebService(name = "RuleReaderService", targetNamespace = "http://geosolutions.it/georepo")
-public interface RuleReaderService {
+public interface RuleReaderService
+{
 
     /**
      * Return info on resource accessibility.
@@ -48,16 +50,13 @@ public interface RuleReaderService {
      *
      * @deprecated Use {@link #getAccessInfo(RuleFilter filter) }
      */
-    AccessInfo getAccessInfo(
-            @PathParam("user") String userName,
-            @PathParam("profile") String profileName,
-            @PathParam("instance") String instanceName,
-
-            @PathParam("service") String service,
-            @PathParam("request") String request,
-            @PathParam("workspace") String workspace,
-            @PathParam("layer") String layer
-            );
+    AccessInfo getAccessInfo(@PathParam("user") String userName,
+        @PathParam("profile") String profileName,
+        @PathParam("instance") String instanceName,
+        @PathParam("service") String service,
+        @PathParam("request") String request,
+        @PathParam("workspace") String workspace,
+        @PathParam("layer") String layer);
 
     /**
      * Return info on resource accessibility.
@@ -81,16 +80,13 @@ public interface RuleReaderService {
      * @deprecated Use {@link #getMatchingRules(RuleFilter filter) }
      */
 
-    List<ShortRule> getMatchingRules(
-            @PathParam("user") String userName,
-            @PathParam("profile") String profileName,
-            @PathParam("instance") String instanceName,
-
-            @PathParam("service") String service,
-            @PathParam("request") String request,
-            @PathParam("workspace") String workspace,
-            @PathParam("layer") String layer
-            );
+    List<ShortRule> getMatchingRules(@PathParam("user") String userName,
+        @PathParam("profile") String profileName,
+        @PathParam("instance") String instanceName,
+        @PathParam("service") String service,
+        @PathParam("request") String request,
+        @PathParam("workspace") String workspace,
+        @PathParam("layer") String layer);
 
     /**
      * Return the unprocessed {@link Rule} list matching a given filter, sorted

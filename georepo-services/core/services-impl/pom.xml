@@ -116,9 +116,9 @@
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency> -->
 
-		 HIBERNATE-GENERIC-DAO 
+        <!-- HIBERNATE-GENERIC-DAO -->
         <dependency>
             <groupId>com.trg</groupId>
             <artifactId>trg-dao</artifactId>
@@ -133,9 +133,9 @@
             <groupId>com.trg</groupId>
             <artifactId>trg-search-jpa-hibernate</artifactId>
         </dependency>
-		
-		 HIBERNATE-SPATIAL 
-        <dependency>
+
+        <!-- HIBERNATE-SPATIAL -->
+        <!-- dependency>
             <groupId>org.hibernatespatial</groupId>
             <artifactId>hibernate-spatial-postgis</artifactId>
             <exclusions>
@@ -144,7 +144,7 @@
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>-->
+        </dependency -->
 	
   		<!-- CGLIB -->
 <!--        <dependency>

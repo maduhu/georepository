@@ -22,21 +22,25 @@ package it.geosolutions.georepo.services.exception;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class InternalErrorServiceEx extends WebApplicationException {
+public class InternalErrorServiceEx extends WebApplicationException
+{
 
     private String message;
 
-    public InternalErrorServiceEx(String message) {
+    public InternalErrorServiceEx(String message)
+    {
         super(Response.Status.BAD_REQUEST);
         this.message = message;
-     }
+    }
 
     @Override
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 

@@ -41,6 +41,7 @@ import javax.servlet.http.HttpSession;
 import it.geosolutions.georepo.api.dto.Authority;
 import it.geosolutions.georepo.api.dto.GrantedAuths;
 import it.geosolutions.georepo.api.exception.AuthException;
+import it.geosolutions.georepo.core.model.GRUser;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.model.Authorization;
 import it.geosolutions.georepo.gui.client.model.User;
@@ -98,7 +99,27 @@ public class LoginService implements ILoginService
             System.setProperty("javax.net.ssl.trustStorePassword", "geosolutions");
 
             // grantedAuthorities =
-            token = georepoRemoteService.getLoginService().login(userName, password);
+            List<GRUser> matchingUser = georepoRemoteService.getGrUserAdminService().getFullList(userName, null, null);
+            logger.info(matchingUser);
+            logger.info(matchingUser.size());
+
+            if ((matchingUser == null) || matchingUser.isEmpty() || (matchingUser.size() != 1))
+            {
+                logger.error("Error :********** " + "Invalid username specified!");
+                throw new ApplicationException("Error :********** " + "Invalid username specified!");
+            }
+
+            logger.info(matchingUser.get(0).getName());
+            logger.info(matchingUser.get(0).getPassword());
+            logger.info(matchingUser.get(0).getEnabled());
+
+            if (!matchingUser.get(0).getName().equals(userName) || !matchingUser.get(0).getEnabled())
+            {
+                logger.error("Error :********** " + "The specified user does not exist!");
+                throw new ApplicationException("Error :********** " + "The specified user does not exist!");
+            }
+
+            token = georepoRemoteService.getLoginService().login(userName, password, matchingUser.get(0).getPassword());
             grantedAuths = georepoRemoteService.getLoginService().getGrantedAuthorities(token);
 
         }

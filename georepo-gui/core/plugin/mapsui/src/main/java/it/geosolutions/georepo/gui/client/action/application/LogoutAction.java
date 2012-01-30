@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,38 +32,43 @@
  */
 package it.geosolutions.georepo.gui.client.action.application;
 
-import it.geosolutions.geogwt.gui.client.widget.map.action.ToolbarMapAction;
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.Resources;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 
+import it.geosolutions.geogwt.gui.client.widget.map.action.ToolbarMapAction;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.Resources;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class LogoutAction.
  */
-public class LogoutAction extends ToolbarMapAction {
+public class LogoutAction extends ToolbarMapAction
+{
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -8343538202482412376L;
 
     /**
      * Instantiates a new logout action.
      */
-    public LogoutAction() {
+    public LogoutAction()
+    {
         super();
     }
 
     @Override
-    public boolean initialize() {
-        if (!isInitialized()) {
+    public boolean initialize()
+    {
+        if (!isInitialized())
+        {
             setTooltip(I18nProvider.getMessages().logoutTooltip());
             setIcon(Resources.ICONS.logout());
             this.initialiazed = true;
@@ -73,15 +78,19 @@ public class LogoutAction extends ToolbarMapAction {
     }
 
     @Override
-    public void performAction(Button button) {
-        MessageBox.confirm(I18nProvider.getMessages().logoutDialogTitle(), I18nProvider
-                .getMessages().logoutDialogMessage(), new Listener<MessageBoxEvent>() {
+    public void performAction(Button button)
+    {
+        MessageBox.confirm(I18nProvider.getMessages().logoutDialogTitle(), I18nProvider.getMessages().logoutDialogMessage(), new Listener<MessageBoxEvent>()
+            {
 
-            public void handleEvent(MessageBoxEvent be) {
-                Button btn = be.getButtonClicked();
-                if (btn.getText().equalsIgnoreCase("YES"))
-                    Dispatcher.forwardEvent(GeoRepoEvents.LOGOUT);
-            }
-        });
+                public void handleEvent(MessageBoxEvent be)
+                {
+                    Button btn = be.getButtonClicked();
+                    if (btn.getText().equalsIgnoreCase("YES"))
+                    {
+                        Dispatcher.forwardEvent(GeoRepoEvents.LOGOUT);
+                    }
+                }
+            });
     }
 }

@@ -20,16 +20,19 @@
 
 package it.geosolutions.georepo.services.dto;
 
+import java.io.Serializable;
+
 import it.geosolutions.georepo.core.model.GRUser;
 import it.geosolutions.georepo.core.model.GSUser;
-import java.io.Serializable;
+
 
 /**
  * A compact representation of GSUser useful in lists.
- * 
+ *
  * @author Etj (etj@geo-solutions.it)
  */
-public class ShortUser implements Serializable {
+public class ShortUser implements Serializable
+{
 
     private static final long serialVersionUID = -2484627092672856852L;
 
@@ -37,37 +40,45 @@ public class ShortUser implements Serializable {
 
     private String name;
 
-    public ShortUser() {
+    public ShortUser()
+    {
     }
 
-    public ShortUser(GSUser user) {
+    public ShortUser(GSUser user)
+    {
         this.id = user.getId();
         this.name = user.getName();
     }
 
-    public ShortUser(GRUser user) {
+    public ShortUser(GRUser user)
+    {
         this.id = user.getId();
         this.name = user.getName();
     }
 
-    public long getId() {
+    public long getId()
+    {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(long id)
+    {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "ShortUser{" + "id=" + id + " name=" + name + '}';
     }
 

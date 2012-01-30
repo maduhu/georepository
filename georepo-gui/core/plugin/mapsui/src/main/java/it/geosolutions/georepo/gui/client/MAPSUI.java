@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,27 +32,30 @@
  */
 package it.geosolutions.georepo.gui.client;
 
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.google.gwt.core.client.EntryPoint;
+
 import it.geosolutions.georepo.gui.client.mvc.MAPSController;
 import it.geosolutions.georepo.gui.client.mvc.MapController;
 
-import com.extjs.gxt.ui.client.mvc.Dispatcher;
-import com.google.gwt.core.client.EntryPoint;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class MAPSUI.
  */
-public class MAPSUI implements EntryPoint {
+public class MAPSUI implements EntryPoint
+{
 
     /** The dispatcher. */
     private Dispatcher dispatcher;
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
      */
-    public void onModuleLoad() {
+    public void onModuleLoad()
+    {
         dispatcher = Dispatcher.get();
 
         dispatcher.addController(new MapController());

@@ -22,26 +22,31 @@ package it.geosolutions.georepo.services.exception;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class NotFoundServiceEx extends WebApplicationException {
+public class NotFoundServiceEx extends WebApplicationException
+{
 
     private String message;
 
-    public NotFoundServiceEx(String message) {
+    public NotFoundServiceEx(String message)
+    {
         super(Response.Status.NOT_FOUND);
         this.message = message;
-     }
+    }
 
-    public NotFoundServiceEx(String message, Long id) {
+    public NotFoundServiceEx(String message, Long id)
+    {
         super(Response.Status.NOT_FOUND);
-        this.message = message + " (id:"+id+")";
-     }
+        this.message = message + " (id:" + id + ")";
+    }
 
     @Override
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 

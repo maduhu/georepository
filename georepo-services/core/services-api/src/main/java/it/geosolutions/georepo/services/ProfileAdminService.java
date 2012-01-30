@@ -19,12 +19,12 @@
  */
 package it.geosolutions.georepo.services;
 
+import java.util.List;
+import java.util.Map;
+
 import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.services.dto.ShortProfile;
 import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
-
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -32,7 +32,8 @@ import java.util.Map;
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public interface ProfileAdminService extends GetProviderService<Profile> {
+public interface ProfileAdminService extends GetProviderService<Profile>
+{
 
     // ==========================================================================
     // Basic operations
@@ -47,7 +48,9 @@ public interface ProfileAdminService extends GetProviderService<Profile> {
     Profile get(long id) throws NotFoundServiceEx;
 
     long getCount(String nameLike);
+
     List<ShortProfile> getList(String nameLike, Integer page, Integer entries);
+
     List<Profile> getFullList(String nameLike, Integer page, Integer entries);
 
     // ==========================================================================

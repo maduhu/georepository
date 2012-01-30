@@ -20,27 +20,30 @@
 
 package it.geosolutions.georepo.services.dto;
 
-import it.geosolutions.georepo.core.model.LayerAttribute;
-import it.geosolutions.georepo.core.model.enums.GrantType;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import it.geosolutions.georepo.core.model.LayerAttribute;
+import it.geosolutions.georepo.core.model.enums.GrantType;
+
+
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
-public class AccessInfo implements Serializable {
-    
+public class AccessInfo implements Serializable
+{
+
     private static final long serialVersionUID = -9108763358187355342L;
 
     /**
      * Default "allow everything" AccessInfo
      */
     public static final AccessInfo ALLOW_ALL = new AccessInfo(GrantType.ALLOW);
-    
+
     /**
      * Default "deny everything" AccessInfo
      */
@@ -63,105 +66,130 @@ public class AccessInfo implements Serializable {
     private Set<String> allowedStyles;
 
 
-    public AccessInfo() {
+    public AccessInfo()
+    {
     }
 
-    public AccessInfo(GrantType grant) {
+    public AccessInfo(GrantType grant)
+    {
         this.grant = grant;
     }
 
-    public Geometry getArea() {
+    public Geometry getArea()
+    {
         return area;
     }
 
-    public void setArea(Geometry area) {
+    public void setArea(Geometry area)
+    {
         this.area = area;
     }
 
-    public Set<LayerAttribute> getAttributes() {
+    public Set<LayerAttribute> getAttributes()
+    {
         return attributes;
     }
 
-    public void setAttributes(Set<LayerAttribute> attributes) {
+    public void setAttributes(Set<LayerAttribute> attributes)
+    {
         this.attributes = attributes;
     }
 
-    public String getCqlFilterRead() {
+    public String getCqlFilterRead()
+    {
         return cqlFilterRead;
     }
 
-    public void setCqlFilterRead(String cqlFilterRead) {
+    public void setCqlFilterRead(String cqlFilterRead)
+    {
         this.cqlFilterRead = cqlFilterRead;
     }
 
-    public String getCqlFilterWrite() {
+    public String getCqlFilterWrite()
+    {
         return cqlFilterWrite;
     }
 
-    public void setCqlFilterWrite(String cqlFilterWrite) {
+    public void setCqlFilterWrite(String cqlFilterWrite)
+    {
         this.cqlFilterWrite = cqlFilterWrite;
     }
 
-    public Map<String, String> getCustomProps() {
+    public Map<String, String> getCustomProps()
+    {
         return customProps;
     }
 
-    public void setCustomProps(Map<String, String> customProps) {
+    public void setCustomProps(Map<String, String> customProps)
+    {
         this.customProps = customProps;
     }
 
-    public String getDefaultStyle() {
+    public String getDefaultStyle()
+    {
         return defaultStyle;
     }
 
-    public void setDefaultStyle(String defaultStyle) {
+    public void setDefaultStyle(String defaultStyle)
+    {
         this.defaultStyle = defaultStyle;
     }
 
-    public Set<String> getAllowedStyles() {
+    public Set<String> getAllowedStyles()
+    {
         return allowedStyles;
     }
 
-    public void setAllowedStyles(Set<String> allowedStyles) {
+    public void setAllowedStyles(Set<String> allowedStyles)
+    {
         this.allowedStyles = allowedStyles;
     }
 
-    public GrantType getGrant() {
+    public GrantType getGrant()
+    {
         return grant;
     }
 
-    public void setGrant(GrantType grant) {
-        if(grant != GrantType.ALLOW && grant != GrantType.DENY)
+    public void setGrant(GrantType grant)
+    {
+        if ((grant != GrantType.ALLOW) && (grant != GrantType.DENY))
+        {
             throw new IllegalArgumentException("Bad grant type " + grant);
+        }
         this.grant = grant;
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(getClass().getSimpleName())
-                .append("[grant:").append(grant);
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append("[grant:").append(grant);
 
-        if (defaultStyle != null) {
+        if (defaultStyle != null)
+        {
             sb.append(" defSty:").append(defaultStyle);
         }
-        if (cqlFilterRead != null) {
+        if (cqlFilterRead != null)
+        {
             sb.append(" cqlR:").append(cqlFilterRead);
         }
-        if (cqlFilterWrite != null) {
+        if (cqlFilterWrite != null)
+        {
             sb.append(" cqlW:").append(cqlFilterWrite);
         }
-        if (area != null) {
-            sb.append(" area: [")
-                    .append(area.getNumPoints()).append(" vertices, (")
-                    .append(area.getCoordinate().x).append(',').append(area.getCoordinate().y).append(')');
+        if (area != null)
+        {
+            sb.append(" area: [").append(area.getNumPoints()).append(" vertices, (").append(area.getCoordinate().x).append(',').append(area.getCoordinate().y).append(')');
         }
-        if (allowedStyles != null && ! allowedStyles.isEmpty()) {
+        if ((allowedStyles != null) && !allowedStyles.isEmpty())
+        {
             sb.append(" allSty:").append(allowedStyles); // needs decoding?
         }
-        if (attributes != null && ! attributes.isEmpty()) {
+        if ((attributes != null) && !attributes.isEmpty())
+        {
             sb.append(" attr:").append(attributes); // needs decoding?
         }
-        if (customProps != null && ! customProps.isEmpty()) {
+        if ((customProps != null) && !customProps.isEmpty())
+        {
             sb.append(" props:").append(customProps); // needs decoding?
         }
 

@@ -30,7 +30,7 @@ import it.geosolutions.georepo.api.exception.AuthException;
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 public interface AuthProvider {
-    GrantedAuths login(String username, String password) throws AuthException;
+    GrantedAuths login(String username, String password, String encryptedPassword) throws AuthException;
 
     void logout(String token);
 }

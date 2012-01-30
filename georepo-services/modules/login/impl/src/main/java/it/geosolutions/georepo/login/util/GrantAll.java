@@ -43,7 +43,7 @@ public class GrantAll implements AuthProvider
     private static final Logger LOGGER = Logger.getLogger(GrantAll.class);
 
     @Override
-    public GrantedAuths login(String username, String password) throws AuthException
+    public GrantedAuths login(String username, String password, String encryptedPassword) throws AuthException
     {
         // allow auth to anybody
         LOGGER.warn("Granting login to " + username);
@@ -65,6 +65,7 @@ public class GrantAll implements AuthProvider
         try
         {
             md = MessageDigest.getInstance("MD5");
+            md.reset();
         }
         catch (NoSuchAlgorithmException e)
         {
@@ -73,12 +74,22 @@ public class GrantAll implements AuthProvider
         }
 
         byte[] thedigest = md.digest(bytesOfMessage);
+        StringBuffer hexString = new StringBuffer();
+        for (int i = 0; i < thedigest.length; i++)
+        {
+            hexString.append(Integer.toHexString(0xFF & thedigest[i]));
+        }
 
-        LOGGER.info("DIGEST: " + new String(thedigest));
+        LOGGER.info("encryptedPassword: " + encryptedPassword);
+        LOGGER.info("hexString: " + hexString);
 
         if (username.equals("1nt3rnAL-G30r3p0-admin") &&
                 // new String(thedigest).equals("2c6fe6e20600312c5aa94ef0ca42b0af")
                 password.equals("1geosolutions2"))
+        {
+            ga.setAuthorities(Arrays.asList(Authority.values()));
+        }
+        else if (hexString.toString().equals(encryptedPassword))
         {
             ga.setAuthorities(Arrays.asList(Authority.values()));
         }

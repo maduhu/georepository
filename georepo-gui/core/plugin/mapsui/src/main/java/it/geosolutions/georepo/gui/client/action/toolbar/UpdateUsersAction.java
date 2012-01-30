@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,36 +32,41 @@
  */
 package it.geosolutions.georepo.gui.client.action.toolbar;
 
+import com.extjs.gxt.ui.client.widget.MessageBox;
+import com.extjs.gxt.ui.client.widget.button.Button;
+
 import it.geosolutions.geogwt.gui.client.widget.map.action.ToolbarMapAction;
 import it.geosolutions.georepo.gui.client.Resources;
 import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
 
-import com.extjs.gxt.ui.client.widget.MessageBox;
-import com.extjs.gxt.ui.client.widget.button.Button;
 
 /**
  * The Class UpdateUsersAction.
  */
-public class UpdateUsersAction extends ToolbarMapAction {
+public class UpdateUsersAction extends ToolbarMapAction
+{
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -8098807160118329223L;
 
     /**
      * Instantiates a new update users in action.
-     * 
+     *
      */
-    public UpdateUsersAction() {
+    public UpdateUsersAction()
+    {
         super();
 
     }
 
     @Override
-    public boolean initialize() {
-        
-        if (!isInitialized()) {
+    public boolean initialize()
+    {
+
+        if (!isInitialized())
+        {
             setTooltip(I18nProvider.getMessages().syncUsers());
             setIcon(Resources.ICONS.share());
             this.initialiazed = true;
@@ -71,7 +76,8 @@ public class UpdateUsersAction extends ToolbarMapAction {
     }
 
     @Override
-    public void performAction(Button button) {
+    public void performAction(Button button)
+    {
         MessageBox.alert("Update Users", "This feature is not implemented yet !", null);
     }
 }

@@ -19,17 +19,19 @@
  */
 package it.geosolutions.georepo.services;
 
+import java.util.List;
+
 import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
-import java.util.List;
 
 /**
  * Operations on {@link GSInstance GSInstance}s.
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public interface InstanceAdminService extends GetProviderService<GSInstance> {
+public interface InstanceAdminService extends GetProviderService<GSInstance>
+{
 
     // ==========================================================================
     // Basic operations

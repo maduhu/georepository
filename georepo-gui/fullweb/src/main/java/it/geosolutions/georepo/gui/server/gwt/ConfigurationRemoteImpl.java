@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,26 +32,28 @@
  */
 package it.geosolutions.georepo.gui.server.gwt;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration;
 import it.geosolutions.georepo.gui.client.service.ConfigurationRemote;
 import it.geosolutions.georepo.gui.server.service.IStartupService;
 import it.geosolutions.georepo.gui.spring.ApplicationContextUtil;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ConfigurationRemoteImpl.
  */
-public class ConfigurationRemoteImpl extends RemoteServiceServlet implements ConfigurationRemote {
+public class ConfigurationRemoteImpl extends RemoteServiceServlet implements ConfigurationRemote
+{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -6320939080552026131L;
@@ -64,15 +66,15 @@ public class ConfigurationRemoteImpl extends RemoteServiceServlet implements Con
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
      */
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) throws ServletException
+    {
         super.init(config);
 
-        ApplicationContext context = WebApplicationContextUtils
-                .getWebApplicationContext(getServletContext());
+        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 
         ApplicationContextUtil.getInstance().setSpringContext(context);
 
@@ -84,11 +86,12 @@ public class ConfigurationRemoteImpl extends RemoteServiceServlet implements Con
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.client.service.ConfigurationRemote#
      * initServerConfiguration()
      */
-    public GeoRepoGlobalConfiguration initServerConfiguration() {
+    public GeoRepoGlobalConfiguration initServerConfiguration()
+    {
         // TODO Auto-generated method stub
         return startupService.initServerConfiguration();
     }

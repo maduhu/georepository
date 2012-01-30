@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -37,11 +37,13 @@ import it.geosolutions.georepo.gui.server.service.IStartupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class StartupService.
  */
-public class StartupService implements IStartupService {
+public class StartupService implements IStartupService
+{
 
     /** The georepo global configuration. */
     @Autowired
@@ -49,10 +51,11 @@ public class StartupService implements IStartupService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.geosolutions.georepo.gui.server.service.IStartupService#initServerConfiguration()
      */
-    public GeoRepoGlobalConfiguration initServerConfiguration() {
+    public GeoRepoGlobalConfiguration initServerConfiguration()
+    {
         // TODO Auto-generated method stub
         return georepoGlobalConfiguration;
     }

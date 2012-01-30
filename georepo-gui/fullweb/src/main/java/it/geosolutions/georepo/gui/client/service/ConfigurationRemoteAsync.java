@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,19 +32,21 @@
  */
 package it.geosolutions.georepo.gui.client.service;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import it.geosolutions.georepo.gui.client.configuration.GeoRepoGlobalConfiguration;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Interface ConfigurationRemoteAsync.
  */
-public interface ConfigurationRemoteAsync {
+public interface ConfigurationRemoteAsync
+{
 
     /**
      * Inits the server configuration.
-     * 
+     *
      * @param callback
      *            the callback
      */

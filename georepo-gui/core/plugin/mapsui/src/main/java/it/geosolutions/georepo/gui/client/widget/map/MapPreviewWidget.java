@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -53,11 +53,13 @@ import org.gwtopenmaps.openlayers.client.layer.WMS;
 import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
 import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class MapPreviewWidget.
  */
-public class MapPreviewWidget {
+public class MapPreviewWidget
+{
 
     /** The map widget. */
     private MapWidget mapWidget;
@@ -80,31 +82,36 @@ public class MapPreviewWidget {
     /**
      * Instantiates a new map preview widget.
      */
-    public MapPreviewWidget() {
+    public MapPreviewWidget()
+    {
         this.createMapOption(true);
     }
 
     /**
      * Creates the map option.
-     * 
+     *
      * @param isGoogle
      *            the is google
      */
-    private void createMapOption(boolean isGoogle) {
+    private void createMapOption(boolean isGoogle)
+    {
         // TODO Auto-generated method stub
 
         OpenLayers.setProxyHost("gwtOpenLayersProxy?targetURL=");
 
         this.defaultMapOptions = new MapOptions();
         this.defaultMapOptions.setNumZoomLevels(18);
-        if (isGoogle) {
+        if (isGoogle)
+        {
             this.defaultMapOptions.setProjection("EPSG:900913");
             this.defaultMapOptions.setDisplayProjection(new Projection("EPSG:4326"));
             this.defaultMapOptions.setUnits(MapUnits.METERS);
             this.defaultMapOptions.setMaxExtent(new Bounds(-20037508, -20037508, 20037508,
                     20037508.34));
             this.defaultMapOptions.setMaxResolution(new Double(156543.0339).floatValue());
-        } else {
+        }
+        else
+        {
             this.defaultMapOptions.setProjection("EPSG:4326");
         }
 
@@ -113,20 +120,24 @@ public class MapPreviewWidget {
 
     /**
      * Inits the map widget.
-     * 
+     *
      * @param defaultMapOptions
      *            the default map options
      * @param isGoogle
      *            the is google
      */
-    private void initMapWidget(MapOptions defaultMapOptions, boolean isGoogle) {
+    private void initMapWidget(MapOptions defaultMapOptions, boolean isGoogle)
+    {
         mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
         this.map = mapWidget.getMap();
         // this.map.addControl(new LayerSwitcher());
-        if (isGoogle) {
+        if (isGoogle)
+        {
             this.createOSM();
             // this.createBaseGoogleLayer();
-        } else {
+        }
+        else
+        {
             WMSParams wmsParams = new WMSParams();
             wmsParams.setFormat("image/png");
             wmsParams.setLayers("basic");
@@ -146,17 +157,19 @@ public class MapPreviewWidget {
     /**
      * Creates the osm.
      */
-    private void createOSM() {
-        this.osm = OSM.THIS("OpenStreetMap Preview", OpenLayers.getProxyHost()
-                + "http://tile.openstreetmap.org/${z}/${x}/${y}.png", new OSMOptions());
-        ;// OSM.Mapnik("OpenStreetMap Preview");
+    private void createOSM()
+    {
+        this.osm = OSM.THIS("OpenStreetMap Preview", OpenLayers.getProxyHost() +
+                "http://tile.openstreetmap.org/${z}/${x}/${y}.png", new OSMOptions());
+        ; // OSM.Mapnik("OpenStreetMap Preview");
         this.map.addLayer(osm);
     }
 
     /**
      * Inits the vector layer.
      */
-    private void initVectorLayer() {
+    private void initVectorLayer()
+    {
         VectorOptions vectorOption = new VectorOptions();
         vectorOption.setStyle(this.createStyle());
         vectorOption.setDisplayInLayerSwitcher(false);
@@ -175,10 +188,11 @@ public class MapPreviewWidget {
 
     /**
      * Creates the style.
-     * 
+     *
      * @return the style
      */
-    private Style createStyle() {
+    private Style createStyle()
+    {
         Style style = new Style();
         style.setStrokeColor("#000000");
         style.setStrokeWidth(1);
@@ -186,19 +200,23 @@ public class MapPreviewWidget {
         style.setFillOpacity(0.5);
         style.setPointRadius(5);
         style.setStrokeOpacity(1.0);
+
         return style;
     }
 
     /**
      * Draw aoi on map.
-     * 
+     *
      * @param wkt
      *            the wkt
      */
-    public void drawAoiOnMap(String wkt) {
+    public void drawAoiOnMap(String wkt)
+    {
         this.eraseFeatures();
+
         MultiPolygon geom = MultiPolygon.narrowToMultiPolygon(Geometry.fromWKT(wkt).getJSObject());
         geom.transform(new Projection("EPSG:4326"), new Projection("EPSG:900913"));
+
         VectorFeature vectorFeature = new VectorFeature(geom);
         this.vector.addFeature(vectorFeature);
         this.map.zoomToExtent(geom.getBounds());
@@ -207,7 +225,8 @@ public class MapPreviewWidget {
     /**
      * Erase features.
      */
-    public void eraseFeatures() {
+    public void eraseFeatures()
+    {
         this.vector.destroyFeatures();
         this.vector.redraw();
         this.map.updateSize();
@@ -216,26 +235,29 @@ public class MapPreviewWidget {
     /**
      * Rebuild vector layer.
      */
-    public void rebuildVectorLayer() {
+    public void rebuildVectorLayer()
+    {
         this.map.removeLayer(this.vector);
         this.initVectorLayer();
     }
 
     /**
      * Gets the map widget.
-     * 
+     *
      * @return the map widget
      */
-    public MapWidget getMapWidget() {
+    public MapWidget getMapWidget()
+    {
         return mapWidget;
     }
 
     /**
      * Gets the vector.
-     * 
+     *
      * @return the vector
      */
-    public Vector getVector() {
+    public Vector getVector()
+    {
         return vector;
     }
 }

@@ -19,13 +19,6 @@
  */
 package it.geosolutions.georepo.services;
 
-import it.geosolutions.georepo.core.model.LayerDetails;
-import it.geosolutions.georepo.core.model.Rule;
-import it.geosolutions.georepo.core.model.RuleLimits;
-import it.geosolutions.georepo.services.dto.RuleFilter;
-import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,13 +33,22 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
+import it.geosolutions.georepo.core.model.LayerDetails;
+import it.geosolutions.georepo.core.model.Rule;
+import it.geosolutions.georepo.core.model.RuleLimits;
+import it.geosolutions.georepo.services.dto.RuleFilter;
+import it.geosolutions.georepo.services.dto.ShortRule;
+import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
+
+
 /**
  * Operations on {@link Rule Rule}s.
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
 @WebService(name = "ProfileAdminService", targetNamespace = "http://geosolutions.it/georepo")
-public interface RuleAdminService {
+public interface RuleAdminService
+{
 
     // ==========================================================================
     // Basic operations
@@ -106,19 +108,15 @@ public interface RuleAdminService {
      */
     @GET
     @Path("/rules/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
-    List<ShortRule> getList(
-            @PathParam("userId") String userId,
-            @PathParam("profileId") String profileId,
-            @PathParam("instanceId") String instanceId,
-
-            @PathParam("service") String service,
-            @PathParam("request") String request,
-            @PathParam("workspace") String workspace,
-            @PathParam("layer") String layer,
-
-            @QueryParam("page") Integer page,
-            @QueryParam("entries") Integer entries
-            );
+    List<ShortRule> getList(@PathParam("userId") String userId,
+        @PathParam("profileId") String profileId,
+        @PathParam("instanceId") String instanceId,
+        @PathParam("service") String service,
+        @PathParam("request") String request,
+        @PathParam("workspace") String workspace,
+        @PathParam("layer") String layer,
+        @QueryParam("page") Integer page,
+        @QueryParam("entries") Integer entries);
 
     /**
      * Return the Rules according to the filter.
@@ -148,16 +146,13 @@ public interface RuleAdminService {
      */
     @GET
     @Path("/rulescount/user.id/{userId}/profile.id/{profileId}/instance.id/{instanceId}/{service}/{request}/{workspace}/{layer}")
-    long getCount(
-            @PathParam("userId") String userId,
-            @PathParam("profileId") String profileId,
-            @PathParam("instanceId") String instanceId,
-
-            @PathParam("service") String service,
-            @PathParam("request") String request,
-            @PathParam("workspace") String workspace,
-            @PathParam("layer") String layer
-     );
+    long getCount(@PathParam("userId") String userId,
+        @PathParam("profileId") String profileId,
+        @PathParam("instanceId") String instanceId,
+        @PathParam("service") String service,
+        @PathParam("request") String request,
+        @PathParam("workspace") String workspace,
+        @PathParam("layer") String layer);
 
 
     /**
@@ -213,9 +208,11 @@ public interface RuleAdminService {
     void setDetails(Long ruleId, LayerDetails details);
 
     Map<String, String> getDetailsProps(Long ruleId);
+
     void setDetailsProps(Long ruleId, Map<String, String> props);
 
     Set<String> getAllowedStyles(Long ruleId);
+
     void setAllowedStyles(Long ruleId, Set<String> styles);
 
     // ==========================================================================

@@ -34,6 +34,7 @@ package it.geosolutions.georepo.gui.service;
 
 import it.geosolutions.georepo.api.UserRegistry;
 import it.geosolutions.georepo.login.LoginService;
+import it.geosolutions.georepo.services.GRUserAdminService;
 import it.geosolutions.georepo.services.InstanceAdminService;
 import it.geosolutions.georepo.services.ProfileAdminService;
 import it.geosolutions.georepo.services.RuleAdminService;
@@ -50,6 +51,9 @@ public class GeoRepoRemoteService {
 
     /** The user admin service. */
     private UserAdminService userAdminService;
+    
+    /** The GeoRepo login service */
+    private GRUserAdminService grUserAdminService;
 
     /** The user provider. */
     private UserRegistry userProvider;
@@ -102,6 +106,20 @@ public class GeoRepoRemoteService {
     }
 
     /**
+	 * @param grUserAdminService the grUserAdminService to set
+	 */
+	public void setGrUserAdminService(GRUserAdminService grUserAdminService) {
+		this.grUserAdminService = grUserAdminService;
+	}
+
+	/**
+	 * @return the grUserAdminService
+	 */
+	public GRUserAdminService getGrUserAdminService() {
+		return grUserAdminService;
+	}
+
+	/**
      * Gets the user provider.
      * 
      * @return the user provider

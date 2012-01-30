@@ -19,12 +19,11 @@
  */
 package it.geosolutions.georepo.services;
 
+import java.util.List;
+
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
-
-import java.util.List;
-
 
 
 /**
@@ -32,7 +31,8 @@ import java.util.List;
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public interface UserAdminService extends GetProviderService<GSUser> {
+public interface UserAdminService extends GetProviderService<GSUser>
+{
 
     // ==========================================================================
     // Basic operations
@@ -47,6 +47,8 @@ public interface UserAdminService extends GetProviderService<GSUser> {
     GSUser get(long id) throws NotFoundServiceEx;
 
     long getCount(String nameLike);
+
     List<ShortUser> getList(String nameLike, Integer page, Integer entries);
+
     List<GSUser> getFullList(String nameLike, Integer page, Integer entries);
 }

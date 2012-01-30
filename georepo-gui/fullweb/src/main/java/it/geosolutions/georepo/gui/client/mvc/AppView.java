@@ -9,7 +9,7 @@
  * http://www.geo-solutions.it
  *
  * GPLv3 + Classpath exception
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -21,7 +21,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. 
+ * along with this program.
  *
  * ====================================================================
  *
@@ -32,44 +32,8 @@
  */
 package it.geosolutions.georepo.gui.client.mvc;
 
-import it.geosolutions.geogwt.gui.client.GeoGWTEvents;
-import it.geosolutions.geogwt.gui.client.GeoGWTUtils;
-import it.geosolutions.geogwt.gui.client.ToolbarItemManager;
-import it.geosolutions.geogwt.gui.client.configuration.ActionClientTool;
-import it.geosolutions.geogwt.gui.client.configuration.GenericClientTool;
-import it.geosolutions.geogwt.gui.client.configuration.GeoGWTConfiguration;
-import it.geosolutions.geogwt.gui.client.configuration.ToolbarAction;
-import it.geosolutions.geogwt.gui.client.widget.map.ButtonBar;
-import it.geosolutions.geogwt.gui.client.widget.map.action.ToolActionCreator;
-import it.geosolutions.geogwt.gui.client.widget.map.action.ToolbarActionRegistry;
-import it.geosolutions.georepo.gui.client.Constants;
-import it.geosolutions.georepo.gui.client.GeoRepoEvents;
-import it.geosolutions.georepo.gui.client.action.application.LogoutAction;
-import it.geosolutions.georepo.gui.client.action.toolbar.UpdateUsersAction;
-import it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI;
-import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
-import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import org.gwtopenmaps.openlayers.client.LonLat;
-import org.gwtopenmaps.openlayers.client.Map;
-import org.gwtopenmaps.openlayers.client.MapOptions;
-import org.gwtopenmaps.openlayers.client.MapUnits;
-import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
-import org.gwtopenmaps.openlayers.client.control.MousePosition;
-import org.gwtopenmaps.openlayers.client.control.MousePositionOptions;
-import org.gwtopenmaps.openlayers.client.control.MousePositionOutput;
-import org.gwtopenmaps.openlayers.client.control.Navigation;
-import org.gwtopenmaps.openlayers.client.control.PanZoom;
-import org.gwtopenmaps.openlayers.client.control.ScaleLine;
-import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
-import org.gwtopenmaps.openlayers.client.layer.WMS;
-import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
-import org.gwtopenmaps.openlayers.client.layer.WMSParams;
-import org.gwtopenmaps.openlayers.client.util.JObjectArray;
-import org.gwtopenmaps.openlayers.client.util.JSObject;
 
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
@@ -90,11 +54,49 @@ import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import it.geosolutions.geogwt.gui.client.GeoGWTEvents;
+import it.geosolutions.geogwt.gui.client.GeoGWTUtils;
+import it.geosolutions.geogwt.gui.client.ToolbarItemManager;
+import it.geosolutions.geogwt.gui.client.configuration.ActionClientTool;
+import it.geosolutions.geogwt.gui.client.configuration.GenericClientTool;
+import it.geosolutions.geogwt.gui.client.configuration.GeoGWTConfiguration;
+import it.geosolutions.geogwt.gui.client.configuration.ToolbarAction;
+import it.geosolutions.geogwt.gui.client.widget.map.ButtonBar;
+import it.geosolutions.geogwt.gui.client.widget.map.action.ToolActionCreator;
+import it.geosolutions.geogwt.gui.client.widget.map.action.ToolbarActionRegistry;
+import it.geosolutions.georepo.gui.client.Constants;
+import it.geosolutions.georepo.gui.client.GeoRepoEvents;
+import it.geosolutions.georepo.gui.client.action.application.LogoutAction;
+import it.geosolutions.georepo.gui.client.action.toolbar.UpdateUsersAction;
+import it.geosolutions.georepo.gui.client.configuration.ConfigurationMainUI;
+import it.geosolutions.georepo.gui.client.i18n.I18nProvider;
+import it.geosolutions.georepo.gui.client.widget.tab.TabWidget;
+
+import org.gwtopenmaps.openlayers.client.LonLat;
+import org.gwtopenmaps.openlayers.client.Map;
+import org.gwtopenmaps.openlayers.client.MapOptions;
+import org.gwtopenmaps.openlayers.client.MapUnits;
+import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
+import org.gwtopenmaps.openlayers.client.control.MousePosition;
+import org.gwtopenmaps.openlayers.client.control.MousePositionOptions;
+import org.gwtopenmaps.openlayers.client.control.MousePositionOutput;
+import org.gwtopenmaps.openlayers.client.control.Navigation;
+import org.gwtopenmaps.openlayers.client.control.PanZoom;
+import org.gwtopenmaps.openlayers.client.control.ScaleLine;
+import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
+import org.gwtopenmaps.openlayers.client.layer.WMS;
+import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
+import org.gwtopenmaps.openlayers.client.layer.WMSParams;
+import org.gwtopenmaps.openlayers.client.util.JObjectArray;
+import org.gwtopenmaps.openlayers.client.util.JSObject;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class AppView.
  */
-public class AppView extends View {
+public class AppView extends View
+{
 
     /** The viewport. */
     private Viewport viewport;
@@ -116,18 +118,20 @@ public class AppView extends View {
 
     /**
      * Instantiates a new app view.
-     * 
+     *
      * @param controller
      *            the controller
      */
-    public AppView(Controller controller) {
+    public AppView(Controller controller)
+    {
         super(controller);
     }
 
     /**
      * Inits the ui.
      */
-    private void initUI() {
+    private void initUI()
+    {
         this.viewport = new Viewport();
         this.viewport.setLayout(new BorderLayout());
 
@@ -148,16 +152,19 @@ public class AppView extends View {
     /**
      * Creates the north.
      */
-    private void createNorth() {
+    private void createNorth()
+    {
         north = new ContentPanel();
         north.setHeaderVisible(false);
-        north.addListener(Events.Resize, new Listener<BaseEvent>() {
+        north.addListener(Events.Resize, new Listener<BaseEvent>()
+            {
 
-            public void handleEvent(BaseEvent be) {
-                Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
-                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-            }
-        });
+                public void handleEvent(BaseEvent be)
+                {
+                    Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
+                    // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+                }
+            });
 
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.NORTH,
                 Constants.NORTH_PANEL_DIMENSION);
@@ -170,7 +177,8 @@ public class AppView extends View {
     /**
      * Creates the east.
      */
-    private void createEast() {
+    private void createEast()
+    {
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.EAST,
                 Constants.EASTH_PANEL_DIMENSION);
         data.setMargins(new Margins(5, 0, 5, 5));
@@ -182,20 +190,24 @@ public class AppView extends View {
         east.setHeading(I18nProvider.getMessages().accordionLabel());
         east.setScrollMode(Scroll.AUTO);
 
-        east.addListener(Events.Resize, new Listener<BaseEvent>() {
+        east.addListener(Events.Resize, new Listener<BaseEvent>()
+            {
 
-            public void handleEvent(BaseEvent be) {
-                Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
-                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-            }
-        });
-        east.addListener(Events.Move, new Listener<BaseEvent>() {
+                public void handleEvent(BaseEvent be)
+                {
+                    Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
+                    // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+                }
+            });
+        east.addListener(Events.Move, new Listener<BaseEvent>()
+            {
 
-            public void handleEvent(BaseEvent be) {
-                Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
-                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-            }
-        });
+                public void handleEvent(BaseEvent be)
+                {
+                    Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
+                    // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+                }
+            });
         east.setStyleAttribute("height", "auto");
         east.setStyleAttribute("width", "auto");
         configureAccordionPanel();
@@ -207,7 +219,8 @@ public class AppView extends View {
     /**
      * Creates the south.
      */
-    private void createSouth() {
+    private void createSouth()
+    {
         BorderLayoutData data = new BorderLayoutData(LayoutRegion.SOUTH,
                 Constants.SOUTH_PANEL_DIMENSION + 25);
         // data.setMargins(new Margins(5, 5, 5, 5));
@@ -234,20 +247,24 @@ public class AppView extends View {
         south.setLayoutOnChange(true);
         south.layout();
 
-        south.addListener(Events.Resize, new Listener<BaseEvent>() {
+        south.addListener(Events.Resize, new Listener<BaseEvent>()
+            {
 
-            public void handleEvent(BaseEvent be) {
-                Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
-                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-            }
-        });
-        south.addListener(Events.Move, new Listener<BaseEvent>() {
+                public void handleEvent(BaseEvent be)
+                {
+                    Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
+                    // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+                }
+            });
+        south.addListener(Events.Move, new Listener<BaseEvent>()
+            {
 
-            public void handleEvent(BaseEvent be) {
-                Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
-                // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
-            }
-        });
+                public void handleEvent(BaseEvent be)
+                {
+                    Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
+                    // Dispatcher.forwardEvent(GeoRepoEvents.UPDATE_SOUTH_SIZE);
+                }
+            });
         this.tabWidget = new TabWidget();
 
         south.add(this.tabWidget);
@@ -260,7 +277,8 @@ public class AppView extends View {
     /**
      * Creates the center.
      */
-    private void createCenter() {
+    private void createCenter()
+    {
         center = new ContentPanel();
         center.setLayout(new BorderLayout());
         center.setHeaderVisible(false);
@@ -271,20 +289,24 @@ public class AppView extends View {
 
         // we dont need this since we have listener on south panel as well
 
-        map.addListener(Events.Resize, new Listener<BaseEvent>() {
+        map.addListener(Events.Resize, new Listener<BaseEvent>()
+            {
 
-            public void handleEvent(BaseEvent be) {
-                Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
-                // Dispatcher.forwardEvent(AcoDBEvents.UPDATE_SOUTH_SIZE);
-            }
-        });
-        map.addListener(Events.Move, new Listener<BaseEvent>() {
+                public void handleEvent(BaseEvent be)
+                {
+                    Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
+                    // Dispatcher.forwardEvent(AcoDBEvents.UPDATE_SOUTH_SIZE);
+                }
+            });
+        map.addListener(Events.Move, new Listener<BaseEvent>()
+            {
 
-            public void handleEvent(BaseEvent be) {
-                Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
-                // Dispatcher.forwardEvent(AcoDBEvents.UPDATE_SOUTH_SIZE);
-            }
-        });
+                public void handleEvent(BaseEvent be)
+                {
+                    Dispatcher.forwardEvent(GeoGWTEvents.UPDATE_MAP_SIZE);
+                    // Dispatcher.forwardEvent(AcoDBEvents.UPDATE_SOUTH_SIZE);
+                }
+            });
 
         map.setMonitorWindowResize(true);
         map.setLayoutOnChange(true);
@@ -308,26 +330,32 @@ public class AppView extends View {
         mapOptions.setUnits(MapUnits.DEGREES);
         mapOptions.setProjection("EPSG:4326");
 
-        MousePositionOutput mpOut = new MousePositionOutput() {
+        MousePositionOutput mpOut = new MousePositionOutput()
+            {
 
-            public String format(LonLat lonLat, Map map) {
-                String out = "";
-                out += "<font size='2' color='black' style='font-weight:900'>";
-                out += (float) lonLat.lon();
-                out += " ";
-                out += (float) lonLat.lat();
-                out += "</font>";
-                return out;
-            }
+                public String format(LonLat lonLat, Map map)
+                {
+                    String out = "";
+                    out += "<font size='2' color='black' style='font-weight:900'>";
+                    out += (float) lonLat.lon();
+                    out += " ";
+                    out += (float) lonLat.lat();
+                    out += "</font>";
 
-        };
+                    return out;
+                }
+
+            };
 
         MousePositionOptions mpOptions = new MousePositionOptions();
         mpOptions.setFormatOutput(mpOut);
 
-        JSObject[] controls = new JSObject[] { new Navigation().getJSObject(),
+        JSObject[] controls = new JSObject[]
+            {
+                new Navigation().getJSObject(),
                 new PanZoom().getJSObject(), new LayerSwitcher().getJSObject(),
-                new ScaleLine().getJSObject(), new MousePosition(mpOptions).getJSObject() };
+                new ScaleLine().getJSObject(), new MousePosition(mpOptions).getJSObject()
+            };
         JObjectArray mapControls = new JObjectArray(controls);
         mapOptions.setControls(mapControls);
 
@@ -387,14 +415,18 @@ public class AppView extends View {
         toolbarSeparator2.setId(ButtonBar.TOOLBAR_SEPARATOR);
         toolbarSeparator2.setOrder(300);
 
-        ToolbarActionRegistry.getRegistry().put("synchUsers", new ToolActionCreator() {
+        ToolbarActionRegistry.getRegistry().put("synchUsers", new ToolActionCreator()
+            {
 
-            public ToolbarAction createActionTool() {
-                UpdateUsersAction action = new UpdateUsersAction();
-                action.initialize();
-                return action;
-            }
-        });
+                public ToolbarAction createActionTool()
+                {
+                    UpdateUsersAction action = new UpdateUsersAction();
+                    action.initialize();
+
+                    return action;
+                }
+            });
+
         ActionClientTool synchUsers = new ActionClientTool();
         synchUsers.setId("synchUsers");
         synchUsers.setEnabled(true);
@@ -405,23 +437,27 @@ public class AppView extends View {
         fillItem.setId(ButtonBar.FILL_ITEM);
         fillItem.setOrder(320);
 
-        ToolbarActionRegistry.getRegistry().put("logout", new ToolActionCreator() {
+        ToolbarActionRegistry.getRegistry().put("logout", new ToolActionCreator()
+            {
 
-            public ToolbarAction createActionTool() {
-                LogoutAction action = new LogoutAction();
-                action.initialize();
-                return action;
-            }
-        });
+                public ToolbarAction createActionTool()
+                {
+                    LogoutAction action = new LogoutAction();
+                    action.initialize();
+
+                    return action;
+                }
+            });
+
         ActionClientTool logout = new ActionClientTool();
         logout.setId("logout");
         logout.setEnabled(true);
         logout.setType("button");
         logout.setOrder(500);
-        
+
         List<GenericClientTool> clientTools = new ArrayList<GenericClientTool>();
-        //clientTools.add(poweredBy);
-        //clientTools.add(toolbarSeparator1);
+        // clientTools.add(poweredBy);
+        // clientTools.add(toolbarSeparator1);
         clientTools.add(pan);
         clientTools.add(zoomAll);
         clientTools.add(zoomBox);
@@ -434,21 +470,23 @@ public class AppView extends View {
 
         toolbarItemManager.setClientTools(clientTools);
 
-        if (GeoGWTUtils.getInstance().getGlobalConfiguration() == null) {
+        if (GeoGWTUtils.getInstance().getGlobalConfiguration() == null)
+        {
             GeoGWTUtils.getInstance().setGlobalConfiguration(new GeoGWTConfiguration());
         }
 
-        GeoGWTUtils.getInstance().getGlobalConfiguration()
-                .setToolbarItemManager(toolbarItemManager);
+        GeoGWTUtils.getInstance().getGlobalConfiguration().setToolbarItemManager(toolbarItemManager);
 
         Dispatcher.forwardEvent(GeoGWTEvents.ATTACH_TOOLBAR, this.north);
         // Dispatcher.forwardEvent(GeoRepoEvents.ATTACH_MAP_WIDGET, this.center);
     }
 
     /**
-     * 
+     *
      */
-    private void addBaseLayer() {
+    private void addBaseLayer()
+    {
+
         /* base layer */
         WMSParams wmsParams = new WMSParams();
         wmsParams.setFormat("image/jpeg");
@@ -466,18 +504,21 @@ public class AppView extends View {
     /**
      * Configure accordion panel.
      */
-    private void configureAccordionPanel() {
+    private void configureAccordionPanel()
+    {
         AppController controller = (AppController) this.getController();
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.extjs.gxt.ui.client.mvc.View#handleEvent(com.extjs.gxt.ui.client.mvc.AppEvent)
      */
     @Override
-    protected void handleEvent(AppEvent event) {
-        if (event.getType() == GeoRepoEvents.INIT_GEOREPO_MAIN_UI) {
+    protected void handleEvent(AppEvent event)
+    {
+        if (event.getType() == GeoRepoEvents.INIT_GEOREPO_MAIN_UI)
+        {
             initUI();
         }
     }
@@ -487,7 +528,7 @@ public class AppView extends View {
      */
     public native void reload()
     /*-{
-		$wnd.window.location.reload();
+        $wnd.window.location.reload();
     }-*/;
 
 }

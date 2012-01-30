@@ -19,12 +19,11 @@
  */
 package it.geosolutions.georepo.services;
 
+import java.util.List;
+
 import it.geosolutions.georepo.core.model.GRUser;
 import it.geosolutions.georepo.services.dto.ShortUser;
 import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
-
-import java.util.List;
-
 
 
 /**
@@ -32,7 +31,8 @@ import java.util.List;
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public interface GRUserAdminService {
+public interface GRUserAdminService
+{
 
     // ==========================================================================
     // Basic operations
@@ -46,6 +46,8 @@ public interface GRUserAdminService {
     GRUser get(long id) throws NotFoundServiceEx;
 
     long getCount(String nameLike);
+
     List<ShortUser> getList(String nameLike, Integer page, Integer entries);
+
     List<GRUser> getFullList(String nameLike, Integer page, Integer entries);
 }

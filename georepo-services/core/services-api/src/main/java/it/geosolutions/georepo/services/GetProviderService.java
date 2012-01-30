@@ -23,13 +23,13 @@ import it.geosolutions.georepo.core.model.Profile;
 import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 
 
-
 /**
  * Operations on {@link Profile Profile}s.
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public interface GetProviderService<E> {
+public interface GetProviderService<E>
+{
 
     E get(long id) throws NotFoundServiceEx;
 }
