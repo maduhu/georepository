@@ -113,6 +113,10 @@
         </dependency>
         <dependency>
             <groupId>com.trg</groupId>
+            <artifactId>trg-search</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.trg</groupId>
             <artifactId>trg-search-jpa-hibernate</artifactId>
         </dependency>
 
