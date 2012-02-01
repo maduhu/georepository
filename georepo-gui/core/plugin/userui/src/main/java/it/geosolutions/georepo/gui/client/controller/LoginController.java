@@ -285,16 +285,16 @@ public class LoginController extends Controller
                     boolean handled = false;
                     if (caught instanceof ApplicationException)
                     {
-                        ApplicationException appException = (ApplicationException) caught;
+                        /*ApplicationException appException = (ApplicationException) caught;
                         if (appException.getDetailedMessage().contains(
                                     "it.geosolutions.georepo.security.exception.AuthException"))
-                        {
+                        {*/
                             // Authentication failed
                             handled = true;
                             loginWidget.resetPassword();
                             loginWidget.setStatusLoginFinder(EnumLoginStatus.STATUS_LOGIN_ERROR,
                                 EnumLoginStatus.STATUS_MESSAGE_NOT_LOGIN);
-                        }
+                        /*}*/
                     }
 
                     if (!handled)

