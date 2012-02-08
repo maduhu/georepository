@@ -10,6 +10,12 @@ nb*.xml
 .settings
 *~
 
+georepo-gui/core/plugin/mapsui/gwt-unitCache/
+georepo-gui/core/plugin/mapsui/war/
+georepo-gui/core/plugin/userui/gwt-unitCache/
+georepo-gui/core/plugin/userui/war/
+georepo-gui/fullweb/gwt-unitCache/
+georepo-gui/fullweb/war/WEB-INF/deploy/
 georepo-gui/fullweb/war/WEB-INF/classes/
 georepo-gui/fullweb/war/WEB-INF/lib/
 georepo-gui/fullweb/war/georepo/
