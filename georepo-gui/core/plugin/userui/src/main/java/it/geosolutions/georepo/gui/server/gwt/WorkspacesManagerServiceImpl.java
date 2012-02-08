@@ -96,9 +96,9 @@ public class WorkspacesManagerServiceImpl extends RemoteServiceServlet implement
      * .gxt.ui.client.data.PagingLoadConfig, java.lang.String, java.lang.String)
      */
     public PagingLoadResult<Layer> getLayers(int offset, int limit, String baseURL,
-        GSInstance gsInstance, String workspace) throws ApplicationException
+        GSInstance gsInstance, String workspace, String service) throws ApplicationException
     {
-        return workspaceManagerService.getLayers(offset, limit, baseURL, gsInstance, workspace);
+        return workspaceManagerService.getLayers(offset, limit, baseURL, gsInstance, workspace, service);
     }
 
     /*

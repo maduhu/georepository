@@ -9,6 +9,10 @@ http://www.springframework.org/schema/context
 	default-autowire="byName">
 
 
+       <bean id="workspaceConfigOpts" class="it.geosolutions.georepo.gui.client.configuration.WorkspaceConfigOpts">
+         <property name="showDefaultGroups" value="false"/>
+       </bean>
+       
        <context:annotation-config />
 
 </beans>

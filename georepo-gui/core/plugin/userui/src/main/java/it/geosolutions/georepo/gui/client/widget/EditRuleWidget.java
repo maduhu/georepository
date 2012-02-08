@@ -82,8 +82,8 @@ import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
+import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -1350,7 +1350,7 @@ public class EditRuleWidget extends GeoRepoFormWidget
 
                     workspaceLayersComboBox.setDisplayField(BeanKeyValue.LAYER.getValue());
                     workspaceLayersComboBox.setEditable(false);
-                    workspaceLayersComboBox.setStore(getAvailableLayers(model.getInstance(), model.getWorkspace()));
+                    workspaceLayersComboBox.setStore(getAvailableLayers(model.getInstance(), model.getWorkspace(), model.getService()));
                     workspaceLayersComboBox.setTypeAhead(true);
                     workspaceLayersComboBox.setTriggerAction(TriggerAction.ALL);
                     workspaceLayersComboBox.setWidth(120);
@@ -1385,7 +1385,7 @@ public class EditRuleWidget extends GeoRepoFormWidget
                  * @return
                  */
                 private ListStore<Layer> getAvailableLayers(final GSInstance gsInstance,
-                    final String workspace)
+                    final String workspace, final String service)
                 {
                     RpcProxy<PagingLoadResult<Layer>> workspacesProxy = new RpcProxy<PagingLoadResult<Layer>>()
                         {
@@ -1395,7 +1395,7 @@ public class EditRuleWidget extends GeoRepoFormWidget
                             {
                                 workspacesService.getLayers(((PagingLoadConfig) loadConfig).getOffset(), ((PagingLoadConfig) loadConfig).getLimit(),
                                     (gsInstance != null) ? gsInstance.getBaseURL() : null, gsInstance,
-                                    workspace, callback);
+                                    workspace, service, callback);
                             }
 
                         };

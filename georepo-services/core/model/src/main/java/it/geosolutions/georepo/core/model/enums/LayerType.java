@@ -33,5 +33,6 @@ package it.geosolutions.georepo.core.model.enums;
  */
 public enum LayerType {
     VECTOR,
-    RASTER
+    RASTER,
+    LAYERGROUP
 }

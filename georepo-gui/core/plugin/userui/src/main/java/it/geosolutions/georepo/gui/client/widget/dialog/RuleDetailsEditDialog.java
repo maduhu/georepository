@@ -179,27 +179,35 @@ public class RuleDetailsEditDialog extends Dialog
         {
 
             String layer = model.getLayer();
+            String workspace = model.getWorkspace();
             String grant = model.getGrant();
 
             if ((layer != null) && !layer.equalsIgnoreCase("*") && grant.equalsIgnoreCase("ALLOW"))
             {
                 setHeading("Editing Details for Rule #" + model.getPriority());
 
-                TabItem ruleDetailsTabItem = new RuleDetailsTabItem(RULE_DETAILS_DIALOG_ID, model,
-                        workspacesManagerServiceRemote);
-                this.tabWidget.add(ruleDetailsTabItem);
-
-                if ((model.getLayer() != null) && !model.getLayer().equalsIgnoreCase("*"))
-                {
-                    TabItem layerAttributesItem = new LayerAttributesTabItem(RULE_LAYER_ATTRIBUTES_DIALOG_ID, model,
-                            rulesManagerServiceRemote);
+                if(workspace.equals("*") && !layer.equalsIgnoreCase("*")){
                     TabItem layersCustomPropsItem = new LayerCustomPropsTabItem(RULE_LAYER_CUSTOM_PROPS_DIALOG_ID,
                             model, rulesManagerServiceRemote);
-
-                    this.tabWidget.add(layerAttributesItem);
                     this.tabWidget.add(layersCustomPropsItem);
+                    this.tabWidget.setSelection(layersCustomPropsItem);
+                }else{
+                    TabItem ruleDetailsTabItem = new RuleDetailsTabItem(RULE_DETAILS_DIALOG_ID, model,
+                            workspacesManagerServiceRemote);
+                    this.tabWidget.add(ruleDetailsTabItem);
 
-                    this.tabWidget.setSelection(ruleDetailsTabItem);
+                    if ((model.getLayer() != null) && !model.getLayer().equalsIgnoreCase("*"))
+                    {
+                        TabItem layerAttributesItem = new LayerAttributesTabItem(RULE_LAYER_ATTRIBUTES_DIALOG_ID, model,
+                                rulesManagerServiceRemote);
+                        TabItem layersCustomPropsItem = new LayerCustomPropsTabItem(RULE_LAYER_CUSTOM_PROPS_DIALOG_ID,
+                                model, rulesManagerServiceRemote);
+
+                        this.tabWidget.add(layerAttributesItem);
+                        this.tabWidget.add(layersCustomPropsItem);
+
+                        this.tabWidget.setSelection(ruleDetailsTabItem);
+                    }
                 }
             }
             else if (grant.equalsIgnoreCase("LIMIT"))

@@ -79,7 +79,7 @@ public interface IWorkspacesManagerService
      *             the application exception
      */
     public PagingLoadResult<Layer> getLayers(int offset, int limit, String baseURL,
-        GSInstance gsInstance, String workspace) throws ApplicationException;
+        GSInstance gsInstance, String workspace, String service) throws ApplicationException;
 
     /**
      * @param gsInstance

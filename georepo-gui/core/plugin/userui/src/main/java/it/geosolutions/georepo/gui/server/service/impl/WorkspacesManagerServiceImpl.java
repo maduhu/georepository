@@ -32,16 +32,9 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
-
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.gui.client.ApplicationException;
+import it.geosolutions.georepo.gui.client.configuration.WorkspaceConfigOpts;
 import it.geosolutions.georepo.gui.client.model.GSInstance;
 import it.geosolutions.georepo.gui.client.model.Rule;
 import it.geosolutions.georepo.gui.client.model.data.Layer;
@@ -52,17 +45,26 @@ import it.geosolutions.georepo.gui.server.service.IWorkspacesManagerService;
 import it.geosolutions.georepo.gui.service.GeoRepoRemoteService;
 import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader;
+import it.geosolutions.geoserver.rest.decoder.RESTAbstractList;
 import it.geosolutions.geoserver.rest.decoder.RESTLayer;
-import it.geosolutions.geoserver.rest.decoder.RESTLayerList;
+import it.geosolutions.geoserver.rest.decoder.RESTLayerGroup;
 import it.geosolutions.geoserver.rest.decoder.RESTStyleList;
 import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList;
 import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList.RESTShortWorkspace;
 import it.geosolutions.geoserver.rest.decoder.utils.NameLinkElem;
 
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
 
 // TODO: Auto-generated Javadoc
@@ -79,6 +81,10 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService
     /** The georepo remote service. */
     @Autowired
     private GeoRepoRemoteService georepoRemoteService;
+    
+    /** The georepo workspace options. */
+    @Autowired
+    private WorkspaceConfigOpts workspaceConfigOpts;
 
     /*
      * (non-Javadoc)
@@ -130,31 +136,51 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService
      * gxt.ui.client.data.PagingLoadConfig, java.lang.String, java.lang.String)
      */
     public PagingLoadResult<Layer> getLayers(int offset, int limit, String baseURL,
-        GSInstance gsInstance, String workspace) throws ApplicationException
+        GSInstance gsInstance, String workspace, String service) throws ApplicationException
     {
 
         List<Layer> layersListDTO = new ArrayList<Layer>();
         layersListDTO.add(new Layer("*"));
 
         if ((baseURL != null) && !baseURL.equals("*") && !baseURL.contains("?") && (workspace != null) &&
-                !workspace.equals("*") && (workspace.length() > 0))
+                (workspace.length() > 0))
         {
             try
             {
                 GeoServerRESTReader gsreader = new GeoServerRESTReader(baseURL, gsInstance.getUsername(), gsInstance.getPassword());
 
-                RESTLayerList layers = gsreader.getLayers();
-                if ((layers != null) && !layers.isEmpty())
-                {
-                    Iterator<NameLinkElem> lrIT = layers.iterator();
-                    while (lrIT.hasNext())
+                RESTAbstractList<NameLinkElem> layers;
+                
+                if(workspace.equals("*") && workspaceConfigOpts.isShowDefaultGroups() && service.equals("WMS")){
+                    layers = gsreader.getLayerGroups();
+                    
+                    if ((layers != null) && !layers.isEmpty())
                     {
-                        NameLinkElem layerLink = lrIT.next();
-                        RESTLayer layer = gsreader.getLayer(layerLink.getName());
-
-                        if (checkLayerIsInWorkspace(layer.getResourceUrl(), workspace))
+                        Iterator<NameLinkElem> lrIT = layers.iterator();
+                        while (lrIT.hasNext())
                         {
-                            layersListDTO.add(new Layer(layer.getName()));
+                            NameLinkElem layerLink = lrIT.next();
+                            RESTLayerGroup group = gsreader.getLayerGroup(layerLink.getName());
+                            
+                            if(group != null)
+                                layersListDTO.add(new Layer(group.getName()));
+                        }
+                    }
+                }else{
+                    layers = gsreader.getLayers();
+                    
+                    if ((layers != null) && !layers.isEmpty())
+                    {
+                        Iterator<NameLinkElem> lrIT = layers.iterator();
+                        while (lrIT.hasNext())
+                        {
+                            NameLinkElem layerLink = lrIT.next();
+                            RESTLayer layer = gsreader.getLayer(layerLink.getName());
+
+                            if (checkLayerIsInWorkspace(layer.getResourceUrl(), workspace))
+                            {
+                                layersListDTO.add(new Layer(layer.getName()));
+                            }
                         }
                     }
                 }
