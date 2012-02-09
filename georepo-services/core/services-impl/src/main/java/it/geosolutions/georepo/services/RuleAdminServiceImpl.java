@@ -221,7 +221,7 @@ public class RuleAdminServiceImpl implements RuleAdminService {
         }
         Search searchCriteria = buildRuleSearch(filter);
         searchCriteria.addSortAsc("priority");
-        LOGGER.info("Searching Rule list p"+page + "#"+entries);
+        LOGGER.info("Searching Rule list " + ( page==null? "(unpaged) " : (" p:"+page + "#:"+entries)));
         if(entries != null) {
             searchCriteria.setMaxResults(entries);
             searchCriteria.setPage(page);

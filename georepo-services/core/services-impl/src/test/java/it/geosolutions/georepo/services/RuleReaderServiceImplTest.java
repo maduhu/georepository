@@ -62,8 +62,12 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
 
 
     @Test
-    public void testGetRules() {
-        assertEquals(0, ruleAdminService.getCount("*","*","*", "*","*", "*","*"));
+    public void testGetRulesForUsersAndProfile() {
+
+        RuleFilter filter;
+
+        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        assertEquals(0, ruleAdminService.getCount(filter));
 
         Profile p1 = createProfile("p1");
         Profile p2 = createProfile("p2");
@@ -89,35 +93,89 @@ public class RuleReaderServiceImplTest extends ServiceTestBase {
         ruleAdminService.insert(r3);
         ruleAdminService.insert(r4);
 
-        assertEquals(1, ruleReaderService.getMatchingRules("TestUser1","","",            null, null,null,null).size());
-//        LOGGER.error(ruleAdminService.getMatchingRules(-1L,p1.getId(),-1L,    null, null,null,null));
-        assertEquals(3, ruleReaderService.getMatchingRules("TestUser1",p1.getName(),"",  "*", "*","*","*").size());
-        assertEquals(1, ruleReaderService.getMatchingRules("TestUser2",p2.getName(),"",  "*", "*","*","*").size());
-        assertEquals(2, ruleReaderService.getMatchingRules("TestUser1",p1.getName(),"",  "s1", "*","*","*").size());
-        assertEquals(1, ruleReaderService.getMatchingRules("TestUser1","","",            "ZZ", "*","*","*").size());
+        assertEquals(1, ruleReaderService.getMatchingRules(user1.getName(),"","",            null, null,null,null).size());
+        assertEquals(3, ruleReaderService.getMatchingRules(user1.getName(),p1.getName(),"",  "*", "*","*","*").size());
+        assertEquals(1, ruleReaderService.getMatchingRules(user2.getName(),p2.getName(),"",  "*", "*","*","*").size());
+        assertEquals(2, ruleReaderService.getMatchingRules(user1.getName(),p1.getName(),"",  "s1", "*","*","*").size());
+        assertEquals(1, ruleReaderService.getMatchingRules(user1.getName(),"","",            "ZZ", "*","*","*").size());
+
+
+        filter = createFilter(user1.getId(), p1.getId(), null);
+        assertEquals(3, ruleReaderService.getMatchingRules(filter).size());
+
+        filter = createFilter(user1.getName(), p1.getName(), null);
+        assertEquals(3, ruleReaderService.getMatchingRules(filter).size());
+
+        filter = createFilter(user1.getId(), p1.getId(), "s1");
+        assertEquals(2, ruleReaderService.getMatchingRules(filter).size());
+
+        filter = createFilter(user1.getId(), null, "s3");
+        assertEquals(2, ruleReaderService.getMatchingRules(filter).size());
+
+    }
+
+    private static RuleFilter createFilter(Long userId, Long profileId, String service) {
+        RuleFilter filter;
+        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        if(userId != null)
+            filter.setUser(userId);
+        if(profileId != null)
+            filter.setProfile(profileId);
+        if(service != null)
+            filter.setService(service);
+        return filter;
+    }
+    private static RuleFilter createFilter(String userName, String profileName, String service) {
+        RuleFilter filter;
+        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
+        if(userName != null)
+            filter.setUser(userName);
+        if(profileName != null)
+            filter.setProfile(profileName);
+        if(service != null)
+            filter.setService(service);
+        return filter;
+    }
+
+
+    @Test
+    public void testGetRulesForProfileOnly() {
 
         RuleFilter filter;
         filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
-        filter.setUser(user1.getId());
-        filter.setProfile(p1.getId());
+        assertEquals(0, ruleAdminService.getCount(filter));
+
+        Profile p1 = createProfile("p1");
+        Profile p2 = createProfile("p2");
+
+        Rule r1 = new Rule(10, null, p1, null,      "s1", "r1", "w1", "l1", GrantType.ALLOW);
+        Rule r2 = new Rule(20, null, p2, null,      "s1", "r2", "w2", "l2", GrantType.ALLOW);
+        Rule r3 = new Rule(30, null, p1, null,      "s3", "r3", "w3", "l3", GrantType.ALLOW);
+        Rule r4 = new Rule(40, null, p1, null,      null, null, null, null, GrantType.ALLOW);
+
+        ruleAdminService.insert(r1);
+        ruleAdminService.insert(r2);
+        ruleAdminService.insert(r3);
+        ruleAdminService.insert(r4);
+
+        assertEquals(0, ruleReaderService.getMatchingRules("","","",            null, null,null,null).size());
+        assertEquals(3, ruleReaderService.getMatchingRules("",p1.getName(),"",  "*", "*","*","*").size());
+        assertEquals(1, ruleReaderService.getMatchingRules("",p2.getName(),"",  "*", "*","*","*").size());
+        assertEquals(2, ruleReaderService.getMatchingRules("",p1.getName(),"",  "s1", "*","*","*").size());
+        assertEquals(0, ruleReaderService.getMatchingRules("","","",            "ZZ", "*","*","*").size());
+
+
+        filter = createFilter(null, p1.getId(), null);
         assertEquals(3, ruleReaderService.getMatchingRules(filter).size());
 
-        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
-        filter.setUser(user1.getId());
-        filter.setProfile(p1.getName());
+        filter = createFilter(null, p1.getName(), null);
         assertEquals(3, ruleReaderService.getMatchingRules(filter).size());
 
-        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
-        filter.setUser(user1.getId());
-        filter.setProfile(p1.getId());
-        filter.setService("s1");
+        filter = createFilter(null, p1.getId(), "s1");
         assertEquals(2, ruleReaderService.getMatchingRules(filter).size());
 
-        filter = new RuleFilter(RuleFilter.SpecialFilterType.ANY);
-        filter.setUser(user1.getId());
-        filter.setService("s3");
+        filter = createFilter((String)null, null, "s3");
         assertEquals(2, ruleReaderService.getMatchingRules(filter).size());
-
     }
 
     @Test

@@ -290,11 +290,14 @@ public class WGSGUServiceImpl implements SGUService {
     public static SGUUser transformUser(GSUser user) {
         SGUUser sgu = new SGUUser();
         sgu.setEnabled(user.getEnabled());
-        sgu.setProfile(user.getProfile().getName());
+        if(user.getProfile() != null)
+            sgu.setProfile(user.getProfile().getName());
         sgu.setUserName(user.getName());
         sgu.setSguId(user.getExtId());
-        sgu.setSrid(user.getAllowedArea().getSRID());
-        sgu.setWkt(user.getAllowedArea().toText());
+        if(user.getAllowedArea() != null ) {
+            sgu.setSrid(user.getAllowedArea().getSRID());
+            sgu.setWkt(user.getAllowedArea().toText());
+        }
         return sgu;
     }
 

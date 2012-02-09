@@ -18,7 +18,7 @@
       <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1}:%L - %m%n" /> 
     </layout> 
   </appender>
- 
+<!-- 
  	<logger name="org.hibernate">
 		<level value="debug"/>
 		<appender-ref ref="R"/>
@@ -27,7 +27,7 @@
 		<level value="debug"/>
 		<appender-ref ref="R"/>
 	</logger>
-	
+-->	
  	<logger name="it.geosolutions.georepo">
 		<level value="debug"/>
 		<appender-ref ref="R"/>
@@ -39,7 +39,7 @@
 	</logger>
 	
   <root> 
-    <priority value ="debug" /> 
+    <priority value ="info" /> 
     <appender-ref ref="stdout" /> 
     <appender-ref ref="R" /> 
   </root>

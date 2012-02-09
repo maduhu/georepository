@@ -78,7 +78,23 @@ public class WGTocServiceImpl implements WebGisTOCService {
         ruleFilter.setProfile(profile);
 
         List<ShortRule> rules = ruleAdminService.getList(ruleFilter, null, null);
+
+        if(LOGGER.isInfoEnabled()) {
+            StringBuilder sb = new StringBuilder("Layers found: ");
+            for (ShortRule shortRule : rules) {
+                if(shortRule.getLayer() != null
+                        && shortRule.getAccess()==GrantType.ALLOW
+                        && shortRule.getProfileName() != null) // workaround: we were getting also layers with default access
+                    sb.append('[').append(shortRule.getLayer()).append(']');
+            }
+            LOGGER.info(sb);
+        }
+
         for (ShortRule shortRule : rules) {
+
+            if(shortRule.getProfileName() == null) // workaround: we were getting also layers with default access
+                continue;
+
             if(shortRule.getLayer() != null && shortRule.getAccess()==GrantType.ALLOW) {
                     Map<String, String> props = null;
                     Rule rule = null;
@@ -109,9 +125,9 @@ public class WGTocServiceImpl implements WebGisTOCService {
                     }
                 } catch (NotFoundServiceEx ex) {
                     if(props == null)
-                        LOGGER.info("Props not found for rule " + shortRule + ": " + ex.getMessage());
+                        LOGGER.warn("Skipping layer " + shortRule.getLayer() + ": Props not found for rule " + shortRule + ": " + ex.getMessage());
                     else if(rule == null)
-                        LOGGER.error("Rule not found: " + shortRule + ": " + ex.getMessage());
+                        LOGGER.error("Skipping layer " + shortRule.getLayer() + ": Rule not found: " + shortRule + ": " + ex.getMessage());
                     else
                         throw new IllegalStateException(ex);
                 }
@@ -183,57 +199,77 @@ public class WGTocServiceImpl implements WebGisTOCService {
             //=== set information read from GeoServer
             try {
                 RESTLayer rl = gsreader.getLayer(rule.getLayer());
-                RESTResource res = gsreader.getResource(rl);
+                if(rl == null) {
+                    LOGGER.error("Could not read layer "+rule.getLayer()+" from geoserver. Title and bbox will be made up.");
 
-                tocLayer.setTitle(res.getTitle());
-                tocLayer.setAbs(res.getAbstract());
-                tocLayer.setMinX(res.getMinX());
-                tocLayer.setMaxX(res.getMaxX());
-                tocLayer.setMinY(res.getMinY());
-                tocLayer.setMaxY(res.getMaxY());
-                tocLayer.setSrs(res.getCRS());
-                dataIsSet = true;
+                } else {
 
-                // we'll use this one if we can't find any in LayerDetails
-                defaultStyle = rl.getDefaultStyle();
+                    RESTResource res = gsreader.getResource(rl);
+
+                    tocLayer.setTitle(res.getTitle());
+                    tocLayer.setAbs(res.getAbstract());
+                    tocLayer.setMinX(res.getMinX());
+                    tocLayer.setMaxX(res.getMaxX());
+                    tocLayer.setMinY(res.getMinY());
+                    tocLayer.setMaxY(res.getMaxY());
+                    tocLayer.setSrs(res.getCRS());
+                    dataIsSet = true;
+
+                    // we'll use this one if we can't find any in LayerDetails
+                    defaultStyle = rl.getDefaultStyle();
+                }
 
             } catch (Exception ex) {
-                LOGGER.error("Error reading data from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage(), ex);
+                LOGGER.error("Error reading layer from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage());
+                if(LOGGER.isDebugEnabled())
+                    LOGGER.debug("Error reading layer from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage(), ex);
+            }
+
+            LayerDetails details = rule.getLayerDetails();
+            if(details == null) {
+                LOGGER.error("Details not found for " + rule + ". Skipping layer");
+                return null;
             }
 
             try {
-                LayerDetails details = rule.getLayerDetails();
-                if(details == null) {
-                    LOGGER.error("Details not found for " + rule + ". Skipping layer");
-                    return null;
-                }
-
                 //=== extract min and max denominator
-                String forcedStyle = details.getDefaultStyle();
-                String sldBody = gsreader.getSLD(forcedStyle!=null? forcedStyle : defaultStyle);
                 DenominatorStyleVisitor dsv = new DenominatorStyleVisitor();
 
-                SLDParser sldparser = new SLDParser(CommonFactoryFinder.getStyleFactory(null), new StringReader(sldBody));
-                StyledLayerDescriptor sld = sldparser.parseSLD();
-                sld.accept(dsv);
-                props.put(TOCLayer.TOCProps.minScale.name(), ""+dsv.getMin());
-                props.put(TOCLayer.TOCProps.maxScale.name(), ""+dsv.getMax());
+                String forcedStyle = details.getDefaultStyle();
+                if(forcedStyle == null)     // style is not redefined in the rule, take the one gs told us
+                    forcedStyle = defaultStyle;
+                if(forcedStyle == null) {   // no style from gs, may be a problem
+                    LOGGER.warn("No style information for layer " + rule.getLayer() + " from geoserver. Min and MaxScale will be empty.");
+                } else {
+                    String sldBody = gsreader.getSLD(forcedStyle);
 
-                //=== add attribs
-                for (LayerAttribute attr : details.getAttributes()) {
-                    if(attr.getAccess() != AccessType.NONE) {
-                        TOCAttrib tocAttr = new TOCAttrib();
-                        tocAttr.setName(attr.getName());
-                        tocAttr.setDatatype(attr.getDatatype());
-                        tocAttr.setWritable(attr.getAccess() == AccessType.READWRITE);
+                    if(sldBody != null) {
+                        SLDParser sldparser = new SLDParser(CommonFactoryFinder.getStyleFactory(null), new StringReader(sldBody));
+                        StyledLayerDescriptor sld = sldparser.parseSLD();
+                        sld.accept(dsv);
 
-                        tocLayer.getAttributes().add(tocAttr);
+                        props.put(TOCLayer.TOCProps.minScale.name(), ""+dsv.getMin());
+                        props.put(TOCLayer.TOCProps.maxScale.name(), ""+dsv.getMax());
+                    } else {
+                        LOGGER.warn("Could not read scale range from SLD");
                     }
                 }
-
             } catch (Exception ex) {
-                LOGGER.error("Error reading data from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage(), ex);
+                LOGGER.error("Error reading style from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage(), ex);
             }
+
+            //=== add attribs
+            for (LayerAttribute attr : details.getAttributes()) {
+                if(attr.getAccess() != AccessType.NONE) {
+                    TOCAttrib tocAttr = new TOCAttrib();
+                    tocAttr.setName(attr.getName());
+                    tocAttr.setDatatype(attr.getDatatype());
+                    tocAttr.setWritable(attr.getAccess() == AccessType.READWRITE);
+
+                    tocLayer.getAttributes().add(tocAttr);
+                }
+            }
+
 
         }
 

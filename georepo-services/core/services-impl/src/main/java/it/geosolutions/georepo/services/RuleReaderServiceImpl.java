@@ -64,6 +64,9 @@ public class RuleReaderServiceImpl implements RuleReaderService {
     private GSUserDAO userDAO;
     private ProfileDAO profileDAO;
 
+    /**
+     * @deprecated
+     */
     @Override
     @Deprecated
     public List<ShortRule> getMatchingRules(
@@ -81,6 +84,9 @@ public class RuleReaderServiceImpl implements RuleReaderService {
     }
 
 
+    /**
+     * @deprecated
+     */
     @Override
     @Deprecated
     public AccessInfo getAccessInfo(String userName, String profileName, String instanceName, String service, String request, String workspace, String layer) {
@@ -293,8 +299,6 @@ public class RuleReaderServiceImpl implements RuleReaderService {
                 profileFilter = new IdNameFilter(RuleFilter.FilterType.IDVALUE);
                 profileFilter.setId(user.getProfile().getId());
             }
-        } else { // the user has no profile (authorized but unregistered in georepo?)
-            profileFilter = new IdNameFilter(RuleFilter.FilterType.DEFAULT);
         }
 
         addCriteria(searchCriteria, "gsuser", filter.getUser());
