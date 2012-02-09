@@ -26,6 +26,7 @@ import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.core.model.enums.AccessType;
 import it.geosolutions.georepo.core.model.enums.GrantType;
+import it.geosolutions.georepo.core.model.enums.LayerType;
 import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.dto.RuleFilter;
 import it.geosolutions.georepo.services.dto.ShortRule;
@@ -39,6 +40,7 @@ import it.geosolutions.georepo.services.webgis.model.TOCLayer;
 import it.geosolutions.georepo.services.webgis.utils.DenominatorStyleVisitor;
 import it.geosolutions.geoserver.rest.GeoServerRESTReader;
 import it.geosolutions.geoserver.rest.decoder.RESTLayer;
+import it.geosolutions.geoserver.rest.decoder.RESTLayerGroup;
 import it.geosolutions.geoserver.rest.decoder.RESTResource;
 import java.io.StringReader;
 import java.net.MalformedURLException;
@@ -195,40 +197,58 @@ public class WGTocServiceImpl implements WebGisTOCService {
         boolean dataIsSet = false;
         String defaultStyle = null;
 
+        LayerDetails details = rule.getLayerDetails();
+        if(details == null) {
+            LOGGER.error("Details not found for " + rule + ". Skipping layer");
+            return null;
+        }
+
         if (gsreader != null) {
+
             //=== set information read from GeoServer
             try {
-                RESTLayer rl = gsreader.getLayer(rule.getLayer());
-                if(rl == null) {
-                    LOGGER.error("Could not read layer "+rule.getLayer()+" from geoserver. Title and bbox will be made up.");
+                if( details.getType() != LayerType.LAYERGROUP) {
 
-                } else {
+                    RESTLayer rl = gsreader.getLayer(rule.getLayer());
+                    if(rl == null) {
+                        LOGGER.error("Could not read layer "+rule.getLayer()+" from geoserver. Title and bbox will be made up.");
+                    } else {
 
-                    RESTResource res = gsreader.getResource(rl);
+                        RESTResource res = gsreader.getResource(rl);
 
-                    tocLayer.setTitle(res.getTitle());
-                    tocLayer.setAbs(res.getAbstract());
-                    tocLayer.setMinX(res.getMinX());
-                    tocLayer.setMaxX(res.getMaxX());
-                    tocLayer.setMinY(res.getMinY());
-                    tocLayer.setMaxY(res.getMaxY());
-                    tocLayer.setSrs(res.getCRS());
-                    dataIsSet = true;
+                        tocLayer.setTitle(res.getTitle());
+                        tocLayer.setAbs(res.getAbstract());
+                        tocLayer.setMinX(res.getMinX());
+                        tocLayer.setMaxX(res.getMaxX());
+                        tocLayer.setMinY(res.getMinY());
+                        tocLayer.setMaxY(res.getMaxY());
+                        tocLayer.setSrs(res.getCRS());
+                        dataIsSet = true;
 
-                    // we'll use this one if we can't find any in LayerDetails
-                    defaultStyle = rl.getDefaultStyle();
+                        // we'll use this one if we can't find any in LayerDetails
+                        defaultStyle = rl.getDefaultStyle();
+                    }
+                } else { // it's a layergroup
+
+                    RESTLayerGroup restLG = gsreader.getLayerGroup(rule.getLayer());
+                    if(restLG == null) {
+                        LOGGER.error("Could not read LayerGroup "+rule.getLayer()+" from geoserver. Title and bbox will be made up.");
+                    } else {
+                        tocLayer.setTitle(restLG.getName());
+                        tocLayer.setAbs(restLG.getName() + " is a LayerGroup");
+                        tocLayer.setMinX(restLG.getMinX());
+                        tocLayer.setMaxX(restLG.getMaxX());
+                        tocLayer.setMinY(restLG.getMinY());
+                        tocLayer.setMaxY(restLG.getMaxY());
+                        tocLayer.setSrs(restLG.getCRS());
+                        dataIsSet = true;
+                    }
                 }
 
             } catch (Exception ex) {
-                LOGGER.error("Error reading layer from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage());
+                LOGGER.error("Error reading layer from GeoServer " + instance + " for layer ("+details.getType()+") " + rule.getLayer() + ": " + ex.getMessage());
                 if(LOGGER.isDebugEnabled())
-                    LOGGER.debug("Error reading layer from GeoServer " + instance + " for layer " + rule.getLayer() + ": " + ex.getMessage(), ex);
-            }
-
-            LayerDetails details = rule.getLayerDetails();
-            if(details == null) {
-                LOGGER.error("Details not found for " + rule + ". Skipping layer");
-                return null;
+                    LOGGER.debug("Error reading layer from GeoServer " + instance + " for layer ("+details.getType()+") " + rule.getLayer() + ": " + ex.getMessage(), ex);
             }
 
             try {
@@ -239,7 +259,7 @@ public class WGTocServiceImpl implements WebGisTOCService {
                 if(forcedStyle == null)     // style is not redefined in the rule, take the one gs told us
                     forcedStyle = defaultStyle;
                 if(forcedStyle == null) {   // no style from gs, may be a problem
-                    LOGGER.warn("No style information for layer " + rule.getLayer() + " from geoserver. Min and MaxScale will be empty.");
+                    LOGGER.warn("No style information for layer ("+details.getType()+") " + rule.getLayer() + " from geoserver. Min and MaxScale will be empty.");
                 } else {
                     String sldBody = gsreader.getSLD(forcedStyle);
 
