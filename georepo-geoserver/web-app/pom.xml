@@ -14,6 +14,21 @@
   <packaging>jar</packaging>
   <name>GeoRepo - Customized GeoServer web application</name>
 
+  <properties>
+
+    <configId>minimal</configId>
+    <configDirectory>${basedir}</configDirectory>
+    <webappSourceDirectory>${basedir}/src/main/webapp</webappSourceDirectory>
+    <sde.version>9.3</sde.version>
+
+    <hibernate-version>3.3.2.GA</hibernate-version>
+    <hibernate-spatial-version>1.0</hibernate-spatial-version>
+    <hibernate-annotations-version>3.3.1.GA</hibernate-annotations-version>
+    <hibernate-commons-annotations-version>3.3.0.ga</hibernate-commons-annotations-version>
+    <hibernate-generic-dao-version>0.5.1</hibernate-generic-dao-version>
+
+  </properties>
+
   <dependencies>
     <dependency>
       <!-- GeoServer Trunk Artifact -->
@@ -44,6 +59,58 @@
       <version>${project.version}</version>
     </dependency>
 
+		<!-- =========================================================== -->
+		<!--     Hibernate                                               -->
+		<!-- =========================================================== -->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+			<version>${hibernate-annotations-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm-attrs</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+			<version>${hibernate-commons-annotations-version}</version>
+        </dependency>
+<!--        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm-attrs</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+		
    <!-- Jetty test dependencies to start GeoServer from an IDE -->
     <dependency>
       <groupId>org.mortbay.jetty</groupId>
@@ -132,13 +199,6 @@
       </plugin>
     </plugins>
   </build>
-
-    <properties>
-    <configId>minimal</configId>
-    <configDirectory>${basedir}</configDirectory>
-    <webappSourceDirectory>${basedir}/src/main/webapp</webappSourceDirectory>
-    <sde.version>9.3</sde.version>
-  </properties>
   
   <profiles>
 
