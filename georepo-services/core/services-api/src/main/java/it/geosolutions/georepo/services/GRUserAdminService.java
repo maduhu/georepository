@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2010 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2012 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -31,7 +31,7 @@ import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
  *
  * @author Emanuele Tajariol (etj at geo-solutions.it)
  */
-public interface GRUserAdminService
+public interface GRUserAdminService extends GetProviderService<GRUser>
 {
 
     // ==========================================================================
@@ -43,6 +43,7 @@ public interface GRUserAdminService
 
     boolean delete(long id) throws NotFoundServiceEx;
 
+    @Override
     GRUser get(long id) throws NotFoundServiceEx;
 
     long getCount(String nameLike);

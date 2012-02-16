@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2012 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -31,12 +31,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 
 @XmlRootElement(name = "GeoRepoConfiguration")
-@XmlType(propOrder = { "profileList", "userList", "gsInstanceList", "ruleList" })
+@XmlType(propOrder = { "profileList", "userList", "grUserList", "gsInstanceList", "ruleList" })
 public class RESTFullConfiguration
 {
 
     private RESTFullProfileList profileList;
     private RESTFullUserList userList;
+    private RESTFullGRUserList grUserList;
     private RESTFullGSInstanceList gsInstanceList;
     private RESTFullRuleList ruleList;
 
@@ -88,6 +89,17 @@ public class RESTFullConfiguration
         this.userList = userList;
     }
 
+    @XmlElement(name = "InternalUsers")
+    public RESTFullGRUserList getGrUserList()
+    {
+        return grUserList;
+    }
+
+    public void setGrUserList(RESTFullGRUserList grUserList)
+    {
+        this.grUserList = grUserList;
+    }
+
 
     @Override
     public String toString()
@@ -109,6 +121,10 @@ public class RESTFullConfiguration
         if (ruleList != null)
         {
             sb.append(", ").append(ruleList);
+        }
+        if (grUserList != null && grUserList.getList() != null)
+        {
+            sb.append(", ").append(grUserList.getList().size()).append(" internal users");
         }
         sb.append(']');
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2012 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -34,6 +34,8 @@ import it.geosolutions.georepo.services.rest.model.config.RESTFullConfiguration;
 import it.geosolutions.georepo.services.rest.model.config.RESTFullProfileList;
 import it.geosolutions.georepo.services.rest.model.config.RESTFullUserList;
 
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.QueryParam;
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 
@@ -52,12 +54,14 @@ public interface RESTConfigService
     @GET
     @Path("/full")
     @Produces(MediaType.APPLICATION_XML)
-    RESTFullConfiguration getConfiguration();
+    RESTFullConfiguration getConfiguration(@QueryParam("includeGRUsers")@DefaultValue("False")Boolean includeGRUsers);
 
     @PUT
     @Path("/full")
     @Produces(MediaType.APPLICATION_XML)
-    RESTConfigurationRemapping setConfiguration(@Multipart("configuration") RESTFullConfiguration config)
+    RESTConfigurationRemapping setConfiguration(
+            @Multipart("configuration") RESTFullConfiguration config,
+            @QueryParam("includeGRUsers")@DefaultValue("False")Boolean includeGRUsers)
         throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
     @GET

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2012 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -20,9 +20,9 @@
 
 package it.geosolutions.georepo.services.servicetest;
 
+import it.geosolutions.georepo.core.model.GRUser;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,9 +40,6 @@ import it.geosolutions.georepo.services.ProfileAdminService;
 import it.geosolutions.georepo.services.RuleAdminService;
 import it.geosolutions.georepo.services.UserAdminService;
 import it.geosolutions.georepo.services.dto.ShortProfile;
-import it.geosolutions.georepo.services.dto.ShortRule;
-import it.geosolutions.georepo.services.dto.ShortUser;
-import it.geosolutions.georepo.services.exception.NotFoundServiceEx;
 import it.geosolutions.georepo.services.rest.utils.InstanceCleaner;
 
 import org.apache.log4j.Logger;
@@ -71,6 +68,8 @@ public class MainTest implements InitializingBean
         LOGGER.info("===== Starting GeoRepository REST test services =====");
 
         instanceCleaner.removeAll();
+        instanceCleaner.removeAllGRUsers();
+
         setUpTestRule();
     }
 
@@ -94,12 +93,24 @@ public class MainTest implements InitializingBean
         p2cp.put("k2", "v2");
         profileAdminService.setCustomProps(p2id, p2cp);
 
+        GRUser u0 = new GRUser();
+        u0.setName("admin");
+        u0.setPassword("password");
+        u0.setEnabled(true);
+        u0.setFullName("Sample G.R. Admin");
+        u0.setEmailAddress("gr.admin@georepo.net");
+        u0.setExtId("sample_geoserver_user");
+        grUserAdminService.insert(u0);
+
         GSUser u1 = new GSUser();
         u1.setAdmin(true);
         u1.setName("admin");
+        u1.setPassword("password");
         u1.setProfile(profileAdminService.get(p1id));
         u1.setEnabled(true);
-        u1.setExtId("THE_REAL_ADMIN");
+        u1.setFullName("Sample G.S. Admin");
+        u1.setEmailAddress("gs.admin@georepo.net");
+        u1.setExtId("sample_geoserver_user");
         userAdminService.insert(u1);
 
 

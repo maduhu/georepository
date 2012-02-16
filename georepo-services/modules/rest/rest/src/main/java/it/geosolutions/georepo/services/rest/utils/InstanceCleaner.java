@@ -54,7 +54,7 @@ public class InstanceCleaner
         LOGGER.warn("***** removeAll()");
         removeAllRules();
         removeAllUsers();
-        removeAllGRUsers();
+//        removeAllGRUsers();
         removeAllProfiles();
         removeAllInstances();
     }

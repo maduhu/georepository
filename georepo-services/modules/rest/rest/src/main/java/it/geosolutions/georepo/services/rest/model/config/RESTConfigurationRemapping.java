@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2012 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -19,6 +19,11 @@
  */
 package it.geosolutions.georepo.services.rest.model.config;
 
+import it.geosolutions.georepo.core.model.GRUser;
+import it.geosolutions.georepo.core.model.GSInstance;
+import it.geosolutions.georepo.core.model.GSUser;
+import it.geosolutions.georepo.core.model.Profile;
+import it.geosolutions.georepo.core.model.Rule;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,43 +42,27 @@ import it.geosolutions.georepo.services.rest.model.config.adapter.RemapperAdapte
 public class RESTConfigurationRemapping
 {
 
-//    public static enum TYPE { PROFILE,USER,GSINSTANCE,RULE};
-//
-//    public static class Remap {
-//        TYPE type;
-//        Long oldId;
-//        Long newId;
-//
-//        public Long getNewId() {
-//            return newId;
-//        }
-//
-//        public void setNewId(Long newId) {
-//            this.newId = newId;
-//        }
-//
-//        public Long getOldId() {
-//            return oldId;
-//        }
-//
-//        public void setOldId(Long oldId) {
-//            this.oldId = oldId;
-//        }
-//
-//        public TYPE getType() {
-//            return type;
-//        }
-//
-//        public void setType(TYPE type) {
-//            this.type = type;
-//        }
-//
-//    }
-
     private Map<Long, Long> users = new HashMap<Long, Long>();
     private Map<Long, Long> profiles = new HashMap<Long, Long>();
     private Map<Long, Long> instances = new HashMap<Long, Long>();
     private Map<Long, Long> rules = new HashMap<Long, Long>();
+    private Map<Long, Long> grUsers = new HashMap<Long, Long>();
+
+    public void remap(Long newId, GSUser old) {
+        users.put(old.getId(), newId);
+    }
+    public void remap(Long newId, GRUser old) {
+        grUsers.put(old.getId(), newId);
+    }
+    public void remap(Long newId, Profile old) {
+        profiles.put(old.getId(), newId);
+    }
+    public void remap(Long newId, GSInstance old) {
+        instances.put(old.getId(), newId);
+    }
+    public void remap(Long newId, Rule old) {
+        rules.put(old.getId(), newId);
+    }
 
     @XmlJavaTypeAdapter(RemapperAdapter.class)
     @XmlElement(name = "instances")
@@ -101,6 +90,13 @@ public class RESTConfigurationRemapping
     public Map<Long, Long> getUsers()
     {
         return users;
+    }
+
+    @XmlJavaTypeAdapter(RemapperAdapter.class)
+    @XmlElement(name = "internalUsers")
+    public Map<Long, Long> getGRUsers()
+    {
+        return grUsers;
     }
 
 }

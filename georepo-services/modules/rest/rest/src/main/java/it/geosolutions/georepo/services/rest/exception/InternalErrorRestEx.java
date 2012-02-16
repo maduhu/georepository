@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2012 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -21,6 +21,7 @@ package it.geosolutions.georepo.services.rest.exception;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 
 /**
@@ -37,7 +38,12 @@ public class InternalErrorRestEx extends WebApplicationException
 
     public InternalErrorRestEx(String message)
     {
-        super(Response.Status.INTERNAL_SERVER_ERROR);
+        super(Response
+                .status(Status.INTERNAL_SERVER_ERROR)
+                .type("text/plain")
+                .entity(message)
+                .build());
+
         this.message = message;
     }
 
