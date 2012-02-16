@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  Copyright (C) 2007 - 2012 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
  *  GPLv3 + Classpath exception
@@ -20,48 +20,46 @@
 
 package it.geosolutions.georepo.services.rest.model.config;
 
+import it.geosolutions.georepo.core.model.GRUser;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import it.geosolutions.georepo.core.model.GSUser;
-
-
 /**
  *
  * @author ETj (etj at geo-solutions.it)
  */
 
-@XmlRootElement(name = "UserList")
-public class RESTFullUserList
+@XmlRootElement(name = "GRUserList")
+public class RESTFullGRUserList
 {
 
-    private List<GSUser> list;
+    private List<GRUser> list;
 
-    public RESTFullUserList()
+    public RESTFullGRUserList()
     {
         this(10);
     }
 
-    public RESTFullUserList(int initialCapacity)
+    public RESTFullGRUserList(int initialCapacity)
     {
-        list = new ArrayList<GSUser>(initialCapacity);
+        list = new ArrayList<GRUser>(initialCapacity);
     }
 
     @XmlElement(name = "User")
-    public List<GSUser> getList()
+    public List<GRUser> getList()
     {
         return list;
     }
 
-    public void setList(List<GSUser> userList)
+    public void setList(List<GRUser> userList)
     {
         this.list = userList;
     }
 
-    public void add(GSUser user)
+    public void add(GRUser user)
     {
         list.add(user);
     }
