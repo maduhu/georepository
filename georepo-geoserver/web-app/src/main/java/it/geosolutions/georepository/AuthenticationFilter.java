@@ -1,5 +1,7 @@
 package it.geosolutions.georepository;
 
+import it.geosolutions.georepo.services.RuleReaderService;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -11,10 +13,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.geosolutions.georepo.services.RuleReaderService;
-
 import org.apache.commons.codec.binary.Base64;
 import org.geoserver.platform.GeoServerExtensions;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -88,14 +89,8 @@ public class AuthenticationFilter implements Filter
         }
         else
         {
-            /*authentication = new AnonymousAuthenticationToken("geoserver", "null",
-                    new GrantedAuthority[] { new GrantedAuthorityImpl(ANONYMOUS_ROLE) });*/
-
-            GrantedAuthority[] authorities = new GrantedAuthority[] { new GrantedAuthorityImpl(USER_ROLE) };
-
-            UsernamePasswordAuthenticationToken upa = new UsernamePasswordAuthenticationToken("ANONYM", "ANONYM",
-                    authorities);
-            authentication = upa;
+            authentication = new AnonymousAuthenticationToken("geoserver", "null",
+                    new GrantedAuthority[] { new GrantedAuthorityImpl(ANONYMOUS_ROLE) });
         }
 
         /* if(authentication instanceof AnonymousAuthenticationToken && (httpRequest.getPathInfo().startsWith("/web"))) {
@@ -116,12 +111,11 @@ public class AuthenticationFilter implements Filter
             httpResponse.addHeader("WWW-Authenticate", "Basic realm=\"geoserver\"");
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/web");
         }
-
-        /*else if (authentication instanceof AnonymousAuthenticationToken)
+        else if (authentication instanceof AnonymousAuthenticationToken)
         {
             httpResponse.addHeader("WWW-Authenticate", "Basic realm=\"geoserver\"");
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please authenticate as administrator");
-        }*/
+        }
         else
         {
             SecurityContextHolder.getContext().setAuthentication(authentication);
