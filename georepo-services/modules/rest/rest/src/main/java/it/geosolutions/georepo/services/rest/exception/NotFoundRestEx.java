@@ -38,11 +38,7 @@ public class NotFoundRestEx extends WebApplicationException
 
     public NotFoundRestEx(String message)
     {
-        super(Response
-                .status(Status.NOT_FOUND)
-                .type("text/plain")
-                .entity(message)
-                .build());
+        super(Response.status(Status.NOT_FOUND).type("text/plain").entity(message).build());
         this.message = message;
     }
 

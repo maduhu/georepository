@@ -17,11 +17,11 @@
  */
 package it.geosolutions.georepo.services.rest.impl;
 
-import it.geosolutions.georepo.core.model.GRUser;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.geosolutions.georepo.core.model.GRUser;
 import it.geosolutions.georepo.core.model.GSInstance;
 import it.geosolutions.georepo.core.model.GSUser;
 import it.geosolutions.georepo.core.model.LayerDetails;
@@ -88,7 +88,8 @@ public class RESTConfigServiceImpl implements RESTConfigService
         rules.setList(ruleAdminService.getListFull(null, null, null));
         cfg.setRuleList(rules);
 
-        if(includeGRUsers.booleanValue()) {
+        if (includeGRUsers.booleanValue())
+        {
             RESTFullGRUserList grUsers = new RESTFullGRUserList();
             grUsers.setList(grUserAdminService.getFullList(null, null, null));
             cfg.setGrUserList(grUsers);
@@ -98,12 +99,15 @@ public class RESTConfigServiceImpl implements RESTConfigService
     }
 
     @Override
-    public synchronized RESTConfigurationRemapping setConfiguration(RESTFullConfiguration config, Boolean includeGRUsers)
+    public synchronized RESTConfigurationRemapping setConfiguration(RESTFullConfiguration config,
+        Boolean includeGRUsers)
     {
         LOGGER.warn("SETTING CONFIGURATION");
 
-        if(includeGRUsers) {
-            if(config.getGrUserList() == null || config.getGrUserList().getList() == null || config.getGrUserList().getList().isEmpty()) {
+        if (includeGRUsers)
+        {
+            if ((config.getGrUserList() == null) || (config.getGrUserList().getList() == null) || config.getGrUserList().getList().isEmpty())
+            {
                 throw new BadRequestRestEx("Can't restore internal users: no internal user defined");
             }
         }
@@ -118,21 +122,25 @@ public class RESTConfigServiceImpl implements RESTConfigService
             new RemapperCache<GSInstance, InstanceAdminService>(instanceAdminService, remap.getInstances());
 
 
-        try {
+        try
+        {
             // === Profiles
-            for (Profile profile : config.getProfileList().getList()) {
+            for (Profile profile : config.getProfileList().getList())
+            {
                 Long oldId = profile.getId();
                 ShortProfile sp = new ShortProfile(profile);
                 long newId = profileAdminService.insert(sp);
                 LOGGER.info("Remapping profile " + oldId + " -> " + newId);
                 remap.getProfiles().put(oldId, newId);
-                if ((profile.getCustomProps() != null) && !profile.getCustomProps().isEmpty()) {
+                if ((profile.getCustomProps() != null) && !profile.getCustomProps().isEmpty())
+                {
                     profileAdminService.setCustomProps(newId, profile.getCustomProps());
                 }
             }
 
             // === Users
-            for (GSUser user : config.getUserList().getList()) {
+            for (GSUser user : config.getUserList().getList())
+            {
                 Long oldProfileId = user.getProfile().getId();
 
                 Profile profile = profileCache.get(oldProfileId);
@@ -148,7 +156,8 @@ public class RESTConfigServiceImpl implements RESTConfigService
 
 
             // === GSInstances
-            for (GSInstance instance : config.getGsInstanceList().getList()) {
+            for (GSInstance instance : config.getGsInstanceList().getList())
+            {
                 Long oldId = instance.getId();
                 instance.setId(null);
 
@@ -158,19 +167,23 @@ public class RESTConfigServiceImpl implements RESTConfigService
             }
 
             // === Rules
-            for (Rule rule : config.getRuleList().getList()) {
+            for (Rule rule : config.getRuleList().getList())
+            {
                 Long oldId = rule.getId();
                 rule.setId(null);
 
-                if (rule.getProfile() != null) {
+                if (rule.getProfile() != null)
+                {
                     rule.setProfile(profileCache.get(rule.getProfile().getId()));
                 }
 
-                if (rule.getGsuser() != null) {
+                if (rule.getGsuser() != null)
+                {
                     rule.setGsuser(userCache.get(rule.getGsuser().getId()));
                 }
 
-                if (rule.getInstance() != null) {
+                if (rule.getInstance() != null)
+                {
                     rule.setInstance(instanceCache.get(rule.getInstance().getId()));
                 }
 
@@ -183,23 +196,29 @@ public class RESTConfigServiceImpl implements RESTConfigService
                 LOGGER.info("Remapping rule " + oldId + " -> " + newId);
                 remap.getRules().put(oldId, newId);
 
-                if (ld != null) {
+                if (ld != null)
+                {
                     ruleAdminService.setDetails(newId, ld);
                 }
             }
-        } catch (RemapperException e) {
-                LOGGER.error("Exception in remapping: Configuration will be erased");
-                instanceCleaner.removeAll();
-                throw new BadRequestRestEx(e.getMessage());
+        }
+        catch (RemapperException e)
+        {
+            LOGGER.error("Exception in remapping: Configuration will be erased");
+            instanceCleaner.removeAll();
+            throw new BadRequestRestEx(e.getMessage());
 
-        } catch (NotFoundRestEx e) {
-                LOGGER.error("Internal exception in remapping: Configuration will be erased");
-                instanceCleaner.removeAll();
-                throw e;
+        }
+        catch (NotFoundRestEx e)
+        {
+            LOGGER.error("Internal exception in remapping: Configuration will be erased");
+            instanceCleaner.removeAll();
+            throw e;
         }
 
         // === Internal users
-        if(includeGRUsers) {
+        if (includeGRUsers)
+        {
             instanceCleaner.removeAllGRUsers();
 
             for (GRUser grUser : config.getGrUserList().getList())
@@ -284,7 +303,8 @@ public class RESTConfigServiceImpl implements RESTConfigService
         this.ruleAdminService = ruleAdminService;
     }
 
-    public void setGrUserAdminService(GRUserAdminService grUserAdminService) {
+    public void setGrUserAdminService(GRUserAdminService grUserAdminService)
+    {
         this.grUserAdminService = grUserAdminService;
     }
 
@@ -323,7 +343,8 @@ public class RESTConfigServiceImpl implements RESTConfigService
                 }
 
                 return cached;
-            } catch (NotFoundServiceEx ex)
+            }
+            catch (NotFoundServiceEx ex)
             {
                 LOGGER.error(ex.getMessage(), ex);
                 throw new NotFoundRestEx(ex.getMessage());
@@ -331,22 +352,27 @@ public class RESTConfigServiceImpl implements RESTConfigService
         }
     }
 
-    class RemapperException extends Exception {
+    class RemapperException extends Exception
+    {
 
-        public RemapperException(Throwable cause) {
+        public RemapperException(Throwable cause)
+        {
             super(cause);
         }
 
-        public RemapperException(String message, Throwable cause) {
+        public RemapperException(String message, Throwable cause)
+        {
             super(message, cause);
         }
 
-        public RemapperException(String message) {
+        public RemapperException(String message)
+        {
             super(message);
         }
 
-        public RemapperException() {
-        }            
+        public RemapperException()
+        {
+        }
     }
 
 }

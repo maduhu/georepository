@@ -20,10 +20,12 @@
 package it.geosolutions.georepo.services.rest;
 
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import it.geosolutions.georepo.services.rest.exception.BadRequestRestEx;
@@ -34,8 +36,6 @@ import it.geosolutions.georepo.services.rest.model.config.RESTFullConfiguration;
 import it.geosolutions.georepo.services.rest.model.config.RESTFullProfileList;
 import it.geosolutions.georepo.services.rest.model.config.RESTFullUserList;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.QueryParam;
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 
@@ -54,15 +54,17 @@ public interface RESTConfigService
     @GET
     @Path("/full")
     @Produces(MediaType.APPLICATION_XML)
-    RESTFullConfiguration getConfiguration(@QueryParam("includeGRUsers")@DefaultValue("False")Boolean includeGRUsers);
+    RESTFullConfiguration getConfiguration(@QueryParam("includeGRUsers")
+        @DefaultValue("False")
+        Boolean includeGRUsers);
 
     @PUT
     @Path("/full")
     @Produces(MediaType.APPLICATION_XML)
-    RESTConfigurationRemapping setConfiguration(
-            @Multipart("configuration") RESTFullConfiguration config,
-            @QueryParam("includeGRUsers")@DefaultValue("False")Boolean includeGRUsers)
-        throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
+    RESTConfigurationRemapping setConfiguration(@Multipart("configuration") RESTFullConfiguration config,
+        @QueryParam("includeGRUsers")
+        @DefaultValue("False")
+        Boolean includeGRUsers) throws BadRequestRestEx, NotFoundRestEx, InternalErrorRestEx;
 
     @GET
     @Path("/users")

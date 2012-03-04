@@ -32,6 +32,14 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.gui.client.ApplicationException;
 import it.geosolutions.georepo.gui.client.configuration.WorkspaceConfigOpts;
@@ -53,18 +61,10 @@ import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList;
 import it.geosolutions.geoserver.rest.decoder.RESTWorkspaceList.RESTShortWorkspace;
 import it.geosolutions.geoserver.rest.decoder.utils.NameLinkElem;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
 
 
 // TODO: Auto-generated Javadoc
@@ -81,7 +81,7 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService
     /** The georepo remote service. */
     @Autowired
     private GeoRepoRemoteService georepoRemoteService;
-    
+
     /** The georepo workspace options. */
     @Autowired
     private WorkspaceConfigOpts workspaceConfigOpts;
@@ -150,10 +150,11 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService
                 GeoServerRESTReader gsreader = new GeoServerRESTReader(baseURL, gsInstance.getUsername(), gsInstance.getPassword());
 
                 RESTAbstractList<NameLinkElem> layers;
-                
-                if(workspace.equals("*") && workspaceConfigOpts.isShowDefaultGroups() && service.equals("WMS")){
+
+                if (workspace.equals("*") && workspaceConfigOpts.isShowDefaultGroups() && service.equals("WMS"))
+                {
                     layers = gsreader.getLayerGroups();
-                    
+
                     if ((layers != null) && !layers.isEmpty())
                     {
                         Iterator<NameLinkElem> lrIT = layers.iterator();
@@ -161,14 +162,18 @@ public class WorkspacesManagerServiceImpl implements IWorkspacesManagerService
                         {
                             NameLinkElem layerLink = lrIT.next();
                             RESTLayerGroup group = gsreader.getLayerGroup(layerLink.getName());
-                            
-                            if(group != null)
+
+                            if (group != null)
+                            {
                                 layersListDTO.add(new Layer(group.getName()));
+                            }
                         }
                     }
-                }else{
+                }
+                else
+                {
                     layers = gsreader.getLayers();
-                    
+
                     if ((layers != null) && !layers.isEmpty())
                     {
                         Iterator<NameLinkElem> lrIT = layers.iterator();

@@ -38,11 +38,7 @@ public class InternalErrorRestEx extends WebApplicationException
 
     public InternalErrorRestEx(String message)
     {
-        super(Response
-                .status(Status.INTERNAL_SERVER_ERROR)
-                .type("text/plain")
-                .entity(message)
-                .build());
+        super(Response.status(Status.INTERNAL_SERVER_ERROR).type("text/plain").entity(message).build());
 
         this.message = message;
     }

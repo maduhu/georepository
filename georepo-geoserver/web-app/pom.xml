@@ -242,6 +242,25 @@
           </dependency>
         </dependencies>
       </profile>
-  </profiles>
+<!-- ========================================-->
+<!-- Wicket ONE_PASS_REDIRECT Filter -->
+<!-- ========================================-->
+	<profile>
+        <id>1Prenderfilter</id>
+        <activation>
+          <property>
+            <name>all</name>
+            <value>true</value>
+          </property>
+        </activation>
+        <dependencies>
+          <dependency>
+            <groupId>it.geosolutions.geoserver</groupId>
+            <artifactId>1Prenderfilter</artifactId>
+            <version>${geoserver-version}</version>
+          </dependency>
+        </dependencies>
+      </profile>
+</profiles>
 
 </project>

@@ -19,11 +19,6 @@
  */
 package it.geosolutions.georepo.services.rest.model.config;
 
-import it.geosolutions.georepo.core.model.GRUser;
-import it.geosolutions.georepo.core.model.GSInstance;
-import it.geosolutions.georepo.core.model.GSUser;
-import it.geosolutions.georepo.core.model.Profile;
-import it.geosolutions.georepo.core.model.Rule;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +26,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import it.geosolutions.georepo.core.model.GRUser;
+import it.geosolutions.georepo.core.model.GSInstance;
+import it.geosolutions.georepo.core.model.GSUser;
+import it.geosolutions.georepo.core.model.Profile;
+import it.geosolutions.georepo.core.model.Rule;
 import it.geosolutions.georepo.services.rest.model.config.adapter.RemapperAdapter;
 
 
@@ -48,19 +48,28 @@ public class RESTConfigurationRemapping
     private Map<Long, Long> rules = new HashMap<Long, Long>();
     private Map<Long, Long> grUsers = new HashMap<Long, Long>();
 
-    public void remap(Long newId, GSUser old) {
+    public void remap(Long newId, GSUser old)
+    {
         users.put(old.getId(), newId);
     }
-    public void remap(Long newId, GRUser old) {
+
+    public void remap(Long newId, GRUser old)
+    {
         grUsers.put(old.getId(), newId);
     }
-    public void remap(Long newId, Profile old) {
+
+    public void remap(Long newId, Profile old)
+    {
         profiles.put(old.getId(), newId);
     }
-    public void remap(Long newId, GSInstance old) {
+
+    public void remap(Long newId, GSInstance old)
+    {
         instances.put(old.getId(), newId);
     }
-    public void remap(Long newId, Rule old) {
+
+    public void remap(Long newId, Rule old)
+    {
         rules.put(old.getId(), newId);
     }
 

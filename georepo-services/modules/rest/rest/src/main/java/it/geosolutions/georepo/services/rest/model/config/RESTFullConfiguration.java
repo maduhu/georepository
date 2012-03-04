@@ -122,7 +122,7 @@ public class RESTFullConfiguration
         {
             sb.append(", ").append(ruleList);
         }
-        if (grUserList != null && grUserList.getList() != null)
+        if ((grUserList != null) && (grUserList.getList() != null))
         {
             sb.append(", ").append(grUserList.getList().size()).append(" internal users");
         }

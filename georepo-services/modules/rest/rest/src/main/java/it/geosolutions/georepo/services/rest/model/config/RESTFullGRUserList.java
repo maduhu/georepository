@@ -20,12 +20,14 @@
 
 package it.geosolutions.georepo.services.rest.model.config;
 
-import it.geosolutions.georepo.core.model.GRUser;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import it.geosolutions.georepo.core.model.GRUser;
+
 
 /**
  *

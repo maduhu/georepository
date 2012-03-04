@@ -186,12 +186,15 @@ public class RuleDetailsEditDialog extends Dialog
             {
                 setHeading("Editing Details for Rule #" + model.getPriority());
 
-                if(workspace.equals("*") && !layer.equalsIgnoreCase("*")){
+                if (workspace.equals("*") && !layer.equalsIgnoreCase("*"))
+                {
                     TabItem layersCustomPropsItem = new LayerCustomPropsTabItem(RULE_LAYER_CUSTOM_PROPS_DIALOG_ID,
                             model, rulesManagerServiceRemote);
                     this.tabWidget.add(layersCustomPropsItem);
                     this.tabWidget.setSelection(layersCustomPropsItem);
-                }else{
+                }
+                else
+                {
                     TabItem ruleDetailsTabItem = new RuleDetailsTabItem(RULE_DETAILS_DIALOG_ID, model,
                             workspacesManagerServiceRemote);
                     this.tabWidget.add(ruleDetailsTabItem);

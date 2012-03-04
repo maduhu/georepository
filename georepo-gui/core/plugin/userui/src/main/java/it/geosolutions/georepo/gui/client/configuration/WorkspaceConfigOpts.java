@@ -34,25 +34,28 @@ package it.geosolutions.georepo.gui.client.configuration;
 
 /**
  * Class WorkspaceConfigOpts.
- * 
+ *
  * @author Tobia Di Pisa
- * 
+ *
  */
-public class WorkspaceConfigOpts {
+public class WorkspaceConfigOpts
+{
 
     private boolean showDefaultGroups = false;
 
     /**
-     * 
+     *
      */
-    public WorkspaceConfigOpts() {
+    public WorkspaceConfigOpts()
+    {
         super();
     }
 
     /**
      * @param showDefaultGroups
      */
-    public WorkspaceConfigOpts(boolean showDefaultGroups) {
+    public WorkspaceConfigOpts(boolean showDefaultGroups)
+    {
         super();
         this.showDefaultGroups = showDefaultGroups;
     }
@@ -60,7 +63,8 @@ public class WorkspaceConfigOpts {
     /**
      * @return the showDefaultGroups
      */
-    public boolean isShowDefaultGroups() {
+    public boolean isShowDefaultGroups()
+    {
         return showDefaultGroups;
     }
 
@@ -68,7 +72,8 @@ public class WorkspaceConfigOpts {
      * @param showDefaultGroups
      *            the showDefaultGroups to set
      */
-    public void setShowDefaultGroups(boolean showDefaultGroups) {
+    public void setShowDefaultGroups(boolean showDefaultGroups)
+    {
         this.showDefaultGroups = showDefaultGroups;
     }
 }

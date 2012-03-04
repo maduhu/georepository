@@ -38,11 +38,7 @@ public class BadRequestRestEx extends WebApplicationException
 
     public BadRequestRestEx(String message)
     {
-        super(Response
-                .status(Status.BAD_REQUEST)
-                .type("text/plain")
-                .entity(message)
-                .build());
+        super(Response.status(Status.BAD_REQUEST).type("text/plain").entity(message).build());
         this.message = message;
     }
 

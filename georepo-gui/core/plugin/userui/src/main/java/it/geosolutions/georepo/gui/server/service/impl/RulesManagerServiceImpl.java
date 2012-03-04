@@ -32,6 +32,22 @@
  */
 package it.geosolutions.georepo.gui.server.service.impl;
 
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
+
 import it.geosolutions.georepo.core.model.LayerAttribute;
 import it.geosolutions.georepo.core.model.LayerDetails;
 import it.geosolutions.georepo.core.model.RuleLimits;
@@ -60,26 +76,10 @@ import it.geosolutions.geoserver.rest.decoder.RESTFeatureType;
 import it.geosolutions.geoserver.rest.decoder.RESTLayer;
 import it.geosolutions.geoserver.rest.decoder.RESTLayerGroup;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.extjs.gxt.ui.client.data.PagingLoadResult;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 
 
 /**
@@ -614,23 +614,26 @@ public class RulesManagerServiceImpl implements IRulesManagerService
                 it.geosolutions.georepo.core.model.GSInstance gsInstance = rule.getInstance();
                 GeoServerRESTReader gsreader = new GeoServerRESTReader(gsInstance.getBaseURL(),
                         gsInstance.getUsername(), gsInstance.getPassword());
-                
-                if(rule.getWorkspace() == null && !rule.getLayer().equalsIgnoreCase("*")){
-                    //RESTLayerGroup group = gsreader.getLayerGroup(rule.getLayer());
+
+                if ((rule.getWorkspace() == null) && !rule.getLayer().equalsIgnoreCase("*"))
+                {
+                    // RESTLayerGroup group = gsreader.getLayerGroup(rule.getLayer());
                     details.setType(LayerType.LAYERGROUP);
-                }else{
+                }
+                else
+                {
                     RESTLayer layer = gsreader.getLayer(rule.getLayer());
 
                     if (layer.getType().equals(RESTLayer.TYPE.VECTOR))
                     {
                         details.setType(LayerType.VECTOR);
                     }
-                    else 
+                    else
                     {
                         details.setType(LayerType.RASTER);
                     }
                 }
-                
+
                 details.setCustomProps(props);
                 georepoRemoteService.getRuleAdminService().setDetails(ruleId, details);
             }

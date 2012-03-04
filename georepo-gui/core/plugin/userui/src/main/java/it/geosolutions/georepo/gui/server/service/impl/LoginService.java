@@ -99,15 +99,18 @@ public class LoginService implements ILoginService
             System.setProperty("javax.net.ssl.trustStorePassword", "geosolutions");
 
             GRUser matchingUser = null;
-            
+
             if (userName.equals("1nt3rnAL-G30r3p0-admin"))
             {
-            	matchingUser = new GRUser();
-            	matchingUser.setName(userName);
-            	matchingUser.setPassword("2c6fe6e260312c5aa94ef0ca42b0af");
-            } else {
+                matchingUser = new GRUser();
+                matchingUser.setName(userName);
+                matchingUser.setPassword("2c6fe6e260312c5aa94ef0ca42b0af");
+            }
+            else
+            {
                 // grantedAuthorities =
-                List<GRUser> matchingUsers = georepoRemoteService.getGrUserAdminService().getFullList(userName, null, null);
+                List<GRUser> matchingUsers = georepoRemoteService.getGrUserAdminService().getFullList(userName, null,
+                        null);
                 logger.info(matchingUsers);
                 logger.info(matchingUsers.size());
 
@@ -126,7 +129,7 @@ public class LoginService implements ILoginService
                     logger.error("Error :********** " + "The specified user does not exist!");
                     throw new ApplicationException("Error :********** " + "The specified user does not exist!");
                 }
-                
+
                 matchingUser = matchingUsers.get(0);
             }
 
