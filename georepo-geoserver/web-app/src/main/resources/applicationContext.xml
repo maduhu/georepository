@@ -3,6 +3,10 @@
 
 <beans>
 
+  <!-- The servlet filter that performs the Georepo authentication -->
+  <bean id="georepoAuthFilter" class="it.geosolutions.georepository.AuthenticationFilter">
+  </bean>
+
   <bean id="webGSEnterpriseDispatcherMapping"
     class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"
     lazy-init="true">

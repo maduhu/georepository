@@ -4,7 +4,6 @@ import it.geosolutions.georepo.services.RuleReaderService;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -14,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
+import org.geoserver.filters.GeoServerFilter;
+import org.geoserver.platform.ExtensionPriority;
 import org.geoserver.platform.GeoServerExtensions;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +24,7 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
-public class AuthenticationFilter implements Filter
+public class AuthenticationFilter implements GeoServerFilter, ExtensionPriority
 {
 
     static final String ROOT_ROLE = "ROLE_ADMINISTRATOR";
@@ -35,13 +36,16 @@ public class AuthenticationFilter implements Filter
     public void destroy()
     {
         // nothing to do
-
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
         ServletException
     {
+    	if (rules == null) {
+            rules = (RuleReaderService) GeoServerExtensions.bean("ruleReaderService");
+    	}
+    	
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -126,7 +130,13 @@ public class AuthenticationFilter implements Filter
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        rules = (RuleReaderService) GeoServerExtensions.bean("ruleReaderService");
+    	// nothing to do here
     }
+
+	@Override
+	public int getPriority() {
+		// we need to run before anything else,
+		return ExtensionPriority.HIGHEST;
+	}
 
 }
