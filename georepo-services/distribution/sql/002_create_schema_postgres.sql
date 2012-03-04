@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Started on 2011-11-02 18:59:51
+-- Started on 2012-03-03 17:36:12
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -12,14 +12,12 @@ SET client_min_messages = warning;
 SET escape_string_warning = off;
 
 --
--- TOC entry 7 (class 2615 OID 17524)
--- Name: georepo; Type: SCHEMA; Schema: -; Owner: postgres
+-- TOC entry 7 (class 2615 OID 50644)
+-- Name: georepo; Type: SCHEMA; Schema: -; Owner: -
 --
 
 CREATE SCHEMA georepo;
 
-
-ALTER SCHEMA georepo OWNER TO postgres;
 
 SET search_path = georepo, pg_catalog;
 
@@ -28,9 +26,9 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 2318 (class 1259 OID 17942)
+-- TOC entry 2300 (class 1259 OID 62331)
 -- Dependencies: 7
--- Name: gr_gruser; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- Name: gr_gruser; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_gruser (
@@ -45,12 +43,10 @@ CREATE TABLE gr_gruser (
 );
 
 
-ALTER TABLE georepo.gr_gruser OWNER TO georepo;
-
 --
--- TOC entry 2319 (class 1259 OID 17954)
+-- TOC entry 2301 (class 1259 OID 62343)
 -- Dependencies: 7
--- Name: gr_gsinstance; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- Name: gr_gsinstance; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_gsinstance (
@@ -64,12 +60,10 @@ CREATE TABLE gr_gsinstance (
 );
 
 
-ALTER TABLE georepo.gr_gsinstance OWNER TO georepo;
-
 --
--- TOC entry 2320 (class 1259 OID 17962)
--- Dependencies: 994 7
--- Name: gr_gsuser; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2302 (class 1259 OID 62351)
+-- Dependencies: 7 992
+-- Name: gr_gsuser; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_gsuser (
@@ -87,12 +81,10 @@ CREATE TABLE gr_gsuser (
 );
 
 
-ALTER TABLE georepo.gr_gsuser OWNER TO georepo;
-
 --
--- TOC entry 2321 (class 1259 OID 17974)
+-- TOC entry 2303 (class 1259 OID 62363)
 -- Dependencies: 7
--- Name: gr_layer_attributes; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- Name: gr_layer_attributes; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_layer_attributes (
@@ -103,12 +95,10 @@ CREATE TABLE gr_layer_attributes (
 );
 
 
-ALTER TABLE georepo.gr_layer_attributes OWNER TO georepo;
-
 --
--- TOC entry 2322 (class 1259 OID 17982)
+-- TOC entry 2304 (class 1259 OID 62371)
 -- Dependencies: 7
--- Name: gr_layer_custom_props; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- Name: gr_layer_custom_props; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_layer_custom_props (
@@ -118,12 +108,10 @@ CREATE TABLE gr_layer_custom_props (
 );
 
 
-ALTER TABLE georepo.gr_layer_custom_props OWNER TO georepo;
-
 --
--- TOC entry 2323 (class 1259 OID 17990)
--- Dependencies: 994 7
--- Name: gr_layer_details; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2305 (class 1259 OID 62379)
+-- Dependencies: 992 7
+-- Name: gr_layer_details; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_layer_details (
@@ -137,12 +125,10 @@ CREATE TABLE gr_layer_details (
 );
 
 
-ALTER TABLE georepo.gr_layer_details OWNER TO georepo;
-
 --
--- TOC entry 2324 (class 1259 OID 18000)
+-- TOC entry 2306 (class 1259 OID 62389)
 -- Dependencies: 7
--- Name: gr_layer_styles; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- Name: gr_layer_styles; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_layer_styles (
@@ -151,12 +137,10 @@ CREATE TABLE gr_layer_styles (
 );
 
 
-ALTER TABLE georepo.gr_layer_styles OWNER TO georepo;
-
 --
--- TOC entry 2325 (class 1259 OID 18003)
+-- TOC entry 2307 (class 1259 OID 62392)
 -- Dependencies: 7
--- Name: gr_profile; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- Name: gr_profile; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_profile (
@@ -168,12 +152,10 @@ CREATE TABLE gr_profile (
 );
 
 
-ALTER TABLE georepo.gr_profile OWNER TO georepo;
-
 --
--- TOC entry 2326 (class 1259 OID 18015)
+-- TOC entry 2308 (class 1259 OID 62404)
 -- Dependencies: 7
--- Name: gr_profile_custom_props; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- Name: gr_profile_custom_props; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_profile_custom_props (
@@ -183,12 +165,10 @@ CREATE TABLE gr_profile_custom_props (
 );
 
 
-ALTER TABLE georepo.gr_profile_custom_props OWNER TO georepo;
-
 --
--- TOC entry 2327 (class 1259 OID 18023)
+-- TOC entry 2309 (class 1259 OID 62412)
 -- Dependencies: 7
--- Name: gr_rule; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- Name: gr_rule; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_rule (
@@ -205,12 +185,10 @@ CREATE TABLE gr_rule (
 );
 
 
-ALTER TABLE georepo.gr_rule OWNER TO georepo;
-
 --
--- TOC entry 2328 (class 1259 OID 18033)
--- Dependencies: 994 7
--- Name: gr_rule_limits; Type: TABLE; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2310 (class 1259 OID 62422)
+-- Dependencies: 992 7
+-- Name: gr_rule_limits; Type: TABLE; Schema: georepo; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gr_rule_limits (
@@ -219,13 +197,10 @@ CREATE TABLE gr_rule_limits (
     rule_id bigint NOT NULL
 );
 
-
-ALTER TABLE georepo.gr_rule_limits OWNER TO georepo;
-
 --
--- TOC entry 2329 (class 1259 OID 18043)
+-- TOC entry 2311 (class 1259 OID 62482)
 -- Dependencies: 7
--- Name: hibernate_sequence; Type: SEQUENCE; Schema: georepo; Owner: postgres
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: georepo; Owner: -
 --
 
 CREATE SEQUENCE hibernate_sequence
@@ -236,12 +211,10 @@ CREATE SEQUENCE hibernate_sequence
     CACHE 1;
 
 
-ALTER TABLE georepo.hibernate_sequence OWNER TO georepo;
-
 --
--- TOC entry 2624 (class 2606 OID 17951)
--- Dependencies: 2318 2318
--- Name: gr_gruser_extid_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2614 (class 2606 OID 62340)
+-- Dependencies: 2300 2300
+-- Name: gr_gruser_extid_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_gruser
@@ -249,9 +222,9 @@ ALTER TABLE ONLY gr_gruser
 
 
 --
--- TOC entry 2626 (class 2606 OID 17953)
--- Dependencies: 2318 2318
--- Name: gr_gruser_name_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2616 (class 2606 OID 62342)
+-- Dependencies: 2300 2300
+-- Name: gr_gruser_name_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_gruser
@@ -259,9 +232,9 @@ ALTER TABLE ONLY gr_gruser
 
 
 --
--- TOC entry 2628 (class 2606 OID 17949)
--- Dependencies: 2318 2318
--- Name: gr_gruser_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2618 (class 2606 OID 62338)
+-- Dependencies: 2300 2300
+-- Name: gr_gruser_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_gruser
@@ -269,9 +242,9 @@ ALTER TABLE ONLY gr_gruser
 
 
 --
--- TOC entry 2630 (class 2606 OID 17961)
--- Dependencies: 2319 2319
--- Name: gr_gsinstance_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2620 (class 2606 OID 62350)
+-- Dependencies: 2301 2301
+-- Name: gr_gsinstance_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_gsinstance
@@ -279,9 +252,9 @@ ALTER TABLE ONLY gr_gsinstance
 
 
 --
--- TOC entry 2632 (class 2606 OID 17971)
--- Dependencies: 2320 2320
--- Name: gr_gsuser_extid_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2622 (class 2606 OID 62360)
+-- Dependencies: 2302 2302
+-- Name: gr_gsuser_extid_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_gsuser
@@ -289,9 +262,9 @@ ALTER TABLE ONLY gr_gsuser
 
 
 --
--- TOC entry 2634 (class 2606 OID 17973)
--- Dependencies: 2320 2320
--- Name: gr_gsuser_name_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2624 (class 2606 OID 62362)
+-- Dependencies: 2302 2302
+-- Name: gr_gsuser_name_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_gsuser
@@ -299,9 +272,9 @@ ALTER TABLE ONLY gr_gsuser
 
 
 --
--- TOC entry 2636 (class 2606 OID 17969)
--- Dependencies: 2320 2320
--- Name: gr_gsuser_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2626 (class 2606 OID 62358)
+-- Dependencies: 2302 2302
+-- Name: gr_gsuser_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_gsuser
@@ -309,9 +282,9 @@ ALTER TABLE ONLY gr_gsuser
 
 
 --
--- TOC entry 2638 (class 2606 OID 17981)
--- Dependencies: 2321 2321 2321
--- Name: gr_layer_attributes_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2628 (class 2606 OID 62370)
+-- Dependencies: 2303 2303 2303
+-- Name: gr_layer_attributes_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_layer_attributes
@@ -319,9 +292,9 @@ ALTER TABLE ONLY gr_layer_attributes
 
 
 --
--- TOC entry 2640 (class 2606 OID 17989)
--- Dependencies: 2322 2322 2322
--- Name: gr_layer_custom_props_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2630 (class 2606 OID 62378)
+-- Dependencies: 2304 2304 2304
+-- Name: gr_layer_custom_props_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_layer_custom_props
@@ -329,9 +302,9 @@ ALTER TABLE ONLY gr_layer_custom_props
 
 
 --
--- TOC entry 2642 (class 2606 OID 17997)
--- Dependencies: 2323 2323
--- Name: gr_layer_details_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2632 (class 2606 OID 62386)
+-- Dependencies: 2305 2305
+-- Name: gr_layer_details_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_layer_details
@@ -339,9 +312,9 @@ ALTER TABLE ONLY gr_layer_details
 
 
 --
--- TOC entry 2644 (class 2606 OID 17999)
--- Dependencies: 2323 2323
--- Name: gr_layer_details_rule_id_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2634 (class 2606 OID 62388)
+-- Dependencies: 2305 2305
+-- Name: gr_layer_details_rule_id_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_layer_details
@@ -349,9 +322,9 @@ ALTER TABLE ONLY gr_layer_details
 
 
 --
--- TOC entry 2652 (class 2606 OID 18022)
--- Dependencies: 2326 2326 2326
--- Name: gr_profile_custom_props_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2642 (class 2606 OID 62411)
+-- Dependencies: 2308 2308 2308
+-- Name: gr_profile_custom_props_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_profile_custom_props
@@ -359,9 +332,9 @@ ALTER TABLE ONLY gr_profile_custom_props
 
 
 --
--- TOC entry 2646 (class 2606 OID 18012)
--- Dependencies: 2325 2325
--- Name: gr_profile_extid_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2636 (class 2606 OID 62401)
+-- Dependencies: 2307 2307
+-- Name: gr_profile_extid_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_profile
@@ -369,9 +342,9 @@ ALTER TABLE ONLY gr_profile
 
 
 --
--- TOC entry 2648 (class 2606 OID 18014)
--- Dependencies: 2325 2325
--- Name: gr_profile_name_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2638 (class 2606 OID 62403)
+-- Dependencies: 2307 2307
+-- Name: gr_profile_name_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_profile
@@ -379,9 +352,9 @@ ALTER TABLE ONLY gr_profile
 
 
 --
--- TOC entry 2650 (class 2606 OID 18010)
--- Dependencies: 2325 2325
--- Name: gr_profile_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2640 (class 2606 OID 62399)
+-- Dependencies: 2307 2307
+-- Name: gr_profile_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_profile
@@ -389,9 +362,9 @@ ALTER TABLE ONLY gr_profile
 
 
 --
--- TOC entry 2654 (class 2606 OID 18032)
--- Dependencies: 2327 2327 2327 2327 2327 2327 2327 2327
--- Name: gr_rule_gsuser_id_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2644 (class 2606 OID 62421)
+-- Dependencies: 2309 2309 2309 2309 2309 2309 2309 2309
+-- Name: gr_rule_gsuser_id_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_rule
@@ -399,9 +372,9 @@ ALTER TABLE ONLY gr_rule
 
 
 --
--- TOC entry 2658 (class 2606 OID 18040)
--- Dependencies: 2328 2328
--- Name: gr_rule_limits_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2648 (class 2606 OID 62429)
+-- Dependencies: 2310 2310
+-- Name: gr_rule_limits_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_rule_limits
@@ -409,9 +382,9 @@ ALTER TABLE ONLY gr_rule_limits
 
 
 --
--- TOC entry 2660 (class 2606 OID 18042)
--- Dependencies: 2328 2328
--- Name: gr_rule_limits_rule_id_key; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2650 (class 2606 OID 62431)
+-- Dependencies: 2310 2310
+-- Name: gr_rule_limits_rule_id_key; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_rule_limits
@@ -419,9 +392,9 @@ ALTER TABLE ONLY gr_rule_limits
 
 
 --
--- TOC entry 2656 (class 2606 OID 18030)
--- Dependencies: 2327 2327
--- Name: gr_rule_pkey; Type: CONSTRAINT; Schema: georepo; Owner: georepo; Tablespace: 
+-- TOC entry 2646 (class 2606 OID 62419)
+-- Dependencies: 2309 2309
+-- Name: gr_rule_pkey; Type: CONSTRAINT; Schema: georepo; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY gr_rule
@@ -429,9 +402,9 @@ ALTER TABLE ONLY gr_rule
 
 
 --
--- TOC entry 2662 (class 2606 OID 18051)
--- Dependencies: 2323 2321 2641
--- Name: fk_attribute_layer; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2688 (class 2606 OID 62437)
+-- Dependencies: 2631 2303 2305
+-- Name: fk_attribute_layer; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_layer_attributes
@@ -439,9 +412,9 @@ ALTER TABLE ONLY gr_layer_attributes
 
 
 --
--- TOC entry 2663 (class 2606 OID 18056)
--- Dependencies: 2322 2641 2323
--- Name: fk_custom_layer; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2689 (class 2606 OID 62442)
+-- Dependencies: 2305 2631 2304
+-- Name: fk_custom_layer; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_layer_custom_props
@@ -449,9 +422,9 @@ ALTER TABLE ONLY gr_layer_custom_props
 
 
 --
--- TOC entry 2666 (class 2606 OID 18071)
--- Dependencies: 2649 2326 2325
--- Name: fk_custom_profile; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2692 (class 2606 OID 62457)
+-- Dependencies: 2639 2308 2307
+-- Name: fk_custom_profile; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_profile_custom_props
@@ -459,9 +432,9 @@ ALTER TABLE ONLY gr_profile_custom_props
 
 
 --
--- TOC entry 2664 (class 2606 OID 18061)
--- Dependencies: 2655 2327 2323
--- Name: fk_details_rule; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2690 (class 2606 OID 62447)
+-- Dependencies: 2309 2305 2645
+-- Name: fk_details_rule; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_layer_details
@@ -469,9 +442,9 @@ ALTER TABLE ONLY gr_layer_details
 
 
 --
--- TOC entry 2670 (class 2606 OID 18091)
--- Dependencies: 2328 2655 2327
--- Name: fk_limits_rule; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2696 (class 2606 OID 62477)
+-- Dependencies: 2310 2309 2645
+-- Name: fk_limits_rule; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_rule_limits
@@ -479,9 +452,9 @@ ALTER TABLE ONLY gr_rule_limits
 
 
 --
--- TOC entry 2669 (class 2606 OID 18086)
--- Dependencies: 2319 2327 2629
--- Name: fk_rule_instance; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2695 (class 2606 OID 62472)
+-- Dependencies: 2619 2309 2301
+-- Name: fk_rule_instance; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_rule
@@ -489,9 +462,9 @@ ALTER TABLE ONLY gr_rule
 
 
 --
--- TOC entry 2668 (class 2606 OID 18081)
--- Dependencies: 2325 2327 2649
--- Name: fk_rule_profile; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2694 (class 2606 OID 62467)
+-- Dependencies: 2309 2307 2639
+-- Name: fk_rule_profile; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_rule
@@ -499,9 +472,9 @@ ALTER TABLE ONLY gr_rule
 
 
 --
--- TOC entry 2667 (class 2606 OID 18076)
--- Dependencies: 2635 2327 2320
--- Name: fk_rule_user; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2693 (class 2606 OID 62462)
+-- Dependencies: 2309 2625 2302
+-- Name: fk_rule_user; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_rule
@@ -509,9 +482,9 @@ ALTER TABLE ONLY gr_rule
 
 
 --
--- TOC entry 2665 (class 2606 OID 18066)
--- Dependencies: 2324 2323 2641
--- Name: fk_styles_layer; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2691 (class 2606 OID 62452)
+-- Dependencies: 2306 2631 2305
+-- Name: fk_styles_layer; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_layer_styles
@@ -519,19 +492,18 @@ ALTER TABLE ONLY gr_layer_styles
 
 
 --
--- TOC entry 2661 (class 2606 OID 18046)
--- Dependencies: 2320 2649 2325
--- Name: fk_user_profile; Type: FK CONSTRAINT; Schema: georepo; Owner: georepo
+-- TOC entry 2687 (class 2606 OID 62432)
+-- Dependencies: 2307 2302 2639
+-- Name: fk_user_profile; Type: FK CONSTRAINT; Schema: georepo; Owner: -
 --
 
 ALTER TABLE ONLY gr_gsuser
     ADD CONSTRAINT fk_user_profile FOREIGN KEY (profile_id) REFERENCES gr_profile(id);
 
-
 --
--- TOC entry 2673 (class 0 OID 0)
+-- TOC entry 2708 (class 0 OID 0)
 -- Dependencies: 7
--- Name: georepo; Type: ACL; Schema: -; Owner: postgres
+-- Name: georepo; Type: ACL; Schema: -; Owner: -
 --
 
 REVOKE ALL ON SCHEMA georepo FROM PUBLIC;
@@ -540,7 +512,7 @@ GRANT ALL ON SCHEMA georepo TO postgres;
 GRANT ALL ON SCHEMA georepo TO georepo;
 
 
--- Completed on 2011-11-02 18:59:51
+-- Completed on 2012-03-03 17:36:12
 
 --
 -- PostgreSQL database dump complete
