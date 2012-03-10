@@ -752,4 +752,19 @@ public class GeorepositoryAccessManager implements ResourceAccessManager, Dispat
         return service;
     }
 
+    /**
+     * @param instanceName the instanceName to set
+     */
+    public void setInstanceName(String instanceName)
+    {
+        this.instanceName = instanceName;
+    }
+
+    /**
+     * @return the instanceName
+     */
+    public String getInstanceName()
+    {
+        return instanceName;
+    }
 }

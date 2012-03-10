@@ -13,9 +13,9 @@
 
 
 	<bean id="georepo-gs-property-configurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
 		<property name="location" value="classpath:georepo-geoserver.properties" />
-		<property name="ignoreResourceNotFound" value="True" />
+		<property name="ignoreResourceNotFound" value="false" />
 	</bean>
 	
 	<!-- TODO: add authorization to these requests using the hints at
@@ -26,14 +26,14 @@
 	-->
 	
 	<bean id="ruleReaderService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean" lazy-init="true">
-        <property name="serviceUrl" value="${servicesUrl}"/>
+        <property name="serviceUrl" value="http://localhost:8080/georepo/remoting/RuleReader"/>
         <property name="serviceInterface" value="it.geosolutions.georepo.services.RuleReaderService"/>
     </bean>
 
 	<bean id="georeposityRuleAccessManager" class="it.geosolutions.georepository.GeorepositoryAccessManager">
 		<constructor-arg index="0" ref="ruleReaderService" />
 		<constructor-arg index="1" ref="rawCatalog" />
-		<constructor-arg index="2" value="${instanceName}" />
+		<constructor-arg index="2" value="default-gs" />
 	</bean>
 
 </beans>
