@@ -21,7 +21,18 @@
         <gsmanager-version>1.3.2-SNAPSHOT</gsmanager-version>
         <jaxws-version>2.1</jaxws-version>
         <cxf-version>2.3.2</cxf-version>
-        
+
+        <persistence-version>1.0</persistence-version>
+        <hibernate-version>3.3.2.GA</hibernate-version>
+        <hibernate-spatial-version>1.0</hibernate-spatial-version>
+        <hibernate-annotations-version>3.3.1.GA</hibernate-annotations-version>
+        <hibernate-commons-annotations-version>3.3.0.ga</hibernate-commons-annotations-version>
+        <hibernate-generic-dao-version>0.5.1</hibernate-generic-dao-version>
+        <asm-version>2.2.3</asm-version>
+        <cglib-version>2.1_3</cglib-version>
+
+        <javassist-version>3.8.0.GA</javassist-version>
+	        
         <gwt.version>2.4.0</gwt.version>
         <extjs.version>2.2.5-gwt22</extjs.version>
     </properties>
@@ -508,6 +519,49 @@
             </dependency>
 
 		    <!-- =========================================================== -->
+		    <!--     HIBERNATE-GENERIC-DAO                                   -->
+		    <!-- =========================================================== -->
+            <dependency>
+                <groupId>com.trg</groupId>
+                <artifactId>trg-dao</artifactId>
+                <version>${hibernate-generic-dao-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.trg</groupId>
+                <artifactId>trg-search</artifactId>
+                <version>${hibernate-generic-dao-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.trg</groupId>
+                <artifactId>trg-search-hibernate</artifactId>
+                <version>${hibernate-generic-dao-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.trg</groupId>
+                <artifactId>trg-search-jpa-hibernate</artifactId>
+                <version>${hibernate-generic-dao-version}</version>
+            </dependency>
+
+		    <!-- =========================================================== -->
+		    <!--     POSTGRES- POSTGIS                                       -->
+		    <!-- =========================================================== -->
+            <dependency>
+                <groupId>org.postgis</groupId>
+                <artifactId>postgis-jdbc</artifactId>
+                <version>1.3.3</version>
+            </dependency>
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>8.4-702.jdbc3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vividsolutions</groupId>
+                <artifactId>jts</artifactId>
+                <version>1.10</version>
+            </dependency>
+	    
+		    <!-- =========================================================== -->
 		    <!--     4J                                                      -->
 		    <!-- =========================================================== -->
             <dependency>
@@ -520,7 +574,12 @@
                 <artifactId>dom4j</artifactId>
                 <version>1.6.1</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.5.8</version>
+            </dependency>
+	    
 		    <!-- =========================================================== -->
 		    <!--     JAVAX SERVLET                                           -->
 		    <!-- =========================================================== -->
