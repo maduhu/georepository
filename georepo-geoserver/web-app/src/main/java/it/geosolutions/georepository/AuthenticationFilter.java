@@ -92,14 +92,13 @@ public class AuthenticationFilter implements GeoServerFilter, ExtensionPriority
             }
 
             UsernamePasswordAuthenticationToken upa = new UsernamePasswordAuthenticationToken(new User(username,
-                        password, true, true, true, true, authorities), password,
-                    authorities);
+                        password, true, true, true, true, authorities), password, authorities);
             authentication = upa;
         }
         else
         {
             authentication = new AnonymousAuthenticationToken("geoserver", "null",
-                    new GrantedAuthority[] { new GrantedAuthorityImpl(ANONYMOUS_ROLE) });
+                    Arrays.asList(new GrantedAuthority[] { new GrantedAuthorityImpl(ANONYMOUS_ROLE) }));
         }
 
         /* if(authentication instanceof AnonymousAuthenticationToken && (httpRequest.getPathInfo().startsWith("/web"))) {
