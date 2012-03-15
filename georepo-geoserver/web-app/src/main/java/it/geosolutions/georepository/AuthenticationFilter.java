@@ -1,8 +1,8 @@
 package it.geosolutions.georepository;
 
-import it.geosolutions.georepo.services.RuleReaderService;
-
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,6 +11,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import it.geosolutions.georepo.services.RuleReaderService;
 
 import org.apache.commons.codec.binary.Base64;
 import org.geoserver.filters.GeoServerFilter;
@@ -22,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 
 public class AuthenticationFilter implements GeoServerFilter, ExtensionPriority
@@ -42,10 +45,11 @@ public class AuthenticationFilter implements GeoServerFilter, ExtensionPriority
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
         ServletException
     {
-    	if (rules == null) {
+        if (rules == null)
+        {
             rules = (RuleReaderService) GeoServerExtensions.bean("ruleReaderService");
-    	}
-    	
+        }
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -76,18 +80,19 @@ public class AuthenticationFilter implements GeoServerFilter, ExtensionPriority
 
         if (username != null)
         {
-            GrantedAuthority[] authorities;
+            Collection<GrantedAuthority> authorities;
             // check against georepo that the user is the admin
             if ((rules != null) && rules.isAdmin(username))
             {
-                authorities = new GrantedAuthority[] { new GrantedAuthorityImpl(ROOT_ROLE) };
+                authorities = Arrays.asList(new GrantedAuthority[] { new GrantedAuthorityImpl(ROOT_ROLE) });
             }
             else
             {
-                authorities = new GrantedAuthority[] { new GrantedAuthorityImpl(USER_ROLE) };
+                authorities = Arrays.asList(new GrantedAuthority[] { new GrantedAuthorityImpl(USER_ROLE) });
             }
 
-            UsernamePasswordAuthenticationToken upa = new UsernamePasswordAuthenticationToken(username, password,
+            UsernamePasswordAuthenticationToken upa = new UsernamePasswordAuthenticationToken(new User(username,
+                        password, true, true, true, true, authorities), password,
                     authorities);
             authentication = upa;
         }
@@ -130,13 +135,14 @@ public class AuthenticationFilter implements GeoServerFilter, ExtensionPriority
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {
-    	// nothing to do here
+        // nothing to do here
     }
 
-	@Override
-	public int getPriority() {
-		// we need to run before anything else,
-		return ExtensionPriority.HIGHEST;
-	}
+    @Override
+    public int getPriority()
+    {
+        // we need to run before anything else,
+        return ExtensionPriority.HIGHEST;
+    }
 
 }

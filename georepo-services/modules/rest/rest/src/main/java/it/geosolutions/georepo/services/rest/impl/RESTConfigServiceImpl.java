@@ -67,6 +67,11 @@ public class RESTConfigServiceImpl implements RESTConfigService
 
     private InstanceCleaner instanceCleaner;
 
+    public RESTFullConfiguration getConfiguration()
+    {
+        return getConfiguration(false);
+    }
+
     @Override
     public RESTFullConfiguration getConfiguration(Boolean includeGRUsers)
     {
@@ -96,6 +101,11 @@ public class RESTConfigServiceImpl implements RESTConfigService
         }
 
         return cfg;
+    }
+
+    public synchronized RESTConfigurationRemapping setConfiguration(RESTFullConfiguration config)
+    {
+        return setConfiguration(config, false);
     }
 
     @Override

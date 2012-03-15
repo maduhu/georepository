@@ -43,6 +43,7 @@ import it.geosolutions.georepo.services.dto.RuleFilter;
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CoverageInfo;
 import org.geoserver.catalog.FeatureTypeInfo;
+import org.geoserver.catalog.LayerGroupInfo;
 import org.geoserver.catalog.LayerInfo;
 import org.geoserver.catalog.ResourceInfo;
 import org.geoserver.catalog.StoreInfo;
@@ -60,7 +61,9 @@ import org.geoserver.platform.ServiceException;
 import org.geoserver.security.CatalogMode;
 import org.geoserver.security.CoverageAccessLimits;
 import org.geoserver.security.DataAccessLimits;
+import org.geoserver.security.LayerGroupAccessLimits;
 import org.geoserver.security.ResourceAccessManager;
+import org.geoserver.security.StyleAccessLimits;
 import org.geoserver.security.VectorAccessLimits;
 import org.geoserver.security.WMSAccessLimits;
 import org.geoserver.security.WorkspaceAccessLimits;
@@ -268,6 +271,23 @@ public class GeorepositoryAccessManager implements ResourceAccessManager, Dispat
         {
             return new WorkspaceAccessLimits(catalogMode, rule.getGrant() == GrantType.ALLOW, rule.getGrant() == GrantType.ALLOW);
         }
+    }
+
+    @Override
+    public StyleAccessLimits getAccessLimits(Authentication user, StyleInfo style)
+    {
+        //return getAccessLimits(user, style.getResource());
+    	return null;
+    	// TODO
+    }
+
+    @Override
+    public LayerGroupAccessLimits getAccessLimits(Authentication user,
+        LayerGroupInfo layerInfo)
+    {
+        //return getAccessLimits(user, layerInfo.getResource());
+    	return null;
+    	// TODO
     }
 
     @Override
@@ -767,4 +787,5 @@ public class GeorepositoryAccessManager implements ResourceAccessManager, Dispat
     {
         return instanceName;
     }
+
 }
