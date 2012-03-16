@@ -1,6 +1,8 @@
 package it.geosolutions.georepo.gui;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -61,8 +63,8 @@ public class AuthenticationFilter implements Filter
 
             httpRequest.getSession().setAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue(), token);
 
-            GrantedAuthority[] authorities;
-            authorities = new GrantedAuthority[] { new GrantedAuthorityImpl(ROOT_ROLE) };
+            List<GrantedAuthority> authorities = Arrays.asList(
+                    new GrantedAuthority[] { new GrantedAuthorityImpl(ROOT_ROLE) });
 
             UsernamePasswordAuthenticationToken upa = new UsernamePasswordAuthenticationToken(
                     "1nt3rnAL-G30r3p0-admin",
@@ -79,10 +81,10 @@ public class AuthenticationFilter implements Filter
 //            httpResponse.addHeader("WWW-Authenticate", "Basic realm=\"georepository\"");
 //            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please authenticate as administrator");
 
-            authentication = new AnonymousAuthenticationToken("georepository", "null", new GrantedAuthority[]
-                    {
-                        new GrantedAuthorityImpl(ANONYMOUS_ROLE)
-                    });
+            authentication = new AnonymousAuthenticationToken("georepository", "null", Arrays.asList(new GrantedAuthority[]
+                        {
+                            new GrantedAuthorityImpl(ANONYMOUS_ROLE)
+                        }));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(httpRequest, response);
