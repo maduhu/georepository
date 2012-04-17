@@ -1,7 +1,6 @@
 package it.geosolutions.georepository;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.WKTReader;
+import java.util.Arrays;
 
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.LayerInfo;
@@ -16,7 +15,10 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.io.WKTReader;
 
 
 public class AccessManagerTest extends GeorepositoryBaseTest
@@ -35,7 +37,8 @@ public class AccessManagerTest extends GeorepositoryBaseTest
     {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken("admin",
                 "geoserver",
-                new GrantedAuthority[] { new GrantedAuthorityImpl("ROLE_ADMINISTRATOR") });
+                Arrays.asList(
+                        new GrantedAuthority[] { new SimpleGrantedAuthority("ROLE_ADMINISTRATOR") } ));
 
         // check workspace access
         WorkspaceInfo citeWS = getCatalog().getWorkspaceByName(MockData.CITE_PREFIX);

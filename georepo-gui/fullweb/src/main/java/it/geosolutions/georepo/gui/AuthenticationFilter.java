@@ -1,5 +1,7 @@
 package it.geosolutions.georepo.gui;
 
+import it.geosolutions.georepo.gui.server.GeoRepoKeySessionValues;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -13,14 +15,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.geosolutions.georepo.gui.server.GeoRepoKeySessionValues;
-
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
@@ -64,7 +64,7 @@ public class AuthenticationFilter implements Filter
             httpRequest.getSession().setAttribute(GeoRepoKeySessionValues.USER_LOGGED_TOKEN.getValue(), token);
 
             List<GrantedAuthority> authorities = Arrays.asList(
-                    new GrantedAuthority[] { new GrantedAuthorityImpl(ROOT_ROLE) });
+                    new GrantedAuthority[] { new SimpleGrantedAuthority(ROOT_ROLE) });
 
             UsernamePasswordAuthenticationToken upa = new UsernamePasswordAuthenticationToken(
                     "1nt3rnAL-G30r3p0-admin",
@@ -83,7 +83,7 @@ public class AuthenticationFilter implements Filter
 
             authentication = new AnonymousAuthenticationToken("georepository", "null", Arrays.asList(new GrantedAuthority[]
                         {
-                            new GrantedAuthorityImpl(ANONYMOUS_ROLE)
+                            new SimpleGrantedAuthority(ANONYMOUS_ROLE)
                         }));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -41,15 +41,15 @@
         <activemq-version>5.3.0.4-fuse</activemq-version>
 
         <!--
-        spring-security-core 3.0.4 requires spring-core 3.x, otherwise we'd normally use 2.5.6, which
+        spring-security-core 3.1.0 requires spring-core 3.x, otherwise we'd normally use 2.5.6, which
         is what the rest of the app uses
         -->
-        <spring-version>3.0.4.RELEASE</spring-version>
+        <spring-version>3.1.1.RELEASE</spring-version>
 
 	 
         <!-- 2.5.6.SEC01 is the version used by smix-->
         <!-- 2.5.5       is the version used by memberService-->
-        <spring-security-version>3.0.4.RELEASE</spring-security-version>
+        <spring-security-version>3.1.0.RELEASE</spring-security-version>
 
         <camel-version>1.6.1.2-fuse</camel-version>
 
@@ -495,18 +495,34 @@
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
                 <version>${spring-security-version}</version>
-<!--                <scope>provided</scope>-->
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-expression</artifactId>
+					</exclusion>
+				</exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-taglibs</artifactId>
                 <version>${spring-security-version}</version>
-<!--                <scope>provided</scope>-->
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-expression</artifactId>
+					</exclusion>
+				</exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-acl</artifactId>
                 <version>${spring-security-version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-expression</artifactId>
+					</exclusion>
+				</exclusions>
             </dependency>
 
 		    <!-- =========================================================== -->

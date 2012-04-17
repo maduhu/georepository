@@ -19,6 +19,12 @@
 			<groupId>org.geoserver</groupId>
 			<artifactId>main</artifactId>
 			<version>${geoserver-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-expression</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.geoserver</groupId>
@@ -42,6 +48,12 @@
 			<artifactId>main</artifactId>
 			<version>${geoserver-version}</version>
 			<classifier>tests</classifier>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-expression</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.mockrunner</groupId>
