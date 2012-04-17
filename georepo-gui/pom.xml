@@ -18,7 +18,7 @@
         <module.name>georepo-gui</module.name>
         <commonsFileuploadVersion>1.2.1</commonsFileuploadVersion>
         <commonsIoVersion>1.4</commonsIoVersion>
-        <gsmanager-version>1.3.2-SNAPSHOT</gsmanager-version>
+        <gsmanager-version>1.3.3-SNAPSHOT</gsmanager-version>
         <jaxws-version>2.1</jaxws-version>
         <cxf-version>2.3.2</cxf-version>
 
